@@ -144,6 +144,8 @@ enum class KeyboardAction : uint8_t
     // A co-op session: opens the line a player types to the others, and points them at the place looked at.
     CoopChat,
     CoopPing,
+    // Steps the game speed up through 1x and the fast mode speeds, back to 1x after the fastest (unbound by default).
+    CycleSpeed,
     Count
 };
 

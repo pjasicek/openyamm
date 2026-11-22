@@ -867,6 +867,19 @@ std::string fastModeSpeedValue(float speed)
     return speedStepValue(FastModeSpeeds, speed);
 }
 
+float nextFastModeSpeed(float speed)
+{
+    for (const auto &[text, factor] : FastModeSpeeds)
+    {
+        if (factor > speed + 0.01f)
+        {
+            return factor;
+        }
+    }
+
+    return 1.0f;
+}
+
 namespace
 {
 constexpr std::array<int, 7> RepeatedVoiceLineIntervalsMs = {{0, 500, 1000, 2000, 3000, 5000, 10000}};

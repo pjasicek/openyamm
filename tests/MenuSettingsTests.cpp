@@ -349,6 +349,19 @@ TEST_CASE("fast mode speed defaults to 2x, validates its steps and persists")
     std::filesystem::remove(path);
 }
 
+TEST_CASE("the cycle speed key steps up through 1x and the fast mode speeds and wraps to 1x")
+{
+    CHECK(nextFastModeSpeed(1.0f) == 1.5f);
+    CHECK(nextFastModeSpeed(1.5f) == 2.0f);
+    CHECK(nextFastModeSpeed(2.0f) == 3.0f);
+    CHECK(nextFastModeSpeed(3.0f) == 4.0f);
+    CHECK(nextFastModeSpeed(4.0f) == 1.0f);
+
+    const KeyboardBindingDefinition &definition = keyboardBindingDefinition(KeyboardAction::CycleSpeed);
+    CHECK(definition.iniKey == "cycle_speed");
+    CHECK(definition.defaultBinding.kind == InputBindingKind::None);
+}
+
 TEST_CASE("sharpening defaults to the desktop profile and its strength validates and persists")
 {
     GameSettings settings = GameSettings::createDefault();

@@ -72,7 +72,7 @@ settings:
   - ['2', 2x]
   - ['3', 3x]
   - ['4', 4x]
-  desc: The game speed while fast mode is on. Its key (F2 unless rebound) turns fast mode on and off.
+  desc: The game speed while fast mode is on. Its key (F2 unless rebound) turns fast mode on and off; the Cycle game speed key (unbound unless set) steps through 1x and these speeds and sets this one.
 - id: turn_based_monster_speed
   section: gameplay
   group: Turn-based combat
@@ -957,6 +957,9 @@ bindings:
   group: System
 - id: double_speed
   name: Toggle fast mode
+  group: System
+- id: cycle_speed
+  name: Cycle game speed
   group: System
 - id: quick_save
   name: Quick save

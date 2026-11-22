@@ -115,6 +115,8 @@ std::string turnBasedSpeedValue(float speed);
 // Fast mode's speed factor: one of "1.5", "2", "3" or "4".
 bool parseFastModeSpeedValue(const std::string &value, float &speed);
 std::string fastModeSpeedValue(float speed);
+// The speed after the given one in 1x and the fast mode speeds; 1x after the fastest.
+float nextFastModeSpeed(float speed);
 
 // The repeated voice line interval in milliseconds: one of "0", "500", "1000", "2000", "3000", "5000" or "10000".
 bool parseRepeatedVoiceLineIntervalValue(const std::string &value, int &intervalMs);

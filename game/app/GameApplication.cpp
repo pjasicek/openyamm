@@ -13754,8 +13754,10 @@ void GameApplication::updateDoubleSpeedInput()
     }
 
     const GameplayInputFrame &inputFrame = m_gameInputSystem.frame();
+    const bool togglePressed = inputFrame.action(KeyboardAction::DoubleSpeed).pressed;
+    const bool cyclePressed = inputFrame.action(KeyboardAction::CycleSpeed).pressed;
 
-    if (!inputFrame.action(KeyboardAction::DoubleSpeed).pressed)
+    if (!togglePressed && !cyclePressed)
     {
         return;
     }
@@ -13769,7 +13771,29 @@ void GameApplication::updateDoubleSpeedInput()
         return;
     }
 
-    m_fastMode = !m_fastMode;
+    if (cyclePressed)
+    {
+        // Steps up from the speed in use (1x while fast mode is off). The step reached becomes the fast mode speed, so
+        // the toggle key and the settings slider go on with it.
+        const float speed = nextFastModeSpeed(m_fastMode ? m_settings.fastModeSpeed : 1.0f);
+        m_fastMode = speed > 1.0f;
+
+        if (m_fastMode && speed != m_settings.fastModeSpeed)
+        {
+            m_settings.fastModeSpeed = speed;
+            std::string error;
+
+            if (!saveSettings(m_settings, error))
+            {
+                std::cerr << "GameApplication: failed to write settings.ini: " << error << '\n';
+            }
+        }
+    }
+    else
+    {
+        m_fastMode = !m_fastMode;
+    }
+
     const std::string status = m_fastMode
         ? Engine::tr("Fast mode ({speed}x)", {{"speed", fastModeSpeedValue(m_settings.fastModeSpeed)}})
         : Engine::tr("Normal mode (1x)");
