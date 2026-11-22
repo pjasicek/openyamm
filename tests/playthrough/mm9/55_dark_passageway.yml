@@ -133,8 +133,9 @@ steps:
       expect_stop: {map: darkpassageway.blv, x: -7739, y: -21275, z: -3324, yaw: 5.1051, pitch: 0},
       loose_tolerance: true, tolerance_xy: 450, tolerance_z: 200}
   - assert: {water: {state: dry}}
-  # The female sea monster dies: the cage round the island's crystal drops.
-  - clear_hostiles: {radius: 4000, min: 1}
+  # The female sea monster dies: the cage round the island's crystal drops. She swims about 450 below the island's
+  # sand, deeper than clear_hostiles' indoor storey band (384), hence the height.
+  - clear_hostiles: {radius: 4000, height: 800, min: 1}
   - advance_runtime: {seconds: 4}
   - assert: {state_dump_named_map_var: {name: CageBroken, value: 1}}
   - assert: {mechanism: {id: 10, state: open}}

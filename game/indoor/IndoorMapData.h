@@ -294,6 +294,7 @@ struct IndoorDestructible
     int hp = 1;
     bool damageEnabled = true;
     bool triggerDestroyOnly = false;    // only evt.DestroyDestructible breaks it
+    bool unbreakable = false;           // hits run its damaged event but take no hp (MM9's OnDamage props: a target)
     std::string sound;
     std::string effect;                 // an effect library id; empty: none
     float effectScale = 1.0f;

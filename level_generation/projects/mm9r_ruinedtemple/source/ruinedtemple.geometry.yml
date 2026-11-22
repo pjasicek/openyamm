@@ -578,6 +578,7 @@
    "id": "room_r09",
    "source_nodes": [
     "ROOM_r09",
+    "TRIGGER_invisible_r09",
     "TRIGGER_shared_r08_r09",
     "TRIGGER_nonsolid_r09",
     "MECH_DoorCryptEscape0",
@@ -812,6 +813,13 @@
    "source_node": "TRIGGER_shared_r06_r08",
    "flags": [],
    "back_room": "room_r06"
+  },
+  {
+   "id": "invisible_r09",
+   "source_node": "TRIGGER_invisible_r09",
+   "flags": [
+    "invisible"
+   ]
   },
   {
    "id": "shared_r08_r09",

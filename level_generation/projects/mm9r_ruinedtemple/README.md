@@ -294,6 +294,17 @@ rows carry 60-70 / 170-220. The genie keeps its row (it never moves).
   and the ladder lead only back to those two doors). In the DAT each is its door button's `DoubleDoorName` pair, and a
   double door's press moves both, as the converter does for every other pair: each now opens its door as its pair
   does (SunButton3 also unlocks LeftDoor). Regression: `tests/scenarios/mm9/ruinedtemple_inner_sun_buttons.yml`.
+- **Fixed 2026-11-22 (player report: Gray Slemnir's Tree of Life could not be finished): the cell's sill.** The Tree's
+  cell floor (-1120 LT) stands 24 LT (61 native) over the tunnel behind it, across DoorCryptEscape0's sill; MM9's player
+  steps up 40-48 LT, the party 50 native. A party that took the Tree from the tunnel could leave only by jumping into
+  the cell (the spiral leads only down to the shaft); one that did not jump was shut in with it. `convert.py`
+  `CELL_STEP_LT`: one invisible half step on the tunnel side (top at 12 LT, 20 LT deep: a top and a riser, as
+  `city/hooks.py`'s half steps and Guberland City's stage step). Build: +3 faces (the step's two and one split), the
+  scene and Lua otherwise unchanged; the lightmaps carried over (`lightmap_transfer.py --install`, 0 vertex-lit).
+  Regression: `tests/scenarios/mm9/ruinedtemple_cell_step.yml` (also walks the east ramp's foot and the north-west
+  landing, the two other places the promotion playthrough's walk had jumped: those were its route, not the map).
+  `work/reach_ramps.yml` fails at its first segment (the corner stair, 1.4 s of forward input ends 124 under the
+  landing) on the map before this change as well: its timing predates later party movement changes.
 
 ## Open items
 

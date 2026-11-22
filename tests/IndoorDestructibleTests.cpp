@@ -16,11 +16,12 @@ TEST_CASE("indoor scene destructibles parse, sorted by id")
    effect_scale: 0.75, center: [10, 20, 30], destroyed_event: 340}
 - {id: 7, name: Crate2, decoration_cog: 407, hp: 100, damage_enabled: false, trigger_destroy_only: true,
    damaged_event: 341}
+- {id: 656, name: RacingBoat0, decoration_cog: 444, hp: 1, unbreakable: true, damaged_event: 645}
 )";
     std::vector<IndoorDestructible> destructibles;
     std::string error;
     REQUIRE_MESSAGE(parseIndoorSceneDestructibles(yaml, destructibles, error), error);
-    REQUIRE(destructibles.size() == 2);
+    REQUIRE(destructibles.size() == 3);
 
     const IndoorDestructible &crate = destructibles[0];
     CHECK(crate.id == 7);
@@ -44,6 +45,12 @@ TEST_CASE("indoor scene destructibles parse, sorted by id")
     CHECK(glass.center[0] == doctest::Approx(10.0f));
     CHECK(glass.center[2] == doctest::Approx(30.0f));
     CHECK(glass.destroyedEvent == 340);
+    CHECK_FALSE(glass.unbreakable);
+
+    const IndoorDestructible &boat = destructibles[2];
+    CHECK(boat.id == 656);
+    CHECK(boat.unbreakable);
+    CHECK(boat.damagedEvent == 645);
 }
 
 TEST_CASE("indoor scene destructibles reject bad entries")

@@ -20,7 +20,8 @@ shooter), 2 (the corridor and the stair over a hidden spinning blade), 3 (the le
 real, one twin on the far wall, 2.9 s to the door), 4 (the upper corridor over the flooded pool room: a double-axe trap
 under a floor plate; the lower corridor and a submerged tunnel under it), 5 (the octagon and its elevator down), 6 (a
 gauntlet of ten plates springing swinging bars, a crusher, a ram, scythes, spinning wheels and saws); past axe door 6
-the exit gate opens and tells Chadwick "done": with no trap set off, key 245 and the reward (10 000 experience).
+the exit gate opens and tells Chadwick "done": key 245 and the reward (10 000 experience), whatever traps went off
+on the way (MM9: only with no trap set off; Deviations).
 
 ## Build and review
 
@@ -30,6 +31,7 @@ python3 level_generation/projects/mm9r_dungeonofsecrets/tools/objects.py      # 
 python3 level_generation/projects/mm9r_dungeonofsecrets/convert.py --plan    # rooms only (15 s)
 python3 level_generation/projects/mm9r_dungeonofsecrets/convert.py           # build, compile, install (30 s)
 python3 level_generation/projects/mm9r_dungeonofsecrets/convert.py --lua     # the map Lua only, from the last build
+#   (--lua leaves out the shared voices and ambient-sound blocks: install the Lua from a --scratch build instead)
 level_generation/projects/mm9r_common/bake_slot.sh python3 level_generation/projects/mm9r_common/dungeon/lighting.py \
     level_generation/projects/mm9r_dungeonofsecrets                          # bake (64 samples, about 5 min)
 python3 level_generation/projects/mm9r_common/hue_vs_lightmaps.py level_generation/projects/mm9r_dungeonofsecrets   # zones
@@ -164,6 +166,14 @@ about 0.17 s headless).
   full save load keeps it). A save loaded mid-trial would restart it here, so **saving is forbidden in the dungeon**
   (the user, 2026-11-09, as in the Arena): the scene's `runtime_restrictions` (`tests/scenarios/mm9/no_save_maps.yml`).
 - **Light colours**: x BrightScale and zone gains fitted to MM9's lightmaps (Baked lighting).
+- **The trial passes at the end, whatever went off on the way** (the user, 2026-11-22, after players reported the
+  traps did not work and the trial could not be finished): the exit gate's `done` (it opens from the course's side as
+  the party comes up to it) gives key 245, clears the trap mark (key 244, so Chadwick does not answer "you set off a
+  trap") and plays the quest sound with the trial started (key 243), even after traps went off. MM9 gives 245 only to a
+  clean run, and some of its traps are dodged by crouching, which the engine does not have. The traps still fire,
+  hurt and throw the party (`convert.py` chadwick()). No geometry of this map is lower than the party's body on the
+  course (a crouch scan of the BLV, 2026-11-22). Check: `tests/scenarios/mm9/dungeon_of_secrets_trial_with_traps.yml`
+  (axe door 10 opened late, the course walked on, the gate gives 245, Chadwick pays) and promotions segment 39 (clean).
 
 ## Baked lighting
 

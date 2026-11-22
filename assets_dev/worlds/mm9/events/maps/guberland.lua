@@ -490,26 +490,27 @@ handlers[735] = function() stMove(35) end   -- Piece35 (Square35)
 -- ticket: Countdown5, then ten seconds (Wait 19, 15 EndGame from the pull) of geese, one up at a time: it
 -- rises (0.2 s), waits 0.5-1 s, goes down (0.2 s) and another rises (:OnFinishedLower, never the same one); a
 -- click on the raised goose counts (WHACK_COUNTER) and sends it down at once. Eight win (WIN_CONDITION):
--- key 7113. MM9 raises the geese 20 units from their holes; here the idle geese all stand, and while
--- the game runs only the raised one shows. Map vars: HonkState (0 idle, 1 countdown, 2 playing), HonkStep,
--- HonkUp (1-4, 0 none), HonkLast, HonkHits.
+-- key 7113. The geese wait inside the counter and rise 20 MM9 units out of it (MoveDir 0,1,0, 20 at
+-- 100 a second; evt.MoveDecoration here), going back down the same way. Map vars: HonkState (0 idle,
+-- 1 countdown, 2 playing), HonkStep, HonkUp (1-4, 0 none), HonkLast, HonkHits.
 local HONK_COGS = {736, 737, 738, 739}
 local HONK_COUNT = {"Five...", "Four...", "Three...", "Two...", "One..."}
-local function honkShowAll(on) for i = 1, 4 do evt.SetSprite(HONK_COGS[i], on and 1 or 0, "0") end end
+local function honkMove(k, up) evt.MoveDecoration(HONK_COGS[k], 0, 0, up and 51.2 or 0, 0.2) end
 local function honkRaise()   -- :ReceivePopup
     local k = rnd(1, 4)
     while k == var("HonkLast") do k = rnd(1, 4) end
-    set("HonkUp", k); set("HonkLast", k); evt.SetSprite(HONK_COGS[k], 1, "0")
+    set("HonkUp", k); set("HonkLast", k); honkMove(k, true)
     evt.StartTimer(603, seconds((200 + rnd(500, 1000)) / 1000))
 end
 local function honkLower()   -- :SendPopup
     local k = var("HonkUp")
-    if k > 0 then evt.SetSprite(HONK_COGS[k], 0, "0") end
+    if k > 0 then honkMove(k, false) end
     set("HonkUp", 0); evt.StartTimer(603, seconds(0.2))
 end
 local function honkReset()
     evt.StopTimer(603); evt.StopTimer(604)
-    set("HonkState", 0); set("HonkUp", 0); honkShowAll(true)
+    set("HonkState", 0); set("HonkUp", 0)
+    for i = 1, 4 do evt.MoveDecoration(HONK_COGS[i], 0, 0, 0, 0) end   -- :ResetPOS
     evt.SetDoorState(4, DoorAction.Close)
 end
 handlers[104] = function()   -- Switch0 -> Honky0 :StartGame (replaces its door toggle)
@@ -524,7 +525,7 @@ handlers[603] = function()
     if state == 1 then
         local step = var("HonkStep")
         if step < 5 then set("HonkStep", step + 1); evt.StatusText(HONK_COUNT[step + 1]); evt.StartTimer(603, seconds(1))
-        else set("HonkState", 2); honkShowAll(false); honkRaise() end
+        else set("HonkState", 2); honkRaise() end
     elseif state == 2 then
         if var("HonkUp") > 0 then honkLower() else honkRaise() end
     end

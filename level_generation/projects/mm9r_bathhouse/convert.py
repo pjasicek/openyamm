@@ -242,6 +242,11 @@ class Bathhouse(dungeon.Hooks):
         # WaterProp turns 9000 degrees (25 turns over the 30 s drain); a rotating mover turns at most 360: one turn,
         # which the drain's poll drives back and forth while the water sinks (map Lua).
         source.by_name["waterprop"]["properties"]["RotationAngles"] = [0.0, 0.0, PROPELLER_DEGREES]
+        # The steam duct's grate (RotatingDoor0) swings up into the duct in MM9, where a party clicking it from inside,
+        # in front of it, is in its swing: the leaf holds (`bodies: reverse`) and the party coming back from the
+        # furnace could not get out. It swings away from the party that opens it, so it opens from both sides (the
+        # opened leaf leaves 166 under it either way, over the party's 160: MM9's crouch is not needed; 2026-11-22).
+        source.by_name["rotatingdoor0"]["properties"]["OpenAway"] = 1
         # The walls round a wading floor are cut at its height, so the strip of wall just over the water belongs to the
         # room above it and not to the sealed water under it (a black band otherwise: assignment samples a voxel grid).
         swim = swimming(build)

@@ -5459,6 +5459,20 @@ int luaKillMapActor(lua_State *pLuaState)
     return 1;
 }
 
+// evt.ReviveMapActor(actorIndex): the dead actor stands again at its placement (ISceneEventContext::reviveMapActor).
+// Returns whether it did.
+int luaReviveMapActor(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    ISceneEventContext *pSceneEventContext = pExecutionContext != nullptr
+        ? pExecutionContext->pSceneEventContext
+        : nullptr;
+    const lua_Integer actorIndex = luaL_checkinteger(pLuaState, 1);
+    lua_pushboolean(pLuaState, pSceneEventContext != nullptr && actorIndex >= 0
+        && pSceneEventContext->reviveMapActor(size_t(actorIndex)));
+    return 1;
+}
+
 // evt.SetMapActorHp(actorIndex, hp): the living actor's hit points become hp, within 1 and its maximum
 // (ISceneEventContext::setMapActorHp). Returns whether there was such a living actor.
 int luaSetMapActorHp(lua_State *pLuaState)
@@ -10471,6 +10485,7 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "GetEnemyDetectorState", luaGetEnemyDetectorState);
     registerLuaFunction(pLuaState, "SetMapActorPosition", luaSetMapActorPosition);
     registerLuaFunction(pLuaState, "KillMapActor", luaKillMapActor);
+    registerLuaFunction(pLuaState, "ReviveMapActor", luaReviveMapActor);
     registerLuaFunction(pLuaState, "SetMapActorHp", luaSetMapActorHp);
     registerLuaFunction(pLuaState, "MoveActorTo", luaMoveActorTo);
     registerLuaFunction(pLuaState, "StopActorMove", luaStopActorMove);

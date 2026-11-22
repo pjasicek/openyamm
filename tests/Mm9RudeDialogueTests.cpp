@@ -337,6 +337,77 @@ TEST_CASE("MM9 Keith Bloodaxe quest acceptance grants the Yobboe quest key befor
     CHECK(OpenYAMM::Game::selectMm9RudeRow(*pGoodbye).kind == OpenYAMM::Game::Mm9RudeSelectionKind::Close);
 }
 
+TEST_CASE("MM9 Ealusaid's Black Orb quest row is a choice, and the decline is the talk's way out")
+{
+    using OpenYAMM::Game::EventDialogChoiceMark;
+
+    // Discord, v2.8: "Get the Black Orb of Knowledge" could not be accepted. Her last page has two rows that end the
+    // talk, "We will find it for you." (key 311) and "Perhaps some other time."; both were marked as exits, and the
+    // conversation bar (GameplayMm9TalkBar) gives the first exit Esc and numbers only the other rows, so the quest row
+    // took Esc and the decline took the 1 key the player had pressed on every page before.
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    REQUIRE(assetFileSystem.initialize(
+        sourceRoot,
+        sourceRoot / "assets_dev",
+        OpenYAMM::Engine::AssetScaleTier::X1,
+        "mm9"));
+    OpenYAMM::Game::Mm9RudeDialogueTable table;
+    REQUIRE(table.load(assetFileSystem));
+
+    OpenYAMM::Game::Party party;
+    OpenYAMM::Game::GameplayUiController uiController;
+    OpenYAMM::Game::EventRuntimeState eventRuntimeState;
+    OpenYAMM::Game::EventDialogContent dialog = {};
+    size_t selectionIndex = 0;
+    OpenYAMM::Game::GameplayDialogController::Context context = {
+        .uiController = uiController,
+        .eventRuntimeState = eventRuntimeState,
+        .activeEventDialog = dialog,
+        .selectionIndex = selectionIndex,
+        .pParty = &party,
+        .pMm9RudeDialogueTable = &table,
+    };
+    const OpenYAMM::Game::GameplayDialogController controller;
+    controller.openMm9RudeDialogue(context, 241);
+
+    // "Yes.", "Why not?", "What's stopping you?", "What can we do to help?", "Where can we find one?": each page's
+    // first row that is not its way out (the 1 key).
+    for (const char *pLabel :
+        {"Yes.", "Why not?", "What's stopping you?", "What can we do to help?", "Where can we find one?"})
+    {
+        const auto first = std::find_if(dialog.actions.begin(), dialog.actions.end(),
+            [](const OpenYAMM::Game::EventDialogAction &action)
+            {
+                return action.choiceMark != EventDialogChoiceMark::Exit;
+            });
+        REQUIRE(first != dialog.actions.end());
+        CHECK(first->label == pLabel);
+        selectionIndex = size_t(first - dialog.actions.begin());
+        controller.executeActiveDialogAction(context);
+    }
+
+    REQUIRE(dialog.dialogueNodeId == 5);
+    REQUIRE(dialog.actions.size() == 2);
+    CHECK(dialog.actions[0].label == "We will find it for you.");
+    CHECK(dialog.actions[0].choiceMark == EventDialogChoiceMark::None);
+    CHECK(dialog.actions[1].label == "Perhaps some other time.");
+    CHECK(dialog.actions[1].choiceMark == EventDialogChoiceMark::Exit);
+
+    selectionIndex = 0;
+    controller.executeActiveDialogAction(context);
+    CHECK(party.campaign().hasQuestBit(90311));
+
+    // A page whose only rows that end the talk set keys keeps them as its way out (Esc), as before.
+    OpenYAMM::Game::Mm9RudeDialogueTable single;
+    REQUIRE(single.loadDialogueText("NPC77.rude", rudeRowWithFields(77, 77, 1, "We will do it.", "Good.", -1,
+        {{16, 311}})));
+    context.pMm9RudeDialogueTable = &single;
+    controller.openMm9RudeDialogue(context, 77);
+    REQUIRE(dialog.actions.size() == 1);
+    CHECK(dialog.actions[0].choiceMark == EventDialogChoiceMark::Exit);
+}
+
 TEST_CASE("MM9 RUDE ordinary rows apply all key groups while service payloads remain untouched")
 {
     OpenYAMM::Game::Mm9RudeDialogueTable table;

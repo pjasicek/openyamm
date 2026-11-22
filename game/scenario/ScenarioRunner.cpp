@@ -4372,7 +4372,9 @@ bool runWalkTo(
 // walk_to's step plate, a move within the map), " | " between them; qbit(id),
 // has_item(item_id) and mapvar(name) read the state; held() is the item on the cursor (0: none), item_count(item_id) the packs' count of it and pack_items() every pack item ("id x count"), discard(item_id) drops one from the packs (a player making room), door_state(id) is a door's state (as seen);
 // take_chest() presses the open chest's Take All and close() Escape
-// (false when nothing was open); log(text) prints. A script should decide only from what the
+// (false when nothing was open); log(text) prints; pose(x, y, z, yaw, pitch) stands the party there looking that way,
+// interact() presses the interact key (returns whether something was used and the map event it ran) and
+// action(name[, seconds]) holds a gameplay key binding (attack ...). A script should decide only from what the
 // player sees (status lines, its own keys and items); mapvar is for checks. A Lua error or error() fails the step.
 struct ScenarioPlayContext
 {
@@ -4457,6 +4459,27 @@ int scenarioPlayQBit(lua_State *pLuaState)
     lua_pushboolean(
         pLuaState,
         pParty != nullptr && pParty->campaign().hasQuestBit(uint32_t(luaL_checkinteger(pLuaState, 1))));
+    return 1;
+}
+
+// journal_quest(qbit): the text of the quest note the party's journal shows under that qbit, else nil.
+int scenarioPlayJournalQuest(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    const Party *pParty = play.pContext->runtimeDriver->party();
+    const uint32_t qbitId = uint32_t(luaL_checkinteger(pLuaState, 1));
+    const JournalQuestTable &table = play.pContext->gameDataLoader.getJournalQuestTable();
+
+    for (const JournalQuestEntry &entry : table.entries())
+    {
+        if (pParty != nullptr && entry.qbitId == qbitId && table.isVisible(entry, *pParty))
+        {
+            lua_pushstring(pLuaState, entry.text.c_str());
+            return 1;
+        }
+    }
+
+    lua_pushnil(pLuaState);
     return 1;
 }
 
@@ -4765,6 +4788,69 @@ int scenarioPlayLog(lua_State *pLuaState)
     return 0;
 }
 
+// pose(x, y, z, yaw, pitch): the party stands there on the current map, looking that way (radians), as set_pose.
+int scenarioPlayPose(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    ScenarioPose pose = {};
+    pose.x = float(luaL_checknumber(pLuaState, 1));
+    pose.y = float(luaL_checknumber(pLuaState, 2));
+    pose.z = float(luaL_checknumber(pLuaState, 3));
+    pose.yawRadians = float(luaL_checknumber(pLuaState, 4));
+    pose.pitchRadians = float(luaL_checknumber(pLuaState, 5));
+    std::string failure;
+
+    if (!play.pContext->runtimeDriver->setPose(pose, failure))
+    {
+        return luaL_error(pLuaState, "pose: %s", failure.c_str());
+    }
+
+    return 0;
+}
+
+// interact(): the interact key, as press_interact (the crosshair's target, else the usable one nearest it); returns
+// whether it activated something and the map event it ran (0: none).
+int scenarioPlayInteract(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    std::string failure;
+    const ScenarioInteractionResult interaction = play.pContext->runtimeDriver->pressKeyboardInteract(failure);
+    lua_pushboolean(pLuaState, interaction.activated);
+    // A face's triggered event, else a decoration's own (its secondary event id).
+    const std::optional<GameplayEventTargetHit> &target = interaction.hit.eventTarget;
+    lua_pushinteger(pLuaState,
+        !target ? 0 : target->triggeredEventId != 0 ? target->triggeredEventId : target->eventIdSecondary);
+    return 2;
+}
+
+// action(name[, seconds]): holds a gameplay key binding by its settings name (attack, quick_cast ...) for one frame
+// or the seconds, as press_action.
+int scenarioPlayAction(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    const std::string action = luaL_checkstring(pLuaState, 1);
+    const float seconds = float(luaL_optnumber(pLuaState, 2, 1.0 / 30.0));
+    const auto binding = std::find_if(keyboardBindingDefinitions().begin(), keyboardBindingDefinitions().end(),
+        [&action](const KeyboardBindingDefinition &definition)
+        {
+            return definition.iniKey == action;
+        });
+
+    if (binding == keyboardBindingDefinitions().end())
+    {
+        return luaL_error(pLuaState, "action: unknown key binding %s", action.c_str());
+    }
+
+    std::string failure;
+
+    if (!play.pContext->runtimeDriver->holdGameplayAction(binding->action, seconds, failure))
+    {
+        return luaL_error(pLuaState, "action(%s): %s", action.c_str(), failure.c_str());
+    }
+
+    return 0;
+}
+
 bool runPlayLua(
     ScenarioExecutionContext &context,
     const ScenarioStep &step,
@@ -4787,7 +4873,7 @@ bool runPlayLua(
     luaL_requiref(pLuaState, LUA_TABLIBNAME, luaopen_table, 1);
     luaL_requiref(pLuaState, LUA_MATHLIBNAME, luaopen_math, 1);
     lua_settop(pLuaState, 0);
-    const std::array<std::pair<const char *, lua_CFunction>, 24> functions = {{
+    const std::array<std::pair<const char *, lua_CFunction>, 28> functions = {{
         {"clear_hostiles", scenarioPlayClearHostiles}, {"party", scenarioPlayParty}, {"held", scenarioPlayHeld},
         {"stow", scenarioPlayStow}, {"conditions", scenarioPlayConditions},
         {"item_count", scenarioPlayItemCount}, {"pack_items", scenarioPlayPackItems},
@@ -4795,9 +4881,11 @@ bool runPlayLua(
         {"remember", scenarioPlayRemember}, {"recall", scenarioPlayRecall},
         {"discard", scenarioPlayDiscard}, {"door_state", scenarioPlayDoorState},
         {"click", scenarioPlayClick}, {"wait", scenarioPlayWait}, {"status", scenarioPlayStatus},
-        {"qbit", scenarioPlayQBit}, {"has_item", scenarioPlayHasItem}, {"mapvar", scenarioPlayMapVar},
+        {"qbit", scenarioPlayQBit}, {"journal_quest", scenarioPlayJournalQuest}, {"has_item", scenarioPlayHasItem},
+        {"mapvar", scenarioPlayMapVar},
         {"ground_items", scenarioPlayGroundItems},
-        {"take_chest", scenarioPlayTakeChest}, {"close", scenarioPlayClose}, {"log", scenarioPlayLog}}};
+        {"take_chest", scenarioPlayTakeChest}, {"close", scenarioPlayClose}, {"log", scenarioPlayLog},
+        {"pose", scenarioPlayPose}, {"interact", scenarioPlayInteract}, {"action", scenarioPlayAction}}};
 
     for (const auto &[pName, function] : functions)
     {

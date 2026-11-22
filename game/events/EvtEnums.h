@@ -196,6 +196,9 @@ enum class EvtActorAttribute : uint32_t
     AlertStatus = 0x00100000,
     HasItem = 0x00800000,
     Hostile = 0x01000000,
+    // OpenYAMM's own: a target the party is meant to strike though it is not hostile (MM9's Guaire A'Velsi). Party hits
+    // land on it with MAW's friendly fire off, as MAW lets them land on MM8's ShowAsHostile monsters.
+    QuestTarget = 0x40000000,
 };
 
 enum class EvtChestFlag : uint32_t

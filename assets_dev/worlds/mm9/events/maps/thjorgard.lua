@@ -265,11 +265,22 @@ end
 
 -- BoatJudge.scr "RacingBoat 0 3" (RUDE 429) and RacingBoat.scr. A click gives key 7003 (his rows about
 -- the race); leaving with key 7004 ("Sure!") and a ticket starts the countdown (Countdown5: Five... One...,
--- the bell), then the race. The party's boat moves one length (a tenth of the way, one second) per hit;
--- here per click, not again while it moves. The three rival boats move a length in two to four seconds
--- each (here a random share every half second). Map vars: BoatState (0 idle, 1 countdown, 2 racing),
--- BoatCount (countdown ticks), BoatPushes, BoatMoving (ticks), BoatAI1-3 (hundredths of a length).
+-- the bell), then the race. Each boat sails a tenth of the way to its FinishLine per move (MoveDir, level).
+-- The party's boat (RacingBoat0) moves one length in one second per hit: an arrow or a blow (the scene's
+-- unbreakable destructible on it runs this click event on every hit) or a click; no hit counts while it
+-- moves (OnDamage DoNothing until :Ready). The three rival boats sail a length in two to four seconds each
+-- (here a random 12-25 hundredths every half second). A boat arrives once it has sailed its ten lengths;
+-- then the judge names the winner and all boats sink 64 units, come back to the start and surface
+-- (:Submerge, :ReturnToStart, :Surface: a second each way). Map vars: BoatState (0 idle, 1 countdown,
+-- 2 racing, 3 sinking and surfacing), BoatCount (countdown and sinking ticks), BoatPushes, BoatMoving,
+-- BoatAI1-3 (hundredths of a length).
 local BOAT_COUNT = {"One...", "Two...", "Three...", "Four..."}
+local BOAT_COGS = {444, 445, 446, 447}
+local BOAT_STEP = {{-368.1, 0.0}, {-368.1, 0.0}, {-368.1, 0.0}, {-368.1, 0.0}}   -- one length of each boat's course
+local function boatLengths(b) return b == 1 and var("BoatPushes") or var("BoatAI" .. (b - 1)) / 100 end
+local function boatTo(b, lengths, dz, seconds)
+    evt.MoveDecoration(BOAT_COGS[b], BOAT_STEP[b][1] * lengths, BOAT_STEP[b][2] * lengths, dz, seconds)
+end
 handlers[53669] = function() MM9.giveKey(7003); MM9.openRude(429) end   -- :OnUse
 handlers[50669] = function()   -- :StartRace
     MM9.takeKey(7003)
@@ -280,17 +291,27 @@ handlers[50669] = function()   -- :StartRace
     for b = 1, 3 do set("BoatAI" .. b, 0) end
     evt.PlaySoundName("door/doorlock01.wav", 0, 0, 0); say("Five...")
 end
-handlers[645] = function()   -- RacingBoat0 (RacingBoat.scr :Ready -> :MoveForward)
+handlers[645] = function()   -- RacingBoat0 hit (RacingBoat.scr :MoveForward)
     if var("BoatState") ~= 2 or var("BoatMoving") > 0 then return end
-    set("BoatPushes", var("BoatPushes") + 1); set("BoatMoving", 2)
-    say(tr("Your boat: {pushes} of 10 lengths.", {pushes = var("BoatPushes")}))
+    local pushes = var("BoatPushes") + 1
+    set("BoatPushes", pushes); set("BoatMoving", 1); boatTo(1, pushes, 0, 1)
+    evt.StartTimer(305, seconds(1))
+    say(tr("Your boat: {pushes} of 10 lengths.", {pushes = pushes}))
 end
-local function boatEnd(won)   -- BoatJudge.scr :PlayerWon / :AIWon, then the boats submerge and reset
-    set("BoatState", 0)
+local function boatEnd(won)   -- BoatJudge.scr :PlayerWon / :AIWon -> :SignalSubmerge
+    set("BoatState", 3); set("BoatCount", 0); set("BoatMoving", 0)
+    evt.StopTimer(305)
+    for b = 1, 4 do boatTo(b, boatLengths(b), -163.8, 1) end
     -- RacingBoat.scr :Arrived sends the judge PlayerArrival / CPUArrival: a slain judge takes neither (no
-    -- result; the race is over, and no new one starts without his dialogue)
+    -- result; no new race starts without his dialogue)
     if not MM9.receives("thjorgard", "BoatJudge", won and "PlayerArrival" or "CPUArrival", 51) then return end
     if won then evt.PlaySoundName("events/trumpets02.wav", 0, 0, 0); gameWon(7101) else gameLost() end
+end
+handlers[305] = function()   -- RacingBoat.scr :Ready: the length sailed (once per push)
+    evt.StopTimer(305)
+    if var("BoatState") ~= 2 then return end
+    set("BoatMoving", 0)
+    if var("BoatPushes") >= 10 then boatEnd(true) end
 end
 local function boatTick(tick)
     local state = var("BoatState")
@@ -300,23 +321,23 @@ local function boatTick(tick)
         if count % 2 ~= 0 then return end
         if count > 0 then evt.PlaySoundName("door/doorlock01.wav", 0, 0, 0); say(BOAT_COUNT[math.floor(count / 2)])
         else evt.PlaySoundName("events/dingbell.wav", 0, 0, 0); set("BoatState", 2) end   -- :Countdown0
-    elseif state == 2 then
-        local moving = var("BoatMoving")
-        if moving > 0 then
-            set("BoatMoving", moving - 1)
-            if moving == 1 and var("BoatPushes") >= 10 then boatEnd(true); return end
-        end
-        local best = 0
+    elseif state == 2 then   -- the rivals' :StartMoveLoop
+        local arrived = false
         for b = 1, 3 do
-            local p = var("BoatAI" .. b) + rnd(12, 25)
-            set("BoatAI" .. b, p)
-            if p > best then best = p end
+            local p = var("BoatAI" .. b)
+            if p >= 1000 then arrived = true
+            else
+                p = math.min(1000, p + rnd(12, 25))
+                set("BoatAI" .. b, p); boatTo(b + 1, p / 100, 0, 0.5)
+            end
         end
-        if best >= 1000 then boatEnd(false); return end
-        if tick % 4 == 0 then
-            say(tr("Your boat: {pushes} of 10 lengths; the leading rival: {rival}.",
-                {pushes = var("BoatPushes"), rival = math.floor(best / 100)}))
-        end
+        if arrived then boatEnd(false) end
+    elseif state == 3 then   -- under water at the start after a second, up again after another
+        local count = var("BoatCount") + 1
+        set("BoatCount", count)
+        if count == 2 then
+            for b = 1, 4 do boatTo(b, 0, -163.8, 0); boatTo(b, 0, 0, 1) end
+        elseif count >= 4 then set("BoatState", 0) end   -- :TurnOff
     end
 end
 
@@ -352,26 +373,27 @@ handlers[101] = function() end
 -- ticket: Countdown5, then ten seconds (Wait 19, 15 EndGame from the pull) of geese, one up at a time: it
 -- rises (0.2 s), waits 0.5-1 s, goes down (0.2 s) and another rises (:OnFinishedLower, never the same one); a
 -- click on the raised goose counts (WHACK_COUNTER) and sends it down at once. Eight win (WIN_CONDITION).
--- MM9 raises the geese 20 units from their holes; here the idle geese all stand, and while the game runs
--- only the raised one shows. Map vars: HonkState (0 idle, 1 countdown, 2 playing), HonkStep, HonkUp (1-4,
--- 0 none), HonkLast, HonkHits.
+-- The geese wait inside the counter and rise 20 MM9 units out of it (MoveDir 0,1,0, 20 at 100 a second;
+-- evt.MoveDecoration here), going back down the same way. Map vars: HonkState (0 idle, 1 countdown,
+-- 2 playing), HonkStep, HonkUp (1-4, 0 none), HonkLast, HonkHits.
 local HONK_COGS = {440, 441, 442, 443}
 local HONK_COUNT = {"Five...", "Four...", "Three...", "Two...", "One..."}
-local function honkShowAll(on) for i = 1, 4 do evt.SetSprite(HONK_COGS[i], on and 1 or 0, "0") end end
+local function honkMove(k, up) evt.MoveDecoration(HONK_COGS[k], 0, 0, up and 51.2 or 0, 0.2) end
 local function honkRaise()   -- :ReceivePopup
     local k = rnd(1, 4)
     while k == var("HonkLast") do k = rnd(1, 4) end
-    set("HonkUp", k); set("HonkLast", k); evt.SetSprite(HONK_COGS[k], 1, "0")
+    set("HonkUp", k); set("HonkLast", k); honkMove(k, true)
     evt.StartTimer(302, seconds((200 + rnd(500, 1000)) / 1000))
 end
 local function honkLower()   -- :SendPopup
     local k = var("HonkUp")
-    if k > 0 then evt.SetSprite(HONK_COGS[k], 0, "0") end
+    if k > 0 then honkMove(k, false) end
     set("HonkUp", 0); evt.StartTimer(302, seconds(0.2))
 end
 local function honkReset()
     evt.StopTimer(302); evt.StopTimer(303)
-    set("HonkState", 0); set("HonkUp", 0); honkShowAll(true)
+    set("HonkState", 0); set("HonkUp", 0)
+    for i = 1, 4 do evt.MoveDecoration(HONK_COGS[i], 0, 0, 0, 0) end   -- :ResetPOS
     evt.SetDoorState(4, DoorAction.Close)
 end
 handlers[104] = function()   -- Switch0 -> Honky0 :StartGame
@@ -386,7 +408,7 @@ handlers[302] = function()
     if state == 1 then
         local step = var("HonkStep")
         if step < 5 then set("HonkStep", step + 1); say(HONK_COUNT[step + 1]); evt.StartTimer(302, seconds(1))
-        else set("HonkState", 2); honkShowAll(false); honkRaise() end
+        else set("HonkState", 2); honkRaise() end
     elseif state == 2 then
         if var("HonkUp") > 0 then honkLower() else honkRaise() end
     end
@@ -693,6 +715,7 @@ RegisterEvent(103, "Switch", handlers[103], "Switch")
 RegisterEvent(53669, "Boat judge", handlers[53669])
 RegisterEvent(50669, "Boat race", handlers[50669])
 RegisterEvent(645, "Toy boat", handlers[645], "Boat")
+RegisterMapTimerEvent(305, seconds(3), handlers[305], "Toy boat moved", "", seconds(3))
 RegisterEvent(102, "Bell strike plate", handlers[102], "Strike")
 RegisterMapTimerEvent(301, seconds(3), handlers[301], "Bell", "", seconds(3))
 RegisterEvent(101, "Bell weight", handlers[101])

@@ -15,9 +15,9 @@ event 50000 + the DAT object index, a click before the dialogue 53000 + index (g
   - The runes game (Mastermind.scr, MastermindColor.scr, MastermindSpace.scr, the Switch door's "check"): four
     hidden colours, four tries; the flames by each right stone are told in the status line (MM9's FireCorrect fires
     are not placed).
-  - The boat race (BoatJudge.scr, RacingBoat.scr): the judge's dialogue starts it after a countdown; each click on the
-    party's boat pushes it one length (MM9: a hit), the rival boats advance on their own; the boats do not move here,
-    the status line tells the race.
+  - The boat race (BoatJudge.scr, RacingBoat.scr): the judge's dialogue starts it after a countdown; each hit on the
+    party's boat (an arrow or a blow, as the rule book says; also a click) pushes it one length towards its finish
+    line, the rival boats sail on their own (evt.MoveDecoration); the boats sink and come back up after the race.
   - The bell (DingTheBell.scr, BellWeight.scr): a click on the strike plate rolls MM9's strength test and the weight
     (the Riser1 door) climbs to the height it reached.
 - Hjarrand Fixer (NPC7.scr, RUDE 7): the payment for fixing the refinery's machine on his dialogue's exit; he is gone
@@ -29,13 +29,13 @@ event 50000 + the DAT object index, a click before the dialogue 53000 + index (g
   Scholarpromo.scr (Magreeb0, the adult) gives key 202 on sight during that quest, when the map places it.
 
 - Whack-a-Honky.scr (Honky0-3) and Switch0, its start lever: a pull with a ticket counts down, then for ten seconds
-  one goose at a time pops up; eight whacks win (key 7103).
+  one goose at a time pops up out of the counter (evt.MoveDecoration); eight whacks (clicks) win (key 7103).
 - Armwrestle.scr "2" (HalfOrcCaptain0, placed through overrides.yml `outdoor.people`): a click with a ticket pits the
   active character's Might + 9-50 against his 2 + 1-40 (key 7105).
 
-Not here (work/scr_spec.md): the stones player's own dialogue (his DAT row has no RUDE id), the boats' and the bell's
-other motions, the jumpers' leap arc (their clips are played) and the ambush's chase (monster AI), the training hall's
-breakable wall (TrainingEnter.scr: destructible brushes), voices, posed figures and banners (PropAnim.scr), the unplaced
+Not here (work/scr_spec.md): the stones player's own dialogue (his DAT row has no RUDE id), the bell's other motions,
+the jumpers' leap arc (their clips are played) and the ambush's chase (monster AI), the training hall's breakable wall
+(TrainingEnter.scr: destructible brushes), voices, posed figures and banners (PropAnim.scr), the unplaced
 stat stone, ambient sounds.
 """
 
@@ -53,6 +53,7 @@ TAG = "thjorgard"
 EV_TICK, EV_BELL = 300, 301     # timers: the games' half-second tick (also the polls), the bell's steps
 EV_HONK, EV_HONK_END = 302, 303  # timers: whack-a-honky's countdown and geese, its ten seconds of play
 EV_JUMPER_KILLED = 304          # monster killed hook: a jumper's DeathTriggerTarget (BuddyDead)
+EV_BOAT_MOVE = 305              # timer: the party's boat has moved its length (RacingBoat.scr :Ready)
 EV_PROP = 600                   # a scripted prop's click: EV_PROP + k
 COG_PROP = 400                  # its SetSprite key: COG_PROP + k
 EV_WALL = 370                   # the training hall's wall broken (DestructableBrush7, destructibles.py)
@@ -64,13 +65,22 @@ def destructible_events(build) -> dict:
     ScriptObject1 Break) gives the hall's reward when it breaks."""
     return {"DestructableBrush7": (EV_WALL, 0)} if "destructablebrush7" in build.source.by_name else {}
 
+
+def damage_targets(build) -> dict:
+    """RacingBoat.scr :Ready (OnDamage MoveForward): the party's boat takes arrows and blows, never breaking; each hit
+    runs its click event, the push (dungeon/destructibles.py `unbreakable`)."""
+    events, cogs = prop_events(build)
+    return {PLAYER_BOAT: (cogs[PLAYER_BOAT], events[PLAYER_BOAT])} if PLAYER_BOAT in events and PLAYER_BOAT in cogs \
+        else {}
+
 PIECES = [f"Piece{k}" for k in range(36)]           # StonesPiece.scr, on Square0-35 (StonesSquare.scr "Piece<k> <k>")
 BUTTONS = [f"ColorButton{k}" for k in range(5)]     # MastermindColor.scr "0".."4": red, blue, yellow, orange, green
 SPACES = [f"ColorSpace{k}" for k in range(4)]       # MastermindSpace.scr "0".."3"
 PLAYER_BOAT = "RacingBoat0"                         # RacingBoat.scr "FinishLine0 0": the party's (not AI) boat
+BOATS = [f"RacingBoat{k}" for k in range(4)]        # RacingBoat.scr "FinishLine<k> <ai>": the party's, then the rivals
 HONKIES = [f"Honky{k}" for k in range(4)]          # Whack-a-Honky.scr "<k> Honky 0 3"
 CLICK_PROPS = PIECES + BUTTONS + SPACES + [PLAYER_BOAT] + HONKIES
-COG_PROPS = PIECES + SPACES + HONKIES
+COG_PROPS = PIECES + SPACES + HONKIES + BOATS
 # The stones' colours (StonesPiece.scr: skins\gibs\yellow.dtx white, blue.dtx black). MM9's pieces are stone.abc at
 # scale 1; only the 2x coloured stones exist as decorations (the runes game's), so placed stones show twice as big.
 STONE_EMPTY, STONE_WHITE, STONE_BLACK = "mm9_stone", "mm9_stoneyellow_x200", "mm9_stoneblue_x200"
@@ -87,6 +97,8 @@ JUMPER_WAITS = ((0, 0), (1, 2.5), (10, 25), (30, 45))
 AMBUSH = ("MagreebBaby0", "Jim", "Dean", "Walter", "Dummy")     # Thorgard_actor.scr :DisableCheckStart
 ROB_TRIGGER = "RobPlayerTrigger"
 BOAT_LENGTHS = 10               # RacingBoat.scr: a tenth of the way per move; arrival after ten (work/scr_spec.md)
+BOAT_SINK = 64 * SCALE          # RacingBoat.scr :Submerge, :Surface: MoveDir 0,-1,0, 64 (and back) at 64 a second
+HONK_RISE = 20 * SCALE          # Whack-a-Honky.scr :ReceivePopup: MoveDir 0,1,0, 20 at 100 a second (0.2 s)
 TEXT = {                        # MMIXSCRIPTTEXT.csv (RollOverText numbers)
     6: "You Win!", 7: "You Lost.", 226: "Sorry, you need a ticket to play...", 227: "You bought a ticket.",
     228: "You received the Stuffed Dragon for completing all the games!",
@@ -361,16 +373,32 @@ def extend(hooks, build, script) -> None:
         tick.append(f"    if var(\"MMSwitch\") == 1 then set(\"MMSwitch\", 0); {releases} end")
 
     # --- the boat race -----------------------------------------------------------------------------------------------
-    if "BoatJudge" in npc and PLAYER_BOAT in events:
+    if "BoatJudge" in npc and PLAYER_BOAT in events and all(name in cogs for name in BOATS):
         count = ", ".join(lua_string(TEXT[n]) for n in (239, 238, 237, 236))
+        steps = []
+        for k, boat in enumerate(BOATS):
+            start, line = build.project.native([build.source.by_name[boat.lower()]["properties"]["Pos"],
+                                                build.source.by_name[f"finishline{k}"]["properties"]["Pos"]])
+            steps.append(f"{{{(line[0] - start[0]) / BOAT_LENGTHS:.1f}, {(line[1] - start[1]) / BOAT_LENGTHS:.1f}}}")
         lines += [
             "-- BoatJudge.scr \"RacingBoat 0 3\" (RUDE 429) and RacingBoat.scr. A click gives key 7003 (his rows about",
             "-- the race); leaving with key 7004 (\"Sure!\") and a ticket starts the countdown (Countdown5: Five... One...,",
-            "-- the bell), then the race. The party's boat moves one length (a tenth of the way, one second) per hit;",
-            "-- here per click, not again while it moves. The three rival boats move a length in two to four seconds",
-            "-- each (here a random share every half second). Map vars: BoatState (0 idle, 1 countdown, 2 racing),",
-            "-- BoatCount (countdown ticks), BoatPushes, BoatMoving (ticks), BoatAI1-3 (hundredths of a length).",
+            "-- the bell), then the race. Each boat sails a tenth of the way to its FinishLine per move (MoveDir, level).",
+            "-- The party's boat (RacingBoat0) moves one length in one second per hit: an arrow or a blow (the scene's",
+            "-- unbreakable destructible on it runs this click event on every hit) or a click; no hit counts while it",
+            "-- moves (OnDamage DoNothing until :Ready). The three rival boats sail a length in two to four seconds each",
+            "-- (here a random 12-25 hundredths every half second). A boat arrives once it has sailed its ten lengths;",
+            "-- then the judge names the winner and all boats sink 64 units, come back to the start and surface",
+            "-- (:Submerge, :ReturnToStart, :Surface: a second each way). Map vars: BoatState (0 idle, 1 countdown,",
+            "-- 2 racing, 3 sinking and surfacing), BoatCount (countdown and sinking ticks), BoatPushes, BoatMoving,",
+            "-- BoatAI1-3 (hundredths of a length).",
             f"local BOAT_COUNT = {{{count}}}",
+            f"local BOAT_COGS = {{{', '.join(str(cogs[name]) for name in BOATS)}}}",
+            f"local BOAT_STEP = {{{', '.join(steps)}}}   -- one length of each boat's course",
+            "local function boatLengths(b) return b == 1 and var(\"BoatPushes\") or var(\"BoatAI\" .. (b - 1)) / 100 end",
+            "local function boatTo(b, lengths, dz, seconds)",
+            "    evt.MoveDecoration(BOAT_COGS[b], BOAT_STEP[b][1] * lengths, BOAT_STEP[b][2] * lengths, dz, seconds)",
+            "end",
             f"handlers[{rude_use(build, 'BoatJudge')}] = function() MM9.giveKey(7003); MM9.openRude(429) end   -- :OnUse",
             f"handlers[{rude_exit(build, 'BoatJudge')}] = function()   -- :StartRace",
             "    MM9.takeKey(7003)",
@@ -381,18 +409,28 @@ def extend(hooks, build, script) -> None:
             "    for b = 1, 3 do set(\"BoatAI\" .. b, 0) end",
             f"    evt.PlaySoundName(\"door/doorlock01.wav\", 0, 0, 0); say({lua_string(TEXT[235])})",
             "end",
-            f"handlers[{events[PLAYER_BOAT]}] = function()   -- {PLAYER_BOAT} (RacingBoat.scr :Ready -> :MoveForward)",
+            f"handlers[{events[PLAYER_BOAT]}] = function()   -- {PLAYER_BOAT} hit (RacingBoat.scr :MoveForward)",
             "    if var(\"BoatState\") ~= 2 or var(\"BoatMoving\") > 0 then return end",
-            "    set(\"BoatPushes\", var(\"BoatPushes\") + 1); set(\"BoatMoving\", 2)",
-            f"    say(tr(\"Your boat: {{pushes}} of {BOAT_LENGTHS} lengths.\", {{pushes = var(\"BoatPushes\")}}))",
+            "    local pushes = var(\"BoatPushes\") + 1",
+            "    set(\"BoatPushes\", pushes); set(\"BoatMoving\", 1); boatTo(1, pushes, 0, 1)",
+            f"    evt.StartTimer({EV_BOAT_MOVE}, seconds(1))",
+            f"    say(tr(\"Your boat: {{pushes}} of {BOAT_LENGTHS} lengths.\", {{pushes = pushes}}))",
             "end",
-            "local function boatEnd(won)   -- BoatJudge.scr :PlayerWon / :AIWon, then the boats submerge and reset",
-            "    set(\"BoatState\", 0)",
+            "local function boatEnd(won)   -- BoatJudge.scr :PlayerWon / :AIWon -> :SignalSubmerge",
+            "    set(\"BoatState\", 3); set(\"BoatCount\", 0); set(\"BoatMoving\", 0)",
+            f"    evt.StopTimer({EV_BOAT_MOVE})",
+            f"    for b = 1, 4 do boatTo(b, boatLengths(b), {-BOAT_SINK:.1f}, 1) end",
             "    -- RacingBoat.scr :Arrived sends the judge PlayerArrival / CPUArrival: a slain judge takes neither (no",
-            "    -- result; the race is over, and no new one starts without his dialogue)",
+            "    -- result; no new race starts without his dialogue)",
             f"    if not MM9.receives(\"thjorgard\", \"BoatJudge\", won and \"PlayerArrival\" or \"CPUArrival\", "
             f"{npc['BoatJudge']}) then return end",
             "    if won then evt.PlaySoundName(\"events/trumpets02.wav\", 0, 0, 0); gameWon(7101) else gameLost() end",
+            "end",
+            f"handlers[{EV_BOAT_MOVE}] = function()   -- RacingBoat.scr :Ready: the length sailed (once per push)",
+            f"    evt.StopTimer({EV_BOAT_MOVE})",
+            "    if var(\"BoatState\") ~= 2 then return end",
+            "    set(\"BoatMoving\", 0)",
+            f"    if var(\"BoatPushes\") >= {BOAT_LENGTHS} then boatEnd(true) end",
             "end",
             "local function boatTick(tick)",
             "    local state = var(\"BoatState\")",
@@ -402,30 +440,31 @@ def extend(hooks, build, script) -> None:
             "        if count % 2 ~= 0 then return end",
             "        if count > 0 then evt.PlaySoundName(\"door/doorlock01.wav\", 0, 0, 0); say(BOAT_COUNT[math.floor(count / 2)])",
             "        else evt.PlaySoundName(\"events/dingbell.wav\", 0, 0, 0); set(\"BoatState\", 2) end   -- :Countdown0",
-            "    elseif state == 2 then",
-            "        local moving = var(\"BoatMoving\")",
-            "        if moving > 0 then",
-            "            set(\"BoatMoving\", moving - 1)",
-            f"            if moving == 1 and var(\"BoatPushes\") >= {BOAT_LENGTHS} then boatEnd(true); return end",
-            "        end",
-            "        local best = 0",
+            "    elseif state == 2 then   -- the rivals' :StartMoveLoop",
+            "        local arrived = false",
             "        for b = 1, 3 do",
-            "            local p = var(\"BoatAI\" .. b) + rnd(12, 25)",
-            "            set(\"BoatAI\" .. b, p)",
-            "            if p > best then best = p end",
+            "            local p = var(\"BoatAI\" .. b)",
+            f"            if p >= {BOAT_LENGTHS * 100} then arrived = true",
+            "            else",
+            f"                p = math.min({BOAT_LENGTHS * 100}, p + rnd(12, 25))",
+            "                set(\"BoatAI\" .. b, p); boatTo(b + 1, p / 100, 0, 0.5)",
+            "            end",
             "        end",
-            f"        if best >= {BOAT_LENGTHS * 100} then boatEnd(false); return end",
-            "        if tick % 4 == 0 then",
-            f"            say(tr(\"Your boat: {{pushes}} of {BOAT_LENGTHS} lengths; the leading rival: {{rival}}.\",",
-            "                {pushes = var(\"BoatPushes\"), rival = math.floor(best / 100)}))",
-            "        end",
+            "        if arrived then boatEnd(false) end",
+            "    elseif state == 3 then   -- under water at the start after a second, up again after another",
+            "        local count = var(\"BoatCount\") + 1",
+            "        set(\"BoatCount\", count)",
+            "        if count == 2 then",
+            f"            for b = 1, 4 do boatTo(b, 0, {-BOAT_SINK:.1f}, 0); boatTo(b, 0, 0, 1) end",
+            "        elseif count >= 4 then set(\"BoatState\", 0) end   -- :TurnOff",
             "    end",
             "end",
             "",
         ]
         registrations += [(rude_use(build, "BoatJudge"), "Boat judge", None),
                           (rude_exit(build, "BoatJudge"), "Boat race", None),
-                          (events[PLAYER_BOAT], "Toy boat", "Boat")]
+                          (events[PLAYER_BOAT], "Toy boat", "Boat"),
+                          (EV_BOAT_MOVE, "Toy boat moved", None, "timer")]
         load.append("    set(\"BoatState\", 0)   -- RacingBoat.scr :InitRacingBoat (a race does not survive a load)")
         tick.append("    boatTick(tick)")
 
@@ -486,26 +525,27 @@ def extend(hooks, build, script) -> None:
             "-- ticket: Countdown5, then ten seconds (Wait 19, 15 EndGame from the pull) of geese, one up at a time: it",
             "-- rises (0.2 s), waits 0.5-1 s, goes down (0.2 s) and another rises (:OnFinishedLower, never the same one); a",
             "-- click on the raised goose counts (WHACK_COUNTER) and sends it down at once. Eight win (WIN_CONDITION).",
-            "-- MM9 raises the geese 20 units from their holes; here the idle geese all stand, and while the game runs",
-            "-- only the raised one shows. Map vars: HonkState (0 idle, 1 countdown, 2 playing), HonkStep, HonkUp (1-4,",
-            "-- 0 none), HonkLast, HonkHits.",
+            "-- The geese wait inside the counter and rise 20 MM9 units out of it (MoveDir 0,1,0, 20 at 100 a second;",
+            "-- evt.MoveDecoration here), going back down the same way. Map vars: HonkState (0 idle, 1 countdown,",
+            "-- 2 playing), HonkStep, HonkUp (1-4, 0 none), HonkLast, HonkHits.",
             f"local HONK_COGS = {{{', '.join(str(cogs[name]) for name in HONKIES)}}}",
             f"local HONK_COUNT = {{{', '.join(lua_string(TEXT[n]) for n in range(235, 240))}}}",
-            "local function honkShowAll(on) for i = 1, 4 do evt.SetSprite(HONK_COGS[i], on and 1 or 0, \"0\") end end",
+            f"local function honkMove(k, up) evt.MoveDecoration(HONK_COGS[k], 0, 0, up and {HONK_RISE:.1f} or 0, 0.2) end",
             "local function honkRaise()   -- :ReceivePopup",
             "    local k = rnd(1, 4)",
             "    while k == var(\"HonkLast\") do k = rnd(1, 4) end",
-            "    set(\"HonkUp\", k); set(\"HonkLast\", k); evt.SetSprite(HONK_COGS[k], 1, \"0\")",
+            "    set(\"HonkUp\", k); set(\"HonkLast\", k); honkMove(k, true)",
             f"    evt.StartTimer({EV_HONK}, seconds((200 + rnd(500, 1000)) / 1000))",
             "end",
             "local function honkLower()   -- :SendPopup",
             "    local k = var(\"HonkUp\")",
-            "    if k > 0 then evt.SetSprite(HONK_COGS[k], 0, \"0\") end",
+            "    if k > 0 then honkMove(k, false) end",
             f"    set(\"HonkUp\", 0); evt.StartTimer({EV_HONK}, seconds(0.2))",
             "end",
             "local function honkReset()",
             f"    evt.StopTimer({EV_HONK}); evt.StopTimer({EV_HONK_END})",
-            "    set(\"HonkState\", 0); set(\"HonkUp\", 0); honkShowAll(true)",
+            "    set(\"HonkState\", 0); set(\"HonkUp\", 0)",
+            "    for i = 1, 4 do evt.MoveDecoration(HONK_COGS[i], 0, 0, 0, 0) end   -- :ResetPOS",
             f"    {release}",
             "end",
             f"handlers[{honk_event}] = function()   -- Switch0 -> Honky0 :StartGame",
@@ -521,7 +561,7 @@ def extend(hooks, build, script) -> None:
             "        local step = var(\"HonkStep\")",
             f"        if step < 5 then set(\"HonkStep\", step + 1); say(HONK_COUNT[step + 1]); "
             f"evt.StartTimer({EV_HONK}, seconds(1))",
-            "        else set(\"HonkState\", 2); honkShowAll(false); honkRaise() end",
+            "        else set(\"HonkState\", 2); honkRaise() end",
             "    elseif state == 2 then",
             "        if var(\"HonkUp\") > 0 then honkLower() else honkRaise() end",
             "    end",

@@ -1,0 +1,62 @@
+# The Green Man amulet (item 10213, the Druid promotion's reward; worlds/mm9/data_tables/item_effects.txt
+# health_regen_per_second 1.0) regenerates its wearer's hit points: 1 HP a second under Standard rules
+# (Party::updateRegeneration), 0.2 % of full HP a second, more out of combat, under MAW (a regeneration artifact,
+# mawWornRegenerationArtifacts). Without it the same member, who has no Regeneration skill, regains nothing.
+# Reported on Discord against v2.8 ("doesn't appear to be regenerating HP"); this pins the behaviour, also after a
+# save and load.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/green_man_regeneration.yml --scenario-no-color
+id: mm9.green_man_regeneration
+title: "MM9: the Green Man amulet regenerates its wearer's HP under Standard and MAW rules, also after a reload"
+world: mm9
+mode: faithful
+tags: [mm9, items, regression]
+steps:
+  - new_game_flow:
+      start_map: drangheimcity.blv
+      party:
+        gold: 100
+        food: 20
+        members:
+          - {name: Ragnar, class: Knight, level: 28, portrait_id: 77, race_id: 0,
+             skills: [{name: Sword, level: 10, mastery: 2}], equipment: {main_hand: 1}}
+          - {name: Hrothgar, class: Cleric, level: 28, portrait_id: 89, race_id: 9,
+             skills: [{name: Mace, level: 10, mastery: 2}], equipment: {main_hand: 66}}
+  - advance_runtime: {seconds: 1}
+  # Control: no amulet, no regeneration.
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 5}
+  - advance_runtime: {seconds: 10}
+  - assert: {member_points: {member_index: 0, health_min: 5, health_max: 5}}
+  # Worn from the pack, as a player puts it on: about 1 HP a second.
+  - grant_item: {item_id: 10213, member_index: 0}
+  - equip_item: {item_id: 10213, member_index: 0, slot: amulet}
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 5}
+  - advance_runtime: {seconds: 10}
+  - assert: {member_points: {member_index: 0, health_min: 13, health_max: 16}}
+  # Still after a save and load.
+  - save_game: {name: green_man}
+  - load_game: {name: green_man}
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 5}
+  - advance_runtime: {seconds: 10}
+  - assert: {member_points: {member_index: 0, health_min: 13, health_max: 16}}
+
+  # MAW: no regeneration without it, a share of full HP with it.
+  - new_game_flow:
+      start_map: drangheimcity.blv
+      ruleset: {id: maw, difficulty: maw, progression: free}
+      party:
+        gold: 100
+        food: 20
+        members:
+          - {name: Ragnar, class: Knight, level: 28, portrait_id: 77, race_id: 0,
+             skills: [{name: Sword, level: 10, mastery: 2}], equipment: {main_hand: 1}}
+          - {name: Hrothgar, class: Cleric, level: 28, portrait_id: 89, race_id: 9,
+             skills: [{name: Mace, level: 10, mastery: 2}], equipment: {main_hand: 66}}
+  - advance_runtime: {seconds: 1}
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 5}
+  - advance_runtime: {seconds: 30}
+  - assert: {member_points: {member_index: 0, health_min: 5, health_max: 5}}
+  - grant_item: {item_id: 10213, member_index: 0}
+  - equip_item: {item_id: 10213, member_index: 0, slot: amulet}
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 5}
+  - advance_runtime: {seconds: 30}
+  - assert: {member_points: {member_index: 0, health_min: 25}}

@@ -506,12 +506,15 @@ local hitBy = {}
 local function damageOn(name) return var("D" .. key(name)) == 1 or (var("D" .. key(name)) == 0 and DAMAGE[name].on) end
 
 -- Chadwick (NPC417.scr): DoTrap (key 244 while the trial runs, key 243), RemoveTrap (the entrance button:
--- the trap mark goes), done (the exit gate: with no trap, key 245 and the quest sound).
+-- the trap mark goes), done (the exit gate: key 245 and the quest sound, the trap mark cleared:
+-- reaching the end passes the trial whatever went off on the way; the user's decision, 2026-11-22).
 local function chadwick(msg)
     if MM9.hasKey(243) == 0 then return end
     if msg == "dotrap" then set("Trap", 1) set("Traps", var("Traps") + 1) MM9.giveKey(244)
     elseif msg == "removetrap" then set("Trap", 0) MM9.takeKey(244)
-    elseif msg == "done" and var("Trap") == 0 then MM9.giveKey(245) MM9.playSound("sounds/events/quest.wav") end
+    elseif msg == "done" then set("Trap", 0) MM9.takeKey(244) MM9.giveKey(245)
+        MM9.playSound("sounds/events/quest.wav")
+    end
 end
 
 -- Triggers (MM9 Trigger): enabled from StartOn (T<name>: 1 on, 2 off); a touch (any part of the party in the box,

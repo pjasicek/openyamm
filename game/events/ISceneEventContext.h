@@ -213,6 +213,16 @@ public:
         return false;
     }
 
+    // evt.ReviveMapActor: the dead actor stands again where the map first placed it (where it fell for an actor
+    // spawned later or a map filled before save version 185), at full hit points and seen, its corpse and loot gone
+    // and its AI as at a map load; its attitude stays as it was, for the script to set (Tamur Leng, killed in a 2.8
+    // save, back at his post for the talk the story needs). False for a living actor or none.
+    virtual bool reviveMapActor(size_t actorIndex)
+    {
+        (void)actorIndex;
+        return false;
+    }
+
     // evt.SetMapActorHp: the living actor's hit points become the amount, kept within 1 and its maximum (MM9's
     // dying adventurer on his last hit point, which the load-time bolster fills up). False for a dead actor or none.
     virtual bool setMapActorHp(size_t actorIndex, int hp)

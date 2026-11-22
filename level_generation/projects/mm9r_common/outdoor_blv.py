@@ -546,6 +546,12 @@ class OutdoorBlvHooks(CityHooks):
             events.update(module.destructible_events(build))
         return events
 
+    def damage_targets(self, build) -> dict:
+        """Props that take hits without breaking (dungeon/destructibles.py `unbreakable`): the region's regionlua.py
+        `damage_targets(build)`, {DAT name: (SetSprite key, the event each hit runs)}."""
+        module = self.region_module(build)
+        return dict(module.damage_targets(build)) if module is not None and hasattr(module, "damage_targets") else {}
+
     def actors(self, build, sector_of_room: dict) -> list[dict]:
         content, source = build.content, build.source
         # npc_rows: MM9's farm animals (Boot Camp's goats and cows, Yorwick's ewe) on their own rows and models

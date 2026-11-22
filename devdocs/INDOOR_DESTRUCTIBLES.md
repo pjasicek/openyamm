@@ -22,6 +22,7 @@ destructibles:
     center: [1200, -340, 96]
     destroyed_event: 360    # a map event run when it breaks; 0: none
     damaged_event: 0        # a map event run on every hit that damages it; 0: none
+    unbreakable: false      # hits run damaged_event but take no hp: a target, never broken
 ```
 
 `game/indoor/IndoorMapData.h` `IndoorDestructible`; parsed by `game/maps/IndoorSceneYml.cpp` (an overlay's list
@@ -41,7 +42,12 @@ replaces the base scene's). An entry needs a cog or a decoration cog and a posit
 - **Props take missiles** (2026-11-06): each decoration of a destructible's decoration cog is a hit cylinder for party
   and event missiles while the destructible stands and takes damage (`initializeIndoorDestructibles`: the
   decoration's radius and height, at least 24 and 48; a collision of kind World with `worldEntityIndex`, no bounce).
-  Monsters' missiles pass props, as before.
+  Monsters' missiles pass props, as before. A prop an event moved (`evt.MoveDecoration`) is struck where it is drawn:
+  its cylinder carries the decoration's offset (2026-11-22).
+- **Unbreakable targets** (2026-11-22): `unbreakable: true` keeps the hp; every hit runs `damaged_event` and nothing
+  else. MM9's props whose script reacts to hits without breaking (RacingBoat.scr's OnDamage: Thjorgard's boat race,
+  the party's boat pushed a length per arrow or blow) come from a map hook `damage_targets(build)`
+  (dungeon/destructibles.py).
 - **Area impacts** (2026-11-06): a party's or an event's blast (Fireball, Meteor Shower, Starburst, Rock Blast, Death
   Blossom, dragon breath, Flame Blast, a Carnage arrow) deals its damage to every standing destructible whose box (its
   faces and props) lies within the blast radius of the burst (`GameplayProjectileService::

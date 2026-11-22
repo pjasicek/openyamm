@@ -1,0 +1,28 @@
+# The Frosgard dockmaster's boat (Jozka Atlia, RUDE 209, "The Racing Fire"; transport_routes.txt) takes the party to
+# its destination and charges the fare once. His talk has an exit hook (frosgardcity.lua handlers[50554], the dock
+# schedule and key 378); it ran after the boarding, and the map event's start dropped the queued map move: the fare
+# was taken and the party stayed ashore (Discord, v2.8). The hook now runs before the boarding.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/frosgard_dock_boat.yml --scenario-no-color
+id: mm9.frosgard_dock_boat
+title: "Frosgard's dock: the boat leaves with the party, for its fare, although the dockmaster's talk has an exit hook"
+world: mm9
+mode: faithful
+tags: [mm9, travel, regression]
+steps:
+  - new_game_flow:
+      start_map: frosgardcity.blv
+  - setup_shortcut: {kind: immortal}
+  # The docks freed (72) and Tryygva paid for the ice (73, the routes' key).
+  - setup_shortcut: {kind: set_qbit, id: 90072, value: true}
+  - setup_shortcut: {kind: set_qbit, id: 90073, value: true}
+  - console: {line: "gold set 1000"}
+  - set_pose: {map: frosgardcity.blv, x: 4551, y: -10650, z: -81, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 8}
+  - select_topic: {match_label: "Yes."}
+  # A new game starts on a Monday: today's boat sails to Lindisfarne, six days, for 6 gold (the new party's fare).
+  - assert: {dialog: {action_label_present: "6 days to Lindisfarne for 6 gold"}}
+  - select_topic: {match_label: "6 days to Lindisfarne for 6 gold"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  # In Lindisfarne, the fare paid once; the talk's exit hook ran too (the dock schedule, key 378).
+  - assert: {map: lindisfarne.blv, gold: 994, qbit_set: [90378]}

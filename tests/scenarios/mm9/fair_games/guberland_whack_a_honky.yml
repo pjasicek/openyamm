@@ -1,0 +1,43 @@
+# The Gathering in Guberland: whack-a-honky played as a player does (Whack-a-Honky.scr; the region's copy of
+# Thjorgard's game, mm9r_guberland_blv/regionlua.py `whack_a_honky`). As in thjorgard_whack_a_honky.yml: the geese wait
+# inside the counter and rise 20 MM9 units out of it (evt.MoveDecoration); the party pulls the start lever with a
+# ticket and whacks every goose it sees above the counter; eight whacks win key 7113.
+# Run: ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/fair_games/guberland_whack_a_honky.yml
+id: mm9.fair_games.guberland_whack_a_honky
+title: "Guberland's Gathering: whack-a-honky's geese rise out of the counter and eight whacks win"
+world: mm9
+mode: faithful
+tags: [mm9, fair_games]
+steps:
+  - load_map: {map: guberland.blv}
+  - advance_runtime: {seconds: 0.5}
+  - grant_item: {item_id: 10557, member_index: 0}
+  - assert: {state_dump_named_map_var: {name: HonkState, value: 0}}
+  # South of the counter, facing the start lever (Switch0, event 104) at its west end.
+  - set_pose: {map: guberland.blv, x: 14027, y: 20564, z: 120, yaw: 2.217, pitch: -0.1713}
+  - advance_runtime: {seconds: 0.2}
+  - press_interact: {}
+  - assert: {state_dump_named_map_var: {name: HonkState, value: 1}}
+  - play_lua:
+      max_seconds: 30
+      source: |
+        -- The geese stand along the counter (Honky0-3, west to east); HonkUp is the one the player sees raised.
+        local geese = {13904, 13986, 14068, 14150}
+        local events = {736, 737, 738, 739}
+        while mapvar("HonkState") == 1 do wait(0.1) end
+        local whacks = 0
+        while mapvar("HonkState") == 2 do
+          local up = mapvar("HonkUp")
+          if up > 0 then
+            -- step in front of it and aim at its neck above the counter (eye 160 above the feet)
+            pose(geese[up], 20614, 120, math.pi / 2, math.atan(250 - 280, 20804 - 20614))
+            local used, event = interact()
+            if used and event == events[up] then whacks = whacks + 1 end
+          end
+          wait(0.1)
+        end
+        log("whacks " .. whacks .. ", status: " .. status())
+        if whacks < 8 then error("only " .. whacks .. " whacks landed") end
+  - assert:
+      state_dump_named_map_var: {name: HonkState, value: 0}
+      qbit_set: [97113]

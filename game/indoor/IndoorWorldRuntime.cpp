@@ -8839,6 +8839,8 @@ GameplayProjectileService::ProjectileFrameFacts IndoorWorldRuntime::collectIndoo
         if (projectile.sourceKind != GameplayProjectileService::ProjectileState::SourceKind::Actor
             && m_pIndoorMapData != nullptr)
         {
+            const EventRuntimeState *pPropEvents = eventRuntimeState();
+
             for (const DestructiblePropCollider &prop : m_destructiblePropColliders)
             {
                 if (prop.destructibleIndex >= m_pIndoorMapData->destructibles.size()
@@ -8847,7 +8849,22 @@ GameplayProjectileService::ProjectileFrameFacts IndoorWorldRuntime::collectIndoo
                     continue;
                 }
 
-                const GameplayWorldPoint center = {prop.base.x, prop.base.y, prop.base.z + prop.height * 0.5f};
+                GameplayWorldPoint center = {prop.base.x, prop.base.y, prop.base.z + prop.height * 0.5f};
+
+                // A prop an event moved (evt.MoveDecoration: Thjorgard's racing boat) is struck where it is drawn.
+                if (pPropEvents != nullptr && !pPropEvents->decorationAims.empty())
+                {
+                    const auto aim = pPropEvents->decorationAims.find(
+                        m_pIndoorMapData->destructibles[prop.destructibleIndex].decorationCog);
+
+                    if (aim != pPropEvents->decorationAims.end())
+                    {
+                        center.x += aim->second.offset[0];
+                        center.y += aim->second.offset[1];
+                        center.z += aim->second.offset[2];
+                    }
+                }
+
                 std::optional<IndoorProjectileCollisionCandidate> propHit = findProjectileCylinderHit(
                     segmentStart, segmentEnd, center, prop.radius + float(projectile.radius), prop.height * 0.5f);
 
@@ -15845,9 +15862,12 @@ void IndoorWorldRuntime::aggroNearbyMapActorFaction(size_t actorIndex, bool aler
 
         MapDeltaActor &otherActor = pMapDeltaData->actors[otherActorIndex];
 
+        // MM9's CanDamage off (mm9ActorRefusesDamage): no hit hurts or turns such an actor, and neither does its kin's
+        // alert. Tamur Leng, who must talk after the Battle of Frosgard, shares the peasants' relations with Forad
+        // Darre and Tryggva Ravenlocks: a party hit on either turned him against the party, and he would not talk.
         if (otherActor.hp <= 0
             || (otherActor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0
-            || otherActorIndex >= m_mapActorAiStates.size())
+            || otherActorIndex >= m_mapActorAiStates.size() || !otherActor.mm9CanReceiveDamage)
         {
             continue;
         }
@@ -21200,47 +21220,80 @@ size_t IndoorWorldRuntime::reviveSlainMonsters(float experienceShare)
             continue;
         }
 
-        const MapActorAiState previous = m_mapActorAiStates[actorIndex];
-        actor.hp = std::max(1, actor.rulesetFacts.maxHp > 0 ? actor.rulesetFacts.maxHp : pStats->hitPoints);
         actor.rulesetFacts.experience = uint32_t(float(actor.rulesetFacts.experience) * experienceShare);
         actor.rulesetFacts.risen = true;
-        actor.rulesetFacts.spearDamageTaken = 0;
-        actor.rulesetFacts.legendaryDamageTaken = 0;
-
-        // MAW raises the slain where the map first placed them (zzMaw-Monsters.lua LeaveMap).
-        if (actor.fillPosition)
-        {
-            actor.x = (*actor.fillPosition)[0];
-            actor.y = (*actor.fillPosition)[1];
-            actor.z = (*actor.fillPosition)[2];
-            actor.sectorId = actor.fillSectorId;
-        }
-
-        // A searched corpse gave up its loot for good.
-        if (actorIndex < m_mapActorCorpseViews.size() && m_mapActorCorpseViews[actorIndex])
-        {
-            actor.carriedItemId = 0;
-            actor.proceduralDeathLoot = false;
-            m_mapActorCorpseViews[actorIndex].reset();
-        }
-
-        if (actorIndex < m_mapActorRevealedLoot.size())
-        {
-            m_mapActorRevealedLoot[actorIndex].reset();
-        }
-
-        MapActorAiState risen = buildIndoorMapActorAiState(actor, actorIndex, m_pMonsterTable, m_pSpellTable,
-            m_pGameplayActorService, m_pActorSpriteFrameTable, m_actorNpcNames);
-        risen.bolster = previous.bolster;
-        risen.bolsterRewardMultiplier = previous.bolsterRewardMultiplier;
-        risen.displayName = gameRulesFor(m_pParty).monsters.actorDisplayName(
-            actor.rulesetFacts, resolveMapDeltaActorName(*m_pMonsterTable, actor, m_actorNpcNames));
-        m_mapActorAiStates[actorIndex] = std::move(risen);
-        std::erase(m_actorCorpsePhysicsActorIndices, actorIndex);
+        raiseSlainMapActor(actorIndex, *pStats);
         ++revived;
     }
 
     return revived;
+}
+
+// A slain actor stands again (MAW's revival, evt.ReviveMapActor): full hit points where the map first placed it, its
+// corpse's loot gone, its AI state built afresh as at a map load (its bolster kept).
+void IndoorWorldRuntime::raiseSlainMapActor(size_t actorIndex, const MonsterTable::MonsterStatsEntry &stats)
+{
+    MapDeltaActor &actor = mapDeltaData()->actors[actorIndex];
+    const MapActorAiState previous = m_mapActorAiStates[actorIndex];
+    actor.hp = std::max(1, actor.rulesetFacts.maxHp > 0 ? actor.rulesetFacts.maxHp : stats.hitPoints);
+    actor.rulesetFacts.spearDamageTaken = 0;
+    actor.rulesetFacts.legendaryDamageTaken = 0;
+
+    // Where the map first placed it (MAW raises the slain there: zzMaw-Monsters.lua LeaveMap).
+    if (actor.fillPosition)
+    {
+        actor.x = (*actor.fillPosition)[0];
+        actor.y = (*actor.fillPosition)[1];
+        actor.z = (*actor.fillPosition)[2];
+        actor.sectorId = actor.fillSectorId;
+    }
+
+    // A searched corpse gave up its loot for good.
+    if (actorIndex < m_mapActorCorpseViews.size() && m_mapActorCorpseViews[actorIndex])
+    {
+        actor.carriedItemId = 0;
+        actor.proceduralDeathLoot = false;
+        m_mapActorCorpseViews[actorIndex].reset();
+    }
+
+    if (actorIndex < m_mapActorRevealedLoot.size())
+    {
+        m_mapActorRevealedLoot[actorIndex].reset();
+    }
+
+    MapActorAiState risen = buildIndoorMapActorAiState(actor, actorIndex, m_pMonsterTable, m_pSpellTable,
+        m_pGameplayActorService, m_pActorSpriteFrameTable, m_actorNpcNames);
+    risen.bolster = previous.bolster;
+    risen.bolsterRewardMultiplier = previous.bolsterRewardMultiplier;
+    risen.displayName = gameRulesFor(m_pParty).monsters.actorDisplayName(
+        actor.rulesetFacts, resolveMapDeltaActorName(*m_pMonsterTable, actor, m_actorNpcNames));
+    m_mapActorAiStates[actorIndex] = std::move(risen);
+    std::erase(m_actorCorpsePhysicsActorIndices, actorIndex);
+}
+
+bool IndoorWorldRuntime::reviveMapActor(size_t actorIndex)
+{
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || m_pMonsterTable == nullptr || actorIndex >= pMapDeltaData->actors.size())
+    {
+        return false;
+    }
+
+    syncMapActorAiStates();
+    MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+    const MonsterTable::MonsterStatsEntry *pStats = findIndoorActorStats(m_pMonsterTable, actor);
+
+    if (actor.hp > 0 || pStats == nullptr || actorIndex >= m_mapActorAiStates.size())
+    {
+        return false;
+    }
+
+    // A body without a corpse was hidden at its death.
+    actor.attributes &= ~static_cast<uint32_t>(EvtActorAttribute::Invisible);
+    actor.currentActionAnimation = indoorActionAnimationFromActorAi(ActorAiAnimationState::Standing);
+    raiseSlainMapActor(actorIndex, *pStats);
+    return true;
 }
 
 void IndoorWorldRuntime::rewardRulesetMapProgress()
@@ -21552,6 +21605,7 @@ bool IndoorWorldRuntime::applyPartyAttackMeleeDamage(
     }
 
     if (actorIndex < m_mapActorAiStates.size() && !m_mapActorAiStates[actorIndex].hostileToParty
+        && (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::QuestTarget)) == 0
         && !gameRulesFor(m_pParty).combat.harmsFriendlyActors())
     {
         return false;
@@ -24838,6 +24892,11 @@ bool IndoorWorldRuntime::damageIndoorDestructible(const IndoorDestructible &dest
     if (destructible.damagedEvent != 0)
     {
         m_pendingDestructibleEvents.push_back(destructible.damagedEvent);
+    }
+
+    if (destructible.unbreakable)
+    {
+        return true;
     }
 
     pState->hp = std::max(0, pState->hp - damage);

@@ -4643,6 +4643,13 @@ bool ScenarioRuntimeDriver::advanceRuntime(float seconds, std::string &failure, 
         }
         pWorldRuntime->updateWorld(deltaSeconds);
 
+        // Decorations an event moves (evt.MoveDecoration) glide as the game's frame moves them
+        // (GameApplication::presentWorldFrame): a moved prop is picked and struck where it is.
+        if (EventRuntimeState *pEvents = pWorldRuntime->eventRuntimeState())
+        {
+            advanceDecorationAims(*pEvents, deltaSeconds);
+        }
+
         if (presentDialogs)
         {
             session.gameplayScreenRuntime().ensurePendingEventDialogPresented(true);

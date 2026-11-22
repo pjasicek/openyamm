@@ -218,15 +218,17 @@ class Mm9QuestInteractionGeneratorTests(unittest.TestCase):
         report_path = source_root / "assets_dev/worlds/mm9/state/quest_interaction_coverage.yml"
         report = yaml.safe_load(report_path.read_text(encoding="utf-8"))
         inventory = report["inventory"]
-        self.assertEqual(inventory["normal_rude_graphs"], 436)
-        self.assertEqual(inventory["normal_dialogue_rows"], 4215)
+        # 2026-11-22: + RUDE 500 (Yorwick's bookseller, 9 rows) and the Mage quest's Drangheim journal stage (entry 551,
+        # key 288 from NPC4.scr's book swap, excluded as a marker).
+        self.assertEqual(inventory["normal_rude_graphs"], 437)
+        self.assertEqual(inventory["normal_dialogue_rows"], 4224)
         self.assertEqual(inventory["reachable_journal_grant_rude_ids"], 59)
         self.assertEqual(inventory["root_journal_grant_rude_ids"], 28)
-        self.assertEqual(inventory["journal_condition_raw_keys"], 208)
+        self.assertEqual(inventory["journal_condition_raw_keys"], 209)
         self.assertEqual(inventory["journal_keys_granted_by_ordinary_rude_rows"], 144)
-        self.assertEqual(inventory["journal_keys_granted_only_by_literal_scr"], 57)
+        self.assertEqual(inventory["journal_keys_granted_only_by_literal_scr"], 58)
         self.assertEqual(inventory["generated_interactions"], 199)
-        self.assertEqual(inventory["explicit_exclusions"], 42)
+        self.assertEqual(inventory["explicit_exclusions"], 43)
         self.assertEqual(inventory["unresolved_candidates"], 0)
         self.assertEqual(inventory["validated_non_qbit_dependencies"], {"carried_gold": 3})
         metadata_path = source_root / "assets_dev/worlds/mm9/state/quest_interactions.yml"

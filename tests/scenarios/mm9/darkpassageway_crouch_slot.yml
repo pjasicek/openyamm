@@ -1,0 +1,18 @@
+# The Dark Passageway's crouch slot (MM9's party crouched through it: 123 high, floor -696, ceiling -573) is walked
+# upright both ways: mm9r_darkpassageway/convert.py CROUCH_SLOT raises its ceiling to -470 (226 high; the engine has
+# no crouch on land, the user's decision 2026-11-08 and again 2026-11-22). The slot (x -13271..-13107, y -21627..-20972)
+# is the only way from the path to the tube room (main story, playthrough segment 55).
+id: mm9.darkpassageway_crouch_slot
+title: "Dark Passageway: the path's former crouch slot walked upright to the tube room's edge and back"
+world: mm9
+mode: faithful
+tags: [mm9, crouch]
+steps:
+  - load_map: {map: darkpassageway.blv}
+  - setup_shortcut: {kind: immortal}
+  - set_pose: {map: darkpassageway.blv, x: -13450, y: -21299, z: -696, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - walk_to: {x: -13130, y: -21299, z: -696, plan: false, radius: 24, z_tolerance: 40, timeout_seconds: 10}
+  - assert: {party_position: {x: -13130, y: -21299, radius: 40, z_min: -700, z_max: -690}}
+  - walk_to: {x: -13450, y: -21299, z: -696, plan: false, radius: 24, z_tolerance: 40, timeout_seconds: 10}
+  - assert: {party_position: {x: -13450, y: -21299, radius: 40, z_min: -700, z_max: -690}}

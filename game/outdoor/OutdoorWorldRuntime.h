@@ -333,6 +333,8 @@ public:
         // Runtime: the killing blow came from a party member (their weapons and spells), read when the death settles.
         bool killedByParty = false;
         bool isInvisible = false;
+        // EvtActorAttribute::QuestTarget from the map's events (evt.SetMonsterBit), restored from them on load.
+        bool questTarget = false;
         bool alertStatusBit = false;
         bool bloodSplatSpawned = false;
         bool hasDetectedParty = false;
@@ -833,6 +835,7 @@ public:
     bool setMm9ActorCanReceiveDamage(size_t actorIndex, bool canReceiveDamage) override;
     bool isMapActorHostile(size_t actorIndex) const override;
     bool isMapActorDead(size_t actorIndex) const override;
+    bool reviveMapActor(size_t actorIndex) override;
     bool isMapActorWithinPartyDistance(size_t actorIndex, float distance) const override;
     bool searchLootProp(const std::string &sourceId) override;
     bool useMm9Barrel(const std::string &sourceId) override;

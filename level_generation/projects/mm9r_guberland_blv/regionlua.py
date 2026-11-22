@@ -17,7 +17,7 @@ dialogue 53000 + index (game/mm9/Mm9RudeDialogue.h). The behaviour spec of every
   (StonesGame.scr, StonesSquare.scr, StonesPiece.scr: Piece0-35 clicked, the bot answers; key 7110) and whack-a-honky
   (Whack-a-Honky.scr on Honky0-3, Switch0 its start lever; key 7113); every win gives a random prize. The stones game
   and whack-a-honky are Thjorgard's (mm9r_thjorgard_blv/regionlua.py, its scenario_games.yml) with Guberland's win
-  keys; as there, placed stones show the 2x coloured stones and the idle geese all stand.
+  keys; as there, placed stones show the 2x coloured stones and the geese rise out of the counter.
 - Nicolai Ironfist (NPC414.scr) here only with key 121; Alvar the Clumsy (Retainer.scr) hidden while hired.
 - Scandlan's and Broccan's new-game talk (NPC150.scr, NPC151.scr): Scandlan's FoundPlayer starts the cinematic
   newgame_talk (no cameras: their voices and conv clips; key 5020; Broccan walks off to Mata), README "Cinematics".
@@ -53,6 +53,7 @@ GAME_PROPS = PIECES + HONKIES
 STONE_EMPTY, STONE_WHITE, STONE_BLACK = "mm9_stone", "mm9_stoneyellow_x200", "mm9_stoneblue_x200"
 KEY_STONES_WIN, KEY_HONKY_WIN = 7110, 7113         # THJORGARDGAMESCOMMON.inc :RecordStonesWin, :RecordHonkyWin
 HONK_WIN = 8                                       # Whack-a-Honky.scr WIN_CONDITION
+HONK_RISE = 20 * 2.56                              # :ReceivePopup MoveDir 0,1,0, 20 (MM9 units) at 100 a second
 TEXT = {                        # MMIXSCRIPTTEXT.csv (RollOverText numbers), as Thjorgard's
     230: "White wins!!!", 231: "Black wins!!!", 233: "Stone must be placed adjacent to another of your stones.",
     235: "Five...", 236: "Four...", 237: "Three...", 238: "Two...", 239: "One...", 244: "Your move.",
@@ -684,26 +685,27 @@ def whack_a_honky(build, events: dict, cogs: dict) -> tuple[list, list, list]:
         "-- ticket: Countdown5, then ten seconds (Wait 19, 15 EndGame from the pull) of geese, one up at a time: it",
         "-- rises (0.2 s), waits 0.5-1 s, goes down (0.2 s) and another rises (:OnFinishedLower, never the same one); a",
         "-- click on the raised goose counts (WHACK_COUNTER) and sends it down at once. Eight win (WIN_CONDITION):",
-        f"-- key {KEY_HONKY_WIN}. MM9 raises the geese 20 units from their holes; here the idle geese all stand, and while",
-        "-- the game runs only the raised one shows. Map vars: HonkState (0 idle, 1 countdown, 2 playing), HonkStep,",
-        "-- HonkUp (1-4, 0 none), HonkLast, HonkHits.",
+        f"-- key {KEY_HONKY_WIN}. The geese wait inside the counter and rise 20 MM9 units out of it (MoveDir 0,1,0, 20 at",
+        "-- 100 a second; evt.MoveDecoration here), going back down the same way. Map vars: HonkState (0 idle,",
+        "-- 1 countdown, 2 playing), HonkStep, HonkUp (1-4, 0 none), HonkLast, HonkHits.",
         f"local HONK_COGS = {{{', '.join(str(cogs[name]) for name in HONKIES)}}}",
         f"local HONK_COUNT = {{{', '.join(lua_string(TEXT[n]) for n in range(235, 240))}}}",
-        "local function honkShowAll(on) for i = 1, 4 do evt.SetSprite(HONK_COGS[i], on and 1 or 0, \"0\") end end",
+        f"local function honkMove(k, up) evt.MoveDecoration(HONK_COGS[k], 0, 0, up and {HONK_RISE:.1f} or 0, 0.2) end",
         "local function honkRaise()   -- :ReceivePopup",
         "    local k = rnd(1, 4)",
         "    while k == var(\"HonkLast\") do k = rnd(1, 4) end",
-        "    set(\"HonkUp\", k); set(\"HonkLast\", k); evt.SetSprite(HONK_COGS[k], 1, \"0\")",
+        "    set(\"HonkUp\", k); set(\"HonkLast\", k); honkMove(k, true)",
         f"    evt.StartTimer({T_HONK}, seconds((200 + rnd(500, 1000)) / 1000))",
         "end",
         "local function honkLower()   -- :SendPopup",
         "    local k = var(\"HonkUp\")",
-        "    if k > 0 then evt.SetSprite(HONK_COGS[k], 0, \"0\") end",
+        "    if k > 0 then honkMove(k, false) end",
         f"    set(\"HonkUp\", 0); evt.StartTimer({T_HONK}, seconds(0.2))",
         "end",
         "local function honkReset()",
         f"    evt.StopTimer({T_HONK}); evt.StopTimer({T_HONK_END})",
-        "    set(\"HonkState\", 0); set(\"HonkUp\", 0); honkShowAll(true)",
+        "    set(\"HonkState\", 0); set(\"HonkUp\", 0)",
+        "    for i = 1, 4 do evt.MoveDecoration(HONK_COGS[i], 0, 0, 0, 0) end   -- :ResetPOS",
         f"    {doors_call(lever, 'Close')}",
         "end",
         f"handlers[{honk_event}] = function()   -- Switch0 -> Honky0 :StartGame (replaces its door toggle)",
@@ -719,7 +721,7 @@ def whack_a_honky(build, events: dict, cogs: dict) -> tuple[list, list, list]:
         "        local step = var(\"HonkStep\")",
         "        if step < 5 then set(\"HonkStep\", step + 1); evt.StatusText(HONK_COUNT[step + 1]); "
         f"evt.StartTimer({T_HONK}, seconds(1))",
-        "        else set(\"HonkState\", 2); honkShowAll(false); honkRaise() end",
+        "        else set(\"HonkState\", 2); honkRaise() end",
         "    elseif state == 2 then",
         "        if var(\"HonkUp\") > 0 then honkLower() else honkRaise() end",
         "    end",

@@ -477,6 +477,14 @@ def map_script(hooks, build) -> str:
         # flags over a save load), and BattleMan.scr's Appear shows them: once the battle has started (key 377) a load
         # leaves them as the save has them (README, Deviations: a load in the battle hid Tamur for good before 2026-11-08)
         f"    if not has(377) then show({a['ForadDarre']}, false); show({a['TamurLeng0']}, false) end   -- Forad.scr \"Hate\", NPC309.scr :Main",
+        # Tamur Leng's talk gives key 106, which the main story needs; the scene keeps him unhurtable (convert.py). A 2.8
+        # save could hold him turned against the party or dead (README, Deviations): with the battle on and no talk yet,
+        # a dead Tamur stands again at his post, and he is made unhurtable and friendly again, ready to talk
+        "    if has(377) and not has(106) then   -- 2.8 saves: Tamur Leng turned or killed",
+        f"        evt.ReviveMapActor({a['TamurLeng0']})",
+        f"        MM9.setCanDamage({a['TamurLeng0']}, false)",
+        f"        if evt.IsMapActorHostile({a['TamurLeng0']}) then evt.SetMonGroupBit({GROUP_TAMUR}, MonsterBits.Hostile, false) end",
+        "    end",
         "    local thorolf = has(83) and not has(84)   -- NPC378.scr :Init",
         # Thorolf2 (NPC309's exit shows him with key 106) stays until his summons gives key 107: MM9's :Init hides him on
         # every load (OnPostSaveLoad), which left a party that saved before hearing him without key 107 (README, Deviations)

@@ -37,6 +37,23 @@ a destructible, a railing, furniture, a ladder's posts, a cave wall sloping down
 The 05 prep doc's BLOCKER R1 and the `set_pose` past the slot in `05_dark_passageway.yml` are now obsolete. The
 scan finds no other low spot on this map: two edge cells of 7k units² each, and the party passes beside both.
 
+## 2026-11-22: the places players named (Dungeon of Secrets, Bathhouse, Dark Passageway)
+
+Players of 2.8 asked for MM9's crouch for the Ranger trial (Dungeon of Secrets), the Bathhouse and the Dark Passageway.
+The user's decision: no crouch in the engine; each place made passable. A BLV scan of the three maps (16-unit floor
+samples; walk needs 160 room and no wall through 24..158 over the floor, crouch 100 and 24..100) finds no low passage
+that joins two parts of a map (only the insides of solids and ledges). Per place:
+
+- **Dark Passageway**: the crouch slot above (fixed 2026-11-08, in 2.8). `tests/scenarios/mm9/darkpassageway_crouch_slot.yml`
+  walks it both ways.
+- **Bathhouse**: MM9's crouch is under the opened grate (`RotatingDoor0`) into the steam duct to the furnace valve
+  (65 LT under it, MM9's standing box 66). Here 166 under it, over the party's 160: walked upright. The grate now opens
+  away from the party (`OpenAway`), since from inside it swung into the party and held, which shut a party in the
+  furnace room (mm9r_bathhouse README, Deviations). `tests/scenarios/mm9/bathhouse_vent_grate_duct.yml`.
+- **Dungeon of Secrets**: no low geometry; MM9's crouch dodges traps. The trial now passes at the exit gate whatever
+  went off (mm9r_dungeonofsecrets README, Deviations). `tests/scenarios/mm9/dungeon_of_secrets_trial_with_traps.yml`,
+  promotions segment 39.
+
 ## Optional (real low passages)
 
 ### Drangheim Prison (`drangheimprison.blv`); the map is on the story route (Ivsar), these two spots are not

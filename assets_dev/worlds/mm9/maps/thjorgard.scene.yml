@@ -7179,6 +7179,24 @@
    ],
    "cog": 20485,
    "destroyed_event": 30485
+  },
+  {
+   "id": 656,
+   "name": "RacingBoat0",
+   "hp": 1,
+   "damage_enabled": true,
+   "trigger_destroy_only": false,
+   "sound": "Events/shatterwood02.wav",
+   "effect": "openyamm:fx/destructible/wood",
+   "effect_scale": 0.5,
+   "center": [
+    16853,
+    -1215,
+    3199
+   ],
+   "decoration_cog": 444,
+   "damaged_event": 645,
+   "unbreakable": true
   }
  ],
  "translucent_faces": [

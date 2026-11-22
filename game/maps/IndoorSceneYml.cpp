@@ -1483,8 +1483,8 @@ bool parseWaterVolumesNode(const YAML::Node &node, std::vector<IndoorWaterVolume
     return true;
 }
 
-// `destructibles`: a sequence of {id, name, cog, decoration_cog, hp, damage_enabled, trigger_destroy_only, sound,
-// effect, effect_scale, center, destroyed_event, damaged_event} (devdocs/INDOOR_DESTRUCTIBLES.md), sorted by id.
+// `destructibles`: a sequence of {id, name, cog, decoration_cog, hp, damage_enabled, trigger_destroy_only, unbreakable,
+// sound, effect, effect_scale, center, destroyed_event, damaged_event} (devdocs/INDOOR_DESTRUCTIBLES.md), sorted by id.
 bool parseDestructiblesNode(
     const YAML::Node &node,
     std::vector<IndoorDestructible> &destructibles,
@@ -1511,7 +1511,8 @@ bool parseDestructiblesNode(
             const std::string key = entry.first.as<std::string>();
 
             if (key != "id" && key != "name" && key != "cog" && key != "decoration_cog" && key != "hp"
-                && key != "damage_enabled" && key != "trigger_destroy_only" && key != "sound" && key != "effect"
+                && key != "damage_enabled" && key != "trigger_destroy_only" && key != "unbreakable" && key != "sound"
+                && key != "effect"
                 && key != "effect_scale" && key != "center" && key != "destroyed_event" && key != "damaged_event")
             {
                 errorMessage = "a destructibles entry has an unknown key " + key;
@@ -1528,6 +1529,7 @@ bool parseDestructiblesNode(
             || !readScalarNode(entryNode, "hp", destructible.hp, errorMessage, false)
             || !readScalarNode(entryNode, "damage_enabled", destructible.damageEnabled, errorMessage, false)
             || !readScalarNode(entryNode, "trigger_destroy_only", destructible.triggerDestroyOnly, errorMessage, false)
+            || !readScalarNode(entryNode, "unbreakable", destructible.unbreakable, errorMessage, false)
             || !readScalarNode(entryNode, "sound", destructible.sound, errorMessage, false)
             || !readScalarNode(entryNode, "effect", destructible.effect, errorMessage, false)
             || !readScalarNode(entryNode, "effect_scale", destructible.effectScale, errorMessage, false)

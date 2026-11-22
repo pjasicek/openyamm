@@ -145,10 +145,14 @@ reward. Nothing is hard-coded to members 0, 2, 3.
 
 ## Notes and suspected issues (not fixed)
 
-- **Walk hops** (logged as `JUMP` lines in segment 25): the walk needs its stuck-jump at the east ramp's foot
-  (762, 6050, -4260; a 23-unit lip), at the north-west landing (-23, 6715, -3768), and from the tunnel (-2929) over
-  the escape slab's sill into the cell (-2867, a 62-unit rise). A player can hop these; whether the ramp lips should
-  be smoothed is the converter owner's call.
+- **Walk hops (fixed 2026-11-22)**: segment 25's walk used to jump in three places, logged as `JUMP` lines. Two
+  were its own route: at the east ramp's foot it walked into the ramp's 50-unit side at (762, 6050), and at the
+  north-west landing it rubbed the north wall. The segment now walks onto the foot from the floor in front of it
+  (21 up) and keeps off that wall. The third was a real trap, the 61-unit sill from the tunnel (-2929) into the
+  Tree's cell (-2867): a party that took the Tree from the tunnel and did not jump was shut in with it (a player
+  report, "the Tree of Life cannot be finished"). The converter now adds an invisible half step there
+  (`mm9r_ruinedtemple/convert.py` `CELL_STEP_LT`), the segment walks over it with plain forward input, and the
+  segment makes no jump at all. Regression: `tests/scenarios/mm9/ruinedtemple_cell_step.yml`.
 - The rocks of TriggerCaveIn1 fall behind the party in the spiral-room corridor; nothing blocks the way on.
 - Waits use the debug console's `rest wait <minutes>` (the rest screen's Wait as its buttons do) and `rest close`:
   130 minutes for the potion, 1 440 for Robert (the party rested from 10:59 to 10:59 the next day; the first 5:00 is

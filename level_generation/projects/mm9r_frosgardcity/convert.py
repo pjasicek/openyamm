@@ -322,6 +322,10 @@ class FrosgardCity(CityHooks):
             actor["mm9_source_object_index"] = o["index"]
             if rude:
                 actor["mm9_rude_id"] = rude
+            if name == "TamurLeng0":
+                # His talk's key 106 carries the main story on: no hit hurts or turns him (MM9 has CanDamage 1, and a
+                # party that killed him was stuck; README, Deviations)
+                actor["mm9_can_receive_damage"] = False
             actor["immobile"] = not townsperson_walks(actor.get("mm9_ai") or {})
             if base["monster_id"] not in PEASANT_ROWS:
                 # Picture rows of hostile families (Tamur Leng, Forad Darre, Tryggva): peaceful relations of a

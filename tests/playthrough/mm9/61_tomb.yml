@@ -51,6 +51,15 @@ steps:
   - walk_to: {x: 10650, y: -12265, z: -128, timeout_seconds: 300, clear_hostiles: 1500}
   - play_lua: {source: "click(117); wait(12.5)"}
   - walk_to: {x: 11959, y: -12265, z: -128, plan: false, timeout_seconds: 40, clear_hostiles: 1500}
+  # The water hall's two Eyes die now (combat is not tested): each one's death spawns an Orbus in the pit by the
+  # fifth stone (the map's DEATH table: Spawner3, Spawner2), and a monster that runs into a stone sinks it (the
+  # stones are MM9 AITriggerable doors, scene `ai_open`), so they and their Orbuses go before the stones. Monsters
+  # that have not seen the party are not its enemies yet, which clear_hostiles takes alone; the pit is below
+  # its indoor storey band, hence the height.
+  - damage_actor: {actor_index: 84, amount: 1000000, skip_dead: true}
+  - damage_actor: {actor_index: 85, amount: 1000000, skip_dead: true}
+  - advance_runtime: {seconds: 1}
+  - clear_hostiles: {radius: 2500, height: 1000}
 
   # South through the water hall by swimming: down into the water west of the stones, along the west wall, up the
   # pool's south ramp to the secret door into the south hall (clicked from outside its swing).
@@ -102,8 +111,27 @@ steps:
   # after it is touched (MM9's weighted lifts), so each jump follows the landing at once.
   - walk_to: {x: 14180, y: -17100, z: -128, timeout_seconds: 120, clear_hostiles: 1500}
   - play_lua: {source: "click(123); wait(12.5)"}
+  # The water hall's other flyers, which sink stones too (see the Eyes above): the Oculus 86 and the Orbuses 100,
+  # 110 and 161, then whatever has seen the party meanwhile (the Eyes' Orbuses).
+  - damage_actor: {actor_index: 86, amount: 1000000, skip_dead: true}
+  - damage_actor: {actor_index: 100, amount: 1000000, skip_dead: true}
+  - damage_actor: {actor_index: 110, amount: 1000000, skip_dead: true}
+  - damage_actor: {actor_index: 161, amount: 1000000, skip_dead: true}
+  - clear_hostiles: {radius: 3000, height: 1000}
   - walk_to: {x: 14180, y: -15700, z: -128, plan: false, radius: 24, timeout_seconds: 10}
-  - play_lua: {source: 'log("JUMP from (14180, -15700) heading 89.8: the first stone north of the south floor")'}
+  # On the floor, until the five stones are up (one may have sunk under a monster before they died).
+  - play_lua:
+      source: |
+        local t = 0
+        while true do
+            local up = true
+            for _, id in ipairs({135, 133, 132, 131, 125}) do if door_state(id) ~= "closed" then up = false end end
+            if up then break end
+            if t >= 20 then error("a stone stayed down") end
+            wait(0.25)
+            t = t + 0.25
+        end
+        log("JUMP from (14180, -15700) heading 89.8: the first stone north of the south floor")
   - movement_segment:
       input: forward
       jump: true
@@ -203,7 +231,20 @@ steps:
 
   # The chess board: in at the south-west corner, east along the bottom rows past the bishop, north to the bridge
   # (one square a piece attacks on the way; never the two squares in front of the pawn at the west edge).
-  - walk_to: {via: [[6735, -16350, -2749], [7411, -16350, -2749], [7411, -16105, -2749], [7636, -16105, -2749], [7755, -15990, -2749], [7861, -15860, -2749], [7861, -15614, -2749], [8087, -15614, -2749], [8087, -15368, -2749], [8312, -15368, -2749], [8835, -15368, -2755]], x: 9700, y: -15600, z: -2662, plan: false, radius: 40, timeout_seconds: 60, clear_hostiles: 1500}
+  - play_lua: {source: 'remember("njam", mapvar("NjamShown"))'}
+  - walk_to: {via: [[6735, -16350, -2749], [7411, -16350, -2749], [7411, -16105, -2749], [7636, -16105, -2749], [7755, -15990, -2749], [7861, -15860, -2749], [7861, -15614, -2749], [8087, -15614, -2749], [8087, -15368, -2749], [8312, -15368, -2749]], x: 8835, y: -15368, z: -2755, plan: false, radius: 40, timeout_seconds: 60, clear_hostiles: 1500}
+  # Njam shows himself by the chest as the party comes (his trigger, MM9's TriggerNjam4) and walks at it, and no
+  # blow hurts him (clear_hostiles cannot move him): if he came, wait here until he vanishes (20-60 s).
+  - play_lua:
+      source: |
+        local t = 0
+        while mapvar("NjamShown") == recall("njam") and t < 3 do wait(0.25) t = t + 0.25 end
+        if mapvar("NjamShown") ~= recall("njam") then
+            wait(61)
+            remember("njam_gone", 1)
+            log("Njam showed himself on the way to the chest and has vanished")
+        end
+  - walk_to: {x: 9700, y: -15600, z: -2662, plan: false, radius: 40, timeout_seconds: 60, clear_hostiles: 1500}
   - play_lua:
       source: |
         log("chess: " .. mapvar("ChessHits") .. " hit(s), pawn queened: " .. mapvar("QueenedChessPiece1"))
@@ -211,8 +252,9 @@ steps:
         loot_chest(53)
         if not has_item(10599) then error("no Maze Key from the chest") end
         log("the Maze Key from the chest east of the board")
-  # Njam showed himself by the chest: wait until he vanishes, then back over the board the same way.
-  - play_lua: {source: 'wait(61); log("Njam has vanished")'}
+  # Njam showed himself by the chest (unless he did on the way): wait until he vanishes, then back over the board
+  # the same way.
+  - play_lua: {source: 'if recall("njam_gone") ~= 1 then wait(61) end log("Njam has vanished")'}
   - walk_to: {via: [[8312, -15368, -2749], [8087, -15368, -2749], [8087, -15614, -2749], [7861, -15614, -2749], [7861, -15860, -2749], [7755, -15990, -2749], [7636, -16105, -2749], [7411, -16105, -2749], [7411, -16350, -2749], [6735, -16350, -2749]], x: 6400, y: -16000, z: -2749, plan: false, radius: 40, timeout_seconds: 60, clear_hostiles: 1500}
   - walk_to: {x: 4300, y: -15345, z: -2755, timeout_seconds: 60, clear_hostiles: 1500}
   - play_lua: {source: "click(112); click(113); wait(3.5)"}

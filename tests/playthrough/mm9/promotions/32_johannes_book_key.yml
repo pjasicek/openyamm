@@ -3,7 +3,7 @@
 # Johannes in Bembridge University: "About that book you were looking for.", "We found a silver one." (key 286), "So
 # did that book work for you?" (key 293: the wrong book; the right one is under a floor in Drangheim Village). The
 # talk's close (NPC4.scr :toMageOne, thjorgardcity.lua) takes the silver book (10242) and gives the Book Key (10244)
-# and key 288.
+# and key 288. The journal's "Find Verhoffin's Diary." then shows its Drangheim stage (90551).
 #   python3 tests/playthrough/mm9/promotions/run.py 32
 id: mm9.promotions.32_johannes_book_key
 title: "MM9 promotions 32: the silver book is the wrong one; Johannes gives the Book Key"
@@ -37,6 +37,11 @@ steps:
         if has_item(10242) then error("Johannes did not take the silver book") end
         if not has_item(10244) and held() ~= 10244 then error("no Book Key") end
         log("the silver book taken; the Book Key (10244) in hand")
+        -- the journal moves on to the Drangheim stage (entry 551, OpenYAMM's: NPC997.rude) and drops the first one
+        local note = journal_quest(90551)
+        if not note or not note:find("Drangheim Village", 1, true) then error("no Drangheim journal stage: " .. tostring(note)) end
+        if journal_quest(90550) then error("the first journal stage still shows beside the Drangheim one") end
+        log("JOURNAL " .. note:gsub("\n", " "))
   # The Book Key comes on the cursor: the player puts it into the packs (an item on the cursor stops attacks).
   - play_lua: {source: 'if held() == 10244 and not stow() then error("the Book Key does not fit the packs") end if held() ~= 0 then error("cursor holds " .. held()) end'}
   - save_game: {name: "32 the Book Key", path: output/playthrough/mm9/promotions/checkpoints/32_johannes_book_key.oysav}

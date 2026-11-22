@@ -87,6 +87,9 @@ public:
     // are turned toward the ray's origin, where the camera sees them.
     bool raycast(size_t billboardIndex, const std::array<float, 3> &origin, const std::array<float, 3> &direction,
         float &distance) const;
+    // The offset pose() last moved a placement by: a pick for a decoration moved since (no frame drawn in between, as
+    // in headless runs) shifts its ray by the difference.
+    std::array<float, 3> posedOffset(size_t billboardIndex) const;
     // Swings the swinging placements (chandeliers, cages) to their pose at timeSeconds, and moves the placements
     // turning into a turn_in model's pose.
     void animate(float timeSeconds);
@@ -208,6 +211,8 @@ private:
         // A turn in progress (turn_in): its start in animate()'s time, negative until its first animate.
         bool turning = false;
         float turnStart = -1.0f;
+        // The offset its last pose() moved it by (EventRuntimeState::decorationAims).
+        std::array<float, 3> posedOffset = {};
     };
 
     // Ray against the placement's rigid (not camera-facing) triangles; lowers best on a nearer hit.

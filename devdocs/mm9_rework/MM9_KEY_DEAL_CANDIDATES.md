@@ -564,7 +564,7 @@ Status: **journal**
 | Key | Granted by | Tested elsewhere | Own dialogue |
 | --- | --- | --- | --- |
 | 26 | row 2: "We've completed all the labors." | - | yes |
-| 215 | npc61.scr | baslisk.scr | yes |
+| 215 | npc61.scr | common/mm9_common.lua, baslisk.scr | yes |
 | 221 | npc61.scr | - | yes |
 | 2075 | row 6: "We're looking for Mercenary to Assassin." | - | no |
 | 2076 | row 14: "We're looking for Fighter to Mercenary." | - | no |

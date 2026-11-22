@@ -1,0 +1,73 @@
+# A v2.8 save could hold Tamur Leng turned against the party or dead after the Battle of Frosgard, before his talk
+# (key 106, which the main story needs; tamur_leng_talks_after_battle.yml has the cause). Frosgard City's map load
+# repairs such a state (citylua.py): with the battle on (377) and no talk yet, a dead Tamur stands again at his post
+# (evt.ReviveMapActor), and he is made friendly and unhurtable again; his talk then gives 106 and 190 and Thorolf the
+# summons, as on the normal path. The 2.8 states are made here by hand (his damage switched back on, the hit, the kill);
+# a save and load stands in for the party coming back to the city, which runs the same map load.
+id: mm9.tamur_leng_old_save_recovery
+title: "MM9 Frosgard City: a 2.8 save with Tamur Leng turned or killed can still finish the main story"
+world: mm9
+mode: faithful
+tags: [mm9]
+steps:
+  - load_map: {map: frosgard.blv}
+  - setup_shortcut: {kind: immortal}
+  - setup_shortcut: {kind: set_qbit, id: 90104, value: true}
+  - set_pose: {map: frosgard.blv, x: 1783, y: 3700, z: 1738, yaw: -1.5708, pitch: 0}
+  - walk_to: {x: 1783, y: 3250, z: 1738, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: frosgardcity.blv, qbit_set: [90377], qbit_clear: [90106]}
+  - set_pose: {map: frosgardcity.blv, x: -3568, y: -1475, z: 45, yaw: 3.1416, pitch: 0}
+  - clear_hostiles: {radius: 6000}
+
+  # Turned, as 2.8 allowed: his damage on, a hit. The map load makes him friendly and unhurtable; he talks.
+  - lua_event: {source: 'evt.SetMm9ActorCanReceiveDamage(1, true)'}
+  - damage_actor: {actor_index: 1, amount: 5}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {actor_visible: {actor_index: 1, hostile_to_party: true}}
+  - save_game: tamur_turned
+  - load_game: tamur_turned
+  - advance_runtime: {seconds: 0.5}
+  - assert: {map: frosgardcity.blv, actor_visible: {actor_index: 1, dead: false, hostile_to_party: false}}
+  - damage_actor: {actor_index: 1, amount: 100}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {actor_visible: {actor_index: 1, current_hp: 715, hostile_to_party: false}}
+  - interact_actor: {actor_index: 1}
+  - assert: {dialog: {active: true, source_id: 309}}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+
+  # Killed, as 2.8 allowed: the map load raises him at his post, friendly and unhurtable; the talk and the summons.
+  - lua_event: {source: 'evt.SetMm9ActorCanReceiveDamage(1, true)'}
+  - damage_actor: {actor_index: 1, amount: 100000}
+  - advance_runtime: {seconds: 2.0}
+  - assert: {actor_visible: {actor_index: 1, dead: true}, qbit_clear: [90106]}
+  - save_game: tamur_dead
+  - load_game: tamur_dead
+  - advance_runtime: {seconds: 0.5}
+  - assert: {map: frosgardcity.blv, qbit_clear: [90106, 90190]}
+  - assert: {actor_visible: {actor_index: 1, dead: false, hidden: false, current_hp: 720, hostile_to_party: false,
+             near: {x: -3768, y: -1475, max_distance: 64}}}
+  - assert: {actor_visible: {actor_index: 4, hidden: true}}
+  - damage_actor: {actor_index: 1, amount: 100}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {actor_visible: {actor_index: 1, current_hp: 720, hostile_to_party: false}}
+  - interact_actor: {actor_index: 1}
+  - assert: {dialog: {active: true, source_id: 309}}
+  - select_topic: {match_label: "We have come to end this, Tamur Leng!"}
+  - select_topic: {match_label: "The traitor is finished."}
+  - select_topic: {match_label: "You are beaten!  What makes you think you will escape?"}
+  - select_topic: {match_label: "Destiny?  What are you talking about?"}
+  - select_topic: {match_label: "That cannot be!  We are destined to stop you!"}
+  - select_topic: {match_label: "WE have a Writ of Fate!!"}
+  - select_topic: {match_label: "Come with us!"}
+  - advance_runtime: {seconds: 1.0}
+  - assert: {qbit_set: [90106, 90190]}
+  - set_pose: {map: frosgardcity.blv, x: -1450, y: -1720, z: 1, yaw: 0, pitch: 0}
+  - interact_actor: {actor_index: 4}
+  - select_topic: {match_label: "What is it?"}
+  - select_topic: {match_label: "What?  Why?"}
+  - select_topic: {match_label: "Very well.  We shall go."}
+  - advance_runtime: {seconds: 1.0}
+  - assert: {qbit_set: [90107]}

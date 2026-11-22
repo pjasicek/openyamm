@@ -2964,6 +2964,7 @@ OutdoorWorldRuntime::MapActorState buildMapActorState(
     }
 
     state.isInvisible = (actor.attributes & ActorInvisibleBit) != 0;
+    state.questTarget = (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::QuestTarget)) != 0;
     state.alertStatusBit = (actor.attributes & ActorAlertStatusBit) != 0;
     state.animation = actor.hp <= 0 ? OutdoorWorldRuntime::ActorAnimation::Dead
         : static_cast<OutdoorWorldRuntime::ActorAnimation>(std::clamp<int>(actor.currentActionAnimation, 0, 7));
@@ -17156,6 +17157,11 @@ void OutdoorWorldRuntime::applyEventRuntimeState(bool syncPersistentHostilityMas
             m_mapActors[actorId].isInvisible = true;
         }
 
+        if (actorId < m_mapActors.size() && (setMask & static_cast<uint32_t>(EvtActorAttribute::QuestTarget)) != 0)
+        {
+            m_mapActors[actorId].questTarget = true;
+        }
+
         if (actorId < m_mapActors.size()
             && (setMask & static_cast<uint32_t>(EvtActorAttribute::HasItem)) != 0)
         {
@@ -17184,6 +17190,11 @@ void OutdoorWorldRuntime::applyEventRuntimeState(bool syncPersistentHostilityMas
             && (clearMask & static_cast<uint32_t>(EvtActorAttribute::HasItem)) != 0)
         {
             m_mapActors[actorId].specialItemId = 0;
+        }
+
+        if (actorId < m_mapActors.size() && (clearMask & static_cast<uint32_t>(EvtActorAttribute::QuestTarget)) != 0)
+        {
+            m_mapActors[actorId].questTarget = false;
         }
 
         if (actorId < m_mapActors.size() && (clearMask & ActorHostileBit) != 0)
@@ -19588,8 +19599,10 @@ void OutdoorWorldRuntime::aggroNearbyMapActorFaction(
 
         MapActorState &otherActor = m_mapActors[otherActorIndex];
 
+        // MM9's CanDamage off: no hit turns such an actor, and neither does its kin's alert (see the indoor alert).
         if (isActorUnavailableForCombat(otherActor) || outdoorActorFightsForParty(otherActor)
-            || (!alertsFriendlyActors && !otherActor.hostileToParty))
+            || (!alertsFriendlyActors && !otherActor.hostileToParty)
+            || (otherActor.usesMm9ActorRules && !otherActor.canReceiveDamage))
         {
             continue;
         }
@@ -20260,7 +20273,7 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
         return true;
     }
 
-    if (!actor.hostileToParty && !gameRulesFor(m_pParty).combat.harmsFriendlyActors())
+    if (!actor.hostileToParty && !actor.questTarget && !gameRulesFor(m_pParty).combat.harmsFriendlyActors())
     {
         return false;
     }
@@ -21421,6 +21434,40 @@ bool OutdoorWorldRuntime::healMapActor(size_t actorIndex, int amount)
     const int previousHp = actor.currentHp;
     actor.currentHp = std::clamp(actor.currentHp + amount, 0, std::max(1, actor.maxHp));
     return actor.currentHp > previousHp;
+}
+
+// evt.ReviveMapActor: the dead actor stands again at its home (where the map placed it), at full hit points and seen,
+// its corpse and blood gone; its attitude as it was.
+bool OutdoorWorldRuntime::reviveMapActor(size_t actorIndex)
+{
+    if (actorIndex >= m_mapActors.size())
+    {
+        return false;
+    }
+
+    MapActorState &actor = m_mapActors[actorIndex];
+
+    if (!actor.isDead && actor.currentHp > 0)
+    {
+        return false;
+    }
+
+    setMapActorDead(actorIndex, false, false);
+    actor.isInvisible = false;
+    actor.preciseX = actor.homePreciseX;
+    actor.preciseY = actor.homePreciseY;
+    actor.preciseZ = actor.homePreciseZ;
+    actor.x = actor.homeX;
+    actor.y = actor.homeY;
+    actor.z = actor.homeZ;
+    actor.velocityX = 0.0f;
+    actor.velocityY = 0.0f;
+    actor.velocityZ = 0.0f;
+    actor.moveDirectionX = 0.0f;
+    actor.moveDirectionY = 0.0f;
+    actor.attackImpactTriggered = false;
+    actor.attackCooldownSeconds = actor.recoverySeconds;
+    return true;
 }
 
 bool OutdoorWorldRuntime::resurrectMapActor(size_t actorIndex, int health, bool friendlyToParty)

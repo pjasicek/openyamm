@@ -297,6 +297,17 @@ def scene_entries(build, scene: dict) -> list[dict]:
         # a prop is about a man's height; its centre half that above its feet
         centre = (position[0], position[1], position[2] + 48)
         out.append(entry(source, 0, cog, centre, 96.0, events.get(source["name"], (0, 0)), prop=True))
+    # Props whose MM9 script takes hits without breaking (OnDamage: Thjorgard's racing boat): `unbreakable` entries
+    # whose every hit runs the map event, a map hook's `damage_targets(build)` -> {DAT name: (SetSprite key, event)}
+    targets = getattr(build.hooks, "damage_targets", None)
+    for name, (cog, event) in sorted((targets(build) if targets is not None else {}).items()):
+        placed = next((d for d in build.content.report["decorations"] if d["cog"] == cog), None)
+        if placed is None:
+            continue
+        x, y, z = placed["position"]
+        record = entry(build.source.by_name[name.lower()], 0, cog, (x, y, z + 48), 96.0, (0, event), prop=True)
+        record["unbreakable"] = True
+        out.append(record)
     on_break(build, out, {name for name, (destroyed, _) in events.items() if destroyed})
     sealed = sealed_passages(build)
     build.stats["destructible_sealed_passages"] = len(sealed)

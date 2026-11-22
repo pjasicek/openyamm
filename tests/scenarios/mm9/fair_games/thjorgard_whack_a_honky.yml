@@ -1,0 +1,45 @@
+# Thjorgard's fair: whack-a-honky played as a player does (Whack-a-Honky.scr; mm9r_thjorgard_blv/regionlua.py). The
+# player report (v2.8): "in the goose shooting game no geese appear after starting". The geese wait inside the counter
+# and each pop-up raises one 20 MM9 units out of it (evt.MoveDecoration); before the fix they were only shown and
+# hidden in place, inside the counter, so none was ever seen. The party pulls the start lever with a ticket, then
+# whacks (the interact key on the crosshair, which picks the raised goose's moved model) every goose it sees above the
+# counter for the ten seconds; eight whacks win key 7103.
+# Run: ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/fair_games/thjorgard_whack_a_honky.yml
+id: mm9.fair_games.thjorgard_whack_a_honky
+title: "Thjorgard fair: whack-a-honky's geese rise out of the counter and eight whacks win"
+world: mm9
+mode: faithful
+tags: [mm9, fair_games]
+steps:
+  - load_map: {map: thjorgard.blv}
+  - advance_runtime: {seconds: 0.5}
+  - grant_item: {item_id: 10557, member_index: 0}
+  - assert: {state_dump_named_map_var: {name: HonkState, value: 0}}
+  # Before the counter, facing the start lever (Switch0, event 104) at its left end.
+  - set_pose: {map: thjorgard.blv, x: 13700, y: -4600, z: 3200, yaw: -2.5962, pitch: -0.1983}
+  - advance_runtime: {seconds: 0.2}
+  - press_interact: {}
+  - assert: {state_dump_named_map_var: {name: HonkState, value: 1}}
+  - play_lua:
+      max_seconds: 30
+      source: |
+        -- The geese stand along the counter (Honky0-3, south to north); HonkUp is the one the player sees raised.
+        local geese = {-4685, -4603, -4521, -4439}
+        local events = {646, 647, 648, 649}
+        while mapvar("HonkState") == 1 do wait(0.1) end
+        local whacks = 0
+        while mapvar("HonkState") == 2 do
+          local up = mapvar("HonkUp")
+          if up > 0 then
+            -- step in front of it and aim at its neck above the counter (eye 160 above the feet)
+            pose(13650, geese[up], 3200, math.pi, math.atan(3325 - 3360, 13650 - 13461))
+            local used, event = interact()
+            if used and event == events[up] then whacks = whacks + 1 end
+          end
+          wait(0.1)
+        end
+        log("whacks " .. whacks .. ", status: " .. status())
+        if whacks < 8 then error("only " .. whacks .. " whacks landed") end
+  - assert:
+      state_dump_named_map_var: {name: HonkState, value: 0}
+      qbit_set: [97103]

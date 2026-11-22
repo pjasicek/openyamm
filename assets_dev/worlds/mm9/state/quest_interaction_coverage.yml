@@ -2,16 +2,16 @@ format_version: 1
 world: mm9
 generated_by: tools/mm9_import_discovery/generate_mm9_quest_interactions.py
 inventory:
-  normal_rude_graphs: 436
-  normal_dialogue_rows: 4215
+  normal_rude_graphs: 437
+  normal_dialogue_rows: 4224
   reachable_journal_grant_rude_ids: 59
   root_journal_grant_rude_ids: 28
-  journal_condition_raw_keys: 208
+  journal_condition_raw_keys: 209
   journal_keys_granted_by_ordinary_rude_rows: 144
-  journal_keys_granted_only_by_literal_scr: 57
+  journal_keys_granted_only_by_literal_scr: 58
   imported_dialogue_actor_bindings: 502
   generated_interactions: 199
-  explicit_exclusions: 42
+  explicit_exclusions: 43
   unresolved_candidates: 0
   validated_non_qbit_dependencies:
     carried_gold: 3
@@ -4747,6 +4747,13 @@ explicit_exclusions:
   provenance:
     event_inventory: maps/thjoradmine.scene.yml
     source: mm9/extracted/SCRIPTS/SCRIPTS/NPC7.scr
+- id: mm9.scr.thjorgardcity.1044
+  reason: NPC4's :toMageOne swaps the silver book for the Book Key on the talk's exit (key 288); 288 only moves the Mage quest's
+    journal to its Drangheim stage (entry 551, OpenYAMM's, 2026-11-22). The talk that leads there is the RUDE row "So did
+    that book work for you?" (293), and the quest's handoff stays Johannes's "Did that book work out for you?" row (mm9.rude.4.row.17).
+  provenance:
+    event_inventory: maps/thjorgardcity.events.yml
+    source: mm9/extracted/SCRIPTS/SCRIPTS/NPC4.scr
 - id: mm9.scr.thjorgardcity.1066.unreachable_operations
   reason: journal-key operations are outside the registered RUDE-exit callback call graph
   relevant_operations:

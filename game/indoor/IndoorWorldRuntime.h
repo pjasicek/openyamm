@@ -482,6 +482,7 @@ public:
     bool attachMapActorItem(size_t actorIndex, const std::string &model, const std::string &node) override;
     bool detachMapActorItem(size_t actorIndex, const std::string &node) override;
     bool killMapActor(size_t actorIndex) override;
+    bool reviveMapActor(size_t actorIndex) override;
     bool setMapActorHp(size_t actorIndex, int hp) override;
     bool setMapActorImmobile(size_t actorIndex, bool immobile) override;
     bool setMm9ActorCanReceiveDamage(size_t actorIndex, bool canReceiveDamage) override;
@@ -1058,6 +1059,7 @@ private:
     void answerMm9ChatSearch(size_t actorIndex, const std::vector<uint8_t> &active, std::vector<uint8_t> &claimed);
     void collectIndoorMm9ChatFacts(size_t actorIndex, ActorMm9WorldFacts &world) const;
     void reviveMm9Actor(size_t actorIndex);
+    void raiseSlainMapActor(size_t actorIndex, const MonsterTable::MonsterStatsEntry &stats);
     void openMm9Door(size_t actorIndex, uint32_t doorId);
     // The reposition modifier's query (ActorMm9Request::reposition): the first of its spots that passes, answered in
     // the actor's ActorMm9WorldFacts (repositionSerial).

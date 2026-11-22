@@ -125,6 +125,14 @@ scr_interactions:
     predicate: {forbidden_qbits: [90205], any_required_qbits: [90203, 90204]}
     source_lines: [123, 124, 125, 126, 127, 136, 137, 138, 139, 140]
     reason: NPC161 accepts either persisted successful scholar-path key before granting the shared completion key.
+  - interaction_id: mm9.scr.thjorgardcity.1044
+    source_candidate_id: mm9.scr.thjorgardcity.1044
+    classification: excluded
+    reason: >-
+      NPC4's :toMageOne swaps the silver book for the Book Key on the talk's exit (key 288); 288 only moves the Mage
+      quest's journal to its Drangheim stage (entry 551, OpenYAMM's, 2026-11-22). The talk that leads there is the
+      RUDE row "So did that book work for you?" (293), and the quest's handoff stays Johannes's "Did that book work
+      out for you?" row (mm9.rude.4.row.17).
   - interaction_id: mm9.scr.thjorgardcity.1098.lifesaver
     source_candidate_id: mm9.scr.thjorgardcity.1098
     granted_qbits: [90235]

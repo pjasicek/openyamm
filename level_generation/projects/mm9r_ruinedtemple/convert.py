@@ -34,6 +34,7 @@ sys.path.insert(0, str(PROJECT.parent / "mm9r_common"))
 import dungeon  # noqa: E402
 import review_root  # noqa: E402
 from dungeon import lua, tables  # noqa: E402
+from dungeon.geometry import Polygon  # noqa: E402
 from dungeon.package import room_id  # noqa: E402
 from dungeon.rooms import _side_room  # noqa: E402
 from dungeon.source import ROOT, SCALE  # noqa: E402
@@ -98,6 +99,11 @@ VOLUMES = ["Trigger0", "Trigger1", "TriggerCaveIn0", "TriggerCaveIn1", "TriggerH
 # 170 tall) is stopped by the lattice short of the box, where MM9's party box already reaches it. Its box grows by
 # 100 units on every side, so a party pressing against the lattice sets it off.
 VOLUME_MARGIN = {"Trigger1": 100}
+# The Tree of Life's cell floor (-1120 LT) stands 24 LT (61 native) over the tunnel behind it (-1144), across the escape
+# slab's sill (DoorCryptEscape0, z 2352): MM9's player steps up 40-48 LT, the party 50 native, so a party that took the
+# Tree from the tunnel had to jump into the cell, its only way out (the spiral leads down to the shaft). One invisible
+# half step on the tunnel side (top at 12 LT, 20 LT deep: city/hooks.py's half steps), as Guberland City's stage step.
+CELL_STEP_LT = {"x": (32.0, 160.0), "z": (2352.0, 2372.0), "low": -1144.0, "top": -1132.0}
 # MM9's camera quakes and dust (EarthQuake and Fire objects; devdocs/mm9_rework/MM9_CUTSCENES.md section 5) as
 # evt.CameraShake and the mm9:smoke effect in the handlers of what sets them off. TriggerCaveIn0/1 shake QuakeObject0/2
 # at once. The relay triggers MM9 parks above the roof, DBEffectsTrigger0-2 (never touched), turn their DustObject on
@@ -185,6 +191,26 @@ class RuinedTemple(dungeon.Hooks):
         """The scene destructibles' deaths (dungeon/destructibles.py `break`): the plugs, the crypt lid, the cave-ins'
         rails and ceiling."""
         return {name: (event, 0) for name, event in {**EV_PLUG, **EV_BROKEN}.items()}
+
+    # --- geometry -------------------------------------------------------------------------------------------------
+    def edit_polygons(self, build, polygons: list) -> list:
+        """The invisible half step into the Tree of Life's cell (CELL_STEP_LT): a top and a riser facing the tunnel."""
+        invisible = next(p for p in polygons if p.role == "invisible")
+        s = CELL_STEP_LT
+        (x0, x1), (z0, z1), low, top = s["x"], s["z"], s["low"], s["top"]
+        rings = ((np.array([[x0, top, z0], [x0, top, z1], [x1, top, z1], [x1, top, z0]]), np.array([0.0, 1.0, 0.0])),
+                 (np.array([[x0, low, z1], [x1, low, z1], [x1, top, z1], [x0, top, z1]]), np.array([0.0, 0.0, 1.0])))
+        out = list(polygons)
+        for ring, want in rings:
+            face = Polygon(ring, [tuple(np.round(q, 1)) for q in ring], invisible.texture, invisible.mapping,
+                           invisible.flags, "CellStep", "invisible")
+            if face.normal @ want < 0:
+                ring = ring[::-1].copy()
+                face = Polygon(ring, [tuple(np.round(q, 1)) for q in ring], invisible.texture, invisible.mapping,
+                               invisible.flags, "CellStep", "invisible")
+            face.notes.update(invisible.notes)
+            out.append(face)
+        return out
 
     # --- population -------------------------------------------------------------------------------------------------
     def populate(self, build) -> None:

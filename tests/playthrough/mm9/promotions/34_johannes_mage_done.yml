@@ -49,6 +49,7 @@ steps:
           if gain < 37500 then error("member " .. i .. " gained " .. gain .. " experience, expected 37500") end
         end
         log("Mage done (key 294): +5000 gold, +37500 experience each, nobody promoted (no Wizard)")
+        if journal_quest(90550) or journal_quest(90551) then error("the journal still shows Find Verhoffin's Diary") end
 
   # Johannes now keeps "Promote our eligible characters." (dialogue/promotions.yml): nobody is eligible yet.
   - interact_actor: {actor_index: 0}

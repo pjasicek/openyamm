@@ -6328,6 +6328,8 @@ GameplayWorldHit IndoorRenderer::pickKeyboardGameplayWorldHit(const GameplayWorl
     // scans every visible billboard. Their middle is the point tested for line of sight.
     if (m_indoorDecorationBillboardSet)
     {
+        const std::optional<EventRuntimeState> &eventRuntimeState = runtimeEventRuntimeStateStorage();
+
         for (const DecorationBillboard &billboard : m_indoorDecorationBillboardSet->billboards)
         {
             if (billboard.entityIndex >= m_pIndoorMapData->entities.size()
@@ -6344,11 +6346,23 @@ GameplayWorldHit IndoorRenderer::pickKeyboardGameplayWorldHit(const GameplayWorl
             }
 
             const IndoorEntity &entity = m_pIndoorMapData->entities[billboard.entityIndex];
-            const bx::Vec3 center = {
+            bx::Vec3 center = {
                 static_cast<float>(billboard.x),
                 static_cast<float>(billboard.y),
                 static_cast<float>(billboard.z) + static_cast<float>(std::max<uint16_t>(billboard.height, 32)) * 0.5f
             };
+
+            // A decoration an event moved (evt.MoveDecoration: the fair's geese and boats) is where it is drawn.
+            if (eventRuntimeState && !eventRuntimeState->decorationAims.empty())
+            {
+                const auto aim = eventRuntimeState->decorationAims.find(billboard.spriteOverrideKey());
+
+                if (aim != eventRuntimeState->decorationAims.end())
+                {
+                    center = bx::add(center, bx::Vec3(aim->second.offset[0], aim->second.offset[1],
+                        aim->second.offset[2]));
+                }
+            }
             const bx::Vec3 toCenter = vecSubtract(center, rayRequest.eye);
             const float centerDistance = vecLength(toCenter);
 
@@ -15134,6 +15148,8 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
                 return true;
             };
 
+        const std::optional<EventRuntimeState> &pickEvents = runtimeEventRuntimeStateStorage();
+
         for (size_t billboardIndex = 0; billboardIndex < m_indoorDecorationBillboardSet->billboards.size();
              ++billboardIndex)
         {
@@ -15159,8 +15175,22 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
             float distance = 0.0f;
             if (m_decorationModels.drawsBillboard(billboardIndex))
             {
-                // The model's own triangles, as precise as the sprite's opaque pixels were.
-                if (!m_decorationModels.raycast(billboardIndex, {rayOrigin.x, rayOrigin.y, rayOrigin.z},
+                // The model's own triangles, as precise as the sprite's opaque pixels were. A decoration an event
+                // moved since its placement was last posed (no frame drawn since: headless runs) is tested where
+                // it is now, by shifting the ray.
+                std::array<float, 3> origin = {rayOrigin.x, rayOrigin.y, rayOrigin.z};
+                if (pickEvents && !pickEvents->decorationAims.empty())
+                {
+                    const auto aim = pickEvents->decorationAims.find(billboard.spriteOverrideKey());
+                    const std::array<float, 3> posed = m_decorationModels.posedOffset(billboardIndex);
+                    const std::array<float, 3> now = aim != pickEvents->decorationAims.end()
+                        ? aim->second.offset : std::array<float, 3>{};
+                    for (size_t axis = 0; axis < 3; ++axis)
+                    {
+                        origin[axis] -= now[axis] - posed[axis];
+                    }
+                }
+                if (!m_decorationModels.raycast(billboardIndex, origin,
                         {rayDirection.x, rayDirection.y, rayDirection.z}, distance)
                     || distance <= InspectRayEpsilon
                     || (distance >= bestDistance && (bestHit.kind != "face" || distance > bestDistance + 8.0f)))

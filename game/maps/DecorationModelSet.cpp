@@ -304,6 +304,11 @@ bool DecorationModelSet::raycast(size_t billboardIndex, const std::array<float, 
     return hit;
 }
 
+std::array<float, 3> DecorationModelSet::posedOffset(size_t billboardIndex) const
+{
+    return billboardIndex < m_slots.size() ? m_slots[billboardIndex].posedOffset : std::array<float, 3>{};
+}
+
 bool DecorationModelSet::rigidHit(const Slot &slot, const std::array<float, 3> &origin,
     const std::array<float, 3> &direction, float &best) const
 {
@@ -786,7 +791,8 @@ void DecorationModelSet::pose(size_t billboardIndex, float yawRadians, float bac
         return;
     }
 
-    const Slot &slot = m_slots[billboardIndex];
+    Slot &slot = m_slots[billboardIndex];
+    slot.posedOffset = offset;
     const auto posed = [yawRadians, back, &offset](const Engine::ModelMatrix &rest)
     {
         Engine::ModelMatrix matrix = rest;

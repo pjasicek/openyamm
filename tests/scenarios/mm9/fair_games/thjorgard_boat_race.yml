@@ -1,0 +1,62 @@
+# Thjorgard's fair: the boat race played as a player does (BoatJudge.scr, RacingBoat.scr; mm9r_thjorgard_blv/
+# regionlua.py). The player report (v2.8): "in the boat race the boats don't move after the start, so the race can't
+# be won". The rule book says "To make your boat move, shoot it with arrow or hit it with your sword"; before the fix
+# only a click on the boat counted (out of click reach from the bank) and no boat moved. Now the party's boat
+# (RacingBoat0) is an unbreakable destructible whose every hit runs its push, and every boat sails along its lane
+# (evt.MoveDecoration), its hit cylinder with it. The party buys the race from the judge with a ticket, then shoots
+# its boat from the south bank, following it, each time it has stopped; ten lengths before the rivals win key 7101.
+# Run: ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/fair_games/thjorgard_boat_race.yml
+id: mm9.fair_games.thjorgard_boat_race
+title: "Thjorgard fair: the party's boat sails a length per arrow and wins the race"
+world: mm9
+mode: faithful
+tags: [mm9, fair_games]
+steps:
+  - new_game_flow:
+      start_map: thjorgard.blv
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: Ariel, class: Archer, level: 30, skills: [{name: Bow, level: 10, mastery: 2}], equipment: {bow: 56}}
+          - {name: Brand, class: Archer, level: 30, skills: [{name: Bow, level: 10, mastery: 2}], equipment: {bow: 56}}
+          - {name: Cora, class: Archer, level: 30, skills: [{name: Bow, level: 10, mastery: 2}], equipment: {bow: 56}}
+          - {name: Dagny, class: Archer, level: 30, skills: [{name: Bow, level: 10, mastery: 2}], equipment: {bow: 56}}
+  - setup_shortcut: {kind: immortal}
+  - grant_item: {item_id: 10557, member_index: 0}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {state_dump_named_map_var: {name: BoatState, value: 0}}
+  # The boat judge (BoatJudge, actor 51) by the lake's east end: "Sure!" (key 7004), then leaving starts the race.
+  - set_pose: {map: thjorgard.blv, x: 17600, y: -846, z: 3209, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.3}
+  - interact_actor: {actor_index: 51}
+  - select_topic: {match_label: "What sort of game is this?"}
+  - select_topic: {match_label: "Sure!"}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.3}
+  - assert: {state_dump_named_map_var: {name: BoatState, value: 1}}
+  - play_lua:
+      max_seconds: 90
+      source: |
+        -- The party's boat sails west from x 16853 along y -1215, a length (368 units) per hit. The party stands on
+        -- the south bank (y -2100) a little behind it and shoots whenever the boat has stopped.
+        while mapvar("BoatState") == 1 do wait(0.1) end
+        local shots = 0
+        while mapvar("BoatState") == 2 do
+          if mapvar("BoatMoving") == 0 then
+            local bx = 16853 - 368.1 * mapvar("BoatPushes")
+            local px, py = bx + 250, -2100
+            local dx, dy = bx - px, -1215 - py
+            pose(px, py, 3200, math.atan(dy, dx), math.atan(3175 - 3360, math.sqrt(dx * dx + dy * dy)))
+            action("attack")
+            shots = shots + 1
+          end
+          wait(0.2)
+        end
+        log("shots " .. shots .. ", pushes " .. mapvar("BoatPushes") .. ", rivals " .. mapvar("BoatAI1") .. " "
+            .. mapvar("BoatAI2") .. " " .. mapvar("BoatAI3") .. ", status: " .. status())
+        if mapvar("BoatPushes") < 10 then error("the rivals won") end
+  - assert: {qbit_set: [97101]}
+  # The boats sink, come back to the start and surface (two seconds), then a new race may start.
+  - advance_runtime: {seconds: 2.5}
+  - assert: {state_dump_named_map_var: {name: BoatState, value: 0}}

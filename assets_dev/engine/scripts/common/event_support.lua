@@ -248,6 +248,8 @@ support.actorAttribute = support.actorAttribute or {
     Aggressor = 0x00080000,
     HasItem = 0x00800000,
     Hostile = 0x01000000,
+    -- Not hostile, but the party must strike it: its hits land with MAW's friendly fire off (MM9's Guaire A'Velsi)
+    QuestTarget = 0x40000000,
 }
 
 support.chestFlag = support.chestFlag or {

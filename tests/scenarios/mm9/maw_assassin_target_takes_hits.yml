@@ -1,0 +1,59 @@
+# Discord report (v2.8, MAW): "Hits aren't registering on Guaire A'Velsi. Can't complete the Assassin promotion. Have
+# to turn on friendly fire, then he can be killed." Guaire (actor 38, NPC95.scr, Atli the Quick's assassination target,
+# shown with key 222) is peaceful until struck (NPC95.scr :OnDamage gosub BaseInit), and MAW's friendly-fire preference
+# (off by default) makes party hits on actors not hostile to the party do nothing (zzMAWStatusMsg.lua: not Hostile and
+# not ShowAsHostile). The map script marks him a quest target (ActorAttribute.QuestTarget, like MAW's ShowAsHostile):
+# with friendly fire off the party's blows land on him, he turns on the party and dies (key 225), while another
+# friendly NPC that can be hurt (Alfrigg Hafnarssen; Drangheim's townsfolk take no damage at all, MM9's CanDamage off)
+# struck the same way still takes nothing.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/maw_assassin_target_takes_hits.yml
+id: mm9.maw_assassin_target_takes_hits
+title: "MAW in MM9: with friendly fire off the party can strike and kill Guaire A'Velsi, not the townsfolk"
+world: mm9
+mode: faithful
+tags: [mm9, rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: drangheimcity.blv
+      ruleset: {id: maw, difficulty: maw, progression: free, friendly_fire: false}
+      party:
+        gold: 10000
+        food: 20
+        members:
+          - {name: Ragnar, class: Knight, level: 30, portrait_id: 77, race_id: 0,
+             skills: [{name: Sword, level: 12, mastery: 2}], equipment: {main_hand: 1}}
+          - {name: Hrothgar, class: Cleric, level: 30, portrait_id: 89, race_id: 9,
+             skills: [{name: Mace, level: 12, mastery: 2}], equipment: {main_hand: 66}}
+  - setup_shortcut: {kind: immortal}
+  - setup_shortcut: {kind: set_qbit, id: 90222, value: true}
+  # Hrolf and Alfrigg's quarrel (key 5010) is over: no cinematic when Hrolf sees the party.
+  - setup_shortcut: {kind: set_qbit, id: 95010, value: true}
+  - advance_runtime: {seconds: 2}
+  - assert: {ruleset: {id: maw}, qbit_clear: [90225]}
+  - assert:
+      actor_visible: {actor_index: 38, hidden: false, hostile_to_party: false, report_state: true}
+
+  # A friendly NPC (Alfrigg Hafnarssen, actor 0, standing still) struck with friendly fire off takes nothing.
+  - assert:
+      actor_visible: {actor_index: 0, hostile_to_party: false, hp: 32, report_state: true}
+  - set_pose: {map: drangheimcity.blv, x: 16366, y: -3830, z: 431, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - press_action: {action: attack, seconds: 4}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_visible: {actor_index: 0, hostile_to_party: false, hp: 32, report_state: true}
+
+  # Guaire A'Velsi, held where he stands so the blows meet him: asked, then attacked like any player does.
+  - lua_event: {source: 'evt.SetMapActorPosition(38, 17695, -2867, 348); evt.SetActorImmobile(38, true)'}
+  - set_pose: {map: drangheimcity.blv, x: 17595, y: -2867, z: 348, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 38}
+  - select_topic: {match_label: "Of course not."}
+  - press_action: {action: attack, seconds: 3}
+  - assert:
+      actor_visible: {actor_index: 38, hostile_to_party: true, report_state: true}
+  - press_action: {action: attack, seconds: 40}
+  - advance_runtime: {seconds: 1}
+  - assert: {qbit_set: [90225]}
+  - assert:
+      actor_visible: {actor_index: 0, hostile_to_party: false, hp: 32}

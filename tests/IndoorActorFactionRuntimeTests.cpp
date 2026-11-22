@@ -319,6 +319,70 @@ TEST_CASE("MM9 CanDamage off: no hit hurts an indoor actor until evt.SetMm9Actor
     CHECK_LT(fixture.delta->actors[0].hp, hp);
 }
 
+TEST_CASE("an indoor actor no hit can hurt is not turned by its kin's alert")
+{
+    // Tamur Leng (MM9 Frosgard City) shares Forad Darre's relations; a hit on Forad turned him, and he would not talk.
+    // Villager A's alert turns villager B (the test above); not one that no hit can hurt.
+    GoblinwatchFactionFixture fixture({VillagerA, VillagerB});
+    fixture.delta->actors[1].mm9CanReceiveDamage = false;
+    REQUIRE_FALSE(fixture.hostile(1));
+    fixture.hit(0);
+    CHECK(fixture.hostile(0));
+    CHECK_FALSE(fixture.hostile(1));
+    CHECK_EQ(fixture.delta->actors[1].attributes & uint32_t(EvtActorAttribute::Aggressor), 0u);
+}
+
+TEST_CASE("evt.ReviveMapActor raises a dead indoor actor where the map placed it")
+{
+    GoblinwatchFactionFixture fixture;
+    IndoorWorldRuntime &world = fixture.world;
+    world.updateWorld(0.01f);   // the first world update records where the fill placed every actor
+    const MapDeltaActor placed = fixture.delta->actors[0];
+    const MonsterTable::MonsterStatsEntry *pStats = fixture.monsters.findStatsById(placed.monsterId);
+    REQUIRE(pStats != nullptr);
+
+    std::ifstream supportStream(
+        std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/engine/scripts/common/event_support.lua");
+    REQUIRE(supportStream.good());
+    const std::string source = std::string(std::istreambuf_iterator<char>(supportStream),
+        std::istreambuf_iterator<char>()) + "\n"
+        "RegisterGlobalEvent(9103, \"Revive\", function()\n"
+        "    if evt.ReviveMapActor(0) then evt.StatusText(\"risen\") end\n"
+        "    if not evt.ReviveMapActor(0) and not evt.ReviveMapActor(99) then evt.StatusText(\"only the dead\") end\n"
+        "end)\n";
+    std::string error;
+    const std::optional<ScriptedEventProgram> program =
+        ScriptedEventProgram::loadFromLuaText(source, "@revive_test.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+    EventRuntime eventRuntime = {};
+    EventRuntimeState runtimeState = {};
+
+    // A living actor is not raised.
+    CHECK_FALSE(world.reviveMapActor(0));
+
+    // Killed by the party where it stood, then pushed away (as a corpse flies).
+    REQUIRE(world.applyPartyAttackMeleeDamage(0, 100000, {1356.65f, 4589.76f, 96.0f}, ShieldAttackTier::Physical));
+    REQUIRE(world.isMapActorDead(0));
+    fixture.delta->actors[0].x += 300;
+    fixture.delta->actors[0].attributes |= uint32_t(EvtActorAttribute::Invisible);
+
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9103, runtimeState, nullptr, &world));
+    REQUIRE_EQ(runtimeState.statusMessages.size(), 2u);
+    CHECK_EQ(runtimeState.statusMessages[0], "risen");
+    CHECK_EQ(runtimeState.statusMessages[1], "only the dead");
+    const MapDeltaActor &risen = fixture.delta->actors[0];
+    CHECK_FALSE(world.isMapActorDead(0));
+    CHECK_EQ(risen.hp, pStats->hitPoints);
+    CHECK_EQ(risen.x, placed.x);
+    CHECK_EQ(risen.y, placed.y);
+    CHECK_EQ(risen.sectorId, placed.sectorId);
+    CHECK_EQ(risen.attributes & uint32_t(EvtActorAttribute::Invisible), 0u);
+    CHECK_NE(world.snapshot().mapActorAiStates[0].motionState, ActorAiMotionState::Dead);
+    CHECK_NE(world.snapshot().mapActorAiStates[0].motionState, ActorAiMotionState::Dying);
+    // Its attitude stays as it was: the party's blow made it hostile.
+    CHECK(fixture.hostile(0));
+}
+
 TEST_CASE("mm6 maps load their own faction relations into the monster table and drop them with the next map")
 {
     OpenYAMM::Engine::AssetFileSystem assets;

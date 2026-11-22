@@ -1,0 +1,52 @@
+# The Bathhouse's steam duct (MM9's players open the grate in the south-east corner of the room east of Ebora's tub,
+# crouch through and time the steam vents to reach the furnace's valve, which boils Ebora's colloidal pal). The opened
+# grate (RotatingDoor0, 90 degrees up into the duct) leaves 166 under it (MM9: 65 LT, under its 66 LT standing box,
+# hence the crouch); the party's body is 160, so it walks through upright. Walked both ways with the vents blowing.
+id: mm9.bathhouse_vent_grate_duct
+title: "Bathhouse: through the vent grate and the steam duct to the furnace valve and back, upright"
+world: mm9
+mode: faithful
+tags: [mm9, crouch]
+steps:
+  - load_map: {map: bathhouse.blv}
+  - setup_shortcut: {kind: immortal}
+  - set_pose: {map: bathhouse.blv, x: 7875, y: -4380, z: -243, yaw: -1.5708, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  # Closed, the grate stops the party.
+  - movement_segment:
+      input: forward
+      seconds: 1.0
+      start: {map: bathhouse.blv, x: 7875, y: -4380, z: -243, yaw_degrees: -90, pitch: 0}
+      expect_stop: {map: bathhouse.blv, x: 7875, y: -4490, z: -243, yaw_degrees: -90, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 30
+      tolerance_z: 10
+  - set_pose: {map: bathhouse.blv, x: 7875, y: -4380, z: -243, yaw: -1.5708, pitch: 0}
+  - press_interact: {}
+  - advance_runtime: {seconds: 3}
+  - walk_to: {x: 7875, y: -5380, z: -243, plan: false, radius: 32, z_tolerance: 60, timeout_seconds: 10}
+  - walk_to: {x: 4400, y: -5380, z: -124, plan: false, radius: 48, z_tolerance: 60, timeout_seconds: 20}
+  - walk_to: {x: 3676, y: -5365, z: -123, plan: false, radius: 48, z_tolerance: 60, timeout_seconds: 10}
+  # The valve (BathFurnace.scr): the fires light and Ebora's pal in pool A boils.
+  - set_pose: {map: bathhouse.blv, x: 3676, y: -5365, z: -81, yaw: 1.5708, pitch: -0.5768}
+  - press_interact: {}
+  - advance_runtime: {seconds: 3}
+  - assert: {state_dump_named_map_var: {name: Furnace, value: 1}}
+  - assert: {state_dump_named_map_var: {name: FatcBoiled, value: 1}}
+  # Back through the duct; the grate has shut behind the party (10 s). The party walks up against it and clicks: it
+  # swings away from the party, out into the east room (convert.py: OpenAway; MM9's grate swings into the duct, into
+  # a party standing at it, and would hold there).
+  - walk_to: {x: 4400, y: -5380, z: -124, plan: false, radius: 48, z_tolerance: 60, timeout_seconds: 10}
+  - walk_to: {x: 7875, y: -5380, z: -243, plan: false, radius: 32, z_tolerance: 60, timeout_seconds: 20}
+  - movement_segment:
+      input: forward
+      seconds: 1.5
+      start: {map: bathhouse.blv, x: 7875, y: -4900, z: -243, yaw_degrees: 90, pitch: 0}
+      expect_stop: {map: bathhouse.blv, x: 7875, y: -4584, z: -243, yaw_degrees: 90, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 30
+      tolerance_z: 10
+  - press_interact: {}
+  - advance_runtime: {seconds: 3}
+  - walk_to: {x: 7875, y: -4380, z: -243, plan: false, radius: 32, z_tolerance: 60, timeout_seconds: 10}
+  - assert: {party_position: {x: 7875, y: -4380, radius: 48, z_min: -250, z_max: -235}}

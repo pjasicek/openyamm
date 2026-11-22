@@ -53,8 +53,11 @@ CHADWICK = "CHADWICK"
 # whose barred window starts 108 native over the floor; the row's 120-unit body would hide under the counter.
 CHADWICK_BODY = (37, 209)
 CHADWICK_ROW = 367                  # Peasant Human2 MaleA A: MM9's CommonerHuman2MaleA body (PeasantM1.abc)
-# NPC417.scr keys (QBits 90000 + key): 243 trial started (RUDE 417 node 3), 244 a trap went off, 245 finished clean,
+# NPC417.scr keys (QBits 90000 + key): 243 trial started (RUDE 417 node 3), 244 a trap went off, 245 finished,
 # 246 rewarded (RUDE), 247 the reward's experience given (:OnRude).
+# Deviation (the user, 2026-11-22): the trial is passed by reaching the exit gate, which opens from the course's side,
+# whatever traps went off on the way (MM9 asks for a clean run; its head-height triggers are dodged by crouching, which
+# the engine does not have). The gate's "done" gives 245 and clears the trap mark (244), so Chadwick pays out.
 KEY_TRIAL, KEY_TRAPPED, KEY_CLEAN, KEY_REWARDED, KEY_PAID = 243, 244, 245, 246, 247
 REWARD_EXPERIENCE = 10000
 
@@ -618,12 +621,15 @@ class DungeonOfSecrets(dungeon.Hooks):
             "",
             "-- Chadwick (NPC417.scr): DoTrap (key " + str(KEY_TRAPPED) + " while the trial runs, key " + str(KEY_TRIAL)
             + "), RemoveTrap (the entrance button:",
-            "-- the trap mark goes), done (the exit gate: with no trap, key " + str(KEY_CLEAN) + " and the quest sound).",
+            "-- the trap mark goes), done (the exit gate: key " + str(KEY_CLEAN) + " and the quest sound, the trap mark cleared:",
+            "-- reaching the end passes the trial whatever went off on the way; the user's decision, 2026-11-22).",
             "local function chadwick(msg)",
             f"    if MM9.hasKey({KEY_TRIAL}) == 0 then return end",
             f"    if msg == \"dotrap\" then set(\"Trap\", 1) set(\"Traps\", var(\"Traps\") + 1) MM9.giveKey({KEY_TRAPPED})",
             f"    elseif msg == \"removetrap\" then set(\"Trap\", 0) MM9.takeKey({KEY_TRAPPED})",
-            f"    elseif msg == \"done\" and var(\"Trap\") == 0 then MM9.giveKey({KEY_CLEAN}) MM9.playSound(\"sounds/events/quest.wav\") end",
+            f"    elseif msg == \"done\" then set(\"Trap\", 0) MM9.takeKey({KEY_TRAPPED}) MM9.giveKey({KEY_CLEAN})",
+            "        MM9.playSound(\"sounds/events/quest.wav\")",
+            "    end",
             "end",
             "",
             "-- Triggers (MM9 Trigger): enabled from StartOn (T<name>: 1 on, 2 off); a touch (any part of the party in the box,",

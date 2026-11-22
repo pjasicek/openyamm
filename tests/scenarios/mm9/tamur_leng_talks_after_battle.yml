@@ -1,0 +1,60 @@
+# Discord, v2.8: "I couldn't talk with Tamur Leng, but was able to kill him", which stranded the main story: only his
+# talk gives key 106 (Thorolf's summons to Krohn, 107, and everything after need it). He shares the peasants' relations
+# (ally 118) with Forad Darre, 2 950 away, so a party hit on Forad before Forad's own talk turned Tamur against the
+# party through Forad's alert (3 072), and a stray hit of the battle turned him directly; turned, he refused to talk and
+# could be killed. Since 2026-11-22 no hit hurts or turns him (scene mm9_can_receive_damage false, frosgardcity
+# convert.py) and an actor no hit can hurt is not turned by its kin's alert either (aggroNearbyMapActorFaction).
+# The player's path: into Frosgard City by the north gate with the army (key 104) starts the battle; Forad is struck
+# before he talks, Tamur is struck, the Horde dies, and Tamur talks and joins; Thorolf brings the summons.
+id: mm9.tamur_leng_talks_after_battle
+title: "MM9 Frosgard City: struck in the battle, Tamur Leng stays friendly and unhurt, talks and joins"
+world: mm9
+mode: faithful
+tags: [mm9]
+steps:
+  - load_map: {map: frosgard.blv}
+  - setup_shortcut: {kind: immortal}
+  - setup_shortcut: {kind: set_qbit, id: 90104, value: true}
+  - set_pose: {map: frosgard.blv, x: 1783, y: 3700, z: 1738, yaw: -1.5708, pitch: 0}
+  - walk_to: {x: 1783, y: 3250, z: 1738, timeout_seconds: 20, expect: dialog}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: frosgardcity.blv, qbit_set: [90377], qbit_clear: [90106]}
+  - assert: {actor_visible: {actor_index: 1, hidden: false, hostile_to_party: false, current_hp: 720}}
+
+  # Forad (actor 0) struck before his talk: his alert reaches Tamur, who stays friendly.
+  - damage_actor: {actor_index: 0, amount: 5}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {actor_visible: {actor_index: 0, hostile_to_party: true}}
+  - assert: {actor_visible: {actor_index: 1, hostile_to_party: false}}
+
+  # Tamur struck (a stray blow or spell of the battle): no damage, still friendly.
+  - set_pose: {map: frosgardcity.blv, x: -3568, y: -1475, z: 45, yaw: 3.1416, pitch: 0}
+  - damage_actor: {actor_index: 1, amount: 400}
+  - damage_actor: {actor_index: 1, amount: 400, tier: spell}
+  - advance_runtime: {seconds: 0.5}
+  - assert: {actor_visible: {actor_index: 1, dead: false, current_hp: 720, hostile_to_party: false}}
+
+  # The Horde and Forad die; Tamur talks.
+  - clear_hostiles: {radius: 6000}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 1}
+  - assert: {dialog: {active: true, source_id: 309}}
+  - select_topic: {match_label: "We have come to end this, Tamur Leng!"}
+  - select_topic: {match_label: "The traitor is finished."}
+  - select_topic: {match_label: "You are beaten!  What makes you think you will escape?"}
+  - select_topic: {match_label: "Destiny?  What are you talking about?"}
+  - select_topic: {match_label: "That cannot be!  We are destined to stop you!"}
+  - select_topic: {match_label: "WE have a Writ of Fate!!"}
+  - select_topic: {match_label: "Come with us!"}
+  - advance_runtime: {seconds: 1.0}
+  - assert: {qbit_set: [90106, 90190]}
+
+  # Thorolf Ratatoskssen (Thorolf2, actor 4): the summons to stand before Krohn.
+  - set_pose: {map: frosgardcity.blv, x: -1450, y: -1720, z: 1, yaw: 0, pitch: 0}
+  - interact_actor: {actor_index: 4}
+  - select_topic: {match_label: "What is it?"}
+  - select_topic: {match_label: "What?  Why?"}
+  - select_topic: {match_label: "Very well.  We shall go."}
+  - advance_runtime: {seconds: 1.0}
+  - assert: {qbit_set: [90107]}

@@ -1,0 +1,60 @@
+# The Ruined Temple's way out with the Tree of Life needs no jump (level_generation/projects/mm9r_ruinedtemple/README.md,
+# "Deviations from MM9 and why", fixed 2026-11-22). The Tree's cell floor stands 61 over the tunnel behind it (the escape
+# slab's sill), more than the party's 50-unit step: a party that took the Tree from the tunnel could leave only by
+# jumping into the cell (the spiral leads down to the shaft), and one that did not jump was shut in with it. An
+# invisible half step (convert.py CELL_STEP_LT) takes a plain walk over the sill. The two places where the promotion
+# playthrough's walk also jumped (segment 25: the east ramp's foot, the north-west landing) are walked here too, by
+# plain forward input from the floor before them.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/ruinedtemple_cell_step.yml --scenario-no-color
+id: mm9.ruinedtemple_cell_step
+title: "Ruined Temple: the spiral and the Tree of Life's cell are walked without jumping"
+world: mm9
+mode: faithful
+tags: [mm9, movement, promotions]
+steps:
+  - load_map: {map: ruinedtemple.blv}
+  - clear_hostiles: {radius: 9000}
+  # The shaft bottom's landing east onto the east ramp's foot (21 up).
+  - movement_segment:
+      input: forward
+      seconds: 0.5
+      start: {map: ruinedtemple.blv, x: 700, y: 5940, z: -4260, yaw_degrees: 0, pitch: 0}
+      expect_stop: {map: ruinedtemple.blv, x: 926, y: 5940, z: -4239, yaw_degrees: 0, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 120
+      tolerance_z: 10
+  - assert: {party_position: {x: 880, y: 5940, radius: 120, z_min: -4245, z_max: -4200}}
+  # The north ramp's top west onto the north-west landing, then south up the west ramp.
+  - movement_segment:
+      input: forward
+      seconds: 0.3
+      start: {map: ruinedtemple.blv, x: 61, y: 6673, z: -3790, yaw_degrees: 180, pitch: 0}
+      expect_stop: {map: ruinedtemple.blv, x: -10, y: 6673, z: -3768, yaw_degrees: 180, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 80
+      tolerance_z: 10
+  - assert: {party_position: {x: -40, y: 6673, radius: 80, z_min: -3780, z_max: -3740}}
+  - movement_segment:
+      input: forward
+      seconds: 1.2
+      start: {map: ruinedtemple.blv, x: -80, y: 6676, z: -3768, yaw_degrees: -90, pitch: 0}
+      expect_stop: {map: ruinedtemple.blv, x: -80, y: 5894, z: -3564, yaw_degrees: -90, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 120
+      tolerance_z: 20
+  - assert: {party_position: {x: -80, y: 5990, radius: 150, z_min: -3600, z_max: -3540}}
+  # Prison Button 3 in the tunnel raises the escape slab; south from the tunnel into the cell, over the sill.
+  - set_pose: {map: ruinedtemple.blv, x: 0, y: 6156, z: -2928, yaw: -1.5708, pitch: -0.1378}
+  - advance_runtime: {seconds: 0.2}
+  - press_interact: {}
+  - advance_runtime: {seconds: 7}
+  - assert: {mechanism: {id: 12, state: open}}
+  - movement_segment:
+      input: forward
+      seconds: 0.8
+      start: {map: ruinedtemple.blv, x: 246, y: 6150, z: -2929, yaw_degrees: -90, pitch: 0}
+      expect_stop: {map: ruinedtemple.blv, x: 246, y: 5812, z: -2867, yaw_degrees: -90, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 150
+      tolerance_z: 10
+  - assert: {party_position: {x: 246, y: 5850, radius: 150, z_min: -2880, z_max: -2850}}

@@ -46,7 +46,7 @@ mm9_source_number	legacy_actor_id	confidence	note	object_class_override
 47	364	high	Matching human1 man C/A family
 48	365	high	Matching human1 man C/B family
 49	366	medium	Closest third human1-man palette for prisoner D
-50	367	high	Matching human2 man A/A family	CommonerHuman2MaleA|OldHag
+50	367	high	Matching human2 man A/A family	CommonerHuman2MaleA
 51	368	high	Matching human2 man A/B family
 52	370	high	Matching human2 man B/A family
 53	371	high	Matching human2 man B/B family
@@ -85,6 +85,7 @@ mm9_source_number	legacy_actor_id	confidence	note	object_class_override
 216	491	low	Closest available male religious robe
 217	355	medium	Pale-dressed human woman best matches elder Honk robes	ElderHonkFemale
 227	178	high	Existing non-combatant fish family
+245	307	medium	Old Hag (MONSTERS.txt row, blank in ACTOR.txt): Hjordisa on the Yrsa body as mm9_hag, not a Commoner	OldHag
 246	586	medium	Nobleman A best matches Bjarni's noble warrior silhouette
 247	403	medium	Swordsman A best matches Sigmund's chain-armored fighter role
 248	579	high	Merchant C closely matches Markel's build and red clothing

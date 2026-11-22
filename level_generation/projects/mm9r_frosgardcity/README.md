@@ -374,3 +374,23 @@ shared approach talks stay once per visit: Thorolf's `:OnRude` clears his `bTalk
 --scratch`: the runtime Lua differs by these lines; installed into `assets_dev` and the review root);
 `scenario_scripted.yml` passes.
 
+
+## Tamur Leng cannot be turned or killed (2026-11-22)
+
+Discord, v2.8: "I couldn't talk with Tamur Leng, but was able to kill him", which stranded the main story: only his
+talk gives key 106, and Thorolf2's summons (107) and Krohn need it. He carries the peasants' relations (ally 118, the
+click rule above) like Forad Darre, 2 950 away, and Tryggva beside him, so a party hit on Forad before Forad's own talk
+turned Tamur through Forad's alert (3 072), and a stray blow or spell of the battle turned him directly (his row is a
+BaseMelee skirmisher, not a townsperson). Turned, he refused to talk and could be killed. Reproduced headless before
+the fix (both ways; `clear_hostiles` then killed him).
+
+**Deviation:** MM9 places him with CanDamage 1; `convert.py` writes `mm9_can_receive_damage: false` for TamurLeng0,
+so no hit hurts or turns him, and the engine no longer lets a kin's alert turn an actor no hit can hurt
+(`aggroNearbyMapActorFaction`, indoors and outdoors). **2.8 saves:** `citylua.py`'s map load, with the battle on
+(377) and no talk yet (106), raises a dead Tamur at his post (`evt.ReviveMapActor`, full hit points, the user's
+choice over letting the story go on without him) and makes him unhurtable and friendly again; his talk then gives
+106 and 190, he joins and Thorolf2 brings the summons, as on the normal path. A party stuck since 2.8 follows its
+journal ("Travel to Frosgard and stop Tamur Leng...") back into the city, and the load repairs it.
+Checks: `tests/scenarios/mm9/tamur_leng_talks_after_battle.yml` (arrival through the north gate, Forad and Tamur
+struck, the talk, Thorolf's summons) and `tests/scenarios/mm9/tamur_leng_old_save_recovery.yml` (a turned and a
+dead Tamur, each through a save and load).

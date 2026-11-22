@@ -13,7 +13,9 @@
 # the spiral room (TriggerCaveIn1: the ceiling comes down behind the party), up the spiral to Hidden Door 2, whose
 # button on that side (Sun Button 3, 203) opens it (converter fix 2026-11-08: it was a decoy and the party was shut
 # in), Left Door (207, unlocked by Hidden Door 2) onto the gallery, down into the main temple, the altar door, the hall,
-# the Up Door (104) to the stair and the upper floor, the exit. Research: prep/C_healer_priest.md.
+# the Up Door (104) to the stair and the upper floor, the exit. No jump on the way: the cell's 61-unit sill has an
+# invisible half step since 2026-11-22 (converter fix: a party that did not jump was shut in with the Tree), and the
+# walks that hopped the ramps' edges before were route artefacts. Research: prep/C_healer_priest.md.
 #   python3 tests/playthrough/mm9/promotions/run.py 25
 id: mm9.promotions.25_ruined_temple_tree
 title: "MM9 promotions 25: the Ruined Temple walked; the Tree of Life"
@@ -107,11 +109,12 @@ steps:
 
   # The corner stair and the spiral ramps up to the tunnel behind the cell.
   - walk_to: {x: 256, y: 5888, z: -4585, z_tolerance: 200, plan: false, timeout_seconds: 20}
-  - walk_to: {via: [[563, 6323, -4259]], x: 880, y: 6050, z: -4237, z_tolerance: 100, plan: false, timeout_seconds: 30}
-  - play_lua: {source: 'log("JUMP the walk hops onto the east ramp''s foot from the landing (762, 6050): its lip stops a walk")'}
+  # Onto the east ramp's foot from the landing in front of it (21 up), not at the ramp's side; on the north-west landing
+  # clear of its north wall. No jump anywhere (tests/scenarios/mm9/ruinedtemple_cell_step.yml walks the same edges).
+  - walk_to: {via: [[563, 6323, -4259], [700, 6300, -4260], [740, 6100, -4260]], x: 740, y: 5940, z: -4260, z_tolerance: 100, plan: false, timeout_seconds: 30}
+  - walk_to: {x: 880, y: 5940, z: -4239, z_tolerance: 100, plan: false, timeout_seconds: 30}
   - walk_to: {via: [[880, 6656, -4014]], x: 25, y: 6676, z: -3768, z_tolerance: 100, plan: false, timeout_seconds: 30}
-  - walk_to: {via: [[-80, 6676, -3768], [-80, 6021, -3564]], x: -80, y: 5940, z: -3564, z_tolerance: 100, plan: false, timeout_seconds: 30}
-  - play_lua: {source: 'log("JUMP the walk hops onto the north-west landing (-23, 6715, -3768) at the north ramp''s top")'}
+  - walk_to: {via: [[-60, 6660, -3768], [-80, 6021, -3564]], x: -80, y: 5940, z: -3564, z_tolerance: 100, plan: false, timeout_seconds: 30}
   - walk_to: {via: [[300, 5940, -3564], [880, 5940, -3359]], x: 880, y: 6676, z: -3154, z_tolerance: 100, plan: false, timeout_seconds: 30}
   - walk_to: {x: 300, y: 6676, z: -2949, z_tolerance: 100, plan: false, timeout_seconds: 30}
   - walk_to: {x: 0, y: 6156, z: -2949, z_tolerance: 100, timeout_seconds: 30}
@@ -132,8 +135,20 @@ steps:
       source: |
         for _ = 1, 20 do if door_state(43) == "open" then break end; wait(0.5) end
         log("cell door " .. door_state(43) .. ", bars " .. door_state(42))
+  # The cell's floor is 61 over the tunnel: since 2026-11-22 an invisible half step (convert.py CELL_STEP_LT) takes a
+  # plain walk over the sill (it took a jump before, and a party that did not jump was shut in with the Tree).
+  - walk_to: {x: 246, y: 6100, z: -2929, z_tolerance: 100, plan: false, timeout_seconds: 20, clear_hostiles: 1500}
+  - movement_segment:
+      input: forward
+      seconds: 0.8
+      start: {map: ruinedtemple.blv, x: 246, y: 6100, z: -2929, yaw_degrees: -90, pitch: 0}
+      expect_stop: {map: ruinedtemple.blv, x: 246, y: 5488, z: -2867, yaw_degrees: -90, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 400
+      tolerance_z: 30
+  - assert: {party_position: {x: 246, y: 5600, radius: 300, z_min: -2880, z_max: -2850}}
+  - play_lua: {source: 'log("the cell walked into from the tunnel over the escape slab''s sill, no jump")'}
   - walk_to: {x: 246, y: 5550, z: -2867, z_tolerance: 100, plan: false, timeout_seconds: 30, clear_hostiles: 1500}
-  - play_lua: {source: 'log("JUMP the walk hops from the tunnel (-2929) over the escape slab''s sill into the cell (-2867)")'}
   - climb: {ladder: Ladder}
   # The chest room's south door (PrisonEntrance2, 103; it shuts by itself after 5 s).
   - walk_to: {x: 530, y: 4530, z: -2273, z_tolerance: 100, plan: false, timeout_seconds: 20, clear_hostiles: 1500}

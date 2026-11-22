@@ -294,6 +294,9 @@ def map_script(hooks, build) -> str:
         f"    show({a['Niclolai']}, not has(121))   -- NPC414.scr: Nicolai Ironfist moves to Guberland on key 121",
         "    -- NPC95.scr :Init: Guaire A'Velsi is here once Atli gave his task (222), gone once he is dead (225)",
         "    if has(225) then MM9.removeActor(BANDIT) else show(BANDIT, has(222)) end",
+        "    -- He is peaceful until struck (NPC95.scr :OnDamage BaseInit) and must be killed: the party's blows land on him",
+        "    -- with MAW's friendly fire off (on load, for saves from before the mark)",
+        "    evt.SetMonsterBit(BANDIT, ActorAttribute.QuestTarget, 1)",
         f"    if has({HROLF_SEEN_KEY}) then hrolfAway() end   -- NPC110.scr :Init",
     ]
     load += altar_load

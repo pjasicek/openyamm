@@ -326,6 +326,11 @@ handlers[1] = function()   -- map load
     if var("BankOpen") == 1 then set("BankOpen", 0); bankHatch(false) end
     show(5, has(108) or not (has(104) or has(40)))   -- NPC180.scr :Init
     if not has(377) then show(0, false); show(1, false) end   -- Forad.scr "Hate", NPC309.scr :Main
+    if has(377) and not has(106) then   -- 2.8 saves: Tamur Leng turned or killed
+        evt.ReviveMapActor(1)
+        MM9.setCanDamage(1, false)
+        if evt.IsMapActorHostile(1) then evt.SetMonGroupBit(5, MonsterBits.Hostile, false) end
+    end
     local thorolf = has(83) and not has(84)   -- NPC378.scr :Init
     show(2, thorolf); show(3, thorolf); show(4, has(106) and not has(107))
     show(35, not has(460))   -- Retainer.scr (238: key 460): hidden while hired

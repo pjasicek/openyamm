@@ -73,7 +73,7 @@ box), `floors.py` (floor heights), `section.py` (vertical sections with the wate
 | `GasRelease0` (RotatingDoor, BathFurnace.scr) | the furnace's gas valve: a click turns it 180° at 20°/s and back; below |
 | `PistonDown0/Up0/Down1/Up1` | the furnace's pistons: pump while the valve is open |
 | `Switch0`, `WaterProp` | the drain switch (authored thrown open: one click throws it) and the propeller it spins |
-| `RotatingDoor0` | the flap over the first steam vent: a click swings it 90°, back after 10 s |
+| `RotatingDoor0` | the grate over the steam duct (over the first vent): a click swings it 90° away from the party (OpenAway, a deviation: below), back after 10 s |
 | `WorldObject1/5` (iron_window.dtx with invisible collision) | the furnace room's two grilles; window portals |
 | `WorldObject0` | Ladder0's rungs (invisible collision) |
 | `FurnaceWarning` | the warning plate on the furnace: faces carrying a click event |
@@ -318,6 +318,16 @@ surface from below, the stairs' water, the chamber channel), `review/flames/` (t
   doors open and close on a click. Monsters do not open doors (MM9 `AITriggerable`).
 - **No ambient sound** (18 `AmbientSound`): a later pass for all maps.
 - MM9 touch volumes are pressure pads (they fire when the party stands on them).
+- **The steam duct without crouching** (2026-11-22, players' reports that the Bathhouse needs MM9's crouch): MM9's way to
+  the furnace valve is the grate (`RotatingDoor0`) in the south-east corner of the room east of Ebora's tub, then the
+  duct past the steam vents; MM9's player crouches under the opened grate (65 LT under it, its standing box 66). Here
+  the opened grate leaves 166 over the floor and the duct 171-182, over the party's 160: walked upright, no geometry
+  change. The furnace room has no other way out, and MM9's grate swings up into the duct, into a party clicking it
+  from inside, where it holds (`bodies: reverse`): the party could not get back out. `convert.py` sets `OpenAway`
+  (scene `open_away`), so it swings away from the party that opens it, from either side. Check:
+  `tests/scenarios/mm9/bathhouse_vent_grate_duct.yml` (closed it stops the party; opened, the duct to the valve, which
+  boils Ebora's pal, and back out through the grate clicked from right inside). A crouch scan of the BLV finds no
+  other place lower than the party's body that joins two parts of the map.
 
 ## Open items
 

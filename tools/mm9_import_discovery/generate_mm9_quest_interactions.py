@@ -150,6 +150,10 @@ def scene_actor_bindings(path: Path) -> list[dict[str, int]]:
             continue
         source_object_index = actor.get("mm9_source_object_index")
         if source_object_index is None:
+            # A person OpenYAMM added (RUDE 500-996; MM9's own are 1-435 and 997-999: Yorwick's bookseller Hallvard
+            # Ormssen, RUDE 500): no MM9 object, no MM9 quest.
+            if 500 <= rude_id < 997:
+                continue
             raise ValueError(f"{path.as_posix()}: actor {actor_index} has RUDE {rude_id} without source identity")
         bindings.append({
             "actor_index": actor_index,

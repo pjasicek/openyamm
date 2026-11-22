@@ -1115,6 +1115,7 @@ journal_stages:
   - 90004
   forbidden_qbits:
   - 90493
+  - 90288
   provenance:
     source: dialogue/rude/NPC997.rude
     source_line: 121
@@ -1322,6 +1323,15 @@ journal_stages:
     source: dialogue/rude/NPC997.rude
     source_line: 143
     entry_id: 710
+- entry_qbit: 90551
+  required_qbits:
+  - 90288
+  forbidden_qbits:
+  - 90493
+  provenance:
+    source: dialogue/rude/NPC997.rude
+    source_line: 144
+    entry_id: 551
 interactions:
 - id: mm9.keys.drangheimprison.antoni
   source_kind: keys
@@ -6922,6 +6932,7 @@ interactions:
       raw_object: maps/thjorgardcity.raw_objects.yml
   journal_entries:
   - 90550
+  - 90551
   roles:
   - handoff
   conditions:
@@ -6935,10 +6946,12 @@ interactions:
     in_progress:
       active_journal_entries:
       - 90550
+      - 90551
       row_not_yet_reachable: true
     ready:
       active_journal_entries:
       - 90550
+      - 90551
       row_reachable: true
   effects:
     granted_qbits:

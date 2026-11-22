@@ -2040,11 +2040,19 @@ std::string mm9RudeServiceTag(int32_t opcode)
     }
 }
 
-// How the conversation bar marks a row: the row that ends the talk, a quest row (one that needs keys) not chosen
-// yet, or one the party has chosen before.
-EventDialogChoiceMark mm9RudeChoiceMark(const Mm9RudeRow &row, const Party &party)
+// A row that ends the talk and sets no key: a page's plain way out ("Goodbye.", "Perhaps some other time.").
+bool mm9RudeRowIsPlainExit(const Mm9RudeRow &row)
 {
-    if (row.next == -1)
+    return row.next == -1 && row.grantedRawKeys.empty() && row.removedRawKeys.empty();
+}
+
+// How the conversation bar marks a row: the row that ends the talk, a quest row (one that needs keys) not chosen
+// yet, or one the party has chosen before. A row that ends the talk and sets keys is the way out only on a page
+// without a plain one: beside "Perhaps some other time.", Ealusaid's "We will find it for you." (key 311, her
+// quest) is a choice; marked as the exit it took Esc and lost its number key, so pressing 1 declined the quest.
+EventDialogChoiceMark mm9RudeChoiceMark(const Mm9RudeRow &row, const Party &party, bool pageHasPlainExit)
+{
+    if (row.next == -1 && (!pageHasPlainExit || mm9RudeRowIsPlainExit(row)))
     {
         return EventDialogChoiceMark::Exit;
     }
@@ -2118,6 +2126,8 @@ EventDialogContent buildMm9RudeContent(
     }
 
     const std::vector<const Mm9RudeRow *> visibleRows = table.visibleRows(rudeId, nodeId, party);
+    const bool pageHasPlainExit = std::any_of(visibleRows.begin(), visibleRows.end(),
+        [](const Mm9RudeRow *pRow) { return mm9RudeRowIsPlainExit(*pRow); });
     for (const Mm9RudeRow *pRow : visibleRows)
     {
         const Mm9SkillTrainerService *pTrainerService = pSkillTrainerTable != nullptr
@@ -2131,7 +2141,7 @@ EventDialogContent buildMm9RudeContent(
             action.label = Engine::localize(pRow->prompt, Mm9PartyLineContext);
             action.argument = "trainer=" + std::to_string(pTrainerService->topic.rawTrainerId)
                 + ";source_line=" + std::to_string(pRow->sourceLine);
-            action.choiceMark = mm9RudeChoiceMark(*pRow, party);
+            action.choiceMark = mm9RudeChoiceMark(*pRow, party, pageHasPlainExit);
             action.choiceTag = Engine::tr("Train \xC2\xB7 {mastery}",
                 {{"mastery", Engine::localize(masteryDisplayName(pTrainerService->topic.targetMastery), "mastery")}});
             content.actions.push_back(std::move(action));
@@ -2145,7 +2155,7 @@ EventDialogContent buildMm9RudeContent(
         action.label = Engine::localize(pRow->prompt, Mm9PartyLineContext);
         action.argument = "choice=" + std::to_string(pRow->choiceSlot)
             + ";next=" + std::to_string(pRow->next);
-        action.choiceMark = mm9RudeChoiceMark(*pRow, party);
+        action.choiceMark = mm9RudeChoiceMark(*pRow, party, pageHasPlainExit);
         action.choiceTag = pRow->next < -1 ? mm9RudeServiceTag(pRow->next) : std::string();
         content.actions.push_back(std::move(action));
     }
@@ -2676,6 +2686,10 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             return result;
         }
 
+        // The talk ends before the party boards: its exit hook (the Frosgard dockmaster's) runs a map event, whose
+        // start drops the pending map move. Run after the boarding, it kept the fare and left the party ashore.
+        executeMm9RudeExitCallback(context);
+
         // MM9's boats arrive at 6:00 in the morning, the route's travel days after the departure date (a two-day trip
         // that leaves on Monday arrives on Wednesday at 6:00). The party rests on board, as on any journey.
         TravelCost cost;
@@ -2727,7 +2741,6 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             Engine::trn("It will take {days} day to travel to {destination}.",
                 "It will take {days} days to travel to {destination}.", uint64_t(pRoute->travelDays),
                 {{"days", pRoute->travelDays}, {"destination", Engine::localize(pRoute->destinationName)}}));
-        executeMm9RudeExitCallback(context);
         result.shouldCloseActiveDialog = true;
         return result;
     }
