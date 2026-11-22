@@ -15462,7 +15462,8 @@ void GameApplication::openMenuScreen(bool paused)
     }
     const int days = int(m_gameSession.gameMinutes()) / (24 * 60);
     const std::string date =
-        Engine::tr("{world} - Day {day}", {{"world", m_activeWorldManifest.name}, {"day", int64_t(days + 1)}});
+        Engine::tr("{world} - Day {day}",
+                   {{"world", Engine::localizeKnown(m_activeWorldManifest.name)}, {"day", int64_t(days + 1)}});
     std::optional<MainMenuScreen::CurrentGame> currentGame;
     if (paused && !m_gameSession.ruleset().isStandard())
     {

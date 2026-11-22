@@ -250,6 +250,11 @@ struct WorldManifest
     // groups are its maps' script groups and whose actors talk only through their RUDE ids and use events (a dog or a
     // townsperson without DoRude says nothing); default true.
     bool streetNpcs = true;
+    // world.yml streetNpcGroupNews: false keeps the street NPCs (streetNpcs: generated peasants with their professions'
+    // talk) but gives them none of npc_group.txt's group news, MMerge's lines for MM6-MM8's groups (group 1: "If the
+    // pirates make it through our warriors..."). Xeen, whose actor groups are its maps' own; the news a script sets with
+    // evt.SetNPCGroupNews still speaks. Default true.
+    bool streetNpcGroupNews = true;
     // world.yml friendlyActorsBlockParty: true makes friendly actors (townsfolk, NPCs, animals) solid to the party as
     // hostile ones are. MM9, whose NPCs block the player; default false, MM6-MM8's walk-through rule.
     bool friendlyActorsBlockParty = false;

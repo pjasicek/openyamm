@@ -13,7 +13,9 @@ blocks:
 # Where coaches, boats, mirrors and Town Portal set the party down on this map (world units; direction 0 east,
 # 512 north, 1024 west, 1536 south). Taken from the built map's playtest poses (briefs/x1/L4/playtest.yml).
 arrivals:
-  vertigo_square: {at: [-5120, 8704, 640], direction: 512, note: "the party start on the square"}
+  # The start one cell south of the fountain (x1/gen.py entrance:party_start, [54, 48]): nothing usable within the
+  # interact reach on arrival (tests/scenarios/xeen/x1_start_nothing_in_reach.yml).
+  vertigo_square: {at: [-5120, 8192, 640], direction: 512, note: "the party start on the square"}
   vertigo_stables: {at: [768, 9400, 640], direction: 512, note: "the stable yard, north of the stables' door"}
   vertigo_creek: {at: [-7168, 4506, 640], direction: 0, note: "the creek bank where Nystor's boat lands (X2's event)"}
 

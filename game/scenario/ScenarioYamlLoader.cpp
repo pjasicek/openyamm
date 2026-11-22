@@ -120,7 +120,7 @@ KeyList concatKeys(std::initializer_list<KeyList> lists)
 const std::vector<StepKeys> &stepKeyTable()
 {
     static const std::vector<StepKeys> table = {
-        {ScenarioStepKind::NewGameFlow, {"start_map", "continent", "member_count", "party", "ruleset",
+        {ScenarioStepKind::NewGameFlow, {"start_map", "continent", "member_count", "party", "ruleset", "party_pouches",
             // recorded:
             "continent_id", "continent_key", "continent_name", "source"}},
         {ScenarioStepKind::LoadMap, {"map", "pos", "direction_degrees",

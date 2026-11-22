@@ -606,9 +606,9 @@ def build():
                  % tuple(DIAL_START))
         lua = ('local v = evt.GetMapVar("%s", %d) '
                'if continueStep == 2 then v = v %% 12 + 1 evt.SetMapVar("%s", v) %s '
-               'evt.StatusText("The sundial is set to " .. v .. ".") return end '
+               'evt.StatusText(tr("The sundial is set to {reading}.", {reading = v})) return end '
                'if continueStep ~= nil then return end '
-               'AskChoiceWithAnswerSteps(eventId, 3, "The sundial is set to " .. v .. ".  Turn?", '
+               'AskChoiceWithAnswerSteps(eventId, 3, tr("The sundial is set to {reading}.  Turn?", {reading = v}), '
                '{{Answer = "Yes", Step = 2}, {Answer = "No", Step = 3}})' % (   # D-72 (A5 s30): Yes/No buttons
                    var, start, var, check))
         S(deco('thing:sundial_%d' % k, 'ped02', at, title='Sundial', effects=[{'lua': lua}]))

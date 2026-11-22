@@ -18,6 +18,10 @@ start:
 terrainTileset: mm7
 # D-55: the glow of Xeen's surface materials (Alamar's lit windows, energy fields) is content: drawn with Surface materials off too.
 surfaceGlowContent: true
+# Xeen's actor groups are its maps' own (villagers 47/48, factions, scripts' SetMonGroupBit), not MMerge's: no
+# npc_group.txt group news (a Vertigo villager said "Group 47", Voweless knights the MM8 pirate line). Street villagers
+# keep their generated names and professions.
+streetNpcGroupNews: false
 # Open-air BLV maps (sky maps, planes, finale, Shangri-La): outdoor spell rules; Fly stays refused there (WORLD_DESIGN §3.4).
 openAirMaps:
   - xeen_x8.blv

@@ -657,7 +657,7 @@ Xeen.Mirrors = {
     [4756] = {face = "darkside", town = "Necropolis", qbit = 119011, arrival = {13824, -6656, 1672, 1536, "xeen_d6.odm"}},
     [4807] = {face = "darkside", town = "Olympus", qbit = 119012, arrival = {-4608, 6400, 1808, 512, "xeen_d7.blv"}},
     [4512] = {face = "darkside", town = "Castle Kalindra", qbit = 119008, opens = "m26.stage4", closedText = "The mirror shows the castle as it was. It shows nothing else."},
-    [4017] = {face = "cloudside", town = "Vertigo", qbit = 119001, arrival = {-5120, 8704, 640, 512, "xeen_x1.odm"}},
+    [4017] = {face = "cloudside", town = "Vertigo", qbit = 119001, arrival = {-5120, 8192, 640, 512, "xeen_x1.odm"}},
     [4064] = {face = "cloudside", town = "Rivercity", qbit = 119002, arrival = {0, 9728, 1024, 1536, "xeen_x2.odm"}},
     [4110] = {face = "cloudside", town = "Nightshadow", qbit = 119005, arrival = {18432, -5120, 1008, 512, "xeen_x3.odm"}, opens = "q-c7.done", closedText = "The mirror shows the square, but not you."},
     [4121] = {face = "cloudside", town = "Newcastle", qbit = 119006, arrival = {9216, 13312, 1504, 512, "xeen_x3.odm"}, opens = "m11.keep", closedText = "An empty frame leans against the rubble. Emerson will hang the glass when there is a keep to hang it in."},

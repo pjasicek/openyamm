@@ -1,0 +1,40 @@
+# 3.0 report: in a talking proprietor's own talk (Xeen's owner_talks: one resident with the proprietor's portrait), a
+# house service that reopens the house screen (Donate, Learn Skills, any submenu) reopened the house whose id was the
+# NPC's id: Brother Tobit (NPC 4203) at the Camp Shrine (house 4102) donated, then stood in Emerson's Master Builder's
+# Office (house 4203); Ebenezer's (NPC 4201) Learn Skills at his tent (house 4101) opened King Burlock's Throne Room
+# (house 4201). The service must keep acting on, and return to, the host house.
+id: xeen.proprietor_talk_services_stay_in_house
+title: "A talking proprietor's services return to his own house, not the house with his NPC id"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_x3.odm
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # The Camp Shrine: Brother Tobit alone, so the house opens on his talk with the temple's services first.
+  - lua_event: {source: "evt.EnterHouse(4102)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert:
+      dialog: {active: true, house_dialog: false, source_id: 4203, title: Brother Tobit}
+  - select_topic: {match_label: Donate}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  # Still Tobit in the Camp Shrine (before the fix: house 4203, Emerson's Master Builder's Office).
+  - assert:
+      dialog: {active: true, house_dialog: false, source_id: 4203, title: Brother Tobit}
+  - play_lua: {source: "close() close() close()"}
+  - advance_runtime: {seconds: 0.3}
+  # Ebenezer's Tent: Ebenezer's Learn Skills opens his tavern's lesson menu (before the fix: King Burlock's Throne Room).
+  # A tavern patron (a different one each game) is there too, so the tent opens on the portraits; Ebenezer's opens his talk.
+  - lua_event: {source: "evt.EnterHouse(4101)"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 4101, action_label_present: "Ebenezer, Taxman"}
+  - select_topic: {match_label: "Ebenezer, Taxman"}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert:
+      dialog: {active: true, house_dialog: false, source_id: 4201, title: "Ebenezer, Taxman"}
+  - select_topic: {match_label: Learn Skills}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert:
+      dialog: {active: true, house_dialog: true, source_id: 4101, house_title: "Ebenezer's Tent"}

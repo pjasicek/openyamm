@@ -1,0 +1,37 @@
+# 3.0 report: Xeen's unnamed townsfolk said "Group 47". Xeen's actor groups are its maps' own (villagers 47/48, factions,
+# the scripts' SetMonGroupBit), but the engine read them through MMerge's npc_group.txt: group 47 -> npc_news.txt row
+# 47, the filler "Group 47"; group 30 -> "Be gone! We have no use for you here..."; group 1 -> MM8's Dagger Wound pirate
+# line. world.yml streetNpcGroupNews: false turns npc_group.txt off in Xeen; the generated street NPCs stay.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/xeen/street_actors_no_mmerge_group_news.yml
+id: xeen.street_actors_no_mmerge_group_news
+title: "Xeen's villagers and friendly dungeon folk never speak MMerge's group news"
+world: xeen
+mode: faithful
+tags: [xeen, dialogue, npc]
+steps:
+  - new_game_flow:
+      start_map: xeen_x1.odm
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  # Vertigo: a villager (actor 0, group 47) has no news and no generated NPC here (profs_max_rarity 0): no "Group 47".
+  - interact_actor: {actor_index: 0, activated: false}
+  - assert:
+      dialog: {active: false}
+  # Rivercity (profs_max_rarity 30): a villager (actor 0, group 47) is a generated street NPC whose greeting is his
+  # profession's, not "Group 47".
+  - load_map:
+      map: xeen_x2.odm
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - interact_actor: {actor_index: 0}
+  - assert:
+      actor_dialog_started: {kind: npc_talk, actor_index: 0}
+      dialog: {active: true, text_absent: "Group 47"}
+  - press_action: {action: cancel_dialog}
+  - advance_runtime: {seconds: 0.5}
+  # DD-06: the outlaws' inner circle (actor 15, group 30, friendly) do not say MM8's "Be gone! We have no use for you".
+  - load_map:
+      map: xeen_dd06.blv
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - interact_actor: {actor_index: 15, activated: false}
+  - assert:
+      dialog: {active: false}

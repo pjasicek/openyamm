@@ -58,6 +58,7 @@ TEST_CASE("content manifests default when package files are absent")
         CHECK_FALSE(world.actorAwareness.declared);
         // MM6-MM8 keep MMerge's street NPCs (group news, generated peasants) unless world.yml turns them off.
         CHECK(world.streetNpcs);
+        CHECK(world.streetNpcGroupNews);
     }
 
     std::filesystem::remove_all(temporaryRoot);
@@ -90,6 +91,7 @@ TEST_CASE("content manifests parse mounted world definition")
         "  meleeVerticalReach: 0.5\n"
         "tavernHirelings: false\n"
         "streetNpcs: false\n"
+        "streetNpcGroupNews: false\n"
         "music:\n"
         "  repeatGapSeconds: 10\n"
         "  battleTrack: 90003\n"
@@ -134,6 +136,7 @@ TEST_CASE("content manifests parse mounted world definition")
         CHECK_EQ(world.actorCombat.meleeVerticalReach, 0.5f);
         CHECK_FALSE(world.tavernHirelings);
         CHECK_FALSE(world.streetNpcs);
+        CHECK_FALSE(world.streetNpcGroupNews);
         CHECK_EQ(world.music.repeatGapSeconds, 10.0f);
         CHECK_EQ(world.music.battleTrack, 90003);
         CHECK_EQ(world.music.battleFadeSeconds, 2.5f);
@@ -151,7 +154,7 @@ TEST_CASE("only MM9 turns MMerge's street NPCs off: its dogs and townsfolk witho
     // group 3's MM8 news and a stand-in portrait. MM9's groups are its scripts'; MM6-MM8 keep their street NPCs.
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
 
-    for (const char *pWorldId : {"mm6", "mm7", "mm8", "mm9"})
+    for (const char *pWorldId : {"mm6", "mm7", "mm8", "mm9", "xeen"})
     {
         if (!std::filesystem::exists(sourceRoot / "assets_dev" / "worlds" / pWorldId / "world.yml"))
         {
@@ -170,6 +173,8 @@ TEST_CASE("only MM9 turns MMerge's street NPCs off: its dogs and townsfolk witho
         CAPTURE(pWorldId);
         CHECK(error.empty());
         CHECK_EQ(world.streetNpcs, std::string(pWorldId) != "mm9");
+        // Xeen keeps its generated villagers but not MMerge's group news: its groups are its maps' own.
+        CHECK_EQ(world.streetNpcGroupNews, std::string(pWorldId) != "xeen");
     }
 }
 

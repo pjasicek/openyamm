@@ -192,7 +192,7 @@ RegisterEvent(21, "Dial", function(continueStep)
         SetValue(MapVar(4), 0)
         local m = 1
         for v = 1, 3 do if IsAtLeast(MapVar(3), v) then m = v + 1 end end
-        evt.StatusText("The dial grinds round. It reads " .. m .. ".")
+        evt.StatusText(tr("The dial grinds round. It reads {reading}.", {reading = m}))
         return
     end
     if continueStep ~= nil then
@@ -200,7 +200,7 @@ RegisterEvent(21, "Dial", function(continueStep)
     end
     local n = 1
     for v = 1, 3 do if IsAtLeast(MapVar(3), v) then n = v + 1 end end
-    evt.SetMessage("Dial reads " .. n .. ". Turn?")
+    evt.SetMessage(tr("Dial reads {reading}. Turn?", {reading = n}))
     evt.AskQuestion(eventId, 1, 0, 2, "Turn (Yes/No)?", {"Yes", "Y", "yes", "y"})
 end, "Dial")
 
@@ -212,7 +212,7 @@ RegisterEvent(22, "Dial", function(continueStep)
         SetValue(MapVar(4), 0)
         local m = 1
         for v = 1, 3 do if IsAtLeast(MapVar(2), v) then m = v + 1 end end
-        evt.StatusText("The dial grinds round. It reads " .. m .. ".")
+        evt.StatusText(tr("The dial grinds round. It reads {reading}.", {reading = m}))
         return
     end
     if continueStep ~= nil then
@@ -220,7 +220,7 @@ RegisterEvent(22, "Dial", function(continueStep)
     end
     local n = 1
     for v = 1, 3 do if IsAtLeast(MapVar(2), v) then n = v + 1 end end
-    evt.SetMessage("Dial reads " .. n .. ". Turn?")
+    evt.SetMessage(tr("Dial reads {reading}. Turn?", {reading = n}))
     evt.AskQuestion(eventId, 1, 0, 2, "Turn (Yes/No)?", {"Yes", "Y", "yes", "y"})
 end, "Dial")
 
@@ -232,7 +232,7 @@ RegisterEvent(23, "Dial", function(continueStep)
         SetValue(MapVar(4), 0)
         local m = 1
         for v = 1, 3 do if IsAtLeast(MapVar(1), v) then m = v + 1 end end
-        evt.StatusText("The dial grinds round. It reads " .. m .. ".")
+        evt.StatusText(tr("The dial grinds round. It reads {reading}.", {reading = m}))
         return
     end
     if continueStep ~= nil then
@@ -240,7 +240,7 @@ RegisterEvent(23, "Dial", function(continueStep)
     end
     local n = 1
     for v = 1, 3 do if IsAtLeast(MapVar(1), v) then n = v + 1 end end
-    evt.SetMessage("Dial reads " .. n .. ". Turn?")
+    evt.SetMessage(tr("Dial reads {reading}. Turn?", {reading = n}))
     evt.AskQuestion(eventId, 1, 0, 2, "Turn (Yes/No)?", {"Yes", "Y", "yes", "y"})
 end, "Dial")
 

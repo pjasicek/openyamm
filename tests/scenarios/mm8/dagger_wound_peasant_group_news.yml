@@ -1,0 +1,19 @@
+# MM8 keeps MMerge's street group news (npc_group.txt): a Dagger Wound lizardman peasant (out01.odm actor 1, group 1)
+# answers with news 1. The check beside Xeen's world.yml streetNpcGroupNews: false (xeen/street_actors_no_mmerge_group_news.yml)
+# and the "Group <n>" filler skip, which must leave MM6-MM8's real group lines alone.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm8/dagger_wound_peasant_group_news.yml
+id: mm8.dagger_wound_peasant_group_news
+title: "A Dagger Wound peasant still says his group's MMerge news"
+world: mm8
+mode: faithful
+tags: [mm8, dialogue, npc]
+steps:
+  - new_game_flow:
+      start_map: out01.odm
+  - advance_runtime: {seconds: 1}
+  - interact_actor: {actor_index: 1}
+  - assert:
+      dialog: {active: true, text_contains: "If the pirates make it through our warriors"}
+  - press_action: {action: cancel_dialog}
+  - assert:
+      dialog: {active: false}

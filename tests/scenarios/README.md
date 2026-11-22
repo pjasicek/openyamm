@@ -69,7 +69,9 @@ the first N, for a map left almost cleared: `maw_dimension_map_repeat.yml`); and
 bow_disabled}}` checks; `assert: {projectiles: {source: party, ...}}` counts the party's live missiles instead of
 the actors' (`maw_bow_disabled.yml`).
 `new_game_flow: {ruleset: "standard:solo"}` is a solo run under Standard rules (a party of one, as the New Game
-screen's Solo run row starts it); `"standard"` alone is the default.
+screen's Solo run row starts it); `"standard"` alone is the default. Scenarios play with the Gameplay setting Party
+pouches off whatever settings.ini says; `new_game_flow: {party_pouches: true}` turns it on for that game (Standard's
+alchemy and quest pouches: `rulesets/quest_pouch_lich_promotion.yml`).
 A `new_game_flow` party member may carry `battle_orders: {fallback: weapon|hold, orders: [...]}`
 (devdocs/BATTLE_ORDERS.md): each order is `{spell: <table name>}`, `{melee: true}`, `{shoot: true}` or, for a MAW
 solo run, `{talent: <talents.yml id>}` with optional
@@ -101,7 +103,7 @@ summons the monsters as a party spell's summons, fighting for the party (an outd
 ally 999); `setup_shortcut: {kind: set_experience, value, member_index}` sets a member's experience, or every
 member's without an index; with `assert: {runtime_event_variable: {id: 13, member_index, value | min}}` this checks
 kill experience (`maw_ally_kills.yml`, `standard_ally_kills.yml`). `assert: {dialog: {text_contains}}` checks a piece
-of the open dialog's text; `assert: {dialog: {adventurers_inn: true|false}}` whether the Adventurer's Inn's roster (or a character viewed from it) is open, which `press_action: {action: escape}` and `play_lua` `close()` close as its Exit button does (`xeen/inn_roster_close.yml`). `advance_runtime: {seconds, present_dialogs: true}` opens a dialogue that a world event
+of the open dialog's text (`text_absent` one it must not hold); `assert: {dialog: {adventurers_inn: true|false}}` whether the Adventurer's Inn's roster (or a character viewed from it) is open, which `press_action: {action: escape}` and `play_lua` `close()` close as its Exit button does (`xeen/inn_roster_close.yml`). `advance_runtime: {seconds, present_dialogs: true}` opens a dialogue that a world event
 queued during the step (an MM9 FoundPlayer greeting) as the game's frame does, which then stops the world; without it
 a queued dialogue stays queued (`mm9/found_player_bootcamp.yml`). `assert: {journal_map_note: {map, id, text,
 present}}` checks a journal map pin (`maw_bounty.yml`). `press_action: {action, seconds}` also takes any key

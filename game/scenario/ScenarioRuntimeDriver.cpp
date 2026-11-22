@@ -1914,6 +1914,11 @@ bool ScenarioRuntimeDriver::setPartyImmortal(bool immortal, std::string &failure
     return true;
 }
 
+void ScenarioRuntimeDriver::setPartyPouches(bool enabled)
+{
+    ScenarioGameApplicationAccess::settings(m_application).partyPouches = enabled;
+}
+
 bool ScenarioRuntimeDriver::walkTo(const ScenarioWalkRequest &request, ScenarioWalkResult &result, std::string &failure)
 {
     constexpr float TrailSeconds = 2.0f;

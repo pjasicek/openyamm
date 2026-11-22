@@ -1497,7 +1497,7 @@ std::string MergedNpcProfessionTable::nameAndTitle(const std::string &name, uint
 
     if (pProfession == nullptr || pProfession->profession.empty())
     {
-        return name;
+        return Engine::localize(name);
     }
 
     return Engine::tr("{name} the {profession}",

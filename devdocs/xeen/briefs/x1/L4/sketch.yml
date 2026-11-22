@@ -225,7 +225,7 @@ districts:
   - space: zone:warehouse_yard
     polygon: [[59, 57], [63, 57], [63, 61], [59, 61]]
 points:
-  - {id: entrance:party_start, at: [54, 47], facing: n}
+  - {id: entrance:party_start, at: [54, 48], facing: n}
   - {id: entrance:west_road, at: [21, 46], facing: e}
   - {id: entrance:north_road, at: [69, 21], facing: s}
   - {id: entrance:stable_yard, at: [65, 45], facing: w}

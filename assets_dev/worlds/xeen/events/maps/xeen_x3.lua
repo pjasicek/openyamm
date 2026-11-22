@@ -273,19 +273,19 @@ end, "Sign")
 -- evt:thing:sundial_1
 RegisterEvent(51, "Sundial", function(continueStep)
     local eventId = 51
-    local v = evt.GetMapVar("x3_dial_1", 3) if continueStep == 2 then v = v % 12 + 1 evt.SetMapVar("x3_dial_1", v) if evt.GetMapVar("x3_dial_1", 3) == 9 and evt.GetMapVar("x3_dial_2", 6) == 9 and evt.GetMapVar("x3_dial_3", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText("The sundial is set to " .. v .. ".") return end if continueStep ~= nil then return end AskChoiceWithAnswerSteps(eventId, 3, "The sundial is set to " .. v .. ".  Turn?", {{Answer = "Yes", Step = 2}, {Answer = "No", Step = 3}})
+    local v = evt.GetMapVar("x3_dial_1", 3) if continueStep == 2 then v = v % 12 + 1 evt.SetMapVar("x3_dial_1", v) if evt.GetMapVar("x3_dial_1", 3) == 9 and evt.GetMapVar("x3_dial_2", 6) == 9 and evt.GetMapVar("x3_dial_3", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText(tr("The sundial is set to {reading}.", {reading = v})) return end if continueStep ~= nil then return end AskChoiceWithAnswerSteps(eventId, 3, tr("The sundial is set to {reading}.  Turn?", {reading = v}), {{Answer = "Yes", Step = 2}, {Answer = "No", Step = 3}})
 end, "Sundial")
 
 -- evt:thing:sundial_2
 RegisterEvent(52, "Sundial", function(continueStep)
     local eventId = 52
-    local v = evt.GetMapVar("x3_dial_2", 6) if continueStep == 2 then v = v % 12 + 1 evt.SetMapVar("x3_dial_2", v) if evt.GetMapVar("x3_dial_1", 3) == 9 and evt.GetMapVar("x3_dial_2", 6) == 9 and evt.GetMapVar("x3_dial_3", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText("The sundial is set to " .. v .. ".") return end if continueStep ~= nil then return end AskChoiceWithAnswerSteps(eventId, 3, "The sundial is set to " .. v .. ".  Turn?", {{Answer = "Yes", Step = 2}, {Answer = "No", Step = 3}})
+    local v = evt.GetMapVar("x3_dial_2", 6) if continueStep == 2 then v = v % 12 + 1 evt.SetMapVar("x3_dial_2", v) if evt.GetMapVar("x3_dial_1", 3) == 9 and evt.GetMapVar("x3_dial_2", 6) == 9 and evt.GetMapVar("x3_dial_3", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText(tr("The sundial is set to {reading}.", {reading = v})) return end if continueStep ~= nil then return end AskChoiceWithAnswerSteps(eventId, 3, tr("The sundial is set to {reading}.  Turn?", {reading = v}), {{Answer = "Yes", Step = 2}, {Answer = "No", Step = 3}})
 end, "Sundial")
 
 -- evt:thing:sundial_3
 RegisterEvent(53, "Sundial", function(continueStep)
     local eventId = 53
-    local v = evt.GetMapVar("x3_dial_3", 12) if continueStep == 2 then v = v % 12 + 1 evt.SetMapVar("x3_dial_3", v) if evt.GetMapVar("x3_dial_1", 3) == 9 and evt.GetMapVar("x3_dial_2", 6) == 9 and evt.GetMapVar("x3_dial_3", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText("The sundial is set to " .. v .. ".") return end if continueStep ~= nil then return end AskChoiceWithAnswerSteps(eventId, 3, "The sundial is set to " .. v .. ".  Turn?", {{Answer = "Yes", Step = 2}, {Answer = "No", Step = 3}})
+    local v = evt.GetMapVar("x3_dial_3", 12) if continueStep == 2 then v = v % 12 + 1 evt.SetMapVar("x3_dial_3", v) if evt.GetMapVar("x3_dial_1", 3) == 9 and evt.GetMapVar("x3_dial_2", 6) == 9 and evt.GetMapVar("x3_dial_3", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText(tr("The sundial is set to {reading}.", {reading = v})) return end if continueStep ~= nil then return end AskChoiceWithAnswerSteps(eventId, 3, tr("The sundial is set to {reading}.  Turn?", {reading = v}), {{Answer = "Yes", Step = 2}, {Answer = "No", Step = 3}})
 end, "Sundial")
 
 -- evt:thing:dial_plinth_1

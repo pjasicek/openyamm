@@ -359,12 +359,12 @@ def limb_lua(var):
 
 
 def dial_lua(var):
-    return choice('"Dial reads " .. n .. ". Turn?"', [
+    return choice('tr("Dial reads {reading}. Turn?", {reading = n})', [
         f'if IsAtLeast(MapVar({var}), 3) then SetValue(MapVar({var}), 0) else AddValue(MapVar({var}), 1) end',
         'SetValue(MapVar(lever_pulled), 0)',
         'local m = 1',
         f'for v = 1, 3 do if IsAtLeast(MapVar({var}), v) then m = v + 1 end end',
-        'evt.StatusText("The dial grinds round. It reads " .. m .. ".")'], pre_lines=[
+        'evt.StatusText(tr("The dial grinds round. It reads {reading}.", {reading = m}))'], pre_lines=[
         'local n = 1',
         f'for v = 1, 3 do if IsAtLeast(MapVar({var}), v) then n = v + 1 end end'], ask='"Turn (Yes/No)?"')
 

@@ -883,7 +883,11 @@ def build():
         {'space': 'zone:warehouse_yard', 'polygon': [[59, 57], [63, 57], [63, 61], [59, 61]]},
     ]
     points = [
-        {'id': 'entrance:party_start', 'at': [54, 47], 'facing': 'n'},
+        # The new game's start (source/towns/x1.yml vertigo_square, also the mirror's and Town Portal's arrival): one
+        # cell south of the fountain's old spot, so nothing usable is within the interact reach (512) on arrival; at
+        # [54, 47] the party stood on the fountain's rim and its "Fountain" context popup opened by itself (3.0
+        # report; tests/scenarios/xeen/x1_start_nothing_in_reach.yml)
+        {'id': 'entrance:party_start', 'at': [54, 48], 'facing': 'n'},
         {'id': 'entrance:west_road', 'at': [21, 46], 'facing': 'e'},
         {'id': 'entrance:north_road', 'at': [69, 21], 'facing': 's'},
         {'id': 'entrance:stable_yard', 'at': [65, 45], 'facing': 'w'},

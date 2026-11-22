@@ -3845,12 +3845,14 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             }
         }
 
-        context.eventRuntimeState.dialogueState.hostHouseId = context.activeEventDialog.sourceId;
+        // Back to the house the service acted on: in a proprietor's talk the dialog's source is his NPC id, which may
+        // be another house's id (Brother Tobit, NPC 4203, reopened house 4203, Emerson's office).
+        context.eventRuntimeState.dialogueState.hostHouseId = pHouseEntry->id;
         setPendingDialogueContext(
             context.eventRuntimeState,
             DialogueContextKind::HouseService,
-            context.activeEventDialog.sourceId,
-            context.activeEventDialog.sourceId);
+            pHouseEntry->id,
+            pHouseEntry->id);
         result.shouldOpenPendingEventDialog = true;
         return result;
     }

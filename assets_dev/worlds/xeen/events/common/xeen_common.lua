@@ -349,12 +349,10 @@ function Xeen.travelPyramid(from)
 end
 
 -- How many of an item the whole party carries (Megacredits: Emerson takes five at a time).
+-- The party's count, each item once: a member's count includes the shared quest pouch, so a sum over members would
+-- count a pouch item once per member.
 function Xeen.itemCount(itemId)
-    local count = 0
-    for _, playerIndex in ipairs(PartyMembers()) do
-        count = count + PlayerItemCount(playerIndex, itemId)
-    end
-    return count
+    return evt.CountItems(itemId, itemId)
 end
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -366,10 +364,8 @@ Xeen.GemItems = {177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 988, 989, 990
 
 function Xeen.gemCount()
     local count = 0
-    for _, playerIndex in ipairs(PartyMembers()) do
-        for _, itemId in ipairs(Xeen.GemItems) do
-            count = count + PlayerItemCount(playerIndex, itemId)
-        end
+    for _, itemId in ipairs(Xeen.GemItems) do
+        count = count + Xeen.itemCount(itemId)
     end
     return count
 end
@@ -379,13 +375,12 @@ function Xeen.payGems(count)
     if Xeen.gemCount() < count then
         return false
     end
+    -- RemoveItem takes from wherever the count saw the gem: a pack, a pouch or the mouse cursor.
     local left = count
     for _, itemId in ipairs(Xeen.GemItems) do
-        for _, playerIndex in ipairs(PartyMembers()) do
-            while left > 0 and PlayerItemCount(playerIndex, itemId) > 0 do
-                RemovePlayerItem(playerIndex, itemId, 1)
-                left = left - 1
-            end
+        while left > 0 and Xeen.itemCount(itemId) > 0 do
+            RemoveItem(itemId)
+            left = left - 1
         end
         if left == 0 then
             break
@@ -543,7 +538,7 @@ function Xeen.pyramidNiche(index, eventId, continueStep)
         Xeen.qbit("m28.niche_8")}
     if IsQBitSet(QBit(bits[index])) then
         if continueStep == nil then
-            evt.StatusText("The niche shows its number: " .. niche.number .. ".")
+            evt.StatusText(tr("The niche shows its number: {number}.", {number = niche.number}))
         end
         return Xeen.isSet("m28.vault_open")
     end
@@ -671,7 +666,7 @@ function Xeen.alamarSundial(key, eventId, continueStep)
         elseif before == 9 then
             evt.StatusText("Somewhere below, stone drops away.")
         else
-            evt.StatusText(dial.title .. ": the sundial reads " .. reading .. ".")
+            evt.StatusText(tr("{title}: the sundial reads {reading}.", {title = tr(dial.title), reading = reading}))
         end
         return true
     end
@@ -679,7 +674,8 @@ function Xeen.alamarSundial(key, eventId, continueStep)
         Xeen.alamarSundialsSync()
         return false
     end
-    AskChoiceWithAnswerSteps(eventId, 3, dial.title .. ". The sundial reads " .. reading .. ". Turn?",
+    AskChoiceWithAnswerSteps(eventId, 3,
+        tr("{title}. The sundial reads {reading}. Turn?", {title = tr(dial.title), reading = reading}),
         {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
     return false
 end

@@ -439,12 +439,6 @@ std::optional<uint32_t> firstContinentNewsId(
 
     return std::nullopt;
 }
-
-bool isPlaceholderGroupNews(uint32_t newsId)
-{
-    // MMerge uses this as a default "change me" entry for many imported MM6/MM7 peasant groups.
-    return newsId == 51;
-}
 }
 
 void refreshGenericActorNpcRoster(EventRuntimeState &runtimeState, float gameMinutes)
@@ -543,7 +537,8 @@ std::optional<GenericActorDialogResolution> resolveGenericActorDialog(
         }
     }
 
-    if (isPlaceholderGroupNews(newsId))
+    // MMerge's filler rows ("Group 47", the "change me" row) are no news: the map's or continent's news speaks instead.
+    if (newsId != 0 && npcDialogTable.isPlaceholderNews(newsId))
     {
         newsId = 0;
     }
@@ -625,7 +620,7 @@ std::optional<std::string> generatedNpcGroupNewsText(
         const uint32_t newsId = overrideIt != runtimeState.npcGroupNews.end()
             ? overrideIt->second
             : npcDialogTable.getNewsIdForGroup(groupId).value_or(0);
-        return newsId != 0 && !isPlaceholderGroupNews(newsId)
+        return newsId != 0 && !npcDialogTable.isPlaceholderNews(newsId)
             ? npcDialogTable.getNewsText(newsId)
             : std::nullopt;
     }

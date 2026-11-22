@@ -200,7 +200,7 @@ events:
           SetValue(MapVar(lever_pulled), 0)
           local m = 1
           for v = 1, 3 do if IsAtLeast(MapVar(dial_east), v) then m = v + 1 end end
-          evt.StatusText("The dial grinds round. It reads " .. m .. ".")
+          evt.StatusText(tr("The dial grinds round. It reads {reading}.", {reading = m}))
           return
       end
       if continueStep ~= nil then
@@ -208,7 +208,7 @@ events:
       end
       local n = 1
       for v = 1, 3 do if IsAtLeast(MapVar(dial_east), v) then n = v + 1 end end
-      evt.SetMessage("Dial reads " .. n .. ". Turn?")
+      evt.SetMessage(tr("Dial reads {reading}. Turn?", {reading = n}))
       evt.AskQuestion(eventId, 1, 0, 2, "Turn (Yes/No)?", {"Yes", "Y", "yes", "y"})
     notes: "poi:dials (D-27): 'Dial reads N. Turn?' (dark/aaze0076:10-13); a map variable 0-3 shows 1-4; turning a dial undoes the lever."
   - id: evt:dial_north
@@ -221,7 +221,7 @@ events:
           SetValue(MapVar(lever_pulled), 0)
           local m = 1
           for v = 1, 3 do if IsAtLeast(MapVar(dial_north), v) then m = v + 1 end end
-          evt.StatusText("The dial grinds round. It reads " .. m .. ".")
+          evt.StatusText(tr("The dial grinds round. It reads {reading}.", {reading = m}))
           return
       end
       if continueStep ~= nil then
@@ -229,7 +229,7 @@ events:
       end
       local n = 1
       for v = 1, 3 do if IsAtLeast(MapVar(dial_north), v) then n = v + 1 end end
-      evt.SetMessage("Dial reads " .. n .. ". Turn?")
+      evt.SetMessage(tr("Dial reads {reading}. Turn?", {reading = n}))
       evt.AskQuestion(eventId, 1, 0, 2, "Turn (Yes/No)?", {"Yes", "Y", "yes", "y"})
     notes: "poi:dials (D-27): 'Dial reads N. Turn?' (dark/aaze0076:10-13); a map variable 0-3 shows 1-4; turning a dial undoes the lever."
   - id: evt:dial_west
@@ -242,7 +242,7 @@ events:
           SetValue(MapVar(lever_pulled), 0)
           local m = 1
           for v = 1, 3 do if IsAtLeast(MapVar(dial_west), v) then m = v + 1 end end
-          evt.StatusText("The dial grinds round. It reads " .. m .. ".")
+          evt.StatusText(tr("The dial grinds round. It reads {reading}.", {reading = m}))
           return
       end
       if continueStep ~= nil then
@@ -250,7 +250,7 @@ events:
       end
       local n = 1
       for v = 1, 3 do if IsAtLeast(MapVar(dial_west), v) then n = v + 1 end end
-      evt.SetMessage("Dial reads " .. n .. ". Turn?")
+      evt.SetMessage(tr("Dial reads {reading}. Turn?", {reading = n}))
       evt.AskQuestion(eventId, 1, 0, 2, "Turn (Yes/No)?", {"Yes", "Y", "yes", "y"})
     notes: "poi:dials (D-27): 'Dial reads N. Turn?' (dark/aaze0076:10-13); a map variable 0-3 shows 1-4; turning a dial undoes the lever."
   - id: evt:diary

@@ -1,0 +1,79 @@
+id: xeen.megacredits_from_quest_pouch
+title: "Xeen: Emerson's five King's Megacredits from the quest pouch count once each and all go (Standard pouches, MAW)"
+world: xeen
+mode: faithful
+tags: [xeen, rulesets, maw, regression]
+steps:
+  - note:
+      text: >-
+        A King's Megacredit (12192) is worth nothing, so it lies in the party's quest pouch under Standard with the
+        Gameplay setting Party pouches on and under MAW. Every member's count includes the shared pouch, so a sum over
+        the members counted one Megacredit once per member and Emerson's wall (global event 40451, "5 King's
+        Megacredits") passed with one. Xeen.itemCount (events/common/xeen_common.lua) now counts the party's items
+        once (evt.CountItems). One Megacredit with a full party of five (the old sum: five) must not pass; five must,
+        and the hand-in takes all five from the pouch.
+  # Standard, Party pouches on.
+  - new_game_flow:
+      start_map: xeen_x1.odm
+      party:
+        gold: 20000
+        food: 20
+        members:
+          - {name: Ann, class: Knight, level: 10, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+          - {name: Bob, class: Necromancer, level: 10, skills: [{name: Staff, level: 4, mastery: 1}], equipment: {}}
+          - {name: Cid, class: Cleric, level: 10, skills: [{name: Mace, level: 4, mastery: 1}], equipment: {}}
+          - {name: Dee, class: Archer, level: 10, skills: [{name: Bow, level: 4, mastery: 1}], equipment: {}}
+          - {name: Eve, class: Knight, level: 10, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+      party_pouches: true
+  - lua_event: {source: "SetQBit(QBit(111160)) SetQBit(QBit(111180))"}
+  - grant_item: {item_id: 12192}
+  - lua_event:
+      source: "if evt.GetPartyMemberCount() ~= 5 then error('the party must be full') end for i = 0, evt.GetPartyMemberCount() - 1 do if evt.PartyMemberItemCount(i, 12192) ~= 1 then error('member ' .. i .. ' does not see the pouch: the Megacredit is in a bag') end end if evt.CountItems(12192, 12192) ~= 1 then error('the party counts ' .. evt.CountItems(12192, 12192) .. ' Megacredits, not 1') end"
+  - speak_npc: {source_id: 4403}
+  - select_topic: {action_id: 40451}
+  - assert:
+      dialog: {text_contains: "You don't have enough Megacredits"}
+      qbit_clear: [111181]
+      inventory_any_member: [{item_id: 12192, count: 1}]
+  - grant_item: {item_id: 12192, count: 4}
+  - lua_event:
+      source: "if evt.CountItems(12192, 12192) ~= 5 then error('the party counts ' .. evt.CountItems(12192, 12192) .. ' Megacredits, not 5') end"
+  - select_topic: {action_id: 40451}
+  - assert:
+      dialog: {text_contains: "We'll have the work done"}
+      qbit_set: [111181]
+      inventory_any_member: [{item_id: 12192, count: 0}]
+  - lua_event:
+      source: "if evt.CountItems(12192, 12192) ~= 0 then error('Megacredits left in the pouch') end"
+  - press_action: {action: cancel_dialog}
+  # MAW.
+  - new_game_flow:
+      start_map: xeen_x1.odm
+      party:
+        gold: 20000
+        food: 20
+        members:
+          - {name: Ann, class: Knight, level: 10, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+          - {name: Bob, class: Necromancer, level: 10, skills: [{name: Staff, level: 4, mastery: 1}], equipment: {}}
+          - {name: Cid, class: Cleric, level: 10, skills: [{name: Mace, level: 4, mastery: 1}], equipment: {}}
+          - {name: Dee, class: Archer, level: 10, skills: [{name: Bow, level: 4, mastery: 1}], equipment: {}}
+          - {name: Eve, class: Knight, level: 10, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - lua_event: {source: "SetQBit(QBit(111160)) SetQBit(QBit(111180))"}
+  - grant_item: {item_id: 12192}
+  - lua_event:
+      source: "if evt.GetPartyMemberCount() ~= 5 then error('the party must be full') end for i = 0, evt.GetPartyMemberCount() - 1 do if evt.PartyMemberItemCount(i, 12192) ~= 1 then error('member ' .. i .. ' does not see the pouch: the Megacredit is in a bag') end end if evt.CountItems(12192, 12192) ~= 1 then error('the party counts ' .. evt.CountItems(12192, 12192) .. ' Megacredits, not 1') end"
+  - speak_npc: {source_id: 4403}
+  - select_topic: {action_id: 40451}
+  - assert:
+      dialog: {text_contains: "You don't have enough Megacredits"}
+      qbit_clear: [111181]
+      inventory_any_member: [{item_id: 12192, count: 1}]
+  - grant_item: {item_id: 12192, count: 4}
+  - select_topic: {action_id: 40451}
+  - assert:
+      dialog: {text_contains: "We'll have the work done"}
+      qbit_set: [111181]
+      inventory_any_member: [{item_id: 12192, count: 0}]
+  - lua_event:
+      source: "if evt.CountItems(12192, 12192) ~= 0 then error('Megacredits left in the pouch') end"

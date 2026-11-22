@@ -180,18 +180,19 @@ events:
       end
       if continueStep ~= nil and continueStep >= 1 and continueStep <= 3 then
           if Xeen.payGems(10) then
-              local stat = "Might"
+              local stat = tr("Might")
               if continueStep == 1 then
                   AddValue(BaseMight, 5)
               elseif continueStep == 2 then
                   AddValue(BaseEndurance, 5)
-                  stat = "Endurance"
+                  stat = tr("Endurance")
               else
                   AddValue(BaseAccuracy, 5)
-                  stat = "Accuracy"
+                  stat = tr("Accuracy")
               end
               SetPlayerBit(PlayerBit(11240))
-              evt.SimpleMessage("The great skull takes ten of your gems and grins wider. +5 " .. stat .. " (permanent).")
+              evt.SimpleMessage(tr("The great skull takes ten of your gems and grins wider. +5 {stat} (permanent).",
+                  {stat = stat}))
           else
               XeenQuests.hook("m12.skull_poor")
           end

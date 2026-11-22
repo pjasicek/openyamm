@@ -103,9 +103,10 @@ PATCH_TEXT_COLUMNS = {
     "place_mon": {"Name"},
     "character_data": {"Name", "Description"},
 }
-# Lua calls whose string arguments are shown. A literal joined with .. is a fragment: `check` lists those.
-LUA_TEXT_CALLS = r"(?:evt\.(?:StatusText|SimpleMessage|SetMessage|Question|AskQuestion|AskQuestionWithAnswerSteps|" \
-                 r"AskChoiceWithAnswerSteps)|\btr|\bsay)"
+# Lua calls whose string arguments are shown. A literal joined with .. is a fragment: `check` lists those. The
+# question calls and NPCText (a topic's text, else the literal after its id) are also called without `evt.`.
+LUA_TEXT_CALLS = r"(?:evt\.(?:StatusText|SimpleMessage|SetMessage|Question|AskQuestion)|" \
+                 r"\b(?:evt\.)?(?:AskQuestionWithAnswerSteps|AskChoiceWithAnswerSteps|NPCText)|\btr|\bsay)"
 LUA_REGISTER_CALLS = r"\b(?:Register|register)(?:Global)?(?:NoOp)?Event"
 # YAML keys whose string values are player text (world.yml, ruleset.yml, cinematics, certificates, data YAML).
 YAML_TEXT_KEYS = {"name", "desc", "description", "title", "text", "label", "summary", "headline", "body", "subtitle",
@@ -626,7 +627,9 @@ def extract_lua_file(template, path, domain):
         if enclosing and re.search(r"Timer|OnLoad|Hook", max(enclosing)[1]):
             continue
         shown.update(index for index, (start, _, _) in enumerate(literals) if start == match.end())
-    named_text = r"\b(?:targetName|title|hint|destinationName|completionText|effect)\s*=\s*(?=[\"'])"
+    # Xeen's helper tables: a riddle's or a toll's question, its pay and fight answers, a closed mirror's text.
+    named_text = r"\b(?:targetName|title|hint|destinationName|completionText|effect|question|pay|fight|closedText)" \
+                 r"\s*=\s*(?=[\"'])"
     for match in re.finditer(named_text, text):
         shown.update(index for index, (start, _, _) in enumerate(literals) if start == match.end())
     # A rules topic's key inside a shown call (`evt.SetMessage(evt.RulesTopic("key"))`) names its text, which the
@@ -756,6 +759,21 @@ WORLD_TABLE_TEXT_COLUMNS = {
     "npc.txt": {"Name", "Title"},
     "transport_locations.txt": {"Name"},
     "english/trans.txt": {"Transition Description"},
+    # Xeen's own talk, journal and town tables (worlds/xeen/data_tables, written by tools/xeen/build_world.py).
+    "npc_greet.txt": {"Greeting 1", "Greeting 2"},
+    "npc_topic.txt": {"Topic"},
+    "npc_topic_text.txt": {"Text"},
+    "npc_news.txt": {"Text"},
+    "roster.txt": {"Name", "Blurb"},
+    "map_stats.txt": {"Name"},
+    "house_data.txt": {"Name", "Proprieter Name", "Title", "Text"},
+    "english/quests.txt": {"Quest Note Text"},
+    "english/autonote.txt": {"Autonote Text"},
+    "english/awards.txt": {"Awards"},
+    "english/award_texts.txt": {"Awards"},
+    "english/place_mon.txt": {"Name"},
+    "continent_settings.txt": {"Note"},
+    "town_portal_switch.txt": {"Description"},
 }
 
 
@@ -768,7 +786,7 @@ def extract_world_tables(template):
             path = folder / name
             if not path.is_file():
                 continue
-            rows = parse_table(read_text(path))
+            rows = merge_continuations(name, parse_table(read_text(path)))
             header = next((index for index, (_, row) in enumerate(rows[:4])
                            if wanted & {cell.strip() for cell in row}), None)
             if header is None:
@@ -927,6 +945,12 @@ def extract_yaml(template):
         if (world / "data_tables" / "dimension_doors.yml").is_file():
             extract_yaml_values(template, world / "data_tables" / "dimension_doors.yml", world.name,
                                 lambda keys, key: key == "label")
+        # A world's own new-game card (Xeen's): the new-game screen shows it before any world is entered, so its texts
+        # are the engine's, as are the cards of character_selection.yml.
+        if (world / "data_tables" / "new_game_continents.yml").is_file():
+            extract_yaml_values(template, world / "data_tables" / "new_game_continents.yml", "engine",
+                                lambda keys, key: "card" in keys
+                                and key in ("title", "short_title", "subtitle", "caption"))
         for path in sorted(world.rglob("*.cinematics.yml")):
             extract_text_yaml(template, path, world.name)
 

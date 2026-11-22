@@ -302,6 +302,8 @@ public:
     bool takeAllFromOpenChest(std::string &failure);
     // The Immortal cheat for this run only: settings.ini is not written.
     bool setPartyImmortal(bool immortal, std::string &failure);
+    // The Gameplay setting Party pouches for the games started from here on (scenarios start with it off).
+    void setPartyPouches(bool enabled);
     bool waterStatus(ScenarioWaterStatus &status, std::string &failure);
     bool actorInspectState(
         size_t actorIndex,

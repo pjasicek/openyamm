@@ -2819,6 +2819,9 @@ bool GameDataLoader::loadWorldScopedTables(const Engine::AssetFileSystem &assetF
         return false;
     }
 
+    // npc_group.txt's group news is MMerge's, for MM6-MM8's groups; a world whose groups are its own turns it off.
+    m_npcDialogTable.setGroupNewsDefaults(manifest.streetNpcGroupNews);
+
     return loadWorldAwardTextOverrides(assetFileSystem, manifest)
         && loadMm9MapTransitionTable(assetFileSystem, manifest)
         && loadMm9TeacherScheduleTable(assetFileSystem, manifest)

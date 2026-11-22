@@ -40,7 +40,8 @@ a world adds its own topic events.
    instead, so a step's line can disappear when the next step's bit is set without clearing anything.
 8. Street people's one-liners are `npc_news.txt` rows, chosen by the placed actor's **group** through
    `english/npc_group.txt` (group → news id), changeable with `evt.SetNPCGroupNews`
-   (`game/gameplay/GenericActorDialog.cpp`).
+   (`game/gameplay/GenericActorDialog.cpp`). Xeen turns npc_group.txt off (`world.yml` `streetNpcGroupNews: false`:
+   those are MMerge's lines for MM6–MM8's groups), so a Xeen group has news only when a script sets it.
 
 ### 1.2 Where the global events come from
 

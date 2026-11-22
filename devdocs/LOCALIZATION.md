@@ -598,6 +598,25 @@ Done (2026-11-07 and 08):
   `localize` but are keyed by mode, not by a text key): `extract` now takes them, so every other language lacks 11
   more texts. Claude drafted the six zh-cn texts the supplement did not cover (two challenge modes, four plurals) as
   machine translations for the translators to review.
+- The zh-cn translators' World of Xeen (2026-11-22, `upstream-patch/20-xeen-zh` at `3f92a0a74b`): their `xeen.po`
+  is taken whole (7,430 texts; typed answers, riddles and acrostics left English, and the crossword's names
+  translated, which the typed-answer check accepts beside the English). It also translated texts no template had,
+  which the game shows through the world context anyway, so `extract` now takes them into `xeen`: Xeen's own talk,
+  journal and town tables (greetings, topics, news, quest notes, autonotes, awards, roster names and blurbs, map,
+  house, continent and town portal names; `WORLD_TABLE_TEXT_COLUMNS`, with the continuation lines of greetings and
+  topic texts joined), the question calls written without `evt.`, `NPCText` fallbacks, and the `question`, `pay`,
+  `fight` and `closedText` values of Xeen's helper tables (1,439 more texts; no other template changed). Their file
+  held 1,027 of these texts twice, mostly worded differently; the later copy is kept, the one the game used. Left
+  obsolete: the genie's three wishes (a list without a key), "Xeen--9N." (it looks like an identifier) and "Magic
+  Shop" (a house type column). Their `xeen-card.po` would have loaded as the context `world:xeen-card`: the new-game
+  card of a world's own `data_tables/new_game_continents.yml` was in no template, and `extract` now takes it into
+  `engine`, where their card texts went. Their `engine_zz-title-fixes.po` (the title 魔法门重生, MAW 重置版 for
+  重铸版, the cycle-speed key) went into `engine.po`, as did Xeen 辛恩 for the earlier 齐恩. The charset is
+  regenerated (3,722 characters; theirs has 5 more that only their dropped duplicates use). Their report of
+  messages joined with numbers led to whole `tr()` sentences with placeholders in `xeen_common.lua` and in the
+  generators of DD-09, X-3, XD-09 and XD-10 (the English shown is unchanged); Claude drafted those 13 zh-cn sentences
+  and 8 other texts the template had gained (the first rows of two tables, the bough counts) as machine translations
+  for the translators to review.
 - Committed: the engine code in `176043355`, the packs (text, fonts, templates of all seven languages) in
   `e1d261a1b`. Not in git: `languages/*/text/mm9.po` and `templates/mm9.pot` (the MM9 world is gitignored and
   they stay with it). The dubbed `audio/` and `videos/` overlays of de, es, fr, pl and ru (about 700 MB from the

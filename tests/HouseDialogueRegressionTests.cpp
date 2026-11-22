@@ -1001,6 +1001,46 @@ TEST_CASE("mm6 and mm7 generic peasants fall back from placeholder group news to
     CHECK(emeraldText->find("Wild Dragonflies") != std::string::npos);
 }
 
+TEST_CASE("MMerge's Group <n> filler news is no news, and a world can turn npc_group.txt's group news off")
+{
+    // The 3.0 report: Xeen's villagers (group 47) said npc_news.txt row 47, "Group 47"; Voweless knights in group 1
+    // said MM8's Dagger Wound pirate line.
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const OpenYAMM::Game::NpcDialogTable &table = gameData.npcDialogTable;
+    CHECK(table.isPlaceholderNews(47));
+    CHECK(table.isPlaceholderNews(58));
+    CHECK(table.isPlaceholderNews(51));
+    CHECK_FALSE(table.isPlaceholderNews(50));
+    CHECK_FALSE(table.isPlaceholderNews(1));
+
+    OpenYAMM::Game::MergedNewsTopicTable areaNewsTable;
+    REQUIRE(areaNewsTable.loadFromRows({
+        {"#", "Topic", "Text"},
+        {"151", "102", "102"},
+    }));
+    OpenYAMM::Game::MapStatsEntry map = {};
+    map.id = 151;
+    const std::optional<OpenYAMM::Game::GenericActorDialogResolution> fillerGroup =
+        OpenYAMM::Game::resolveGenericActorDialog(
+            "oute3.odm", "Peasant", 47, OpenYAMM::Game::EventRuntimeState{}, table, nullptr, &map, &areaNewsTable);
+    REQUIRE(fillerGroup.has_value());
+    CHECK_EQ(fillerGroup->newsId, 102u);
+
+    OpenYAMM::Game::NpcDialogTable noGroupNews = table;
+    noGroupNews.setGroupNewsDefaults(false);
+    CHECK_FALSE(noGroupNews.getNewsIdForGroup(1).has_value());
+    CHECK_FALSE(OpenYAMM::Game::resolveGenericActorDialog(
+        "xeen_dd08.blv", "Knight", 1, OpenYAMM::Game::EventRuntimeState{}, noGroupNews).has_value());
+
+    // A script's evt.SetNPCGroupNews still speaks in such a world.
+    OpenYAMM::Game::EventRuntimeState scripted = {};
+    scripted.npcGroupNews[1] = 3;
+    const std::optional<OpenYAMM::Game::GenericActorDialogResolution> scriptedNews =
+        OpenYAMM::Game::resolveGenericActorDialog("xeen_dd08.blv", "Knight", 1, scripted, noGroupNews);
+    REQUIRE(scriptedNews.has_value());
+    CHECK_EQ(scriptedNews->newsId, 3u);
+}
+
 TEST_CASE("generic actor news falls back to merged continent topics after area topics")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -8810,6 +8850,67 @@ TEST_CASE("mm8 lich promotion only requires jars from necromancers")
     CHECK_EQ(harness.party().inventoryItemCount(611), 0);
     CHECK_EQ(harness.party().inventoryItemCount(628), 0);
     CHECK(harness.party().campaign().hasQuestBit(1548));
+}
+
+TEST_CASE("mm8 lich promotion finds and takes the Lost Book of Kehl from the party's quest pouch")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+    OpenYAMM::Game::Party &party = harness.party();
+    party.setPartyPouches(true);
+
+    REQUIRE(party.setMemberClassName(1, "Necromancer"));
+    REQUIRE(party.grantItemToMember(0, 611));
+    REQUIRE(party.grantItemToMember(1, 628));
+    REQUIRE_EQ(party.pouchItems(OpenYAMM::Game::ItemPouch::Quest).size(), 1u);
+    REQUIRE_EQ(party.inventoryItemCount(611, 0), 1);
+
+    REQUIRE(harness.executeGlobalEvent(89));
+
+    CHECK_EQ(party.member(1)->className, "Lich");
+    CHECK(party.pouchItems(OpenYAMM::Game::ItemPouch::Quest).empty());
+    CHECK_EQ(party.inventoryItemCount(611), 0);
+    CHECK(party.campaign().hasQuestBit(1548));
+}
+
+TEST_CASE("mm8 promotion hand-ins find and take their quest items from the party's quest pouch")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+
+    struct HandIn
+    {
+        uint16_t eventId = 0;
+        std::vector<uint32_t> items;
+        uint32_t awardId = 0;
+    };
+
+    // Clerics' Prophecies of the Sun, the Minotaurs' Certificate of Authentication (the Axe of Balthazar, gear, stays
+    // in a bag) and the Vampires' Remains and Sarcophagus of Korbu.
+    for (const HandIn &handIn : {HandIn{81, {626}, 31}, HandIn{71, {541, 732}, 29}, HandIn{90, {627, 612}, 33}})
+    {
+        CAPTURE(handIn.eventId);
+        OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+        OpenYAMM::Game::Party &party = harness.party();
+        party.setPartyPouches(true);
+        size_t pouchItemCount = 0;
+
+        for (uint32_t itemId : handIn.items)
+        {
+            REQUIRE(party.grantItemToMember(0, itemId));
+            pouchItemCount += itemId != 541 ? 1 : 0;
+        }
+
+        REQUIRE_EQ(party.pouchItems(OpenYAMM::Game::ItemPouch::Quest).size(), pouchItemCount);
+        REQUIRE(harness.executeGlobalEvent(handIn.eventId));
+
+        CHECK(party.pouchItems(OpenYAMM::Game::ItemPouch::Quest).empty());
+        CHECK(party.hasAward(0, handIn.awardId));
+
+        for (uint32_t itemId : handIn.items)
+        {
+            CHECK_EQ(party.inventoryItemCount(itemId), 0);
+        }
+    }
 }
 
 TEST_CASE("deftclaw visible topics do not depend on active member refresh")

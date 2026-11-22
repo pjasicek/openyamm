@@ -1,0 +1,23 @@
+# A new Xeen game starts in Vertigo's square with nothing in reach of the interact key: no event target ahead that
+# the context action popup (Android's default, a desktop setting) would offer by itself on arrival. The start once
+# stood on the square fountain's rim and opened its "Fountain" popup at once (3.0 report). The start point is
+# x1/gen.py's entrance:party_start.
+#   build/game/openyamm --headless-run-scenario tests/scenarios/xeen/x1_start_nothing_in_reach.yml --scenario-no-color
+id: xeen.x1_start_nothing_in_reach
+title: "X1: the new-game start has no interaction target in reach"
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_x1.odm
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua: {source: "close()"}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      map: xeen_x1.odm
+      dialog: {active: false}
+  # The interact key at the start pose finds nothing to use (the crosshair's target, else the usable one nearest it).
+  - play_lua:
+      source: |
+        local used, event = interact()
+        if used or event ~= 0 then error("the start pose has a usable target in reach: event " .. event) end

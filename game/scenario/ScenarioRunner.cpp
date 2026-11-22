@@ -1093,6 +1093,21 @@ bool assertDialogState(
         }
     }
 
+    // text_absent: a piece the dialog's text must not hold.
+    if (const YAML::Node absentNode = dialogNode["text_absent"]; absentNode && absentNode.IsScalar())
+    {
+        const std::string unwanted = absentNode.as<std::string>();
+        const bool found = actual.text.find(unwanted) != std::string::npos;
+        scenarioLogAssert(context, step, "dialog.text_absent", unwanted, found ? actual.text : "absent", !found);
+
+        if (found)
+        {
+            failures.push_back(stepLocation(step) + ": " + phase + " dialog text \"" + actual.text
+                + "\" contains \"" + unwanted + "\"");
+            success = false;
+        }
+    }
+
     const YAML::Node actionsNode = dialogNode["actions"];
 
     if (actionsNode)
@@ -3336,6 +3351,16 @@ bool runNewGameFlow(
         }
 
         std::string failure;
+
+        // `party_pouches: true` plays with the Gameplay setting Party pouches on (Standard's quest and alchemy tabs).
+        if (!context.runtimeDriver->initialize(failure))
+        {
+            failures.push_back(stepLocation(step) + ": " + failure);
+            return false;
+        }
+
+        context.runtimeDriver->setPartyPouches(step.payload["party_pouches"].as<bool>(false));
+
         if (!context.runtimeDriver->startNewGame(
                 0, startMap, failure, hasExplicitParty ? &seed : nullptr, ruleset))
         {

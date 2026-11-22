@@ -17,7 +17,7 @@ steps:
 - assert:
     party_position:
       x: -5120
-      y: 8704
+      y: 8192
       radius: 96
 - note: Mayor Gunther's errand in a window on arrival (a one-shot timer, 2 s).
 - advance_runtime:

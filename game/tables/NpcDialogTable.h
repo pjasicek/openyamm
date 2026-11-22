@@ -114,7 +114,13 @@ public:
     std::optional<std::string> getNewsTopic(uint32_t newsId) const;
     std::optional<std::string> getNewsText(uint32_t newsId) const;
     std::optional<std::string> getNewsDialogText(uint32_t textId) const;
+    // A street group's news by npc_group.txt; none in a world that turns the engine's group news off.
     std::optional<uint32_t> getNewsIdForGroup(uint32_t groupId) const;
+    // Whether npc_group.txt's group news applies (world.yml streetNpcGroupNews, set on each world switch).
+    void setGroupNewsDefaults(bool enabled);
+    // An MMerge filler row of npc_news.txt rather than a line to say: "Group <n>" or the empty "Default change me
+    // text" row (51) that many imported MM6/MM7 groups point at.
+    bool isPlaceholderNews(uint32_t newsId) const;
     std::optional<RosterJoinOffer> getRosterJoinOfferForTopic(uint32_t topicId) const;
     std::optional<GuildMembershipOffer> getGuildMembershipOfferForTopic(uint32_t topicId) const;
     std::optional<ResolvedTopic> getTopicById(uint32_t topicId) const;
@@ -131,5 +137,6 @@ private:
     std::unordered_map<uint32_t, std::string> m_newsTopics;
     std::unordered_map<uint32_t, std::string> m_newsTexts;
     std::unordered_map<uint32_t, uint32_t> m_groupNewsIds;
+    bool m_groupNewsDefaults = true;
 };
 }

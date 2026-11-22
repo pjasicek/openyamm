@@ -644,6 +644,17 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
         manifest.streetNpcs = streetNpcsNode.as<bool>();
     }
 
+    if (const YAML::Node groupNewsNode = root["streetNpcGroupNews"])
+    {
+        if (!groupNewsNode.IsScalar())
+        {
+            errorMessage = "world.yml streetNpcGroupNews must be true or false";
+            return false;
+        }
+
+        manifest.streetNpcGroupNews = groupNewsNode.as<bool>();
+    }
+
     if (const YAML::Node blockNode = root["friendlyActorsBlockParty"])
     {
         if (!blockNode.IsScalar())

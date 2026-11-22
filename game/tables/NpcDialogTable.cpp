@@ -8,6 +8,7 @@
 #include <array>
 #include <cctype>
 #include <cstdlib>
+#include <string_view>
 
 namespace OpenYAMM::Game
 {
@@ -820,6 +821,11 @@ std::optional<std::string> NpcDialogTable::getNewsDialogText(uint32_t textId) co
 
 std::optional<uint32_t> NpcDialogTable::getNewsIdForGroup(uint32_t groupId) const
 {
+    if (!m_groupNewsDefaults)
+    {
+        return std::nullopt;
+    }
+
     const std::unordered_map<uint32_t, uint32_t>::const_iterator groupIt = m_groupNewsIds.find(groupId);
 
     if (groupIt == m_groupNewsIds.end())
@@ -828,6 +834,41 @@ std::optional<uint32_t> NpcDialogTable::getNewsIdForGroup(uint32_t groupId) cons
     }
 
     return groupIt->second;
+}
+
+void NpcDialogTable::setGroupNewsDefaults(bool enabled)
+{
+    m_groupNewsDefaults = enabled;
+}
+
+bool NpcDialogTable::isPlaceholderNews(uint32_t newsId) const
+{
+    const std::optional<std::string> text = getNewsText(newsId);
+
+    if (!text)
+    {
+        return false;
+    }
+
+    constexpr std::string_view Whitespace = " \t\r\n";
+    const size_t begin = text->find_first_not_of(Whitespace);
+
+    if (begin == std::string::npos)
+    {
+        return getNewsTopic(newsId).value_or(std::string()).starts_with("Default change me");
+    }
+
+    const std::string_view trimmed =
+        std::string_view(*text).substr(begin, text->find_last_not_of(Whitespace) + 1 - begin);
+    constexpr std::string_view GroupPrefix = "Group ";
+
+    if (!trimmed.starts_with(GroupPrefix) || trimmed.size() == GroupPrefix.size())
+    {
+        return false;
+    }
+
+    return std::all_of(trimmed.begin() + GroupPrefix.size(), trimmed.end(),
+                       [](char character) { return std::isdigit(static_cast<unsigned char>(character)) != 0; });
 }
 
 std::optional<NpcDialogTable::RosterJoinOffer> NpcDialogTable::getRosterJoinOfferForTopic(uint32_t topicId) const

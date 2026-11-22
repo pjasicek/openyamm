@@ -37,7 +37,7 @@ RegisterEvent(3, "Stone Block", function()
     evt.SetTexture(1, "orfyrlga")
     local n = 0
     for i = 1, 6 do if IsAtLeast(MapVar(2), i) then n = i end end
-    evt.StatusText('Stone Block - Glowing Rock! Far off, a lamp kindles over the Iron door (' .. n .. ' of six).', 6)
+    evt.StatusText(tr('Stone Block - Glowing Rock! Far off, a lamp kindles over the Iron door ({count} of six).', {count = n}), 6)
 end, "Stone Block")
 
 -- evt:block_12
@@ -54,7 +54,7 @@ RegisterEvent(4, "Stone Block", function()
     evt.SetTexture(2, "orfyrlga")
     local n = 0
     for i = 1, 6 do if IsAtLeast(MapVar(2), i) then n = i end end
-    evt.StatusText('Stone Block - Glowing Rock! Far off, a lamp kindles over the Iron door (' .. n .. ' of six).', 6)
+    evt.StatusText(tr('Stone Block - Glowing Rock! Far off, a lamp kindles over the Iron door ({count} of six).', {count = n}), 6)
 end, "Stone Block")
 
 -- evt:block_13
@@ -82,7 +82,7 @@ RegisterEvent(6, "Stone Block", function()
     evt.SetTexture(3, "orfyrlga")
     local n = 0
     for i = 1, 6 do if IsAtLeast(MapVar(2), i) then n = i end end
-    evt.StatusText('Stone Block - Glowing Rock! Far off, a lamp kindles over the Iron door (' .. n .. ' of six).', 6)
+    evt.StatusText(tr('Stone Block - Glowing Rock! Far off, a lamp kindles over the Iron door ({count} of six).', {count = n}), 6)
 end, "Stone Block")
 
 -- evt:block_22
@@ -110,7 +110,7 @@ RegisterEvent(8, "Stone Block", function()
     evt.SetTexture(4, "orfyrlga")
     local n = 0
     for i = 1, 6 do if IsAtLeast(MapVar(2), i) then n = i end end
-    evt.StatusText('Stone Block - Glowing Rock! Far off, a lamp kindles over the Iron door (' .. n .. ' of six).', 6)
+    evt.StatusText(tr('Stone Block - Glowing Rock! Far off, a lamp kindles over the Iron door ({count} of six).', {count = n}), 6)
 end, "Stone Block")
 
 -- evt:block_31
@@ -138,7 +138,7 @@ RegisterEvent(10, "Stone Block", function()
     evt.SetTexture(5, "orfyrlga")
     local n = 0
     for i = 1, 6 do if IsAtLeast(MapVar(2), i) then n = i end end
-    evt.StatusText('Stone Block - Glowing Rock! Far off, a lamp kindles over the Iron door (' .. n .. ' of six).', 6)
+    evt.StatusText(tr('Stone Block - Glowing Rock! Far off, a lamp kindles over the Iron door ({count} of six).', {count = n}), 6)
 end, "Stone Block")
 
 -- evt:block_33
@@ -155,7 +155,7 @@ RegisterEvent(11, "Stone Block", function()
     evt.SetTexture(6, "orfyrlga")
     local n = 0
     for i = 1, 6 do if IsAtLeast(MapVar(2), i) then n = i end end
-    evt.StatusText('Stone Block - Glowing Rock! Far off, a lamp kindles over the Iron door (' .. n .. ' of six).', 6)
+    evt.StatusText(tr('Stone Block - Glowing Rock! Far off, a lamp kindles over the Iron door ({count} of six).', {count = n}), 6)
 end, "Stone Block")
 
 -- evt:bough_hn
@@ -168,12 +168,12 @@ RegisterEvent(12, "Bough", function()
     AddValue(MapVar(11), 1)
     evt.DestroyDestructible(1)
     local s
-    if IsAtLeast(MapVar(11), 4) then s = 'The last branch falls. Return to the statue.'
-    elseif IsAtLeast(MapVar(11), 3) then s = 'One branch remains.'
-    elseif IsAtLeast(MapVar(11), 2) then s = 'Two branches remain.'
-    elseif IsAtLeast(MapVar(11), 1) then s = 'Three branches remain.'
-    else s = 'Four branches remain.' end
-    evt.StatusText('You hack through the living bough, and it falls. ' .. s, 6)
+    if IsAtLeast(MapVar(11), 4) then s = tr('The last branch falls. Return to the statue.')
+    elseif IsAtLeast(MapVar(11), 3) then s = tr('One branch remains.')
+    elseif IsAtLeast(MapVar(11), 2) then s = tr('Two branches remain.')
+    elseif IsAtLeast(MapVar(11), 1) then s = tr('Three branches remain.')
+    else s = tr('Four branches remain.') end
+    evt.StatusText(tr('You hack through the living bough, and it falls. {remaining}', {remaining = s}), 6)
 end, "Bough")
 
 -- evt:bough_hn_cut
@@ -184,12 +184,12 @@ RegisterEvent(13, nil, function()
     SetValue(MapVar(24), 1)
     AddValue(MapVar(11), 1)
     local s
-    if IsAtLeast(MapVar(11), 4) then s = 'The last branch falls. Return to the statue.'
-    elseif IsAtLeast(MapVar(11), 3) then s = 'One branch remains.'
-    elseif IsAtLeast(MapVar(11), 2) then s = 'Two branches remain.'
-    elseif IsAtLeast(MapVar(11), 1) then s = 'Three branches remain.'
-    else s = 'Four branches remain.' end
-    evt.StatusText('The bough falls. ' .. s, 6)
+    if IsAtLeast(MapVar(11), 4) then s = tr('The last branch falls. Return to the statue.')
+    elseif IsAtLeast(MapVar(11), 3) then s = tr('One branch remains.')
+    elseif IsAtLeast(MapVar(11), 2) then s = tr('Two branches remain.')
+    elseif IsAtLeast(MapVar(11), 1) then s = tr('Three branches remain.')
+    else s = tr('Four branches remain.') end
+    evt.StatusText(tr('The bough falls. {remaining}', {remaining = s}), 6)
 end, nil)
 
 -- evt:bough_hs
@@ -202,12 +202,12 @@ RegisterEvent(14, "Bough", function()
     AddValue(MapVar(11), 1)
     evt.DestroyDestructible(2)
     local s
-    if IsAtLeast(MapVar(11), 4) then s = 'The last branch falls. Return to the statue.'
-    elseif IsAtLeast(MapVar(11), 3) then s = 'One branch remains.'
-    elseif IsAtLeast(MapVar(11), 2) then s = 'Two branches remain.'
-    elseif IsAtLeast(MapVar(11), 1) then s = 'Three branches remain.'
-    else s = 'Four branches remain.' end
-    evt.StatusText('You hack through the living bough, and it falls. ' .. s, 6)
+    if IsAtLeast(MapVar(11), 4) then s = tr('The last branch falls. Return to the statue.')
+    elseif IsAtLeast(MapVar(11), 3) then s = tr('One branch remains.')
+    elseif IsAtLeast(MapVar(11), 2) then s = tr('Two branches remain.')
+    elseif IsAtLeast(MapVar(11), 1) then s = tr('Three branches remain.')
+    else s = tr('Four branches remain.') end
+    evt.StatusText(tr('You hack through the living bough, and it falls. {remaining}', {remaining = s}), 6)
 end, "Bough")
 
 -- evt:bough_hs_cut
@@ -218,12 +218,12 @@ RegisterEvent(15, nil, function()
     SetValue(MapVar(25), 1)
     AddValue(MapVar(11), 1)
     local s
-    if IsAtLeast(MapVar(11), 4) then s = 'The last branch falls. Return to the statue.'
-    elseif IsAtLeast(MapVar(11), 3) then s = 'One branch remains.'
-    elseif IsAtLeast(MapVar(11), 2) then s = 'Two branches remain.'
-    elseif IsAtLeast(MapVar(11), 1) then s = 'Three branches remain.'
-    else s = 'Four branches remain.' end
-    evt.StatusText('The bough falls. ' .. s, 6)
+    if IsAtLeast(MapVar(11), 4) then s = tr('The last branch falls. Return to the statue.')
+    elseif IsAtLeast(MapVar(11), 3) then s = tr('One branch remains.')
+    elseif IsAtLeast(MapVar(11), 2) then s = tr('Two branches remain.')
+    elseif IsAtLeast(MapVar(11), 1) then s = tr('Three branches remain.')
+    else s = tr('Four branches remain.') end
+    evt.StatusText(tr('The bough falls. {remaining}', {remaining = s}), 6)
 end, nil)
 
 -- evt:bough_ln
@@ -236,12 +236,12 @@ RegisterEvent(16, "Bough", function()
     AddValue(MapVar(11), 1)
     evt.DestroyDestructible(3)
     local s
-    if IsAtLeast(MapVar(11), 4) then s = 'The last branch falls. Return to the statue.'
-    elseif IsAtLeast(MapVar(11), 3) then s = 'One branch remains.'
-    elseif IsAtLeast(MapVar(11), 2) then s = 'Two branches remain.'
-    elseif IsAtLeast(MapVar(11), 1) then s = 'Three branches remain.'
-    else s = 'Four branches remain.' end
-    evt.StatusText('You hack through the living bough, and it falls. ' .. s, 6)
+    if IsAtLeast(MapVar(11), 4) then s = tr('The last branch falls. Return to the statue.')
+    elseif IsAtLeast(MapVar(11), 3) then s = tr('One branch remains.')
+    elseif IsAtLeast(MapVar(11), 2) then s = tr('Two branches remain.')
+    elseif IsAtLeast(MapVar(11), 1) then s = tr('Three branches remain.')
+    else s = tr('Four branches remain.') end
+    evt.StatusText(tr('You hack through the living bough, and it falls. {remaining}', {remaining = s}), 6)
 end, "Bough")
 
 -- evt:bough_ln_cut
@@ -252,12 +252,12 @@ RegisterEvent(17, nil, function()
     SetValue(MapVar(26), 1)
     AddValue(MapVar(11), 1)
     local s
-    if IsAtLeast(MapVar(11), 4) then s = 'The last branch falls. Return to the statue.'
-    elseif IsAtLeast(MapVar(11), 3) then s = 'One branch remains.'
-    elseif IsAtLeast(MapVar(11), 2) then s = 'Two branches remain.'
-    elseif IsAtLeast(MapVar(11), 1) then s = 'Three branches remain.'
-    else s = 'Four branches remain.' end
-    evt.StatusText('The bough falls. ' .. s, 6)
+    if IsAtLeast(MapVar(11), 4) then s = tr('The last branch falls. Return to the statue.')
+    elseif IsAtLeast(MapVar(11), 3) then s = tr('One branch remains.')
+    elseif IsAtLeast(MapVar(11), 2) then s = tr('Two branches remain.')
+    elseif IsAtLeast(MapVar(11), 1) then s = tr('Three branches remain.')
+    else s = tr('Four branches remain.') end
+    evt.StatusText(tr('The bough falls. {remaining}', {remaining = s}), 6)
 end, nil)
 
 -- evt:bough_ls
@@ -270,12 +270,12 @@ RegisterEvent(18, "Bough", function()
     AddValue(MapVar(11), 1)
     evt.DestroyDestructible(4)
     local s
-    if IsAtLeast(MapVar(11), 4) then s = 'The last branch falls. Return to the statue.'
-    elseif IsAtLeast(MapVar(11), 3) then s = 'One branch remains.'
-    elseif IsAtLeast(MapVar(11), 2) then s = 'Two branches remain.'
-    elseif IsAtLeast(MapVar(11), 1) then s = 'Three branches remain.'
-    else s = 'Four branches remain.' end
-    evt.StatusText('You hack through the living bough, and it falls. ' .. s, 6)
+    if IsAtLeast(MapVar(11), 4) then s = tr('The last branch falls. Return to the statue.')
+    elseif IsAtLeast(MapVar(11), 3) then s = tr('One branch remains.')
+    elseif IsAtLeast(MapVar(11), 2) then s = tr('Two branches remain.')
+    elseif IsAtLeast(MapVar(11), 1) then s = tr('Three branches remain.')
+    else s = tr('Four branches remain.') end
+    evt.StatusText(tr('You hack through the living bough, and it falls. {remaining}', {remaining = s}), 6)
 end, "Bough")
 
 -- evt:bough_ls_cut
@@ -286,12 +286,12 @@ RegisterEvent(19, nil, function()
     SetValue(MapVar(27), 1)
     AddValue(MapVar(11), 1)
     local s
-    if IsAtLeast(MapVar(11), 4) then s = 'The last branch falls. Return to the statue.'
-    elseif IsAtLeast(MapVar(11), 3) then s = 'One branch remains.'
-    elseif IsAtLeast(MapVar(11), 2) then s = 'Two branches remain.'
-    elseif IsAtLeast(MapVar(11), 1) then s = 'Three branches remain.'
-    else s = 'Four branches remain.' end
-    evt.StatusText('The bough falls. ' .. s, 6)
+    if IsAtLeast(MapVar(11), 4) then s = tr('The last branch falls. Return to the statue.')
+    elseif IsAtLeast(MapVar(11), 3) then s = tr('One branch remains.')
+    elseif IsAtLeast(MapVar(11), 2) then s = tr('Two branches remain.')
+    elseif IsAtLeast(MapVar(11), 1) then s = tr('Three branches remain.')
+    else s = tr('Four branches remain.') end
+    evt.StatusText(tr('The bough falls. {remaining}', {remaining = s}), 6)
 end, nil)
 
 -- evt:chest_forge
@@ -384,7 +384,7 @@ RegisterEvent(31, "Great lock", function()
             if not IsAtLeast(MapVar(17), 1) then n = n + 1 end
             if not IsAtLeast(MapVar(18), 1) then n = n + 1 end
             if n == 0 then evt.StatusText('The great lock lies open.', 4) else
-            evt.SimpleMessage('The Iron Key will not turn: ' .. n .. ' of the three bolts still hold the lock. Their levers are in this hall and in the rooms north and east.') end
+            evt.SimpleMessage(tr('The Iron Key will not turn: {count} of the three bolts still hold the lock. Their levers are in this hall and in the rooms north and east.', {count = n})) end
         end
         return
     end
@@ -406,7 +406,7 @@ RegisterEvent(33, "Home of the Iron", function()
     end
     local n = 0
     for i = 1, 6 do if IsAtLeast(MapVar(2), i) then n = i end end
-    evt.SimpleMessage('A plaque over the door reads: Home of the Iron. The door is shut fast. Six lamps are set in the stone above it; ' .. n .. ' of them burn.')
+    evt.SimpleMessage(tr('A plaque over the door reads: Home of the Iron. The door is shut fast. Six lamps are set in the stone above it; {count} of them burn.', {count = n}))
 end, "Home of the Iron")
 
 -- evt:iron_open
@@ -496,11 +496,11 @@ RegisterEvent(41, "Statue", function()
     if not ((IsAtLeast(MapVar(11), 4)) and (not (IsAtLeast(MapVar(23), 1)))) then
         XeenQuests.hook("m10.golem_plaque")
         local s
-        if IsAtLeast(MapVar(11), 4) then s = 'The last branch falls. Return to the statue.'
-        elseif IsAtLeast(MapVar(11), 3) then s = 'One branch remains.'
-        elseif IsAtLeast(MapVar(11), 2) then s = 'Two branches remain.'
-        elseif IsAtLeast(MapVar(11), 1) then s = 'Three branches remain.'
-        else s = 'Four branches remain.' end
+        if IsAtLeast(MapVar(11), 4) then s = tr('The last branch falls. Return to the statue.')
+        elseif IsAtLeast(MapVar(11), 3) then s = tr('One branch remains.')
+        elseif IsAtLeast(MapVar(11), 2) then s = tr('Two branches remain.')
+        elseif IsAtLeast(MapVar(11), 1) then s = tr('Three branches remain.')
+        else s = tr('Four branches remain.') end
         if not IsAtLeast(MapVar(23), 1) then evt.StatusText(s, 5) end
         return
     end

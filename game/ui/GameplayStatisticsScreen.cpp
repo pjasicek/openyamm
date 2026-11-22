@@ -2,6 +2,7 @@
 
 #include "engine/Localization.h"
 #include "engine/Utf8Text.h"
+#include "game/content/RulesetOptions.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
@@ -141,6 +142,14 @@ std::string capitalizedText(std::string text)
     }
 
     return text;
+}
+
+// A world by its id: upper-cased (MM6, XEEN) in English, its name ("Xeen") where the interface language has one.
+std::string worldText(const std::string &worldId)
+{
+    const std::string name = capitalizedText(worldId);
+    const std::string translated = Engine::localizeKnown(name);
+    return translated != name ? translated : upperText(worldId);
 }
 
 // A recorded name (monster, spell, item, death cause) as the interface language shows it.
@@ -363,10 +372,10 @@ void renderHeader(GameplayScreenRuntime &context, const Rect &root, const Playth
 
     if (!header.startWorld.empty())
     {
-        detail = Engine::tr("{world} start", {{"world", upperText(header.startWorld)}});
+        detail = Engine::tr("{world} start", {{"world", worldText(header.startWorld)}});
     }
 
-    if (!header.ruleset.empty() && header.ruleset != "standard")
+    if (!header.ruleset.empty() && header.ruleset != StandardRulesetId)
     {
         detail += (detail.empty() ? "" : "  -  ") + upperText(header.ruleset);
     }
@@ -824,7 +833,7 @@ Breakdown buildBreakdown(const std::string &id, const PlaythroughStatistics &sta
 
             for (const auto &[world, seconds] : topEntries(l.playedSecondsByWorld, 6))
             {
-                lines.push_back(row(upperText(world), formatDuration(seconds), percentText(seconds, l.playedSeconds)));
+                lines.push_back(row(worldText(world), formatDuration(seconds), percentText(seconds, l.playedSeconds)));
             }
         }
 

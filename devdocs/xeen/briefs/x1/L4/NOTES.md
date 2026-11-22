@@ -933,3 +933,13 @@ user's G0 saves reset X1's map state on entry (accepted).
   (`m2.rain_barrel` no longer called: A3 makes it `map_gives`). Walk: `ground_items(12001)` 1, `pick_up` takes it
   (436 away), `has_item`. `gen.py`, `gen_walk.py` backups `*.pre_s30`.
 - Installed with its bake 01:59; audit 0; walk and hostility pass from assets_dev.
+
+## 2026-11-22 (after v3.0): the party start off the fountain's rim
+- 3.0 report: "a Fountain dialog opens by itself at the start of a new Xeen game". It was the context action popup
+  (Android's default, a desktop setting) offering the square fountain: the start (54, 47) stood 225 from its rim, the
+  rim's top face 401 from the eye, inside the interact reach (512). Moved `entrance:party_start` to (54, 48) in
+  `gen.py` (the square view's own spot) and `vertigo_square` in `source/towns/x1.yml` to (-5120, 8192, 640), which
+  the new game, mirror and Town Portal use (continent_settings, mirrors, town_portal_switch, xeen_quests 4017). Rim now
+  about 700 away; nothing usable in reach facing north. odm and Lua byte-identical; scene/studio start and the walk's
+  first assert changed. Installed with its bake; audit 0 errors; walk and hostility pass; the new check
+  `tests/scenarios/xeen/x1_start_nothing_in_reach.yml` fails on the old start (event 65) and passes now.

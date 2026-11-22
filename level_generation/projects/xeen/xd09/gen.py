@@ -636,11 +636,11 @@ objects['exits'] = [
 var = lambda name: {'map_var': name}
 COUNT_BOUGHS = (
     "local s\n"
-    "if IsAtLeast(MapVar(boughs), 4) then s = 'The last branch falls. Return to the statue.'\n"
-    "elseif IsAtLeast(MapVar(boughs), 3) then s = 'One branch remains.'\n"
-    "elseif IsAtLeast(MapVar(boughs), 2) then s = 'Two branches remain.'\n"
-    "elseif IsAtLeast(MapVar(boughs), 1) then s = 'Three branches remain.'\n"
-    "else s = 'Four branches remain.' end\n")
+    "if IsAtLeast(MapVar(boughs), 4) then s = tr('The last branch falls. Return to the statue.')\n"
+    "elseif IsAtLeast(MapVar(boughs), 3) then s = tr('One branch remains.')\n"
+    "elseif IsAtLeast(MapVar(boughs), 2) then s = tr('Two branches remain.')\n"
+    "elseif IsAtLeast(MapVar(boughs), 1) then s = tr('Three branches remain.')\n"
+    "else s = tr('Four branches remain.') end\n")
 COUNT_ROCKS = (
     "local n = 0\n"
     "for i = 1, 6 do if IsAtLeast(MapVar(rocks), i) then n = i end end\n")
@@ -659,7 +659,7 @@ events = [
      'else_effects': [{'text': "A plaque over the door reads: Home of the Stone"}]},
     {'id': 'evt:iron_door', 'preset': 'script', 'source': 'door:iron', 'title': 'Home of the Iron',
      'condition': {'not': {'map_var': {'name': 'rocks', 'at_least': 6}}},
-     'effects': [{'lua': COUNT_ROCKS + "evt.SimpleMessage('A plaque over the door reads: Home of the Iron. The door is shut fast. Six lamps are set in the stone above it; ' .. n .. ' of them burn.')"}],
+     'effects': [{'lua': COUNT_ROCKS + "evt.SimpleMessage(tr('A plaque over the door reads: Home of the Iron. The door is shut fast. Six lamps are set in the stone above it; {count} of them burn.', {count = n}))"}],
      'else_effects': [{'text': "A plaque over the door reads: Home of the Iron"}]},
     {'id': 'evt:diamond_front', 'preset': 'script', 'source': 'door:diamond', 'side': 'room:entry', 'title': 'Home of the Diamond',
      'condition': {'not': var('diamond_open')},
@@ -682,13 +682,13 @@ for k, (rm, at, size) in BOUGHS.items():
     events.append({'id': f'evt:bough_{k}', 'preset': 'script', 'source': f'platform:bough_{k}', 'title': 'Bough',
                    'condition': {'not': var(f'cut_{k}')}, 'sets': var(f'cut_{k}'),
                    'effects': [{'add': {'var': var('boughs'), 'value': 1}}, {'destroy': f'destructible:bough_{k}'},
-                               {'lua': COUNT_BOUGHS + "evt.StatusText('You hack through the living bough, and it falls. ' .. s, 6)"}],
+                               {'lua': COUNT_BOUGHS + "evt.StatusText(tr('You hack through the living bough, and it falls. {remaining}', {remaining = s}), 6)"}],
                    'locked_text': "The bough lies cut.",
                    'notes': "Clicked, the party cuts the bough (its breaking runs the count)."})
     events.append({'id': f'evt:bough_{k}_cut', 'preset': 'script', 'trigger': 'call',
                    'condition': {'not': var(f'cut_{k}')}, 'sets': var(f'cut_{k}'),
                    'effects': [{'add': {'var': var('boughs'), 'value': 1}},
-                               {'lua': COUNT_BOUGHS + "evt.StatusText('The bough falls. ' .. s, 6)"}],
+                               {'lua': COUNT_BOUGHS + "evt.StatusText(tr('The bough falls. {remaining}', {remaining = s}), 6)"}],
                    'notes': "The bough's on_destroyed (broken by blows or missiles): counts down on the plaque; a cut by click has counted already."})
 # The stone: nine blocks; six bare a glowing rock and light a lamp over the Iron door.
 for r, cy in enumerate(ROWS, start=1):
@@ -702,7 +702,7 @@ for r, cy in enumerate(ROWS, start=1):
             ev['effects'] = [{'add': {'var': var('rocks'), 'value': 1}},
                              {'lights_on': [f'light:rock_{k}', f'light:lamp_{i}']},
                              {'set_texture': {'of': f'panel:lamp_{i}', 'to': 'orfyrlga'}},
-                             {'lua': COUNT_ROCKS + "evt.StatusText('Stone Block - Glowing Rock! Far off, a lamp kindles over the Iron door (' .. n .. ' of six).', 6)"}]
+                             {'lua': COUNT_ROCKS + "evt.StatusText(tr('Stone Block - Glowing Rock! Far off, a lamp kindles over the Iron door ({count} of six).', {count = n}), 6)"}]
             ev['notes'] = f"Bares glowing rock {i} (aaze0081:12) and lights lamp {i}."
         else:
             ev['effects'] = [{'text': "The block grinds into its recess. Bare stone beneath it."}]
@@ -743,7 +743,7 @@ events += [
                               "    local n = 0\n    if not IsAtLeast(MapVar(bolt_n), 1) then n = n + 1 end\n"
                               "    if not IsAtLeast(MapVar(bolt_e), 1) then n = n + 1 end\n    if not IsAtLeast(MapVar(bolt_s), 1) then n = n + 1 end\n"
                               "    if n == 0 then evt.StatusText('The great lock lies open.', 4) else\n"
-                              "    evt.SimpleMessage('The Iron Key will not turn: ' .. n .. ' of the three bolts still hold the lock. Their levers are in this hall and in the rooms north and east.') end\nend"}],
+                              "    evt.SimpleMessage(tr('The Iron Key will not turn: {count} of the three bolts still hold the lock. Their levers are in this hall and in the rooms north and east.', {count = n})) end\nend"}],
      'notes': "set:iron: the Iron Key (forge chest) and the three drawn bolts open the great lock."},
     {'id': 'evt:lock_seen', 'preset': 'text', 'trigger': 'step', 'source': 'room:lock_hall', 'once': True,
      'text': "A lock as big as a door lies in the floor, three iron bolts shot into it.", 'seconds': 5},

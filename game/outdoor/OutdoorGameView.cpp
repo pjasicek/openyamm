@@ -4989,8 +4989,9 @@ void OutdoorGameView::updateActorInspectOverlayState(int width, int height, cons
     actorInspectOverlay.active = true;
     actorInspectOverlay.runtimeActorIndex = runtimeActorIndex;
     actorInspectOverlay.rawNumbers = input.altHeld();
-    actorInspectOverlay.displayNameOverride =
-        OutdoorInteractionController::resolveActorInspectDisplayName(*this, inspectHit);
+    // Only a generated street NPC's name and title replaces the actor's name, which the panel localizes, as indoors.
+    const std::string resolvedName = OutdoorInteractionController::resolveActorInspectDisplayName(*this, inspectHit);
+    actorInspectOverlay.displayNameOverride = resolvedName != inspectHit.name ? resolvedName : std::string();
     actorInspectOverlay.sourceX = rectMinX;
     actorInspectOverlay.sourceY = rectMinY;
     actorInspectOverlay.sourceWidth = std::max(1.0f, rectMaxX - rectMinX);

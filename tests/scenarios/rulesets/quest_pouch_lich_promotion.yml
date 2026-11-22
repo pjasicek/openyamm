@@ -1,0 +1,67 @@
+id: rulesets.quest_pouch_lich_promotion
+title: "Rulesets - the Lost Book of Kehl from the quest pouch: Vetrinus finds it and takes it (Xeen start, Standard and MAW)"
+world: xeen
+mode: faithful
+tags: [rulesets, maw, mm8, regression]
+steps:
+  - note:
+      text: >-
+        A 3.0 tester (a Xeen start) reported that Vetrinus Taleshire's Promotion to Lich (global event 89,
+        worlds/mm8/events/Global_mm8_promotions.lua: requireItem(611, 115)) said the party had no Lost Book of Kehl
+        while the book lay in the quest pouch. The book is item 611 in every world; here it comes from its chest in
+        the Uplifted Library (d40, event 81, chest 0) into the quest pouch, once under Standard with the Gameplay
+        setting Party pouches on and once under MAW, after a Xeen start, a trip to Jadame and a save and load. Every
+        member counts the pouch's book once (a bag's book counts for its member only), the party-wide check finds it,
+        and the promotion proceeds and takes the book from the pouch.
+  - new_game_flow:
+      start_map: xeen_x1.odm
+      party:
+        gold: 20000
+        food: 20
+        members:
+          - {name: Ann, class: Knight, level: 10, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+          - {name: Bob, class: Necromancer, level: 10, skills: [{name: Staff, level: 4, mastery: 1}], equipment: {}}
+          - {name: Cid, class: Cleric, level: 10, skills: [{name: Mace, level: 4, mastery: 1}], equipment: {}}
+          - {name: Dee, class: Thief, level: 20, skills: [{name: Dagger, level: 4, mastery: 1}, {name: DisarmTraps, level: 8, mastery: 3}], equipment: {}}
+      party_pouches: true
+  - load_map: {map: d40.blv}
+  - execute_event: {id: 81}
+  - play_lua: {source: "if not take_chest() then error('the chest gave nothing') end close()"}
+  - lua_event:
+      source: "if evt.GetPartyMemberCount() < 4 then error('the party must have several members') end evt.ForPlayer(Players.All) if not HasItem(611) then error('HasItem misses the book') end for i = 0, evt.GetPartyMemberCount() - 1 do if evt.PartyMemberItemCount(i, 611) ~= 1 then error('member ' .. i .. ' does not see the pouch: the book is in a bag') end end if not evt.CheckItemsCount(611, 611, 1) then error('the range check misses the book') end"
+  - grant_item: {item_id: 628, member_index: 1}
+  - load_map: {map: out06.odm}
+  - reload: {}
+  - speak_npc: {source_id: 61}
+  - select_topic: {action_id: 86}
+  - select_topic: {action_id: 89}
+  - assert:
+      dialog: {text_contains: "brought everything"}
+      qbit_clear: [82]
+      inventory_any_member: [{item_id: 611, count: 0}, {item_id: 628, count: 0}]
+  - new_game_flow:
+      start_map: xeen_x1.odm
+      party:
+        gold: 20000
+        food: 20
+        members:
+          - {name: Ann, class: Knight, level: 10, skills: [{name: Sword, level: 4, mastery: 1}], equipment: {}}
+          - {name: Bob, class: Necromancer, level: 10, skills: [{name: Staff, level: 4, mastery: 1}], equipment: {}}
+          - {name: Cid, class: Cleric, level: 10, skills: [{name: Mace, level: 4, mastery: 1}], equipment: {}}
+          - {name: Dee, class: Thief, level: 20, skills: [{name: Dagger, level: 4, mastery: 1}, {name: DisarmTraps, level: 8, mastery: 3}], equipment: {}}
+      ruleset: {id: maw, difficulty: maw, progression: free}
+  - load_map: {map: d40.blv}
+  - execute_event: {id: 81}
+  - play_lua: {source: "if not take_chest() then error('the chest gave nothing') end close()"}
+  - lua_event:
+      source: "if evt.GetPartyMemberCount() < 4 then error('the party must have several members') end evt.ForPlayer(Players.All) if not HasItem(611) then error('HasItem misses the book') end for i = 0, evt.GetPartyMemberCount() - 1 do if evt.PartyMemberItemCount(i, 611) ~= 1 then error('member ' .. i .. ' does not see the pouch: the book is in a bag') end end"
+  - grant_item: {item_id: 628, member_index: 1}
+  - load_map: {map: out06.odm}
+  - reload: {}
+  - speak_npc: {source_id: 61}
+  - select_topic: {action_id: 86}
+  - select_topic: {action_id: 89}
+  - assert:
+      dialog: {text_contains: "brought everything"}
+      qbit_clear: [82]
+      inventory_any_member: [{item_id: 611, count: 0}, {item_id: 628, count: 0}]

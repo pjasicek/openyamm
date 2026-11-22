@@ -853,21 +853,21 @@ structures:
     decoration: ped02
     title: Sundial
     effects:
-      - lua: "local v = evt.GetMapVar(\"x3_dial_1\", 3) if continueStep == 2 then v = v % 12 + 1 evt.SetMapVar(\"x3_dial_1\", v) if evt.GetMapVar(\"x3_dial_1\", 3) == 9 and evt.GetMapVar(\"x3_dial_2\", 6) == 9 and evt.GetMapVar(\"x3_dial_3\", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText(\"The sundial is set to \" .. v .. \".\") return end if continueStep ~= nil then return end AskChoiceWithAnswerSteps(eventId, 3, \"The sundial is set to \" .. v .. \".  Turn?\", {{Answer = \"Yes\", Step = 2}, {Answer = \"No\", Step = 3}})"
+      - lua: "local v = evt.GetMapVar(\"x3_dial_1\", 3) if continueStep == 2 then v = v % 12 + 1 evt.SetMapVar(\"x3_dial_1\", v) if evt.GetMapVar(\"x3_dial_1\", 3) == 9 and evt.GetMapVar(\"x3_dial_2\", 6) == 9 and evt.GetMapVar(\"x3_dial_3\", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText(tr(\"The sundial is set to {reading}.\", {reading = v})) return end if continueStep ~= nil then return end AskChoiceWithAnswerSteps(eventId, 3, tr(\"The sundial is set to {reading}.  Turn?\", {reading = v}), {{Answer = \"Yes\", Step = 2}, {Answer = \"No\", Step = 3}})"
   - id: thing:sundial_2
     kind: decoration
     at: [98.5, 70.4]
     decoration: ped02
     title: Sundial
     effects:
-      - lua: "local v = evt.GetMapVar(\"x3_dial_2\", 6) if continueStep == 2 then v = v % 12 + 1 evt.SetMapVar(\"x3_dial_2\", v) if evt.GetMapVar(\"x3_dial_1\", 3) == 9 and evt.GetMapVar(\"x3_dial_2\", 6) == 9 and evt.GetMapVar(\"x3_dial_3\", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText(\"The sundial is set to \" .. v .. \".\") return end if continueStep ~= nil then return end AskChoiceWithAnswerSteps(eventId, 3, \"The sundial is set to \" .. v .. \".  Turn?\", {{Answer = \"Yes\", Step = 2}, {Answer = \"No\", Step = 3}})"
+      - lua: "local v = evt.GetMapVar(\"x3_dial_2\", 6) if continueStep == 2 then v = v % 12 + 1 evt.SetMapVar(\"x3_dial_2\", v) if evt.GetMapVar(\"x3_dial_1\", 3) == 9 and evt.GetMapVar(\"x3_dial_2\", 6) == 9 and evt.GetMapVar(\"x3_dial_3\", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText(tr(\"The sundial is set to {reading}.\", {reading = v})) return end if continueStep ~= nil then return end AskChoiceWithAnswerSteps(eventId, 3, tr(\"The sundial is set to {reading}.  Turn?\", {reading = v}), {{Answer = \"Yes\", Step = 2}, {Answer = \"No\", Step = 3}})"
   - id: thing:sundial_3
     kind: decoration
     at: [99.25, 70.4]
     decoration: ped02
     title: Sundial
     effects:
-      - lua: "local v = evt.GetMapVar(\"x3_dial_3\", 12) if continueStep == 2 then v = v % 12 + 1 evt.SetMapVar(\"x3_dial_3\", v) if evt.GetMapVar(\"x3_dial_1\", 3) == 9 and evt.GetMapVar(\"x3_dial_2\", 6) == 9 and evt.GetMapVar(\"x3_dial_3\", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText(\"The sundial is set to \" .. v .. \".\") return end if continueStep ~= nil then return end AskChoiceWithAnswerSteps(eventId, 3, \"The sundial is set to \" .. v .. \".  Turn?\", {{Answer = \"Yes\", Step = 2}, {Answer = \"No\", Step = 3}})"
+      - lua: "local v = evt.GetMapVar(\"x3_dial_3\", 12) if continueStep == 2 then v = v % 12 + 1 evt.SetMapVar(\"x3_dial_3\", v) if evt.GetMapVar(\"x3_dial_1\", 3) == 9 and evt.GetMapVar(\"x3_dial_2\", 6) == 9 and evt.GetMapVar(\"x3_dial_3\", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText(tr(\"The sundial is set to {reading}.\", {reading = v})) return end if continueStep ~= nil then return end AskChoiceWithAnswerSteps(eventId, 3, tr(\"The sundial is set to {reading}.  Turn?\", {reading = v}), {{Answer = \"Yes\", Step = 2}, {Answer = \"No\", Step = 3}})"
   - id: thing:dial_plinth_1
     kind: sign
     at: [97.75, 70]

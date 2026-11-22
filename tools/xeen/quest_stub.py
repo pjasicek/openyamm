@@ -144,6 +144,11 @@ function GetPlayerClassName(i) return classes[i] end
 function SetPlayerClass(i, c) say("promotes", "member " .. i .. " " .. classes[i] .. " -> " .. c) classes[i] = c return true end
 -- Items are the party's, held by member 0 (gems, Megacredits); stats are counted per name.
 function PlayerItemCount(i, id) if i == 0 then return items[id] or 0 end return 0 end
+-- tr() as the game's: the English with its {placeholders} filled in.
+function tr(text, args)
+    return (text:gsub("{(%w+)}", function(key) if args and args[key] ~= nil then return tostring(args[key]) end end))
+end
+function evt.CountItems(low, high) local count = 0 for id = low, high do count = count + (items[id] or 0) end return count end
 function RemovePlayerItem(i, id, n) everOwned[id] = true items[id] = (items[id] or 0) - (n or 1) return true end
 local stats = {}
 for _, name in ipairs({"Might", "Intellect", "Personality", "Endurance", "Accuracy", "Speed", "Luck"}) do
