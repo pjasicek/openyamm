@@ -1652,6 +1652,11 @@ bool MawMonsterRules::keepsUsedBarrelsThroughRefill() const
     return true;
 }
 
+bool MawMonsterRules::monstersFlee() const
+{
+    return false;
+}
+
 void MawMonsterRules::decorationRaisedStats(
     const std::string &mapFileName, uint8_t decorVarIndex, uint8_t emptyState) const
 {
@@ -2254,13 +2259,14 @@ void MawMonsterRules::updateMonsters(IGameplayWorldRuntime &world, float deltaSe
         if (mawHasBossAffix(facts, MawBossAffix::Regenerating))
         {
             BossTrack &track = m_bossTracks[state.actorId];
-            // It regenerates once the party hit it, slower with each hit, counted with the actor (FCOR-2-6).
-            const int hits = facts.regeneratingHits;
+            // It regenerates once the party hit it, 1 % slower for each percent of its health dealt, counted with the
+            // actor (FCOR-2-6; MAW: for each hit, DEVIATIONS 201).
+            const double percentDealt = facts.regeneratingDamage / 100.0;
 
-            if (hits > 0 && regenerationTicks > 0)
+            if (facts.regeneratingDamage > 0 && regenerationTicks > 0)
             {
                 const double level = std::min(double(state.rulesetFacts.level), LevelCap);
-                track.healCarry += regenerationTicks * state.maxHp * 0.01 * std::pow(0.99, hits)
+                track.healCarry += regenerationTicks * state.maxHp * 0.01 * std::pow(0.99, percentDealt)
                     / (1 + level / 50);
                 const int heal = int(track.healCarry);
                 track.healCarry -= heal;

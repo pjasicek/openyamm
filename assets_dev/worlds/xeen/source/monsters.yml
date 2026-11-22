@@ -190,7 +190,8 @@ families:
     where: X2 crossings, X4, D2, Ogre Lair, Ogre Forts
     resist: {fire: +5, air: +5, water: +5, earth: +5}
     tiers:
-      A: {name: Ogre, level: 18, skin: xogr_a, attack2: [Phys, curve, Rock, 20]}
+      # Melee only: no thrown rocks (the user, 2026-11-22).
+      A: {name: Ogre, level: 18, skin: xogr_a}
       B: {name: Ogre Brute, level: 22, skin: xogr_b}
       C: {name: Ogre Chief, level: 30, skin: xogr_c, bonus: Uncon}
       # Graalg's own faction (D-23): he and his two Brutes stay peaceful whatever the pass ogres do, until A3's
@@ -199,8 +200,8 @@ families:
           note: "D2 Ogre Pass, Graalg's guard (Ogre Brute's numbers)"}
       # The pass ogres (D2's forts and road pairs, DD-13): hostile at load, friendly on q-d11 friends, hostile on q-d11
       # hostile (a burned fort sets it); their own faction so the other maps' ogres never turn friendly. Placed only.
-      E: {id: 11066, name: Ogre, level: 18, look: A, skin: xogr_a, attack2: [Phys, curve, Rock, 20], faction: pass,
-          party: long, note: D2 Ogre Pass and DD-13}
+      E: {id: 11066, name: Ogre, level: 18, look: A, skin: xogr_a, faction: pass, party: long,
+          note: D2 Ogre Pass and DD-13}
       F: {id: 11067, name: Ogre Brute, level: 22, look: B, skin: xogr_b, faction: pass, note: D2 Ogre Pass and DD-13}
       G: {id: 11068, name: Ogre Chief, level: 30, look: C, skin: xogr_c, bonus: Uncon, faction: pass,
           note: D2 Ogre Pass and DD-13}

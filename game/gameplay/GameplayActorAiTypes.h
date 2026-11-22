@@ -956,6 +956,8 @@ struct ActorStatusFacts
     bool hasDetectedParty = false;
     bool defaultHostileToParty = false;
     bool suppressLowHealthFlee = false;
+    // The rules forbid it to run from its target when hurt (MonsterRules::monstersFlee; never set for a wimp).
+    bool neverFlees = false;
     bool forceFleeFromParty = false;
     // A flyer keeps this far above its target's height while it moves (a shield-break climb); 0: none.
     float climbAboveTarget = 0.0f;

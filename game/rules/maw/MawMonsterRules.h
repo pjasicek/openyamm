@@ -68,6 +68,7 @@ public:
     bool countsForMapCompletion(const MapStatsEntry &map, const MonsterTable::MonsterStatsEntry &stats) const override;
     double packDensityFactor(const MapStatsEntry &map) const override;
     bool keepsUsedBarrelsThroughRefill() const override;
+    bool monstersFlee() const override;
     // The bolster level is getPartyLevel() - 4, never below 0 (zzMaw-Monsters.lua:418-422).
     RulesetScriptInfo scriptInfo(uint32_t continentId) const override;
     // BountyHunt.lua: round(level + the levels banked on the three continents) x 100.

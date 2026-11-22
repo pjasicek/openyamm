@@ -1555,6 +1555,7 @@ ActorEngagementState resolveActorEngagement(
         result.shouldFlee = actor.status.forceFleeFromParty
             || (result.shouldEngageTarget
                 && combatTarget.distanceToTarget <= HostilityLongRange
+                && !actor.status.neverFlees
                 && actorService.shouldFleeForAiType(actor.stats.aiType, actor.stats.currentHp, actor.stats.maxHp)
                 && !(actor.status.suppressLowHealthFlee && actor.stats.aiType != GameplayActorAiType::Wimp));
     }
@@ -5122,7 +5123,7 @@ bool mm9StillRuns(const ActorAiFacts &actor, const ActorAiFrameFacts &frame, boo
 
     const Mm9AiPlacement placement = actor.movement.mm9Placement.value_or(Mm9AiPlacement{});
     Mm9RunAwayInput input = {};
-    input.runner = mm9IsRunner(actor.actorId, placement.runawayChance);
+    input.runner = !actor.status.neverFlees && mm9IsRunner(actor.actorId, placement.runawayChance);
     input.hasHidingPlace = mm9UnseenHidingPlace(actor) >= 0;
     input.currentHp = actor.stats.currentHp;
     input.largestHit = world.largestHit;
@@ -5854,7 +5855,7 @@ Mm9PreludeResult AI_Mm9Prelude(ActorAiFacts &actor, const ActorAiFrameFacts &fra
         else
         {
             Mm9RunAwayInput input = {};
-            input.runner = mm9IsRunner(actor.actorId, placement.runawayChance);
+            input.runner = !actor.status.neverFlees && mm9IsRunner(actor.actorId, placement.runawayChance);
             input.hasHidingPlace = mm9UnseenHidingPlace(actor) >= 0;
             input.currentHp = actor.stats.currentHp;
             input.largestHit = world.largestHit;

@@ -354,7 +354,7 @@ std::vector<uint8_t> actorHitMarks(size_t actorIndex, const ActorHitMarks &marks
     writer.u32(uint32_t(actorIndex));
     writer.f32(marks.spearDamage);
     writer.f32(marks.legendaryDamage);
-    writer.u16(marks.regeneratingHits);
+    writer.u16(marks.regeneratingDamage);
     writer.f32(marks.exposedPercent);
     writer.f32(marks.exposedGameMinutes);
     return writer.take();
@@ -641,7 +641,7 @@ bool execute(IGameplayWorldRuntime &worldRuntime, std::span<const uint8_t> call)
             Game::ActorHitMarks marks;
             marks.spearDamage = reader.f32();
             marks.legendaryDamage = reader.f32();
-            marks.regeneratingHits = reader.u16();
+            marks.regeneratingDamage = reader.u16();
             marks.exposedPercent = reader.f32();
             marks.exposedGameMinutes = reader.f32();
             const auto within = [](float value, float maximum)
@@ -649,7 +649,7 @@ bool execute(IGameplayWorldRuntime &worldRuntime, std::span<const uint8_t> call)
                 return std::isfinite(value) && value >= 0.0f && value <= maximum;
             };
             return reader.ok() && actorIndex < actorCount && within(marks.spearDamage, MaximumPercent)
-                && within(marks.legendaryDamage, MaximumPercent) && marks.regeneratingHits <= 1
+                && within(marks.legendaryDamage, MaximumPercent) && marks.regeneratingDamage <= 10000
                 && within(marks.exposedPercent, MaximumPercent) && within(marks.exposedGameMinutes, MaximumGameMinutes)
                 && worldRuntime.addActorHitMarks(actorIndex, marks);
         }

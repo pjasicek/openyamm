@@ -3344,12 +3344,18 @@ void MawCombatRules::applyPartyHitEffects(Party &party, const PartyHitOnMonster 
         }
     }
 
-    // A Regenerating boss counts the party's hits: it regenerates once hit, slower with each (Damage.lua:944-954,
-    // FCOR-2-6).
+    // A Regenerating boss counts the party's damage as a share of its health: it regenerates once hit, slower the
+    // more it took. MAW counts hits (Damage.lua:944-954, FCOR-2-6); here a blow of 1 % weakens it as one hit did there
+    // (DEVIATIONS 201). Any blow counts at least a hundredth of a percent, so the first one starts the regeneration.
     if (hasAffix(*hit.pTarget, MawBossAffix::Regenerating) && hit.pWorld != nullptr && hit.targetActorIndex)
     {
+        // Its health on the map (with the co-op players' share), as its regeneration reads it.
+        GameplayRuntimeActorState target = {};
+        const int maxHp =
+            hit.pWorld->actorRuntimeState(*hit.targetActorIndex, target) ? target.maxHp : hit.pTarget->maxHp;
+        const double share = double(hit.damage) / double(std::max(1, maxHp));
         ActorHitMarks marks;
-        marks.regeneratingHits = 1;
+        marks.regeneratingDamage = uint16_t(std::clamp(std::lround(share * 10000.0), 1L, 10000L));
         hit.pWorld->addActorHitMarks(*hit.targetActorIndex, marks);
     }
 
@@ -4002,19 +4008,21 @@ void MawCombatRules::applyMonsterHitEffects(
             rng);
     }
 
+    // A Venomous, Plagueborn or Fixator boss's condition goes past Protection from Magic, as in MAW, which writes it
+    // directly; a member immune to it is spared (DEVIATIONS 10).
     if (hasAffix(attacker, MawBossAffix::Venomous) && special)
     {
-        party.applyBlockableMemberCondition(memberIndex, CharacterCondition::PoisonSevere, party.gameMinutes());
+        party.applyMemberCondition(memberIndex, CharacterCondition::PoisonSevere);
     }
 
     if (hasAffix(attacker, MawBossAffix::Plagueborn) && special)
     {
-        party.applyBlockableMemberCondition(memberIndex, CharacterCondition::DiseaseSevere, party.gameMinutes());
+        party.applyMemberCondition(memberIndex, CharacterCondition::DiseaseSevere);
     }
 
     if (hasAffix(attacker, MawBossAffix::Fixator) && special)
     {
-        party.applyBlockableMemberCondition(memberIndex, CharacterCondition::Weak, party.gameMinutes());
+        party.applyMemberCondition(memberIndex, CharacterCondition::Weak);
     }
 
     if (hasAffix(attacker, MawBossAffix::Exploding))

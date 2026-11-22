@@ -1858,6 +1858,45 @@ TEST_CASE("shared actor AI suppresses repeat low health fleeing for non-wimps")
     CHECK(*update.state.motionState == ActorAiMotionState::Attacking);
 }
 
+TEST_CASE("shared actor AI keeps a hurt monster fighting when the rules forbid fleeing")
+{
+    const auto decide = [](bool neverFlees)
+    {
+        GameplayActorAiSystem system;
+        ActorAiFrameFacts frame = makeFrame();
+        ActorAiFacts actor = makeActor(19, 116);
+        actor.world.active = true;
+        actor.identity.hostilityType = 4;
+        actor.status.hostileToParty = true;
+        actor.status.hasDetectedParty = true;
+        actor.status.neverFlees = neverFlees;
+        actor.stats.aiType = GameplayActorAiType::Aggressive;
+        actor.stats.currentHp = 1;
+        actor.stats.maxHp = 20;
+        actor.stats.moveSpeed = 200;
+        actor.stats.attack1Damage.diceRolls = 1;
+        actor.stats.attack1Damage.diceSides = 4;
+        actor.movement.movementAllowed = true;
+        actor.movement.effectiveMoveSpeed = 200.0f;
+        actor.target.currentKind = ActorAiTargetKind::Party;
+        actor.target.currentPosition = {132.0f, 200.0f, 64.0f};
+        actor.target.currentDistance = 96.0f;
+        actor.target.currentEdgeDistance = 0.0f;
+        actor.target.currentCanSense = true;
+        actor.target.partyCanSenseActor = true;
+        frame.activeActors.push_back(actor);
+        const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+        REQUIRE_EQ(result.actorUpdates.size(), 1u);
+        REQUIRE(result.actorUpdates.front().state.motionState.has_value());
+        return *result.actorUpdates.front().state.motionState;
+    };
+
+    // An Aggressive monster below a tenth of its health runs; under MAW's rules (MonsterRules::monstersFlee) it
+    // fights on.
+    CHECK(decide(false) == ActorAiMotionState::Fleeing);
+    CHECK(decide(true) == ActorAiMotionState::Attacking);
+}
+
 TEST_CASE("shared actor AI applies monster melee buff damage and hit bonuses")
 {
     GameplayActorAiSystem system;

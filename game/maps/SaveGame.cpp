@@ -26,7 +26,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 200;
+constexpr uint32_t SaveVersion = 201;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -354,6 +354,9 @@ constexpr uint32_t SaveVersionMonsterHealthPlayers = 198;
 constexpr uint32_t SaveVersionWaitingGivenItems = 199;
 // MAW's fifth level bank, the World of Xeen's (MawGameState::continentLevels[4]); older saves bank four, Xeen's at 0.
 constexpr uint32_t SaveVersionMawXeenBank = 200;
+// A Regenerating boss counts the damage it took (hundredths of a percent of its health) instead of the hits; an older
+// save's hits count 1 % each, which weakens it as much as before.
+constexpr uint32_t SaveVersionRegeneratingDamage = 201;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -1112,7 +1115,7 @@ void writeValue(BinaryWriter &writer, const ActorRulesetFacts &value)
     writeValue(writer, value.legendaryDamageTaken);
     writeValue(writer, value.unique);
     writeValue(writer, value.doomSpecialAttack);
-    writeValue(writer, value.regeneratingHits);
+    writeValue(writer, value.regeneratingDamage);
     writeValue(writer, value.crypticAffix);
     writeValue(writer, value.exposedPercent);
     writeValue(writer, value.exposedUntilGameMinutes);
@@ -1128,7 +1131,7 @@ bool readValue(BinaryReader &reader, ActorRulesetFacts &value)
     }
 
     value = {};
-    return !present
+    const bool read = !present
         || (readValue(reader, value.level)
             && readValue(reader, value.familyLevel)
             && readValue(reader, value.tier)
@@ -1145,10 +1148,17 @@ bool readValue(BinaryReader &reader, ActorRulesetFacts &value)
                     && readValue(reader, value.legendaryDamageTaken)))
             && (reader.version() < SaveVersionUniqueMonsters || readValue(reader, value.unique))
             && (reader.version() < SaveVersionMawChallengeModes || readValue(reader, value.doomSpecialAttack))
-            && (reader.version() < SaveVersionRegeneratingHits || readValue(reader, value.regeneratingHits))
+            && (reader.version() < SaveVersionRegeneratingHits || readValue(reader, value.regeneratingDamage))
             && (reader.version() < SaveVersionCrypticBossAffix || readValue(reader, value.crypticAffix))
             && (reader.version() < SaveVersionSoloArchetypes
                 || (readValue(reader, value.exposedPercent) && readValue(reader, value.exposedUntilGameMinutes))));
+
+    if (read && reader.version() < SaveVersionRegeneratingDamage)
+    {
+        value.regeneratingDamage = uint16_t(std::min(int(value.regeneratingDamage) * 100, 65535));
+    }
+
+    return read;
 }
 
 void writeValue(BinaryWriter &writer, const MawDimensionRun &value)

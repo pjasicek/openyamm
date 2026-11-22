@@ -1567,7 +1567,7 @@ TEST_CASE("The Elementalist's idle window comes from the last offensive cast, no
     CHECK_EQ(runtime.elementalLastDelayTicks, window);
 }
 
-TEST_CASE("A Regenerating boss counts the party's hits with itself, and a save keeps them (FCOR-2-6)")
+TEST_CASE("A Regenerating boss counts the party's damage with itself, and a save keeps it (FCOR-2-6)")
 {
     MawRules rules(RulesetOptions{}, MawMapLevels{});
     Party party = auditParty(rules, {auditMember("Knight", 20)});
@@ -1588,7 +1588,17 @@ TEST_CASE("A Regenerating boss counts the party's hits with itself, and a save k
     hit.targetActorIndex = bossIndex;
     rules.gameRules().combat.applyPartyHitEffects(party, hit);
     rules.gameRules().combat.applyPartyHitEffects(party, hit);
-    CHECK_EQ(world.actor(bossIndex).rulesetFacts.regeneratingHits, 2);
+    // Two blows of 1 % of its health: 200 hundredths of a percent.
+    CHECK_EQ(world.actor(bossIndex).rulesetFacts.regeneratingDamage, 200);
+    // A blow of a millionth of its health still counts, and one past its health counts as all of it.
+    world.actor(bossIndex).maxHp = 1000000;
+    hit.damage = 1;
+    rules.gameRules().combat.applyPartyHitEffects(party, hit);
+    CHECK_EQ(world.actor(bossIndex).rulesetFacts.regeneratingDamage, 201);
+    hit.damage = 5000000;
+    rules.gameRules().combat.applyPartyHitEffects(party, hit);
+    CHECK_EQ(world.actor(bossIndex).rulesetFacts.regeneratingDamage, 10201);
+    world.actor(bossIndex).maxHp = 1000;
 
     OutdoorWorldRuntime::MapActorState actor;
     actor.rulesetFacts = world.actor(bossIndex).rulesetFacts;
@@ -1604,7 +1614,7 @@ TEST_CASE("A Regenerating boss counts the party's hits with itself, and a save k
     std::filesystem::remove(path);
     REQUIRE_MESSAGE(restored.has_value(), error.c_str());
     REQUIRE_EQ(restored->outdoorWorldStates.at("oute3.odm").mapActors.size(), 1u);
-    CHECK_EQ(restored->outdoorWorldStates.at("oute3.odm").mapActors[0].rulesetFacts.regeneratingHits, 2);
+    CHECK_EQ(restored->outdoorWorldStates.at("oute3.odm").mapActors[0].rulesetFacts.regeneratingDamage, 10201);
 }
 
 TEST_CASE("An Assassin's blow on a monster that is not hostile pays no energy and builds nothing (FCOR-2-21)")

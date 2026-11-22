@@ -2755,12 +2755,12 @@ TEST_CASE("MAW Regenerating bosses start each map unhit (audit ROB-2-4)")
     rules.setCurrentMap("out05.odm");
     const size_t boss = world.addActor(bossActor(1, 195, MawBossAffix::Regenerating, 5000));
     monsters.updateMonsters(world, 0.2f);
-    // A drop in health is no party hit: the party's hits are counted with the actor (FCOR-2-6).
+    // A drop in health is no party hit: the party's damage is counted with the actor (FCOR-2-6).
     world.actor(boss).currentHp = 50;
     monsters.updateMonsters(world, 0.2f);
     monsters.updateMonsters(world, 0.2f);
     CHECK_EQ(world.healed, 0);
-    world.actor(boss).rulesetFacts.regeneratingHits = 1;
+    world.actor(boss).rulesetFacts.regeneratingDamage = 1;
     monsters.updateMonsters(world, 0.2f);
     monsters.updateMonsters(world, 0.2f);
     REQUIRE(world.healed > 0);
@@ -2769,7 +2769,7 @@ TEST_CASE("MAW Regenerating bosses start each map unhit (audit ROB-2-4)")
     rules.setCurrentMap("out06.odm");
     world.healed = 0;
     world.actor(boss).currentHp = 50;
-    world.actor(boss).rulesetFacts.regeneratingHits = 0;
+    world.actor(boss).rulesetFacts.regeneratingDamage = 0;
     monsters.updateMonsters(world, 0.2f);
     monsters.updateMonsters(world, 0.2f);
     CHECK_EQ(world.healed, 0);
@@ -2849,7 +2849,7 @@ TEST_CASE("MAW Swapper bosses swap places and turn hits aside; Pullers jump the 
     CHECK(world.launches[0][2] == doctest::Approx(382.68f).epsilon(0.001));
 }
 
-TEST_CASE("MAW Venomous, Plagueborn and Fixator hits are stopped by Protection from Magic")
+TEST_CASE("MAW Venomous, Plagueborn and Fixator hits go past Protection from Magic")
 {
     MawRules rules(RulesetOptions{}, MawMapLevels{}, installedItemData());
     const CombatRules &combat = rules.gameRules().combat;
@@ -2876,14 +2876,21 @@ TEST_CASE("MAW Venomous, Plagueborn and Fixator hits are stopped by Protection f
             CombatDamageType::Physical);
         CHECK(party.member(0)->conditions.test(size_t(condition)));
 
-        // Protected, the next member's hit spends a charge instead.
+        // Protected, the next member's hit lands it too and spends no charge (MAW writes the condition directly).
         party.applyPartyBuff(PartyBuffId::ProtectionFromMagic, 600, 2, 75, 10, SkillMastery::Master, 0);
         combat.applyMonsterHitEffects(party, &world, 1, facts, world.actor(boss).actorId, 10,
             CombatDamageType::Physical);
-        CHECK_FALSE(party.member(1)->conditions.test(size_t(condition)));
+        CHECK(party.member(1)->conditions.test(size_t(condition)));
         REQUIRE(party.partyBuff(PartyBuffId::ProtectionFromMagic) != nullptr);
-        CHECK_EQ(party.partyBuff(PartyBuffId::ProtectionFromMagic)->power, 1);
+        CHECK_EQ(party.partyBuff(PartyBuffId::ProtectionFromMagic)->power, 2);
     }
+}
+
+TEST_CASE("MAW monsters never flee; Standard ones do")
+{
+    MawRules rules(RulesetOptions{}, MawMapLevels{}, installedItemData());
+    CHECK_FALSE(rules.gameRules().monsters.monstersFlee());
+    CHECK(gameRulesFor(nullptr).monsters.monstersFlee());
 }
 
 TEST_CASE("MAW Broodlings drop items by tier (L3.2)")

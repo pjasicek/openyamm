@@ -162,6 +162,11 @@ bool MonsterRules::keepsUsedBarrelsThroughRefill() const
     return false;
 }
 
+bool MonsterRules::monstersFlee() const
+{
+    return true;
+}
+
 void MonsterRules::leaveMap(IGameplayWorldRuntime &) const
 {
 }

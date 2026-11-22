@@ -12602,6 +12602,8 @@ std::optional<ActorAiFacts> IndoorWorldRuntime::collectIndoorActorAiFacts(
     facts.status.hasDetectedParty = hasDetectedParty;
     facts.status.defaultHostileToParty = defaultHostile;
     facts.status.suppressLowHealthFlee = aiState.suppressLowHealthFlee;
+    facts.status.neverFlees =
+        aiState.aiType != GameplayActorAiType::Wimp && !gameRulesFor(m_pParty).monsters.monstersFlee();
     facts.status.forceFleeFromParty = aiState.yellFleeRemainingSeconds > 0.0f;
     facts.status.shieldDownSinceBreakSeconds = m_actorShields.secondsDownSinceBreak(actorIndex);
 

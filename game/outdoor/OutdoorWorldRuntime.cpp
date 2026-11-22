@@ -11019,6 +11019,8 @@ std::optional<ActorAiFacts> OutdoorWorldRuntime::collectOutdoorActorAiFacts(
         m_pGameplayActorService->relationMonsterId(actor.monsterId, actor.ally);
     facts.status.defaultHostileToParty = m_pMonsterTable->isHostileToParty(actorRelationMonsterId);
     facts.status.suppressLowHealthFlee = actor.suppressLowHealthFlee;
+    facts.status.neverFlees =
+        actor.aiType != GameplayActorAiType::Wimp && !gameRulesFor(m_pParty).monsters.monstersFlee();
     facts.status.forceFleeFromParty = actor.mm9FleeingFromParty || actor.yellFleeRemainingSeconds > 0.0f;
     facts.status.shieldDownSinceBreakSeconds = m_actorShields.secondsDownSinceBreak(actorIndex);
 
