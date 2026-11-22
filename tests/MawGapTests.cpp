@@ -2849,6 +2849,43 @@ TEST_CASE("MAW Swapper bosses swap places and turn hits aside; Pullers jump the 
     CHECK(world.launches[0][2] == doctest::Approx(382.68f).epsilon(0.001));
 }
 
+TEST_CASE("MAW Venomous, Plagueborn and Fixator hits are stopped by Protection from Magic")
+{
+    MawRules rules(RulesetOptions{}, MawMapLevels{}, installedItemData());
+    const CombatRules &combat = rules.gameRules().combat;
+    BossTestWorld world;
+    const std::array<std::pair<MawBossAffix, CharacterCondition>, 3> affixes = {{
+        {MawBossAffix::Venomous, CharacterCondition::PoisonSevere},
+        {MawBossAffix::Plagueborn, CharacterCondition::DiseaseSevere},
+        {MawBossAffix::Fixator, CharacterCondition::Weak},
+    }};
+
+    for (const auto &[affix, condition] : affixes)
+    {
+        PartySeed seed;
+        seed.members.resize(2);
+        Party party;
+        party.seed(seed);
+        party.setRules(&rules.gameRules());
+        world.bindParty(&party);
+        const size_t boss = world.addActor(bossActor(uint32_t(10 + size_t(affix)), 195, affix, 1000));
+        const ActorRulesetFacts &facts = world.actor(boss).rulesetFacts;
+
+        // Unprotected, the hit lands its condition.
+        combat.applyMonsterHitEffects(party, &world, 0, facts, world.actor(boss).actorId, 10,
+            CombatDamageType::Physical);
+        CHECK(party.member(0)->conditions.test(size_t(condition)));
+
+        // Protected, the next member's hit spends a charge instead.
+        party.applyPartyBuff(PartyBuffId::ProtectionFromMagic, 600, 2, 75, 10, SkillMastery::Master, 0);
+        combat.applyMonsterHitEffects(party, &world, 1, facts, world.actor(boss).actorId, 10,
+            CombatDamageType::Physical);
+        CHECK_FALSE(party.member(1)->conditions.test(size_t(condition)));
+        REQUIRE(party.partyBuff(PartyBuffId::ProtectionFromMagic) != nullptr);
+        CHECK_EQ(party.partyBuff(PartyBuffId::ProtectionFromMagic)->power, 1);
+    }
+}
+
 TEST_CASE("MAW Broodlings drop items by tier (L3.2)")
 {
     MercenaryMap world;

@@ -63,9 +63,10 @@ SearchableLootPropResult applySearchableLootPropResult(
 
     if (searchableLootPropHazardTriggers(source, hazardRollOneToOneHundred))
     {
-        result.diseaseApplied = party.applyMemberCondition(
+        result.diseaseApplied = party.applyBlockableMemberCondition(
             party.activeMemberIndex(),
-            CharacterCondition::DiseaseWeak);
+            CharacterCondition::DiseaseWeak,
+            party.gameMinutes());
     }
 
     if (!generatedItem.has_value())

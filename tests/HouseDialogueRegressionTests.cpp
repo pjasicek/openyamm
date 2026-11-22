@@ -4423,6 +4423,42 @@ TEST_CASE("event-applied conditions use absolute game time for temple healing pr
     CHECK_EQ(healAction->label, "Heal 10 gold");
 }
 
+TEST_CASE("event-applied conditions are stopped by Protection from Magic where it covers them")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+    OpenYAMM::Game::Party &party = harness.party();
+    const size_t memberIndex = party.activeMemberIndex();
+    TempleConditionTimeSceneContext sceneContext(harness.worldRuntime().gameMinutes());
+    const auto setVariable = [&](OpenYAMM::Game::EvtVariable variable)
+    {
+        OpenYAMM::Game::EventRuntime::setVariableValue(
+            harness.eventRuntimeState(),
+            OpenYAMM::Game::EventRuntime::decodeVariable(static_cast<uint32_t>(variable)),
+            1,
+            &party,
+            {memberIndex},
+            &sceneContext);
+    };
+    const auto has = [&](OpenYAMM::Game::CharacterCondition condition)
+    {
+        return party.member(memberIndex)->conditions.test(static_cast<size_t>(condition));
+    };
+
+    party.applyPartyBuff(OpenYAMM::Game::PartyBuffId::ProtectionFromMagic, 600, 1, 75, 10,
+        OpenYAMM::Game::SkillMastery::Master, 0);
+
+    // A curse is not one it covers; a disease spends the last charge; the next one lands.
+    setVariable(OpenYAMM::Game::EvtVariable::Cursed);
+    CHECK(has(OpenYAMM::Game::CharacterCondition::Cursed));
+    CHECK(party.hasPartyBuff(OpenYAMM::Game::PartyBuffId::ProtectionFromMagic));
+    setVariable(OpenYAMM::Game::EvtVariable::DiseasedGreen);
+    CHECK_FALSE(has(OpenYAMM::Game::CharacterCondition::DiseaseWeak));
+    CHECK_FALSE(party.hasPartyBuff(OpenYAMM::Game::PartyBuffId::ProtectionFromMagic));
+    setVariable(OpenYAMM::Game::EvtVariable::DiseasedGreen);
+    CHECK(has(OpenYAMM::Game::CharacterCondition::DiseaseWeak));
+}
+
 TEST_CASE("mm6 temples follow the original per-house treatment limits")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();

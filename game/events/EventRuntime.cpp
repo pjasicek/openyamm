@@ -3383,7 +3383,8 @@ void EventRuntime::setVariableValue(
 
             const bool hadCondition = pMember->conditions.test(static_cast<size_t>(*condition));
 
-            if (pParty->applyMemberCondition(
+            // Protection from Magic stops what it covers, as for a monster's attack (MM7's SetCondition, blockable).
+            if (pParty->applyBlockableMemberCondition(
                     targetMemberIndex,
                     *condition,
                     conditionStartGameMinutes(runtimeState, pSceneEventContext))
@@ -3700,7 +3701,8 @@ void EventRuntime::addVariableValue(
 
             const bool hadCondition = pMember->conditions.test(static_cast<size_t>(*condition));
 
-            if (pParty->applyMemberCondition(
+            // Protection from Magic stops what it covers, as for a monster's attack (MM7's SetCondition, blockable).
+            if (pParty->applyBlockableMemberCondition(
                     targetMemberIndex,
                     *condition,
                     conditionStartGameMinutes(runtimeState, pSceneEventContext))

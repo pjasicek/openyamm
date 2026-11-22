@@ -188,3 +188,28 @@ TEST_CASE("MM9 swamp barrel diseases only the selected member")
     CHECK(party.member(2)->conditions.test(
         static_cast<size_t>(OpenYAMM::Game::CharacterCondition::DiseaseWeak)));
 }
+
+TEST_CASE("MM9 swamp barrel disease is stopped by Protection from Magic")
+{
+    OpenYAMM::Game::Party party;
+    party.seed(OpenYAMM::Game::Party::createDefaultSeed());
+    party.applyPartyBuff(OpenYAMM::Game::PartyBuffId::ProtectionFromMagic, 600, 1, 75, 10,
+        OpenYAMM::Game::SkillMastery::Master, 0);
+    OpenYAMM::Game::MapDeltaMm9BarrelState state = {
+        12,
+        OpenYAMM::Game::Mm9BarrelType::Swamp,
+        false,
+    };
+    OpenYAMM::Game::ItemTable itemTable;
+    std::mt19937 rng(7);
+
+    const OpenYAMM::Game::Mm9BarrelResult result =
+        OpenYAMM::Game::useMm9Barrel(state, party, itemTable, rng);
+    CHECK(result.handled);
+    CHECK_FALSE(result.diseaseApplied);
+    CHECK(state.used);
+    CHECK_FALSE(party.activeMember()->conditions.test(
+        static_cast<size_t>(OpenYAMM::Game::CharacterCondition::DiseaseWeak)));
+    CHECK_FALSE(party.hasPartyBuff(OpenYAMM::Game::PartyBuffId::ProtectionFromMagic));
+    CHECK(result.statusMessage.find("diseased") == std::string::npos);
+}

@@ -1225,15 +1225,14 @@ bool applyMonsterSpecialAttack(
             return false;
         }
 
-        if (alreadyHadCondition || !context.party.blockConditionWithProtectionFromMagic(*condition))
+        const float gameMinutes = context.pWorldRuntime != nullptr ? context.pWorldRuntime->gameMinutes() : 0.0f;
+        const float expireGameMinutes = hitCondition->minutes > 0.0f ? gameMinutes + hitCondition->minutes : 0.0f;
+        applied =
+            context.party.applyBlockableMemberCondition(memberIndex, *condition, gameMinutes, expireGameMinutes);
+
+        if (applied && monsterSpecialAttackSetsZeroHealth(kind))
         {
-            const float gameMinutes = context.pWorldRuntime != nullptr ? context.pWorldRuntime->gameMinutes() : 0.0f;
-            const float expireGameMinutes = hitCondition->minutes > 0.0f ? gameMinutes + hitCondition->minutes : 0.0f;
-            applied = context.party.applyMemberCondition(memberIndex, *condition, gameMinutes, expireGameMinutes);
-            if (applied && monsterSpecialAttackSetsZeroHealth(kind))
-            {
-                pMember->health = 0;
-            }
+            pMember->health = 0;
         }
     }
     else if (kind == MonsterSpecialAttackKind::ManaDrain)

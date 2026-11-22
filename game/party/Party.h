@@ -1081,6 +1081,10 @@ public:
     // beats any time, and of two times the later wins.
     bool applyMemberCondition(
         size_t memberIndex, CharacterCondition condition, float gameMinutes, float expireGameMinutes);
+    // A condition from a monster, an event, a trap or a hazard: an immune member is spared, and Protection from Magic
+    // spends a charge to stop one the member does not have yet. Applied as applyMemberCondition otherwise.
+    bool applyBlockableMemberCondition(
+        size_t memberIndex, CharacterCondition condition, float gameMinutes, float expireGameMinutes = 0.0f);
     bool clearMemberCondition(size_t memberIndex, CharacterCondition condition);
     bool hasMemberConditionImmunity(size_t memberIndex, CharacterCondition condition) const;
     // regeneration: a periodic tick rather than a heal, which the solo HUD's self combat text sums over time.

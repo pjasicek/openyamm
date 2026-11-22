@@ -148,7 +148,8 @@ Mm9BarrelResult useMm9Barrel(
     {
         // The native barrel constructs disease condition kind 2 at severity 1. The shared condition projection for
         // that least-severe MM9 disease state is DiseaseWeak.
-        result.diseaseApplied = party.applyMemberCondition(memberIndex, CharacterCondition::DiseaseWeak);
+        result.diseaseApplied =
+            party.applyBlockableMemberCondition(memberIndex, CharacterCondition::DiseaseWeak, party.gameMinutes());
         result.generatedItem = generateMm9TreasureLevelOneItem(itemTable, bestPartyLuckModifier(party), rng);
         result.itemGenerated = result.generatedItem.has_value();
         if (result.generatedItem.has_value())
@@ -156,7 +157,10 @@ Mm9BarrelResult useMm9Barrel(
             result.itemAwarded = party.tryGrantInventoryItemToMember(memberIndex, *result.generatedItem);
             result.inventoryFull = !result.itemAwarded;
         }
-        result.statusMessage = Engine::tr("{name} becomes diseased, but gains an item!", {{"name", pMember->name}});
+        // Protection from Magic or an immunity may stop the disease.
+        result.statusMessage = result.diseaseApplied
+            ? Engine::tr("{name} becomes diseased, but gains an item!", {{"name", pMember->name}})
+            : Engine::tr("{name} gains an item!", {{"name", pMember->name}});
         result.soundName = "sounds/events/quest.wav";
     }
     return result;

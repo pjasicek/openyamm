@@ -8687,6 +8687,24 @@ bool Party::clearMemberCondition(size_t memberIndex, CharacterCondition conditio
     return true;
 }
 
+bool Party::applyBlockableMemberCondition(
+    size_t memberIndex, CharacterCondition condition, float gameMinutes, float expireGameMinutes)
+{
+    const Character *pMember = combatant(memberIndex);
+
+    if (pMember == nullptr || hasConditionImmunity(*pMember, condition))
+    {
+        return false;
+    }
+
+    if (!pMember->conditions.test(static_cast<size_t>(condition)) && blockConditionWithProtectionFromMagic(condition))
+    {
+        return false;
+    }
+
+    return applyMemberCondition(memberIndex, condition, gameMinutes, expireGameMinutes);
+}
+
 bool Party::applyMemberCondition(size_t memberIndex, CharacterCondition condition)
 {
     return applyMemberCondition(memberIndex, condition, m_gameMinutes);

@@ -4004,17 +4004,17 @@ void MawCombatRules::applyMonsterHitEffects(
 
     if (hasAffix(attacker, MawBossAffix::Venomous) && special)
     {
-        party.applyMemberCondition(memberIndex, CharacterCondition::PoisonSevere);
+        party.applyBlockableMemberCondition(memberIndex, CharacterCondition::PoisonSevere, party.gameMinutes());
     }
 
     if (hasAffix(attacker, MawBossAffix::Plagueborn) && special)
     {
-        party.applyMemberCondition(memberIndex, CharacterCondition::DiseaseSevere);
+        party.applyBlockableMemberCondition(memberIndex, CharacterCondition::DiseaseSevere, party.gameMinutes());
     }
 
     if (hasAffix(attacker, MawBossAffix::Fixator) && special)
     {
-        party.applyMemberCondition(memberIndex, CharacterCondition::Weak);
+        party.applyBlockableMemberCondition(memberIndex, CharacterCondition::Weak, party.gameMinutes());
     }
 
     if (hasAffix(attacker, MawBossAffix::Exploding))
