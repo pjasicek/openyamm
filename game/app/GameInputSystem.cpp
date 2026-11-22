@@ -320,9 +320,22 @@ void GameInputSystem::updateFromEngineInput(
 
     if (pKeyboardState != nullptr)
     {
+        // A key held while gameplay input was blocked (the debug console, the chat line) stays ignored until it is
+        // released: the Enter that ran a console command which closed the console must not toggle turn-based combat.
         for (int scancode = 0; scancode < keyboardStateCount && scancode < SDL_SCANCODE_COUNT; ++scancode)
         {
-            m_frame.keyboardHeld[scancode] = blockGameplayInput ? false : pKeyboardState[scancode];
+            const bool physicallyHeld = pKeyboardState[scancode];
+
+            if (blockGameplayInput)
+            {
+                m_suppressKeyUntilReleased[scancode] = physicallyHeld;
+            }
+            else if (!physicallyHeld)
+            {
+                m_suppressKeyUntilReleased[scancode] = false;
+            }
+
+            m_frame.keyboardHeld[scancode] = physicallyHeld && !m_suppressKeyUntilReleased[scancode];
         }
     }
 

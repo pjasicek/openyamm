@@ -85,6 +85,8 @@ private:
     std::string m_pendingTextInput;
     std::array<uint16_t, SDL_SCANCODE_COUNT> m_pendingKeyboardPressCounts = {};
     std::array<bool, SDL_SCANCODE_COUNT> m_previousKeyboardHeld = {};
+    // Keys held while gameplay input was blocked, ignored until released.
+    std::array<bool, SDL_SCANCODE_COUNT> m_suppressKeyUntilReleased = {};
     // Left, middle and right button events not yet applied to a frame.
     std::array<std::deque<SDL_MouseButtonEvent>, 3> m_pendingMouseButtonEvents = {};
     // Mouse motion not yet applied to a frame, summed from motion events. SDL's own relative state also counts the
