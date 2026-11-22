@@ -360,6 +360,17 @@ bool ItemRules::questItem(const ItemDefinition &definition)
         && std::find(NoQuestItem.begin(), NoQuestItem.end(), definition.equipStat) == NoQuestItem.end();
 }
 
+std::optional<ItemPouch> ItemRules::alchemyOrQuestPouch(const ItemDefinition &definition)
+{
+    // MM6's reagents are herbs (1762-1764).
+    if (definition.equipStat == "Bottle" || definition.equipStat == "Reagent" || definition.equipStat == "Herb")
+    {
+        return ItemPouch::Alchemy;
+    }
+
+    return questItem(definition) ? std::optional<ItemPouch>(ItemPouch::Quest) : std::nullopt;
+}
+
 std::optional<std::string> ItemRules::chestOpenRefusal(const Party &, int) const
 {
     return std::nullopt;

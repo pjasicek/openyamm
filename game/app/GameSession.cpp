@@ -400,13 +400,37 @@ void GameSession::setQuestPouchShared(bool shared)
         return;
     }
 
+    // Shared, the quest items go to the world's pouch and the alchemy pouch of the Party pouches setting into the
+    // bags; ended, they come back out of them where the setting is on, else the quest items go back into the bags.
     if (shared)
     {
         pLocalParty->gatherPouchItems();
     }
-    else
+
+    pLocalParty->sortPouchItems();
+}
+
+void GameSession::setPartyPouches(bool enabled)
+{
+    Party *pLoadedParty = m_pActiveWorldRuntime != nullptr ? m_pActiveWorldRuntime->party() : nullptr;
+    Party *pLocalParty = partyOfPlayer(LocalPlayer);
+
+    for (Party *pParty : {pLoadedParty, pLocalParty, m_partyState ? &*m_partyState : nullptr})
     {
-        pLocalParty->returnQuestPouchToBags();
+        if (pParty != nullptr)
+        {
+            pParty->setPartyPouches(enabled);
+        }
+    }
+
+    if (pLocalParty == nullptr && m_partyState)
+    {
+        pLocalParty = &*m_partyState;
+    }
+
+    if (pLocalParty != nullptr)
+    {
+        pLocalParty->sortPouchItems();
     }
 }
 
@@ -1069,6 +1093,7 @@ void GameSession::bindPartyStateCampaign()
     if (questPouchShared)
     {
         m_partyState->gatherPouchItems();
+        m_partyState->sortPouchItems();
     }
 }
 

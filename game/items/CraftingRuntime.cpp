@@ -56,13 +56,20 @@ void forEachPackItem(const Party &party, const std::function<void(const CraftIte
         }
     }
 
-    if (party.members().empty() || !party.rules().items.hasPouches())
+    if (party.members().empty())
     {
         return;
     }
 
-    for (const uint8_t bag : {InventoryBags::AlchemyPouchBag, InventoryBags::CraftingPouchBag})
+    for (const ItemPouch pouch : {ItemPouch::Alchemy, ItemPouch::Crafting})
     {
+        if (!party.hasPouch(pouch))
+        {
+            continue;
+        }
+
+        const uint8_t bag = InventoryBags::pouchBag(pouch);
+
         for (const InventoryItem &item : InventoryBags::itemsInBag(party, 0, bag))
         {
             visit(packRef(0, bag, item), item);

@@ -289,14 +289,19 @@ public:
     virtual bool gathersItem(const InventoryItem &item) const;
     // The party's shared pouch the item lives in instead of the members' bags (MAW: Workbench materials in the
     // crafting pouch; potions, bottles and reagents in the alchemy pouch; quest items, worth nothing, in the quest
-    // pouch): the party keeps such an item nowhere else (Party::pouchFor). Standard: none, there are no pouches.
+    // pouch): the party keeps such an item nowhere else (Party::pouchFor). Standard: none of its own; the Gameplay
+    // setting Party pouches gives it the alchemy and quest pouches (Party::partyPouches).
     virtual std::optional<ItemPouch> pouch(const ItemDefinition &definition) const;
-    // Whether the party has the pouches `pouch` names (the inventory's endless tabs). Standard: no.
+    // Whether the ruleset always has the pouches `pouch` names (the inventory's endless tabs). Standard: no.
     virtual bool hasPouches() const;
     // A quest item: what is worth nothing and is no gear (keys, letters, message scrolls, trophies; the user,
     // 2026-11-17), potions' bottles and reagents aside. Where quest items lie in a pouch this decides which they are:
     // under a ruleset with pouches, and in a co-op session under any (Party::pouchFor).
     static bool questItem(const ItemDefinition &definition);
+    // The pouch of the party's potions, bottles and reagents (alchemy) or of its quest items (quest), else none: MAW's
+    // pouches but the crafting one, which Standard has too while the Gameplay setting Party pouches is on
+    // (Party::partyPouches).
+    static std::optional<ItemPouch> alchemyOrQuestPouch(const ItemDefinition &definition);
     // Why the party cannot open a chest on a map of this lock rating (MapStatsEntry::disarmDifficulty), or nothing
     // (Standard: chests always open, their traps aside).
     virtual std::optional<std::string> chestOpenRefusal(const Party &party, int mapLock) const;

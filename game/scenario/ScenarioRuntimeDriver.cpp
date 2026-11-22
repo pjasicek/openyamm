@@ -221,6 +221,9 @@ struct ScenarioGameApplicationAccess
         application.m_settings.fastAttackRepeat = false;
         // Monsters pick their victims as each world does (world.yml formations), whatever the local setting.
         application.m_settings.formationsEverywhere = false;
+        // Standard keeps potions and quest items in the members' bags, as its scenarios expect, whatever the local
+        // Party pouches setting (unit tests cover the pouches: *party pouches*).
+        application.m_settings.partyPouches = false;
         // Scenarios check the combat log (the combat_log step) in every ruleset and world.
         application.m_settings.combatLog = CombatLogMode::On;
         // A scenario's `pin` never lands in the player's pin inbox, which the Map Studio imports.

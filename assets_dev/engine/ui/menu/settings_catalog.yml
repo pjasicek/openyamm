@@ -103,6 +103,13 @@ settings:
   name: MM9 loot in MM6-MM8
   type: toggle
   desc: Drops and chests in Enroth, Antagarich and Jadame can hold Might and Magic IX's weapons, armour and jewellery.
+- id: party_pouches
+  section: gameplay
+  group: Inventory
+  name: Party pouches
+  type: toggle
+  desc: Potions, bottles, reagents and quest items each go to a tab of their own, shared by the whole party, in place of the members' bags.
+  ruleset_desc: Standard games only; this game's ruleset always keeps its pouches.
 - id: workbench_keep_mixed_potions
   section: gameplay
   group: Alchemy

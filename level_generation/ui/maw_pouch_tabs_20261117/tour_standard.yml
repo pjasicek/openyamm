@@ -1,0 +1,33 @@
+output_dir: captures_standard
+exit: true
+steps:
+- wait: 3
+- console: item give 222 6 20
+- console: item give 223 4 35
+- console: item give 200 10
+- console: item give 201 6
+- console: item give 620
+- console: item give 1409
+- console: item give 732
+- console: item give 628
+- console: item give 1 2
+- action: quest
+- wait: 0.8
+- capture: 01-bags
+- click: [852, 22]
+- wait: 0.5
+- pointer_move: [640, 330]
+- wait: 0.3
+- capture: 02-alchemy
+- click: [901, 22]
+- wait: 0.5
+- pointer_move: [640, 330]
+- wait: 0.3
+- capture: 03-quest
+- click: [852, 22]
+- wait: 0.5
+- click: [1254, 727]
+- wait: 0.5
+- pointer_move: [640, 330]
+- wait: 0.3
+- capture: 04-alchemy-sorted

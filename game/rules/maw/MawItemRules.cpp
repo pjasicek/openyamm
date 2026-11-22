@@ -3335,13 +3335,7 @@ std::optional<ItemPouch> MawItemRules::pouch(const ItemDefinition &definition) c
         return ItemPouch::Crafting;
     }
 
-    // MM6's reagents are herbs (1762-1764).
-    if (definition.equipStat == "Bottle" || definition.equipStat == "Reagent" || definition.equipStat == "Herb")
-    {
-        return ItemPouch::Alchemy;
-    }
-
-    return questItem(definition) ? std::optional<ItemPouch>(ItemPouch::Quest) : std::nullopt;
+    return alchemyOrQuestPouch(definition);
 }
 
 std::optional<std::string> MawItemRules::chestOpenRefusal(const Party &party, int mapLock) const

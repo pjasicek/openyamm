@@ -1154,6 +1154,68 @@ TEST_CASE("sorting a MAW pouch groups its items and closes the rows up")
     CHECK_EQ(pouch[size_t(InventoryBags::PouchColumns)].gridY, 2);
 }
 
+TEST_CASE("Standard's party pouches: potions and quest items go to the party's pouches while the setting is on")
+{
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    const ItemTable &itemTable = OpenYAMM::Tests::regressionGameData().itemTable;
+    Character member = {};
+    member.name = "Member";
+    member.birthYear = CharacterAgeReferenceYear - 30;
+    PartySeed seed = {};
+    seed.members.assign(2, member);
+    Party party = {};
+    party.seed(seed);
+    party.setItemTable(&itemTable);
+
+    // Off, Standard is as it was: a potion, a key and a sword in the bags, and no pouch.
+    REQUIRE(party.tryGrantItem(222));
+    REQUIRE(party.tryGrantItem(620));
+    REQUIRE(party.tryGrantItem(1));
+    CHECK_FALSE(party.hasPouches());
+    CHECK_EQ(party.sortPouchItems(), 0u);
+    CHECK_EQ(party.member(0)->inventory.size(), 3u);
+
+    // On: the potion and the key move to their pouches, the sword stays; new ones go there at once.
+    party.setPartyPouches(true);
+    CHECK(party.partyPouches());
+    CHECK(party.hasPouch(ItemPouch::Alchemy));
+    CHECK(party.hasPouch(ItemPouch::Quest));
+    CHECK_FALSE(party.hasPouch(ItemPouch::Crafting));
+    CHECK_EQ(party.sortPouchItems(), 2u);
+    CHECK_EQ(party.member(0)->inventory.size(), 1u);
+    REQUIRE(party.tryGrantItem(1409));
+    CHECK_EQ(party.pouchItems(ItemPouch::Alchemy).size(), 1u);
+    CHECK_EQ(party.pouchItems(ItemPouch::Quest).size(), 2u);
+    CHECK_EQ(party.inventoryItemCount(620), 1);
+    CHECK_EQ(party.sortPouchItems(), 0u);
+
+    // A world shared with other players keeps only its quest pouch: the potion goes back into a bag.
+    party.campaign().setQuestPouchShared(true);
+    CHECK_FALSE(party.partyPouches());
+    CHECK_EQ(party.sortPouchItems(), 1u);
+    CHECK(party.pouchItems(ItemPouch::Alchemy).empty());
+    CHECK_EQ(party.pouchItems(ItemPouch::Quest).size(), 2u);
+    CHECK_FALSE(party.hasPouch(ItemPouch::Alchemy));
+    party.campaign().setQuestPouchShared(false);
+
+    // Off again: the quest items go back into the bags, and with nothing left in it no pouch shows.
+    party.setPartyPouches(false);
+    CHECK_EQ(party.sortPouchItems(), 2u);
+    CHECK_FALSE(party.hasPouches());
+    CHECK_EQ(party.inventoryItemCount(620), 1);
+    CHECK_EQ(party.member(0)->inventory.size() + party.member(1)->inventory.size(), 4u);
+
+    // MAW keeps its pouches whatever the setting.
+    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    Party maw = mawParty(rules, 1);
+    maw.setItemTable(&itemTable);
+    CHECK_FALSE(maw.partyPouches());
+    CHECK(maw.hasPouch(ItemPouch::Crafting));
+    REQUIRE(maw.tryGrantItem(222));
+    CHECK_EQ(maw.sortPouchItems(), 0u);
+    CHECK_EQ(maw.pouchItems(ItemPouch::Alchemy).size(), 1u);
+}
+
 TEST_CASE("MAW's pouches survive a save (saves 192 and 193)")
 {
     GameSaveData save;

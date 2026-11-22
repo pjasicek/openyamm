@@ -6,6 +6,9 @@ of the [bag overview](../maw_bag_overview_20261025/README.md#bag-tags-gaps-h10) 
 day the user asked for the same for quest items ("the stuff which is worth 0 value"), with a shorter search field:
 the key button after the potion.
 
+Standard games have the Alchemy and Quest tabs too since 2026-11-22 (a player's request on Discord), under the
+Gameplay setting **Party pouches**, on by default; see [Standard games](#standard-games-the-party-pouches-setting).
+
 ## What the player sees
 
 | View | Capture |
@@ -44,7 +47,7 @@ the key button after the potion.
 
 - `ItemRules::pouch(definition)` names an item's pouch (`ItemPouch::Crafting`: items 1041-1070; `Alchemy`: Equip Stat
   Bottle, Reagent or Herb; `Quest`: Value 0 and an Equip Stat that is no gear) and `hasPouches()` says whether the
-  rules have them (MAW; Standard has none and is unchanged).
+  rules always have them (MAW; Standard only under the Party pouches setting, below).
 - `Party` holds the three item lists (`pouchItems`, saved in its snapshot since save 192; the Quest list since 193).
   Every way into a member's bags asks `Party::pouchFor` first: `tryGrantItem`, `tryGrantInventoryItem*`,
   `grantItemToMember`, `tryAutoPlaceItemInMemberInventory` and `tryPlaceItemInMemberInventoryCell`.
@@ -70,6 +73,26 @@ the key button after the potion.
 - The buttons' icons are the game's Massive Hammer, Cure Wounds potion and Prison Key (turned 40 degrees), cooked as
   `obsidian_bag_tag_crafting`, `obsidian_bag_tag_alchemy` and `obsidian_bag_tag_quest` (sources in
   assets_source/engine/icons_x2, `tools/cook_ui_textures.py`).
+
+## Standard games: the Party pouches setting
+
+- Settings → Gameplay → Inventory → Party pouches (`[gameplay] party_pouches`, `GameSettings::partyPouches`, on by
+  default) gives a Standard game the Alchemy and Quest tabs with MAW's rules for what goes in them
+  (`ItemRules::alchemyOrQuestPouch`, which MAW's `pouch` uses too). There is no Crafting tab: Standard has no
+  Workbench materials. MAW always has all three and ignores the setting.
+- `Party::partyPouches` is the setting where it has effect: a ruleset without pouches, in a game of one player. A
+  co-op session keeps its own rule (only the quest pouch, the world's), so the alchemy pouch empties into the bags
+  while it lasts.
+- `Party::sortPouchItems` moves the items when the setting or the shared world changes: a pouch the party no longer
+  keeps empties into the bags (what finds no room stays in it, and its tab stays while it holds something), then
+  `gatherPouchItems` takes the pouch items out of the bags. `GameSession::setPartyPouches` runs it for the local party
+  from `GameApplication::applyCurrentSettingsToActiveRuntime`, so a change in Settings, a loaded save and an entered
+  map all get the setting's pouches. The saves need nothing new: the pouches have been in every save since 192/193.
+- Scenarios run with the setting off, so Standard's scenarios keep their items in the bags. Unit test:
+  `--test-case='*party pouches*'`.
+- Captures (Standard, mm8, the setting on, `tour_standard.yml` run as the tours below without `--ruleset maw`):
+  [the bag without potions or keys](standard_bags.jpg), [the Alchemy tab](standard_alchemy.jpg),
+  [the Quest tab](standard_quest.jpg), [a potion mixed on the tab](standard_mixed.jpg).
 
 ## Checks
 

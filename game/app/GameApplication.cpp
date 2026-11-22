@@ -11188,6 +11188,9 @@ void GameApplication::applyCurrentSettingsToActiveRuntime()
         m_gameSession.partyState()->setMm9LootInOlderWorlds(m_settings.mm9LootInOlderWorlds);
     }
 
+    // After a load and on entering a map too: a save from another setting gets the pouches of this one.
+    m_gameSession.setPartyPouches(m_settings.partyPouches);
+
     if (m_pMapSceneRuntime != nullptr)
     {
         m_pMapSceneRuntime->party().setMm9LootInOlderWorlds(m_settings.mm9LootInOlderWorlds);
@@ -12465,6 +12468,7 @@ void GameApplication::bindPartyDependencies(Party &party)
     party.setRules(m_gameSession.rulesetGameRules());
     party.setSoloRun(m_gameSession.ruleset().options.soloRun);
     party.setMm9LootInOlderWorlds(m_settings.mm9LootInOlderWorlds);
+    party.setPartyPouches(m_settings.partyPouches);
     party.setItemTable(&data.itemTable());
     party.setJournalQuestTable(&data.journalQuestTable());
     party.setCharacterDollTable(&data.characterDollTable());

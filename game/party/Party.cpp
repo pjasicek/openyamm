@@ -4064,6 +4064,11 @@ std::optional<ItemPouch> Party::pouchFor(const InventoryItem &item) const
         return pouch;
     }
 
+    if (partyPouches())
+    {
+        return ItemRules::alchemyOrQuestPouch(*pDefinition);
+    }
+
     // In a world shared with other players a quest item is the world's whatever the ruleset.
     return campaign().questPouchShared() && ItemRules::questItem(*pDefinition)
         ? std::optional<ItemPouch>(ItemPouch::Quest)
@@ -4072,8 +4077,18 @@ std::optional<ItemPouch> Party::pouchFor(const InventoryItem &item) const
 
 bool Party::hasPouch(ItemPouch pouch) const
 {
-    return rules().items.hasPouches()
-        || (pouch == ItemPouch::Quest && (campaign().questPouchShared() || !campaign().questPouch().empty()));
+    return rules().items.hasPouches() || (partyPouches() && pouch != ItemPouch::Crafting)
+        || (pouch == ItemPouch::Quest && campaign().questPouchShared()) || !pouchItems(pouch).empty();
+}
+
+void Party::setPartyPouches(bool enabled)
+{
+    m_partyPouches = enabled;
+}
+
+bool Party::partyPouches() const
+{
+    return m_partyPouches && !rules().items.hasPouches() && !campaign().questPouchShared();
 }
 
 bool Party::hasPouches() const
@@ -4081,31 +4096,39 @@ bool Party::hasPouches() const
     return hasPouch(ItemPouch::Quest);
 }
 
-size_t Party::returnQuestPouchToBags()
+size_t Party::sortPouchItems()
 {
-    if (rules().items.hasPouches() || campaign().questPouchShared())
+    if (m_pItemTable == nullptr || rules().items.hasPouches())
     {
         return 0;
     }
 
-    // Taken out first: a grant puts an item where it belongs, which is a bag now.
-    std::vector<InventoryItem> items = std::move(campaign().questPouch());
-    campaign().questPouch().clear();
     size_t moved = 0;
 
-    for (const InventoryItem &item : items)
+    for (std::vector<InventoryItem> *pStorage : pouchStorages())
     {
-        if (tryGrantInventoryItem(item))
+        // Taken out first: a grant puts an item where it belongs, which is a bag for what has no pouch now.
+        std::vector<InventoryItem> items = std::move(*pStorage);
+        pStorage->clear();
+
+        for (const InventoryItem &item : items)
         {
-            ++moved;
-        }
-        else
-        {
-            campaign().questPouch().push_back(item);
+            if (pouchFor(item))
+            {
+                pStorage->push_back(item);
+            }
+            else if (tryGrantInventoryItem(item))
+            {
+                ++moved;
+            }
+            else
+            {
+                pStorage->push_back(item);
+            }
         }
     }
 
-    return moved;
+    return moved + gatherPouchItems();
 }
 
 const std::vector<InventoryItem> &Party::pouchItems(ItemPouch pouch) const
@@ -4187,7 +4210,7 @@ size_t Party::dropQuestItemsFromBags()
 
 size_t Party::gatherPouchItems()
 {
-    if (m_pItemTable == nullptr || (!rules().items.hasPouches() && !campaign().questPouchShared()))
+    if (m_pItemTable == nullptr || (!rules().items.hasPouches() && !campaign().questPouchShared() && !partyPouches()))
     {
         return 0;
     }

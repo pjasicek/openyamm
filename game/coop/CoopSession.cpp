@@ -5441,10 +5441,10 @@ void CoopSession::guestReturnToOwnGame(const std::string &notice)
         }
 
         // Its own world's quest items, kept aside for the session, are the character's to carry again where the
-        // ruleset has no pouch for them.
+        // ruleset has no pouch for them (and the Party pouches setting is off).
         if (Party *pParty = m_session.partyOfPlayer(LocalPlayer))
         {
-            pParty->returnQuestPouchToBags();
+            pParty->sortPouchItems();
         }
     }
 

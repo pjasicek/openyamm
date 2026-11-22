@@ -365,9 +365,12 @@ public:
     // While a world is shared with other players its quest items are the world's under any ruleset: every party of
     // the game keeps them in the campaign's quest pouch (CampaignState::questPouchShared), and what lies in the
     // parties' bags goes there now. Ended, under a ruleset without pouches, they go back into the local party's
-    // bags. A co-op session sets it; a game about to join one sets it first, so that its own quest items stay
-    // with its own world.
+    // bags, unless its Party pouches setting is on. A co-op session sets it; a game about to join one sets it first,
+    // so that its own quest items stay with its own world.
     void setQuestPouchShared(bool shared);
+    // The Gameplay setting Party pouches (Party::setPartyPouches) for the game's parties; the local party's items move
+    // into or out of its pouches now (Party::sortPouchItems).
+    void setPartyPouches(bool enabled);
     // Every party of a shared game plays in the session's campaign. The loaded map's party does so only once the
     // session has taken its state (GameplayController::synchronizeSessionFromRuntime); this does that now if it has
     // not happened yet, so that another player's party and the local one never have a campaign each.

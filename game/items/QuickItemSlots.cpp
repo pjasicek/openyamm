@@ -26,12 +26,20 @@ bool canHold(
 
 namespace
 {
-// The party's pouches, where a ruleset has them: every member's as much as any other's.
+// The party's alchemy and crafting pouches, those it has: every member's as much as any other's.
 std::vector<uint8_t> pouchBags(const Party &party)
 {
-    return party.rules().items.hasPouches()
-        ? std::vector<uint8_t>{InventoryBags::AlchemyPouchBag, InventoryBags::CraftingPouchBag}
-        : std::vector<uint8_t>{};
+    std::vector<uint8_t> bags;
+
+    for (const ItemPouch pouch : {ItemPouch::Alchemy, ItemPouch::Crafting})
+    {
+        if (party.hasPouch(pouch))
+        {
+            bags.push_back(InventoryBags::pouchBag(pouch));
+        }
+    }
+
+    return bags;
 }
 
 // findItem among the party's pouches.

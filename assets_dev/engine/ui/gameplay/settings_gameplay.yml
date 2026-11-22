@@ -516,7 +516,7 @@ elements:
       visible: true
       interactive: false
       text:
-        value: Alchemy
+        value: Inventory
         font: fondamento
         color: '#e0c990'
         align_x: left
@@ -526,7 +526,24 @@ elements:
     - id: SettingsGameplayGroup6
       anchor: top_left
       offset_x: 0.0
-      offset_y: 759.3706
+      offset_y: 685.8949
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Alchemy
+        font: fondamento
+        color: '#e0c990'
+        align_x: left
+        align_y: middle
+        scale: 0.4
+        pad_x: 0.0
+    - id: SettingsGameplayGroup7
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 839.6794
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -540,10 +557,10 @@ elements:
         align_y: middle
         scale: 0.4
         pad_x: 0.0
-    - id: SettingsGameplayGroup7
+    - id: SettingsGameplayGroup8
       anchor: top_left
       offset_x: 0.0
-      offset_y: 828.1626
+      offset_y: 908.4714
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -1014,10 +1031,57 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
-    - id: SettingsGameplayWorkbenchKeepMixedPotionsLabel
+    - id: SettingsGameplayPartyPouchesLabel
       anchor: top_left
       offset_x: 1.6
       offset_y: 631.1861
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Party pouches
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameplayPartyPouchesDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 647.3946
+      width: 435.7333
+      height: 23.0336
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Potions, bottles, reagents and quest items each go to a tab of their own, shared by the whole party, in
+          place of the members' bags.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameplayPartyPouchesControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 634.7282
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsGameplayWorkbenchKeepMixedPotionsLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 711.4949
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1034,7 +1098,7 @@ elements:
     - id: SettingsGameplayWorkbenchKeepMixedPotionsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 647.3946
+      offset_y: 727.7034
       width: 435.7333
       height: 34.5504
       z_index: 10
@@ -1052,7 +1116,7 @@ elements:
     - id: SettingsGameplayWorkbenchKeepMixedPotionsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 640.4866
+      offset_y: 720.7954
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1064,7 +1128,7 @@ elements:
     - id: SettingsGameplayUpkeepAutoBrewLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 693.145
+      offset_y: 773.4538
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1081,7 +1145,7 @@ elements:
     - id: SettingsGameplayUpkeepAutoBrewDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 709.3535
+      offset_y: 789.6623
       width: 435.7333
       height: 34.5504
       z_index: 10
@@ -1100,7 +1164,7 @@ elements:
     - id: SettingsGameplayUpkeepAutoBrewControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 702.4455
+      offset_y: 782.7543
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1112,7 +1176,7 @@ elements:
     - id: SettingsGameplaySkipEventCutscenesLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 784.9706
+      offset_y: 865.2794
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1129,7 +1193,7 @@ elements:
     - id: SettingsGameplaySkipEventCutscenesDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 801.1791
+      offset_y: 881.4879
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -1146,7 +1210,7 @@ elements:
     - id: SettingsGameplaySkipEventCutscenesControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 782.7543
+      offset_y: 863.0631
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1158,7 +1222,7 @@ elements:
     - id: SettingsGameplayQuicksaveSlotsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 853.7626
+      offset_y: 934.0714
       width: 382.9333
       height: 14.0752
       z_index: 10
@@ -1175,7 +1239,7 @@ elements:
     - id: SettingsGameplayQuicksaveSlotsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 869.9711
+      offset_y: 950.2799
       width: 382.9333
       height: 23.0336
       z_index: 10
@@ -1192,7 +1256,7 @@ elements:
     - id: SettingsGameplayQuicksaveSlotsControl
       anchor: top_left
       offset_x: 400.5333
-      offset_y: 865.3837
+      offset_y: 945.6925
       width: 88.5333
       height: 16.0
       z_index: 10
@@ -1201,7 +1265,7 @@ elements:
     - id: SettingsGameplayQuicksaveSlotsValue
       anchor: top_left
       offset_x: 497.0666
-      offset_y: 867.517
+      offset_y: 947.8258
       width: 26.6667
       height: 11.7333
       z_index: 10

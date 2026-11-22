@@ -444,6 +444,10 @@ struct GameSettings
     // Random loot (drops, chests, map treasure) on MM6-MM8 maps may roll MM9's equipment; off, those maps roll only
     // the merged MM6-MM8 base's, as their shops already sell (Party::mm9LootInOlderWorlds, devdocs/LOOT_POOL.md).
     bool mm9LootInOlderWorlds = false;
+    // Under a ruleset without pouches of its own (Standard; MAW always has them): the party's potions, bottles and
+    // reagents and its quest items each go to a tab of their own shared by the whole party, in place of the members'
+    // bags (Party::partyPouches). Off, they go back into the bags.
+    bool partyPouches = true;
     // Obsidian basebar frame behind the gameplay party portraits; fullscreen overlays always draw their own strip.
     bool partyFrame = true;
     // The quick item rings: the round button at each gameplay portrait opening its ring of six quick slots, and the

@@ -330,6 +330,10 @@ std::string menuSettingValue(const GameSettings &settings, std::string_view id)
     {
         return settings.mm9LootInOlderWorlds ? "true" : "false";
     }
+    if (id == "party_pouches")
+    {
+        return settings.partyPouches ? "true" : "false";
+    }
     if (id == "sound_volume")
     {
         return std::to_string(settings.soundVolume);
@@ -982,6 +986,15 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
             return false;
         }
         settings.mm9LootInOlderWorlds = value == "true";
+        return true;
+    }
+    if (id == "party_pouches")
+    {
+        if (value != "true" && value != "false")
+        {
+            return false;
+        }
+        settings.partyPouches = value == "true";
         return true;
     }
     if (id == "sound_volume")

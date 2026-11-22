@@ -281,7 +281,8 @@ std::optional<BagItemRef> findCarriedTravelItem(const Party &party, const Invent
         }
     }
 
-    if (party.members().empty() || !party.hasPouches())
+    // A pouch the party no longer has is empty but for what found no room in the bags.
+    if (party.members().empty())
     {
         return std::nullopt;
     }

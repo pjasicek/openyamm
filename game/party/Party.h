@@ -810,15 +810,25 @@ public:
     // above and the placements below put such an item into its pouch whatever bag they were asked for, and refuse
     // anything else a place in a pouch.
     std::optional<ItemPouch> pouchFor(const InventoryItem &item) const;
-    // Whether the party has this pouch: all of them under a ruleset with pouches (MAW), and the quest pouch alone in
+    // Whether the party has this pouch: all of them under a ruleset with pouches (MAW); the alchemy and quest pouches
+    // under one without, while the Gameplay setting Party pouches is on (partyPouches); and the quest pouch alone in
     // a world shared with other players, where quest items are the world's under any ruleset
-    // (CampaignState::questPouchShared). A quest pouch that still holds something is there too, so nothing in it is
-    // out of reach.
+    // (CampaignState::questPouchShared). A pouch that still holds something is there too, so nothing in it is out of
+    // reach.
     bool hasPouch(ItemPouch pouch) const;
     bool hasPouches() const;
-    // After a shared world's session, under a ruleset without pouches: the quest pouch's items go back into the
-    // members' bags. What finds no room stays in the pouch, which then stays (hasPouch). Returns how many moved.
-    size_t returnQuestPouchToBags();
+    // The Gameplay setting GameSettings::partyPouches. Under a ruleset without pouches of its own (Standard) the
+    // party then keeps its potions, bottles and reagents in the alchemy pouch and its quest items in the quest pouch,
+    // as MAW does (ItemRules::alchemyOrQuestPouch); not in a world shared with other players, which keeps only the
+    // quest pouch, the world's. Setting it moves nothing: sortPouchItems does.
+    void setPartyPouches(bool enabled);
+    // Whether the setting is on and has effect: a ruleset without pouches, in a game of one player.
+    bool partyPouches() const;
+    // Under a ruleset without pouches, after the setting or the shared world changed: the items of a pouch the
+    // party no longer keeps go back into the members' bags (what finds no room stays in the pouch, which then stays:
+    // hasPouch), then the items of the pouches it keeps come out of the bags (gatherPouchItems). Returns how many
+    // moved. A ruleset with pouches is left alone.
+    size_t sortPouchItems();
     // Takes the quest items out of the members' bags for good: a character that comes into another world brings
     // none of its own world's along (they stayed there). Returns how many went.
     size_t dropQuestItemsFromBags();
@@ -1288,6 +1298,7 @@ private:
     bool m_fleetFootWorld = false;
     // A setting like m_formationTargetingActive: not saved, not reset.
     bool m_mm9LootInOlderWorlds = false;
+    bool m_partyPouches = false;
     PartyBuffState m_cartographerWizardEye = {};
     uint32_t m_heldItemIdForQueries = 0;
     std::vector<uint32_t> m_humQBits;
