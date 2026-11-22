@@ -2816,7 +2816,7 @@ int32_t EventRuntime::getVariableValue(
                 return pParty != nullptr ? pParty->campaign().eventVariableValue(variable.tag) : 0;
 
             case EvtVariable::ReputationInCurrentLocation:
-                return runtimeState.currentLocationReputation;
+                return boundGameRules().monsters.reputationCounts() ? runtimeState.currentLocationReputation : 0;
 
             case EvtVariable::Unknown1:
             case EvtVariable::NumDeaths:

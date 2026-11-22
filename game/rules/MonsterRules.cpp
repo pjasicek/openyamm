@@ -167,6 +167,11 @@ bool MonsterRules::monstersFlee() const
     return true;
 }
 
+bool MonsterRules::reputationCounts() const
+{
+    return true;
+}
+
 void MonsterRules::leaveMap(IGameplayWorldRuntime &) const
 {
 }

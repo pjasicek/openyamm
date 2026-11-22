@@ -292,7 +292,8 @@ void tryApplyTempleDonationBuffs(
     }
 
     const uint32_t spellLevel = templeSpellLevelFromGameMinutes(worldRuntime.gameMinutes());
-    const int reputation = worldRuntime.currentLocationReputation();
+    const int reputation =
+        boundGameRules().monsters.reputationCounts() ? worldRuntime.currentLocationReputation() : 0;
 
     if (reputation <= -5)
     {

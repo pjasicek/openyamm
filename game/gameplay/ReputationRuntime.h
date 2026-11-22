@@ -32,6 +32,8 @@ constexpr int MaxReputation = 10000;
 int clampReputation(int value);
 bool continentUsesMergedReputation(const MergedContinentSettingEntry *pContinentSetting);
 int hiredNpcReputationPenalty(const EventRuntimeState &runtimeState);
+// The reputation that counts: the stored one with the hired followers' share; 0 under rules where reputation counts
+// for nothing (MonsterRules::reputationCounts, MAW).
 int effectivePartyReputation(int storedReputation, const EventRuntimeState *pRuntimeState);
 void applyReputationGuardHostility(IGameplayWorldRuntime &worldRuntime, int hostileThreshold = 25);
 void addStoredCurrentLocationReputation(IGameplayWorldRuntime &worldRuntime, int delta);

@@ -1657,6 +1657,11 @@ bool MawMonsterRules::monstersFlee() const
     return false;
 }
 
+bool MawMonsterRules::reputationCounts() const
+{
+    return false;
+}
+
 void MawMonsterRules::decorationRaisedStats(
     const std::string &mapFileName, uint8_t decorVarIndex, uint8_t emptyState) const
 {

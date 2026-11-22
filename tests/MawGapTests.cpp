@@ -8,6 +8,7 @@
 #include "game/events/EventRuntime.h"
 #include "game/gameplay/GameplayMonsterSpawn.h"
 #include "game/gameplay/InteractiveDecorationRules.h"
+#include "game/gameplay/ReputationRuntime.h"
 #include "game/gameplay/NpcFollowerRuntime.h"
 #include "game/gameplay/GameplayProjectileService.h"
 #include "game/items/ItemGenerator.h"
@@ -2884,6 +2885,18 @@ TEST_CASE("MAW Venomous, Plagueborn and Fixator hits go past Protection from Mag
         REQUIRE(party.partyBuff(PartyBuffId::ProtectionFromMagic) != nullptr);
         CHECK_EQ(party.partyBuff(PartyBuffId::ProtectionFromMagic)->power, 2);
     }
+}
+
+TEST_CASE("MAW reputation counts for nothing; Standard's does")
+{
+    MawRules rules(RulesetOptions{}, MawMapLevels{}, installedItemData());
+    CHECK_EQ(effectivePartyReputation(41, nullptr), 41);
+    bindGameRules(&rules.gameRules());
+    CHECK_FALSE(rules.gameRules().monsters.reputationCounts());
+    CHECK_EQ(effectivePartyReputation(41, nullptr), 0);
+    CHECK_EQ(effectivePartyReputation(-30, nullptr), 0);
+    bindGameRules(nullptr);
+    CHECK_EQ(effectivePartyReputation(41, nullptr), 41);
 }
 
 TEST_CASE("MAW monsters never flee; Standard ones do")

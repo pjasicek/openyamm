@@ -303,6 +303,10 @@ public:
     // yes; MAW: never, only wimps (peasants, animals) run, as MAW makes every other monster Suicidal (zzMaw-Monsters.lua
     // BeforeLoadMap). The Fear spell still makes any monster run.
     virtual bool monstersFlee() const;
+    // Whether the party's reputation counts for anything (house refusals, training and shop prices, town guards'
+    // hostility, NPC greetings, temple donation blessings, event checks). Standard: yes; MAW: no, it reads as 0,
+    // Neutral, everywhere (the user, 2026-11-22: a Notorious MAW party could not train).
+    virtual bool reputationCounts() const;
     // Just before the party leaves the map (MAW's Nightmare: the slain of an indoor map rise again). Standard: nothing.
     virtual void leaveMap(IGameplayWorldRuntime &world) const;
     // A barrel or cauldron of the map (its decor var, left in `emptyState`) raised a party member's base stat or

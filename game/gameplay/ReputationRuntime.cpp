@@ -3,6 +3,7 @@
 
 #include "game/events/EventRuntime.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
+#include "game/rules/GameRules.h"
 #include "game/tables/MergedBaseTables.h"
 
 #include <algorithm>
@@ -81,6 +82,11 @@ int hiredNpcReputationPenalty(const EventRuntimeState &runtimeState)
 
 int effectivePartyReputation(int storedReputation, const EventRuntimeState *pRuntimeState)
 {
+    if (!boundGameRules().monsters.reputationCounts())
+    {
+        return 0;
+    }
+
     if (pRuntimeState == nullptr)
     {
         return storedReputation;
