@@ -614,3 +614,17 @@ door with a trans row), D-91. world.yml has the trans contribution since 00:15 (
   Open polish: XD-15 gen_tests stair waypoint (A7), promotions --reload, XD-17/D7 villagers, D2 sprite townsfolk,
   DD-25 dwarf, Q-C1 druid labels, check_open_sky parapet-height rule, Southern Sphinx library wall. All of today's
   work after fb149b6313 is uncommitted (user commits).
+- **v3.0 commits (user: everything relevant incl. translations):** l10n extract+update (xeen.po added untranslated); build/ + unit tests (3154/3155, the known Hesper case) + release scenarios 16/16 from assets_dev; 5a9dea1ed0 'Game code for 3.0' (158 files) + d81bed08da 'Assets, translations and docs for 3.0' (909 files); empty cook commit dropped (Android cooks current). Peers confirmed (81, 1a, d2, 40, c7). Left out: settings.ini, assets_source submodule, scratch. Draft tag notes `output/xeen_commit/v3.0_notes.txt` (1,275 chars). Started P 3rd: CI-as-run check on the committed tree.
+- P 3rd done: CI-as-run on d81bed08da all PASS (desktop 324 packs 10,642.5 MiB; Android 216 / 5,884.1; install tests 38/38; release scenarios 16/16 from packs; 2.8→3.0 update 1,547.6 / 1,058.1 MiB; versionCode 28,139,833 > 27,820,027; content format 1). mm9_balance check fails: Guberland reserve stale after 6966c1c87b (hag id) — mm9_pack_reserve refused (reconvert first) and deleted the file; orchestrator restored it from HEAD, asked openyamm-c7 to reconvert + refresh. Release sizes fixed and committed (4307e75897). Notes revised (`output/xeen_commit/v3.0_notes.txt`, 1,265 chars).
+- openyamm-c7 fixing Guberland reserve at the source: hag row 9245 was written into the installed scene by hand; it moves it into mm9r_guberland_blv/overrides.yml people, scratch-converts, refreshes work/content.json, reruns mm9_pack_reserve + mm9_balance --check. Will commit on its report.
+- Guberland reserve committed (openyamm-c7's refresh; mm9_balance --check 0). main ready for v3.0.
+- **v3.0 tagged (annotated, notes) on 852a28d07c and pushed at the user's request.** main itself not pushed (13 ahead of origin).
+- main pushed to origin (519b6c8a27..852a28d07c) at the user's request.
+
+## Generators into git and an agent guide (2026-11-22, after v3.0)
+
+The user: commit everything related to map generation so other people's agents can pick it up, plus a guide for
+agents working on Xeen. Two agents: one moves the per-map generators from git-ignored `output/studio_cal/<map>/tools/`
+to `level_generation/projects/xeen/<map>/` (old folders become symlinks; every map regenerated and diffed against its
+committed L4), with `level_generation/projects/xeen/README.md`; the other writes `devdocs/xeen/AGENT_GUIDE.md` and
+links it from AGENTS.md and devdocs/xeen/README.md. Commit by the orchestrator after both report.

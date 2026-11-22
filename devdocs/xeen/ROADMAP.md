@@ -64,8 +64,8 @@ The central lesson of the last week: building maps before the world exists produ
 
 ### 2.1 Taken (the user, 2026-11-20)
 
-- The world lives where it belongs, in `assets_dev/worlds/xeen/`. That folder is git-ignored for now (`.gitignore`),
-  so nothing of it is committed until the user says so. Engine and tool changes are tracked as usual.
+- The world lives where it belongs, in `assets_dev/worlds/xeen/`. That folder was git-ignored until the user
+  committed it for v3.0 (2026-11-22); it is tracked now. Engine and tool changes are tracked as usual.
 - One orchestrator, eight lane sessions, optionally one more session for 3D models (§3).
 - Lanes may call Codex image generation for textures wherever it makes the result better, inside the texture budget
   of §5.2: a bit more than MM7/MM8, never several times more.
@@ -130,7 +130,7 @@ Rules that keep nine sessions out of each other's way:
 ## 4. The world package
 
 ```text
-assets_dev/worlds/xeen/            git-ignored; mounted as world "xeen"
+assets_dev/worlds/xeen/            committed (since v3.0); mounted as world "xeen"
   world.yml                        O; identity, start, idRanges, tableContributions, rules (Fly, rim, faces)
   source/                          authoring sources; never mounted, never packaged (A1 excludes it)
     maps.yml                       O; every map: stem, id, face, name, music, treasure level, bolster, rules, TP flag
@@ -384,7 +384,7 @@ before the next phase. The MAW balance file for Xeen comes in phase 7.
   each act's segments with its quests; A1 keeps the runner and runs the chain at each gate, with `--reload`.
 - One scenario per side quest (`tests/scenarios/xeen/side_quests/`, A3).
 - Regressions at every merge point (A1): unit tests, MM6–MM9 start, travel, Town Portal and a save/load of each, and
-  the release scenarios. None of the Xeen tests go into CI while the world is git-ignored.
+  the release scenarios. The Xeen story runs stay out of CI (AGENTS.md); only the release scenarios run there.
 
 ## 6. Phases, gates and the map allocation
 
@@ -480,7 +480,7 @@ when it must land.
 | W4 | Town Portal groups and buttons driven by data (`GameplayUiRuntime.cpp:146`, `GameplayOverlayTypes.h:400`); two face pages | partial | 0 |
 | E1 | The seven world-table loaders that return early unless the world is MM9 (`GameDataLoader.cpp:2755-3047`) | missing | 0–1 |
 | W5 | `oymap install` into a world (map files only, `world: xeen`), and the studio reading the world's tables | missing | 0 |
-| W6 | Packaging, CI and the texture cook skip `xeen` while it is git-ignored, take it when it ships | missing | 0 / 7 |
+| W6 | Packaging, CI and the texture cook skip `xeen` while it is git-ignored, take it when it ships | done (shipped in v3.0) | 0 / 7 |
 | E14 | Boss rows (data, A2); custom names for placed monsters outside MM9 (`ActorNameResolver.cpp:19`) | partial | 1 |
 | Q11 | Hostility order indoors and outdoors | differs | 1 |
 | E5 | World-rim fall: an outdoor trigger volume that runs an event (`OutdoorSceneYml.cpp:956-980` has damage, destroy, remove only) | missing | 1 |
@@ -502,7 +502,7 @@ the next act's maps need them; a map lane uses a written workaround meanwhile an
 ## 8. Working rules for the sessions
 
 - Read this file, STATUS.md and your lane file at every start; update your lane file before you stop.
-- Never commit, stage, stash or reset. The world folder is git-ignored; tracked files (briefs, tools, engine) stay
+- Never commit, stage, stash or reset. Tracked files (the world folder since v3.0, briefs, tools, engine) stay
   unstaged for the user.
 - No stand-ins in a map that claims to be done. If a row, model or quest is missing, ask its owner and wait, or mark
   the line in STATUS.md as blocked.

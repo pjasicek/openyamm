@@ -1,0 +1,14 @@
+# AU's outdoor bed (level_generation/sounds/xeen_20261120/review/beds/x7.yml, session 5: night lines / X7's volcano; copied 2026-11-21 by A5, 23rd session); the generator merges it
+sounds:
+  - {id: sound:bed_volcano_1, at: [36, 42], sound: xeen_amb_volcano, radius: 11000, inner_radius: 4500, volume: 0.4, pan: false}
+  - {id: sound:bed_volcano_2, at: [58, 42], sound: xeen_amb_volcano, radius: 11000, inner_radius: 4500, volume: 0.4, pan: false}
+  - {id: sound:bed_volcano_3, at: [80, 42], sound: xeen_amb_volcano, radius: 11000, inner_radius: 4500, volume: 0.4, pan: false}
+  - {id: sound:bed_volcano_4, at: [102, 42], sound: xeen_amb_volcano, radius: 11000, inner_radius: 4500, volume: 0.4, pan: false}
+  - {id: sound:bed_range_wind_1, at: [23, 68.5], sound: xeen_amb_tundra, radius: 11000, inner_radius: 4500, volume: 0.25, pan: false}
+  - {id: sound:bed_range_wind_2, at: [47, 68.5], sound: xeen_amb_tundra, radius: 11000, inner_radius: 4500, volume: 0.25, pan: false}
+  - {id: sound:bed_range_wind_3, at: [71, 68.5], sound: xeen_amb_tundra, radius: 11000, inner_radius: 4500, volume: 0.25, pan: false}
+  - {id: sound:bed_range_wind_4, at: [95, 68.5], sound: xeen_amb_tundra, radius: 11000, inner_radius: 4500, volume: 0.25, pan: false}
+  - {id: sound:bed_range_wind_5, at: [35, 89.5], sound: xeen_amb_tundra, radius: 11000, inner_radius: 4500, volume: 0.25, pan: false}
+  - {id: sound:bed_range_wind_6, at: [59, 89.5], sound: xeen_amb_tundra, radius: 11000, inner_radius: 4500, volume: 0.25, pan: false}
+  - {id: sound:bed_range_wind_7, at: [83, 89.5], sound: xeen_amb_tundra, radius: 11000, inner_radius: 4500, volume: 0.25, pan: false}
+  - {id: sound:lavafalls, at: [73.5, 29], sound: xeen_lavafall_loop, radius: 4500, inner_radius: 1800, volume: 0.6}

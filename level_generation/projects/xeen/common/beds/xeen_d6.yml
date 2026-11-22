@@ -1,0 +1,33 @@
+sounds:
+  - {id: sound:bed_ash_1, at: [31, 27], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_2, at: [55, 27], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_3, at: [79, 27], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_4, at: [103, 27], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_5, at: [43, 48], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_6, at: [67, 48], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_7, at: [91, 48], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_8, at: [31, 68.5], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_9, at: [55, 68.5], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_10, at: [79, 68.5], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_11, at: [103, 68.5], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_12, at: [43, 89.5], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_ash_13, at: [67, 89.5], sound: xeen_amb_desert, radius: 12000, inner_radius: 4800, volume: 0.3, pan: false}
+  - {id: sound:bed_pass_1, at: [104, 80], sound: xeen_amb_tundra, radius: 10000, inner_radius: 4000, volume: 0.25, pan: false}
+  - {id: sound:bed_pass_2, at: [27, 99], sound: xeen_amb_tundra, radius: 10000, inner_radius: 4000, volume: 0.25, pan: false}
+  - {id: sound:bed_pass_3, at: [49, 99], sound: xeen_amb_tundra, radius: 10000, inner_radius: 4000, volume: 0.25, pan: false}
+  - {id: sound:bed_pass_4, at: [71, 99], sound: xeen_amb_tundra, radius: 10000, inner_radius: 4000, volume: 0.25, pan: false}
+  - {id: sound:bed_pass_5, at: [93, 99], sound: xeen_amb_tundra, radius: 10000, inner_radius: 4000, volume: 0.25, pan: false}
+  - {id: sound:bed_necropolis, at: [91, 82], sound: xeen_amb_necropolis, radius: 6500, inner_radius: 3500, volume: 0.4, pan: false}
+  - {id: sound:lavafall_north, at: [44, 25], sound: xeen_lavafall_loop, radius: 4500, inner_radius: 1500, volume: 0.6}
+  - {id: sound:lavafall_west, at: [25, 51], sound: xeen_lavafall_loop, radius: 4500, inner_radius: 1500, volume: 0.6}
+  - {id: sound:lava_moat_w, at: [37, 46], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+  - {id: sound:lava_moat_nw, at: [44, 36], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+  - {id: sound:lava_moat_ne, at: [58, 36], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+  - {id: sound:lava_moat_e, at: [63, 46], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+  - {id: sound:lava_moat_sw, at: [41, 55], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+  - {id: sound:lava_moat_se, at: [61, 55], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+  - {id: sound:lava_lake_n, at: [70, 60], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+  - {id: sound:lava_lake_e, at: [77, 64], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+  - {id: sound:lava_lake_s, at: [68, 70], sound: lava loop, radius: 3500, inner_radius: 1000, volume: 0.4}
+  - {id: sound:lava_slag_run, at: [31, 50], sound: lava loop, radius: 3000, inner_radius: 800, volume: 0.35}
+  - {id: sound:alamar_hum, at: [50.8, 58], sound: humming, radius: 2500, inner_radius: 600, volume: 0.35}

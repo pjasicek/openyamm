@@ -1,0 +1,15 @@
+# AU's outdoor bed (level_generation/sounds/xeen_20261120/review/beds/x6.yml, D-48 pan: false; copied 2026-11-21 by A5); the generator merges it
+sounds:
+  - {id: sound:bed_desert_1, at: [27, 25], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_2, at: [55, 25], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_3, at: [83, 25], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_4, at: [41, 49], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_5, at: [69, 49], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_6, at: [97, 49], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_7, at: [27, 73.5], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_8, at: [55, 73.5], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_9, at: [83, 73.5], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_10, at: [41, 97.5], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_11, at: [69, 97.5], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_desert_12, at: [97, 97.5], sound: xeen_amb_desert, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:sandfalls, at: [28.5, 84], sound: xeen_sandfall_loop, radius: 4500, inner_radius: 1800, volume: 0.6}

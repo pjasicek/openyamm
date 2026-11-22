@@ -1,0 +1,14 @@
+# XD-17 Shangri-La (A5; an open-air BLV): objects.yml `sounds`, game units, from the L1 plan (D-50). Hand-written by
+# lane AU (session 4, devdocs/xeen/AUDIO.md "Session 4"); move a point with its thing if L2/L3 moves it (the fall's foot,
+# the stream's line, the forge's chimney, the tavern's door).
+sounds:
+  - {id: sound:falls, room: room:valley, at: [6016, 2048], height: 256, sound: waterfall loop1, radius: 4500, inner_radius: 1200, volume: 0.6}
+  - {id: sound:stream_north, room: room:valley, at: [5888, -768], height: 32, sound: rushing water loop, radius: 1800, inner_radius: 400, volume: 0.3}
+  - {id: sound:stream_south, room: room:valley, at: [5888, -3072], height: 32, sound: rushing water loop, radius: 1800, inner_radius: 400, volume: 0.3}
+  - {id: sound:forge, room: room:valley, at: [384, -3072], height: 128, sound: xeen_forge_hammer, radius: 2600, inner_radius: 500, volume: 0.5, wait: [2, 7], day_only: true}
+  - {id: sound:tavern, room: room:valley, at: [-2112, -3072], height: 128, sound: xeen_amb_tavern, radius: 1800, inner_radius: 400, volume: 0.45}
+  - {id: sound:birds_orchard, room: room:valley, at: [4352, -2304], height: 512, sound: bird01, radius: 3500, inner_radius: 800, volume: 0.6, wait: [5, 14], day_only: true}
+  - {id: sound:birds_court, room: room:valley, at: [0, 512], height: 512, sound: bird08, radius: 3500, inner_radius: 800, volume: 0.6, wait: [7, 18], day_only: true}
+  - {id: sound:birds_west, room: room:valley, at: [-3968, -256], height: 640, sound: bird03, radius: 3500, inner_radius: 800, volume: 0.6, wait: [6, 16], day_only: true}
+  - {id: sound:birds_north_west, room: room:valley, at: [-3584, 2816], height: 512, sound: bird11, radius: 3500, inner_radius: 800, volume: 0.6, wait: [8, 20], day_only: true}
+  - {id: sound:birds_terrace, room: room:valley, at: [0, 4032], height: 768, sound: bird05, radius: 3500, inner_radius: 800, volume: 0.6, wait: [6, 15], day_only: true}

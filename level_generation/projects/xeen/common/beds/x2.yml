@@ -1,0 +1,25 @@
+# AU's outdoor bed (level_generation/sounds/xeen_20261120/review/beds/x2.yml, session 5: night lines / X7's volcano; copied 2026-11-21 by A5, 23rd session); the generator merges it
+sounds:
+  - {id: sound:bed_meadow_1, at: [27, 25], sound: xeen_amb_meadow, radius: 15000, inner_radius: 6000, volume: 0.35, day_only: true, pan: false}
+  - {id: sound:bed_meadow_2, at: [55, 25], sound: xeen_amb_meadow, radius: 15000, inner_radius: 6000, volume: 0.35, day_only: true, pan: false}
+  - {id: sound:bed_meadow_3, at: [83, 25], sound: xeen_amb_meadow, radius: 15000, inner_radius: 6000, volume: 0.35, day_only: true, pan: false}
+  - {id: sound:bed_meadow_4, at: [69, 49], sound: xeen_amb_meadow, radius: 15000, inner_radius: 6000, volume: 0.35, day_only: true, pan: false}
+  - {id: sound:bed_meadow_5, at: [97, 49], sound: xeen_amb_meadow, radius: 15000, inner_radius: 6000, volume: 0.35, day_only: true, pan: false}
+  - {id: sound:bed_meadow_6, at: [55, 73.5], sound: xeen_amb_meadow, radius: 15000, inner_radius: 6000, volume: 0.35, day_only: true, pan: false}
+  - {id: sound:bed_meadow_7, at: [83, 73.5], sound: xeen_amb_meadow, radius: 15000, inner_radius: 6000, volume: 0.35, day_only: true, pan: false}
+  - {id: sound:bed_meadow_8, at: [41, 97.5], sound: xeen_amb_meadow, radius: 15000, inner_radius: 6000, volume: 0.35, day_only: true, pan: false}
+  - {id: sound:bed_meadow_9, at: [97, 97.5], sound: xeen_amb_meadow, radius: 15000, inner_radius: 6000, volume: 0.35, day_only: true, pan: false}
+  - {id: sound:bed_night_1, at: [27, 25], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_2, at: [55, 25], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_3, at: [83, 25], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_4, at: [69, 49], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_5, at: [97, 49], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_6, at: [55, 73.5], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_7, at: [83, 73.5], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_8, at: [41, 97.5], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_night_9, at: [97, 97.5], sound: xeen_amb_night, radius: 15000, inner_radius: 6000, volume: 0.3, night_only: true, pan: false}
+  - {id: sound:bed_lake_1, at: [29, 45], sound: xeen_amb_lagoon, radius: 9000, inner_radius: 3500, volume: 0.6, pan: false}
+  - {id: sound:bed_lake_2, at: [47, 45], sound: xeen_amb_lagoon, radius: 9000, inner_radius: 3500, volume: 0.6, pan: false}
+  - {id: sound:bed_lake_3, at: [38, 60.5], sound: xeen_amb_lagoon, radius: 9000, inner_radius: 3500, volume: 0.6, pan: false}
+  - {id: sound:bed_lake_4, at: [29, 76], sound: xeen_amb_lagoon, radius: 9000, inner_radius: 3500, volume: 0.6, pan: false}
+  - {id: sound:bed_lake_5, at: [47, 76], sound: xeen_amb_lagoon, radius: 9000, inner_radius: 3500, volume: 0.6, pan: false}

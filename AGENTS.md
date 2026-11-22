@@ -110,6 +110,9 @@ These rules apply to all AI-generated contributions in this repository.
   only the affected segments or quests (`run.py NN`). A change that deliberately alters a story path (an item made a
   world item, an event renumbered) updates the segments it breaks in the same change. How they are built, extended
   and debugged: the [Playthrough playbook](tests/playthrough/PLAYBOOK.md).
+- For the World of Xeen (the fifth world, Might and Magic IV/V rebuilt on new maps; "Xeen (alpha)" since 3.0: its
+  maps, generators, world tables, quests, towns, tests and the multi-agent lanes), start with
+  [the Xeen agent guide](devdocs/xeen/AGENT_GUIDE.md).
 - For the solo action mode research and the first-person view model prototype (held weapon and shield, swings that
   land at the blow, shield block, `[debug] view_model_path`), start with [Solo action mode](devdocs/solo_action/README.md).
 - For scripted monsters, bosses or encounters (per-actor Lua behaviours over the shared AI), start with

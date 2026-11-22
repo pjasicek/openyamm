@@ -87,7 +87,8 @@ uncommitted on 2026-11-22): without it, MM6's peasant man (2 textures), MM8's po
 5. **publish** (`packaging/publish_release.py prepare / sign / check --scenario / upload`): signing keys; `check` plays
    one scenario on a fresh installation. Not run locally beyond `prepare` into a scratch folder, if at all.
 
-**Xeen cannot ship through CI yet:** `assets_dev/worlds/xeen/` is git-ignored (`.gitignore` line 44: 0 tracked
+**(Resolved in 1afa1b3f2c: Xeen is committed and shipped; kept for the record.)** Xeen could not ship through CI
+then: `assets_dev/worlds/xeen/` was git-ignored (`.gitignore` line 44: 0 tracked
 files) and so is its Android cook (`assets_cooked/android/worlds/xeen/`), the workflow's checkout lists only
 `worlds/mm6`-`mm9`, and packs.yml's `worlds:` lists `[mm6, mm7, mm8, mm9]`. Shipping it needs: un-ignore and commit the
 world (the packager already leaves `source/`, `*.studio.yml` and dot files out), commit the Android cook, add
@@ -101,12 +102,51 @@ Tonight's shipped changes to cover in the Android cook: engine Dimension Door pi
 the engine model textures changed in git status (`engine/models/textures/*.oytex`: the Android model cook), the new
 spellbook rows (data). Status of each run: see Log.
 
+## Session 3: the v3.0 tag check on the committed tree (2026-11-22 evening)
+
+Checked on HEAD = d81bed08da as the `v3.0` tag run would see it: a `git clone --shared --no-checkout` into
+`output/xeen_p3/wt` with the content job's exact sparse list (desktop, then the android list with its exclusions, so
+`sparse_files` reads the left-out BC7 names from the index as on CI), no `assets_source` (CI checks out no
+submodule, so the surface cook check is skipped as on CI), `--release 3.0 --build 3.0`, cooker
+`build/game/openyamm_sprite_atlas_cook`. Every job through `tools/heavy.sh` (packaging 16, games 6).
+
+| CI step | Result |
+|---|---|
+| content (desktop) | PASS: 324 packs, 10,642.5 MiB (base 10,018 MiB + 624.5 MiB optional language packs); largest `mm6.models.0` 108.6 MiB; largest core `engine.core` 14.4 MiB; none over 128 / core 24; every domain listed; sprite `--verify` OK. Shared model textures left out: Xeen 275.7 MB, MM6 2.3 MB, MM9 0.8 MB |
+| content (android) | PASS: 216 packs, 5,884.1 MiB; largest `engine.icons_x2.7` 69.9 MiB; core 14.4 MiB; every ASTC overlay present (no missing/stale profile texture); sprite profiles match and verify. Xeen 116.6 MB shared |
+| installation unit tests (the workflow's `--source-file` list, `build/tests/openyamm_unit_tests` of 17:33) | PASS 38/38 test cases, 310 assertions |
+| release scenarios from the packed desktop content (`build/game/openyamm --asset-root ci_desktop`, one user folder) | PASS 16/16 (all "Scenario passed"; logs `output/xeen_p3/scen/`). Extra, from the same packs: Xeen `dimensional_travel_vertigo`, `shop_stock`, `maw_new_game`, `x6_warzone_entrance` pass; 0 untextured actors in any log |
+| publish `prepare` | Not runnable here (needs the three desktop stages and a signed APK). Its content half run against the live stable site (`load_content` + `final_index` + `read_notes`): published 2.8, 3.0 is newer; desktop 61 new packs 1,547.6 MiB (Xeen 775.8, engine 339.5, MM9 233.4, MM7 118.5, MM6 62.8, MM8 17.5), 263 reused; Android 52 new 1,058.1 MiB (Xeen 541.1), 164 reused; the draft notes 1,274 of 1,500 characters |
+| other local checks | `tools/test_package_runtime_assets.py`, `tools/test_runtime_packs.py` (11), `packaging/test_publish_release.py` (9), `packaging/test_android_versions.py` (5) OK; `tools/lighting/stale_bakes.py --check` 0; `tools/maw/xeen_balance.py --check` 82 maps 0 errors; **`tools/maw/mm9_balance.py --check` FAILS: `guberland.blv: its pack reserve was made for another scene`** (6966c1c87b changed the hag's monster id in `guberland.scene.yml`; at runtime the game ignores the stale reserve, so MAW's Guberland has no extra packs: no crash, no CI failure) |
+
+Xeen per profile (packs.yml `xeen`): desktop 25 packs 775.8 MiB (music 2 packs 43.6, audio 19.7, core 5.6, maps 6.9 +
+lighting 4 packs 159.8, models 10 packs 387.0, textures_x4 96.6, icons_x2 44.8, world_items 8.8, ui 2.8,
+surface_materials_x4 0.3); Android 23 packs 541.1 MiB (models 226.8, textures_x2 26.0, the rest as desktop).
+Totals per world, desktop / Android MiB: engine 1,848.5 / 1,368.1, MM6 1,798.9 / 849.0, MM7 1,330.2 / 720.5, MM8
+1,378.8 / 728.0, MM9 2,885.9 / 1,654.9, Xeen 775.8 / 541.1, language packs 624.5 / 22.4 (Android ships fonts only).
+
+What CI sees that git lacks: nothing the jobs need. Untracked in the shipped roots are only
+`assets_dev/_legacy/sprites_original/*.bmp` (2,217 ignored archive sources; no lighting bake depends on one, the
+packaging passed without them) and `worlds/xeen/.build_world.lock` (left out anyway). `assets_source` is not needed.
+`.github/workflows/studio.yml` (Map Studio CI) is untracked, so a tag runs no studio checks.
+
+Version 3.0: the meta job's regex accepts `3.0`; Android versionName `3.0`, versionCode from the commit time, not the
+label: 28,139,833 for d81bed08da (v2.8: 27,820,027), so the APK updates 2.8. The installed updaters compare
+(major, minor) pairs (`compareReleaseVersions`: (3,0) > (2,8)); the publisher's `version_key` the same. Content
+format stays 1 (index.json says 1): `AssetPackIndex` refuses any other format, so a bump would stop every installed
+2.x from updating itself, and no 2.x binary runs 3.0's content (desktop installs app and content together; Android
+promotes the downloaded content only under the new APK). `UpdaterSchema` stays 1; every pack mounts under `/engine`
+or `/worlds/<id>` (checked by `load_content`).
+
+Stale player-facing sizes (not tools; REQUESTS): the GitHub release text in `packages.yml` ("about 9 GB, 5.3 GB on
+Android") should read about 10.5 GB and 6.1 GB (bases without optional language packs: 10,018 MiB, 5,862 MiB);
+`packaging/RELEASE.md` says 5 GB / 3 GB.
+
+Scratch deleted after reading (the clone, both content folders); kept: logs and indexes in `output/xeen_p3/`.
+
 ## Next
 
-1. Xeen ships only when the user commits it (see "Xeen cannot ship through CI yet" above: un-ignore and commit
-   `assets_dev/worlds/xeen/` and `assets_cooked/android/worlds/xeen/`, add `/assets_dev/worlds/xeen/` to both content
-   checkout lists of `.github/workflows/packages.yml`, `xeen` to packs.yml `worlds:`). Checked dry on 2026-11-22 with
-   `--world mm6 ... --world xeen`: both profiles package, all packs under the limits; no bucket retune needed.
+1. Xeen is committed and shipped (1afa1b3f2c). Re-run the session 3 check only if content changes before the tag.
 2. After any further Xeen or engine model/texture change: `tools/cook_android.sh` (lanes: its lines without cmake,
    `output/xeen_p/s2/android_chain.sh` without its packaging loop).
 3. Delete `output/xeen_p/wav/pcm_before/` once the user has heard the ADPCM sounds.
@@ -141,3 +181,9 @@ spellbook rows (data). Status of each run: see Log.
   `packaging/test_publish_release.py`, `test_android_versions.py`) OK, the publisher's content check
   (`publish_release.load_content`) accepts the desktop content, studio workflow steps (oymap_tests 510/510, fmt,
   slice build, ids.lock) pass, MAW checks 0. Logs and indexes in `output/xeen_p/s2/`; all scratch packs deleted.
+- 2026-11-22 session 3 (v3.0 tag check on the committed tree d81bed08da): see "Session 3" above. Content desktop
+  324 packs 10,642.5 MiB and Android 216 packs 5,884.1 MiB pass every packager check; installation unit tests 38/38;
+  16/16 release scenarios from the packed desktop content (plus 4 Xeen scenarios); packaging and publisher tests OK;
+  publish prepare's content half against the live site: 3.0 > 2.8, desktop update 1,547.6 MiB, Android 1,058.1 MiB.
+  Open: MM9 Guberland's MAW pack reserve is stale (`mm9_balance.py --check`); release-text sizes in packages.yml.
+  No packaging-tool bug found; no tool changed.

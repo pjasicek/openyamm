@@ -1,0 +1,10 @@
+# X9 Clouds of Xeen (A5; an open-air BLV): objects.yml `sounds`, game units, rooms from the L1 plan (D-50). Hand-written
+# by lane AU (session 4, devdocs/xeen/AUDIO.md "Session 4"); move a point with its thing if L2/L3 moves it.
+sounds:
+  - {id: sound:sky_bed, room: room:landing, at: [0, -2816], height: 512, sound: xeen_amb_sky, radius: 28000, inner_radius: 22000, volume: 0.4, pan: false}
+  - {id: sound:gust_east, room: room:east_ledge, at: [15232, -1792], height: 512, sound: xeen_sky_gust, radius: 9000, inner_radius: 3000, volume: 0.5, wait: [6, 14]}
+  - {id: sound:gust_west, room: room:west_spine, at: [-16896, -2816], height: 512, sound: xeen_sky_gust, radius: 9000, inner_radius: 3000, volume: 0.5, wait: [6, 14]}
+  - {id: sound:roc_cries_aviary, room: room:aviary, at: [13440, 13440], height: 768, sound: roc_aware, radius: 7000, inner_radius: 2000, volume: 0.5, wait: [8, 20]}
+  - {id: sound:roc_cries_se, room: room:se_nest, at: [13312, -15616], height: 768, sound: roc_aware, radius: 6000, inner_radius: 1500, volume: 0.45, wait: [10, 24]}
+  - {id: sound:roc_cries_sw, room: room:sw_nest, at: [-13312, -15616], height: 768, sound: roc_aware, radius: 6000, inner_radius: 1500, volume: 0.45, wait: [10, 24]}
+  - {id: sound:fair, room: room:carnival, at: [-2560, 2560], height: 160, sound: xeen_amb_fair, radius: 5000, inner_radius: 2800, volume: 0.45, pan: false}

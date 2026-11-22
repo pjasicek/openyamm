@@ -19,7 +19,7 @@ ownership, its current phase's work, what it waits on, and its log. The lane kee
   `assets_dev/worlds/xeen/world.yml` or `source/maps.yml` (the orchestrator's; A1 may add `tableContributions`
   entries to world.yml).
 - **Git:** never `git add`, `commit`, `stash`, `restore --staged` or `reset`. The world folder
-  `assets_dev/worlds/xeen/` is git-ignored; tracked files you change (briefs, tools, engine) stay unstaged. Before
+  `assets_dev/worlds/xeen/` is tracked since v3.0, like the briefs, tools and engine; your changes stay unstaged. Before
   you edit a tracked file, look at `git diff <file>`: other work may have uncommitted changes in it; keep them and
   keep your own diff small.
 - **Builds:** only A1 builds. Everyone else uses the binaries A1 names in STATUS.md ("Engine" section, merge points):
@@ -100,7 +100,9 @@ ownership, its current phase's work, what it waits on, and its log. The lane kee
 Before calling a map done, besides `oymap audit --world xeen`: `python3 tools/xeen/check_exits.py` (exits are the black
 MM7/MM8 exit face unless on its SPECIAL list), `python3 tools/xeen/check_drops.py <map.blv>` (no floor the party can
 drop to and not walk back from without spells), `python3 tools/xeen/door_check.py` (outdoor doors: no half-door alone,
-centred on their steps; `--sketch` for cave mouths), and the D-85/D-87 distance checker of the map's lane. After any map install: `python3 tools/xeen/key_npcs.py --write`
+centred on their steps; `--sketch` for cave mouths), and the D-85/D-87 distance checker of the map's lane
+(`level_generation/projects/xeen/x2/check_d85.py`, `level_generation/projects/xeen/common/d85.py`; the map generators
+live in `level_generation/projects/xeen/`, see its README). After any map install: `python3 tools/xeen/key_npcs.py --write`
 (the unkillable-NPC list goes by actor index) and `python3 tools/xeen/check_actor_heights.py`.
 Outdoor maps with a walled town, castle or yard (F19, D-92): `python3 tools/xeen/wall_check.py <stem>` (closed
 circuits, wall ends in water/cliff/towers, flush joints; `towns.py --strict` runs it) and `tools/xeen/house_signs.py`

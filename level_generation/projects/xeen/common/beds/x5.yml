@@ -1,0 +1,24 @@
+# AU's outdoor bed for X5 (devdocs/xeen/AUDIO.md "Outdoor beds", session 3), read by the map's gen.py.
+# Session 13: AU's D-48 regeneration (pan: false on beds), from level_generation/sounds/xeen_20261120/review/beds/x5.yml.
+# Session 26: AU's session 5 night lines (bed_pocket_night_*), the file as review/beds/x5.yml.
+sounds:
+  - {id: sound:bed_tundra_1, at: [25, 23], sound: xeen_amb_tundra, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_tundra_2, at: [53, 23], sound: xeen_amb_tundra, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_tundra_3, at: [81, 23], sound: xeen_amb_tundra, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_tundra_4, at: [39, 47], sound: xeen_amb_tundra, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_tundra_5, at: [67, 47], sound: xeen_amb_tundra, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_tundra_6, at: [25, 71.5], sound: xeen_amb_tundra, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_tundra_7, at: [53, 71.5], sound: xeen_amb_tundra, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_tundra_8, at: [81, 71.5], sound: xeen_amb_tundra, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_tundra_9, at: [39, 95.5], sound: xeen_amb_tundra, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_tundra_10, at: [67, 95.5], sound: xeen_amb_tundra, radius: 15000, inner_radius: 6000, volume: 0.4, pan: false}
+  - {id: sound:bed_pocket_1, at: [96, 27], sound: xeen_amb_meadow, radius: 10000, inner_radius: 4000, volume: 0.25, day_only: true, pan: false}
+  - {id: sound:bed_pocket_2, at: [107, 46], sound: xeen_amb_meadow, radius: 10000, inner_radius: 4000, volume: 0.25, day_only: true, pan: false}
+  - {id: sound:bed_pocket_3, at: [96, 65], sound: xeen_amb_meadow, radius: 10000, inner_radius: 4000, volume: 0.25, day_only: true, pan: false}
+  - {id: sound:bed_pocket_4, at: [107, 84], sound: xeen_amb_meadow, radius: 10000, inner_radius: 4000, volume: 0.25, day_only: true, pan: false}
+  - {id: sound:bed_pocket_5, at: [96, 103], sound: xeen_amb_meadow, radius: 10000, inner_radius: 4000, volume: 0.25, day_only: true, pan: false}
+  - {id: sound:bed_pocket_night_1, at: [96, 27], sound: xeen_amb_night, radius: 10000, inner_radius: 4000, volume: 0.22, night_only: true, pan: false}
+  - {id: sound:bed_pocket_night_2, at: [107, 46], sound: xeen_amb_night, radius: 10000, inner_radius: 4000, volume: 0.22, night_only: true, pan: false}
+  - {id: sound:bed_pocket_night_3, at: [96, 65], sound: xeen_amb_night, radius: 10000, inner_radius: 4000, volume: 0.22, night_only: true, pan: false}
+  - {id: sound:bed_pocket_night_4, at: [107, 84], sound: xeen_amb_night, radius: 10000, inner_radius: 4000, volume: 0.22, night_only: true, pan: false}
+  - {id: sound:bed_pocket_night_5, at: [96, 103], sound: xeen_amb_night, radius: 10000, inner_radius: 4000, volume: 0.22, night_only: true, pan: false}

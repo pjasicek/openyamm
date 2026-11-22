@@ -1,0 +1,31 @@
+import math
+N, S_, E, W = math.pi / 2, -math.pi / 2, 0.0, math.pi
+SW = -2.5
+S = [
+ ('01-arrival', [384, -2176, 192], N, 0.0, []),
+ ('02-hub-lamps-dark', [200, 384, 0], E, 0.25, []),
+ ('03-statue', [0, -500, 0], N, 0.12, []),
+ ('04-bough-ln-before', [-2816, 1150, 0], N, 0.05, []),
+ ('05-bough-ln-cut', [-2816, 1150, 0], N, 0.05, ['event 16'], 3.0),
+ ('06-bough-hn', [-5632, 1500, 256], N, 0.0, []),
+ ('07-crown-from-high-flight', [-5632, 980, 256], S_, -0.2, []),
+ ('08-field-before', [0, 3150, 512], N, -0.35, []),
+ ('09-field-from-west-gallery', [-1600, 4400, 512], E, -0.3, []),
+ ('10-field-after', [0, 3150, 512], N, -0.35, ['event 3', 'event 4', 'event 5', 'event 6', 'event 7', 'event 8', 'event 9', 'event 10', 'event 11'], 7.0),
+ ('11-field-floor-rocks', [-200, 3640, 256], N, -0.15, []),
+ ('12-lamps-from-window', [-448, 1450, 512], -0.5, -0.25, []),
+ ('13-hub-lamps-lit', [200, 384, 0], E, 0.25, []),
+ ('14-mason', [2050, 4480, 512], 0.8, -0.05, []),
+ ('15-forge', [1500, 0, 0], 0.6, 0.0, []),
+ ('16-lock-before', [4900, 1000, 0], SW, -0.25, []),
+ ('17-tumbler-n-slot-before', [4000, 1700, 0], S_, -0.35, []),
+ ('18-bolts-drawn', [4900, 1000, 0], SW, -0.25, ['event 36', 'event 37', 'event 38'], 4.0),
+ ('19-tumbler-n-slot-after', [4000, 1700, 0], S_, -0.35, []),
+ ('20-tumbler-e-lever', [5500, 500, 0], -1.9, -0.2, []),
+ ('21-lid-open', [4900, 1000, 0], SW, -0.3, ['lua evt.SetDoorState(20, DoorAction.Open)'], 8.0),
+ ('22-stair-from-top', [4224, 1150, 0], S_, -0.5, []),
+ ('23-diamond-hall', [4224, -1300, -640], S_, 0.0, []),
+ ('24-vault', [2700, -1632, -640], E, -0.05, []),
+ ('25-vault-stair-top', [1050, -1632, -10], W, 0.05, []),
+ ('26-furnace', [2560, 1500, 0], 0.4, 0.0, []),
+]

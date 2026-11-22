@@ -21,8 +21,8 @@ files you touch (`lanes/<lane>.md`, State and tools), [DECISIONS.md](../DECISION
   Install before bake, never after. `python3 tools/lighting/stale_bakes.py --check` 0 when you stop.
 - After rebuilding an **indoor** map: `python3 tools/maw/xeen_pack_reserve.py <stem>` and
   `python3 tools/maw/xeen_balance.py --check` (MAW reserves).
-- After any outdoor rebuild: the map's D-85/D-87 checker if it has one (`output/studio_cal/x2/tools/check_d85.py`,
-  `output/studio_cal/a6/s31/d85.py`).
+- After any outdoor rebuild: the map's D-85/D-87 checker if it has one (`level_generation/projects/xeen/x2/check_d85.py`,
+  `level_generation/projects/xeen/common/d85.py`).
 - Generated files are never edited by hand (`assets_dev/worlds/xeen/data_tables/*`, `events/maps/<stem>.lua` from the
   studio build): change the generator (`tools/xeen/build_world.py` modules, the map's `gen.py`) and regenerate
   (`build_world.py --only <module>`, a write only when `--check` shows nothing but your change).

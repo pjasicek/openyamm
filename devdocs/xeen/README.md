@@ -4,12 +4,14 @@ A proposal (2026-11-12) for the next world after MM9: a new MM6–MM8-style worl
 characters and quests of **World of Xeen** (Might and Magic IV: Clouds of Xeen, V: Darkside of Xeen and their combined
 ending) on **new maps**, with new and recoloured monsters and items on the MM6–MM8 power curve. On 2026-11-20, 11 of
 its 82 maps were built as MM7 stand-ins (X1, X2, XD-01 to XD-06, XD-12, XD-21, XD-27), and the user asked for the
-whole world at MM6/MM7 quality: the plan for that is [ROADMAP.md](ROADMAP.md).
+whole world at MM6/MM7 quality: the plan for that is [ROADMAP.md](ROADMAP.md). All 82 maps were built and shipped
+in v3.0 (2026-11-22) as "Xeen (alpha)".
 
 | Document | Contents |
 | --- | --- |
-| [HANDOFF_ORCHESTRATOR.md](HANDOFF_ORCHESTRATOR.md) | **Start here when resuming the program** (2026-11-20): how the orchestrator, lanes and deciders run, where everything stands, the open relays and questions |
-| [ROADMAP.md](ROADMAP.md) | The plan. The production plan from 2026-11-20: the quality bar, the world package in `assets_dev/worlds/xeen` (git-ignored), the orchestrator and eight lanes, content pipelines, phases by act with gates, engine work, working rules |
+| [AGENT_GUIDE.md](AGENT_GUIDE.md) | **Start here** (2026-11-22): the entry point for an agent new to Xeen work: state and open polish, where everything lives, the workflows with their commands, the rules, how a multi-agent run is organised |
+| [HANDOFF_ORCHESTRATOR.md](HANDOFF_ORCHESTRATOR.md) | How the program was resumed (2026-11-20; its §3–§4 superseded by [HANDOFF_ORCHESTRATOR4.md](HANDOFF_ORCHESTRATOR4.md)): how the orchestrator, lanes and deciders run, where everything stands, the open relays and questions |
+| [ROADMAP.md](ROADMAP.md) | The plan. The production plan from 2026-11-20: the quality bar, the world package in `assets_dev/worlds/xeen` (committed since v3.0), the orchestrator and eight lanes, content pipelines, phases by act with gates, engine work, working rules |
 | [HANDOFF.md](HANDOFF.md) | State of the work, how to continue it, and what is pending (start here when resuming) |
 | [WORLD_DESIGN.md](WORLD_DESIGN.md) | The pitch, the decisions D1–D9, the two faces and their maps, travel, Fly, visual identity, towns and services, teachers and hirelings, dungeon counts, pacing by act |
 | [QUESTS.md](QUESTS.md) | The main quest (42 steps in six acts), 54 side quests, composite promotions with a Light/Dark second tier, Newcastle and Castle Kalindra, recurring systems |

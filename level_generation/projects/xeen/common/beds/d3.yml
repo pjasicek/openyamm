@@ -1,0 +1,18 @@
+# AU's outdoor bed (level_generation/sounds/xeen_20261120/review/beds/d3.yml, D-48 pan: false; copied 2026-11-21 by A5); the generator merges it
+sounds:
+  - {id: sound:bed_desert_1, at: [67, 21], sound: xeen_amb_desert, radius: 11000, inner_radius: 4500, volume: 0.3, pan: false}
+  - {id: sound:bed_desert_2, at: [55, 28], sound: xeen_amb_desert, radius: 11000, inner_radius: 4500, volume: 0.3, pan: false}
+  - {id: sound:bed_desert_3, at: [36, 25], sound: xeen_amb_desert, radius: 11000, inner_radius: 4500, volume: 0.3, pan: false}
+  - {id: sound:bed_fen_1, at: [63, 57.5], sound: xeen_amb_lagoon, radius: 10000, inner_radius: 4000, volume: 0.6, pan: false}
+  - {id: sound:bed_fen_2, at: [73, 75], sound: xeen_amb_lagoon, radius: 10000, inner_radius: 4000, volume: 0.6, pan: false}
+  - {id: sound:bed_fen_3, at: [93, 75], sound: xeen_amb_lagoon, radius: 10000, inner_radius: 4000, volume: 0.6, pan: false}
+  - {id: sound:bed_fen_4, at: [63, 92.5], sound: xeen_amb_lagoon, radius: 10000, inner_radius: 4000, volume: 0.6, pan: false}
+  - {id: sound:bed_fen_5, at: [83, 92.5], sound: xeen_amb_lagoon, radius: 10000, inner_radius: 4000, volume: 0.6, pan: false}
+  - {id: sound:bed_fen_6, at: [103, 92.5], sound: xeen_amb_lagoon, radius: 10000, inner_radius: 4000, volume: 0.6, pan: false}
+  - {id: sound:bed_darkside_1, at: [27, 39], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_2, at: [55, 39], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_3, at: [83, 39], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_4, at: [41, 63], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_5, at: [97, 63], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_6, at: [27, 87.5], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
+  - {id: sound:bed_darkside_7, at: [55, 87.5], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
