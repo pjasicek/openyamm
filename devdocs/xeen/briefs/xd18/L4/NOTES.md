@@ -190,3 +190,10 @@ office's throw: out to X7 at once (D-63 4). Lighting is unbaked in the scratch r
   check_exits 0, check_drops 0 pockets. Name test: before `output/studio_cal/a7/s26/xd18/before_sheet.jpg` (16 shots),
   after `after_sheet.jpg` (18: + the mound, the hollows); the arrival opens on rock, the first fight room (bone hall)
   is a broken-floored cave, the signature room is the King on his gold.
+
+## Mouth exit kept clear of rough rock (2026-11-23, agent:xeen-xd05-exit)
+
+The rough wall behind this map's exit stood in front of its black face (no click reached it: the XD-05 Discord report,
+`tools/xeen/check_exits.py` `exits.hidden`). `tools/xeen/cave_shape.py` `flat_behind_panels` now gives the exit's
+wall a flat panel under it (the generator writes it); rebuilt, installed and baked; all playtests pass. See XD-05's
+NOTES.md, same date.

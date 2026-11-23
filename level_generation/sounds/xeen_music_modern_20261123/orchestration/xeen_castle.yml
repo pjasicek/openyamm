@@ -1,0 +1,49 @@
+# xeen/castle (every Clouds castle; a variation on the main theme). 319.9 s a pass. Hand-tuned 2026-11-23.
+# Four low channels: the walking bass doubled (contrabass, cellos), fast low repeats as timpani rolls, a
+# baritone line on bassoon and horns; a short-note tremolo line, held brass and strings on top.
+reverb: {seconds: 2.8, level: 0.36}
+channels:
+  0:   # walking bass, median G1
+    program: 43
+    pan: 0.1
+    width: 0.3
+    reverb: 0.10
+    gain_db: 0
+    slots:
+      7: {program: 45, pan: 0.25, reverb: 0.28, gain_db: -2}           # pizzicato accents
+  1: {program: 42, pan: -0.15, width: 0.4, reverb: 0.18, gain_db: -2}   # cellos double the bass
+  2: {program: 48, pan: -0.3, width: 0.8, reverb: 0.32, gain_db: -3}    # string ensemble: the moving line
+  3:   # fast low repeats: timpani rolls
+    program: 47
+    pan: 0.0
+    width: 0.4
+    reverb: 0.30
+    gain_db: -2
+    slots:
+      0: {program: 58, pan: 0.0, width: 0.3, reverb: 0.15, gain_db: -3}  # tuba under the long low notes
+  4:   # baritone line
+    program: 70
+    pan: 0.2
+    reverb: 0.25
+    gain_db: -2
+    slots:
+      4: {program: 60, pan: -0.35, reverb: 0.32, gain_db: -1}           # french horns
+  5:
+    program: 49
+    pan: 0.45
+    width: 0.9
+    reverb: 0.40
+    gain_db: -3
+    slots:
+      2: {program: 61, pan: 0.3, width: 0.9, reverb: 0.38, gain_db: -4}  # brass section
+  6:
+    program: 44
+    pan: -0.1
+    width: 0.7
+    reverb: 0.32
+    gain_db: -3
+    legato_ms: 60
+    slots:
+      9: {program: 71, pan: -0.25, reverb: 0.28, gain_db: 0}            # clarinet
+      3: {program: 56, pan: 0.15, width: 0.6, reverb: 0.36, gain_db: -2} # trumpets on the held notes
+  8: {program: 48, pan: 0.0, width: 0.5, reverb: 0.2, gain_db: -3}      # orchestral kit

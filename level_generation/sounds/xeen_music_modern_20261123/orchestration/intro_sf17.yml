@@ -1,0 +1,53 @@
+# intro/sf17: first orchestration by orchestrate.py (hand-tune freely; it is never overwritten).
+# 20.3 s a pass. GM programs are 0-based; drums: 0 standard kit, 48 orchestral.
+# A channel's `slots` give the notes it plays with those FM instrument slots their own instrument.
+reverb: {seconds: 2.0, level: 0.32}
+channels:
+  0:   # bass_long: synth bass 2; median 36, 0.55 s notes, sounding 87%
+    program: 39
+    pan: 0.0
+    width: 0.25
+    reverb: 0.06
+    gain_db: 0
+  1:   # bass_short: synth bass 1; median 36, 0.14 s notes, sounding 86%
+    program: 38
+    pan: 0.0
+    width: 0.25
+    reverb: 0.06
+    gain_db: 0
+  2:   # pad: warm pad; median 70, 2.47 s notes, sounding 98%
+    program: 89
+    pan: -0.25
+    width: 0.9
+    reverb: 0.4
+    gain_db: -3
+  3:   # pad2: sweep pad; median 65, 2.47 s notes, sounding 98%
+    program: 95
+    pan: 0.25
+    width: 0.9
+    reverb: 0.4
+    gain_db: -3
+  4:   # pad2: sweep pad; median 62, 2.47 s notes, sounding 98%
+    program: 95
+    pan: -0.5
+    width: 0.9
+    reverb: 0.4
+    gain_db: -3
+  5:   # lead_mid: square lead; median 66, 0.30 s notes, sounding 94%
+    program: 80
+    pan: 0.0
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  6:   # pad2: sweep pad; median 60, 4.97 s notes, sounding 98%
+    program: 95
+    pan: 0.15
+    width: 0.9
+    reverb: 0.4
+    gain_db: -3
+  8:   # drums (standard kit), notes [38]
+    program: 0
+    pan: 0.0
+    width: 0.5
+    reverb: 0.15
+    gain_db: -3

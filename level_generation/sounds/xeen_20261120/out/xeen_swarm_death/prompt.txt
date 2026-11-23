@@ -1,4 +1,4 @@
-A swarm of insects dispersing: the dense buzzing breaking up and thinning away to a few last fading buzzes
+A cloud of big wasps dying: the loud buzzing hum of many wings sputters, breaks apart and spins down to a few slow weak buzzes, then silence
 
 kind: sfx
 duration: 1.6
@@ -6,4 +6,5 @@ loop: false
 variants: 3
 model: eleven_text_to_sound_v2
 prompt_influence: 0.45
+highpass_hz: 120
 loudness_db: -9

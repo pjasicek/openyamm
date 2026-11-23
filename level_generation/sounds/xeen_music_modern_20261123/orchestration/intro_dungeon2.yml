@@ -1,0 +1,53 @@
+# intro/dungeon2: first orchestration by orchestrate.py (hand-tune freely; it is never overwritten).
+# 40.0 s a pass. GM programs are 0-based; drums: 0 standard kit, 48 orchestral.
+# A channel's `slots` give the notes it plays with those FM instrument slots their own instrument.
+reverb: {seconds: 2.4, level: 0.32}
+channels:
+  0:   # bass_short: fingered bass; median 44, 0.30 s notes, sounding 30%
+    program: 33
+    pan: 0.0
+    width: 0.25
+    reverb: 0.06
+    gain_db: 0
+  1:   # lead_mid: oboe; median 68, 0.63 s notes, sounding 94%
+    program: 68
+    pan: 0.0
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  2:   # pluck: pizzicato strings; median 90, 0.08 s notes, sounding 100%
+    program: 45
+    pan: -0.25
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  3:   # counter_low: cello; median 52, 0.63 s notes, sounding 94%
+    program: 42
+    pan: 0.25
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  4:   # bass_long: contrabass; median 42, 5.00 s notes, sounding 100%
+    program: 43
+    pan: 0.0
+    width: 0.25
+    reverb: 0.06
+    gain_db: 0
+  5:   # pad: slow strings; median 67, 1.25 s notes, sounding 95%
+    program: 49
+    pan: 0.5
+    width: 0.9
+    reverb: 0.4
+    gain_db: -3
+  6:   # pad2: brass section; median 56, 1.25 s notes, sounding 100%
+    program: 61
+    pan: 0.15
+    width: 0.9
+    reverb: 0.4
+    gain_db: -3
+  8:   # drums (standard kit), notes [49, 69]
+    program: 0
+    pan: 0.0
+    width: 0.5
+    reverb: 0.15
+    gain_db: -3

@@ -1,0 +1,53 @@
+# dark/newbrigh: first orchestration by orchestrate.py (hand-tune freely; it is never overwritten).
+# 58.5 s a pass. GM programs are 0-based; drums: 0 standard kit, 48 orchestral.
+# A channel's `slots` give the notes it plays with those FM instrument slots their own instrument.
+reverb: {seconds: 2.4, level: 0.32}
+channels:
+  0:   # lead_high: flute; median 75, 0.14 s notes, sounding 50%
+    program: 73
+    pan: 0.0
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  1:   # arpeggio: harp; median 75, 0.14 s notes, sounding 50%
+    program: 46
+    pan: 0.4
+    width: 0.6
+    reverb: 0.28
+    gain_db: -3
+  2:   # arpeggio: harp; median 66, 0.11 s notes, sounding 28%
+    program: 46
+    pan: -0.25
+    width: 0.6
+    reverb: 0.28
+    gain_db: -3
+  3:   # arpeggio: harp; median 66, 0.11 s notes, sounding 28%
+    program: 46
+    pan: 0.25
+    width: 0.6
+    reverb: 0.28
+    gain_db: -3
+  4:   # arpeggio: harp; median 58, 0.11 s notes, sounding 28%
+    program: 46
+    pan: -0.5
+    width: 0.6
+    reverb: 0.28
+    gain_db: -3
+  5:   # arpeggio: harp; median 47, 0.11 s notes, sounding 20%
+    program: 46
+    pan: 0.5
+    width: 0.6
+    reverb: 0.28
+    gain_db: -3
+  6:   # counter_mid: clarinet; median 66, 0.36 s notes, sounding 53%
+    program: 71
+    pan: 0.15
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  8:   # drums (standard kit), notes [46, 49, 54, 70]
+    program: 0
+    pan: 0.0
+    width: 0.5
+    reverb: 0.15
+    gain_db: -3

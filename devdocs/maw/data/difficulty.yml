@@ -237,6 +237,12 @@ rules:
     # zzMaw-Monsters.lua:633-658
     when: "outdoors, BolsterAmount >= 200 (index 5+), not a starting map; or any bounty map"
     starting_maps: [out01.odm, out02.odm, 7out01.odm, 7out02.odm, oute3.odm, outd3.odm]
+    # OpenYAMM (2026-11-23): the list is data, rulesets/maw/data/map_levels.yml `ranged_free_maps` (MAW's six), and
+    # each other world's balance file marks its own with `ranged_free`: Xeen's Vertigo (xeen_x1.odm, a player on
+    # Discord: "maybe Vertigo might be enough"), MM9's Bootcamp and Isle of Ashes (bootcamp.blv, isleofashes.blv).
+    # The attack is attack 2 (Arrow, 10/20/30 % by tier): a mixed monster's, shot when the roll picks it and
+    # otherwise closing to melee (GameplayActorAiSystem chooseCombatAbility), not an archer's.
+    other_worlds_starting_maps: [xeen_x1.odm, bootcamp.blv, isleofashes.blv]
   saving_costs_food:   # zzMaw-Monsters.lua:2140-2170
     from: 6
     food: {outdoors: 0, outdoors_enemies_near: 3, indoors: 2, indoors_enemies_near: 10}

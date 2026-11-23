@@ -302,7 +302,7 @@ npcs:
   - {id: 4007, name: Bartleby, title: Innkeeper, greet: ["Adventurers stop here between disasters. Looking for company?", "More friends for you upstairs."]}
   - {id: 4008, name: Rosalind, title: Alchemist, profession: Alchemist, greet: ["Philters, tonics, cures. Slime remover is extra.", "Back already? Something must have bitten you."]}
   - {id: 4009, name: Brother Silas, profession: Healer, greet: ["Welcome to the Slime Temple. The name was not our idea.", "Bless you. Wipe your feet."]}
-  - {id: 4011, name: Calder, title: Guildmaster, greet: ["The Fire Guild of Vertigo. Members only, and mind the curtains.", "Warm to see you."]}
+  - {id: 4011, name: Calder, title: Guildmaster, greet: ["The Fire Guild of Vertigo. Open to all, and mind the curtains.", "Warm to see you."]}
   - {id: 4012, name: Wynna, title: Guildmistress, greet: ["The Air Guild. Close the door, the scrolls blow away.", "Ah, the breeze is back."]}
   - {id: 4013, name: Marina, title: Guildmistress, greet: ["The Water Guild of Vertigo. The creek is ours too, sadly.", "Welcome back."]}
   - {id: 4014, name: Dunstan, title: Guildmaster, greet: ["The Earth Guild. Solid ground, solid spells.", "Still standing? Good."]}
@@ -320,7 +320,7 @@ npcs:
   - {id: 4025, name: Cobb, title: Cobbler, profession: Cobbler, teaches: [{skill: Repair Item, mastery: expert}], greet: ["Boots, buckles, broken things. I mend them all.", "What did you break this time?"]}
   - {id: 4026, name: Bramble, title: Fire Mage, profession: Apprentice, teaches: [{skill: Fire Magic, mastery: expert}], greet: ["This place is deserted. You should go to Rivercity--Now there's a town full of action!", "Still here? So am I."], source: "xeen/aaze0028:25"}
   - {id: 4027, name: Fenwick, title: Retired Cutpurse, profession: Beggar, teaches: [{skill: Dagger, mastery: expert}], greet: ["That Gunther, what a dunce! He paid that con man Joe a fortune to clean up this town.", "Keep your purse close. Habit."], source: "xeen/aaze0028:26"}
-  - {id: 4028, name: Vern, title: Guildman, profession: Clerk, services: [{guild_membership: elemental}], greet: ["I'll put anyone on the guild roll for free. Dues will cost 25 gold, though.", "Dues paid? Then off to the guild row."], source: "xeen/aaze0028:12-13"}
+  - {id: 4028, name: Vern, title: Guildman, profession: Clerk, greet: ["Vern, clerk of the guild roll. Every name goes on it these days.", "On the roll? Then off to the guild row."], source: "xeen/aaze0028:12-13 (no dues: Xeen's guilds are open to all)"}
   - {id: 4029, name: Mylo, title: Mapmaker, profession: Cartographer, greet: ["Mylo's Maps. I will teach anyone cartography for 100 gold. Nobody ever asks.", "Lost already?"], source: "xeen/aaze0028:8-9"}
   - {id: 4030, name: Dudley, title: Tavern Patron, profession: Peasant, greet: ["Get Lost! Can't you see I'm drinkin'?", "(hic)"], source: "xeen/aaze0028:23"}
   - {id: 4031, name: Agnes Tanner, profession: Tailor, teaches: [{skill: Leather, mastery: expert}], greet: ["Leather is just a cow with better manners. I teach it.", "Smell's not so bad once you're used to it."]}

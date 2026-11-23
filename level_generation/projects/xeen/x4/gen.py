@@ -147,6 +147,11 @@ def main():
     import entrance as EN
     for _note in HD.double_doors_sketch(sk) + HD.bury_mouths_sketch(sk) + EN.apply(sk, 'x4'):
         print('door:', _note)
+    # P2 feedback F29/F32/F33 (agent xeen-fb2-wild, 2026-11-23): shrine altars, campfires, the rim fall
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'common'))
+    import wild as WILD
+    for _note in WILD.apply(sk, 'x4'):
+        print('wild:', _note)
     # Texture fit (merge point 16): the base course (foundation 128) falls back to the wall; the plaster kit's
     # half-timber panel hhm2b2 then shows 1.5 times up a one-storey wall. A dark seamless stone footing instead.
     for district in sk['districts']:

@@ -172,7 +172,7 @@ npcs:
   - {id: 4106, name: Bull, title: Innkeep, greet: ["Bull's Tavern. Sit, drink, don't start anything.", "The usual?"]}
   - {id: 4107, name: Knuckles, title: Instructor, profession: Instructor, greet: ["Street Fightin'. I'll train you to twenty-fifth level, if you live.", "Back for a beating?"]}
   - {id: 4108, name: Deacon Coyne, title: Healer, profession: Healer, greet: ["Pray, pay, and be healed today.", "Coin first, then prayers."], source: "xeen/aaze0030:31"}
-  - {id: 4109, name: Hesper, title: Guildmistress, greet: ["The Guild of Body. Members only.", "Feeling well?"]}
+  - {id: 4109, name: Hesper, title: Guildmistress, greet: ["The Guild of Body. Come in, all of you.", "Feeling well?"]}
   - {id: 4110, name: Thaddeus, title: Guildmaster, greet: ["The Guild of Mind. Think before you touch anything.", "I thought you'd come."]}
   - {id: 4111, name: Sister Amity, greet: ["The Guild of Spirit. Be welcome.", "Peace on you again."]}
   - {id: 4112, name: Garrick, title: Stablemaster, profession: Horseman, greet: ["Royal Steeds. Coaches east to Vertigo.", "Saddled and ready."]}
@@ -218,9 +218,9 @@ npcs:
   - {id: 4143, name: Hawser, title: Rope Maker, profession: Laborer, greet: ["Rope for the boats, rope for the robbers. I don't ask.", "Need rope?"]}
   - {id: 4144, name: Widow Brine, title: Fishwife, profession: Trader, greet: ["Fresh fish! Fresh-ish fish!", "Still fresh-ish."]}
   - {id: 4145, name: Wenda, title: Ranger, profession: Hunter, teaches: [{skill: Bow, mastery: master}], greet: ["Rialdo taught you to hold a bow? I'll teach you to hit something.", "Still hitting the target?"]}
-  - {id: 4146, name: Vatawna, title: Guildmaster, profession: Clerk, teaches: [{skill: Body Magic, mastery: expert}], services: [{guild_membership: body}], greet: ["500 gold buys you guild membership. Nothing less will do.", "Membership has its privileges."], source: "xeen/aaze0030:12-13"}
-  - {id: 4147, name: Aldous, title: Mind Guild Steward, profession: Counselor, teaches: [{skill: Mind Magic, mastery: expert}], services: [{guild_membership: mind}], greet: ["The Guild of Mind keeps its roll here. Joining?", "I knew you'd be back."]}
-  - {id: 4148, name: Brother Cael, profession: Acolyte, teaches: [{skill: Spirit Magic, mastery: expert}], services: [{guild_membership: spirit}], greet: ["The Guild of Spirit takes all who seek. And pay.", "Be welcome again."]}
+  - {id: 4146, name: Vatawna, title: Guildmaster, profession: Clerk, teaches: [{skill: Body Magic, mastery: expert}], greet: ["The roll's open. My lessons are not free.", "Back for a lesson?"], source: "xeen/aaze0030:12-13"}
+  - {id: 4147, name: Aldous, title: Mind Guild Steward, profession: Counselor, teaches: [{skill: Mind Magic, mastery: expert}], greet: ["The Guild of Mind keeps its roll here. Your names are on it already.", "I knew you'd be back."]}
+  - {id: 4148, name: Brother Cael, profession: Acolyte, teaches: [{skill: Spirit Magic, mastery: expert}], greet: ["The Guild of Spirit takes all who seek.", "Be welcome again."]}
   - {id: 4149, name: Reed, title: Basket Weaver, profession: Weaver, greet: ["Baskets. For fish, mostly.", "Basket?"]}
   - {id: 4150, name: Darlene, title: Swimming Teacher, profession: Sailor, greet: ["I can teach you how to swim for a mere 100 gold. Or sell you a scroll, if you sink.", "Water's fine."], source: "xeen/aaze0030:10-11"}
 

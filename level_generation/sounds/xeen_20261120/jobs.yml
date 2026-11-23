@@ -8,7 +8,8 @@
 # loudest 100 ms reaches -9 dBFS, idle fidgets -11, heavy bodies (golems, worms) -8 with a 30 Hz high-pass and a low
 # shelf, picked toward loudness and low end; event one-shots -9 (quiet ones -11, the gong -7); peaks at -1 dBFS by a
 # look-ahead limiter, boost capped at 10 dB. Beds are loops levelled to -20 dBFS RMS, mono (they play as placed,
-# positional ambient sounds, devdocs/AMBIENT_SOUNDS.md).
+# positional ambient sounds, devdocs/AMBIENT_SOUNDS.md). A job's `gain_db` is applied by install.py last (D-117: the
+# treble beds meadow, savannah and night -6 dB).
 schema: openyamm.elevenlabs.jobs.v1
 budget: 140000                    # session 5 (2026-11-21): raised by the user's word ("use however much you need, if it makes sense")
 music: false                      # music stays MM6-MM8 tracks by number (ROADMAP Q9, devdocs/xeen/MUSIC.md)
@@ -98,9 +99,11 @@ jobs:
     use: Medusa and Killer Sprites' attack
     duration: 0.9
     loudness_db: -9
+    # F37 check: the first takes of attack, death and fidget were hiss alone (0 % under 2.5 kHz, centroid 8-11 kHz,
+    # no giggle or shriek in them): re-prompted with the voice first and without the snake hiss.
     prompt: >-
-      A tiny malicious winged fairy attacking: a quick high spiteful giggle, a buzz of insect-like wings and a sharp
-      venomous snake hiss with a small sparkling magic zap
+      A tiny spiteful fairy attacking: a quick shrill voiced giggle from a small throat, a fast flutter of small wings
+      and a bright chime-like magic ping, close
   - id: xeen_sprite_wince
     group: "Monsters: sprites"
     use: sprites hurt
@@ -113,52 +116,95 @@ jobs:
     duration: 1.4
     loudness_db: -9
     prompt: >-
-      A tiny winged fairy dying: a high falling shriek, its wings fluttering out, a fading tinkling sparkle
+      A tiny fairy dying: a high voiced shriek falling in pitch, small wings fluttering out, a fading tinkle of little
+      bells
   - id: xeen_sprite_fidget
     group: "Monsters: sprites"
     use: sprites' idle fidget
     duration: 1.5
     loudness_db: -11
     prompt: >-
-      A tiny winged fairy hovering in a forest: a rapid soft buzz of wings, a mischievous high giggle, a faint hiss of
-      little snakes
+      A tiny fairy hovering in a forest: a soft voiced mischievous giggle, a quick flutter of small wings, a faint
+      tinkle of little bells, close
   - {id: xeen_sprite_queen_attack, kind: derived, from: [xeen_sprite_attack], pitch: -2, group: "Monsters: sprites", use: "Sprite Queen and Sharla attack, the set two semitones down"}
   - {id: xeen_sprite_queen_wince, kind: derived, from: [xeen_sprite_wince], pitch: -2, group: "Monsters: sprites", use: "Sprite Queen hurt"}
   - {id: xeen_sprite_queen_death, kind: derived, from: [xeen_sprite_death], pitch: -2, group: "Monsters: sprites", use: "Sprite Queen death"}
   - {id: xeen_sprite_queen_fidget, kind: derived, from: [xeen_sprite_fidget], pitch: -2, group: "Monsters: sprites", use: "Sprite Queen fidget"}
 
   # --- Swarms (11340-11342: Doom Bug, Insect Swarm, Stingers) -------------------------------------------------------
+  # F37 (2026-11-23, the player's "the doom bugs sound a bit strange"): the first takes of all four were white hiss
+  # (centroid 7.6-10.8 kHz, 1-3 % of the energy under 2.5 kHz; MM6-MM8's insects buzz at 100-600 Hz with centroids
+  # 0.35-3.8 kHz; tools/xeen/check_monster_sounds.py): re-prompted for the hum of many wings, high-passed at 120 Hz in
+  # case "hum" brings a sub-bass drone (the hornets' first takes).
   - id: xeen_swarm_attack
     group: "Monsters: swarms"
     use: swarms' attack
     duration: 1.0
     loudness_db: -9
+    highpass_hz: 120
     prompt: >-
-      A swarm of angry stinging insects attacking: a dense buzzing rising sharply as it rushes close, many tiny
-      stinging zips
+      A thick cloud of big angry wasps diving to sting: a loud buzzing hum of hundreds of wings, like a kicked beehive,
+      rising sharply in pitch as it rushes close, close
   - id: xeen_swarm_wince
     group: "Monsters: swarms"
     use: swarms hurt
     duration: 0.6
     loudness_db: -9
-    prompt: "A swarm of insects swatted apart by a blow: a sudden angry burst of buzzing"
+    highpass_hz: 120
+    prompt: "A cloud of big wasps struck apart by a blow: the buzzing hum of many wings jumps up into an angry whine, close"
   - id: xeen_swarm_death
     group: "Monsters: swarms"
     use: swarms' death
     duration: 1.6
     loudness_db: -9
+    highpass_hz: 120
     prompt: >-
-      A swarm of insects dispersing: the dense buzzing breaking up and thinning away to a few last fading buzzes
+      A cloud of big wasps dying: the loud buzzing hum of many wings sputters, breaks apart and spins down to a few
+      slow weak buzzes, then silence
   - id: xeen_swarm_fidget
     group: "Monsters: swarms"
     use: swarms' idle fidget
     duration: 1.6
     loudness_db: -11
-    prompt: "A dense swarm of insects hovering in one place: a steady droning buzz of many flickering wings"
-  - {id: xeen_doombug_attack, kind: derived, from: [xeen_swarm_attack], pitch: -3, group: "Monsters: swarms", use: "Doom Bug (A, one big beetle) attack, the set three semitones down"}
-  - {id: xeen_doombug_wince, kind: derived, from: [xeen_swarm_wince], pitch: -3, group: "Monsters: swarms", use: "Doom Bug hurt"}
-  - {id: xeen_doombug_death, kind: derived, from: [xeen_swarm_death], pitch: -3, group: "Monsters: swarms", use: "Doom Bug death"}
-  - {id: xeen_doombug_fidget, kind: derived, from: [xeen_swarm_fidget], pitch: -3, group: "Monsters: swarms", use: "Doom Bug fidget"}
+    highpass_hz: 120
+    prompt: >-
+      A cloud of big wasps hovering in one place: a steady loud buzzing hum of many wings like a beehive, rough, with
+      slow pitch wobbles, close
+  # F37: the Doom Bug is one walking cricket (its own model, fly: N), not a swarm: its own set, no longer the swarm's
+  # hiss three semitones down.
+  - id: xeen_doombug_attack
+    group: "Monsters: swarms"
+    use: "Doom Bug (A, a walking giant cricket) attack"
+    duration: 1.0
+    loudness_db: -9
+    # Its first prompt ("a loud harsh rasping chirp, a quick clatter of spiny legs and the hard snap of big chitinous
+    # mandibles") gave a 4 kHz chirp trill alone, no bite: re-prompted with the snap first.
+    prompt: >-
+      A huge beetle biting: a hard loud clack of big chitinous mandibles snapping shut twice, a short angry chirping
+      rasp, close
+  - id: xeen_doombug_wince
+    group: "Monsters: swarms"
+    use: "Doom Bug hurt"
+    duration: 0.6
+    loudness_db: -9
+    prompt: "A giant cricket struck by a weapon: a sharp shrill broken chirp and a dry crack of its hard shell, close"
+  - id: xeen_doombug_death
+    group: "Monsters: swarms"
+    use: "Doom Bug death"
+    duration: 1.6
+    loudness_db: -9
+    # Its first takes were hiss again (1 % under 2.5 kHz, flatness 0.10-0.18): re-prompted with the shell's fall.
+    prompt: >-
+      A giant cricket dying: its loud chirping slows and breaks into a few weak croaking chirps, then the dry clatter of
+      its hard shell falling onto dirt
+  - id: xeen_doombug_fidget
+    group: "Monsters: swarms"
+    use: "Doom Bug fidget"
+    duration: 1.6
+    loudness_db: -11
+    prompt: >-
+      A giant cricket waiting on the ground at night: slow loud rasping chirps in short trills, the click of mandibles
+      and the scratch of spiny legs, close
 
   # --- Flying Feet (11600, magic constructs A) ----------------------------------------------------------------------
   - id: xeen_feet_attack
@@ -748,6 +794,7 @@ jobs:
     loop: true
     crossfade: 1.0
     loop_rms_db: -20
+    gain_db: -6  # D-117: treble bed cut 6 dB at install (Discord: Vertigo's birds too loud)
     prompt: >-
       A sunny meadow on a calm day: a light breeze through tall grass, distant songbirds, a few buzzing insects,
       peaceful, no voices, no music, ambience
@@ -781,6 +828,7 @@ jobs:
     loop: true
     crossfade: 1.0
     loop_rms_db: -20
+    gain_db: -6  # D-117: treble bed cut 6 dB at install (Discord: Vertigo's birds too loud)
     prompt: >-
       A dry grassland savannah in the afternoon: warm wind in tall dry grass, a steady drone of cicadas and crickets,
       a distant bird cry, no voices, no music, ambience
@@ -1442,7 +1490,10 @@ jobs:
     use: "snake men's attack"
     duration: 0.9
     loudness_db: -9
-    prompt: "A snake-headed warrior lunging with a curved blade: a sharp venomous hiss, a whoosh and a slicing strike, close"
+    # F37 check: hiss alone (0 % under 2.5 kHz, as the wince and death were before their re-prompt): a voiced snarl.
+    prompt: >-
+      A snake-headed warrior lunging with a curved sword: a throaty voiced reptilian snarl, a fast whoosh of the blade
+      and a hard metallic slicing hit, close
   - id: xeen_snakeman_wince
     group: "Monsters: snake men"
     use: "snake men hurt"
@@ -1462,7 +1513,10 @@ jobs:
     use: "snake men's idle fidget"
     duration: 1.6
     loudness_db: -11
-    prompt: "A snake-headed humanoid waiting: a flicking tongue, soft sibilant hissing breaths and the scrape of scales, close"
+    # F37 check: hiss alone (0 % under 2.5 kHz): breathing with a voice, armour and scales.
+    prompt: >-
+      A snake-headed warrior waiting: slow low raspy breathing through fangs, voiced and throaty, the creak of leather
+      armour and a short scrape of scales, close
   - {id: xeen_snakeman_c_attack, kind: derived, from: [xeen_snakeman_attack], pitch: -1.5, group: "Monsters: snake men", use: "Snake Lord: snake men's attack, 1.5 semitones down"}
   - {id: xeen_snakeman_c_wince, kind: derived, from: [xeen_snakeman_wince], pitch: -1.5, group: "Monsters: snake men", use: "Snake Lord: snake men's wince, 1.5 semitones down"}
   - {id: xeen_snakeman_c_death, kind: derived, from: [xeen_snakeman_death], pitch: -1.5, group: "Monsters: snake men", use: "Snake Lord: snake men's death, 1.5 semitones down"}
@@ -2013,6 +2067,7 @@ jobs:
     loop: true
     crossfade: 1.0
     loop_rms_db: -20
+    gain_db: -6  # D-117: treble bed cut 6 dB at install (Discord: Vertigo's birds too loud)
     # The first prompt ("Open meadows on a warm calm night: a gentle chorus of crickets ...") gave a chirping band at
     # 8-10 kHz alone (95-98 % above 8 kHz; no breeze, no owl): a thin whine at bed level. The second asks for lower
     # insects, frogs and the breeze.

@@ -70,3 +70,23 @@ MAW-only pedestal; the Seers Zephyra (X4) and Madame Oorla (D1); three new scena
   `rulesets/maw_bounty`, `dimensional_travel_pedestals`, `mm9/maw_jarl_bounty_and_hag`, `mm9/maw_density`, `rulesets/maw_dimension_map_repeat`, `mm9/maw_hag_repeats_dimension_map`;
   `mm9_balance.py --check` and `xeen_balance.py --check` pass.
 - 2026-11-21 (A5's Vertigo pedestal session): MX-6's MAW-only pedestal moved to the world, every ruleset (`worlds/xeen/maps/xeen_x1_dimensional_travel.scene.yml`, `worlds/xeen/events/maps/xeen_x1_dimensional_travel.lua`); `rulesets/maw/maps/xeen_x1_zz_maw.scene.yml` and `rulesets/maw/events/maps/xeen_x1_maw.lua` deleted; `xeen/maw_vertigo_teleporter.yml` replaced by `xeen/dimensional_travel_vertigo.yml` (Standard + MAW); XEEN_SUPPORT.md section 7 and the MAW guide's Xeen page updated, guide rebuilt and deployed.
+- 2026-11-23 (agent:xeen-mx-ranged; Discord, gryz.mahlay and Tyrkys; OY-657 is the same cause): MAW Hell's ranged
+  melee monsters. (1) **Starting maps in every world**: the list of maps where Hell's melee monsters gain no ranged
+  attack is data, not code: `rulesets/maw/data/map_levels.yml` `ranged_free_maps` (MAW's six: out01, out02, 7out01,
+  7out02, oute3, outd3) and a world balance file's `ranged_free: true` (Xeen `balance.yml` v3: X1 Vertigo, the
+  player's "maybe Vertigo might be enough"; MM9 `balance.yml` v3: Bootcamp and the Isle of Ashes, MM9's start and
+  its start island, both already `madness_start`); `MawMapLevels::isRangedFreeMap`, `gainsHellRangedAttack` without
+  its hard-coded array. (2) **Mixed, not archers** (shared AI, every world): `chooseCombatAbility` turned a rolled
+  blow into the missile attack 2 whenever the target was out of reach, so a melee monster with a missile attack 2
+  (MAW's Hell arrow, MM6's goblins, the Inferno Bat) shot at nearly every decision; and the roll was made again every
+  128th of a second, so a monster walking in stopped to shoot as soon as its recovery ended. Now the blow stays a blow
+  (attack 2 by its chance, as the original's ability roll; a missile attack 1 still replaces a blow out of reach), and
+  a pursuit under way keeps the roll it began with (`AI_AttackOrPursue`: the count before the stored one; the original
+  decides when an action ends). Ranged-only monsters unchanged (their every roll is a missile); melee monsters with
+  spells now cast only when a decision rolls the spell, not at each recovery while closing in. Scenarios (new):
+  `xeen/maw_hell_mixed_monsters.yml` (X2 street, MAW Hell, Giant/Swamp Toad, Skeleton, Skeleton Lord from 2,800: all
+  strike by 5.5 s; before: the Giant Toad at 13 s, the Skeleton Lord not within 15 s), `mm6/goblins_mixed_close_in.yml`
+  (Standard, MM6's three goblins from 1,500 strike by 8.4 s and the Goblin Lord still shoots; before: two not within
+  12 s), `mm8/skeleton_archers_keep_range.yml` (ranged only: shoot and circle, never melee; unchanged). Unit tests:
+  `MawGapTests` (the six, X1, Bootcamp, Isle of Ashes exempt; out05/X2 not; indoors not), two
+  `GameplayActorAiSystemTests` cases. Built and tested in `build-mx` (not build/build-xeen).

@@ -275,6 +275,12 @@ Built as layout A behind a Skills / Talents switch, not as a separate page: see 
   Turn Mode / Inventory / Inspect column on the left.
 - `touch_controls.yml` gains the slot size, and the existing lift of those groups over the basebar
   (`touchPanelVerticalOffset`) handles overlap.
+- **Built 2026-11-23** (Android report: the desktop column lay under the Turn Mode / Inventory / Inspect column, keys
+  4-0 covered at 2:1, and the keys below 160 logical units started the movement stick). `touch_controls.yml` overrides
+  `SoloActionBar` as 2 × 5 keys of 40 units at the bottom centre, two units above the edge (232 × 100 units); in a solo
+  run the touch groups lift over that bar instead of the hidden basebar, the bar is a HUD touch zone
+  (`mobileTouchControls`) and the status line sits six units above it (`soloStatusLineTop`). No group needs a lift
+  from 4:3 to 21:9 (`GameplayHudGeometryTests`, "solo action bar on touch screens"). Desktop keeps the left column.
 - A long press shows the tooltip. Dragging and assigning happen in the spellbook and special-skills screens, not on
   the bar.
 - The unit frame and buff rows use the desktop layout. A tap on a buff opens its inspect view.

@@ -1,0 +1,41 @@
+# xeen/bank: first orchestration by orchestrate.py (hand-tune freely; it is never overwritten).
+# 29.3 s a pass. GM programs are 0-based; drums: 0 standard kit, 48 orchestral.
+# A channel's `slots` give the notes it plays with those FM instrument slots their own instrument.
+reverb: {seconds: 2.4, level: 0.32}
+channels:
+  0:   # pluck: pizzicato strings; median 49, 0.10 s notes, sounding 35%
+    program: 45
+    pan: -0.4
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  1:   # arpeggio: harp; median 94, 0.07 s notes, sounding 52%
+    program: 46
+    pan: 0.4
+    width: 0.6
+    reverb: 0.28
+    gain_db: -3
+  2:   # bass_short: fingered bass; median 38, 0.25 s notes, sounding 53%
+    program: 33
+    pan: 0.0
+    width: 0.25
+    reverb: 0.06
+    gain_db: 0
+  3:   # bass_short: fingered bass; median 26, 0.25 s notes, sounding 53%
+    program: 33
+    pan: 0.0
+    width: 0.25
+    reverb: 0.06
+    gain_db: 0
+  4:   # bells: glockenspiel; median 87, 0.10 s notes, sounding 18%
+    program: 9
+    pan: -0.5
+    width: 0.6
+    reverb: 0.4
+    gain_db: -6
+  5:   # lead_low: french horn; median 48, 1.11 s notes, sounding 37%
+    program: 60
+    pan: 0.0
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0

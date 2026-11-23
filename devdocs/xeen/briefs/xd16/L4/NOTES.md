@@ -210,3 +210,10 @@ share and the shape of the installed map.
   04-4_magma_heart.png); all eight maps on one sheet `output/studio_cal/a7/s29/names/names_sheet.jpg`. Reads as named:
   the mouth's red rock, the fire lake with its causeway and the skull on its island, the demon skull's shrine with
   candles. The magma-heart shot is blocked by a demon at the landing (the room itself was seen in s28).
+
+## Mouth exit kept clear of rough rock (2026-11-23, agent:xeen-xd05-exit)
+
+The rough wall behind this map's exit stood in front of its black face (no click reached it: the XD-05 Discord report,
+`tools/xeen/check_exits.py` `exits.hidden`). `tools/xeen/cave_shape.py` `flat_behind_panels` now gives the exit's
+wall a flat panel under it (the generator writes it); rebuilt, installed and baked; all playtests pass. See XD-05's
+NOTES.md, same date.

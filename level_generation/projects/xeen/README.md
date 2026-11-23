@@ -249,8 +249,9 @@ copied, installs into it (`oymap install`), bakes from it under `output/xeen_loc
 bake into assets_dev by new file and rename, runs `install/terrain_swap.sh` (terrain weights and liquid edges in a
 private root, swapped in file by file) and `stale_bakes.py`, and removes the stage. `a5_install_baked.sh` is A5's
 version for D3, X1-X4, X6, X7 (their build folder is `build_w` for D3, X3, X4, X6, X7; its own lane lock `output/studio_cal/a5/locks/blender.lock`, an optional
-`--sources DIR`; it leaves the stage for removal by its printed literal path). Neither takes the program's bake lock
-from outside: run them as they are (lanes/README.md "Memory").
+`--sources DIR`; it leaves the stage for removal by its printed literal path). `a6_install_baked.sh` takes the
+program's bake lock itself around its Blender run: never wrap it in `flock output/xeen_locks/bake.lock` (that deadlocks
+every bake in the program, 2026-11-23). `a5_install_baked.sh` takes only its lane lock: wrap it in the bake lock.
 
 Dungeons (indoor maps):
 

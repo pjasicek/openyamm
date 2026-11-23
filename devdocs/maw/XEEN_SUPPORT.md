@@ -108,6 +108,11 @@ D-8.1) is one of MAW's arenas (`mawArenaMap`): band [1, 1, 1], madness level 1, 
 Madness. **Completion**: Xeen's octopods (D4's lake trap, P4's sea) and X2's lake dragons (row 11640, the leashed
 trap) never count toward a map's clearing (`completion_exclude`), MM9's rule for monsters that guard water.
 
+**Hell's ranged attack** (2026-11-23): from Hell up Xeen's walking melee monsters outdoors gain MAW's Arrow attack 2
+(10/20/30 % by tier) everywhere but Vertigo, the starting map (`balance.yml` `ranged_free`, as MAW's six MM6-MM8 maps
+and MM9's Bootcamp and Isle of Ashes; a player asked for it on Discord: "maybe Vertigo might be enough"). They are
+mixed monsters: they shoot when the roll picks the arrow and otherwise close to melee (the shared AI, MX.md log).
+
 **Open-air BLVs**: `world.yml` `openAirMaps` (X8, X9, XD-17, D7, P1-P5) count as outdoors for MAW through the generic
 `isOpenAirMap`, as MM9's. Fly stays refused there by Xeen's own map rules (WORLD_DESIGN 3.4); MAW adds nothing.
 

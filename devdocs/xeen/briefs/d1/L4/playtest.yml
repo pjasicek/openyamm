@@ -254,7 +254,7 @@ steps:
 - note: Outside the north gate, no pass (by teleport)
 - set_pose:
     map: xeen_d1.odm
-    x: -512
+    x: -256
     y: 11366
     z: 1158
     yaw: -1.5708
@@ -314,7 +314,7 @@ steps:
       radius: 128
 - note: From the temple through the town to the north gate
 - walk_to:
-    x: -512
+    x: -256
     y: 9011
     z: 1152
     z_tolerance: 600
@@ -332,7 +332,7 @@ steps:
       let-out line: " .. t) end'
 - assert:
     party_position:
-      x: -512
+      x: -256
       y: 10752
       radius: 128
 - play_lua:
@@ -413,7 +413,7 @@ steps:
 - note: Outside the north gate with the pass (by teleport)
 - set_pose:
     map: xeen_d1.odm
-    x: -512
+    x: -256
     y: 11366
     z: 1158
     yaw: -1.5708
@@ -431,7 +431,7 @@ steps:
       gate XP " .. d)
 - note: In through the open north gate
 - walk_to:
-    x: -512
+    x: -256
     y: 9114
     z: 1152
     z_tolerance: 600
@@ -448,12 +448,12 @@ steps:
     seconds: 0.5
 - assert:
     party_position:
-      x: -512
+      x: -256
       y: 9114
       radius: 200
 - note: Out through the north gate
 - walk_to:
-    x: -512
+    x: -256
     y: 11059
     z: 1152
     z_tolerance: 600
@@ -461,7 +461,7 @@ steps:
     timeout_seconds: 60
 - note: And back in
 - walk_to:
-    x: -512
+    x: -256
     y: 9114
     z: 1152
     z_tolerance: 600
@@ -501,7 +501,7 @@ steps:
 - note: Outside the north gate (by teleport)
 - set_pose:
     map: xeen_d1.odm
-    x: -512
+    x: -256
     y: 11520
     z: 1168
     yaw: -1.5708

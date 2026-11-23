@@ -67,7 +67,8 @@ def build(level):
         # The ember bed, rising up the inside of the bowl just within its wall (the lit sprite's glowing inside).
         bed = [(0, 14), (10, 13.2), (18.6, 16.4), (21.7, 22.4), (22.1, 24.6)]
         bed = bed if level < 2 else [bed[0], bed[2], bed[4]]
-        whites.append(pl.lathe('embers', [(u(r), u(z)) for r, z in bed], segments, mats['Glow'], u_repeat=1.5,
+        # Rim to axis, so the bed faces up into the bowl (axis outward it faced down and was culled).
+        whites.append(pl.lathe('embers', [(u(r), u(z)) for r, z in bed[::-1]], segments, mats['Glow'], u_repeat=1.5,
                                v_scale=1.5))
         whites.append(fl.flame_card('flame', mats['Flame'], 'flame02', 16.0, 72.0, 50.0))
     return solids, whites

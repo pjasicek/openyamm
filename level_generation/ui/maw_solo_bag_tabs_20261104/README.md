@@ -28,8 +28,12 @@ Native 1600×900 captures of a player's MAW save (a party of one in Free Haven) 
   `bag % 4`). While an overview shows, each member's open bag is the first of their tab.
 - `CharacterInventoryTab1-5` (`character.yml`) and Shift+1-5 open the same bag of another tab, as MAW keeps it
   (zzMaw-MultiBag.lua:153-157; `GameplayPartyOverlayInputController::openBagTab`). The keys work on the inventory
-  page and in chests and shops; the buttons are only on the inventory page. The item search starts after the
-  buttons while they show (`GameplayHudOverlaySupport::inventorySearchBox`).
+  page and in chests and shops. The item search starts after the buttons while they show
+  (`GameplayHudOverlaySupport::inventorySearchBox`).
+- A shop's or chest's party inventory (sell, identify, repair, Sell trash's pick, display, a chest's party view) has
+  the same I-V buttons, `ChestInventoryBagTab1-5` (`chest.yml`), below the grid: the top row has no room before the
+  house's or chest's side panel (a Discord report, 2026-11-23: the tabs could not be changed at a merchant). MAW
+  itself offers only Shift+1-5 there. A tab button also closes a pouch's tab, as on the inventory page.
 - Status and hover lines name a bag "tab II, bag 3" (`InventoryBagOverview::bagName`).
 - Shift+Sort sorts the four bags of the open tab, as MAW's sort of a tab (zzMaw-Item-Sorter.lua sortMultibag);
   Ctrl+Shift sorts every member's open tab.

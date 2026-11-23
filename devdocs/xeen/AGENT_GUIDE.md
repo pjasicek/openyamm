@@ -152,9 +152,9 @@ Inside those, qbits and topics go by blocks per quest (QUESTS_FORMAT.md §3), ho
   (README's decisions, DECISIONS.md, `devdocs/map_studio/HANDOFF_LEAD.md` §2 and §5), and what each option costs.
   It answers DECISION / WHY / WHO ACTS / REVERSIBLE plus a one-line SUMMARY ROW. Meanwhile carry on, or take the
   option that is cheaper to undo. Tell the user which rulings were least certain.
-- Record each answer as the next row of the DECISIONS.md table (the next number is **D-102**: `| D-102 | <date> |
-  <question> | <decision> | <who acts> |`), with the decider's full answer in `reviews/D102_DECISION.md`. A user's own
-  ruling is a U-n row (next U-12).
+- Record each answer as the next row of the DECISIONS.md table (the next number is **D-118**: `| D-118 | <date> |
+  <question> | <decision> | <who acts> |`), with the decider's full answer in `reviews/D118_DECISION.md`. A user's own
+  ruling is a U-n row (next U-14).
 - Risky or irreversible steps, commits and new spending still need the user.
 
 ## 5. Workflows

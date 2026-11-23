@@ -1,0 +1,47 @@
+# xeen/cavern: first orchestration by orchestrate.py (hand-tune freely; it is never overwritten).
+# 145.5 s a pass. GM programs are 0-based; drums: 0 standard kit, 48 orchestral.
+# A channel's `slots` give the notes it plays with those FM instrument slots their own instrument.
+reverb: {seconds: 2.4, level: 0.32}
+channels:
+  0:   # arpeggio: harp; median 75, 0.21 s notes, sounding 31%
+    program: 46
+    pan: -0.4
+    width: 0.6
+    reverb: 0.28
+    gain_db: -3
+  1:   # bass_short: fingered bass; median 38, 0.44 s notes, sounding 69%
+    program: 33
+    pan: 0.0
+    width: 0.25
+    reverb: 0.06
+    gain_db: 0
+  2:   # lead_mid: oboe; median 66, 0.45 s notes, sounding 31%
+    program: 68
+    pan: 0.0
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  3:   # arpeggio: harp; median 65, 0.22 s notes, sounding 44%
+    program: 46
+    pan: 0.25
+    width: 0.6
+    reverb: 0.28
+    gain_db: -3
+  4:   # pad: slow strings; median 69, 1.77 s notes, sounding 74%
+    program: 49
+    pan: -0.5
+    width: 0.9
+    reverb: 0.4
+    gain_db: -3
+  5:   # bass_short: fingered bass; median 43, 0.12 s notes, sounding 20%
+    program: 33
+    pan: 0.0
+    width: 0.25
+    reverb: 0.06
+    gain_db: 0
+  8:   # drums (standard kit), notes [49, 54, 61, 62, 65, 68, 69, 70, 75]
+    program: 0
+    pan: 0.0
+    width: 0.5
+    reverb: 0.15
+    gain_db: -3

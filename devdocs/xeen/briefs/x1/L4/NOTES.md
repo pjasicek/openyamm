@@ -943,3 +943,19 @@ user's G0 saves reset X1's map state on entry (accepted).
   about 700 away; nothing usable in reach facing north. odm and Lua byte-identical; scene/studio start and the walk's
   first assert changed. Installed with its bake; audit 0 errors; walk and hostility pass; the new check
   `tests/scenarios/xeen/x1_start_nothing_in_reach.yml` fails on the old start (event 65) and passes now.
+
+## 2026-11-23: the player's pins F24-F28 (agent xeen-fb2-town; reviews/PLAYER_FEEDBACK_20261123.md)
+- Terrace wall: `raise` 640 - 896 and `height` UPPER_H + 48 - 640 (foot 64 in the street, top 48 over the terrace;
+  it was a slab across the step's middle, a hollow 192 under it). Town hall gap 48.375-49.125 (the steps' and the
+  tower's width); `town_walls.yml` `joints_ok` for terrace walls 2 and 3 (the tower stands proud into their gap).
+- Gatehouses on their roads' middles (`town.GATE_HOUSE`: N 52.5, E 46.5, W 44.5; the roads keep their lines); the
+  bridge at x 52.5; gate guards re-centred, the bridge pair on land at (52.0/53.0, 49.3); Orothin at (62.35, 62.85)
+  (he stood on a shore tile).
+- Culvert: the kit's sunken entrance mouth is a dark arched `doorway` in the end face (no tunnel or water), the quay
+  runs to the outfall (`quay=True`, `back_to` 53.37, wings beside the outfall), outfall cheeks, revetments to the floor.
+- Fringe homes (49, 33.5) face south and (56.5, 34.5) east (doors were dug into the hillside).
+- Build warnings kept: "terrace_wall_N / culvert_revetment stands ... under the land (`raise`)": meant (the step's
+  land is lower than the wall's line only on its street side).
+- New check on every build: `tools/xeen/town_fit_check.py xeen_x1 --odm <build> --sketch sketch.yml` (0).
+- Installed with its bake 11:28 (with the wild agent's F29-F33 work); audit 0, both playtests pass. (Do not pass
+  `under` to the culvert's kit: row 54 holds the creek's level and the studio keeps it, the kit's heights then lie.)

@@ -124,7 +124,7 @@ DEREK_GROUP = 54                    # Derek alone (q-c22.on_darkside hides him o
 TEMPLE_AFTER_M2 = 4010              # the temple's door after M2 (hook m2.temple_name)
 # NPCs without a house that the map places (A4): Derek at his camp, Orothin by his statues, the Spring Druid at his
 # stone, four Plague Cult members in the streets (with IN_WORLD; their topics are A3's).
-NPC_ACTORS = [(4046, (41.2, 77.6)), (4047, (63.6, 64.6)), (4048, (27.2, 60.8)), (4049, (53.6, 44.6)),
+NPC_ACTORS = [(4046, (41.2, 77.6)), (4047, (62.35, 62.85)), (4048, (27.2, 60.8)), (4049, (53.6, 44.6)),
               (4050, (57.4, 44.4)), (4051, (49.0, 45.4)), (4052, (58.6, 47.6))]
 
 # ---------------------------------------------------------------------------------------------------------------
@@ -133,6 +133,7 @@ NPC_ACTORS = [(4046, (41.2, 77.6)), (4047, (63.6, 64.6)), (4048, (27.2, 60.8)), 
 MEADOW = 640       # the meadow floor and Vertigo's streets
 RIVER = 576        # Pitchfork Creek's water
 RIM_X = 104        # the world rim's cliff edge (east)
+RIM_Y = 104        # D-109: and its south edge (the void from y 105)
 RIVER_LINE = [[0, 51], [30, 51], [40, 52], [46, 52], [58, 52], [64, 52], [67, 55], [67, 62]]
 # pass four (REVIEW_PASS3 2): the outflow meanders to the rim (was four straight runs, a ruler-straight canal)
 OUTFLOW = [[73, 65], [76, 63], [79, 64], [81, 64], [84, 62], [87, 63], [90, 61], [93, 62], [95, 61], [97, 59],
@@ -173,6 +174,7 @@ def roll(x, y):
     for (cx, cy, r) in CALM:
         w = min(w, smooth((math.hypot(x - cx, y - cy) - r) / 5.0))
     w = min(w, smooth((100 - x) / 6.0))
+    w = min(w, smooth((100 - y) / 6.0))     # D-109: and near the south rim
     v = (520 * math.sin(x / 3.1 + 0.7) * math.sin(y / 3.6 + 1.9) + 340 * math.sin((x + y) / 5.3 + 0.4)
          + 200 * math.sin((x - 1.7 * y) / 2.6))
     v = max(v, -420.0)        # hollows, never below the creek's banks
@@ -228,8 +230,12 @@ import kit_pieces as KIT   # D-94/D-95 (town.py puts tools/xeen on the path)
 # the bank: the mouth's headwall, the ditch's end face, stands on it looking south, its top (the quay's) 608, 32 over
 # the bank; the ramp rises from the arch's foot to the lane at row 56. XD-01's arrival (61, 54.43, z 620) lands on the
 # quay over the arch.
+# P2 F25 (pins p3, p18, agent xeen-fb2-town 2026-11-23): the mouth is the kit's dark arched door in the end face (the
+# culvert's tunnel ran under the bank, whose land climbed into it as grass under the dark face, and its water lay on
+# the dry floor as a flat blue strip); the quay runs on to the outfall with wings either side of it; the outfall's
+# sides are closed.
 CULVERT = KIT.SunkenEntrance('culvert', 61, 62, face_y=55, floor_to=55, ramp_to=56, ground=576, top=608,
-                             depth=224, back_to=54.0, revet_to=55.4, texture=T.RUN_TEX,
+                             depth=224, back_to=53.37, revet_to=55.4, texture=T.RUN_TEX,
                              land=lambda i, j: 576 if j <= 54 else 640)
 sys.path.insert(0, _REPO_ROOT + '/tools/xeen')
 import house_doors as HD   # F2: double doors from wing pictures
@@ -528,7 +534,9 @@ def build():
                  'per_marker': [2, 3] if FULLER else [3, 5], 'weight': 50},
                 {'monster': SLOT['toads'], 'tier': 0 if IN_WORLD and not FULLER else 1,
                  'per_marker': [2, 3] if FULLER else [2, 4], 'weight': 25},
-                {'monster': SLOT['skeletons'], 'tier': 0 if IN_WORLD and not FULLER else 1,
+                # Skeletons at Dif 0 in the world even when FULLER (player pin p17, 2026-11-22): Dif 1's 2 % C tier is
+                # the level-16 Skeleton Lord, above X1's band 2-12 (a one-slot override of D-1.3; source/map_rows.yml).
+                {'monster': SLOT['skeletons'], 'tier': 0 if IN_WORLD else 1,
                  'per_marker': [2, 3] if FULLER else [2, 4], 'weight': 25},
             ]},
         'neighbours': [
@@ -778,14 +786,22 @@ def build():
     }
     # -------------------------------- sketch.yml
     rim = [
-        {'side': 'north', 'form': 'ridge', 'height': [2200, 3400], 'floor': 2000, 'crest': 10, 'roughness': 100},
+        # D-109 (agent xeen-rim3): the south side is the world's rim too (Cloudside's south-east corner): the north and
+        # west ridges stop at 105, where the void begins (X7's east rim to the north, X2's south rim to the west).
+        {'side': 'north', 'span': [0, 105], 'form': 'ridge', 'height': [2200, 3400], 'floor': 2000, 'crest': 10,
+         'roughness': 100},
+        {'side': 'north', 'span': [105, 128], 'form': 'level', 'height': 0, 'meet': 1,
+         'notes': 'D-109: the void past the east rim reaches the north edge (X7 beyond it).'},
         {'side': 'west', 'span': [0, 42], 'form': 'ridge', 'height': [1800, 3000], 'floor': 1200, 'crest': 10,
          'roughness': 100},
         {'side': 'west', 'span': [42, 58], 'form': 'level', 'height': 640, 'meet': 6,
          'notes': 'The west road and the creek run out to the edge (to X3).'},
-        {'side': 'west', 'span': [58, 128], 'form': 'ridge', 'height': [1600, 2800], 'floor': 900, 'crest': 10,
+        {'side': 'west', 'span': [58, 105], 'form': 'ridge', 'height': [1600, 2800], 'floor': 900, 'crest': 10,
          'roughness': 100},
-        {'side': 'south', 'form': 'ridge', 'height': [1600, 2800], 'floor': 900, 'crest': 10, 'roughness': 100},
+        {'side': 'west', 'span': [105, 128], 'form': 'level', 'height': 0, 'meet': 1,
+         'notes': "D-109: the void past the south rim reaches the west edge (X2's south rim beyond it)."},
+        {'side': 'south', 'form': 'level', 'height': 0, 'meet': 1,
+         'notes': 'D-109: the world rim (Cloudside\'s south-east corner): the land ends at y 104, the void below.'},
         {'side': 'east', 'form': 'level', 'height': 0, 'meet': 1,
          'notes': 'The world rim: the land ends in a cliff at x 104; below it, water at 0 stands for the stars.'},
     ]
@@ -818,8 +834,9 @@ def build():
              'notes': "Pass four: the hillside the orc caves' mouth is cut into (crest 1824)."},
         ],
         'cliffs': [
-            {'line': [[RIM_X, 19], [RIM_X, 58], [RIM_X, 62], [RIM_X, 110]], 'drop': 900, 'down': 'left',
-             'notes': 'The world rim: white cliffs (drawn from north to south, the low side east).'},
+            {'line': [[RIM_X, 19], [RIM_X, 58], [RIM_X, 62], [RIM_X, RIM_Y], [0, RIM_Y]], 'drop': 900, 'down': 'left',
+             'notes': ('The world rim: white cliffs (drawn from north to south, the low side east), then west along '
+                       'the south rim (D-109; the low side south).')},
         ],
     }
     # the cliff runs north to south; walking it from its first point the low side (east) is on the left.
@@ -833,7 +850,7 @@ def build():
         'bodies': [
             {'id': 'water:delta', 'kind': 'pond', 'level': RIVER, 'polygon': LAKE},
             {'id': 'water:sky', 'kind': 'sea', 'level': 0,
-             'polygon': [[RIM_X + 1, 0], [128, 0], [128, 128], [RIM_X + 1, 128]],
+             'polygon': [[RIM_X + 1, 0], [128, 0], [128, 128], [0, 128], [0, RIM_Y + 1], [RIM_X + 1, RIM_Y + 1]],
              'notes': 'Below the rim: stands for the stars (gap: the game draws no void).'},
         ],
     }
@@ -874,12 +891,12 @@ def build():
         {'space': 'zone:north_hills', 'polygon': [[19, 19], [109, 19], [109, 36], [19, 36]]},
         {'space': 'zone:orchard', 'polygon': [[70, 40], [104, 40], [104, 52], [70, 52]]},
         {'space': 'zone:pyramid_knoll', 'polygon': [[81, 43], [87, 43], [87, 49], [81, 49]]},
-        {'space': 'zone:rim', 'polygon': [[104, 0], [128, 0], [128, 128], [104, 128]]},
+        {'space': 'zone:rim', 'polygon': [[104, 0], [128, 0], [128, 128], [0, 128], [0, 104], [104, 104]]},
         {'space': 'town:toad_meadow', 'polygon': [[72, 69], [82, 69], [82, 79], [72, 79]],
          'plots': plots_by_space['town:toad_meadow']},
         {'space': 'zone:toad_marsh', 'polygon': [[66, 66], [100, 66], [100, 98], [66, 98]]},
         {'space': 'zone:witch_rise', 'polygon': [[84, 80], [93, 80], [93, 90], [84, 90]]},
-        {'space': 'zone:dead_forest', 'polygon': [[19, 74], [50, 74], [50, 109], [19, 109]]},
+        {'space': 'zone:dead_forest', 'polygon': [[19, 74], [50, 74], [50, 103], [19, 103]]},
         {'space': 'zone:warehouse_yard', 'polygon': [[59, 57], [63, 57], [63, 61], [59, 61]]},
     ]
     points = [
@@ -1076,7 +1093,7 @@ def build():
     sc('scatter:orchard', 'tree37', 6, line=[[88, 44.5], [100, 45.5]])
     sc('scatter:orchard', 'tree37', 6, line=[[88, 48.5], [100, 49.5]])
     # The dead forest
-    dead = [[19, 74], [50, 74], [50, 109], [19, 109]]
+    dead = [[19, 74], [50, 74], [50, 103], [19, 103]]     # D-109: to the south rim (was 109)
     # Deyja's dead forest measured: nearest tree 1.97 cells (median), 1.35 (10th percentile), 0.97 least; 0.116 trees
     # a cell where it stands; tree41 and tree42 mixed (0.51 of nearest pairs unlike); the rim's gaps 2.5 against 1.7.
     DR.even_stand('scatter:dead_trees', dead, {'tree41': 2, 'tree42': 1}, 0.125, 1.4, 1.0, 0.08,
@@ -1111,9 +1128,9 @@ def build():
         return {'7tree13': 3, '7tree16': 3, 'bush03': 2, '7rock09': 2, '7rock01': 1, 'flower01': 2, 'flower02': 2}
     # Rebase: the wild fill stays only beyond the play bounds (the trees to the map's edge) and in the marsh's east
     # strip; inside, the open meadows are open on purpose (CHANGES X1-8).
-    FILL = [[[100, 64], [103, 64], [103, 100], [100, 100]], [[6, 6], [19, 6], [19, 122], [6, 122]],
-            [[19, 6], [103, 6], [103, 19], [19, 19]], [[19, 109], [50, 109], [50, 122], [19, 122]],
-            [[50, 109], [103, 109], [103, 122], [50, 122]]]
+    # D-109: the south band beyond the play bounds is the void now (its fill and the far west strip end at y 102).
+    FILL = [[[100, 64], [103, 64], [103, 100], [100, 100]], [[6, 6], [19, 6], [19, 102], [6, 102]],
+            [[19, 6], [103, 6], [103, 19], [19, 19]]]
     rnd = __import__('random').Random(21)
     AVF = wild_avoid(2.0)
     for i, poly in enumerate(FILL):
@@ -1133,13 +1150,14 @@ def build():
                             'circle': {'at': [round(p[0], 3), round(p[1], 3)], 'r': 0.1}})
     # Small places along the views where shipped maps have one: an old campfire with bones, a fallen stone ring,
     # a lone grave cairn, a wrecked camp by the south band.
-    for (deco, at) in (('dec24x', (66, 107)), ('7dec18', (66.8, 107.6)), ('7dec20', (65.3, 106.4)),
-                       ('7dec18', (88.5, 110.4)), ('7rock08', (88, 109.6)), ('7rock09', (89.1, 109.8))):
+    # D-109: the camp and the cairn stood in the south band, now the void: moved north onto the land by the rim.
+    for (deco, at) in (('dec24x', (66, 100.5)), ('7dec18', (66.8, 101.1)), ('7dec20', (65.3, 99.9)),
+                       ('7dec18', (92.5, 101.4)), ('7rock08', (92, 100.6)), ('7rock09', (93.1, 100.8))):
         scatter.append({'id': 'scatter:wild_places', 'decoration': deco, 'count': 1,
                         'circle': {'at': [at[0], at[1]], 'r': 0.1}})
     sc('scatter:wild_places', '7rock09', 7, line=[[78, 58], [80, 56], [82.5, 56.5], [83, 59], [80.5, 60.5]],
        )
-    for (cx, cy) in ((58, 112), (95, 58), (76, 104), (24, 66), (98, 112), (60, 90), (12, 40), (40, 112)):
+    for (cx, cy) in ((58, 99), (95, 58), (76, 99), (24, 66), (97, 100), (60, 90), (12, 40), (40, 100)):
         ground_extra.append({'material': 'soil', 'polygon': [[cx - 1, cy - 1], [cx + 2, cy - 1], [cx + 2, cy + 1],
                                                             [cx - 1, cy + 1]], 'notes': 'a bare patch in the meadow'})
     # The farm belt outside the walls (REVIEW 7): orchards, hedged fields, garden rows, tree clumps to the wall
@@ -1158,7 +1176,8 @@ def build():
     sc('scatter:verge', 'flower02', 10, [[42.6, 38.9], [61.6, 38.9], [61.6, 49.2], [42.6, 49.2]], clusters=5)
     scatter.extend(town_scatter)
     ground = [
-        {'material': 'grass_meadow', 'polygon': [[0, 0], [104, 0], [104, 128], [0, 128]],
+        # D-109: to the map's edges, so the land's last corners on the void's edge are grass too, not dirt
+        {'material': 'grass_meadow', 'polygon': [[0, 0], [128, 0], [128, 128], [0, 128]],
          'notes': 'meadow; the town floor is grass too (second pass): dirt only on roads, lanes, door aprons, the square'},
         {'material': 'swamp', 'polygon': [[66, 78], [100, 78], [100, 100], [70, 100], [66, 92]],
          'notes': 'Toad Meadow marsh'},
@@ -1184,7 +1203,8 @@ def build():
                            'textures': {'wall': T.RETAIN_TEX},
                            'notes': 'The lane climbs to the upper town by steps between the shops.'})
     structures.extend(T.retaining_walls())
-    structures.append({'id': 'thing:town_bridge', 'kind': 'bridge', 'line': [[52, 50.3], [52, 54.6]],
+    # P2 F28: on the middle of the south street's road tiles (column 52, 52.0-53.0; it stood half a cell west of them)
+    structures.append({'id': 'thing:town_bridge', 'kind': 'bridge', 'line': [[52.5, 50.3], [52.5, 54.6]],
                        'width': 512, 'rise': 48, 'kerb': 48, 'title': 'Vertigo Bridge',
                        'notes': 'The stone bridge from the south gate over Pitchfork Creek.'})
     structures.append({'id': 'thing:fountain_square', 'kind': 'fountain', 'at': [54.5, 46.2],
@@ -1271,7 +1291,7 @@ def build():
         structures.append(st)
     # D-95: the culvert's ditch lined by revetments, the quay over the cut behind its end face, and on the creek's edge
     # the outfall: a low barred arch at the waterline in a small block of the quay's stone (a drain, not a second door)
-    structures += CULVERT.structures({'kind': 'culvert', 'height': 176}, outfall_y=52.97)[1:]
+    structures += CULVERT.structures({'kind': 'culvert', 'height': 176}, outfall_y=52.97, quay=True)[1:]
     # Pass four (REVIEW_PASS3 6): the mine and the orc cave told apart and set in their hills: the mine's shell grey rock
     # (t2bs) with timber stacks, a spoil heap, a cask and two torches at its mouth; the orc mouth red-brown rock (cwb1,
     # the dragon cave's) with skulls on spears, stakes, bones and a fire; the shaft head a stone hatch (cnb) with
@@ -1541,7 +1561,8 @@ def build():
                                   'windows': 'alternate'}]})
     structures.append({'id': 'thing:eel_traps', 'kind': 'decoration', 'decoration': '7dec21', 'at': [90.6, 64.6],
                        'title': 'Eel traps', 'effects': [{'text': 'Wicker eel traps, staked in the stream. Empty.'}]})
-    structures.append({'id': 'thing:bog_bones', 'kind': 'decoration', 'decoration': '7dec18', 'at': [95.0, 104.4],
+    # D-109: two cells north, off the south rim's edge (stood at y 104.4)
+    structures.append({'id': 'thing:bog_bones', 'kind': 'decoration', 'decoration': '7dec18', 'at': [95.0, 102.4],
                        'title': 'Bones in the bog', 'effects': [{'text': "A mule's bones, half sunk in the bog. Its "
                                                                         "packs are long gone."}]})
     # A3's hooks that need things of their own (CHANGES X1-10, X1-11; QUESTS Q-C20, Q-C21): the bone whistle in the
@@ -1598,8 +1619,11 @@ def build():
     # Tatalia 8 to 33, Ravenshore 20 to 45; about half walk the streets alone (300-2,000 from a house door, 2,000-4,700
     # apart), the rest stand in pairs 350-850 apart at gates and bridges. Here: a pair at each gate (were singles) and
     # five alone on the streets inside the walls, 13 to 23 townsfolk.
-    for (x, y) in [(52, 36.9), (53.1, 36.9), (52, 51.0), (53.0, 50.7), (40.4, 44.6), (40.4, 43.5), (63.6, 45.6),
-                   (63.6, 46.7), (47.2, 44.4), (56.4, 47.6), (59.8, 44.9), (50.6, 55.4), (45.8, 40.6)]:
+    # P2 F24 (pin p1): the bridge pair on the land at the bridge's north head (they stood on the bridge over the
+    # creek, wandered off its side into the water and stuck against the rail; town_fit_check `actors.over_water`);
+    # the gate pairs either side of the gates moved onto the road's middle (F28)
+    for (x, y) in [(52, 36.9), (53.1, 36.9), (52.0, 49.3), (53.0, 49.3), (40.4, 45.05), (40.4, 43.95), (63.6, 45.95),
+                   (63.6, 47.05), (47.2, 44.4), (56.4, 47.6), (59.8, 44.9), (50.6, 55.4), (45.8, 40.6)]:
         actors.append({'monster': '404', 'at': [x, y], 'spread': 0, 'group': 51})
     # The orc outposts: four orcs each (rebase: the per-map total; pass six had 4, 6, 4). Placed, so they do not
     # refill; the burnable camps and XD-05's drums are phase 1 (QUESTS 4.3).
@@ -1693,6 +1717,10 @@ def build():
     import entrance as EN
     for _note in HD.bury_mouths_sketch(sketch) + EN.apply(sketch, 'x1'):
         print('door:', _note)
+    # P2 feedback F29/F32/F33 (agent xeen-fb2-wild, 2026-11-23): shrine altars, campfires, the rim fall
+    import wild as WILD
+    for _note in WILD.apply(sketch, 'x1'):
+        print('wild:', _note)
     dump('sketch.yml', sketch)
     dump('atmosphere.yml', atmosphere)
     # Points of interest out in the land (CHANGES X1-7: 40-50; the town's own things are listed apart). Written to

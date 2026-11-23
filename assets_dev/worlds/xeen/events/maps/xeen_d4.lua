@@ -2,6 +2,7 @@
 SetMapMetadata({levitateTrapEvents = {109}, onLoad = {111, 113, 108, 112}, onLeave = {}, openedChestIds = {[53] = {0}, [67] = {1}, [68] = {2}, [75] = {3}, [85] = {4}, [86] = {5}, [87] = {6}, [91] = {7}, [92] = {8}, [94] = {9}, }, timers = {
     { eventId = 109, sourceEventId = 109, triggerStep = 0, origin = "legacy", triggerKind = "timer", scheduleKind = "interval", intervalHalfMinutes = 1 },
     { eventId = 110, sourceEventId = 110, triggerStep = 0, origin = "legacy", triggerKind = "timer", scheduleKind = "interval", intervalHalfMinutes = 9 },
+    { eventId = 122, sourceEventId = 122, triggerStep = 0, origin = "legacy", triggerKind = "timer", scheduleKind = "interval", intervalHalfMinutes = 1 },
 }})
 
 -- evt:door:building:lk_guild
@@ -349,7 +350,9 @@ RegisterEvent(69, "Fountain of Great Magic", function()
 end, "Fountain of Great Magic")
 
 -- evt:thing:camp_fire
-RegisterEvent(72, "A camp fire", nil, "A camp fire")
+RegisterEvent(72, "A camp fire", function()
+    local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") else evt.StatusText("You find food by the fire (+" .. food .. ").") end evt.ChangeEvent(0)
+end, "A camp fire")
 
 -- evt:thing:genie_lamp_seat
 RegisterEvent(73, "A genie's lamp", function()
@@ -596,3 +599,8 @@ RegisterEvent(120, "A wizard's tent", nil, "A wizard's tent")
 
 -- evt:thing:square_paving
 RegisterEvent(121, "Lakeside's square", nil, "Lakeside's square")
+
+-- evt:rim_fall
+RegisterEvent(122, nil, function()
+    Xeen.rimFall({{{-32768, 32768}, {32768, 32768}, {32768, -32768}, {20480, -32768}, {20480, 20480}, {-32768, 20480}}}, {{18432, -15360, 2336, 1024}, {18432, -12288, 1856, 1024}, {18432, -9216, 1568, 1024}, {18432, -6144, 1600, 1024}, {18432, -3072, 1056, 1024}, {18432, 6144, 2048, 1024}, {18432, 9728, 2208, 1024}, {18432, 15872, 1920, 1024}, {18432, 18944, 2080, 1024}, {15872, 18432, 2016, 1536}, {12800, 18432, 2080, 1536}, {9728, 18432, 2208, 1536}, {6144, 18432, 2112, 1536}, {3072, 18432, 2240, 1536}, {0, 18432, 2272, 1536}, {-6144, 18432, 2688, 1536}, {-15360, 18432, 3552, 1536}, {-22016, 18432, 3520, 1536}})
+end)

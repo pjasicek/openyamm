@@ -1,0 +1,41 @@
+# dark/cavern3a: first orchestration by orchestrate.py (hand-tune freely; it is never overwritten).
+# 31.2 s a pass. GM programs are 0-based; drums: 0 standard kit, 48 orchestral.
+# A channel's `slots` give the notes it plays with those FM instrument slots their own instrument.
+reverb: {seconds: 2.4, level: 0.32}
+channels:
+  0:   # lead_low: french horn; median 49, 0.08 s notes, sounding 16%
+    program: 60
+    pan: 0.0
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  1:   # counter_mid: clarinet; median 68, 0.16 s notes, sounding 22%
+    program: 71
+    pan: 0.4
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  2:   # counter_mid: clarinet; median 63, 0.16 s notes, sounding 22%
+    program: 71
+    pan: -0.25
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  3:   # bass_long: contrabass; median 35, 1.56 s notes, sounding 100%
+    program: 43
+    pan: 0.0
+    width: 0.25
+    reverb: 0.06
+    gain_db: 0
+  4:   # pad: slow strings; median 59, 1.56 s notes, sounding 100%
+    program: 49
+    pan: -0.5
+    width: 0.9
+    reverb: 0.4
+    gain_db: -3
+  5:   # pad2: brass section; median 47, 1.56 s notes, sounding 100%
+    program: 61
+    pan: 0.5
+    width: 0.9
+    reverb: 0.4
+    gain_db: -3

@@ -45,7 +45,7 @@ steps:
 - note: 'Necropolis''s gate from outside without the pass: A3''s refusal'
 - set_pose:
     map: xeen_d6.odm
-    x: 13824
+    x: 14080
     y: -4301
     z: 1715
     yaw: -1.5708
@@ -70,7 +70,7 @@ steps:
     source: close(); wait(0.3)
 - note: Through the gate to the mirror (necropolis_gate)
 - walk_to:
-    x: 13824
+    x: 14080
     y: -6451
     z: 1664
     z_tolerance: 700
@@ -82,7 +82,7 @@ steps:
     map: xeen_d6.odm
 - set_pose:
     map: xeen_d6.odm
-    x: 13824
+    x: 14080
     y: -5734
     z: 1664
     yaw: 1.5708
@@ -316,7 +316,7 @@ steps:
     source: close(); wait(0.3)
 - set_pose:
     map: xeen_d6.odm
-    x: 13824
+    x: 14080
     y: -6861
     z: 1664
     yaw: 0.0

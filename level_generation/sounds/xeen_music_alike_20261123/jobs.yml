@@ -1,0 +1,144 @@
+# Xeen sound-alike themes (2026-11-23, the user: "download these songs, hear them ... and generate really similar
+# sounding ones from ElevenLabs capturing the essence"). Run with tools/run_elevenlabs.sh (tools/audio/README.md).
+#
+# References: the original Might and Magic IV/V themes (real MT-32 recordings) and Xeen Music's prototype
+# arrangements, downloaded from YouTube into work/ref/ (git-ignored, never committed, never uploaded anywhere).
+# analyse.py measured tempo, key by section, chords and the top line; pianoroll.py drew the transcriptions; the
+# arranger's notes (work/ref/*.desc.txt) gave the original instruments and the commissions. Findings per theme:
+# work/analysis/*.md and the comment above each job.
+#
+# Prompts describe the music (tempo, key, chord motion, groove, instruments, mood, era); they never name a composer,
+# game or work (the music terms forbid it) and no reference audio is sent: Eleven Music's audio reference accepts
+# only music you made yourself. So these share the originals' character, not their melodies.
+#
+# Settings as Xeen's own themes (level_generation/sounds/xeen_music_20261122/jobs.yml): music_v2_5, instrumental,
+# 150 s, PCM 48 kHz kept as FLAC, 5 s fold into the opening, -17 dBFS RMS, 320 kbit/s MP3. One take each:
+# 8 x 2 250 credits (900 per minute) = 18 000.
+schema: openyamm.elevenlabs.jobs.v1
+budget: 18000
+kind_budgets: {music: 18000}
+music: true                       # the user's request of 2026-11-23
+defaults:
+  kind: music
+  group: Music
+  model: music_v2_5
+  duration: 150
+  variants: 1
+  loop: true
+  channels: 2
+  crossfade: 5
+  loop_rms_db: -17
+  formats: [pcm_48000]
+jobs:
+  # Ref: MM4 "Outdoors" (MT-32 and arrangement): D minor with turns to D major and C, 96 BPM, 4/4; long bass pedal
+  # notes stepping D-C-Bb-A under a busy mid-register line and a wandering melody. Commission: "walk around and
+  # adventure"; desert, tundra, swamp, meadows, lava.
+  - id: xeen_alike_cloudside_overworld
+    title: Cloudside overworld
+    replaces: 92001
+    prompt: >-
+      Instrumental early-1990s fantasy computer role-playing game exploration theme, in a modern re-arrangement of
+      sampled orchestra blended with vintage synthesizers and a fretted electric bass. D minor, about 96 BPM, steady
+      4/4. Long held bass notes step slowly down D, C, B-flat, A under a busy, rippling mid-register line of staccato
+      strings and synth; above it a wandering, adventurous melody on synth brass and strings, answered by flute, with
+      a brief brighter turn to D major. Light snare and tom fills, soft cymbal swells. Brave and curious with a touch
+      of melancholy: setting out across wide open country. Steady and even throughout, no build-ups, no climax, no
+      vocals. Seamless loop: no intro and no ending, it ends as it began.
+  # Ref: MM5 "Outdoors: Day 3" (Dragon Pharaoh's theme) and the Woods medley: A minor, 81 BPM, sparse and grave,
+  # broad sustained chords, a slow noble line; the woods medley adds a D-minor 112 BPM march-like pulse.
+  - id: xeen_alike_darkside_overworld
+    title: Darkside overworld
+    replaces: 92002
+    prompt: >-
+      Instrumental early-1990s fantasy computer role-playing game overworld theme, in a modern re-arrangement of
+      sampled orchestra blended with vintage synthesizers and a fretted electric bass. A minor, about 80 BPM, 4/4.
+      Broad, slow-moving minor chords on warm strings and a synth pad, a grave and majestic melody on French horn and
+      low synth brass, answered by an exotic, slightly ancient-sounding reed line, plucked harp figures, deep timpani
+      rolls and a measured tom pulse. Shadowed, ancient and proud, with a heroic undertone, like a desert of old
+      kings under a dim sun. Steady and even throughout, no build-ups, no climax, no vocals. Seamless loop: no intro
+      and no ending, it ends as it began.
+  # Ref: MM4 "Town" (the user's example, o1NSi_dbGS8, and the MT-32 original): G major with a C-minor (harmonic,
+  # B natural) opening section and a passage in B minor, 112 BPM, 4/4. A bouncy, syncopated electric-bass and kick
+  # groove repeating every bar, a smooth sustained melody on top, short stop-time breaks at phrase ends every ~8 s.
+  # Commission: "Town, peaceful, but not necessarily without danger. Statues. Shops."
+  - id: xeen_alike_cloudside_town
+    title: Cloudside towns
+    replaces: 92003
+    prompt: >-
+      Instrumental early-1990s fantasy computer role-playing game town theme, in a modern re-arrangement of sampled
+      orchestra blended with vintage synthesizers and a fretted electric bass. G major with passing sections in C
+      minor and B minor, about 112 BPM, 4/4. A bouncy, syncopated electric bass and kick-drum groove that repeats
+      every bar, light snare and closed hi-hat, under a smooth, singing melody on sampled strings and soft synth
+      brass, with bell, marimba and pizzicato accents; short stop-time breaks at the end of phrases. Friendly, busy
+      and a little cheeky, a peaceful market town of statues and shops with a hint of caution. Steady and even
+      throughout, no build-ups, no climax, no vocals. Seamless loop: no intro and no ending, it ends as it began.
+  # Ref: MM5 "Town Day 2: New Bright Town" (also the Darkside and World of Xeen main menu, and the inn): B minor
+  # throughout, 83 BPM, lyrical and bittersweet; flowing arpeggiated accompaniment under a long singing line.
+  # Town Day 3 ("Walk in Town", C major, jaunty, 152 BPM) is the other day theme.
+  - id: xeen_alike_darkside_town
+    title: Darkside towns
+    replaces: 92004
+    prompt: >-
+      Instrumental early-1990s fantasy computer role-playing game town theme, in a modern re-arrangement of sampled
+      orchestra blended with vintage synthesizers and a fretted electric bass. B minor, about 84 BPM, 4/4. Gently
+      rocking arpeggios on harp and electric piano, a soft round electric bass and light brushed drums, under a long,
+      lyrical, bittersweet melody on flute and strings that rises and turns warmly towards D major before settling
+      back. Wistful, warm and a little proud, an old town at dusk that is home. Steady and even throughout, no
+      build-ups, no climax, no vocals. Seamless loop: no intro and no ending, it ends as it began.
+  # Ref: MM4 "Castle" (a variation on the MM4 main theme, every Cloudside castle) and MM5's castle medley: slow
+  # (about 65-70 BPM, the beat tracker's 129 is double time), a walking stepwise bass ostinato in octaves, heavy low
+  # end, a slow noble melody in long notes; moves between G major, E minor and F minor.
+  - id: xeen_alike_castle
+    title: Castles
+    replaces: 92005
+    prompt: >-
+      Instrumental early-1990s fantasy computer role-playing game castle theme, in a modern re-arrangement of sampled
+      orchestra blended with vintage synthesizers and a fretted electric bass. Slow and stately, about 66 BPM, 4/4.
+      A walking, stepwise bass ostinato doubled in octaves by low strings and electric bass, steady low timpani, a
+      noble melody in long held notes on French horns and synth brass over sustained strings and an organ-like pad,
+      harpsichord ornaments; the harmony moves between G major and E minor and darkens briefly to F minor. Regal,
+      grand and a little ominous, the great hall of a castle whose loyalty is uncertain. Steady and even throughout,
+      no fanfare bursts, no build-ups, no climax, no vocals. Seamless loop: no intro and no ending, it ends as it
+      began.
+  # Ref: MM4 "Dungeon Below Castle" (towers, dungeons, sphinxes) and "Cavern Below Town" (caves, mines): about 65
+  # BPM half time, E minor / G major, original MT-32 parts synth brass, strings, cello, square-wave synth, echo
+  # bell; the cavern adds a busier C major / A minor modal line. MM5 dungeon medley: E-flat minor, 96 BPM.
+  - id: xeen_alike_dungeon
+    title: Dungeons and caves
+    replaces: 92006
+    prompt: >-
+      Instrumental early-1990s fantasy computer role-playing game dungeon theme, in a modern re-arrangement of
+      sampled orchestra blended with vintage synthesizers and a fretted electric bass. E minor, about 64 BPM in a
+      half-time feel, 4/4. A pulsing square-wave synth arpeggio and an echoing bell synth, low synth brass stabs, a
+      slow cello line over sustained strings, a quiet electric bass walking down the minor scale, soft toms and a
+      distant gong. Mysterious, wary and a little mechanical, torchlit corridors under a castle. Even level from the
+      first second to the last, the same density at the end as at the start, no fade-in or fade-out, no build-ups,
+      no climax, no vocals. Seamless loop: no intro and no ending, it ends as it began.
+  # Ref: MM5 "Sci-Fi Theme 5" (every Darkside science-fiction place: Corak's and Sheltem's ships, the Dungeon of
+  # Death's bottom, the Metal Tower): C minor, 123 BPM, bright (centroid 1.8 kHz); chords alternate C minor and
+  # A-flat major; a stepwise descending lead (G-F-E-flat-D-C) over a sequenced bass. Commission for the sci-fi cue:
+  # "In a space ship. Creepy terminator like ... futuristic."
+  - id: xeen_alike_ancients
+    title: The Ancients' places
+    replaces: 92007
+    prompt: >-
+      Instrumental early-1990s computer role-playing game science-fiction theme for the inside of an ancient
+      spaceship, played on vintage digital synthesizers with a fretted electric bass. C minor, about 123 BPM, 4/4. A
+      sequenced synth bass ostinato in steady eighth notes, chords alternating C minor and A-flat major, a cool lead
+      synth melody falling stepwise and rising again, glassy digital bells, metallic percussion and a tight
+      electronic snare. Cold, mechanical and a little creepy, but melodic and driving: humming machinery and endless
+      metal corridors. Steady and even throughout, no build-ups, no climax, no vocals. Seamless loop: no intro and no
+      ending, it ends as it began.
+  # Ref: MM4 "End Game" (and the World of Xeen ending cue): B-flat major with turns to E-flat minor and E minor,
+  # 108 BPM. Commission: "same as intro, but different. Awesome, castle disintegrating".
+  - id: xeen_alike_finale
+    title: The finale
+    replaces: 92008
+    prompt: >-
+      Instrumental early-1990s fantasy computer role-playing game finale theme, in a modern re-arrangement of sampled
+      orchestra blended with vintage synthesizers and a fretted electric bass. B-flat major with dramatic turns to
+      E-flat minor, about 108 BPM, 4/4. A heroic, soaring melody on trumpets and French horns over driving strings,
+      a march-like snare and timpani, a strong electric bass line, bright bells and brass answers; for a few bars the
+      harmony darkens to minor, then returns to triumph. Awesome and victorious, a castle crumbling as the world is
+      saved. Sustained intensity at one level from start to finish, no quiet intro, no final cadence, no vocals.
+      Seamless loop: no intro and no ending, it ends as it began.

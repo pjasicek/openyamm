@@ -325,3 +325,31 @@ closed rockfall; they are rocks, not containers, and hide once cleft_open is set
   screen and that line (`gen_walk.py`). Installed with its bake 02:43; audit 0, D-85/D-87 0 errors, largest empty
   zone 239 tiles (unchanged); walk and hostility pass from assets_dev. Backups `*.pre_s31`; run files
   `output/studio_cal/a5/s31/`.
+
+## Rim rebuild (agent xeen-rimmap-b, 2026-11-23; U-12, D-109, D-114, F27; run files output/xeen_rimmap_b/x7/)
+
+- **The void, the hull and the lava cove.** The rim sea is `void:rim_sea` (the lava cove its notch to y 29); 64 hull
+  pieces. The three lava falls stand on the cove's back wall on the land's edge (70.5, 73.5, 76.5 at y 29.02, turn -25
+  kept: they still pour into the void toward the signature camera). The notch no longer closes: its two slanted walls
+  (5.1 cells) take the new **deckless** piece (`xeen_hull4n`: the kerb and its face straight down), no corner piece
+  beside them, and the falls' gaps hold plain faces (`xeen_hullf`; D-114, no spillway for lava). Rule in
+  `common/rim.py`: a run shorter than 6 cells ending in an inner corner of the land (only these two walls in the world).
+- **D-40 signature** from the west lip [67, 25] (`cap_extra/01-signature-1730.png`, `02-...-1300.png`): the three
+  falls whole, over the hull face with its running lights. D-114's fallback (a longer LAVAFALL tongue) is not needed.
+  From the void the cove opens wide (`12-x7-cove-from-void.png`, night `13`), against rim4's narrowed notch
+  (`output/xeen_rim4/x7_cap/05-x7-cove-from-void.png`).
+- **F27: XD-05's back gate.** The flat pad before the gate now reaches the door line (`land.py`, x 87.5 → 87.9):
+  the land before the leaves no longer rises 69–71 over the sill; `town_fit_check` 0; entries dropped from
+  `tools/xeen/town_fit_pending.yml`. Pictures: before `output/xeen_rimmap_b/x7/cap_gate_before/`, after
+  `cap_extra/06-gate_front.png`, `07-gate_side.png`.
+- **Checks** (private root): audit 0 errors 0 warnings, `void.occupied` 0, door_check 0, wall_check 0, town_fit 0,
+  D-85/D-87 0, empty zones pass, props support 0, check_wild clean, check_faces clean, house signs 0.
+- **Tests**: walk (431 steps) and hostility 2 of 2, `x7_edges`, `hooks_fd04`.
+- **Pictures**: `output/xeen_rim/after/x7/` (clear weather; against `output/xeen_rim/before/x7/`),
+  `output/xeen_rimmap_b/x7/cap_extra/`, sheets `sheet_extra.jpg`, `sheet_rim.jpg`.
+- Seen, left: on the north rim's crags a 2,048 piece takes the land's height at its middle, so where the edge climbs
+  steeply the pieces step and one deck looms over the slope from the rim top (`output/xeen_rim/after/x7/10-x7-north-
+  along-day.png`, `09-...-low-day.png`). A kit matter for every map with a steep rim (1-cell pieces where the land
+  along a piece varies by more than its kerb); not changed here (NEXT).
+- Side quests crossing it, normal and `--reload` (2026-11-23, after the installs): pass (rim doc §6, map agent MB).
+  Story segments and promotions: held for the orchestrator's single chain run after all 12 rim maps.

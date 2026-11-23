@@ -1,0 +1,53 @@
+# dark/sf09: first orchestration by orchestrate.py (hand-tune freely; it is never overwritten).
+# 37.9 s a pass. GM programs are 0-based; drums: 0 standard kit, 48 orchestral.
+# A channel's `slots` give the notes it plays with those FM instrument slots their own instrument.
+reverb: {seconds: 2.0, level: 0.32}
+channels:
+  0:   # bass_long: synth bass 2; median 44, 1.15 s notes, sounding 98%
+    program: 39
+    pan: 0.0
+    width: 0.25
+    reverb: 0.06
+    gain_db: 0
+  1:   # lead_low: bass+lead; median 55, 1.15 s notes, sounding 71%
+    program: 87
+    pan: 0.0
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  2:   # arpeggio: crystal; median 75, 0.26 s notes, sounding 82%
+    program: 98
+    pan: -0.25
+    width: 0.6
+    reverb: 0.28
+    gain_db: -3
+  3:   # arpeggio: crystal; median 75, 0.26 s notes, sounding 82%
+    program: 98
+    pan: 0.25
+    width: 0.6
+    reverb: 0.28
+    gain_db: -3
+  4:   # counter_mid: fifths lead; median 65, 1.15 s notes, sounding 49%
+    program: 86
+    pan: -0.5
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  5:   # counter_mid: fifths lead; median 62, 1.15 s notes, sounding 49%
+    program: 86
+    pan: 0.5
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  6:   # counter_mid: fifths lead; median 58, 1.15 s notes, sounding 49%
+    program: 86
+    pan: 0.15
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  8:   # drums (standard kit), notes [36, 38, 42]
+    program: 0
+    pan: 0.0
+    width: 0.5
+    reverb: 0.15
+    gain_db: -3

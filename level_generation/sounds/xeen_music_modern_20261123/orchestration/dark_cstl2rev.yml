@@ -1,0 +1,35 @@
+# dark/cstl2rev: first orchestration by orchestrate.py (hand-tune freely; it is never overwritten).
+# 28.7 s a pass. GM programs are 0-based; drums: 0 standard kit, 48 orchestral.
+# A channel's `slots` give the notes it plays with those FM instrument slots their own instrument.
+reverb: {seconds: 2.4, level: 0.32}
+channels:
+  0:   # counter_mid: clarinet; median 58, 0.37 s notes, sounding 74%
+    program: 71
+    pan: -0.4
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  1:   # counter_mid: clarinet; median 64, 0.36 s notes, sounding 74%
+    program: 71
+    pan: 0.4
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  2:   # counter_high: violin; median 72, 0.43 s notes, sounding 33%
+    program: 40
+    pan: -0.25
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  4:   # lead_low: french horn; median 51, 0.35 s notes, sounding 76%
+    program: 60
+    pan: 0.0
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  5:   # bass_long: contrabass; median 39, 0.52 s notes, sounding 74%
+    program: 43
+    pan: 0.0
+    width: 0.25
+    reverb: 0.06
+    gain_db: 0

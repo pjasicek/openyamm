@@ -6,6 +6,7 @@ SetMapMetadata({onLoad = {151, 153, 152, 146}, onLeave = {}, openedChestIds = {[
     { eventId = 143, sourceEventId = 143, triggerStep = 0, origin = "legacy", triggerKind = "timer", scheduleKind = "interval", intervalHalfMinutes = 3 },
     { eventId = 144, sourceEventId = 144, triggerStep = 0, origin = "legacy", triggerKind = "timer", scheduleKind = "interval", intervalHalfMinutes = 5 },
     { eventId = 145, sourceEventId = 145, triggerStep = 0, origin = "legacy", triggerKind = "timer", scheduleKind = "interval", intervalHalfMinutes = 3 },
+    { eventId = 155, sourceEventId = 155, triggerStep = 0, origin = "legacy", triggerKind = "timer", scheduleKind = "interval", intervalHalfMinutes = 1 },
 }})
 
 -- evt:door:building:winterkill_houses#12
@@ -301,15 +302,7 @@ RegisterEvent(62, "The Ninja Pagoda", nil, "The Ninja Pagoda")
 RegisterEvent(63, "Shrine of Cold", nil, "Shrine of Cold")
 
 -- evt:part:thing:shrine_cold/s
-RegisterEvent(64, "Shrine of Cold", function()
-    if not (not (IsAtLeast(MapVar(4), 1))) then
-        evt.StatusText("Frost on the altar, and silence.", 4)
-        return
-    end
-    SetValue(MapVar(4), 1)
-    AddValue(WaterResistance, 5)
-    evt.StatusText("+5 Water resistance (permanent)", 4)
-end, "Shrine of Cold")
+RegisterEvent(64, "Shrine of Cold", nil, "Shrine of Cold")
 
 -- evt:thing:square_court
 RegisterEvent(65, "Winterkill square", nil, "Winterkill square")
@@ -386,13 +379,17 @@ RegisterEvent(76, "The chief's tent", function()
 end, "The chief's tent")
 
 -- evt:thing:camp_fire
-RegisterEvent(77, "Campfire", nil, "Campfire")
+RegisterEvent(77, "Campfire", function()
+    local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") else evt.StatusText("You find food by the fire (+" .. food .. ").") end evt.ChangeEvent(0)
+end, "Campfire")
 
 -- evt:thing:hunt_tent
 RegisterEvent(78, "Barbarian tent", nil, "Barbarian tent")
 
 -- evt:thing:hunt_fire
-RegisterEvent(79, "Campfire", nil, "Campfire")
+RegisterEvent(79, "Campfire", function()
+    local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") else evt.StatusText("You find food by the fire (+" .. food .. ").") end evt.ChangeEvent(0)
+end, "Campfire")
 
 -- evt:thing:camp_chest
 RegisterEvent(80, "The chief's chest", function()
@@ -408,7 +405,9 @@ end, "Waymark")
 RegisterEvent(87, "Freeda's tent", nil, "Freeda's tent")
 
 -- evt:thing:freeda_fire
-RegisterEvent(88, "Campfire", nil, "Campfire")
+RegisterEvent(88, "Campfire", function()
+    local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") else evt.StatusText("You find food by the fire (+" .. food .. ").") end evt.ChangeEvent(0)
+end, "Campfire")
 
 -- evt:thing:frozen_sledge
 RegisterEvent(89, "A trader's sledge", function()
@@ -462,7 +461,9 @@ RegisterEvent(97, "The ogres' camp", function()
 end, "The ogres' camp")
 
 -- evt:thing:ogre_fire
-RegisterEvent(98, "Campfire", nil, "Campfire")
+RegisterEvent(98, "Campfire", function()
+    local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") else evt.StatusText("You find food by the fire (+" .. food .. ").") end evt.ChangeEvent(0)
+end, "Campfire")
 
 -- evt:thing:ogre_chest
 RegisterEvent(99, "Chest", function()
@@ -481,7 +482,9 @@ RegisterEvent(100, "The archers' camp", function()
 end, "The archers' camp")
 
 -- evt:thing:archer_fire
-RegisterEvent(101, "Campfire", nil, "Campfire")
+RegisterEvent(101, "Campfire", function()
+    local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") else evt.StatusText("You find food by the fire (+" .. food .. ").") end evt.ChangeEvent(0)
+end, "Campfire")
 
 -- evt:thing:archer_chest
 RegisterEvent(102, "Chest", function()
@@ -546,7 +549,9 @@ end, "The Cyclops' outpost")
 RegisterEvent(113, "The Cyclops' outpost", nil, "The Cyclops' outpost")
 
 -- evt:thing:outpost_fire
-RegisterEvent(114, "Campfire", nil, "Campfire")
+RegisterEvent(114, "Campfire", function()
+    local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") else evt.StatusText("You find food by the fire (+" .. food .. ").") end evt.ChangeEvent(0)
+end, "Campfire")
 
 -- evt:thing:outpost_chest
 RegisterEvent(115, "The cyclopes' hoard", function()
@@ -794,4 +799,20 @@ end)
 -- evt:randon_load
 RegisterEvent(153, nil, function()
     evt.SetMm9ActorCanReceiveDamage(120, false)
+end)
+
+-- evt:thing:shrine_cold_altar
+RegisterEvent(154, "Shrine of Cold", function()
+    if not (not (IsAtLeast(MapVar(4), 1))) then
+        evt.StatusText("Frost on the altar, and silence.", 4)
+        return
+    end
+    SetValue(MapVar(4), 1)
+    AddValue(WaterResistance, 5)
+    evt.StatusText("+5 Water resistance (permanent)", 4)
+end, "Shrine of Cold")
+
+-- evt:rim_fall
+RegisterEvent(155, nil, function()
+    Xeen.rimFall({{{-32768, 32768}, {-20992, 32768}, {-20992, -20992}, {32768, -20992}, {32768, -32768}, {-32768, -32768}}}, {{-18944, 21504, 1504, 0}, {-18944, 18432, 1504, 0}, {-18944, 9216, 1024, 0}, {-18944, 6144, 1056, 0}, {-18944, 2560, 1024, 0}, {-18944, -512, 1024, 0}, {-18944, -3584, 1024, 0}, {-18944, -6656, 1120, 0}, {-18944, -19456, 2208, 0}, {-16384, -18944, 2240, 512}, {-3584, -18944, 1216, 512}, {-512, -18944, 1216, 512}, {2560, -18944, 1248, 512}, {12288, -18944, 928, 512}, {15360, -18944, 928, 512}, {18432, -18944, 928, 512}, {21504, -18944, 1024, 512}})
 end)

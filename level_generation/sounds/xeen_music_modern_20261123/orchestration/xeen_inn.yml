@@ -1,0 +1,53 @@
+# xeen/inn: first orchestration by orchestrate.py (hand-tune freely; it is never overwritten).
+# 37.6 s a pass. GM programs are 0-based; drums: 0 standard kit, 48 orchestral.
+# A channel's `slots` give the notes it plays with those FM instrument slots their own instrument.
+reverb: {seconds: 2.4, level: 0.32}
+channels:
+  0:   # lead_high: flute; median 77, 0.30 s notes, sounding 81%
+    program: 73
+    pan: 0.0
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  1:   # counter_high: violin; median 72, 0.30 s notes, sounding 77%
+    program: 40
+    pan: 0.4
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  2:   # counter_mid: clarinet; median 64, 0.58 s notes, sounding 54%
+    program: 71
+    pan: -0.25
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  3:   # arpeggio: harp; median 67, 0.15 s notes, sounding 86%
+    program: 46
+    pan: 0.25
+    width: 0.6
+    reverb: 0.28
+    gain_db: -3
+  4:   # counter_high: violin; median 76, 0.30 s notes, sounding 83%
+    program: 40
+    pan: -0.5
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  5:   # counter_mid: clarinet; median 57, 0.59 s notes, sounding 90%
+    program: 71
+    pan: 0.5
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  6:   # counter_low: cello; median 45, 0.58 s notes, sounding 58%
+    program: 42
+    pan: 0.15
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  8:   # drums (standard kit), notes [46]
+    program: 0
+    pan: 0.0
+    width: 0.5
+    reverb: 0.15
+    gain_db: -3

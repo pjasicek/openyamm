@@ -234,3 +234,16 @@ Rebuilt on merge point 41, installed with its bake 01:20. F16: the sewer shaft a
   warnings, doors 0, empty zones pass, D-85 as before (1 FAIL, `entrance:dd23_lair`, unchanged), props 6 overhang
   warnings; walk, hostility and daily pass from assets_dev. No other Yes/No chest is left in the Xeen world (the
   combination and password chests of DD-03 and DD-06 are puzzles).
+
+## Rim rebuild (2026-11-23, agent xeen-rimmap-c: U-12, D-106, D-109, D-112, D-113)
+
+- The rim sea is the void (`terrain.void [[0, 0, 127, 23], [104, 24, 127, 127]]`), 54 hull pieces, the corner at
+  (104, 24), 18 return points; Octopod Falls' lip (104, 67) down the spillway, foot -2,400; the bright face's glow over
+  the void (`cap/d4_after/12`, `15`, `19`).
+- The hull pieces beside the spillway stand at the banks' height and on the hills in steps (`cap/d4_after/02`, `07`,
+  `12`): the kit's way (as X1), left.
+- Checks: audit 0 errors (6 warnings `support.overhang` dec60 set pieces, was 8), `void.occupied` 0, doors, walls,
+  town_fit 0, empty zones, props, check_wild clean, D-85 0 / DIS 0. `gate_check.py` here is a stale copy of D1's
+  (reads `xeen_d1.scene.yml`, calls D1's `in_gate_lane`): not run.
+- Tests: walk x2 and hostility pass.
+- Generated twice (the rescue's return points from the first build's land, `XEEN_WILD_MAPS`), built, villagers placed, recorded (`agent:xeen-rimmap-c`), checked in a private hard-link root, installed with its bake, terrain weights, the minimap re-rendered and its void painted (`tools/xeen/void_minimap.py`). Scripts `output/xeen_rimmap_c/build.sh`, `install.sh`, `tests.sh`, `tours.py`; logs `output/xeen_rimmap_c/run_<key>/`; captures `output/xeen_rimmap_c/cap/<key>_after/` (day and night, against `output/xeen_rim/before/<key>/`).

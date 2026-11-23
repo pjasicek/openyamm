@@ -301,3 +301,38 @@ elements:
     min: 0.5
     max: 8.0
   z_index: 200
+- id: SoloActionBar
+  anchor: bottom_center
+  anchor_space: screen
+  offset_x: 0
+  offset_y: -2
+  width: 232
+  height: 100
+  z_index: 200
+  notes: 'Touch override of the solo run''s action bar (gameplay.yml, devdocs/solo_action/HUD.md "Android and touch"):
+    2 x 5 keys of 40 units in the party frame''s place at the bottom centre, where no touch group sits. The desktop
+    column down the left edge lay under the Turn Mode / Inventory / Inspect column (keys 4-0 at 2:1). Ends two units
+    above the screen edge so it never shrinks; its rect is a HUD touch zone, and the touch groups lift over it as they
+    do over the party frame (GameplayScreenRuntime::resolveHudLayoutElement).'
+  children:
+  - id: SoloActionSlot
+    anchor: top_left
+    offset_x: 8
+    offset_y: 8
+    width: 40
+    height: 40
+    notes: The first slot (top left); its size is every slot's.
+  - id: SoloActionSlotRight
+    anchor: top_left
+    offset_x: 52
+    offset_y: 8
+    width: 40
+    height: 40
+    notes: The next slot in a row; the gap is its offset less the first's and a slot.
+  - id: SoloActionSlotBelow
+    anchor: top_left
+    offset_x: 8
+    offset_y: 52
+    width: 40
+    height: 40
+    notes: The first slot of the next row; the row gap likewise.

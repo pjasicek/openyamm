@@ -82,6 +82,10 @@ rooms:
     ceiling: 640
     ceiling_points: [[0, 448, 768], [-256, 704, 704], [256, 704, 704]]
     theme: theme:rock
+    walls:
+      - wall: south
+        panels:
+          - {offset: 96, length: 1088, surface: {texture: gcav1flr, size: [256, 256]}, notes: flat behind exit:x1 (a rough wall would stand in front of it)}
     platforms:
       - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-370, 544], [-290, 544], [-234, 600], [-234, 680], [-290, 736], [-370, 736], [-426, 680], [-426, 600]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 572, top_heights: [114, 131, 140, 137, 119, 101, 96, 100], notes: Stalactite}
       - {rise: 96, surface: {texture: gcav2flr, size: [128, 128], scale: 2}, outline: [[-358, 572], [-302, 572], [-262, 612], [-262, 668], [-302, 708], [-358, 708], [-398, 668], [-398, 612]], top_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, bottom_surface: {texture: gcav2flr, size: [128, 128], scale: 2}, base: 476, notes: "Stalactite, lower"}

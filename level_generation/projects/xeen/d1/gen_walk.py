@@ -24,6 +24,9 @@ import subprocess
 import sys
 import yaml
 
+# the north gate's passage middle on its road (P2 F28, agent xeen-rimmap-c 2026-11-23: gen.py NORTH_GATE)
+GX = 63.5
+
 P, B = sys.argv[1], sys.argv[2]
 ROOT = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../../..')
 WORLD = os.path.join(ROOT, 'assets_dev/worlds/xeen')
@@ -202,7 +205,7 @@ def walk(x, y, note=None, r=160):
     X, Y = W(x, y)
     add({'walk_to': {'x': X, 'y': Y, 'z': ground(X, Y), 'z_tolerance': 600, 'radius': r, 'timeout_seconds': 60}})
 
-jump(63, 41.8, 'Outside the north gate, no pass', yaw=-math.pi / 2)
+jump(GX, 41.8, 'Outside the north gate, no pass', yaw=-math.pi / 2)
 event('evt:thing:north_gate_outer', 'Outside without a pass: m14.gate refuses', text='The gate stays shut')
 jump(*QOUT, "Outside the Queen's Gate, no pass", yaw=0.8)
 event('evt:thing:queens_gate_outer', "The Queen's Gate refuses too", text='The gate stays shut')
@@ -216,12 +219,12 @@ def let_out_text():
 # XP, entered and the inn's bit), a save and load, both gates open
 jump(69, 60, "At Castleview's temple (castleview_temple), inside the walls, no pass", yaw=math.pi / 2, z=1152)
 at(69, 60, 128)
-walk(63, 46.4, 'From the temple through the town to the north gate', r=200)
+walk(GX, 46.4, 'From the temple through the town to the north gate', r=200)
 add({'play_lua': {'source': 'status()'}})
 event('evt:thing:north_gate_inner', 'The inner north leaf before entry: the party is let out (m14.let_out)',
       dialog=False)
 let_out_text()
-at(63, 43, 128)
+at(GX, 43, 128)
 add({'play_lua': {'source': bit('m14.entered', False)}})
 event('evt:thing:north_gate_outer', 'Outside again: the outer leaf still asks for a pass', text='The gate stays shut')
 jump(*QIN, "Inside the Queen's Gate, no pass", yaw=-2.3)
@@ -242,25 +245,25 @@ add({'advance_runtime': {'seconds': 0.5}})
 close()
 add({'play_lua': {'source': 'if not has_item(%d) then error("no pass from Justine") end '
                             'remember("xp0", experience(0))' % ITEM['pass']}})
-jump(63, 41.8, 'Outside the north gate with the pass', yaw=-math.pi / 2)
+jump(GX, 41.8, 'Outside the north gate with the pass', yaw=-math.pi / 2)
 event('evt:thing:north_gate_outer', 'With the pass: m14.gate lets the party in (D-90: the status line)', dialog=False,
       check=(bit('m14.entered') + ' if not qbit(119021) then error("world.inn_castleview (119021) not set") end '
              'local d = experience(0) - recall("xp0") if d < 2000 then error("M14 gate XP " .. d) end '
              'log("M14 gate XP " .. d)'))
-walk(63, 46.2, 'In through the open north gate')
+walk(GX, 46.2, 'In through the open north gate')
 add({'note': 'Save and load back: both gates stand open (evt:gates_open)'})
 add({'reload': {}})
 add({'play_lua': {'source': bit('m14.entered')}})
 event('evt:thing:north_gate_inner', 'The inner north leaf after entry: the gate opens, no move', dialog=False)
-at(63, 46.2, 200)
-walk(63, 42.4, 'Out through the north gate')
-walk(63, 46.2, 'And back in')
+at(GX, 46.2, 200)
+walk(GX, 42.4, 'Out through the north gate')
+walk(GX, 46.2, 'And back in')
 jump(*QIN, "Inside the Queen's Gate after entry", yaw=-2.3)
 event('evt:thing:queens_gate_inner', "The Queen's Gate's inner leaf after entry: open, no move", dialog=False)
 walk(*QOUT, "Out through the Queen's Gate")
 walk(*QIN, "And back in")
 # ---------------------------------------------------------------- outside the north gate
-jump(63, 41.5, 'Outside the north gate', yaw=-math.pi / 2)
+jump(GX, 41.5, 'Outside the north gate', yaw=-math.pi / 2)
 event('evt:thing:gate_notice', "The Mayor's notice (q-d1.gate_notice: Q-D1 starts)", check=bit('q-d1.started'))
 event('evt:thing:joe_sign', "Joe's sign (q-c24.joes_sign)", text='MAPS BY JOE')
 if not DD04_LIVE:

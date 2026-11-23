@@ -22,6 +22,38 @@ map_stats:
     - {monster: Xeen Barbarian, tier: 1, per_marker: [2, 4], weight: 30}
     - {monster: Xeen Troll, tier: 1, per_marker: [2, 3], weight: 30}
 neighbours:
+  - id: door:fd03
+    to: xeen_fd03.blv
+    kind: door
+    arrival_hint: Inside Darkstone Tower's door.
+    listed_only: true
+    notes: "FD-03 Darkstone Tower, on the rock island in the frozen mere: sealed until the finale (a message)."
+  - id: door:xd09
+    to: xeen_xd09.blv
+    kind: door
+    arrival_hint: At the foot of the entry stair inside the Golem Rocks.
+    condition: {item: golem_stone}
+    notes: "XD-09 Golem Dungeon (A8). The slab door in the Golem Rocks, south of the pocket, by the lagoon border."
+  - id: door:xd10_north
+    to: xeen_xd10.blv
+    kind: door
+    arrival_hint: "In the north mouth, ice at the lip (XD-10's arrival)."
+    notes: "XD-10 Cave of Illusion (A8), north mouth in the Ogre Hills."
+  - id: door:xd10_south
+    to: xeen_xd10.blv
+    kind: door
+    arrival_hint: "In the south mouth, facing in."
+    notes: "XD-10's south mouth, at the Troll Forest's north-east edge, across the river from the pocket."
+  - id: door:xd22
+    to: xeen_xd22.blv
+    kind: door
+    arrival_hint: Inside the pagoda's lowest storey.
+    notes: "XD-22 Ninja Pagoda (Q-C4), on the north-east shore of the Winterkill Mere."
+  - id: door:xd23
+    to: xeen_xd23.blv
+    kind: door
+    arrival_hint: Inside the warren's mouth.
+    notes: "XD-23 Troll Warren (Q-C15), deep in the Troll Forest."
   - id: edge:east
     to: xeen_x3.odm
     kind: edge
@@ -38,40 +70,8 @@ neighbours:
     arrival_side: south
     approach: "The steppe road from the desert's edge, south to the Steppe Cross, at x 50."
     notes: "X6 Desert of the Sphinx (a wilderness edge, 7 days)."
-  - id: door:xd09
-    to: xeen_xd09.blv
-    kind: door
-    arrival_hint: "At the foot of the entry stair inside the Golem Rocks."
-    condition: {item: golem_stone}
-    notes: "XD-09 Golem Dungeon (A8). The slab door in the Golem Rocks, south of the pocket, by the lagoon border."
-  - id: door:xd10_north
-    to: xeen_xd10.blv
-    kind: door
-    arrival_hint: "In the north mouth, ice at the lip (XD-10's arrival)."
-    notes: "XD-10 Cave of Illusion (A8), north mouth in the Ogre Hills."
-  - id: door:xd10_south
-    to: xeen_xd10.blv
-    kind: door
-    arrival_hint: "In the south mouth, facing in."
-    notes: "XD-10's south mouth, at the Troll Forest's north-east edge, across the river from the pocket."
-  - id: door:xd22
-    to: xeen_xd22.blv
-    kind: door
-    arrival_hint: "Inside the pagoda's lowest storey."
-    notes: "XD-22 Ninja Pagoda (Q-C4), on the north-east shore of the Winterkill Mere."
-  - id: door:xd23
-    to: xeen_xd23.blv
-    kind: door
-    arrival_hint: "Inside the warren's mouth."
-    notes: "XD-23 Troll Warren (Q-C15), deep in the Troll Forest."
-  - id: door:fd03
-    to: xeen_fd03.blv
-    kind: door
-    listed_only: true
-    arrival_hint: "Inside Darkstone Tower's door."
-    notes: "FD-03 Darkstone Tower, on the rock island in the frozen mere: sealed until the finale (a message)."
 qbits:
-  winterkill_liberated: 112121   # provisional: Q-C6's done bit in A3's block 56 (111000 + 20 x 56 + 1); A3 confirms
+  winterkill_liberated: 112121
 items:
   golem_stone: 12305
   holy_book: 12524

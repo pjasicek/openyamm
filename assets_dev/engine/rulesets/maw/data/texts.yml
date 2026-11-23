@@ -1129,7 +1129,8 @@ class_skills:
 #   avoid_chance              the chance a physical blow misses because of Speed
 #   hit_chance                the chance a melee blow lands
 #   physical_cut, total_cut   the percent of a physical blow armour takes off, and with avoiding blows
-#   fire_cut ... body_cut     the percent each resistance takes off a hit
+#   fire_cut ... body_cut     the percent each resistance takes off a hit (the resistances' first paragraph is MAW's
+#                             note on stats 19-24, zzMaw-Stats.lua:742-744)
 #   hp_regen, sp_regen        hit points and spell points regained per second (faster out of combat)
 #   levels_mm6, levels_mm7, levels_mm8, levels_mm9, levels_xeen, levels_total   the levels banked in each world
 stats:
@@ -1180,17 +1181,35 @@ stats:
       banked in the other worlds: bolster level <value>{bolster_mm6}</> in Enroth, <value>{bolster_mm7}</> in Antagarich,
       <value>{bolster_mm8}</> in Jadame, <value>{bolster_mm9}</> in Chedian, <value>{bolster_xeen}</> in Xeen.
   FireResistance:
-    append: "Against level <value>{reference_level}</> monsters it takes <good>{fire_cut:1}</> % off fire hits."
+    append: "Damage of this kind is reduced by the percent shown beside the resistance. Light damage is
+      resisted by the lower of the Mind and Body resistances, Dark damage by the lowest elemental resistance
+      and Energy damage by the lowest resistance of all.\n\nAgainst level <value>{reference_level}</> monsters
+      it takes <good>{fire_cut:1}</> % off fire hits."
   AirResistance:
-    append: "Against level <value>{reference_level}</> monsters it takes <good>{air_cut:1}</> % off air hits."
+    append: "Damage of this kind is reduced by the percent shown beside the resistance. Light damage is
+      resisted by the lower of the Mind and Body resistances, Dark damage by the lowest elemental resistance
+      and Energy damage by the lowest resistance of all.\n\nAgainst level <value>{reference_level}</> monsters
+      it takes <good>{air_cut:1}</> % off air hits."
   WaterResistance:
-    append: "Against level <value>{reference_level}</> monsters it takes <good>{water_cut:1}</> % off water hits."
+    append: "Damage of this kind is reduced by the percent shown beside the resistance. Light damage is
+      resisted by the lower of the Mind and Body resistances, Dark damage by the lowest elemental resistance
+      and Energy damage by the lowest resistance of all.\n\nAgainst level <value>{reference_level}</> monsters
+      it takes <good>{water_cut:1}</> % off water hits."
   EarthResistance:
-    append: "Against level <value>{reference_level}</> monsters it takes <good>{earth_cut:1}</> % off earth hits."
+    append: "Damage of this kind is reduced by the percent shown beside the resistance. Light damage is
+      resisted by the lower of the Mind and Body resistances, Dark damage by the lowest elemental resistance
+      and Energy damage by the lowest resistance of all.\n\nAgainst level <value>{reference_level}</> monsters
+      it takes <good>{earth_cut:1}</> % off earth hits."
   MindResistance:
-    append: "Against level <value>{reference_level}</> monsters it takes <good>{mind_cut:1}</> % off mind hits."
+    append: "Damage of this kind is reduced by the percent shown beside the resistance. Light damage is
+      resisted by the lower of the Mind and Body resistances, Dark damage by the lowest elemental resistance
+      and Energy damage by the lowest resistance of all.\n\nAgainst level <value>{reference_level}</> monsters
+      it takes <good>{mind_cut:1}</> % off mind hits."
   BodyResistance:
-    append: "Against level <value>{reference_level}</> monsters it takes <good>{body_cut:1}</> % off body hits."
+    append: "Damage of this kind is reduced by the percent shown beside the resistance. Light damage is
+      resisted by the lower of the Mind and Body resistances, Dark damage by the lowest elemental resistance
+      and Energy damage by the lowest resistance of all.\n\nAgainst level <value>{reference_level}</> monsters
+      it takes <good>{body_cut:1}</> % off body hits."
 
 # Item descriptions, keyed by item id or by a kind of item (gem); they replace the item table's notes.
 # Potions (zzAlchemy.lua:429-541, Tooltip.lua:83-130), numbers at the potion's power:

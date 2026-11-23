@@ -381,3 +381,25 @@ The review of the seventh session's tour (`tour/sheet2_*.jpg`) asked for five ch
 - Empty zones: [20, 20] 765 tiles / 16,804 -> largest 149 tiles, deepest 7,980; land > 6,000 13 % -> 5 %; road
   median 5,943 -> 2,763. 50 markers, 143 at load; kill XP 1.07 -> 1.13, Act III 1.03. D-85/D-87 0 errors, audit 0.
 - Installed with its bake 01:45; walk, hostility and d7_fall pass from assets_dev.
+
+## Rim rebuild (2026-11-23, agent xeen-rimmap-c: U-12, D-106, D-109, D-112, D-113)
+
+- The rim sea is the void (`terrain.void [[104, 0, 127, 103], [0, 104, 127, 127]]`), 55 hull pieces with the corner at
+  (104, 104), 18 rescue return points; the rim event, the wayside shrine's altar (D-103) and the studio's F30/F31 come
+  with the regeneration.
+- **Wrath Falls** on the river's mouth: `places.py` line [[103.2, 64], [104.6, 64]] (it was written along the edge for
+  the sea; the kit had put its lip at (104, 62.9)); lip (104, 64), spillway (D-112), foot -2,400.
+- **Gorge faces** (`town_fit_pending`, F26): looked at first (`cap/d3_gorge_before/`): e1 and the head's two slabs
+  hung 45-88 over the gorge floor (the head's underside showed), and the east rim's turf rose 56-58 over e1-e3 (check
+  limit 48). `places.py` `GORGE_FIT`: e1 and both head slabs `raise: -128` (same top), e1-e3 24 higher: the turf's lip
+  still shows about 32 over the rock. `town_fit_check` 0; the pending entries are dropped.
+- The grey bar seen by rim4 over the falls from the void was terrain water quads at the river's level drawn over void
+  cells (engine; fixed by the orchestrator in `OutdoorTerrainMaterials.cpp` createMesh, `build-xeen` rebuilt;
+  recaptured from assets_dev: gone, `output/xeen_rimmap_c/cap/d3_final/`).
+- Checks: audit 0 errors (6 warnings, the known south gatehouse back-to-back x3, spring_fall coplanar x2,
+  `chest.title` tower_cart), `void.occupied` 0, door 0, wall 0, town_fit 0, empty zones, props, check_wild clean,
+  check_faces (the same 5 kept-as-known findings), D-85 (X2's check) 0, house signs 0, `stale_bakes --check` 0.
+  Build warning (kept): `raise: -128` on the three fitted faces ("stands 128 under the land"), by design.
+- Tests: walk x2 and hostility (root and assets_dev); story 55-69 pass; side quests obelisks_darkside, q-c22, q-d8,
+  q-d14, q-d15, q-d18, q-d19, q-d20 pass.
+- Generated twice (the rescue's return points from the first build's land, `XEEN_WILD_MAPS`), built, villagers placed, recorded (`agent:xeen-rimmap-c`), checked in a private hard-link root, installed with its bake, terrain weights, the minimap re-rendered and its void painted (`tools/xeen/void_minimap.py`). Scripts `output/xeen_rimmap_c/build.sh`, `install.sh`, `tests.sh`, `tours.py`; logs `output/xeen_rimmap_c/run_<key>/`; captures `output/xeen_rimmap_c/cap/<key>_after/` (day and night, against `output/xeen_rim/before/<key>/`).

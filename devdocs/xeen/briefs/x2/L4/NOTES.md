@@ -609,3 +609,29 @@ assets_dev on the 16:06 binary.
   and its `q-c19.skull` click are gone (A3 makes the hook `map_gives`). `gen.py` backup `gen.py.pre_s30`. The walk
   never visited the skull (A3's q-c19 scenario does).
 - Installed with its bake 02:01; audit 0; walk, hostility, Danulf ring and lake dragons pass from assets_dev.
+
+## The world's rim as void and hull (2026-11-23, agent `xeen-rimmap-a`; U-12, D-106, D-109, D-112, D-113)
+
+Scripts and logs `output/xeen_rimmap_a/` (`build.sh x2`, `install.sh x2`, `tests.sh`; `x2/run/`). Regenerated twice
+(the second from the first build's land, so the rescue's return points follow it) and installed with its bake 15:12.
+- **The rim.** The south rim sea `water:sky` is `void:sky` (y >= 105); 32 hull pieces along the edge; the rescue
+  (`evt:rim_fall`) has 12 return points along y 101. Shrine of Electricity on an altar (D-103), three campfires feed
+  once (D-104); the ruins (watchtower, shore ruin) are closed shells and the camp tents single-sided (F30/F31).
+- **Quay walls (F26).** `north_wall_1-4`, `south_wall_1-5`: X1's rule, `raise: BANK - (PLATEAU + BANK) / 2`
+  (-192), `height: PLATEAU + 48 - BANK` (432): each stands 576-1072, its foot 64 in the quay, its top 48 over the
+  terrace. The cross lanes `LANE_W`/`LANE_E` end a cell short of the step (47.5): their last road cell lay on the
+  step and its grading lifted the quay's nodes at the steps' feet to 960 (a dirt mound at the steps, and the walls
+  beside the steps took their tops from 960: 1142-1200).
+- **farmsteads#2 (F27)** faces north, downhill (the land before its south door stood 88 over the sill).
+- **Empty zones.** The void keeps the land's height on its outline, so the rim's last tile row (y 104) is land now:
+  the south-east corner lay 12,408 from every monster (521 tiles). The sprite marker (94, 84) moved to (96, 86).
+- Checks (build, private root and assets_dev): audit 0 errors, town fit 0, walls 0, doors 0, D-85/D-87 0 (group 63
+  kept), empty zones, props support, check_wild clean, house signs 0, `stale_bakes --check` 0, town feel as before.
+  `check_faces`: tents and ruins 0; the 4 left are inside MM7's own boat model of Nystor's ship (kept, below).
+- Tests from the root (twice) and assets_dev: walk, hostility, Danulf ring, lake dragons, leash pass.
+- Captures `output/xeen_rimmap_a/x2/cap_install/` (baked; rim low/along/high/mid day and night, quay walls,
+  terrace top, farmstead door, hull from the void day/night, the far void), root `cap_after/`; before
+  `output/xeen_rim/before/x2/`.
+- Exceptions: `faces.back_to_back` 2 and `faces.coplanar` 2 in `thing:nystor_ship` (MM7's `Boat 201_S` models from
+  7out03, not ours). Build warning `gates.road_off` on `thing:ogre_bridge` (its line y 40, the road's tiles 40-41):
+  not moved in this rebuild.

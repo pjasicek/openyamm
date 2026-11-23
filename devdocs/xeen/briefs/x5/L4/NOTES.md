@@ -314,3 +314,30 @@ Rebuilt on merge point 41, installed with its bake 01:08. Cave mouths buried (ho
   gen.py now refuses any marker circle within 6,000 of that landing. Counts and slots unchanged; empty_zones passes.
 - Installed with its bake 02:10:53; L4 and assets_dev audit 0 errors, door_check 0, terrain 0, walk + hostility +
   Randon pass from assets_dev; P5's three fall tests pass 2/2 from assets_dev.
+
+## The world's rim as void and hull (2026-11-23, agent `xeen-rimmap-a`; U-12, D-106, D-109, D-112, D-113)
+
+Scripts and logs `output/xeen_rimmap_a/` (`build.sh x5`, `install.sh x5`, `tests.sh`; `x5/run/`). Regenerated twice
+(the second from the first build's land) and installed with its bake 15:40 (`a5_install_baked.sh` under the bake
+lock); minimap re-rendered with `present/ice_minimap.py` as `redo_minimap.sh` does, then its void painted.
+- **The rim.** The west and south rim sea `water:rim_sea` is `void:rim_sea` (an L: x < 23, y >= 105); 54 hull
+  pieces, the corner piece `xeen_hullc` at the south-west land corner (23.02, 104.98). MB's kit fix (2026-11-23,
+  `common/rim.py`): a one-cell hull piece on the map's last cell (127.5, which `oymap validate` refuses) is skipped,
+  so the south run ends with `hull_053` at x 125. The rescue (`evt:rim_fall`) has 17 return points (x 27 on the west,
+  y 101 on the south). Campfires (D-104); the camp tents and Freeda's, the hunt, ogre and outpost tents
+  single-sided (F31).
+- **Edge Watch** (25.2, 40.2) stands two cells from the edge with the hull behind it; the rocky strip along the
+  west edge in the unbaked root was the old terrain weights: after the install's terrain weights the snow runs to
+  the hull (`cap_install/10`, `17`).
+- Checks (build, private root and assets_dev): audit 0 errors, town fit 0, walls 0, doors 0, empty zones, props
+  support, check_wild clean, house signs 0, `stale_bakes --check` 0. `common/d85.py`: unchanged from before the
+  rebuild (6 FAIL / 2 WARN lines, every one with no disabler: melee-only, D-87 keeps them).
+- `check_faces` 9 (34 before): `palisade_1` back to back 8 (the palisade's rails; F31 listed X5's palisade), the
+  XD-10 north door `xd10_north` coplanar 1. Tents and ruins 0. Build warning `gates.road_off` on
+  `thing:golem_bridge`: not moved here. 25 of 944 scatter decorations found no place (the edge strip is void now).
+- Tests: walk (its regeneration differs only in the wrapping of one Lua line), hostility, Randon from the root
+  twice and from assets_dev pass; side quests q-c1, q-c4, q-c6, q-c14, q-c15, q-c16, q-c18, obelisks_cloudside
+  normal and q-c6, q-c16 `--reload` pass. Story segments left to the orchestrator's whole-chain run.
+- Captures `output/xeen_rimmap_a/x5/cap_install/` (baked: south and west rim low/along/high/mid day and night, Edge
+  Watch day/night and from the void, the south-west corner from the land and the void day/night, the south rim's
+  east end, the far void), root `cap_after/`; before `output/xeen_rim/before/x5/`.

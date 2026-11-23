@@ -319,6 +319,11 @@ def main():
     import entrance as EN
     for _note in HD.double_doors_sketch(sk) + HD.bury_mouths_sketch(sk) + HD.blind_mouths_sketch(sk) + EN.apply(sk, 'd3'):
         print('door:', _note)
+    # P2 feedback F29/F32/F33 (agent xeen-fb2-wild, 2026-11-23): shrine altars, campfires, the rim fall
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'common'))
+    import wild as WILD
+    for _note in WILD.apply(sk, 'd3'):
+        print('wild:', _note)
     atmos = {'format': 0, 'sky': 'xeendark1', 'weather': {},
              'notes': "Darkside's amber day (xeendark1; A3's Lua switches xeendark2/3 by the sun's stage on load, "
                       'evt:sky). No weather. The bright face\'s glow above the east rim: asked of A6 (the preset has '

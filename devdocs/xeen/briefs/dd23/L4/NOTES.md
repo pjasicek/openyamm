@@ -173,3 +173,10 @@ share and the shape of the installed map.
   `output/studio_cal/a7/s29/names/dd23/shots/`  (01-1_arrival.png, 02-2_perch_hall.png, 03-3_roost.png); all eight maps
   on one sheet `output/studio_cal/a7/s29/names/names_sheet.jpg`. Reads as named: the mouth on dark rock with gargoyles
   beyond, the perch hall's gargoyles and droppings, the Overlord on the roost's highest rock.
+
+## Mouth exit kept clear of rough rock (2026-11-23, agent:xeen-xd05-exit)
+
+The rough wall behind this map's exit stood in front of its black face (no click reached it: the XD-05 Discord report,
+`tools/xeen/check_exits.py` `exits.hidden`). `tools/xeen/cave_shape.py` `flat_behind_panels` now gives the exit's
+wall a flat panel under it (the generator writes it); rebuilt, installed and baked; all playtests pass. See XD-05's
+NOTES.md, same date.

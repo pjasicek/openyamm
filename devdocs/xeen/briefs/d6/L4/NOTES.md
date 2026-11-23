@@ -192,3 +192,27 @@ assets_dev (`output/studio_cal/d6/run/mp25_*.log`). DD-16's exit can now name `e
 ## S32 (2026-11-22, A6 32nd session: merge point 41 and the feedback fixes)
 
 Rebuilt on merge point 41, installed with its bake 01:11: the gate's whole `swdoora` per 256 leaf (doors.part_picture 0). F16: Alamar's gate checks Corak's Soul Box before the move (m33.arrival's refusal on the status line; DD-17 no longer throws a party out), then the window with row 5049; the adit's Yes/No gone (row 5040). F10: the eye at (74, 27) to the north-west corner (28, 28): 738 -> 499 tiles. Walk (gate with and without the Soul Box), hostility, daily pass; audits 0.
+
+## Rim rebuild (agent xeen-rimmap-b, 2026-11-23; U-12, D-109, D-114, F28; run files output/xeen_rimmap_b/d6/)
+
+- **The void and the burnt hull.** The rim sea is `void:rim_sea` (`terrain.void`); 64 hull pieces along the north
+  and west rims, one in three on the burnt plating (`*bn`). The two lava falls stand on the land's edge
+  (`lavafall_1` (44, 24.02) pouring north, `lavafall_2` (24.02, 51) pouring west). D-114 (no spillway for sand and
+  lava): their gaps hold plain burnt faces (`xeen_hullfbn`, new), so from the void the lava pours in front of hull
+  (`cap_extra/05`, `06`, `08`). From the land the falls show as the lava river's glowing lip (`03`, `07`), as before.
+  Rescue: 24 return points along both rims. Campfire events (Ambrose's and the archers' fires, D-104) come with it.
+- **F28: the Necropolis gate on its road.** `NP_GATE` and `NP_ARRIVAL` 91.0 → 91.5 (the gate lane on x 91 lays the
+  tiles 91–92); gatehouse, walls and leaves follow; `gen_walk.py`'s four gate poses and `tools/xeen/town_walls.yml`'s
+  seal moved with them. `town_fit_check` 0 (was `gates.road_off` 249 off); the entry is dropped from
+  `tools/xeen/town_fit_pending.yml`. Picture `cap_extra/01-gate_from_road.png`: the cobbles run into the arch.
+- Kit fix found here: a hull piece on the map's last cell (centre 127.5, refused by validate) is skipped
+  (`common/rim.py`; X5 and D2 had the same piece).
+- **Checks** (private root): audit 0 errors (5 kept back-to-back warnings: the pods, the gatehouse, the wall joint,
+  all kept by `check_faces.py`), `void.occupied` 0, door_check 0, wall_check 0, town_fit 0, D-85/D-87 0, empty zones
+  pass, props support 0, check_wild clean, check_faces clean, house signs 0. town_feel: 10 figures outside.
+- **Tests**: walk (377 steps), daily and hostility 2 of 2, `d6_ambrose_flight`, `hooks_d5_d6`.
+- **Pictures**: `output/xeen_rim/after/d6/` (clear weather; against `output/xeen_rim/before/d6/`),
+  `output/xeen_rimmap_b/d6/cap_extra/`, sheets `output/xeen_rimmap_b/d6/sheet_extra.jpg`, `sheet_rim.jpg`. The void
+  stays dark under the Darkside haze.
+- Side quests crossing it, normal and `--reload` (2026-11-23, after the installs): pass (rim doc §6, map agent MB).
+  Story segments and promotions: held for the orchestrator's single chain run after all 12 rim maps.

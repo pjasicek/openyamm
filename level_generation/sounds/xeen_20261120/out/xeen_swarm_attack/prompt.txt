@@ -1,4 +1,4 @@
-A swarm of angry stinging insects attacking: a dense buzzing rising sharply as it rushes close, many tiny stinging zips
+A thick cloud of big angry wasps diving to sting: a loud buzzing hum of hundreds of wings, like a kicked beehive, rising sharply in pitch as it rushes close, close
 
 kind: sfx
 duration: 1.0
@@ -6,4 +6,5 @@ loop: false
 variants: 3
 model: eleven_text_to_sound_v2
 prompt_influence: 0.45
+highpass_hz: 120
 loudness_db: -9

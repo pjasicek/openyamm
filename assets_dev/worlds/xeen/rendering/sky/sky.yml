@@ -29,6 +29,7 @@ presets:
       - {ambient_tint: [0.92, 0.869, 0.921], cloud_lit: [0.298, 0.134, 0.129], cloud_shadow: [0.029, 0.023, 0.041], fog: [0.1, 0.077, 0.092], horizon: [0.217, 0.097, 0.108], stars: 0.35, sun_disc: [1.0, 0.399, 0.178], sun_disc_visibility: 1.0, sun_glow: [0.7, 0.247, 0.145], sun_glow_strength: 0.424, time: '21:10', water_sky: [0.185, 0.153, 0.221], water_sun: [0.8, 0.443, 0.335], zenith: [0.014, 0.017, 0.045]}
       - {ambient_tint: [0.82, 0.88, 1.0], cloud_lit: [0.03, 0.036, 0.06], cloud_shadow: [0.008, 0.01, 0.018], fog: [0.02, 0.024, 0.034], horizon: [0.022, 0.032, 0.06], stars: 1.0, sun_disc: [1.0, 0.55, 0.25], sun_disc_visibility: 0.0, sun_glow: [0.5, 0.3, 0.25], sun_glow_strength: 0.0, time: '22:00', water_sky: [0.1, 0.14, 0.24], water_sun: [0.55, 0.6, 0.8], zenith: [0.004, 0.007, 0.02]}
     sun_disc_degrees: 1.0
+    void: {color: [0.004, 0.006, 0.016], limb_deg: 3, stars: 0.9}
     clouds:
       - {coverage: 0.55, curvature: 0.16, direction_deg: 30, opacity: 0.85, scale: 0.09, softness: 0.55, speed: 0.001, texture: clouds_stratus}
       - {coverage: 0.3, curvature: 0.13, direction_deg: 40, opacity: 0.9, scale: 0.12, softness: 0.35, speed: 0.0018, texture: clouds_cumulus}
@@ -48,6 +49,7 @@ presets:
       - {ambient_tint: [0.913, 0.859, 0.91], cloud_lit: [0.286, 0.129, 0.125], cloud_shadow: [0.028, 0.022, 0.04], fog: [0.096, 0.074, 0.089], horizon: [0.204, 0.093, 0.105], stars: 0.35, sun_disc: [1.0, 0.393, 0.173], sun_disc_visibility: 0.978, sun_glow: [0.7, 0.241, 0.141], sun_glow_strength: 0.412, time: '21:10', water_sky: [0.175, 0.147, 0.214], water_sun: [0.788, 0.43, 0.324], zenith: [0.013, 0.016, 0.044]}
       - {ambient_tint: [0.82, 0.88, 1.0], cloud_lit: [0.03, 0.036, 0.06], cloud_shadow: [0.008, 0.01, 0.018], fog: [0.02, 0.024, 0.034], horizon: [0.022, 0.032, 0.06], stars: 1.0, sun_disc: [1.0, 0.55, 0.25], sun_disc_visibility: 0.0, sun_glow: [0.5, 0.3, 0.25], sun_glow_strength: 0.0, time: '22:00', water_sky: [0.1, 0.14, 0.24], water_sun: [0.55, 0.6, 0.8], zenith: [0.004, 0.007, 0.02]}
     sun_disc_degrees: 0.85
+    void: {color: [0.004, 0.006, 0.016], limb_deg: 3, stars: 0.9}
     clouds:
       - {coverage: 0.62, curvature: 0.16, direction_deg: 30, opacity: 0.9, scale: 0.09, softness: 0.55, speed: 0.0012, texture: clouds_stratus}
       - {coverage: 0.28, curvature: 0.13, direction_deg: 40, opacity: 0.85, scale: 0.12, softness: 0.35, speed: 0.0018, texture: clouds_cumulus}
@@ -67,6 +69,7 @@ presets:
       - {ambient_tint: [0.903, 0.846, 0.896], cloud_lit: [0.275, 0.124, 0.122], cloud_shadow: [0.027, 0.022, 0.039], fog: [0.091, 0.071, 0.087], horizon: [0.192, 0.089, 0.104], stars: 0.35, sun_disc: [1.0, 0.378, 0.165], sun_disc_visibility: 0.948, sun_glow: [0.7, 0.234, 0.136], sun_glow_strength: 0.4, time: '21:10', water_sky: [0.166, 0.142, 0.21], water_sun: [0.776, 0.417, 0.315], zenith: [0.011, 0.016, 0.043]}
       - {ambient_tint: [0.82, 0.88, 1.0], cloud_lit: [0.03, 0.036, 0.06], cloud_shadow: [0.008, 0.01, 0.018], fog: [0.02, 0.024, 0.034], horizon: [0.022, 0.032, 0.06], stars: 1.0, sun_disc: [1.0, 0.55, 0.25], sun_disc_visibility: 0.0, sun_glow: [0.5, 0.3, 0.25], sun_glow_strength: 0.0, time: '22:00', water_sky: [0.1, 0.14, 0.24], water_sun: [0.55, 0.6, 0.8], zenith: [0.004, 0.007, 0.02]}
     sun_disc_degrees: 0.7
+    void: {color: [0.004, 0.006, 0.016], limb_deg: 3, stars: 0.9}
     clouds:
       - {coverage: 0.68, curvature: 0.16, direction_deg: 30, opacity: 0.9, scale: 0.09, softness: 0.55, speed: 0.0014, texture: clouds_stratus}
       - {coverage: 0.3, curvature: 0.1, direction_deg: 25, opacity: 0.5, scale: 0.07, softness: 0.45, speed: 0.001, texture: clouds_cirrus}
@@ -125,7 +128,7 @@ themes:
   xeen_sprite: {sky_tint: [0.94, 1.0, 0.94], cloud_tint: [0.95, 1.0, 0.95], saturation: 0.85, haze: 0.14}
   # D3 and D4 (D-36): the bright face's light over the east rim, pale white-gold, fixed in the east, brighter at
   # night; the stage preset is untouched.
-  xeen_bright_rim: {rim_glow: {below_deg: 1.5, color: [1.0, 0.88, 0.62], day: 0.3, direction_deg: 90, height_deg: 12, night: 0.6, width_deg: 75}}
+  xeen_bright_rim: {rim_glow: {below_deg: 10, color: [1.0, 0.88, 0.62], day: 0.3, direction_deg: 90, height_deg: 12, night: 0.6, width_deg: 75}}
 
 maps:
   xeen_x3.odm: swamp

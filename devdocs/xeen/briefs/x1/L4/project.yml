@@ -21,7 +21,7 @@ map_stats:
   slots:
     - {monster: Xeen Orc, tier: 1, per_marker: [2, 3], weight: 50}
     - {monster: Xeen Toad, tier: 1, per_marker: [2, 3], weight: 25}
-    - {monster: Xeen Skeleton, tier: 1, per_marker: [2, 3], weight: 25}
+    - {monster: Xeen Skeleton, tier: 0, per_marker: [2, 3], weight: 25}
 neighbours:
   - id: door:xd01
     to: xeen_xd01.blv

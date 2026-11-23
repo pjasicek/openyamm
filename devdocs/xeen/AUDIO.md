@@ -80,8 +80,8 @@ death to a loudest 100 ms of -9 dBFS (the heavy bodies -8 with a low shelf), fid
 | --- | --- | --- | --- | --- | --: |
 | Toads (11450-11452) | `xeen_toad_attack`, `_death`, `_wince`, `_fidget` | 62000-62003 | A Giant Toad, B Bog Toad | C Swamp Toad (-2) | 159 |
 | Witches (11160-11163), coven (11170-11172) | `xeen_witch_attack`, `_death`, `_wince`, `_fidget` | 62010-62013 | A Wicked Witch, B Witch; coven A, B | C Elder Witch, Head Witch, Coven Mother (-1.5) | 189 |
-| Sprites (11530-11538), dark sprites (11534-11536) | `xeen_sprite_attack`, `_death`, `_wince`, `_fidget` | 62020-62023 | Medusa, Killer, Gorgon and Elder Gorgon Sprites | Sprite Queen (both), Sharla (-2): `xeen_sprite_queen_*` | 144 |
-| Swarms (11340-11342) | `xeen_swarm_attack`, `_death`, `_wince`, `_fidget` | 62030-62033 | B Insect Swarm, C Stingers | A Doom Bug (-3): `xeen_doombug_*` | 162 |
+| Sprites (11530-11538), dark sprites (11534-11536) | `xeen_sprite_attack`, `_death`, `_wince`, `_fidget` | 62020-62023 | Medusa, Killer, Gorgon and Elder Gorgon Sprites | Sprite Queen (both), Sharla (-2): `xeen_sprite_queen_*` || 144; F37 re-takes of attack, death, fidget 126 |
+| Swarms (11340-11342) | `xeen_swarm_attack`, `_death`, `_wince`, `_fidget` | 62030-62033 | B Insect Swarm, C Stingers | A Doom Bug: its own generated set `xeen_doombug_*` (62034-62037, a giant cricket; F37, 2026-11-23: no longer the swarm set -3) | 162; F37 re-takes: swarm 162, Doom Bug 249 |
 | Flying Feet (11600) | `xeen_feet_attack`, `_death`, `_wince`, `_fidget` | 62040-62043 | A | — | 153 |
 | Guardian (11601) | `xeen_guardian_attack`, `_death`, `_wince`, `_fidget` | 62050-62053 | B (its lightning shot plays the attack) | — | 165 |
 | Carnage Hand (11602) | `xeen_hand_attack`, `_death`, `_wince`, `_fidget` | 62060-62063 | C | — | 159 |
@@ -163,6 +163,11 @@ the field's edges, where the next bed takes over). Neighbouring beds overlap at 
 **Levels.** The beds are levelled to -20 dBFS RMS where their peaks allow (the lagoon -27.6 and the Darkside -23.7:
 frogs and crickets are peaks; the desert -21.3). Volumes 0.25-0.45 (lagoon 0.5-0.7) put a bed at about -28 to -33 dBFS,
 MM9's own outdoor beds' range (its wind and waves at -24 to -35 dBFS after their scene volumes).
+Since D-117 (2026-11-23, players found Vertigo's birds too loud) the three all-treble beds, meadow (birds), savannah
+(cicadas) and night (crickets), are cut 6 dB at install (`jobs.yml` `gain_db`, `install.py` `apply_gain`) to about
+-27.5 dBFS RMS (-23.9, -22.7, -22.7 LUFS): treble reads louder than its RMS, and two or more emitters overlap almost
+everywhere, so heard in X1 the meadow sat about 8 dB under the music at the default sliders. Their scene volumes are
+unchanged. A level change goes in `gain_db` and a reinstall, not in the maps.
 
 **Day and night** (Xeen's day 06:00-20:00, world.yml has no `ambientSounds`): the meadow (birdsong) and savannah
 (cicadas) beds are `day_only`. Since session 5 their fields carry a night twin on the same lattice:

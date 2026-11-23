@@ -40,7 +40,7 @@ def build(level):
     if level < 2:
         solids.append(lathe('collar', [(3.0, 28.5), (3.9, 29.5), (3.9, 32.5), (3.0, 33.5)], sides))
         solids.append(lathe('neck', [(3.0, 135), (3.8, 136), (4.4, 140)], sides))
-    bed = [(0, 155.4), (14, 155.8), (24.4, 157.4)]
+    bed = [(24.4, 157.4), (14, 155.8), (0, 155.4)]        # rim to axis: the bed faces up (F39)
     whites = [lathe('embers', bed, (16, 10, 8)[level], mat='Embers'),
               fl.flame_card('flame', mats['Flame'], 'flame02', 155.5, 199.0, 44.0)]
     return solids, whites

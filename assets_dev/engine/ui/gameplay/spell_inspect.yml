@@ -61,6 +61,20 @@ elements:
       align_y: top
       scale: 0.8
     notes: Long letters shrink further in code to stay on screen.
+  - id: SpellInspectDamage
+    anchor: top_left
+    offset_x: 126
+    offset_y: 116
+    width: 354
+    height: 16
+    text:
+      value: '{damage}'
+      font: SMALLNUM
+      color: '#e5dcc7'
+      align_x: left
+      align_y: middle
+    notes: The caster's damage with the spell, drawn under the description with its own colour codes (gold words,
+      white numbers).
   - id: SpellInspectNormal
     anchor: top_left
     offset_x: 126

@@ -1,0 +1,64 @@
+# xeen/endgame: first orchestration by orchestrate.py (hand-tune freely; it is never overwritten).
+# 146.6 s a pass. GM programs are 0-based; drums: 0 standard kit, 48 orchestral.
+# A channel's `slots` give the notes it plays with those FM instrument slots their own instrument.
+reverb: {seconds: 2.4, level: 0.32}
+channels:
+  0:   # lead_high: flute; median 82, 0.14 s notes, sounding 31%
+    program: 73
+    pan: 0.0
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+    slots:
+      10: {program: 40, pan: 0.25, width: 0.6, reverb: 0.28, gain_db: 0}   # counter_high: violin; median 82, 0.10 s notes, sounding 14%
+      7: {program: 40, pan: 0.25, width: 0.6, reverb: 0.28, gain_db: 0}   # counter_high: violin; median 76, 0.08 s notes, sounding 3%
+      9: {program: 9, pan: 0.25, width: 0.6, reverb: 0.4, gain_db: -6}   # bells: glockenspiel; median 88, 0.12 s notes, sounding 4%
+  1:   # counter_high: violin; median 72, 0.19 s notes, sounding 40%
+    program: 40
+    pan: 0.4
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+    slots:
+      0: {program: 71, pan: -0.5, width: 0.6, reverb: 0.28, gain_db: 0}   # counter_mid: clarinet; median 66, 0.63 s notes, sounding 18%
+  2:   # counter_mid: clarinet; median 64, 0.18 s notes, sounding 25%
+    program: 71
+    pan: -0.25
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+    slots:
+      14: {program: 61, pan: 0.5, width: 0.9, reverb: 0.4, gain_db: -3}   # pad2: brass section; median 66, 1.40 s notes, sounding 14%
+      8: {program: 49, pan: 0.5, width: 0.9, reverb: 0.4, gain_db: -3}   # pad: slow strings; median 60, 1.50 s notes, sounding 12%
+  3:   # counter_high: violin; median 86, 0.19 s notes, sounding 50%
+    program: 40
+    pan: 0.25
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  4:   # arpeggio: harp; median 52, 0.18 s notes, sounding 79%
+    program: 46
+    pan: -0.5
+    width: 0.6
+    reverb: 0.28
+    gain_db: -3
+    slots:
+      0: {program: 71, pan: -0.4, width: 0.6, reverb: 0.28, gain_db: 0}   # counter_mid: clarinet; median 59, 0.54 s notes, sounding 6%
+  5:   # bass_short: fingered bass; median 40, 0.18 s notes, sounding 69%
+    program: 33
+    pan: 0.0
+    width: 0.25
+    reverb: 0.06
+    gain_db: 0
+  6:   # bass_short: fingered bass; median 29, 0.18 s notes, sounding 72%
+    program: 33
+    pan: 0.0
+    width: 0.25
+    reverb: 0.06
+    gain_db: 0
+  8:   # drums (orchestral kit), notes [41]
+    program: 48
+    pan: 0.0
+    width: 0.5
+    reverb: 0.15
+    gain_db: -3

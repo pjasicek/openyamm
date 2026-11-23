@@ -879,6 +879,13 @@ if '--levels' in sys.argv:
     print('written L1-L3')
     sys.exit(0)
 
+# A rough wall keeps flat behind an exit on it (the Discord report of 2026-11-23: the mouth's black exit lay behind
+# the rough rock and no click reached it): tools/xeen/cave_shape.py flat_behind_panels.
+sys.path.insert(0, str(R / 'tools' / 'xeen'))
+import cave_shape  # noqa: E402
+for rid, n in cave_shape.flat_behind_panels(rooms_doc, objects).items():
+    print(f'cave_shape {rid}: flat behind {n} exit/switch')
+
 write(BRIEF / 'L4', [('rooms.yml', rooms_doc), ('objects.yml', objects), ('wiring.yml', wiring),
                      ('project.yml', project), ('plan.yml', plan_doc('L4')), ('atmosphere.yml', atmosphere),
                      ('diagram.txt', DIAGRAM)])

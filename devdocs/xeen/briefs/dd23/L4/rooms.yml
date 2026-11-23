@@ -48,6 +48,10 @@ rooms:
     ceiling: 512
     ceiling_points: [[0, 384, 592]]
     theme: theme:rock
+    walls:
+      - wall: south
+        panels:
+          - {offset: 32, length: 448, surface: {texture: c2b, size: [256, 256]}, notes: flat behind exit:mouth (a rough wall would stand in front of it)}
     ambient: 24
     notes: "The way in from D4's crags, 768 square with its corners broken off: the mouth white with droppings, the Darkside's day behind (the exit in its south wall), the cave bending north and in."
   - id: room:nest

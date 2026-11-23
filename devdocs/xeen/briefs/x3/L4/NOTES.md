@@ -311,3 +311,19 @@ are in `output/xeen_fb/F10/x3/`.
   Ranger camp.  Destroy?") ask with Yes/No buttons (`AskChoiceWithAnswerSteps`, no SetMessage before; `gen.py`), the
   walk selects Yes (`gen_walk.py`); backups `*.pre_s30`. No typed prompt left on X3.
 - Installed with its bake 01:41; audit 0; walk and hostility pass from assets_dev.
+
+## The world's rim as void and hull (2026-11-23, agent `xeen-rimmap-a`; U-12, D-106, D-109, D-112, D-113)
+
+Scripts and logs `output/xeen_rimmap_a/` (`build.sh x3`, `install.sh x3`, `tests.sh`; `x3/run/`). Regenerated twice
+(the second from the first build's land) and installed with its bake 15:30; minimap re-rendered and its void painted.
+- **The rim.** The south rim sea `water:rim_sea` is `void:rim_sea` (y >= 105); 32 hull pieces along the edge; the
+  rescue (`evt:rim_fall`) has 19 return points along y 101. Campfires feed once (D-104); the ruins (watchtower,
+  Newcastle ruin) are closed shells and the tents (Ebenezer's, the rangers' two) single-sided (F30/F31):
+  `check_faces` 0 findings.
+- No other change: no town fit item was pending; walk regenerated unchanged; one scatter decoration of 1586 found
+  no place.
+- Checks (build, private root and assets_dev): audit 0 errors, town fit 0, walls 0, doors 0, D-85/D-87 0, empty
+  zones, props support, check_wild clean, house signs 0, `stale_bakes --check` 0.
+- Tests: walk and hostility from the root twice and from assets_dev pass.
+- Captures `output/xeen_rimmap_a/x3/cap_after/` (rim low/along/high/mid day and night, Ebenezer's tent, the
+  Newcastle ruin, the hull from the void day/night, the west rim, the far void); before `output/xeen_rim/before/x3/`.

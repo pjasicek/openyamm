@@ -851,3 +851,58 @@ Meshy lane total: 330 (session 7: armadillo 10 more (20 in all), guard 15, octop
   - `key_npcs.py` `BODY_EXPECTATIONS`: 4321 and 4601 on `Xeen Druidess`; errors until A5 swaps them at X4/X6's next
     rebuild (logged in A5.md).
   - Validate 338 / 85, 0 refused; `check_actor_heights.py` 11929 ok (socket). 0 Meshy (total 330).
+
+## Log: 2026-11-23, P2 feedback agent `xeen-fb2-engine` (F39, a sub-agent)
+
+- Inside-out discs and links in the shared fire/container builds (XD-02 pin p1, the cauldron's brew culled from
+  above): fixed in `level_generation/decorations/mm6_dungeons_3d/fire/scripts/` (cauldron, brazier, flambeaux,
+  sconce, candle, `fire_lib.link`), `mm6_new_sorpigal_3d/props/scripts/` (`fire_parts.ember_bed`, fountain panels,
+  cauldron links) and `mm8_3d/animated/scripts/build_candlestick.py`; 14 engine models rebuilt, `check_winding` 0,
+  installed with `tools/install_model.py --engine`. New check `tools/xeen/check_open_interiors.py` (58 models, 0
+  faults). `finish.py --install` of mm6_dungeons_3d/fire still targets the old `worlds/mm6/models/`: not used.
+- Open: 57 non-container models (trees, corpses, torch wraps, crystals, cages) show single-sided back faces at LOD0
+  (`check_open_interiors.py --all`); the "Empty Cauldron" state still shows the brew.
+
+## Log: 2026-11-23, rim agent `xeen-rim` (U-12, the world's hull)
+
+- New: the world's hull under the rim, `level_generation/decorations/xeen_hull_claude/` (`scripts/build_hull.py`,
+  procedural GLB, no Meshy or Codex; `scripts/review_render.py`). Six models installed with `tools/install_model.py
+  --world xeen`: `xeen_deco_hull4` (2,048 wide), `xeen_deco_hull1` (512), `xeen_deco_hullc` (corner piece), and `bn`
+  copies on the burnt plating `xahullbn` (D6). Profile: a coping on the edge, a deck flaring out 1,800 and down 1,000
+  with ribs and pulsing running lights (`openyamm_pulse`), a lip, the underside back in under the land to -2,700;
+  `xahull` texture, COLOR_0 shading. 46–102 triangles, `check_winding` 0, loads in game (X2 test root).
+- Rows 4059–4064 in `worlds/xeen/models/decoration_data.txt`, sprites 27059–27064, bindings in `decorations.yml`
+  (heights 2,748 and 2,608). Placed by `level_generation/projects/xeen/common/rim.py` once the void is built.
+- Detail: `devdocs/xeen/reviews/WORLD_RIM_VOID_20261123.md`.
+
+## Log: 2026-11-23, rim-engine agent `xeen-rim2` (U-12, the hull placed)
+
+- The hull is placed on X1 (30 pieces) by `common/rim.py`. Fix there: `turn_of` returned counter-clockwise turns
+  (270 for east, refused by the schema); the studio's turn is clockwise (east 90, facing = -turn), so east and west
+  pieces hung under the land. The models are unchanged. From the air the deck reads as plating with its running
+  lights (`output/xeen_rim/after/x1/03-x1-east-high-day.png`); from the land a teal coping along the cliff foot.
+
+## Log: 2026-11-23, rim agent `xeen-rim3` (D-109, the hull on the land's edge)
+
+- `xeen_hull_claude/scripts/build_hull.py`: the coping is a kerb 150 over the grass with pulsing running lights on its
+  inland face, its face running 400 into the ground; the deck flares from the kerb as before. All six pieces rebuilt,
+  `check_winding` 0, installed with `tools/install_model.py --world xeen`; binding heights 2,850 and 2,710
+  (`worlds/xeen/models/decorations.yml`, its comment updated: origin at the land's height on the edge).
+## Log: 2026-11-23, rim agent `xeen-rim4` (request: a deckless hull piece)
+
+- Request (not made): X7's lava cove needs a deckless hull pair for notch walls (the kerb and its face straight down,
+  no flare; `xeen_hull1n`, `xeen_hull4n`, rows 4065+) in `xeen_hull_claude/scripts/build_hull.py`; the decks of the
+  cove's slanted walls narrow the opening (`output/xeen_rim4/x7_cap/`). X6's cove needs none.
+
+## Log: 2026-11-23, rim map agent `xeen-rimmap-b` (the deckless hull pieces, D-109, D-114)
+
+- `level_generation/decorations/xeen_hull_claude/scripts/build_hull.py`: two deckless profiles. `NOTCH_PROFILE`
+  (`xeen_deco_hull4n` 2,048, `xeen_deco_hull1n` 512): the kerb 150 over the grass with its inland running lights, then
+  the face straight down to -2,400 and the keel back under the land, ribs and a row of running lights on the face; for
+  the short walls of a notch (X7's lava cove). `FACE_PROFILE` (`xeen_deco_hullf`, burnt `xeen_deco_hullfbn`, 512): no
+  kerb, no deck, a plain face from the land's edge down, 16 behind it, with running lights 220 under the edge; behind a
+  sand or lava fall (D-114: no spillway for the decoration falls). The six earlier pieces rebuild byte-identical.
+  `check_winding` 0 on all four; installed with `tools/install_model.py --world xeen`; rows 4065-4068 in
+  `worlds/xeen/models/decoration_data.txt`, sprites 27065-27068, bindings in `decorations.yml` (heights 2,850 and
+  2,700). Placed by `level_generation/projects/xeen/common/rim.py` (X6, X7, D6). Review: in game,
+  `output/xeen_rimmap_b/{x6,x7,d6}/cap_extra/`.

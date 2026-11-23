@@ -73,6 +73,20 @@ def bed_highpass(data, job):
     return out.getvalue()
 
 
+def apply_gain(data, gain_db):
+    """A job's `gain_db` (D-117): the 16-bit PCM WAV scaled by that many dB, after any re-levelling. The treble beds
+    (meadow, savannah, night) sat level with the other beds by RMS but read louder; they are cut here so every map
+    that places them changes at once. Returns the new WAV bytes."""
+    import io
+    import numpy as np
+    from scipy.io import wavfile
+    rate, samples = wavfile.read(io.BytesIO(data))
+    audio = samples.astype(np.float64) * 10 ** (float(gain_db) / 20)
+    out = io.BytesIO()
+    wavfile.write(out, rate, np.clip(np.round(audio), -32768, 32767).astype(np.int16))
+    return out.getvalue()
+
+
 # IMA ADPCM block of the installed WAVs: 512 bytes, 1017 frames of a mono sound (4 header bytes per channel). SDL
 # decodes whole blocks and ignores the fact chunk, so a sound plays a multiple of this many frames.
 ADPCM_BLOCK_BYTES = 512
@@ -140,6 +154,8 @@ def main():
         data = source.read_bytes()
         if job.get('bed_highpass_hz'):
             data = bed_highpass(data, job)
+        if job.get('gain_db'):
+            data = apply_gain(data, job['gain_db'])
         data = compact_wav(data, bool(job.get('loop')))
         target = TARGET / f'{name}.wav'
         if not target.exists() or hashlib.sha1(target.read_bytes()).digest() != hashlib.sha1(data).digest():

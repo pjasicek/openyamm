@@ -143,6 +143,10 @@ rooms:
     ceiling: 512
     ceiling_points: [[1344, -832, 624], [1344, -448, 640]]
     theme: theme:rock
+    walls:
+      - wall: south
+        panels:
+          - {offset: 96, length: 448, surface: {texture: cwb1, size: [128, 256]}, notes: flat behind exit:mouth (a rough wall would stand in front of it)}
     ambient: 26
     notes: "The way in from the bare peaks of the Gargoyle Range, 640 by 1,024: droppings and bones; daylight behind."
   - id: room:rock_ramp
@@ -219,6 +223,10 @@ rooms:
     rough: {step: 192, depth: 48}
     ceiling: 2816
     theme: theme:sky
+    walls:
+      - wall: east
+        panels:
+          - {offset: 64, length: 384, surface: {texture: cwb1, size: [128, 256]}, notes: flat behind exit:sky_crack (a rough wall would stand in front of it)}
     ambient: 30
     notes: "Daylight through a split in the peak, 512 square, open to the sky: the quick way out to a ledge high on the same peak."
 openings:

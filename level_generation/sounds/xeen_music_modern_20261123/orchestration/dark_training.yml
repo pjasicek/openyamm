@@ -1,0 +1,53 @@
+# dark/training: first orchestration by orchestrate.py (hand-tune freely; it is never overwritten).
+# 32.1 s a pass. GM programs are 0-based; drums: 0 standard kit, 48 orchestral.
+# A channel's `slots` give the notes it plays with those FM instrument slots their own instrument.
+reverb: {seconds: 2.4, level: 0.32}
+channels:
+  0:   # counter_high: violin; median 79, 0.23 s notes, sounding 33%
+    program: 40
+    pan: -0.4
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  1:   # arpeggio: harp; median 63, 0.08 s notes, sounding 37%
+    program: 46
+    pan: 0.4
+    width: 0.6
+    reverb: 0.28
+    gain_db: -3
+  2:   # counter_mid: clarinet; median 67, 0.43 s notes, sounding 47%
+    program: 71
+    pan: -0.25
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  3:   # counter_mid: clarinet; median 63, 0.10 s notes, sounding 60%
+    program: 71
+    pan: 0.25
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  4:   # arpeggio: harp; median 48, 0.11 s notes, sounding 35%
+    program: 46
+    pan: -0.5
+    width: 0.6
+    reverb: 0.28
+    gain_db: -3
+  5:   # bass_short: fingered bass; median 43, 0.36 s notes, sounding 78%
+    program: 33
+    pan: 0.0
+    width: 0.25
+    reverb: 0.06
+    gain_db: 0
+  6:   # lead_low: french horn; median 46, 0.15 s notes, sounding 58%
+    program: 60
+    pan: 0.0
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  8:   # drums (standard kit), notes [38, 41, 43, 46, 47, 48, 49]
+    program: 0
+    pan: 0.0
+    width: 0.5
+    reverb: 0.15
+    gain_db: -3

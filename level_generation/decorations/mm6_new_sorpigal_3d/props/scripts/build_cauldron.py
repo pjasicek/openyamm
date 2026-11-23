@@ -123,6 +123,7 @@ def _link(name, z, size, segments, turn):
             face = bm.faces.new(q)
             for loop in face.loops:
                 loop[uv].uv = (0.5, 0.5)
+    bmesh.ops.reverse_faces(bm, faces=bm.faces[:])       # the quads above face inward (F39: inside-out links)
     rot = Matrix.Rotation(math.pi / 2 * turn, 4, 'Z')
     for v in bm.verts:
         v.co = rot @ v.co + Vector((0, 0, z))

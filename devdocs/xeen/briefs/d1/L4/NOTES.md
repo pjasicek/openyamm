@@ -414,3 +414,23 @@ both now hold monsters (`safe: false`, DECIDE in the F10 report).
 ## S32 (2026-11-22, A6 32nd session: merge point 41 and the feedback fixes)
 
 Rebuilt on merge point 41 (chests as chest kinds, ground heights, scatter), installed with its bake 01:06; Lua-only 01:12. F16: both ropes lose their Yes/No (the grove rope: m30.grove_rope decides, then the standard window into D7; the tower rope: q-d6.tower_rope's status line, then the window with trans row 5033); every dungeon door shows its row (5028-5032, 5038, `tools/xeen/entrance_screens.py`); the burrow drops q-d1.court_entrance's message after the move (it replaced the window: nobody got in). Walk (gen_walk.py): window OK steps, Ellinger's door (D-89: no lock) shows row 5029 and Close, the D-90 status-line hooks (output/studio_cal/a6/s32/hookwin.py), F1 houses. Walk 905/905, hostility, daily pass; audits 0; empty_zones passes; terrain check 0 seams; plants installed (F5).
+
+## Rim rebuild (2026-11-23, agent xeen-rimmap-c: U-12, D-106, D-109, D-112, D-113, F25, F28)
+
+- The rim sea is the void (`terrain.void [[0, 0, 22, 104], [0, 105, 127, 127]]`), 56 hull pieces, the corner at
+  (23, 104), 23 return points; Rim Falls (31, 105) down the spillway; the rim event, shrine altars, campfires and the
+  studio's F30/F31 come with the regeneration.
+- **North gate** (F28): `NORTH_GATE` (63, 44) -> (63.5, 44), on its road tiles' middle (the gate lane on the line x 63
+  lays cell 63..64); walls, gatehouse, leaves, `NORTH_OUT` (-256, 10752), the entrance, the gate-passage grate and
+  `tools/xeen/town_walls.yml`'s seal follow; `gen_walk.py` `GX`; story segment 39's three gate poses x -512 -> -256.
+- **Queen's Gate** (F28): both lanes (`QUEEN_LANE`, `QUEEN_IN_LANE`) start in the gate's passage, so the road tiles
+  centre on it (was 469 off).
+- **dd01_outfall** (F25, D-105, not the kit): a `doorway` in the gorge's west face (sill 832 on the gorge floor, face
+  up to the vale's edge 1152, frame 576 wide, 512 back into the slope, dark arched door 224 x 256), no tunnel, no water;
+  `town_fit_check` culverts 0. Captures `cap/d1_after/12-16` (gates in/out, the outfall).
+- Checks: audit 0 errors (36 warnings, was 42: back-to-back pairs of the gatehouse and Kalindra's gate), `void.occupied`
+  0, gate_check 0, town_fit 0, walls 0, doors 0, empty zones, props, check_wild clean, check_faces 28 findings (was 35),
+  `common/d85.py` DIS 0 (FAIL/WARN counts as before), house signs 0, `stale_bakes --check` 0. Build warning kept:
+  `gates.road_off` on `east_bridge` (y 60, a cell line; not in town_fit_pending).
+- Tests: walk x2 (after `gen_walk.py` GX) and hostility pass.
+- Generated twice (the rescue's return points from the first build's land, `XEEN_WILD_MAPS`), built, villagers placed, recorded (`agent:xeen-rimmap-c`), checked in a private hard-link root, installed with its bake, terrain weights, the minimap re-rendered and its void painted (`tools/xeen/void_minimap.py`). Scripts `output/xeen_rimmap_c/build.sh`, `install.sh`, `tests.sh`, `tours.py`; logs `output/xeen_rimmap_c/run_<key>/`; captures `output/xeen_rimmap_c/cap/<key>_after/` (day and night, against `output/xeen_rim/before/<key>/`).

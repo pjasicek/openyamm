@@ -322,3 +322,29 @@ headless (`execute_event` of `evt:thing:obelisk`, the message, 115043 set).
 - D-91: the Autumn Druid (4321) on lane S's friendly row 11929 Xeen Druidess; `places.relations()` returns nothing
   (the map-wide 517 relation dropped; backup `places.py.pre_s30`). `key_npcs.py --write`: 0 errors. Installed with its
   bake 01:35; audit 0; walk, hostility, daily pass from assets_dev.
+
+## The world's rim as void and hull (2026-11-23, agent `xeen-rimmap-a`; U-12, D-106, D-109, D-112, D-113)
+
+Scripts and logs `output/xeen_rimmap_a/` (`build.sh x4`, `install.sh x4`, `tests.sh`; `x4/run/`). Regenerated twice
+(the second from the first build's land), walk and daily playtests rewritten from the build (unchanged), installed
+with its bake 15:35 (`--sources output/studio_cal/x4/present/srcroot`); minimap re-rendered and its void painted.
+- **The rim.** The north rim sea `water:rim_sea` is `void:rim_sea` (y < 23); 32 hull pieces along the edge. The
+  rescue (`evt:rim_fall`) has only 3 return points, (107, 27), (52, 27), (46, 27): the rest of the rim top lies on
+  the Gargoyle range, which the party cannot reach from the start (wild.py keeps reachable level ground only). A party
+  over the void anywhere is lifted to the nearest of the three. Shrine altars (D-103), campfires (D-104); the tents
+  and the lists' pavilions single-sided, the ruins closed (F30/F31).
+- **xd25_stair (F25, the kit's `SunkenEntrance`):** the mouth is a dark arched doorway in the end face, no land or
+  water inside (before: grass and a water strip under the arch). `town_fit_check` 0; dropped from
+  `town_fit_pending.yml`. Captures `output/xeen_rimmap_a/x4/cap_look2_before/` and `cap_look2_after/`.
+- **The falls** (`thing:falls`, inland from the tarn to the pool at 640; not a rim fall, so no spillway, D-112 does
+  not apply): the studio's F29 cut lowers 2 nodes under the sheet; it reads as before
+  (`cap_look_before/`, `cap_look_after/`).
+- Checks (build, private root and assets_dev): audit 0 errors, town fit 0, walls 0, doors 0, D-85/D-87 0, empty
+  zones, props support, check_wild clean, house signs 0, `stale_bakes --check` 0.
+- `check_faces` (41, all kept as known): `village_wall` coplanar 32 and `xd26_eyrie` 6 (same-facing pairs of the
+  studio's wall and model joints), `falls` 2 (the sheet over the top water), `xd25_stair` back to back with
+  `xd25_stair_cap` 1 (the kit's cap from the frame's back, as X1's culvert). Tents and ruins: 0.
+- Build warning `gates.road_off` on `thing:kings_bridge` (line y 76, the road's tiles 76-77): not moved here.
+- Tests: walk, daily, hostility from the root twice and from assets_dev pass.
+- Captures `output/xeen_rimmap_a/x4/cap_after/` (rim low/along/high/mid day and night, the falls, the stair, the
+  hull from the void day/night, the reachable rim at (46, 30), the far void); before `output/xeen_rim/before/x4/`.

@@ -8,6 +8,8 @@
 #   band             MAW's low/mid/high B levels: the 1st/2nd/3rd native family (the map's encounter pictures, sorted
 #                    by B level) is pinned to them, other families pulled halfway into [low, high]
 #   horizontal_starter, madness_start, madness_level    as data/map_levels.yml's lists
+#   ranged_free      a starting map: from Hell up its melee monsters gain no ranged attack (data/map_levels.yml's
+#                    ranged_free_maps, MAW's six; Vertigo by the player's word, 2026-11-23)
 #   natives          up to three families (pictures without the tier letter) in place of the map table's encounter
 #                    pictures: set on the maps whose table lists none, from the families their scenes place most
 #   story_bands, density, completion_exclude    as in worlds/mm9/balance.yml
@@ -17,10 +19,11 @@
 # party and monster levels and its natives' B levels. Beyond Madness: one ladder for both faces, 500 x (route position / 79)^1.2; the
 # start maps X1 and XD-01 at 4, the Warzone at 1 (an arena, as MM9's).
 
-version: 2
+version: 3
 changelog:
   - {version: 1, date: 2026-11-21, note: "first bands: Xeen's acts on MAW's MM7 stages by Standard party level; one Beyond Madness ladder over both faces; the Warzone as MAW's arenas; octopods and X2's lake dragons left out of clearing"}
   - {version: 2, date: 2026-11-21, note: "D-84 MX-8: a map with one native has the curve's value as its band's low (MAW pins a single native there; it read 15-20 % low), the maps with natives of their own take their natives' spread; X7's natives are the north's three families (an Act V map under MAW). Gem gear on Xeen's tiers as MAW rungs (MX-6)"}
+  - {version: 3, date: 2026-11-23, note: "Vertigo (X1) is ranged-free: from Hell up its melee monsters gain no ranged attack, as on MAW's six starting maps (a player on Discord: \"maybe Vertigo might be enough\")"}
 
 # The water's guards: D4's lake octopods and P4's sea octopods; X2's lake dragons below (the user's MM9 rule: monsters
 # that guard water do not count toward a map's clearing).
@@ -38,7 +41,7 @@ maps:
   # XD-01 Joe's Warehouse: act I, Standard party 1-3, monsters 2-6, Wobbles 4; natives B [4, 4].
   xeen_xd01.blv: {band: [3, 4, 4], horizontal_starter: true, madness_start: true, madness_level: 4}
   # X1 Vertigo Meadows: act I, Standard party 1-4, monsters 2-12; natives B [7, 8, 12].
-  xeen_x1.odm: {band: [3, 4, 5], horizontal_starter: true, madness_start: true, madness_level: 4}
+  xeen_x1.odm: {band: [3, 4, 5], horizontal_starter: true, madness_start: true, madness_level: 4, ranged_free: true}
   # XD-02 Red Dwarf Mines: act I, Standard party 3-5, monsters 3-10; natives B [6, 10, 10].
   xeen_xd02.blv: {band: [4, 5, 7], horizontal_starter: true, madness_level: 5}
   # XD-05 Orc Caves: act I, Standard party 3-5, monsters 4-10, Drum-Master 12; natives B [6, 7, 8].

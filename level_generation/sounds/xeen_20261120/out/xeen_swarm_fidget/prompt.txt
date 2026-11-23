@@ -1,4 +1,4 @@
-A dense swarm of insects hovering in one place: a steady droning buzz of many flickering wings
+A cloud of big wasps hovering in one place: a steady loud buzzing hum of many wings like a beehive, rough, with slow pitch wobbles, close
 
 kind: sfx
 duration: 1.6
@@ -6,4 +6,5 @@ loop: false
 variants: 3
 model: eleven_text_to_sound_v2
 prompt_influence: 0.45
+highpass_hz: 120
 loudness_db: -11

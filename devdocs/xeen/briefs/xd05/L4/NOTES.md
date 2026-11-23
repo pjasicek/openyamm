@@ -478,3 +478,34 @@ share and the shape of the installed map.
   04-4_drum_hall.png); all eight maps on one sheet `output/studio_cal/a7/s29/names/names_sheet.jpg`. Reads as named: the
   skull-hung mouth facing the palisade and its gate, orc archers on the firing steps, the cookfire cave under its skull
   totems, the drum hall seen from its rim with the orcs among the drums.
+
+## The mouth's exit hidden behind rough rock (2026-11-23, agent:xeen-xd05-exit)
+
+A player on Discord: "How do I leave the Orc Dungeon without going to Mount Firestone? Or is this intended?"
+
+- **Cause.** The mouth's south wall is `rough` (step 192, depth 48: the D-89 cave pass). The studio hangs an `exits:`
+  object 2 in front of the plan's wall line (face at y 2), while a rough wall's joints stand 10-37 into the room
+  (faces 409-414 at y 0..37), so the black exit face `exit:x1` lay wholly behind `gcav1flr` rock: no black face was
+  seen and no click or interact reached event 18. The back gate (`exit:x7`, no rough walls) was the only working way
+  out. Evidence: `output/xeen_xd05_exit/shots_before/` (turned back at the arrival, at the mouth's inner end and from the
+  outer yard: plain rock), and the new scenario failing before the fix ("facing the mouth, interact found event 0").
+  The playtests never saw it: they leave by `execute_event: {id: 18}`.
+- **Fix.** `room:cave_mouth` has a `walls: south` panel (offset 96, length 1088, its own `gcav1flr`) behind the exit:
+  the studio builds a panelled stretch of a rough wall flat, so the exit now stands in front of flat rock (L4 by hand;
+  the generator is stale). The same rule is in `tools/xeen/cave_shape.py` (`flat_behind_panels`) for every map.
+- **Check.** `tools/xeen/check_exits.py` `exits.hidden` / `switches.hidden` on the built map; `playtest_mouth.yml`
+  (new): from the back gate's guardroom (drums burnt, bar lifted: a party that came in from X7) on foot to the mouth,
+  the palisade gate opened from inside by interact, then facing the mouth interact runs event 18 and the party lands
+  on X1 at `entrance:xd05_mouth`.
+- Measurements: audit 0 errors, 25 of 25 sectors; `check_drops` the prisoner pit only (its ladder, as before); all four
+  playtests pass from the private root and from `assets_dev`. Before/after pictures:
+  `output/xeen_xd05_exit/before_after.jpg`.
+- **REQUEST to A1 (studio), the fix at its root:** in `openyamm-studio/core/IndoorLowering.cpp`, where a rough wall's
+  solid pieces are broken into joints (`roughParts`, "A panel is flat also on a rough wall": `solidPieces`), treat the
+  stretch of every `m_panels` object hung on that wall (exits, switches, levers placed by `panelOnWall`, and `wall:`
+  decorations/torches) like a `walls[].panels` stretch: cut the piece at the object's `low - 32` and `high + 32` and
+  build that piece flat. Then `cave_shape.flat_behind_panels` is redundant (harmless) and torches no longer sink into
+  rough rock (`lights.in_solid`). Add an `oymap audit` error when a clicked face has another face looking the same way
+  within 64 in front of it over half its area (the rule of `check_exits.py` `exits.hidden`). MM6-MM9: no change to their built maps (only
+  rooms with `rough` change; check the MM9 projects for any). Test: a unit test building a rough room with an exit on its wall
+  and asserting no face between the exit and the room's centre.

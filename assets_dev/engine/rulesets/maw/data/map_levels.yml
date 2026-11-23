@@ -210,6 +210,11 @@ bands:
   znwc.blv: [1, 1, 1]
   7nwc.blv: [1, 1, 1]
 
+# From Hell up MAW gives walking melee-only monsters outdoors a ranged attack, except on these starting maps
+# (zzMaw-Monsters.lua:633-658; devdocs/maw/data/difficulty.yml melee_monsters_gain_ranged_attack). A world's balance
+# file marks its own (`ranged_free`).
+ranged_free_maps: [out01.odm, out02.odm, 7out01.odm, 7out02.odm, oute3.odm, outd3.odm]
+
 horizontal_starter_maps: [d05.blv, 7d29.blv, out01.odm, 7out01.odm, 6d01.blv, oute3.odm, 6d02.blv, 7d28.blv, 7d06.blv]
 
 madness:

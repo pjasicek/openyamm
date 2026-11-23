@@ -190,12 +190,14 @@ ACID_H = 1080
 WALL = [[50, 47], [53, 44], [73, 44], [76, 47], [76, 61], [73, 64.5], [54.5, 64.5], [50, 60.5]]
 TOWN_TERRACE = [[47.5, 46], [52.5, 41.5], [73.5, 41.5], [78.2, 46], [78.2, 62], [74, 66.8], [53.5, 66.8],
                 [47.5, 61.5]]
-NORTH_GATE = (63.0, 44.0)
+# P2 F28 (town_fit_check gates.road_off, agent xeen-rimmap-c 2026-11-23): the gate on its road tiles' middle (the gate lane
+# on the line x 63 lays its tiles on the cell 63..64): it stood on the line, half a cell off, the cobbles into the tower
+NORTH_GATE = (63.5, 44.0)
 QUEEN_A, QUEEN_B = (50, 60.5), (54.5, 64.5)
 QUEEN_GATE = ((QUEEN_A[0] + QUEEN_B[0]) / 2, (QUEEN_A[1] + QUEEN_B[1]) / 2)
 JETTY_Y = (52.8, 55.6)          # the jetty bastion's stretch of the west wall
 # D-30: where an inner leaf puts a party that has not yet entered (the gates' outside arrivals, map units)
-NORTH_OUT = (-512, 10752, 1152)    # [63, 43], faced 270 (1536)
+NORTH_OUT = (-256, 10752, 1152)    # [63.5, 43], faced 270 (1536)
 QUEEN_OUT = (-6656, 0, 1152)       # [51, 64], faced 45 (256)
 
 CALM = [(63, 54, 14), (60, 36, 3), (31, 33, 4), (40, 70, 8), (52, 90, 3), (88, 25, 4), (93, 36, 3), (30, 62, 3),
@@ -456,7 +458,8 @@ MINE_LANE = [[38, 44], [36, 37], [36, 30], [37, 26.2], [44, 26.2], [45.5, 24]]
 GROVE_PATH = [[36, 31], [41, 32.5], [44.5, 36.0], [47.5, 36.5]]   # round the great tree's south side to the rope
 EDGE_PATH = [[38, 44], [31, 45.5], [26.5, 46]]
 KALINDRA_ROAD = [[47.5, 47], [47.5, 54], [47.5, 62], [48, 67], [47.5, 70]]
-QUEEN_LANE = [[51.0, 63.6], [49.5, 64.0], [48.0, 64.6]]
+# P2 F28 (agent xeen-rimmap-c): both lanes start in the Queen's Gate's passage, so its road tiles centre on it
+QUEEN_LANE = [list(QUEEN_GATE), [51.0, 63.6], [49.5, 64.0], [48.0, 64.6]]
 LUNA_LANE = [[47.5, 58], [40, 60], [33.5, 62]]
 OBELISK_PATH = [[33.5, 62], [30, 68], [28, 75]]
 SOUTH_LANE = [[90, 60], [90.5, 68], [88, 76], [84, 82], [76, 84], [68, 85.5], [60, 87.5], [53, 90]]
@@ -472,7 +475,7 @@ BACK_LANE = [[55, 61], [62, 61]]
 BACK_LANE_E = [[65.5, 61], [69.5, 61]]
 YARD_LANE = [[63, 48], [71.5, 48], [71.5, 58]]
 # A6 fix (2026-11-20): the walking line in from the Queen's Gate to the back lane, kept clear like the gate lanes
-QUEEN_IN_LANE = [[53.0, 61.9], [55, 61]]
+QUEEN_IN_LANE = [list(QUEEN_GATE), [53.0, 61.9], [55, 61]]
 ROADS = [NORTH_ROAD, GATE_LANE, EAST_ROAD, WALL_ROAD, WEST_ROAD, KALINDRA_ROAD]
 PATHS = [EAST_BANK_LANE, SARDAJ_LANE, VESPAR_LANE, POND_LANE, HEATH_LANE, TOWER_LANE, MINE_LANE, GROVE_PATH,
          EDGE_PATH, QUEEN_LANE, LUNA_LANE, OBELISK_PATH, SOUTH_LANE, REGER_PATH, FALISTA_PATH, WRECK_PATH,
@@ -631,6 +634,7 @@ GREAT_TREE = ROPE_AT               # the POI (the rope's click)
 # D-26/D-27 (A6's relay, act3_a8_decisions_a.md): DD-01's outfall grate in the gorge's west wall by the burnt mill,
 # barred from inside until A3's hook m16.outfall (qbit outfall_unbarred 111323, lifted from inside in DD-01) holds
 OUTFALL_AT = (79.0, 48.0)          # the headwall's front middle, looking east over the river
+OUTFALL_FLOOR, OUTFALL_TOP = 832, 1152     # the gorge's floor and the vale's edge over it at the outfall
 OUTFALL_ARRIVAL = (79.7, 48.0)     # in front of the grate on the gorge floor, facing away from it (east)
 # the ghost castle's shimmer (D-27): xkshimmer, shared with DD-03's phase walls, once A6 has installed it
 GHOST_TEX = 'xkshimmer' if os.path.exists(os.path.join(XEEN, 'textures_x4', 'xkshimmer.oytex')) else 'hcwall'
@@ -998,7 +1002,7 @@ def build():
         {'id': 'entrance:castleview_temple', 'at': [69.4, 60], 'facing': 'e'},
         {'id': 'entrance:castleview_stables', 'at': [71.3, 54.5], 'facing': 'e'},
         {'id': 'entrance:kalindra_gate', 'at': list(KAL_ARRIVAL), 'facing': 'w'},
-        {'id': 'entrance:north_gate', 'at': [63, 42.6], 'facing': 's'},
+        {'id': 'entrance:north_gate', 'at': [NORTH_GATE[0], 42.6], 'facing': 's'},
         {'id': 'entrance:queens_gate', 'at': [51.3, 63.6], 'facing': 'ne'},
         {'id': 'entrance:dd01_hatch', 'at': [DD01_AT[0] - 0.9, DD01_AT[1]], 'facing': 'e'},
         {'id': 'entrance:dd01_outfall', 'at': list(OUTFALL_ARRIVAL), 'facing': 'e'},
@@ -1358,7 +1362,14 @@ def build():
     S({'id': 'thing:mill_chest', 'kind': 'chest', 'at': [78.6, 47.3], 'title': "The miller's strongbox",
        'chest': {'level': 2, 'random_items': 2}})
     S(deco('thing:mill_beam', '7dec18', (78.0, 47.4)))
-    outfall = {'id': 'thing:dd01_outfall', 'kind': 'culvert', 'at': list(OUTFALL_AT), 'turn': -90,
+    # P2 F25/D-105 (town_fit_check culverts.*, agent xeen-rimmap-c 2026-11-23): the outfall was a culvert whose tunnel ran
+    # back under the vale (the land 188 over its water inside the arch, its water on the dry gorge floor, its block's
+    # sides open). Now as X1's: a dark arched door in a stone face in the gorge's west wall, its sill on the gorge floor,
+    # the face up to the vale's edge, the frame running back into the slope; no tunnel and no water.
+    outfall = {'id': 'thing:dd01_outfall', 'kind': 'doorway', 'at': list(OUTFALL_AT), 'turn': -90,
+               'floor': OUTFALL_FLOOR, 'width': 224, 'height': 256, 'arch': 'round', 'sides': 8, 'depth': 512,
+               'frame_width': 576, 'frame_height': OUTFALL_TOP - OUTFALL_FLOOR,
+               'textures': {'door': '7solid01', 'wall': 'cswl128'},
                'title': 'An iron grate', 'hint': "The sewer's outfall", 'condition': {'lua': hcall('m16.outfall')},
                'notes': ("DD-01's outfall (D-26): a two-way exit once A8's bar is lifted from inside (A3's m16.outfall, "
                          "its fail text 'An iron grate, barred from inside.').")}
@@ -1369,7 +1380,7 @@ def build():
                                   'to you yet.')]
     S(outfall)
     # four plain street grates over the sewer (D-26): no event, not POIs
-    for i, at in enumerate([(57.5, 58.0), (63.0, 45.5), (69.5, 58.0), (60.5, 56.5)]):
+    for i, at in enumerate([(57.5, 58.0), (NORTH_GATE[0], 45.5), (69.5, 58.0), (60.5, 56.5)]):
         S({'id': 'thing:street_grate_%d' % (i + 1), 'kind': 'platform', 'at': list(at), 'size': [192, 128],
            'height': 8, 'textures': {'top': 'xkportc', 'wall': 't09a02a'},
            'notes': ['the guild row', 'the gate passage', 'by the temple', 'the market (the square)'][i]})
@@ -1946,6 +1957,11 @@ def build():
     import house_doors as HD
     for _note in HD.double_doors_sketch(sketch) + HD.bury_mouths_sketch(sketch) + HD.blind_mouths_sketch(sketch):
         print('door:', _note)   # F8 too: cave mouths as wide as their rim, no dark mouth that leads nowhere
+    # P2 feedback F29/F32/F33 (agent xeen-fb2-wild, 2026-11-23): shrine altars, campfires, the rim fall
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'common'))
+    import wild as WILD
+    for _note in WILD.apply(sketch, 'd1'):
+        print('wild:', _note)
     # F16/D-90 (s32): every door into a dungeon shows its trans.txt row (A3's source/entrances.yml) in the window
     import entrance_screens as ES
     print('entrance screens:', ES.apply_sketch(sketch, 'xeen_d1'))

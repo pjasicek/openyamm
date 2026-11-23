@@ -70,9 +70,16 @@ STAGES = {
 }
 
 # D-36: the bright face's glow over the Darkside's east rim (theme field `rim_glow`, SKY_RENDERING.md); below_deg 1.5
-# since merge point 20 (the glow lights the horizon cloud banks).
-RIM_GLOW = {'direction_deg': 90, 'width_deg': 75, 'height_deg': 12, 'below_deg': 1.5,
+# since merge point 20 (the glow lights the horizon cloud banks); 10 since the void (U-12, rim decider Q6: the bright
+# face lies beyond the edge, so its glow rises from below the rim over the void).
+RIM_GLOW = {'direction_deg': 90, 'width_deg': 75, 'height_deg': 12, 'below_deg': 10,
             'color': [1.0, 0.88, 0.62], 'day': 0.3, 'night': 0.6}
+
+
+# U-12 (WORLD_RIM_VOID_20261123.md section 4, Q1): empty space below the horizon over a map's void (terrain.void),
+# by day and night: near-black, stars, a thin limb where the horizon's haze turns into space. Written on the Darkside
+# stage presets; Cloudside maps on the shipped presets get the engine's defaults (the same values).
+VOID = {'color': [0.004, 0.006, 0.016], 'stars': 0.9, 'limb_deg': 3}
 
 
 def flow(seq):
@@ -135,6 +142,7 @@ def main():
         for key in stage_keys(base_keys, stage):
             lines.append(f'      - {flow(key)}')
         lines.append(f'    sun_disc_degrees: {stage["sun_disc_degrees"]}')
+        lines.append(f'    void: {flow(VOID)}')
         lines.append('    clouds:')
         for layer in stage['clouds']:
             lines.append(f'      - {flow(layer)}')

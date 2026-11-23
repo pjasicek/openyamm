@@ -108,3 +108,56 @@ decorations:
     yaw: facing
     yaw_offset: -1.570796327
     lod_pixels: [300, 150, 60]
+  # The world's hull (U-12, rim agent 2026-11-23): the Ancients' plating hanging from the land's edge into the void under
+  # every rim cliff, so Xeen reads as the ship it is. Straight pieces 2,048 (hull4) and 512 (hull1) wide, a corner
+  # piece (hullc: a quarter turn of the profile centred on its facing, for a land corner where two runs meet); bn: burnt
+  # plating (D6). Origin = the land's height on the edge line (mid-width; the corner's axis): place it on the land's
+  # edge (the land runs level to it, D-109), facing so glTF +Z points over the void (facing 0 north, 90 west, 180 south,
+  # 270 east; a corner the diagonal between its runs). Profile: a kerb 150 over the grass with pulsing running lights
+  # on its inland face, a deck flaring out 1,800 and down 1,000 (29 degrees) with girder ribs and running lights near
+  # its lip, the lip, and the underside back in under the land to -2,700. Static, opaque, no collision (radius 0). Placed by
+  # level_generation/projects/xeen/common/rim.py; level_generation/decorations/xeen_hull_claude/README.md.
+  - name: xeen_hull4
+    model: worlds/xeen/models/xeen_deco_hull4.glb
+    height: 2850
+    yaw: facing
+  - name: xeen_hull1
+    model: worlds/xeen/models/xeen_deco_hull1.glb
+    height: 2850
+    yaw: facing
+  - name: xeen_hull4bn
+    model: worlds/xeen/models/xeen_deco_hull4bn.glb
+    height: 2850
+    yaw: facing
+  - name: xeen_hull1bn
+    model: worlds/xeen/models/xeen_deco_hull1bn.glb
+    height: 2850
+    yaw: facing
+  - name: xeen_hullc
+    model: worlds/xeen/models/xeen_deco_hullc.glb
+    height: 2710
+    yaw: facing
+  - name: xeen_hullcbn
+    model: worlds/xeen/models/xeen_deco_hullcbn.glb
+    height: 2710
+    yaw: facing
+  # Deckless hull pieces (D-109, D-114; agent xeen-rimmap-b 2026-11-23). hull4n/hull1n: the kerb and its face straight
+  # down (no deck), for the short walls of a notch in the rim (X7's lava cove), whose decks would close the notch.
+  # hullf (hullfbn burnt, D6): no kerb, no deck, a plain face from the land's edge down, set 16 behind it, under a sand
+  # or lava fall (decorations pouring from the lip in front of it). Origin and facing as the pieces above.
+  - name: xeen_hull4n
+    model: worlds/xeen/models/xeen_deco_hull4n.glb
+    height: 2850
+    yaw: facing
+  - name: xeen_hull1n
+    model: worlds/xeen/models/xeen_deco_hull1n.glb
+    height: 2850
+    yaw: facing
+  - name: xeen_hullf
+    model: worlds/xeen/models/xeen_deco_hullf.glb
+    height: 2700
+    yaw: facing
+  - name: xeen_hullfbn
+    model: worlds/xeen/models/xeen_deco_hullfbn.glb
+    height: 2700
+    yaw: facing

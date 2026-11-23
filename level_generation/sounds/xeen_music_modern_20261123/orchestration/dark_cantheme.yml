@@ -1,0 +1,53 @@
+# dark/cantheme: first orchestration by orchestrate.py (hand-tune freely; it is never overwritten).
+# 195.5 s a pass. GM programs are 0-based; drums: 0 standard kit, 48 orchestral.
+# A channel's `slots` give the notes it plays with those FM instrument slots their own instrument.
+reverb: {seconds: 2.4, level: 0.32}
+channels:
+  0:   # lead_high: flute; median 69, 0.33 s notes, sounding 54%
+    program: 73
+    pan: 0.0
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  1:   # arpeggio: harp; median 77, 0.19 s notes, sounding 70%
+    program: 46
+    pan: 0.4
+    width: 0.6
+    reverb: 0.28
+    gain_db: -3
+  2:   # arpeggio: harp; median 63, 0.18 s notes, sounding 65%
+    program: 46
+    pan: -0.25
+    width: 0.6
+    reverb: 0.28
+    gain_db: -3
+  3:   # bass_short: fingered bass; median 37, 0.37 s notes, sounding 69%
+    program: 33
+    pan: 0.0
+    width: 0.25
+    reverb: 0.06
+    gain_db: 0
+  4:   # arpeggio: harp; median 68, 0.07 s notes, sounding 54%
+    program: 46
+    pan: -0.5
+    width: 0.6
+    reverb: 0.28
+    gain_db: -3
+  5:   # pluck: pizzicato strings; median 48, 0.12 s notes, sounding 60%
+    program: 45
+    pan: 0.5
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  6:   # pluck: pizzicato strings; median 45, 0.15 s notes, sounding 44%
+    program: 45
+    pan: 0.15
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  8:   # drums (standard kit), notes [38, 41, 43, 44, 45, 46, 47, 48, 49, 50, 53, 54, 56, 57, 69, 84]
+    program: 0
+    pan: 0.0
+    width: 0.5
+    reverb: 0.15
+    gain_db: -3

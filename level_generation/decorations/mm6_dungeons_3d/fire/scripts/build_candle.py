@@ -56,7 +56,7 @@ def build(level):
                        mats['Wax'], u_repeat=1.0, v_scale=6.0)]
     # Melted wax pooled over the socket (the sprite's bright disc round the candle's foot).
     # Lit by the candle above it, so no occlusion (a white part, tinted only).
-    pool = [(3.0, 33.3), (5.0, 33.0), (6.6, 31.8), (7.6, 30.6)]
+    pool = [(7.6, 30.6), (6.6, 31.8), (5.0, 33.0), (3.0, 33.3)]      # rim to candle: the pool faces up (F39)
     pool = pl.lathe('pool', [(u(r), u(z)) for r, z in pool], (12, 8, 6)[level], mats['Wax'], u_repeat=1.0,
                     v_scale=6.0)
     if level < 2:

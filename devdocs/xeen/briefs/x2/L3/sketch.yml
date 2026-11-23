@@ -73,11 +73,6 @@ water:
       level: 576
       polygon: [[18, 57], [24, 57], [25, 60], [27, 63], [31, 64], [35, 63], [37, 60], [38, 57], [46, 57], [45, 62], [42, 69], [35, 73], [27, 73], [21, 69], [18, 62]]
       notes: "Lake Darzog, south half."
-    - id: water:sky
-      kind: sea
-      level: 0
-      polygon: [[0, 105], [128, 105], [128, 128], [0, 128]]
-      notes: "Below the rim: stands for the stars (the game draws no void)."
   rivers:
     - id: water:river
       line: [[44, 52], [49, 52], [53, 53]]
@@ -107,6 +102,10 @@ water:
       width_cells: 3
       level: 576
       notes: From X4 through the ogres' gorge into the lake.
+void:
+  - id: void:sky
+    polygon: [[0, 105], [128, 105], [128, 128], [0, 128]]
+    notes: "U-12: the void under the world rim (was water:sky, the sea that stood for the stars)."
 roads:
   - link: link:east_road
     line: [[128, 46], [88, 46], [85, 45.5]]
@@ -145,11 +144,11 @@ roads:
     width: road
     surface: road_pebbles
   - link: link:lane_w
-    line: [[58, 43.5], [58, 48]]
+    line: [[58, 43.5], [58, 47.5]]
     width: road
     surface: road_pebbles
   - link: link:lane_e
-    line: [[73, 43.5], [73, 48]]
+    line: [[73, 43.5], [73, 47.5]]
     width: road
     surface: road_pebbles
   - link: link:lane_se
@@ -193,7 +192,7 @@ districts:
       - {building: building:medin_hut, at: [48.5, 63], facing: n, parts: [{id: body, at: [64, 64], size: [640, 384], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4096, title: Medin's Hut, kit: poor, door: {part: body, wall: n}}
       - {building: building:tito_chapel, at: [78.5, 74.5], facing: w, parts: [{id: nave, at: [64, 96], size: [896, 832], wall_height: 384, windows: all, roof: gable, roof_pitch: 50, ridge_along: ew}, {id: bell, at: [992, 400], size: [224, 224], textures: {roof: 7hhr1rf}, wall_height: 768, windows: none, roof: hip, roof_pitch: 60}], house: 4097, title: Tito's Chapel, kit: stone, door: {part: nave, wall: w}}
       - {building: building:farmsteads, index: 1, at: [53, 25.5], facing: s, parts: [{id: body, at: [48, 244], size: [928, 476], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 33], size: [768, 227], textures: {roof: hhm1rf}, wall_height: 192, windows: none, roof: lean_to}], kit: timber, door: {part: body, wall: s}}
-      - {building: building:farmsteads, index: 2, at: [57, 28], facing: s, turn: 4, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], kit: poor, door: {part: body, wall: s}}
+      - {building: building:farmsteads, index: 2, at: [57, 28], facing: n, turn: 4, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], kit: poor, door: {part: body, wall: n}}
       - {building: building:farmsteads, index: 3, at: [76, 23.5], facing: s, parts: [{id: body, at: [64, 64], size: [640, 544], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], kit: timber, door: {part: body, wall: s}}
       - {building: building:farmsteads, index: 4, at: [79, 23], facing: s, turn: -5, parts: [{id: body, at: [48, 244], size: [928, 476], textures: {roof: hhp2rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 33], size: [768, 227], textures: {roof: hhp2rf}, wall_height: 192, windows: none, roof: lean_to}], kit: poor, door: {part: body, wall: s}}
       - {building: building:farmsteads, index: 5, at: [69, 31], facing: w, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], kit: timber, door: {part: body, wall: w}}
@@ -365,7 +364,7 @@ areas:
     index: 6
     kind: encounter
     count: 1
-    circle: {at: [94, 84], r: 1}
+    circle: {at: [96, 86], r: 1}
   - id: pop:sprites
     index: 7
     kind: encounter
@@ -1408,7 +1407,8 @@ structures:
   - id: thing:north_wall_1
     kind: wall
     line: [[53.5, 48.5], [57.55, 48.5]]
-    height: 48
+    raise: -192
+    height: 432
     thickness: 512
     textures: {wall: cnb}
     title: Quay wall
@@ -1416,7 +1416,8 @@ structures:
   - id: thing:north_wall_2
     kind: wall
     line: [[58.45, 48.5], [63.03, 48.5]]
-    height: 48
+    raise: -192
+    height: 432
     thickness: 512
     textures: {wall: cnb}
     title: Quay wall
@@ -1424,7 +1425,8 @@ structures:
   - id: thing:north_wall_3
     kind: wall
     line: [[64.97, 48.5], [72.55, 48.5]]
-    height: 48
+    raise: -192
+    height: 432
     thickness: 512
     textures: {wall: cnb}
     title: Quay wall
@@ -1432,7 +1434,8 @@ structures:
   - id: thing:north_wall_4
     kind: wall
     line: [[73.45, 48.5], [77, 48.5]]
-    height: 48
+    raise: -192
+    height: 432
     thickness: 512
     textures: {wall: cnb}
     title: Quay wall
@@ -1440,7 +1443,8 @@ structures:
   - id: thing:south_wall_1
     kind: wall
     line: [[53.5, 57.5], [59.05, 57.5]]
-    height: 48
+    raise: -192
+    height: 432
     thickness: 512
     textures: {wall: cnb}
     title: Quay wall
@@ -1448,7 +1452,8 @@ structures:
   - id: thing:south_wall_2
     kind: wall
     line: [[59.95, 57.5], [63.03, 57.5]]
-    height: 48
+    raise: -192
+    height: 432
     thickness: 512
     textures: {wall: cnb}
     title: Quay wall
@@ -1456,7 +1461,8 @@ structures:
   - id: thing:south_wall_3
     kind: wall
     line: [[64.97, 57.5], [66.1, 57.5]]
-    height: 48
+    raise: -192
+    height: 432
     thickness: 512
     textures: {wall: cnb}
     title: Quay wall
@@ -1464,7 +1470,8 @@ structures:
   - id: thing:south_wall_4
     kind: wall
     line: [[66.9, 57.5], [72.55, 57.5]]
-    height: 48
+    raise: -192
+    height: 432
     thickness: 512
     textures: {wall: cnb}
     title: Quay wall
@@ -1472,7 +1479,8 @@ structures:
   - id: thing:south_wall_5
     kind: wall
     line: [[73.45, 57.5], [81, 57.5]]
-    height: 48
+    raise: -192
+    height: 432
     thickness: 512
     textures: {wall: cnb}
     title: Quay wall
@@ -1871,6 +1879,9 @@ structures:
     kind: decoration
     at: [24.9, 31]
     decoration: cmpfyr00
+    title: Campfire
+    effects:
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
   - id: thing:lair_dress_2
     kind: decoration
     at: [21.6, 30.9]
@@ -2182,6 +2193,8 @@ structures:
     at: [88.6, 24.7]
     decoration: cmpfyr00
     title: Campfire
+    effects:
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
   - id: thing:camp_ne_chest
     kind: chest
     at: [89.6, 23.6]
@@ -2203,6 +2216,8 @@ structures:
     at: [46.6, 22.7]
     decoration: cmpfyr00
     title: Campfire
+    effects:
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
   - id: thing:camp_nw_chest
     kind: chest
     at: [47.6, 21.6]
@@ -2218,7 +2233,7 @@ structures:
     size: [2, 2]
     kit: stone
     parts:
-      - {id: s, at: [256, 256], size: [512, 512], posts: 48, wall_height: 352, windows: none, roof: cone, roof_pitch: 50, title: Shrine of Electricity, condition: {not: {map_var: shrine_used}}, else_effects: [{text: No one seems to be listening.}], effects: [{set: {var: {map_var: shrine_used}, value: 1}}, {add: {var: AirResistance, value: 5}}, {text: "+5 Air resistance (permanent)"}]}
+      - {id: s, at: [256, 256], size: [512, 512], posts: 48, wall_height: 352, windows: none, roof: cone, roof_pitch: 50, title: Shrine of Electricity}
     door: none
     title: Shrine of Electricity
   - id: thing:farm_well
@@ -2364,6 +2379,217 @@ structures:
     kind: decoration
     at: [101, 103]
     decoration: rock26
+  - id: thing:hull_001
+    kind: decoration
+    at: [2, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_002
+    kind: decoration
+    at: [6, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_003
+    kind: decoration
+    at: [10, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_004
+    kind: decoration
+    at: [14, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_005
+    kind: decoration
+    at: [18, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_006
+    kind: decoration
+    at: [22, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_007
+    kind: decoration
+    at: [26, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_008
+    kind: decoration
+    at: [30, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_009
+    kind: decoration
+    at: [34, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_010
+    kind: decoration
+    at: [38, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_011
+    kind: decoration
+    at: [42, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_012
+    kind: decoration
+    at: [46, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_013
+    kind: decoration
+    at: [50, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_014
+    kind: decoration
+    at: [54, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_015
+    kind: decoration
+    at: [58, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_016
+    kind: decoration
+    at: [62, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_017
+    kind: decoration
+    at: [66, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_018
+    kind: decoration
+    at: [70, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_019
+    kind: decoration
+    at: [74, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_020
+    kind: decoration
+    at: [78, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_021
+    kind: decoration
+    at: [82, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_022
+    kind: decoration
+    at: [86, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_023
+    kind: decoration
+    at: [90, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_024
+    kind: decoration
+    at: [94, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_025
+    kind: decoration
+    at: [98, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_026
+    kind: decoration
+    at: [102, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_027
+    kind: decoration
+    at: [106, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_028
+    kind: decoration
+    at: [110, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_029
+    kind: decoration
+    at: [114, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_030
+    kind: decoration
+    at: [118, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_031
+    kind: decoration
+    at: [122, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_032
+    kind: decoration
+    at: [126, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:shrine_electricity_altar
+    kind: platform
+    at: [96, 31]
+    size: [192, 128]
+    height: 128
+    title: Shrine of Electricity
+    condition: {not: {map_var: shrine_used}}
+    else_effects:
+      - text: No one seems to be listening.
+    effects:
+      - set:
+          var:
+            map_var: shrine_used
+          value: 1
+      - add:
+          var: AirResistance
+          value: 5
+      - text: "+5 Air resistance (permanent)"
+    notes: "F32 (P2 pin p16, 2026-11-23): the shrine's altar under its roof carries the click; the pavilion keeps its title (MM6 OUTE1 261, MM7 \"Shrine\"/\"Altar\")."
 actors:
   - {monster: "607", at: [62.59, 54.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
   - {monster: "595", at: [79.34, 77.25], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
@@ -2469,3 +2695,8 @@ events:
       - lua: "evt.SimpleMessage(\"The last of the lake beasts sinks beneath the waves of Lake Darzog. Medin the Fisherman will want to hear of it.\")"
     once: true
     notes: "Q-C13: when the three dragons are dead, Medin's boat runs to the island."
+  - id: evt:rim_fall
+    trigger: timer
+    every: 1
+    lua: "Xeen.rimFall({{{-32768, -20992}, {32768, -20992}, {32768, -32768}, {-32768, -32768}}}, {{-28160, -18944, 1088, 512}, {-25088, -18944, 1056, 512}, {-22016, -18944, 1024, 512}, {-18944, -18944, 1024, 512}, {-15360, -18944, 1120, 512}, {-6144, -18944, 960, 512}, {3072, -18944, 1088, 512}, {6144, -18944, 960, 512}, {15360, -18944, 1056, 512}, {18944, -18944, 1120, 512}, {25088, -18944, 1120, 512}, {28160, -18944, 1088, 512}})"
+    notes: "F29 (P2 pins p7, p12; 2026-11-23): a party in the sea below the world rim, or in the rim's foot below Xeen.RimFallDepth, is lifted back onto the rim at the nearest return point and falls the last Xeen.SkyFallHeight (common/wild.py, xeen_common.lua Xeen.rimFall). Return points (cells): [9, 101], [15, 101], [21, 101], [27, 101], [34, 101], [52, 101], [70, 101], [76, 101], [94, 101], [101, 101], [113, 101], [119, 101]."

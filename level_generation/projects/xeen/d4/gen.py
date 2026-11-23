@@ -1480,6 +1480,11 @@ def build():
     import house_doors as HD
     for _note in HD.double_doors_sketch(sketch) + HD.bury_mouths_sketch(sketch) + HD.blind_mouths_sketch(sketch):
         print('door:', _note)   # F8 too: cave mouths as wide as their rim, no dark mouth that leads nowhere
+    # P2 feedback F29/F32/F33 (agent xeen-fb2-wild, 2026-11-23): shrine altars, campfires, the rim fall
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'common'))
+    import wild as WILD
+    for _note in WILD.apply(sketch, 'd4'):
+        print('wild:', _note)
     import entrance_screens as ES     # F16/D-90 (s32): each dungeon door's trans.txt row in its entrance window
     print('entrance screens:', ES.apply_sketch(sketch, 'xeen_d4'))
     dump(OUT, 'sketch.yml', sketch)

@@ -216,3 +216,10 @@ share and the shape of the installed map.
   04-4_hearth.png); all eight maps on one sheet `output/studio_cal/a7/s29/names/names_sheet.jpg`. Reads as a troll home:
   trolls at the mouth, straw beds and hides in the hollows, bones and bark, the Matron's hearth. d13's masonry walls and
   plank roofs read built rather than dug (that is the family's own look); see DECIDE in the lane file.
+
+## Mouth exit kept clear of rough rock (2026-11-23, agent:xeen-xd05-exit)
+
+The rough wall behind this map's exit stood in front of its black face (no click reached it: the XD-05 Discord report,
+`tools/xeen/check_exits.py` `exits.hidden`). `tools/xeen/cave_shape.py` `flat_behind_panels` now gives the exit's
+wall a flat panel under it (the generator writes it); rebuilt, installed and baked; all playtests pass. See XD-05's
+NOTES.md, same date.

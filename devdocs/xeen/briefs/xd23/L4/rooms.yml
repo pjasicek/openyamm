@@ -121,6 +121,10 @@ rooms:
     ceiling: 416
     ceiling_points: [[0, -384, 512]]
     theme: theme:dirt
+    walls:
+      - wall: north
+        panels:
+          - {offset: 96, length: 448, surface: {texture: gtrlwal1, size: [128, 256]}, notes: flat behind exit:mouth (a rough wall would stand in front of it)}
     platforms:
       - {id: platform:barricade, rise: 32, surface: {texture: xdbark, size: [128, 256]}, outline: [[84, -141], [148, -184], [228, -184], [276, -136], [228, -56], [132, -56]], top_surface: {texture: xdbark, size: [128, 256]}, notes: "What is left of the barricade: frozen hides and gnawed poles dragged aside from the mouth."}
     ambient: 24

@@ -331,6 +331,11 @@ def main():
     # D-91 (A5 s30): the Summer Druid stands on S's row 11929 (friendly in the world): no map relation for row 517
     for _note in HD.double_doors_sketch(sk) + HD.bury_mouths_sketch(sk) + EN.apply(sk, 'x6'):
         print('door:', _note)
+    # P2 feedback F29/F32/F33 (agent xeen-fb2-wild, 2026-11-23): shrine altars, campfires, the rim fall
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'common'))
+    import wild as WILD
+    for _note in WILD.apply(sk, 'x6'):
+        print('wild:', _note)
     atmos = {'format': 0, 'sky': 'plansky2', 'weather': {},
              'notes': "D-31: the shipped clear preset (plansky2 is the clear preset's alias) in every weather, no rain; "
                       "the world's sky.yml gives xeen_x6.odm the arid theme (A6)."}

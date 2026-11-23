@@ -126,6 +126,8 @@ ambient_sounds:
 terrain:
   attribute_overrides: []
   footstep_sound_overrides: []
+  void:
+    - [0, 105, 127, 127]
 bmodel_faces:
   interactive_faces:
     - bmodel_index: 0
@@ -10600,157 +10602,157 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 25
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 26
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 27
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 28
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 29
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 30
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 31
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 32
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 33
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 34
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 35
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 36
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 37
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 38
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 39
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 40
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 41
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 42
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 43
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 44
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 45
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 46
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 47
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 48
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 49
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 50
-      legacy_attributes: 570434560
+      legacy_attributes: 570433792
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
@@ -10774,25 +10776,25 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 54
-      legacy_attributes: 570434048
-      cog_number: 3
-      cog_triggered_number: 17
-      cog_trigger: 0
-    - bmodel_index: 9
-      face_index: 55
       legacy_attributes: 570433792
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
+      face_index: 55
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
       face_index: 56
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 57
-      legacy_attributes: 570434048
+      legacy_attributes: 570433792
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
@@ -10804,103 +10806,103 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 59
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 60
-      legacy_attributes: 570434048
+      legacy_attributes: 570433792
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 61
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 62
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 63
-      legacy_attributes: 570434048
+      legacy_attributes: 570433792
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 64
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 65
-      legacy_attributes: 570434048
+      legacy_attributes: 570433792
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 66
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 67
-      legacy_attributes: 570434048
+      legacy_attributes: 570433792
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 68
-      legacy_attributes: 570434048
+      legacy_attributes: 570433792
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 69
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 70
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 71
-      legacy_attributes: 570434048
+      legacy_attributes: 570433792
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 72
-      legacy_attributes: 570434048
+      legacy_attributes: 570433792
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 73
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 74
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 75
-      legacy_attributes: 570433792
+      legacy_attributes: 570434560
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
@@ -10918,7 +10920,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 78
-      legacy_attributes: 570433792
+      legacy_attributes: 570434560
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
@@ -10930,7 +10932,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 80
-      legacy_attributes: 570433792
+      legacy_attributes: 570434560
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
@@ -10948,7 +10950,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 83
-      legacy_attributes: 570433792
+      legacy_attributes: 570434560
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
@@ -10960,7 +10962,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 85
-      legacy_attributes: 570433792
+      legacy_attributes: 570434560
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
@@ -10972,7 +10974,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 87
-      legacy_attributes: 570433792
+      legacy_attributes: 570434560
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
@@ -10996,31 +10998,31 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 91
-      legacy_attributes: 570434560
+      legacy_attributes: 570433792
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 92
-      legacy_attributes: 570434560
+      legacy_attributes: 570433792
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 93
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 94
-      legacy_attributes: 570434560
+      legacy_attributes: 570433792
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 95
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
@@ -11032,19 +11034,517 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 9
       face_index: 97
-      legacy_attributes: 570434048
-      cog_number: 3
-      cog_triggered_number: 17
-      cog_trigger: 0
-    - bmodel_index: 9
-      face_index: 98
       legacy_attributes: 570433792
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 9
-      face_index: 99
+      face_index: 98
       legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 99
+      legacy_attributes: 570433792
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 100
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 101
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 102
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 103
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 104
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 105
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 106
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 107
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 108
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 109
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 110
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 111
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 112
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 113
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 114
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 115
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 116
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 117
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 118
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 119
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 120
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 121
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 122
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 123
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 124
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 125
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 126
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 127
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 128
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 129
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 130
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 131
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 132
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 133
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 134
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 135
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 136
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 137
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 138
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 139
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 140
+      legacy_attributes: 570433792
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 141
+      legacy_attributes: 570433792
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 142
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 143
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 144
+      legacy_attributes: 570433792
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 145
+      legacy_attributes: 570433792
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 146
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 147
+      legacy_attributes: 570433792
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 148
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 149
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 150
+      legacy_attributes: 570433792
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 151
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 152
+      legacy_attributes: 570433792
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 153
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 154
+      legacy_attributes: 570433792
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 155
+      legacy_attributes: 570433792
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 156
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 157
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 158
+      legacy_attributes: 570433792
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 159
+      legacy_attributes: 570433792
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 160
+      legacy_attributes: 570433792
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 161
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 162
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 163
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 164
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 165
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 166
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 167
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 168
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 169
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 170
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 171
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 172
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 173
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 174
+      legacy_attributes: 570434560
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 175
+      legacy_attributes: 570433792
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 176
+      legacy_attributes: 570433792
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 177
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 178
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 179
+      legacy_attributes: 570433792
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 180
+      legacy_attributes: 570434048
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 181
+      legacy_attributes: 570433792
+      cog_number: 3
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 9
+      face_index: 182
+      legacy_attributes: 570433792
       cog_number: 3
       cog_triggered_number: 17
       cog_trigger: 0
@@ -11332,151 +11832,151 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 15
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 16
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 17
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 18
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 19
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 20
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 21
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 22
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 23
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 24
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 25
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 26
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 27
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 28
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 29
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 30
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 31
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 32
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 33
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 34
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 35
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 36
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 37
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 38
-      legacy_attributes: 570434560
+      legacy_attributes: 570433792
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 39
-      legacy_attributes: 570434560
+      legacy_attributes: 570433792
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
@@ -11488,7 +11988,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 41
-      legacy_attributes: 570433792
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
@@ -11500,211 +12000,211 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 43
-      legacy_attributes: 570434048
+      legacy_attributes: 570433792
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 44
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 45
-      legacy_attributes: 570433792
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 46
-      legacy_attributes: 570434048
-      cog_number: 6
-      cog_triggered_number: 19
-      cog_trigger: 0
-    - bmodel_index: 11
-      face_index: 47
       legacy_attributes: 570433792
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
+      face_index: 47
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
       face_index: 48
-      legacy_attributes: 570434048
+      legacy_attributes: 570433792
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 49
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 50
-      legacy_attributes: 570434048
+      legacy_attributes: 570433792
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 51
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 52
-      legacy_attributes: 570434048
+      legacy_attributes: 570433792
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 53
-      legacy_attributes: 570434048
+      legacy_attributes: 570433792
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 54
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 55
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 56
-      legacy_attributes: 570434048
+      legacy_attributes: 570433792
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 57
-      legacy_attributes: 570434048
+      legacy_attributes: 570433792
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 58
-      legacy_attributes: 570434048
+      legacy_attributes: 570433792
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 59
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 60
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 61
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 62
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 63
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 64
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 65
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 66
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 67
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 68
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 69
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 70
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 71
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 72
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 73
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 74
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 75
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 76
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 77
-      legacy_attributes: 570434048
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
@@ -11728,169 +12228,169 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 81
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 82
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 83
-      legacy_attributes: 570434560
+      legacy_attributes: 570433792
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 84
-      legacy_attributes: 570434560
+      legacy_attributes: 570433792
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 85
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 86
-      legacy_attributes: 570434560
+      legacy_attributes: 570433792
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 87
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 88
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 89
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 90
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 91
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 92
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 93
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 94
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 95
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 96
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 97
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 98
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 99
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 100
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 101
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 102
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 103
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 104
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 105
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 106
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 107
-      legacy_attributes: 570434560
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 108
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
@@ -11902,13 +12402,13 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 110
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 111
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
@@ -11926,13 +12426,475 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 114
-      legacy_attributes: 570433792
+      legacy_attributes: 570434048
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
     - bmodel_index: 11
       face_index: 115
       legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 116
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 117
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 118
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 119
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 120
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 121
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 122
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 123
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 124
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 125
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 126
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 127
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 128
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 129
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 130
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 131
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 132
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 133
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 134
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 135
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 136
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 137
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 138
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 139
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 140
+      legacy_attributes: 570433792
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 141
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 142
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 143
+      legacy_attributes: 570433792
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 144
+      legacy_attributes: 570433792
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 145
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 146
+      legacy_attributes: 570433792
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 147
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 148
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 149
+      legacy_attributes: 570433792
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 150
+      legacy_attributes: 570433792
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 151
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 152
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 153
+      legacy_attributes: 570433792
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 154
+      legacy_attributes: 570433792
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 155
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 156
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 157
+      legacy_attributes: 570433792
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 158
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 159
+      legacy_attributes: 570433792
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 160
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 161
+      legacy_attributes: 570433792
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 162
+      legacy_attributes: 570433792
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 163
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 164
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 165
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 166
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 167
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 168
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 169
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 170
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 171
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 172
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 173
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 174
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 175
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 176
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 177
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 178
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 179
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 180
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 181
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 182
+      legacy_attributes: 570434560
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 183
+      legacy_attributes: 570433792
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 184
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 185
+      legacy_attributes: 570433792
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 186
+      legacy_attributes: 570433792
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 187
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 188
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 189
+      legacy_attributes: 570433792
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 190
+      legacy_attributes: 570433792
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 191
+      legacy_attributes: 570434048
+      cog_number: 6
+      cog_triggered_number: 19
+      cog_trigger: 0
+    - bmodel_index: 11
+      face_index: 192
+      legacy_attributes: 570434560
       cog_number: 6
       cog_triggered_number: 19
       cog_trigger: 0
@@ -15484,19 +16446,19 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 21
       face_index: 2
-      legacy_attributes: 570425860
+      legacy_attributes: 570425604
       cog_number: 0
       cog_triggered_number: 28
       cog_trigger: 0
     - bmodel_index: 21
       face_index: 3
-      legacy_attributes: 33554708
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 28
       cog_trigger: 0
     - bmodel_index: 21
       face_index: 4
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 28
       cog_trigger: 0
@@ -15508,19 +16470,19 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 21
       face_index: 6
-      legacy_attributes: 33554688
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 28
       cog_trigger: 0
     - bmodel_index: 21
       face_index: 7
-      legacy_attributes: 33554688
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 28
       cog_trigger: 0
     - bmodel_index: 21
       face_index: 8
-      legacy_attributes: 33554688
+      legacy_attributes: 570425860
       cog_number: 0
       cog_triggered_number: 28
       cog_trigger: 0
@@ -15712,7 +16674,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 21
       face_index: 40
-      legacy_attributes: 33554944
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 28
       cog_trigger: 0
@@ -15742,7 +16704,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 21
       face_index: 45
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 28
       cog_trigger: 0
@@ -15934,763 +16896,37 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 21
       face_index: 77
-      legacy_attributes: 33554944
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 28
       cog_trigger: 0
     - bmodel_index: 21
       face_index: 78
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 28
       cog_trigger: 0
     - bmodel_index: 21
       face_index: 79
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 28
       cog_trigger: 0
     - bmodel_index: 21
       face_index: 80
-      legacy_attributes: 33554944
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 28
       cog_trigger: 0
     - bmodel_index: 21
       face_index: 81
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 28
       cog_trigger: 0
     - bmodel_index: 21
       face_index: 82
       legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 83
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 84
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 85
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 86
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 87
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 88
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 89
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 90
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 91
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 92
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 93
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 94
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 95
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 96
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 97
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 98
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 99
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 100
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 101
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 102
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 103
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 104
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 105
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 106
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 107
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 108
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 109
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 110
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 111
-      legacy_attributes: 33554688
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 112
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 113
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 114
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 115
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 116
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 117
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 118
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 119
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 120
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 121
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 122
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 123
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 124
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 125
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 126
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 127
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 128
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 129
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 130
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 131
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 132
-      legacy_attributes: 33554688
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 133
-      legacy_attributes: 33554688
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 134
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 135
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 136
-      legacy_attributes: 33554688
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 137
-      legacy_attributes: 33554688
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 138
-      legacy_attributes: 33554688
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 139
-      legacy_attributes: 33554688
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 140
-      legacy_attributes: 33554688
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 141
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 142
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 143
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 144
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 145
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 146
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 147
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 148
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 149
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 150
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 151
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 152
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 153
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 154
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 155
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 156
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 157
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 158
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 159
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 160
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 161
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 162
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 163
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 164
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 165
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 166
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 167
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 168
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 169
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 170
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 171
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 172
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 173
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 174
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 175
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 176
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 177
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 178
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 179
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 180
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 181
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 182
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 183
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 184
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 185
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 186
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 187
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 188
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 189
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 190
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 191
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 192
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 193
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 194
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 195
-      legacy_attributes: 33554688
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 196
-      legacy_attributes: 33554688
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 197
-      legacy_attributes: 33554688
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 198
-      legacy_attributes: 33554688
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 199
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 200
-      legacy_attributes: 33554944
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 201
-      legacy_attributes: 33554688
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 202
-      legacy_attributes: 33554688
-      cog_number: 0
-      cog_triggered_number: 28
-      cog_trigger: 0
-    - bmodel_index: 21
-      face_index: 203
-      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 28
       cog_trigger: 0
@@ -57476,6 +57712,21 @@ entities:
     decoration_list_id: 607
     ai_attributes: 0
     position:
+      x: -2304
+      y: -19584
+      z: 912
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 2231
+    name: plant32
+    decoration_list_id: 607
+    ai_attributes: 0
+    position:
       x: 1632
       y: -10208
       z: 1018
@@ -57486,7 +57737,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2231
+  - entity_index: 2232
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57501,7 +57752,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2232
+  - entity_index: 2233
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57516,7 +57767,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2233
+  - entity_index: 2234
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57531,7 +57782,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2234
+  - entity_index: 2235
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57546,7 +57797,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2235
+  - entity_index: 2236
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57561,7 +57812,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2236
+  - entity_index: 2237
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57576,7 +57827,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2237
+  - entity_index: 2238
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57591,7 +57842,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2238
+  - entity_index: 2239
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57606,7 +57857,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2239
+  - entity_index: 2240
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57621,7 +57872,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2240
+  - entity_index: 2241
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57636,7 +57887,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2241
+  - entity_index: 2242
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57651,7 +57902,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2242
+  - entity_index: 2243
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57666,7 +57917,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2243
+  - entity_index: 2244
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57681,7 +57932,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2244
+  - entity_index: 2245
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57696,7 +57947,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2245
+  - entity_index: 2246
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57711,7 +57962,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2246
+  - entity_index: 2247
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57726,7 +57977,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2247
+  - entity_index: 2248
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57741,7 +57992,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2248
+  - entity_index: 2249
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57756,7 +58007,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2249
+  - entity_index: 2250
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57771,7 +58022,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2250
+  - entity_index: 2251
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57786,7 +58037,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2251
+  - entity_index: 2252
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57801,7 +58052,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2252
+  - entity_index: 2253
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57816,7 +58067,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2253
+  - entity_index: 2254
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57831,7 +58082,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2254
+  - entity_index: 2255
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57846,7 +58097,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2255
+  - entity_index: 2256
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57861,7 +58112,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2256
+  - entity_index: 2257
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57876,7 +58127,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2257
+  - entity_index: 2258
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57891,7 +58142,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2258
+  - entity_index: 2259
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57906,7 +58157,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2259
+  - entity_index: 2260
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57921,7 +58172,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2260
+  - entity_index: 2261
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57936,7 +58187,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2261
+  - entity_index: 2262
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57951,7 +58202,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2262
+  - entity_index: 2263
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57966,7 +58217,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2263
+  - entity_index: 2264
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57981,7 +58232,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2264
+  - entity_index: 2265
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -57996,7 +58247,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2265
+  - entity_index: 2266
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -58011,7 +58262,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2266
+  - entity_index: 2267
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -58026,7 +58277,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2267
+  - entity_index: 2268
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -58041,7 +58292,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2268
+  - entity_index: 2269
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -58056,7 +58307,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2269
+  - entity_index: 2270
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -58071,7 +58322,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2270
+  - entity_index: 2271
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -58086,7 +58337,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2271
+  - entity_index: 2272
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -58101,7 +58352,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2272
+  - entity_index: 2273
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -58116,7 +58367,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2273
+  - entity_index: 2274
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -58131,7 +58382,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2274
+  - entity_index: 2275
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -58146,7 +58397,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2275
+  - entity_index: 2276
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -58161,7 +58412,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2276
+  - entity_index: 2277
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -58176,7 +58427,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2277
+  - entity_index: 2278
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -58191,7 +58442,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2278
+  - entity_index: 2279
     name: plant32
     decoration_list_id: 607
     ai_attributes: 0
@@ -58199,21 +58450,6 @@ entities:
       x: -5792
       y: -4352
       z: 1120
-    facing: 0
-    event_id_primary: 0
-    event_id_secondary: 0
-    variable_primary: 0
-    variable_secondary: 0
-    special_trigger: 0
-    initial_decoration_flag: 0
-  - entity_index: 2279
-    name: plant32
-    decoration_list_id: 607
-    ai_attributes: 0
-    position:
-      x: -4480
-      y: -11712
-      z: 940
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -60371,9 +60607,9 @@ entities:
     decoration_list_id: 653
     ai_attributes: 0
     position:
-      x: 1728
-      y: -14752
-      z: 916
+      x: -2400
+      y: -19264
+      z: 906
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -60416,21 +60652,6 @@ entities:
     decoration_list_id: 653
     ai_attributes: 0
     position:
-      x: 1312
-      y: -15200
-      z: 942
-    facing: 0
-    event_id_primary: 0
-    event_id_secondary: 0
-    variable_primary: 0
-    variable_secondary: 0
-    special_trigger: 0
-    initial_decoration_flag: 0
-  - entity_index: 2427
-    name: bush03
-    decoration_list_id: 653
-    ai_attributes: 0
-    position:
       x: -1920
       y: -5856
       z: 992
@@ -60441,7 +60662,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2428
+  - entity_index: 2427
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60456,7 +60677,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2429
+  - entity_index: 2428
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60471,7 +60692,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2430
+  - entity_index: 2429
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60486,7 +60707,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2431
+  - entity_index: 2430
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60501,7 +60722,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2432
+  - entity_index: 2431
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60516,7 +60737,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2433
+  - entity_index: 2432
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60531,7 +60752,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2434
+  - entity_index: 2433
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60546,7 +60767,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2435
+  - entity_index: 2434
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60561,7 +60782,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2436
+  - entity_index: 2435
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60576,7 +60797,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2437
+  - entity_index: 2436
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60591,7 +60812,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2438
+  - entity_index: 2437
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60606,7 +60827,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2439
+  - entity_index: 2438
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60621,7 +60842,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2440
+  - entity_index: 2439
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60636,7 +60857,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2441
+  - entity_index: 2440
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60651,7 +60872,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2442
+  - entity_index: 2441
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60666,7 +60887,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2443
+  - entity_index: 2442
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60681,7 +60902,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2444
+  - entity_index: 2443
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60696,7 +60917,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2445
+  - entity_index: 2444
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60711,7 +60932,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2446
+  - entity_index: 2445
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60726,22 +60947,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2447
-    name: bush03
-    decoration_list_id: 653
-    ai_attributes: 0
-    position:
-      x: 1248
-      y: -14528
-      z: 946
-    facing: 0
-    event_id_primary: 0
-    event_id_secondary: 0
-    variable_primary: 0
-    variable_secondary: 0
-    special_trigger: 0
-    initial_decoration_flag: 0
-  - entity_index: 2448
+  - entity_index: 2446
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60756,7 +60962,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2449
+  - entity_index: 2447
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60771,7 +60977,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2450
+  - entity_index: 2448
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60786,7 +60992,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2451
+  - entity_index: 2449
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60801,7 +61007,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2452
+  - entity_index: 2450
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60816,7 +61022,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2453
+  - entity_index: 2451
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60831,7 +61037,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2454
+  - entity_index: 2452
     name: bush03
     decoration_list_id: 653
     ai_attributes: 0
@@ -60839,6 +61045,36 @@ entities:
       x: 96
       y: -4544
       z: 1124
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 2453
+    name: bush03
+    decoration_list_id: 653
+    ai_attributes: 0
+    position:
+      x: -2208
+      y: -18688
+      z: 918
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 2454
+    name: bush03
+    decoration_list_id: 653
+    ai_attributes: 0
+    position:
+      x: 7616
+      y: -14688
+      z: 1148
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -61796,6 +62032,21 @@ entities:
     decoration_list_id: 68
     ai_attributes: 0
     position:
+      x: -2336
+      y: -19168
+      z: 910
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 2519
+    name: mushrm01
+    decoration_list_id: 68
+    ai_attributes: 0
+    position:
       x: 6912
       y: -8352
       z: 1072
@@ -61806,7 +62057,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2519
+  - entity_index: 2520
     name: mushrm01
     decoration_list_id: 68
     ai_attributes: 0
@@ -61821,7 +62072,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2520
+  - entity_index: 2521
     name: mushrm01
     decoration_list_id: 68
     ai_attributes: 0
@@ -61836,7 +62087,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2521
+  - entity_index: 2522
     name: mushrm01
     decoration_list_id: 68
     ai_attributes: 0
@@ -61851,7 +62102,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2522
+  - entity_index: 2523
     name: mushrm01
     decoration_list_id: 68
     ai_attributes: 0
@@ -61866,7 +62117,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2523
+  - entity_index: 2524
     name: mushrm01
     decoration_list_id: 68
     ai_attributes: 0
@@ -61881,7 +62132,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2524
+  - entity_index: 2525
     name: mushrm01
     decoration_list_id: 68
     ai_attributes: 0
@@ -61896,7 +62147,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2525
+  - entity_index: 2526
     name: mushrm01
     decoration_list_id: 68
     ai_attributes: 0
@@ -61911,7 +62162,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2526
+  - entity_index: 2527
     name: mushrm01
     decoration_list_id: 68
     ai_attributes: 0
@@ -61926,7 +62177,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2527
+  - entity_index: 2528
     name: mushrm01
     decoration_list_id: 68
     ai_attributes: 0
@@ -61941,7 +62192,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2528
+  - entity_index: 2529
     name: mushrm01
     decoration_list_id: 68
     ai_attributes: 0
@@ -61956,7 +62207,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2529
+  - entity_index: 2530
     name: mushrm01
     decoration_list_id: 68
     ai_attributes: 0
@@ -61971,7 +62222,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2530
+  - entity_index: 2531
     name: mushrm01
     decoration_list_id: 68
     ai_attributes: 0
@@ -61986,7 +62237,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2531
+  - entity_index: 2532
     name: mushrm01
     decoration_list_id: 68
     ai_attributes: 0
@@ -62001,7 +62252,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 2532
+  - entity_index: 2533
     name: mushrm01
     decoration_list_id: 68
     ai_attributes: 0
@@ -62009,21 +62260,6 @@ entities:
       x: 5088
       y: -14464
       z: 894
-    facing: 0
-    event_id_primary: 0
-    event_id_secondary: 0
-    variable_primary: 0
-    variable_secondary: 0
-    special_trigger: 0
-    initial_decoration_flag: 0
-  - entity_index: 2533
-    name: mushrm01
-    decoration_list_id: 68
-    ai_attributes: 0
-    position:
-      x: -2208
-      y: -19072
-      z: 918
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -74998,7 +75234,7 @@ entities:
     position:
       x: -2592
       y: -20160
-      z: 504
+      z: 896
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -75322,216 +75558,6 @@ entities:
     special_trigger: 0
     initial_decoration_flag: 0
   - entity_index: 3420
-    name: 6rock07
-    decoration_list_id: 93
-    ai_attributes: 0
-    position:
-      x: -23168
-      y: -21920
-      z: 0
-    facing: 0
-    event_id_primary: 0
-    event_id_secondary: 0
-    variable_primary: 0
-    variable_secondary: 0
-    special_trigger: 0
-    initial_decoration_flag: 0
-  - entity_index: 3421
-    name: 6rock07
-    decoration_list_id: 93
-    ai_attributes: 0
-    position:
-      x: 10464
-      y: -22496
-      z: 0
-    facing: 0
-    event_id_primary: 0
-    event_id_secondary: 0
-    variable_primary: 0
-    variable_secondary: 0
-    special_trigger: 0
-    initial_decoration_flag: 0
-  - entity_index: 3422
-    name: 6rock07
-    decoration_list_id: 93
-    ai_attributes: 0
-    position:
-      x: 5952
-      y: -22336
-      z: 0
-    facing: 0
-    event_id_primary: 0
-    event_id_secondary: 0
-    variable_primary: 0
-    variable_secondary: 0
-    special_trigger: 0
-    initial_decoration_flag: 0
-  - entity_index: 3423
-    name: 6rock07
-    decoration_list_id: 93
-    ai_attributes: 0
-    position:
-      x: 6880
-      y: -24096
-      z: 0
-    facing: 0
-    event_id_primary: 0
-    event_id_secondary: 0
-    variable_primary: 0
-    variable_secondary: 0
-    special_trigger: 0
-    initial_decoration_flag: 0
-  - entity_index: 3424
-    name: 6rock07
-    decoration_list_id: 93
-    ai_attributes: 0
-    position:
-      x: -20352
-      y: -22048
-      z: 0
-    facing: 0
-    event_id_primary: 0
-    event_id_secondary: 0
-    variable_primary: 0
-    variable_secondary: 0
-    special_trigger: 0
-    initial_decoration_flag: 0
-  - entity_index: 3425
-    name: 6rock07
-    decoration_list_id: 93
-    ai_attributes: 0
-    position:
-      x: -7104
-      y: -21696
-      z: 0
-    facing: 0
-    event_id_primary: 0
-    event_id_secondary: 0
-    variable_primary: 0
-    variable_secondary: 0
-    special_trigger: 0
-    initial_decoration_flag: 0
-  - entity_index: 3426
-    name: 6rock07
-    decoration_list_id: 93
-    ai_attributes: 0
-    position:
-      x: 15712
-      y: -22624
-      z: 0
-    facing: 0
-    event_id_primary: 0
-    event_id_secondary: 0
-    variable_primary: 0
-    variable_secondary: 0
-    special_trigger: 0
-    initial_decoration_flag: 0
-  - entity_index: 3427
-    name: 6rock07
-    decoration_list_id: 93
-    ai_attributes: 0
-    position:
-      x: -23296
-      y: -23264
-      z: 0
-    facing: 0
-    event_id_primary: 0
-    event_id_secondary: 0
-    variable_primary: 0
-    variable_secondary: 0
-    special_trigger: 0
-    initial_decoration_flag: 0
-  - entity_index: 3428
-    name: 6rock07
-    decoration_list_id: 93
-    ai_attributes: 0
-    position:
-      x: -28160
-      y: -23264
-      z: 0
-    facing: 0
-    event_id_primary: 0
-    event_id_secondary: 0
-    variable_primary: 0
-    variable_secondary: 0
-    special_trigger: 0
-    initial_decoration_flag: 0
-  - entity_index: 3429
-    name: 6rock07
-    decoration_list_id: 93
-    ai_attributes: 0
-    position:
-      x: -384
-      y: -23296
-      z: 0
-    facing: 0
-    event_id_primary: 0
-    event_id_secondary: 0
-    variable_primary: 0
-    variable_secondary: 0
-    special_trigger: 0
-    initial_decoration_flag: 0
-  - entity_index: 3430
-    name: 6rock07
-    decoration_list_id: 93
-    ai_attributes: 0
-    position:
-      x: 30688
-      y: -22272
-      z: 0
-    facing: 0
-    event_id_primary: 0
-    event_id_secondary: 0
-    variable_primary: 0
-    variable_secondary: 0
-    special_trigger: 0
-    initial_decoration_flag: 0
-  - entity_index: 3431
-    name: 6rock07
-    decoration_list_id: 93
-    ai_attributes: 0
-    position:
-      x: 4032
-      y: -22624
-      z: 0
-    facing: 0
-    event_id_primary: 0
-    event_id_secondary: 0
-    variable_primary: 0
-    variable_secondary: 0
-    special_trigger: 0
-    initial_decoration_flag: 0
-  - entity_index: 3432
-    name: 6rock07
-    decoration_list_id: 93
-    ai_attributes: 0
-    position:
-      x: 16160
-      y: -24096
-      z: 0
-    facing: 0
-    event_id_primary: 0
-    event_id_secondary: 0
-    variable_primary: 0
-    variable_secondary: 0
-    special_trigger: 0
-    initial_decoration_flag: 0
-  - entity_index: 3433
-    name: 6rock07
-    decoration_list_id: 93
-    ai_attributes: 0
-    position:
-      x: 1632
-      y: -23456
-      z: 0
-    facing: 0
-    event_id_primary: 0
-    event_id_secondary: 0
-    variable_primary: 0
-    variable_secondary: 0
-    special_trigger: 0
-    initial_decoration_flag: 0
-  - entity_index: 3434
     name: east start
     decoration_list_id: 13
     ai_attributes: 2
@@ -75546,7 +75572,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 2
-  - entity_index: 3435
+  - entity_index: 3421
     name: west start
     decoration_list_id: 13
     ai_attributes: 2
@@ -75561,7 +75587,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 2
-  - entity_index: 3436
+  - entity_index: 3422
     name: dec06
     decoration_list_id: 235
     ai_attributes: 0
@@ -75576,7 +75602,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3437
+  - entity_index: 3423
     name: dec06
     decoration_list_id: 235
     ai_attributes: 0
@@ -75591,7 +75617,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3438
+  - entity_index: 3424
     name: tree69
     decoration_list_id: 551
     ai_attributes: 0
@@ -75606,7 +75632,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3439
+  - entity_index: 3425
     name: tree12
     decoration_list_id: 463
     ai_attributes: 0
@@ -75621,7 +75647,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3440
+  - entity_index: 3426
     name: tree62a
     decoration_list_id: 544
     ai_attributes: 0
@@ -75636,7 +75662,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3441
+  - entity_index: 3427
     name: dec06
     decoration_list_id: 235
     ai_attributes: 0
@@ -75651,7 +75677,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3442
+  - entity_index: 3428
     name: dec06
     decoration_list_id: 235
     ai_attributes: 0
@@ -75666,7 +75692,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3443
+  - entity_index: 3429
     name: tree69
     decoration_list_id: 551
     ai_attributes: 0
@@ -75681,7 +75707,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3444
+  - entity_index: 3430
     name: tree12
     decoration_list_id: 463
     ai_attributes: 0
@@ -75696,7 +75722,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3445
+  - entity_index: 3431
     name: tree62a
     decoration_list_id: 544
     ai_attributes: 0
@@ -75711,7 +75737,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3446
+  - entity_index: 3432
     name: dec06
     decoration_list_id: 235
     ai_attributes: 0
@@ -75726,7 +75752,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3447
+  - entity_index: 3433
     name: dec06
     decoration_list_id: 235
     ai_attributes: 0
@@ -75741,7 +75767,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3448
+  - entity_index: 3434
     name: tree12
     decoration_list_id: 463
     ai_attributes: 0
@@ -75756,7 +75782,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3449
+  - entity_index: 3435
     name: tree12
     decoration_list_id: 463
     ai_attributes: 0
@@ -75771,7 +75797,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3450
+  - entity_index: 3436
     name: tree62a
     decoration_list_id: 544
     ai_attributes: 0
@@ -75786,7 +75812,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3451
+  - entity_index: 3437
     name: dec06
     decoration_list_id: 235
     ai_attributes: 0
@@ -75801,7 +75827,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3452
+  - entity_index: 3438
     name: dec06
     decoration_list_id: 235
     ai_attributes: 0
@@ -75816,7 +75842,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3453
+  - entity_index: 3439
     name: tree10
     decoration_list_id: 457
     ai_attributes: 0
@@ -75831,7 +75857,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3454
+  - entity_index: 3440
     name: tree12
     decoration_list_id: 463
     ai_attributes: 0
@@ -75846,7 +75872,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3455
+  - entity_index: 3441
     name: tree62a
     decoration_list_id: 544
     ai_attributes: 0
@@ -75861,7 +75887,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3456
+  - entity_index: 3442
     name: dec06
     decoration_list_id: 235
     ai_attributes: 0
@@ -75876,7 +75902,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3457
+  - entity_index: 3443
     name: dec06
     decoration_list_id: 235
     ai_attributes: 0
@@ -75891,7 +75917,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3458
+  - entity_index: 3444
     name: tree62a
     decoration_list_id: 544
     ai_attributes: 0
@@ -75906,7 +75932,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3459
+  - entity_index: 3445
     name: tree12
     decoration_list_id: 463
     ai_attributes: 0
@@ -75921,7 +75947,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3460
+  - entity_index: 3446
     name: tree62a
     decoration_list_id: 544
     ai_attributes: 0
@@ -75936,7 +75962,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3461
+  - entity_index: 3447
     name: mushrm04
     decoration_list_id: 197
     ai_attributes: 0
@@ -75951,7 +75977,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3462
+  - entity_index: 3448
     name: mushrm05
     decoration_list_id: 198
     ai_attributes: 0
@@ -75966,7 +75992,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3463
+  - entity_index: 3449
     name: mushrm06
     decoration_list_id: 199
     ai_attributes: 0
@@ -75981,7 +76007,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3464
+  - entity_index: 3450
     name: mushrm04
     decoration_list_id: 197
     ai_attributes: 0
@@ -75996,7 +76022,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3465
+  - entity_index: 3451
     name: mushrm05
     decoration_list_id: 198
     ai_attributes: 0
@@ -76011,7 +76037,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3466
+  - entity_index: 3452
     name: mushrm06
     decoration_list_id: 199
     ai_attributes: 0
@@ -76026,7 +76052,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3467
+  - entity_index: 3453
     name: mushrm04
     decoration_list_id: 197
     ai_attributes: 0
@@ -76041,7 +76067,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3468
+  - entity_index: 3454
     name: mushrm05
     decoration_list_id: 198
     ai_attributes: 0
@@ -76056,7 +76082,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3469
+  - entity_index: 3455
     name: mushrm06
     decoration_list_id: 199
     ai_attributes: 0
@@ -76071,7 +76097,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3470
+  - entity_index: 3456
     name: mushrm04
     decoration_list_id: 197
     ai_attributes: 0
@@ -76086,7 +76112,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3471
+  - entity_index: 3457
     name: xeen_greatcrown
     decoration_list_id: 4000
     ai_attributes: 0
@@ -76101,7 +76127,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3472
+  - entity_index: 3458
     name: mushrm07
     decoration_list_id: 200
     ai_attributes: 0
@@ -76116,7 +76142,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3473
+  - entity_index: 3459
     name: mushrm05
     decoration_list_id: 198
     ai_attributes: 0
@@ -76131,7 +76157,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3474
+  - entity_index: 3460
     name: mushrm06
     decoration_list_id: 199
     ai_attributes: 0
@@ -76146,7 +76172,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3475
+  - entity_index: 3461
     name: mushrm04
     decoration_list_id: 197
     ai_attributes: 0
@@ -76161,7 +76187,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3476
+  - entity_index: 3462
     name: mushrm07
     decoration_list_id: 200
     ai_attributes: 0
@@ -76176,7 +76202,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3477
+  - entity_index: 3463
     name: mushrm05
     decoration_list_id: 198
     ai_attributes: 0
@@ -76191,7 +76217,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3478
+  - entity_index: 3464
     name: 7dec18
     decoration_list_id: 257
     ai_attributes: 0
@@ -76206,7 +76232,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3479
+  - entity_index: 3465
     name: stump5a
     decoration_list_id: 217
     ai_attributes: 0
@@ -76221,7 +76247,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3480
+  - entity_index: 3466
     name: stump5a
     decoration_list_id: 217
     ai_attributes: 0
@@ -76236,7 +76262,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3481
+  - entity_index: 3467
     name: rock16
     decoration_list_id: 375
     ai_attributes: 0
@@ -76251,7 +76277,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3482
+  - entity_index: 3468
     name: crclstr
     decoration_list_id: 108
     ai_attributes: 0
@@ -76266,7 +76292,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3483
+  - entity_index: 3469
     name: crclstr
     decoration_list_id: 108
     ai_attributes: 0
@@ -76281,7 +76307,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3484
+  - entity_index: 3470
     name: crclstr
     decoration_list_id: 108
     ai_attributes: 0
@@ -76296,7 +76322,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3485
+  - entity_index: 3471
     name: crclstr
     decoration_list_id: 108
     ai_attributes: 0
@@ -76311,7 +76337,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3486
+  - entity_index: 3472
     name: crclstr
     decoration_list_id: 108
     ai_attributes: 0
@@ -76326,7 +76352,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3487
+  - entity_index: 3473
     name: crclstr
     decoration_list_id: 108
     ai_attributes: 0
@@ -76341,7 +76367,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3488
+  - entity_index: 3474
     name: crclstr
     decoration_list_id: 108
     ai_attributes: 0
@@ -76356,7 +76382,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3489
+  - entity_index: 3475
     name: 7dec41
     decoration_list_id: 284
     ai_attributes: 0
@@ -76371,7 +76397,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3490
+  - entity_index: 3476
     name: 7dec18
     decoration_list_id: 257
     ai_attributes: 0
@@ -76386,7 +76412,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3491
+  - entity_index: 3477
     name: dec05
     decoration_list_id: 233
     ai_attributes: 0
@@ -76401,7 +76427,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3492
+  - entity_index: 3478
     name: 7dec18
     decoration_list_id: 257
     ai_attributes: 0
@@ -76416,7 +76442,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3493
+  - entity_index: 3479
     name: dec05
     decoration_list_id: 233
     ai_attributes: 0
@@ -76431,7 +76457,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3494
+  - entity_index: 3480
     name: 7dec18
     decoration_list_id: 257
     ai_attributes: 0
@@ -76446,7 +76472,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3495
+  - entity_index: 3481
     name: dec05
     decoration_list_id: 233
     ai_attributes: 0
@@ -76461,7 +76487,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3496
+  - entity_index: 3482
     name: bigbarel
     decoration_list_id: 155
     ai_attributes: 0
@@ -76476,7 +76502,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3497
+  - entity_index: 3483
     name: bigbarel
     decoration_list_id: 155
     ai_attributes: 0
@@ -76491,7 +76517,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3498
+  - entity_index: 3484
     name: foodbowl
     decoration_list_id: 169
     ai_attributes: 0
@@ -76506,7 +76532,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3499
+  - entity_index: 3485
     name: foodbowl
     decoration_list_id: 169
     ai_attributes: 0
@@ -76521,7 +76547,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3500
+  - entity_index: 3486
     name: foodbowl
     decoration_list_id: 169
     ai_attributes: 0
@@ -76536,7 +76562,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3501
+  - entity_index: 3487
     name: foodbowl
     decoration_list_id: 169
     ai_attributes: 0
@@ -76551,7 +76577,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3502
+  - entity_index: 3488
     name: mushrm07
     decoration_list_id: 200
     ai_attributes: 0
@@ -76566,7 +76592,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3503
+  - entity_index: 3489
     name: mushrm06
     decoration_list_id: 199
     ai_attributes: 0
@@ -76581,7 +76607,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3504
+  - entity_index: 3490
     name: mushrm04
     decoration_list_id: 197
     ai_attributes: 0
@@ -76596,7 +76622,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3505
+  - entity_index: 3491
     name: mushrm07
     decoration_list_id: 200
     ai_attributes: 0
@@ -76611,7 +76637,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3506
+  - entity_index: 3492
     name: mushrm06
     decoration_list_id: 199
     ai_attributes: 0
@@ -76626,7 +76652,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3507
+  - entity_index: 3493
     name: mushrm04
     decoration_list_id: 197
     ai_attributes: 0
@@ -76641,7 +76667,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3508
+  - entity_index: 3494
     name: mushrm07
     decoration_list_id: 200
     ai_attributes: 0
@@ -76656,7 +76682,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3509
+  - entity_index: 3495
     name: mushrm06
     decoration_list_id: 199
     ai_attributes: 0
@@ -76671,7 +76697,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3510
+  - entity_index: 3496
     name: mushrm04
     decoration_list_id: 197
     ai_attributes: 0
@@ -76686,7 +76712,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3511
+  - entity_index: 3497
     name: mushrm05
     decoration_list_id: 198
     ai_attributes: 0
@@ -76701,7 +76727,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3512
+  - entity_index: 3498
     name: rock16
     decoration_list_id: 375
     ai_attributes: 0
@@ -76716,7 +76742,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3513
+  - entity_index: 3499
     name: rock16
     decoration_list_id: 375
     ai_attributes: 0
@@ -76731,7 +76757,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3514
+  - entity_index: 3500
     name: 7dec41
     decoration_list_id: 284
     ai_attributes: 0
@@ -76746,7 +76772,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3515
+  - entity_index: 3501
     name: crclstr
     decoration_list_id: 108
     ai_attributes: 0
@@ -76761,7 +76787,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3516
+  - entity_index: 3502
     name: crys5
     decoration_list_id: 109
     ai_attributes: 0
@@ -76776,7 +76802,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3517
+  - entity_index: 3503
     name: crys6
     decoration_list_id: 110
     ai_attributes: 0
@@ -76791,7 +76817,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3518
+  - entity_index: 3504
     name: crys5
     decoration_list_id: 109
     ai_attributes: 0
@@ -76806,7 +76832,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3519
+  - entity_index: 3505
     name: dec05
     decoration_list_id: 233
     ai_attributes: 0
@@ -76821,7 +76847,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3520
+  - entity_index: 3506
     name: dec60
     decoration_list_id: 304
     ai_attributes: 0
@@ -76836,7 +76862,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3521
+  - entity_index: 3507
     name: stump5a
     decoration_list_id: 217
     ai_attributes: 0
@@ -76851,7 +76877,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 32
-  - entity_index: 3522
+  - entity_index: 3508
     name: dec24x
     decoration_list_id: 265
     ai_attributes: 0
@@ -76866,7 +76892,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 32
-  - entity_index: 3523
+  - entity_index: 3509
     name: stump5a
     decoration_list_id: 217
     ai_attributes: 0
@@ -76881,7 +76907,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 32
-  - entity_index: 3524
+  - entity_index: 3510
     name: dec24x
     decoration_list_id: 265
     ai_attributes: 0
@@ -76896,7 +76922,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 32
-  - entity_index: 3525
+  - entity_index: 3511
     name: stump5a
     decoration_list_id: 217
     ai_attributes: 0
@@ -76911,7 +76937,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 32
-  - entity_index: 3526
+  - entity_index: 3512
     name: dec24x
     decoration_list_id: 265
     ai_attributes: 0
@@ -76926,7 +76952,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 32
-  - entity_index: 3527
+  - entity_index: 3513
     name: stump5a
     decoration_list_id: 217
     ai_attributes: 0
@@ -76941,7 +76967,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 32
-  - entity_index: 3528
+  - entity_index: 3514
     name: dec24x
     decoration_list_id: 265
     ai_attributes: 0
@@ -76956,7 +76982,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 32
-  - entity_index: 3529
+  - entity_index: 3515
     name: dec60
     decoration_list_id: 304
     ai_attributes: 0
@@ -76971,7 +76997,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3530
+  - entity_index: 3516
     name: stump5a
     decoration_list_id: 217
     ai_attributes: 0
@@ -76986,7 +77012,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 32
-  - entity_index: 3531
+  - entity_index: 3517
     name: dec24x
     decoration_list_id: 265
     ai_attributes: 0
@@ -77001,7 +77027,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 32
-  - entity_index: 3532
+  - entity_index: 3518
     name: stump5a
     decoration_list_id: 217
     ai_attributes: 0
@@ -77016,7 +77042,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 32
-  - entity_index: 3533
+  - entity_index: 3519
     name: dec24x
     decoration_list_id: 265
     ai_attributes: 0
@@ -77031,7 +77057,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 32
-  - entity_index: 3534
+  - entity_index: 3520
     name: stump5a
     decoration_list_id: 217
     ai_attributes: 0
@@ -77046,7 +77072,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 32
-  - entity_index: 3535
+  - entity_index: 3521
     name: dec24x
     decoration_list_id: 265
     ai_attributes: 0
@@ -77061,7 +77087,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 32
-  - entity_index: 3536
+  - entity_index: 3522
     name: stump5a
     decoration_list_id: 217
     ai_attributes: 0
@@ -77076,7 +77102,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 32
-  - entity_index: 3537
+  - entity_index: 3523
     name: dec24x
     decoration_list_id: 265
     ai_attributes: 0
@@ -77091,7 +77117,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 32
-  - entity_index: 3538
+  - entity_index: 3524
     name: dec24
     decoration_list_id: 305
     ai_attributes: 0
@@ -77106,7 +77132,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3539
+  - entity_index: 3525
     name: rock16
     decoration_list_id: 375
     ai_attributes: 0
@@ -77121,7 +77147,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3540
+  - entity_index: 3526
     name: rock16
     decoration_list_id: 375
     ai_attributes: 0
@@ -77136,7 +77162,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3541
+  - entity_index: 3527
     name: rock16
     decoration_list_id: 375
     ai_attributes: 0
@@ -77151,7 +77177,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3542
+  - entity_index: 3528
     name: rock16
     decoration_list_id: 375
     ai_attributes: 0
@@ -77166,7 +77192,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3543
+  - entity_index: 3529
     name: rock16
     decoration_list_id: 375
     ai_attributes: 0
@@ -77181,7 +77207,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3544
+  - entity_index: 3530
     name: rock16
     decoration_list_id: 375
     ai_attributes: 0
@@ -77196,7 +77222,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3545
+  - entity_index: 3531
     name: rock16
     decoration_list_id: 375
     ai_attributes: 0
@@ -77211,7 +77237,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3546
+  - entity_index: 3532
     name: rock16
     decoration_list_id: 375
     ai_attributes: 0
@@ -77226,7 +77252,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3547
+  - entity_index: 3533
     name: stump5a
     decoration_list_id: 217
     ai_attributes: 0
@@ -77241,7 +77267,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3548
+  - entity_index: 3534
     name: 7dec18
     decoration_list_id: 257
     ai_attributes: 0
@@ -77256,7 +77282,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3549
+  - entity_index: 3535
     name: dec24x
     decoration_list_id: 265
     ai_attributes: 0
@@ -77271,7 +77297,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3550
+  - entity_index: 3536
     name: 7dec18
     decoration_list_id: 257
     ai_attributes: 0
@@ -77286,7 +77312,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3551
+  - entity_index: 3537
     name: 7dec41
     decoration_list_id: 284
     ai_attributes: 0
@@ -77301,7 +77327,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3552
+  - entity_index: 3538
     name: stump5a
     decoration_list_id: 217
     ai_attributes: 0
@@ -77316,7 +77342,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3553
+  - entity_index: 3539
     name: crys6
     decoration_list_id: 110
     ai_attributes: 0
@@ -77331,7 +77357,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3554
+  - entity_index: 3540
     name: rock16
     decoration_list_id: 375
     ai_attributes: 0
@@ -77346,7 +77372,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3555
+  - entity_index: 3541
     name: rock16
     decoration_list_id: 375
     ai_attributes: 0
@@ -77361,7 +77387,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3556
+  - entity_index: 3542
     name: rock16
     decoration_list_id: 375
     ai_attributes: 0
@@ -77376,7 +77402,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3557
+  - entity_index: 3543
     name: rock16
     decoration_list_id: 375
     ai_attributes: 0
@@ -77391,7 +77417,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 3558
+  - entity_index: 3544
     name: rock16
     decoration_list_id: 375
     ai_attributes: 0
@@ -77400,6 +77426,486 @@ entities:
       y: -19149
       z: 1011
     facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3545
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -31744
+      y: -20982
+      z: 480
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3546
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -29696
+      y: -20982
+      z: 416
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3547
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -27648
+      y: -20982
+      z: 608
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3548
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -25600
+      y: -20982
+      z: 448
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3549
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -23552
+      y: -20982
+      z: 320
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3550
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -21504
+      y: -20982
+      z: 1024
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3551
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -19456
+      y: -20982
+      z: 960
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3552
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -17408
+      y: -20982
+      z: 928
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3553
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -15360
+      y: -20982
+      z: 960
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3554
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -13312
+      y: -20982
+      z: 1024
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3555
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -11264
+      y: -20982
+      z: 1024
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3556
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -9216
+      y: -20982
+      z: 1024
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3557
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -7168
+      y: -20982
+      z: 1024
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3558
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -5120
+      y: -20982
+      z: 992
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3559
+    name: xeen_hull1
+    decoration_list_id: 4059
+    ai_attributes: 0
+    position:
+      x: -3840
+      y: -20982
+      z: 896
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3560
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -1536
+      y: -20982
+      z: 928
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3561
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 512
+      y: -20982
+      z: 960
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3562
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 2560
+      y: -20982
+      z: 992
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3563
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 4608
+      y: -20982
+      z: 1024
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3564
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 6656
+      y: -20982
+      z: 1056
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3565
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 8704
+      y: -20982
+      z: 1024
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3566
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 10752
+      y: -20982
+      z: 960
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3567
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 12800
+      y: -20982
+      z: 992
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3568
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 14848
+      y: -20982
+      z: 1056
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3569
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 16896
+      y: -20982
+      z: 1056
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3570
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 18944
+      y: -20982
+      z: 1024
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3571
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 20992
+      y: -20982
+      z: 992
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3572
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 23040
+      y: -20982
+      z: 1024
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3573
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 25088
+      y: -20982
+      z: 320
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3574
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 27136
+      y: -20982
+      z: 832
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3575
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 29184
+      y: -20982
+      z: 448
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 3576
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 31232
+      y: -20982
+      z: 608
+    facing: 180
     event_id_primary: 0
     event_id_secondary: 0
     variable_primary: 0

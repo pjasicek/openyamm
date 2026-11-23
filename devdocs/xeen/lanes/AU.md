@@ -124,3 +124,14 @@ house `enter_sound` once A1 has the field.
   audio trace, tours in `output/xeen_music_install/runs/`): X1 92001 -> 92003 walking into Vertigo (close the opening
   message first: click [1252, 820]), D3 92002 -> 92004 into the Crossroads, P5 92008. `build_world.py --check` 0 differ,
   `stale_bakes.py --check` 0. MUSIC.md's proposal is now its current table; DECISIONS U-10, ROADMAP Q9 updated.
+- 2026-11-23 feedback F37 (the engine agent's sub-agent, for AU): "the doom bugs sound a bit strange" (X1 p10). Cause:
+  the swarm set's ElevenLabs takes were white hiss (centroid 7.6-10.8 kHz, 1-3 % of the energy under 2.5 kHz,
+  spectral flatness 0.20-0.30; MM6-MM8's insects buzz at 100-600 Hz), and the Doom Bug, one walking cricket, played
+  that hiss three semitones down. New check `tools/xeen/check_monster_sounds.py` (every Xeen descriptor's four sounds
+  against the MM6-MM8 monster sounds: missing, clipped, hiss, loud, quiet, long, short, cut, dc; exit 1) found the
+  same hiss on the sprites' attack, death, fidget and the snake men's attack, fidget (and their pitched sets): 18
+  faulty sounds before, 0 after. Re-prompted in jobs.yml (comments say why): the swarm set (a 140 Hz wing hum,
+  high-passed at 120), the Doom Bug as its own set (a giant cricket: mandible clacks, chirps; attack and death
+  prompted twice), sprites (voiced giggle, bells), snake men (voiced snarl, breathing). Picks by measurement with
+  `listening` lines in picks.yml (six `choice` overrides); installed with install.py (18 WAVs, the Doom Bug row's
+  comment). 45 requests, **621 charged, 2 220 committed** (now 38 412 charged, 135 170 committed of 140 000).

@@ -161,6 +161,7 @@ def link(name, mat, centre, direction, length, width, wire, segments, sides, tur
             face = bm.faces.new((rings[i][j], rings[i][(j + 1) % sides], following[(j + 1) % sides], following[j]))
             for loop, (s, v) in zip(face.loops, ((i, j), (i, j + 1), (i + 1, j + 1), (i + 1, j))):
                 loop[uv].uv = (s / segments * 0.5, v / sides * 0.1)
+    bmesh.ops.reverse_faces(bm, faces=bm.faces[:])       # the quads above face inward (F39: inside-out links)
     direction = Vector(direction).normalized()
     frame = direction.to_track_quat('Z', 'X').to_matrix().to_4x4() @ Matrix.Rotation(turn, 4, 'Z')
     for v in bm.verts:

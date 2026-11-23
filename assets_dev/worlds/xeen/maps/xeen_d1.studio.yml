@@ -1,8 +1,8 @@
 # Written by oymap install: the Map Studio project this map was built from. The game's `pin` copies it into
 # every pin made on the map; `oymap pins import` files the pin into that project.
 project: "/home/pjasicek/github/OpenYAMM/devdocs/xeen/briefs/d1/L4"
-revision: "88821c20837ed5eb3fbeaef55c008948"
-lock_hash: "d1fcc1b932b54bf959eb13601b5972bc"
+revision: "ef41ea625c28d08104f70a5a764c43ac"
+lock_hash: "a30aa6f64fdea90007dd4f4499e01b82"
 # Where a party arrives (`into: {map, arrival}` and a neighbour's `arrival: <name>` of other maps).
 arrivals:
   - {name: "start", at: [-512, 4096, 1152], facing: 512}
@@ -23,6 +23,6 @@ arrivals:
   - {name: "entrance:east_road", at: [21504, 2048, 1088], facing: 1024}
   - {name: "entrance:kalindra_gate", at: [-9216, -3072, 1664], facing: 1024}
   - {name: "entrance:lucio_jetty", at: [-6656, 5120, 1152], facing: 1024}
-  - {name: "entrance:north_gate", at: [-512, 10752, 1152], facing: 1536}
+  - {name: "entrance:north_gate", at: [0, 10752, 1152], facing: 1536}
   - {name: "entrance:north_road", at: [0, 22016, 1504], facing: 1536}
   - {name: "entrance:queens_gate", at: [-6656, 0, 1152], facing: 256}

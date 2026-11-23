@@ -244,7 +244,7 @@ for _lst in (CORE, SOUTH, SUBURB_W, SUBURB_E):
             _lst[_i] = _e[:3] + (_x, _y) + (_e[5], _fp) + _e[7:]
 _FRINGE_AT = [(33, 43, 1, 1, 's'), (70.5, 47, 1.5, 1.5, 'n'), (68.5, 41, 1.5, 1.5, 's'), (71, 41, 1, 1.5, 's'),
               (54, 35, 1.5, 1.5, 'n'), (60, 34, 1.5, 1.5, 'n'),
-              (49, 33.5, 1.5, 1.5, 'e'), (56.5, 34.5, 1.5, 1.5, 'n'),
+              (49, 33.5, 1.5, 1.5, 's'), (56.5, 34.5, 1.5, 1.5, 'e'),   # P2 F27 (p14): doors off the uphill side
               (55.5, 62, 1.5, 1.5, 'w'), (57.5, 64, 1.5, 1.5, 's'), (56.5, 60, 1.5, 1, 'w')]
 _KINDS = [('cottage', 'plaster', THATCH), ('gable_porch', 'timber', None), ('L', 'grey', None), ('barn', 'poor', None),
           ('jetty', 'plaster', None), ('cottage', 'stone', None), ('gable_porch', 'poor', THATCH)]
@@ -279,6 +279,10 @@ def fringe_space(e):
 # user found on the north road were 2:7 slopes).
 # ---------------------------------------------------------------------------------------------------------------
 GATE_W, GATE_N, GATE_E, GATE_S = (41.5, 44), (52, 38), (62.5, 46), (52, 49.5)
+# P2 F28 (pin p19, agent xeen-fb2-town 2026-11-23): a road on the line x (or y) lays its tiles on the cell x..x+1, so
+# its middle is x.5; the gatehouses stand there (they stood on the line, the road half a cell to one side, running
+# into the tower beside the arch). The roads keep their lines (town_fit_check `gates.road_off`).
+GATE_HOUSE = {GATE_W: (41.5, 44.5), GATE_N: (52.5, 38), GATE_E: (62.5, 46.5), GATE_S: (52.5, 49.5)}
 # Pass three (TOWN_FEEL 3: straight runs of 2-6 cells, offset junctions, right-angle turns and 45-degree jogs): the
 # main street is broken by the lanes, which are cobbled now and meet it at offset junctions (the smiths' lane at x
 # 44.5 north, the inn lane at 45.5 south; the bank lane at 57); the west road leaves the gate in a right-angle dog-leg,
@@ -393,9 +397,9 @@ CREEK_IN = 51.75      # F19: where the creek walls end, 0.75 into the water belo
 CREEK_BANK = 51.0     # D-94: the creek's water starts at row 51 below the end towers
 
 # the ring, clockwise from the north-west corner: ('t', point) tower, ('g', point) gatehouse
-RING = [('t', (42.0, 38.5)), ('t', (47.0, 38.2)), ('g', GATE_N), ('t', (57.0, 38.2)), ('t', (62.2, 38.6)),
-        ('g', GATE_E), ('t', (62.0, 49.5)), ('t', (57.0, 49.6)), ('g', GATE_S), ('t', (47.0, 49.6)),
-        ('t', (42.0, 49.5)), ('g', GATE_W)]
+RING = [('t', (42.0, 38.5)), ('t', (47.0, 38.2)), ('g', GATE_HOUSE[GATE_N]), ('t', (57.0, 38.2)),
+        ('t', (62.2, 38.6)), ('g', GATE_HOUSE[GATE_E]), ('t', (62.0, 49.5)), ('t', (57.0, 49.6)),
+        ('g', GATE_HOUSE[GATE_S]), ('t', (47.0, 49.6)), ('t', (42.0, 49.5)), ('g', GATE_HOUSE[GATE_W])]
 
 def wall_structures():
     out = []
@@ -460,7 +464,8 @@ def wall_structures():
             W = GATE_GAP + 4 * GATE_TR
             Dp = 2 * GATE_TR + 128
             upright = 45 < abs(ang) < 135
-            name = {GATE_N: 'north', GATE_E: 'east', GATE_S: 'south', GATE_W: 'west'}[p]
+            name = {GATE_HOUSE[GATE_N]: 'north', GATE_HOUSE[GATE_E]: 'east', GATE_HOUSE[GATE_S]: 'south',
+                    GATE_HOUSE[GATE_W]: 'west'}[p]
             towers = []
             tw = {'shape': 'round', 'radius': GATE_TR, 'sides': 12, 'wall_height': WALL_H + 384, 'roof': 'cone',
                   'roof_pitch': 58, 'eaves': 32, 'windows': 'none', 'textures': {'wall': TOWER_TEX, 'roof': '7hhr1rf'}}
@@ -507,15 +512,25 @@ def wall_structures():
 # Pass four (REVIEW_PASS3 1): the terrace's front is a stone retaining wall over the one-cell step (row 41 to 42),
 # its face 512 high behind the north row of shops, broken by the flights of steps and the north street's ramp.
 RETAIN_Y = 41.5
-RETAIN_GAPS = [(44.1, 44.9), (48.35, 49.15), (50.3, 51.7), (56.1, 56.9)]
+# P2 F26: the town hall's gap exactly the steps' and its tower's width (its ends 13 from the tower made slits)
+RETAIN_GAPS = [(44.1, 44.9), (48.375, 49.125), (50.3, 51.7), (56.1, 56.9)]
 RETAIN_TEX = 'chb1'
+
+# P2 F26/F24 (pins p5, p6, p15, agent xeen-fb2-town 2026-11-23): a wall's foot is its line's lowest land less 64
+# and its top the highest plus `height`; on the step's middle (row 41.5, the land 896) that made a slab from 832 to
+# 944 across the slope: a hollow 192 high over the street under its face (a villager walked in and stuck), its
+# underside open at its ends, and the terrace's grass over its top. Now the slab is the step: `raise` takes its foot
+# 64 into the street and its top 48 over the terrace (town_fit_check `walls.hollow`, `walls.buried`).
+RETAIN_STREET = 640
+RETAIN_MID = (UPPER_H + RETAIN_STREET) // 2
 
 def retaining_walls():
     out = []
     xs = [UPPER[0][0]] + [v for g in RETAIN_GAPS for v in g] + [UPPER[1][0]]
     for k in range(0, len(xs), 2):
         out.append({'id': 'thing:terrace_wall_%d' % (k // 2 + 1), 'kind': 'wall',
-                    'line': [[xs[k], RETAIN_Y], [xs[k + 1], RETAIN_Y]], 'height': 48, 'thickness': 512,
+                    'line': [[xs[k], RETAIN_Y], [xs[k + 1], RETAIN_Y]], 'raise': RETAIN_STREET - RETAIN_MID,
+                    'height': UPPER_H + 48 - RETAIN_STREET, 'thickness': 512,
                     'textures': {'wall': RETAIN_TEX}, 'title': 'Terrace wall',
                     'notes': "Pass four: the upper town's retaining wall (Harmondale's fieldstone, chb1)."})
     return out

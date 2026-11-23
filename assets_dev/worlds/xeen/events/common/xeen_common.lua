@@ -263,6 +263,83 @@ function Xeen.skyFallTo(key)
     Xeen.skyFall(fall[1], fall[2], fall[3], fall[4], fall[5], false)
 end
 
+-- The world rim (P2 feedback F29, 2026-11-23; U-12): under a rim map's cliff lies the void (the sea that stood for the
+-- stars until the void was built), and nobody is stranded in it. Each rim map's timer event
+-- (level_generation/projects/xeen/common/wild.py, every second, not while flying) calls Xeen.rimFall(seas, points):
+-- seas are the rim's polygons (the void, or the old sea) in game units, points the map's return points on the rim top
+-- {x, y, groundZ, yaw}. A party over a sea (at any height), or within Xeen.RimFallMargin of one
+-- and below Xeen.RimFallDepth (the rim's foot, a hole beside a waterfall), is put back over the nearest point and
+-- falls Xeen.SkyFallHeight (the engine's fall damage; Feather Fall spares).
+Xeen.RimFallDepth = 320
+Xeen.RimFallMargin = 1024
+
+local function insidePolygon(polygon, x, y)
+    local inside = false
+    local count = #polygon
+    for index = 1, count do
+        local a = polygon[index]
+        local b = polygon[index == 1 and count or index - 1]
+        if (a[2] > y) ~= (b[2] > y) and x < (b[1] - a[1]) * (y - a[2]) / (b[2] - a[2]) + a[1] then
+            inside = not inside
+        end
+    end
+    return inside
+end
+
+local function distanceToPolygon(polygon, x, y)
+    local best = math.huge
+    local count = #polygon
+    for index = 1, count do
+        local a = polygon[index]
+        local b = polygon[index == count and 1 or index + 1]
+        local dx, dy = b[1] - a[1], b[2] - a[2]
+        local share = 0
+        local lengthSquared = dx * dx + dy * dy
+        if lengthSquared > 0 then
+            share = math.max(0, math.min(1, ((x - a[1]) * dx + (y - a[2]) * dy) / lengthSquared))
+        end
+        local ex, ey = x - a[1] - dx * share, y - a[2] - dy * share
+        best = math.min(best, math.sqrt(ex * ex + ey * ey))
+    end
+    return best
+end
+
+function Xeen.rimFall(seas, points)
+    -- a flying party is not falling (the map's timer runs always; IsAtLeast(IsFlying, 0) holds while it flies)
+    if IsAtLeast(IsFlying, 0) then
+        return
+    end
+    local x, y, z = evt.GetPartyPosition()
+    -- In the void itself at any height (D-109: the land runs level to its edge, and the first void cell's floor,
+    -- never drawn, slopes from the land's height down to the void's: a party could stand on it in mid-air); within
+    -- Xeen.RimFallMargin of it only below Xeen.RimFallDepth (a hole beside a waterfall).
+    local below = false
+    for _, sea in ipairs(seas) do
+        if insidePolygon(sea, x, y)
+            or (z < Xeen.RimFallDepth and distanceToPolygon(sea, x, y) <= Xeen.RimFallMargin) then
+            below = true
+            break
+        end
+    end
+    if not below or #points == 0 then
+        return
+    end
+    local nearest = points[1]
+    local nearestDistance = math.huge
+    for _, point in ipairs(points) do
+        local dx, dy = point[1] - x, point[2] - y
+        local distance = dx * dx + dy * dy
+        if distance < nearestDistance then
+            nearest = point
+            nearestDistance = distance
+        end
+    end
+    evt.StatusText("You fall into the void between the stars... and wake on the rim.")
+    -- a move within the map ("0"): the map is not loaded again, so its timers (this one) keep running
+    evt.MoveToMap(nearest[1], nearest[2], nearest[3] + Xeen.SkyFallHeight, nearest[4], 0, 0, 0, 0, "0",
+        {direct = true, keepHeight = true})
+end
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- The elemental planes (M38, D-58 C2-C3). A Skyroads corner's right answer (m38.corner_<element>) moves the party directly
 -- onto its plane's arrival shelf, entrance:d7_fall, standing (no keepHeight, no falling damage). Points from each plane's

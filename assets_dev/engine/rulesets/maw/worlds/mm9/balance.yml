@@ -8,6 +8,8 @@
 #   band             MAW's low/mid/high B levels (devdocs/maw/BALANCE_MODEL.md section 7): the 1st/2nd/3rd native
 #                    family (the map's encounter pictures) is pinned to them, other families pulled halfway in
 #   horizontal_starter, madness_start, madness_level    as data/map_levels.yml's lists
+#   ranged_free      a starting map: from Hell up its melee monsters gain no ranged attack (data/map_levels.yml's
+#                    ranged_free_maps, MAW's six): Bootcamp and the Isle of Ashes, the start island
 #   natives          up to three families (pictures without the tier letter) in place of the map table's
 #                    encounter pictures, where those miss what the scene places
 #   story_bands      [{qbit, band}]: the band once the party has the quest bit (the last reached one wins)
@@ -19,10 +21,11 @@
 #                    toward the map's clearing, besides the file-wide list below
 # Bands and their derivation: devdocs/maw/mm9_drafts/map_levels_draft.yml (levels each band gives, free/horizontal).
 
-version: 2
+version: 3
 changelog:
   - {version: 1, date: 2026-11-09, note: "first bands: MM9's acts on MAW's MM7 stages; arena as MAW's; Frosgard City's battle; natives of six maps; density; Thjorad Mine x3; regions ~90 monsters, Ta'Sar, Honks, arrivals"}
   - {version: 2, date: 2026-11-09, note: "the rebuild grows Thjorad Mine 1.4x and the Tomb 2x for every game; Thjorad Mine's MAW density 3.0 -> 2.1 on top (still ~3x MM9's)"}
+  - {version: 3, date: 2026-11-23, note: "Bootcamp and the Isle of Ashes are ranged-free: from Hell up their melee monsters gain no ranged attack, as on MAW's six starting maps"}
 
 # The sea's creatures guard the water: a party may leave them (the user, 2026-11-09).
 completion_exclude: ["MM9 Sea Monster", "MM9 Jellyspore"]
@@ -40,11 +43,11 @@ maps:
   # Ravensford: tutorial (no act); MM9 original 7 monsters, levels 1–50.
   # Ravensford tutorial (MM9 start, world.yml). Only 5 Lobbers placed; no encounter pictures, so no Progress card
   # entry. bolster_maps row 9080 (continent 5, no bolster) added 2026-11-09.
-  bootcamp.blv: {stage: tutorial, band: [1, 1, 2], horizontal_starter: true, madness_start: true, madness_level: 4}
+  bootcamp.blv: {stage: tutorial, band: [1, 1, 2], horizontal_starter: true, madness_start: true, madness_level: 4, ranged_free: true}
   # Isle of Ashes: act 1 prologue, standard party level 6; MM9 original 46 monsters, levels 2–65.
   # Start island like out01 [3,4,4] / 7out01 [4,4,4]. Jellyspores are swimmers; Lich King and Sea Monster are lone
   # set pieces, pulled halfway down into the band.
-  isleofashes.blv: {stage: act1, band: [3, 3, 4], horizontal_starter: true, madness_start: true, madness_level: 4}
+  isleofashes.blv: {stage: act1, band: [3, 3, 4], horizontal_starter: true, madness_start: true, madness_level: 4, ranged_free: true}
   # Sturmford City: act 1 prologue, standard party level 6; MM9 original 0 monsters, levels –.
   # CITY, no monsters. Band only sets the drop/chest level fallback (mapDropLevel); same as its region.
   sturmfordcity.blv: {stage: act1, band: [4, 6, 9]}

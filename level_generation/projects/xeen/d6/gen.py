@@ -453,8 +453,8 @@ check_roads()
 # ---------------------------------------------------------------------------------------------------------------
 SOUTH_START = (64.0, 105.0)       # the D1 arrival on the mountain road, facing north
 EAST_START = (105.0, 64.0)        # the D5 arrival at the border pass, facing west
-NP_ARRIVAL = (91.0, 76.6)         # necropolis_gate: inside the gate by the mirror, facing south (the square)
-NP_GATE = (91.0, 74.0)
+NP_ARRIVAL = (91.5, 76.6)         # necropolis_gate: inside the gate by the mirror, facing south (the square)
+NP_GATE = (91.5, 74.0)         # F28 (rimmap-b): on the gate lane's tiles' middle (the road on x 91 lays 91-92)
 MIRROR = (92.6, 78.0)
 GATE_ARRIVAL = (51.0, 55.0)       # entrance:dd17_gate before Alamar's gate, facing south (DD-17's refusal)
 PYRAMID = (56.5, 62.0)
@@ -881,6 +881,11 @@ def build():
     import house_doors as HD
     for _note in HD.double_doors_sketch(sketch) + HD.bury_mouths_sketch(sketch) + HD.blind_mouths_sketch(sketch):
         print('door:', _note)   # F8 too: cave mouths as wide as their rim, no dark mouth that leads nowhere
+    # P2 feedback F29/F32/F33 (agent xeen-fb2-wild, 2026-11-23): shrine altars, campfires, the rim fall
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'common'))
+    import wild as WILD
+    for _note in WILD.apply(sketch, 'd6'):
+        print('wild:', _note)
     import entrance_screens as ES     # F16/D-90 (s32): each dungeon door's trans.txt row in its entrance window
     print('entrance screens:', ES.apply_sketch(sketch, 'xeen_d6'))
     for lv in ('L4', 'L3'):

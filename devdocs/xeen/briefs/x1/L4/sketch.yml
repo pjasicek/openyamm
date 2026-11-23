@@ -7,11 +7,13 @@ frame:
     - {side: west, span: [42, 50], neighbour: edge:west}
     - {side: north, span: [66, 72], neighbour: edge:north}
   rim:
-    - {side: north, form: ridge, height: [2200, 3400], floor: 2000, crest: 10, roughness: 100}
+    - {side: north, span: [0, 105], form: ridge, height: [2200, 3400], floor: 2000, crest: 10, roughness: 100}
+    - {side: north, span: [105, 128], form: level, height: 0, meet: 1, notes: "D-109: the void past the east rim reaches the north edge (X7 beyond it)."}
     - {side: west, span: [0, 42], form: ridge, height: [1800, 3000], floor: 1200, crest: 10, roughness: 100}
     - {side: west, span: [42, 58], form: level, height: 640, meet: 6, notes: The west road and the creek run out to the edge (to X3).}
-    - {side: west, span: [58, 128], form: ridge, height: [1600, 2800], floor: 900, crest: 10, roughness: 100}
-    - {side: south, form: ridge, height: [1600, 2800], floor: 900, crest: 10, roughness: 100}
+    - {side: west, span: [58, 105], form: ridge, height: [1600, 2800], floor: 900, crest: 10, roughness: 100}
+    - {side: west, span: [105, 128], form: level, height: 0, meet: 1, notes: "D-109: the void past the south rim reaches the west edge (X2's south rim beyond it)."}
+    - {side: south, form: level, height: 0, meet: 1, notes: "D-109: the world rim (Cloudside's south-east corner): the land ends at y 104, the void below."}
     - {side: east, form: level, height: 0, meet: 1, notes: "The world rim: the land ends in a cliff at x 104; below it, water at 0 stands for the stars."}
   edge: {height: 1600, east: 0, west: 640}
 heights:
@@ -21,10 +23,10 @@ heights:
     - {at: [65, 67], h: 704, notes: Orothin's west isle}
     - {at: [70, 66], h: 704, notes: Orothin's east isle}
   cliffs:
-    - line: [[104, 19], [104, 58], [104, 62], [104, 110]]
+    - line: [[104, 19], [104, 58], [104, 62], [104, 104], [0, 104]]
       drop: 900
       down: left
-      notes: "The world rim: white cliffs (drawn from north to south, the low side east)."
+      notes: "The world rim: white cliffs (drawn from north to south, the low side east), then west along the south rim (D-109; the low side south)."
   ridges:
     - {line: [[27, 94], [33, 94]], height: 1664, width: 2, slope: 2, notes: "Pass three: the rise the Temple of Yak's mouth is built into (crest 1600)."}
     - {line: [[41, 29.5], [47, 29.5]], height: 1700, width: 2, slope: 2, notes: "Pass four: the hillside the Red Dwarf Mines' mouth is cut into (crest 1600): its shoulders stand over the shell, which stood as a mound on a gentle slope."}
@@ -39,7 +41,7 @@ heights:
   grid:
     step: 4
     unit: 32
-    rows: [[72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72], [72, 67, 73, 75, 61, 58, 70, 91, 89, 70, 63, 69, 69, 62, 64, 77, 85, 81, 74, 67, 59, 58, 71, 83, 74, 72, 72, 72, 72, 72, 72, 72], [72, 66, 71, 70, 64, 63, 73, 89, 93, 71, 58, 58, 79, 88, 69, 60, 80, 96, 75, 58, 58, 77, 93, 81, 70, 72, 72, 72, 72, 72, 72, 72], [72, 58, 72, 76, 67, 68, 84, 89, 73, 58, 58, 67, 74, 78, 81, 78, 71, 68, 68, 63, 59, 71, 91, 90, 71, 72, 72, 72, 72, 72, 72, 72], [72, 66, 58, 64, 88, 93, 76, 62, 63, 66, 67, 70, 75, 73, 73, 79, 72, 58, 58, 74, 96, 87, 67, 68, 74, 72, 72, 72, 72, 72, 72, 72], [70, 75, 66, 62, 78, 95, 83, 64, 58, 70, 97, 85, 67, 70, 70, 76, 61, 57, 64, 91, 96, 83, 65, 62, 70, 70, 70, 70, 70, 70, 70, 70], [60, 59, 62, 72, 72, 61, 67, 68, 60, 59, 68, 68, 66, 60, 61, 73, 61, 52, 57, 64, 67, 63, 49, 60, 68, 63, 60, 60, 60, 60, 60, 60], [46, 55, 65, 57, 42, 36, 49, 49, 46, 46, 48, 48, 47, 46, 46, 46, 46, 47, 47, 46, 52, 46, 50, 49, 53, 49, 46, 46, 46, 46, 46, 46], [31, 29, 52, 50, 18, 21, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 34, 31, 32, 31, 31, 31, 31, 31, 31, 31], [21, 31, 17, 12, 15, 17, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 19, 19, 23, 22, 27, 34, 33, 33, 33, 33, 33, 33, 33], [20, 26, 9, 7, 9, 29, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 21, 23, 25, 36, 35, 32, 32, 32, 32, 32, 32, 32], [20, 16, 7, 7, 28, 33, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 29, 31, 26, 29, 37, 32, 32, 32, 32, 32, 32, 32], [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 19, 21, 23, 26, 29, 29, 32, 32, 32, 32, 32, 32, 32], [20, 15, 24, 30, 23, 16, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 19, 21, 27, 29, 28, 22, 29, 31, 32, 32, 32, 32, 32], [20, 19, 32, 35, 29, 19, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 19, 20, 35, 25, 17, 20, 20, 21, 32, 32, 32, 32, 32], [20, 25, 33, 28, 18, 19, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 32, 32, 32, 32, 32], [20, 38, 11, 8, 24, 25, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 19, 10, 11, 31, 27, 31, 32, 32, 32, 32, 32], [20, 37, 21, 7, 7, 22, 21, 19, 19, 24, 22, 20, 19, 17, 21, 23, 21, 20, 20, 20, 21, 20, 15, 25, 33, 32, 32, 32, 32, 32, 32, 32], [20, 13, 16, 21, 13, 7, 18, 40, 40, 19, 19, 19, 21, 15, 13, 25, 24, 20, 20, 19, 20, 21, 27, 40, 33, 32, 32, 32, 32, 32, 32, 32], [20, 13, 21, 19, 12, 19, 20, 24, 36, 20, 20, 19, 27, 38, 22, 9, 21, 20, 20, 19, 21, 24, 26, 34, 28, 32, 32, 32, 32, 32, 32, 32], [20, 7, 19, 28, 20, 20, 21, 21, 22, 13, 19, 20, 27, 27, 27, 26, 20, 19, 19, 20, 21, 25, 28, 29, 30, 32, 32, 32, 32, 32, 32, 32], [20, 18, 7, 12, 37, 27, 22, 21, 12, 21, 21, 20, 22, 29, 28, 24, 16, 8, 8, 20, 21, 25, 28, 29, 32, 32, 32, 32, 32, 32, 32, 32], [20, 24, 19, 16, 27, 41, 27, 25, 21, 23, 26, 23, 11, 14, 34, 30, 7, 7, 16, 39, 23, 23, 26, 29, 30, 32, 32, 32, 32, 32, 32, 32], [20, 23, 21, 29, 31, 20, 24, 26, 26, 25, 28, 33, 29, 16, 8, 14, 18, 15, 18, 33, 37, 24, 23, 29, 31, 32, 32, 32, 32, 32, 32, 32], [20, 29, 42, 30, 11, 11, 22, 24, 24, 28, 23, 21, 26, 24, 8, 7, 14, 42, 42, 18, 8, 22, 33, 28, 30, 32, 32, 32, 32, 32, 32, 32], [20, 16, 35, 36, 8, 7, 16, 23, 30, 19, 10, 23, 28, 14, 7, 10, 30, 39, 33, 18, 8, 11, 28, 35, 30, 32, 32, 32, 32, 32, 32, 32], [20, 29, 15, 7, 12, 19, 19, 24, 33, 32, 17, 7, 12, 19, 18, 19, 31, 36, 23, 8, 10, 21, 25, 27, 33, 32, 32, 32, 32, 32, 32, 32], [20, 21, 7, 7, 12, 32, 38, 23, 11, 21, 31, 16, 7, 7, 38, 49, 25, 7, 10, 25, 22, 12, 19, 39, 35, 32, 32, 32, 32, 32, 32, 32], [20, 17, 7, 7, 31, 43, 29, 15, 15, 19, 17, 13, 13, 20, 32, 39, 28, 7, 7, 17, 36, 29, 17, 29, 36, 32, 32, 32, 32, 32, 32, 32], [20, 12, 21, 21, 22, 31, 32, 19, 8, 10, 16, 17, 22, 33, 34, 20, 8, 12, 18, 16, 18, 33, 44, 35, 28, 32, 32, 32, 32, 32, 32, 32], [20, 7, 30, 47, 31, 7, 11, 30, 25, 7, 7, 28, 49, 35, 9, 7, 15, 22, 19, 17, 23, 33, 40, 33, 27, 32, 32, 32, 32, 32, 32, 32], [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 23, 26, 29, 31, 32, 32, 32, 32, 32, 32, 32]]
+    rows: [[72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72, 72], [72, 67, 73, 75, 61, 58, 70, 91, 89, 70, 63, 69, 69, 62, 64, 77, 85, 81, 74, 67, 59, 58, 71, 83, 74, 72, 72, 72, 72, 72, 72, 72], [72, 66, 71, 70, 64, 63, 73, 89, 93, 71, 58, 58, 79, 88, 69, 60, 80, 96, 75, 58, 58, 77, 93, 81, 70, 72, 72, 72, 72, 72, 72, 72], [72, 58, 72, 76, 67, 68, 84, 89, 73, 58, 58, 67, 74, 78, 81, 78, 71, 68, 68, 63, 59, 71, 91, 90, 71, 72, 72, 72, 72, 72, 72, 72], [72, 66, 58, 64, 88, 93, 76, 62, 63, 66, 67, 70, 75, 73, 73, 79, 72, 58, 58, 74, 96, 87, 67, 68, 74, 72, 72, 72, 72, 72, 72, 72], [70, 75, 66, 62, 78, 95, 83, 64, 58, 70, 97, 85, 67, 70, 70, 76, 61, 57, 64, 91, 96, 83, 65, 62, 70, 70, 70, 70, 70, 70, 70, 70], [60, 59, 62, 72, 72, 61, 67, 68, 60, 59, 68, 68, 66, 60, 61, 73, 61, 52, 57, 64, 67, 63, 49, 60, 68, 63, 60, 60, 60, 60, 60, 60], [46, 55, 65, 57, 42, 36, 49, 49, 46, 46, 48, 48, 47, 46, 46, 46, 46, 47, 47, 46, 52, 46, 50, 49, 53, 49, 46, 46, 46, 46, 46, 46], [31, 29, 52, 50, 18, 21, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 34, 31, 32, 31, 31, 31, 31, 31, 31, 31], [21, 31, 17, 12, 15, 17, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 19, 19, 23, 22, 27, 34, 33, 33, 33, 33, 33, 33, 33], [20, 26, 9, 7, 9, 29, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 21, 23, 25, 36, 35, 32, 32, 32, 32, 32, 32, 32], [20, 16, 7, 7, 28, 33, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 29, 31, 26, 29, 37, 32, 32, 32, 32, 32, 32, 32], [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 19, 21, 23, 26, 29, 29, 32, 32, 32, 32, 32, 32, 32], [20, 15, 24, 30, 23, 16, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 19, 21, 27, 29, 28, 22, 29, 31, 32, 32, 32, 32, 32], [20, 19, 32, 35, 29, 19, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 19, 20, 35, 25, 17, 20, 20, 21, 32, 32, 32, 32, 32], [20, 25, 33, 28, 18, 19, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 32, 32, 32, 32, 32], [20, 38, 11, 8, 24, 25, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 19, 10, 11, 31, 27, 31, 32, 32, 32, 32, 32], [20, 37, 21, 7, 7, 22, 21, 19, 19, 24, 22, 20, 19, 17, 21, 23, 21, 20, 20, 20, 21, 20, 15, 25, 33, 32, 32, 32, 32, 32, 32, 32], [20, 13, 16, 21, 13, 7, 18, 40, 40, 19, 19, 19, 21, 15, 13, 25, 24, 20, 20, 19, 20, 21, 27, 40, 33, 32, 32, 32, 32, 32, 32, 32], [20, 13, 21, 19, 12, 19, 20, 24, 36, 20, 20, 19, 27, 38, 22, 9, 21, 20, 20, 19, 21, 24, 26, 34, 28, 32, 32, 32, 32, 32, 32, 32], [20, 7, 19, 28, 20, 20, 21, 21, 22, 13, 19, 20, 27, 27, 27, 26, 20, 19, 19, 20, 21, 25, 28, 29, 30, 32, 32, 32, 32, 32, 32, 32], [20, 18, 7, 12, 37, 27, 22, 21, 12, 21, 21, 20, 22, 29, 28, 24, 16, 8, 8, 20, 21, 25, 28, 29, 32, 32, 32, 32, 32, 32, 32, 32], [20, 24, 19, 16, 27, 41, 27, 25, 21, 23, 26, 23, 11, 14, 34, 30, 7, 7, 16, 39, 23, 23, 26, 29, 30, 32, 32, 32, 32, 32, 32, 32], [20, 23, 21, 29, 31, 20, 24, 26, 26, 25, 28, 33, 29, 16, 8, 14, 18, 15, 18, 33, 37, 24, 23, 29, 31, 32, 32, 32, 32, 32, 32, 32], [20, 22, 26, 23, 18, 17, 22, 24, 24, 25, 21, 20, 21, 21, 17, 17, 18, 26, 26, 20, 18, 23, 28, 28, 30, 32, 32, 32, 32, 32, 32, 32], [20, 20, 20, 20, 20, 20, 21, 21, 21, 21, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 23, 26, 29, 31, 32, 32, 32, 32, 32, 32, 32], [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 23, 26, 29, 31, 32, 32, 32, 32, 32, 32, 32], [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 23, 26, 29, 31, 32, 32, 32, 32, 32, 32, 32], [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 23, 26, 29, 31, 32, 32, 32, 32, 32, 32, 32], [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 23, 26, 29, 31, 32, 32, 32, 32, 32, 32, 32], [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 23, 26, 29, 31, 32, 32, 32, 32, 32, 32, 32], [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 23, 26, 29, 31, 32, 32, 32, 32, 32, 32, 32]]
     notes: Written by gen.py from its height function (design values).
   nodes:
     - at: [61, 55]
@@ -52,11 +54,6 @@ water:
       kind: pond
       level: 576
       polygon: [[63, 62], [68, 61], [73, 63], [74, 67], [69, 71], [64, 70], [61, 67]]
-    - id: water:sky
-      kind: sea
-      level: 0
-      polygon: [[105, 0], [128, 0], [128, 128], [105, 128]]
-      notes: "Below the rim: stands for the stars (gap: the game draws no void)."
   rivers:
     - id: water:creek
       line: [[0, 51], [30, 51], [40, 52], [46, 52], [58, 52], [64, 52], [67, 55], [67, 62]]
@@ -68,6 +65,10 @@ water:
       width_cells: 2
       level: 576
       notes: "The outflow east to the rim, where it falls off the world."
+void:
+  - id: void:sky
+    polygon: [[105, 0], [128, 0], [128, 128], [0, 128], [0, 105], [105, 105]]
+    notes: "U-12: the void under the world rim (was water:sky, the sea that stood for the stars)."
 roads:
   - link: link:main_street
     line: [[41.5, 44], [46.5, 44], [47.5, 43], [51, 43], [52, 44], [57, 44], [57, 46], [62.5, 46]]
@@ -145,8 +146,8 @@ districts:
     plots:
       - {building: building:fringe_meadows, index: 1, at: [54, 35], facing: n, turn: 8, parts: [{id: body, at: [96, 112], size: [576, 576], textures: {roof: hhm2rf}, roof: none}, {id: upper, at: [48, 64], size: [672, 656], bottom: 256, textures: {roof: hhm2rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], textures: {base: cwb1}, kit: plaster, door: {part: body, wall: n}}
       - {building: building:fringe_meadows, index: 2, at: [60, 34], facing: n, turn: -13, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: 7hhr1rf}, roof: hip, roof_pitch: 38}], kit: stone, door: {part: body, wall: n}}
-      - {building: building:fringe_meadows, index: 3, at: [49, 33.5], facing: e, parts: [{id: body, at: [64, 64], size: [544, 640], porches: [{wall: e, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhp2rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], kit: poor, door: {part: body, wall: e}}
-      - {building: building:fringe_meadows, index: 4, at: [56.5, 34.5], facing: n, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], textures: {base: cwb1}, kit: plaster, door: {part: body, wall: n}}
+      - {building: building:fringe_meadows, index: 3, at: [49, 33.5], facing: s, parts: [{id: body, at: [64, 64], size: [640, 544], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhp2rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], kit: poor, door: {part: body, wall: s}}
+      - {building: building:fringe_meadows, index: 4, at: [56.5, 34.5], facing: e, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], textures: {base: cwb1}, kit: plaster, door: {part: body, wall: e}}
       - {building: building:fringe_meadows, index: 5, at: [55.5, 62], facing: w, turn: 6, parts: [{id: body, at: [160, 64], size: [544, 640], porches: [{wall: w, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], kit: timber, door: {part: body, wall: w}}
       - {building: building:fringe_meadows, index: 6, at: [57.5, 64], facing: s, parts: [{id: body, at: [48, 336], size: [672, 384], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [384, 64], size: [272, 352], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], kit: grey, door: {part: body, wall: s}}
       - {building: building:oslo_hut, at: [34, 59], facing: s, turn: -80, parts: [{id: body, shape: round, at: [256, 256], radius: 215, sides: 10, textures: {roof: hhp2rf}, wall_height: 256, roof: cone, tiers: [[48, 128], [80, 96], [96, 64]]}], house: 4036, title: Oslo's Hut, kit: poor, door: {part: body}}
@@ -209,7 +210,7 @@ districts:
   - space: zone:pyramid_knoll
     polygon: [[81, 43], [87, 43], [87, 49], [81, 49]]
   - space: zone:rim
-    polygon: [[104, 0], [128, 0], [128, 128], [104, 128]]
+    polygon: [[104, 0], [128, 0], [128, 128], [0, 128], [0, 104], [104, 104]]
   - space: town:toad_meadow
     polygon: [[72, 69], [82, 69], [82, 79], [72, 79]]
     plots:
@@ -221,7 +222,7 @@ districts:
   - space: zone:witch_rise
     polygon: [[84, 80], [93, 80], [93, 90], [84, 90]]
   - space: zone:dead_forest
-    polygon: [[19, 74], [50, 74], [50, 109], [19, 109]]
+    polygon: [[19, 74], [50, 74], [50, 103], [19, 103]]
   - space: zone:warehouse_yard
     polygon: [[59, 57], [63, 57], [63, 61], [59, 61]]
 points:
@@ -612,38 +613,38 @@ scatter:
     kinds:
       tree41: 2
       tree42: 1
-    count: 114
+    count: 94
     spacing: 1.6
     spacing_group: trees
     close_share: 0.08
     close_spacing: 1
     edge_thin: {width: 3, keep: 0.35}
-    polygon: [[19, 74], [50, 74], [50, 109], [19, 109]]
+    polygon: [[19, 74], [50, 74], [50, 103], [19, 103]]
   - id: scatter:dead_bushes
     decoration: 7dec11
     count: 10
     clusters: 5
-    polygon: [[19, 74], [50, 74], [50, 109], [19, 109]]
+    polygon: [[19, 74], [50, 74], [50, 103], [19, 103]]
   - id: scatter:bones
     decoration: 7dec18
     count: 16
     clusters: 7
-    polygon: [[19, 74], [50, 74], [50, 109], [19, 109]]
+    polygon: [[19, 74], [50, 74], [50, 103], [19, 103]]
   - id: scatter:bones
     decoration: 7dec20
     count: 5
     clusters: 3
-    polygon: [[19, 74], [50, 74], [50, 109], [19, 109]]
+    polygon: [[19, 74], [50, 74], [50, 103], [19, 103]]
   - id: scatter:dead_rocks
     decoration: 7rock08
     count: 10
     clusters: 5
-    polygon: [[19, 74], [50, 74], [50, 109], [19, 109]]
+    polygon: [[19, 74], [50, 74], [50, 103], [19, 103]]
   - id: scatter:dead_rocks
     decoration: 7rock09
     count: 8
     clusters: 4
-    polygon: [[19, 74], [50, 74], [50, 109], [19, 109]]
+    polygon: [[19, 74], [50, 74], [50, 103], [19, 103]]
   - id: scatter:swamp_trees
     kinds:
       swptree1: 3
@@ -679,273 +680,225 @@ scatter:
   - id: scatter:wild
     decoration: 7rock09
     count: 1
-    circle: {at: [7.006, 30.78], r: 0.1}
+    circle: {at: [7.006, 26.507], r: 0.1}
   - id: scatter:wild
     decoration: flower01
     count: 1
-    circle: {at: [9.941, 110.425], r: 0.1}
+    circle: {at: [9.941, 92.421], r: 0.1}
   - id: scatter:wild
     decoration: flower01
     count: 1
-    circle: {at: [12.451, 89.548], r: 0.1}
+    circle: {at: [12.451, 75.143], r: 0.1}
   - id: scatter:wild
     decoration: bush03
     count: 1
-    circle: {at: [7.303, 65.036], r: 0.1}
+    circle: {at: [7.303, 54.857], r: 0.1}
   - id: scatter:wild
     decoration: bush03
     count: 1
-    circle: {at: [16.96, 66.645], r: 0.1}
+    circle: {at: [16.96, 56.189], r: 0.1}
   - id: scatter:wild
     decoration: 7dec18
     count: 1
-    circle: {at: [18.281, 108.289], r: 0.1}
+    circle: {at: [18.281, 90.653], r: 0.1}
   - id: scatter:wild
     decoration: 7rock09
     count: 1
-    circle: {at: [10.822, 6.087], r: 0.1}
+    circle: {at: [10.822, 6.072], r: 0.1}
   - id: scatter:wild
     decoration: 7rock08
     count: 1
-    circle: {at: [15.818, 20.663], r: 0.1}
+    circle: {at: [15.818, 18.135], r: 0.1}
   - id: scatter:wild
     decoration: 7rock09
     count: 1
-    circle: {at: [6.122, 90.759], r: 0.1}
+    circle: {at: [6.122, 76.146], r: 0.1}
   - id: scatter:wild
     decoration: 7rock09
     count: 1
-    circle: {at: [18.395, 29.394], r: 0.1}
+    circle: {at: [18.395, 25.36], r: 0.1}
   - id: scatter:wild
     decoration: 7tree16
     count: 1
-    circle: {at: [7.06, 20.007], r: 0.1}
+    circle: {at: [7.06, 17.592], r: 0.1}
   - id: scatter:wild
     decoration: 7rock09
     count: 1
-    circle: {at: [6.641, 10.439], r: 0.1}
+    circle: {at: [6.641, 9.674], r: 0.1}
   - id: scatter:wild
     decoration: 7rock09
     count: 1
-    circle: {at: [10.589, 24.939], r: 0.1}
+    circle: {at: [10.589, 21.674], r: 0.1}
   - id: scatter:wild
     decoration: 7tree13
     count: 1
-    circle: {at: [8.177, 100.465], r: 0.1}
+    circle: {at: [8.177, 84.178], r: 0.1}
   - id: scatter:wild
     decoration: flower02
     count: 1
-    circle: {at: [15.599, 71.949], r: 0.1}
+    circle: {at: [15.599, 60.578], r: 0.1}
   - id: scatter:wild
     decoration: flower01
     count: 1
-    circle: {at: [13.484, 95.337], r: 0.1}
+    circle: {at: [13.484, 79.934], r: 0.1}
   - id: scatter:wild
     decoration: 7tree16
     count: 1
-    circle: {at: [13.632, 32.598], r: 0.1}
+    circle: {at: [13.632, 28.012], r: 0.1}
   - id: scatter:wild
     decoration: 7rock09
     count: 1
-    circle: {at: [11.208, 120.522], r: 0.1}
+    circle: {at: [11.208, 100.777], r: 0.1}
   - id: scatter:wild
     decoration: 7rock09
     count: 1
-    circle: {at: [11.548, 14.078], r: 0.1}
+    circle: {at: [11.548, 12.686], r: 0.1}
   - id: scatter:wild
     decoration: 7tree16
     count: 1
-    circle: {at: [12.198, 100.272], r: 0.1}
+    circle: {at: [12.198, 84.018], r: 0.1}
   - id: scatter:wild
     decoration: bush03
     count: 1
-    circle: {at: [6.088, 116.389], r: 0.1}
+    circle: {at: [9.926, 42.924], r: 0.1}
   - id: scatter:wild
     decoration: 7tree13
     count: 1
-    circle: {at: [14.953, 116.408], r: 0.1}
+    circle: {at: [6.088, 97.356], r: 0.1}
   - id: scatter:wild
     decoration: flower02
     count: 1
-    circle: {at: [12.827, 65.006], r: 0.1}
+    circle: {at: [14.953, 97.372], r: 0.1}
   - id: scatter:wild
     decoration: 7tree16
     count: 1
-    circle: {at: [16.147, 42.634], r: 0.1}
+    circle: {at: [17.213, 65.331], r: 0.1}
   - id: scatter:wild
     decoration: 7tree13
     count: 1
-    circle: {at: [18.573, 113.017], r: 0.1}
+    circle: {at: [12.827, 54.832], r: 0.1}
   - id: scatter:wild
     decoration: flower01
     count: 1
-    circle: {at: [8.74, 96.484], r: 0.1}
+    circle: {at: [17.795, 42.222], r: 0.1}
   - id: scatter:wild
     decoration: 7rock09
     count: 1
-    circle: {at: [16.674, 10.032], r: 0.1}
+    circle: {at: [16.674, 9.337], r: 0.1}
   - id: scatter:wild
     decoration: flower02
     count: 1
-    circle: {at: [6.049, 108.233], r: 0.1}
+    circle: {at: [6.049, 90.607], r: 0.1}
   - id: scatter:wild
     decoration: bush03
     count: 1
-    circle: {at: [15.379, 84.278], r: 0.1}
+    circle: {at: [15.379, 70.782], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree22
+    count: 1
+    circle: {at: [7.487, 36.547], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [9.295, 58.717], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
+    count: 1
+    circle: {at: [18.699, 29.716], r: 0.1}
   - id: scatter:wild
     decoration: 7rock09
     count: 1
-    circle: {at: [7.487, 42.911], r: 0.1}
+    circle: {at: [7.669, 32.392], r: 0.1}
+  - id: scatter:wild
+    decoration: 7dec18
+    count: 1
+    circle: {at: [17.181, 75.023], r: 0.1}
   - id: scatter:wild
     decoration: 7tree16
     count: 1
-    circle: {at: [18.398, 119.849], r: 0.1}
-  - id: scatter:wild
-    decoration: bush03
-    count: 1
-    circle: {at: [8.99, 57.298], r: 0.1}
-  - id: scatter:wild
-    decoration: 7tree13
-    count: 1
-    circle: {at: [9.295, 69.7], r: 0.1}
-  - id: scatter:wild
-    decoration: 7rock09
-    count: 1
-    circle: {at: [7.678, 15.753], r: 0.1}
+    circle: {at: [13.106, 32.449], r: 0.1}
   - id: scatter:wild
     decoration: 7tree16
     count: 1
-    circle: {at: [15.782, 14.659], r: 0.1}
+    circle: {at: [6.94, 64.786], r: 0.1}
   - id: scatter:wild
     decoration: 7tree16
     count: 1
-    circle: {at: [10.9, 60.865], r: 0.1}
-  - id: scatter:wild
-    decoration: flower01
-    count: 1
-    circle: {at: [7.669, 37.891], r: 0.1}
+    circle: {at: [18.197, 13.34], r: 0.1}
   - id: scatter:wild
     decoration: 7tree16
     count: 1
-    circle: {at: [15.871, 57.637], r: 0.1}
-  - id: scatter:wild
-    decoration: bush03
-    count: 1
-    circle: {at: [14.954, 6.27], r: 0.1}
+    circle: {at: [14.264, 48.285], r: 0.1}
   - id: scatter:wild
     decoration: flower02
     count: 1
-    circle: {at: [11.114, 105.837], r: 0.1}
-  - id: scatter:dead_trees
-    decoration: tree42
+    circle: {at: [6.833, 69.771], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
     count: 1
-    circle: {at: [17.181, 89.403], r: 0.1}
+    circle: {at: [11.624, 37.495], r: 0.1}
   - id: scatter:wild
     decoration: flower01
     count: 1
-    circle: {at: [13.106, 37.959], r: 0.1}
+    circle: {at: [8.534, 48.266], r: 0.1}
+  - id: scatter:wild
+    decoration: flower01
+    count: 1
+    circle: {at: [14.452, 92.259], r: 0.1}
   - id: scatter:wild
     decoration: 7rock09
     count: 1
-    circle: {at: [6.94, 77.033], r: 0.1}
+    circle: {at: [11.682, 65.237], r: 0.1}
   - id: scatter:wild
     decoration: 7rock01
     count: 1
-    circle: {at: [14.718, 47.595], r: 0.1}
-  - id: scatter:wild
-    decoration: 7tree13
-    count: 1
-    circle: {at: [6.833, 83.056], r: 0.1}
-  - id: scatter:wild
-    decoration: bush03
-    count: 1
-    circle: {at: [9.498, 47.757], r: 0.1}
-  - id: scatter:wild
-    decoration: flower01
-    count: 1
-    circle: {at: [11.624, 44.057], r: 0.1}
-  - id: scatter:wild
-    decoration: 7tree16
-    count: 1
-    circle: {at: [8.603, 87.087], r: 0.1}
-  - id: scatter:wild
-    decoration: bush03
-    count: 1
-    circle: {at: [11.901, 18.321], r: 0.1}
-  - id: scatter:wild
-    decoration: flower02
-    count: 1
-    circle: {at: [14.452, 110.229], r: 0.1}
-  - id: scatter:wild
-    decoration: bush03
-    count: 1
-    circle: {at: [11.682, 77.578], r: 0.1}
-  - id: scatter:wild
-    decoration: 7rock08
-    count: 1
-    circle: {at: [14.916, 27.405], r: 0.1}
-  - id: scatter:wild
-    decoration: bush03
-    count: 1
-    circle: {at: [17.508, 62.55], r: 0.1}
-  - id: scatter:wild
-    decoration: 7tree16
-    count: 1
-    circle: {at: [12.691, 53.993], r: 0.1}
-  - id: scatter:wild
-    decoration: bush03
-    count: 1
-    circle: {at: [18.534, 24.802], r: 0.1}
-  - id: scatter:wild
-    decoration: 7rock08
-    count: 1
-    circle: {at: [6.632, 25.952], r: 0.1}
-  - id: scatter:wild
-    decoration: 7tree13
-    count: 1
-    circle: {at: [16.502, 98.962], r: 0.1}
-  - id: scatter:wild
-    decoration: 7tree13
-    count: 1
-    circle: {at: [6.019, 121.697], r: 0.1}
-  - id: scatter:wild
-    decoration: 7rock01
-    count: 1
-    circle: {at: [7.427, 53.606], r: 0.1}
-  - id: scatter:wild
-    decoration: flower02
-    count: 1
-    circle: {at: [11.634, 82.456], r: 0.1}
-  - id: scatter:wild
-    decoration: 7rock08
-    count: 1
-    circle: {at: [11.113, 29.052], r: 0.1}
-  - id: scatter:wild
-    decoration: 7rock08
-    count: 1
-    circle: {at: [9.624, 33.961], r: 0.1}
+    circle: {at: [8.877, 79.287], r: 0.1}
   - id: scatter:wild
     decoration: 7rock09
     count: 1
-    circle: {at: [10.08, 116.142], r: 0.1}
+    circle: {at: [14.568, 22.27], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [10.831, 71.452], r: 0.1}
   - id: scatter:wild
     decoration: 7tree16
+    count: 1
+    circle: {at: [6.632, 22.512], r: 0.1}
+  - id: scatter:wild
+    decoration: 7tree16
+    count: 1
+    circle: {at: [12.238, 88.75], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [6.019, 101.749], r: 0.1}
+  - id: scatter:wild
+    decoration: flower02
+    count: 1
+    circle: {at: [18.29, 48.236], r: 0.1}
+  - id: scatter:wild
+    decoration: bush03
+    count: 1
+    circle: {at: [13.885, 44.17], r: 0.1}
+  - id: scatter:wild
+    decoration: 7rock08
     count: 1
     circle: {at: [66.908, 14.219], r: 0.1}
   - id: scatter:wild
-    decoration: 7rock09
+    decoration: 7rock08
     count: 1
     circle: {at: [87.628, 9.605], r: 0.1}
   - id: scatter:wild
-    decoration: 7tree22
+    decoration: 7rock08
     count: 1
     circle: {at: [73.756, 17.581], r: 0.1}
   - id: scatter:wild
-    decoration: 7tree22
+    decoration: bush03
     count: 1
     circle: {at: [95.342, 8.425], r: 0.1}
   - id: scatter:wild
-    decoration: 7tree22
+    decoration: 7rock08
     count: 1
     circle: {at: [61.285, 18.561], r: 0.1}
   - id: scatter:wild
@@ -957,7 +910,7 @@ scatter:
     count: 1
     circle: {at: [98.259, 14.263], r: 0.1}
   - id: scatter:wild
-    decoration: 7rock08
+    decoration: 7tree16
     count: 1
     circle: {at: [44.309, 10.02], r: 0.1}
   - id: scatter:wild
@@ -969,15 +922,15 @@ scatter:
     count: 1
     circle: {at: [54.796, 17.006], r: 0.1}
   - id: scatter:wild
-    decoration: 7tree22
+    decoration: 7rock08
     count: 1
     circle: {at: [76.234, 7.524], r: 0.1}
   - id: scatter:wild
-    decoration: 7rock08
+    decoration: 7tree22
     count: 1
     circle: {at: [94.32, 15.748], r: 0.1}
   - id: scatter:wild
-    decoration: 7rock09
+    decoration: 7tree16
     count: 1
     circle: {at: [29.347, 10.182], r: 0.1}
   - id: scatter:wild
@@ -985,15 +938,11 @@ scatter:
     count: 1
     circle: {at: [39.385, 9.545], r: 0.1}
   - id: scatter:wild
-    decoration: 7tree16
-    count: 1
-    circle: {at: [19.535, 12.821], r: 0.1}
-  - id: scatter:wild
-    decoration: 7tree16
+    decoration: 7tree22
     count: 1
     circle: {at: [34.577, 7.431], r: 0.1}
   - id: scatter:wild
-    decoration: 7rock08
+    decoration: 7tree22
     count: 1
     circle: {at: [81.779, 13.275], r: 0.1}
   - id: scatter:wild
@@ -1001,59 +950,59 @@ scatter:
     count: 1
     circle: {at: [23.838, 9.58], r: 0.1}
   - id: scatter:wild
-    decoration: 7tree22
+    decoration: 7rock09
     count: 1
     circle: {at: [73.913, 11.951], r: 0.1}
   - id: scatter:wild
-    decoration: 7tree16
+    decoration: 7rock09
     count: 1
     circle: {at: [58.772, 10.655], r: 0.1}
   - id: scatter:wild
-    decoration: bush03
+    decoration: 7rock08
     count: 1
     circle: {at: [45.488, 17.556], r: 0.1}
   - id: scatter:wild
-    decoration: 7rock08
+    decoration: bush03
     count: 1
     circle: {at: [34.562, 15.252], r: 0.1}
   - id: scatter:wild
-    decoration: bush03
+    decoration: 7rock08
     count: 1
     circle: {at: [41.71, 13.584], r: 0.1}
   - id: scatter:wild
-    decoration: bush03
+    decoration: 7tree22
     count: 1
     circle: {at: [67.131, 8.582], r: 0.1}
   - id: scatter:wild
-    decoration: 7tree22
+    decoration: 7rock08
     count: 1
     circle: {at: [102.628, 14.837], r: 0.1}
   - id: scatter:wild
-    decoration: 7tree16
+    decoration: 7rock09
     count: 1
     circle: {at: [19.57, 18.208], r: 0.1}
   - id: scatter:wild
-    decoration: 7rock08
+    decoration: 7rock09
     count: 1
     circle: {at: [84.573, 16.289], r: 0.1}
   - id: scatter:wild
-    decoration: 7rock08
+    decoration: 7tree16
     count: 1
     circle: {at: [49.786, 16.391], r: 0.1}
   - id: scatter:wild
-    decoration: 7rock09
+    decoration: 7tree16
     count: 1
     circle: {at: [53.819, 7.692], r: 0.1}
   - id: scatter:wild
-    decoration: 7tree16
+    decoration: 7rock08
     count: 1
     circle: {at: [49.344, 9.284], r: 0.1}
   - id: scatter:wild
-    decoration: 7rock09
+    decoration: 7tree22
     count: 1
     circle: {at: [101.18, 10.495], r: 0.1}
   - id: scatter:wild
-    decoration: 7rock09
+    decoration: 7tree22
     count: 1
     circle: {at: [28.834, 18.621], r: 0.1}
   - id: scatter:wild
@@ -1061,7 +1010,7 @@ scatter:
     count: 1
     circle: {at: [71.374, 8.451], r: 0.1}
   - id: scatter:wild
-    decoration: 7tree16
+    decoration: bush03
     count: 1
     circle: {at: [82.678, 7.26], r: 0.1}
   - id: scatter:wild
@@ -1069,19 +1018,19 @@ scatter:
     count: 1
     circle: {at: [88.203, 14.451], r: 0.1}
   - id: scatter:wild
-    decoration: 7tree16
+    decoration: bush03
     count: 1
     circle: {at: [78.012, 16.638], r: 0.1}
   - id: scatter:wild
-    decoration: 7rock09
+    decoration: bush03
     count: 1
     circle: {at: [19.519, 6.094], r: 0.1}
   - id: scatter:wild
-    decoration: 7rock09
+    decoration: 7tree22
     count: 1
     circle: {at: [91.127, 18.174], r: 0.1}
   - id: scatter:wild
-    decoration: 7rock09
+    decoration: 7tree16
     count: 1
     circle: {at: [28.089, 14.362], r: 0.1}
   - id: scatter:wild
@@ -1089,7 +1038,7 @@ scatter:
     count: 1
     circle: {at: [91.054, 6.577], r: 0.1}
   - id: scatter:wild
-    decoration: 7rock09
+    decoration: 7rock08
     count: 1
     circle: {at: [91.874, 12.281], r: 0.1}
   - id: scatter:wild
@@ -1097,213 +1046,41 @@ scatter:
     count: 1
     circle: {at: [45.852, 6.075], r: 0.1}
   - id: scatter:wild
-    decoration: 7rock08
+    decoration: 7tree16
     count: 1
     circle: {at: [52.693, 11.875], r: 0.1}
   - id: scatter:wild
-    decoration: 7tree16
+    decoration: 7rock09
     count: 1
     circle: {at: [99.301, 6.488], r: 0.1}
   - id: scatter:wild
-    decoration: bush03
+    decoration: 7rock09
     count: 1
     circle: {at: [32.915, 18.922], r: 0.1}
-  - id: scatter:wild
-    decoration: flower01
-    count: 1
-    circle: {at: [35.397, 116.615], r: 0.1}
-  - id: scatter:wild
-    decoration: bush03
-    count: 1
-    circle: {at: [45.143, 120.682], r: 0.1}
-  - id: scatter:wild
-    decoration: 7tree16
-    count: 1
-    circle: {at: [46.348, 113.741], r: 0.1}
-  - id: scatter:wild
-    decoration: flower02
-    count: 1
-    circle: {at: [27.501, 116.938], r: 0.1}
-  - id: scatter:wild
-    decoration: bush03
-    count: 1
-    circle: {at: [38.737, 112.795], r: 0.1}
-  - id: scatter:wild
-    decoration: 7rock01
-    count: 1
-    circle: {at: [22.234, 115.82], r: 0.1}
-  - id: scatter:wild
-    decoration: 7tree13
-    count: 1
-    circle: {at: [35.476, 120.631], r: 0.1}
-  - id: scatter:wild
-    decoration: 7tree16
-    count: 1
-    circle: {at: [27.637, 121.142], r: 0.1}
-  - id: scatter:wild
-    decoration: flower01
-    count: 1
-    circle: {at: [49.153, 120.156], r: 0.1}
-  - id: scatter:dead_trees
-    decoration: tree42
-    count: 1
-    circle: {at: [49.882, 111.002], r: 0.1}
-  - id: scatter:wild
-    decoration: flower02
-    count: 1
-    circle: {at: [31.61, 115.014], r: 0.1}
-  - id: scatter:wild
-    decoration: 7rock09
-    count: 1
-    circle: {at: [42.361, 117.072], r: 0.1}
-  - id: scatter:wild
-    decoration: bush03
-    count: 1
-    circle: {at: [40.658, 121.192], r: 0.1}
-  - id: scatter:wild
-    decoration: 7rock09
-    count: 1
-    circle: {at: [79.081, 118.757], r: 0.1}
-  - id: scatter:wild
-    decoration: flower01
-    count: 1
-    circle: {at: [89.607, 120.246], r: 0.1}
-  - id: scatter:wild
-    decoration: 7tree16
-    count: 1
-    circle: {at: [65.153, 121.552], r: 0.1}
-  - id: scatter:wild
-    decoration: 7rock09
-    count: 1
-    circle: {at: [64.528, 113.766], r: 0.1}
-  - id: scatter:wild
-    decoration: 7tree16
-    count: 1
-    circle: {at: [89.769, 113.736], r: 0.1}
-  - id: scatter:wild
-    decoration: flower01
-    count: 1
-    circle: {at: [100.628, 109.147], r: 0.1}
-  - id: scatter:wild
-    decoration: 7tree13
-    count: 1
-    circle: {at: [51.337, 117.776], r: 0.1}
-  - id: scatter:wild
-    decoration: 7rock01
-    count: 1
-    circle: {at: [58.7, 109.957], r: 0.1}
-  - id: scatter:wild
-    decoration: flower02
-    count: 1
-    circle: {at: [94.843, 110.08], r: 0.1}
-  - id: scatter:wild
-    decoration: 7tree13
-    count: 1
-    circle: {at: [98.199, 116.096], r: 0.1}
-  - id: scatter:wild
-    decoration: 7rock09
-    count: 1
-    circle: {at: [93.592, 121.642], r: 0.1}
-  - id: scatter:wild
-    decoration: 7rock09
-    count: 1
-    circle: {at: [76.248, 114.134], r: 0.1}
-  - id: scatter:wild
-    decoration: flower01
-    count: 1
-    circle: {at: [70.613, 112.44], r: 0.1}
-  - id: scatter:wild
-    decoration: 7rock09
-    count: 1
-    circle: {at: [85.547, 116.128], r: 0.1}
-  - id: scatter:wild
-    decoration: 7tree16
-    count: 1
-    circle: {at: [80.903, 111.85], r: 0.1}
-  - id: scatter:wild
-    decoration: bush03
-    count: 1
-    circle: {at: [55.011, 121.339], r: 0.1}
-  - id: scatter:wild
-    decoration: flower02
-    count: 1
-    circle: {at: [74.364, 117.935], r: 0.1}
-  - id: scatter:wild
-    decoration: flower02
-    count: 1
-    circle: {at: [101.028, 118.943], r: 0.1}
-  - id: scatter:wild
-    decoration: 7tree13
-    count: 1
-    circle: {at: [61.696, 119.342], r: 0.1}
-  - id: scatter:wild
-    decoration: 7tree13
-    count: 1
-    circle: {at: [56.393, 114.066], r: 0.1}
-  - id: scatter:wild
-    decoration: 7tree13
-    count: 1
-    circle: {at: [76.642, 109.012], r: 0.1}
-  - id: scatter:wild
-    decoration: 7tree13
-    count: 1
-    circle: {at: [69.664, 120.163], r: 0.1}
-  - id: scatter:wild
-    decoration: bush03
-    count: 1
-    circle: {at: [87.308, 109.964], r: 0.1}
-  - id: scatter:wild
-    decoration: 7tree13
-    count: 1
-    circle: {at: [92.741, 116.976], r: 0.1}
-  - id: scatter:wild
-    decoration: flower02
-    count: 1
-    circle: {at: [83.495, 119.854], r: 0.1}
-  - id: scatter:wild
-    decoration: 7rock09
-    count: 1
-    circle: {at: [66.295, 110.017], r: 0.1}
-  - id: scatter:wild
-    decoration: 7tree13
-    count: 1
-    circle: {at: [60.458, 114.648], r: 0.1}
-  - id: scatter:wild
-    decoration: 7rock09
-    count: 1
-    circle: {at: [102.944, 113.122], r: 0.1}
-  - id: scatter:wild
-    decoration: 7tree16
-    count: 1
-    circle: {at: [97.959, 121.652], r: 0.1}
-  - id: scatter:wild
-    decoration: bush03
-    count: 1
-    circle: {at: [68.161, 115.988], r: 0.1}
   - id: scatter:wild_places
     decoration: dec24x
     count: 1
-    circle: {at: [66, 107], r: 0.1}
+    circle: {at: [66, 100.5], r: 0.1}
   - id: scatter:wild_places
     decoration: 7dec18
     count: 1
-    circle: {at: [66.8, 107.6], r: 0.1}
+    circle: {at: [66.8, 101.1], r: 0.1}
   - id: scatter:wild_places
     decoration: 7dec20
     count: 1
-    circle: {at: [65.3, 106.4], r: 0.1}
+    circle: {at: [65.3, 99.9], r: 0.1}
   - id: scatter:wild_places
     decoration: 7dec18
     count: 1
-    circle: {at: [88.5, 110.4], r: 0.1}
+    circle: {at: [92.5, 101.4], r: 0.1}
   - id: scatter:wild_places
     decoration: 7rock08
     count: 1
-    circle: {at: [88, 109.6], r: 0.1}
+    circle: {at: [92, 100.6], r: 0.1}
   - id: scatter:wild_places
     decoration: 7rock09
     count: 1
-    circle: {at: [89.1, 109.8], r: 0.1}
+    circle: {at: [93.1, 100.8], r: 0.1}
   - id: scatter:wild_places
     decoration: 7rock09
     count: 7
@@ -1407,7 +1184,7 @@ scatter:
   - id: scatter:town_trees
     decoration: tree37
     count: 1
-    circle: {at: [54.32, 39.07], r: 0.25}
+    circle: {at: [54.54, 40.31], r: 0.25}
   - id: scatter:town_trees
     decoration: 7tree16
     count: 1
@@ -1650,7 +1427,7 @@ scatter:
     line: [[34.37, 58.54], [34.95, 58.65]]
 ground:
   - material: grass_meadow
-    polygon: [[0, 0], [104, 0], [104, 128], [0, 128]]
+    polygon: [[0, 0], [128, 0], [128, 128], [0, 128]]
     notes: "meadow; the town floor is grass too (second pass): dirt only on roads, lanes, door aprons, the square"
   - material: swamp
     polygon: [[66, 78], [100, 78], [100, 100], [70, 100], [66, 92]]
@@ -1665,19 +1442,19 @@ ground:
     polygon: [[59, 57], [62, 57], [62, 61], [59, 61]]
     notes: Joe's yard
   - material: soil
-    polygon: [[57, 111], [60, 111], [60, 113], [57, 113]]
+    polygon: [[57, 98], [60, 98], [60, 100], [57, 100]]
     notes: a bare patch in the meadow
   - material: soil
     polygon: [[94, 57], [97, 57], [97, 59], [94, 59]]
     notes: a bare patch in the meadow
   - material: soil
-    polygon: [[75, 103], [78, 103], [78, 105], [75, 105]]
+    polygon: [[75, 98], [78, 98], [78, 100], [75, 100]]
     notes: a bare patch in the meadow
   - material: soil
     polygon: [[23, 65], [26, 65], [26, 67], [23, 67]]
     notes: a bare patch in the meadow
   - material: soil
-    polygon: [[97, 111], [100, 111], [100, 113], [97, 113]]
+    polygon: [[96, 99], [99, 99], [99, 101], [96, 101]]
     notes: a bare patch in the meadow
   - material: soil
     polygon: [[59, 89], [62, 89], [62, 91], [59, 91]]
@@ -1686,7 +1463,7 @@ ground:
     polygon: [[11, 39], [14, 39], [14, 41], [11, 41]]
     notes: a bare patch in the meadow
   - material: soil
-    polygon: [[39, 111], [42, 111], [42, 113], [39, 113]]
+    polygon: [[39, 99], [42, 99], [42, 101], [39, 101]]
     notes: a bare patch in the meadow
   - material: soil
     line: [[49, 42], [49, 43]]
@@ -1724,6 +1501,14 @@ ground:
     line: [[60.5, 33], [59.5, 32.5]]
     width: 2
     notes: "path to the door of building:fringe_meadows#2"
+  - material: soil
+    line: [[50, 36], [52, 36]]
+    width: 2
+    notes: "path to the door of building:fringe_meadows#3"
+  - material: soil
+    line: [[59, 35], [59, 33]]
+    width: 2
+    notes: "path to the door of building:fringe_meadows#4"
   - material: soil
     line: [[58, 66.5], [57, 67]]
     width: 2
@@ -1770,7 +1555,7 @@ structures:
     batter_height: 320
   - id: thing:wall_run_2
     kind: wall
-    line: [[47, 38.2], [50.812, 38]]
+    line: [[47, 38.2], [51.312, 38]]
     height: 512
     thickness: 384
     textures: {wall: cwb}
@@ -1781,7 +1566,7 @@ structures:
     batter_height: 320
   - id: thing:wall_run_3
     kind: wall
-    line: [[53.188, 38], [57, 38.2]]
+    line: [[53.688, 38], [57, 38.2]]
     height: 512
     thickness: 384
     textures: {wall: cwb}
@@ -1803,7 +1588,7 @@ structures:
     batter_height: 320
   - id: thing:wall_run_5
     kind: wall
-    line: [[62.2, 38.6], [62.522, 44.813]]
+    line: [[62.2, 38.6], [62.522, 45.313]]
     height: 512
     thickness: 384
     textures: {wall: cwb}
@@ -1814,7 +1599,7 @@ structures:
     top: follow
   - id: thing:wall_run_6
     kind: wall
-    line: [[62.478, 47.187], [62, 49.5]]
+    line: [[62.478, 47.687], [62, 49.5]]
     height: 512
     thickness: 384
     textures: {wall: cwb}
@@ -1825,7 +1610,7 @@ structures:
     batter_height: 320
   - id: thing:wall_run_11
     kind: wall
-    line: [[42, 49.5], [41.5, 45.188]]
+    line: [[42, 49.5], [41.5, 45.688]]
     height: 512
     thickness: 384
     textures: {wall: cwb}
@@ -1836,7 +1621,7 @@ structures:
     batter_height: 320
   - id: thing:wall_run_12
     kind: wall
-    line: [[41.5, 42.812], [42, 38.5]]
+    line: [[41.5, 43.312], [42, 38.5]]
     height: 512
     thickness: 384
     textures: {wall: cwb}
@@ -1865,7 +1650,7 @@ structures:
     title: Wall tower
   - id: thing:gatehouse_north
     kind: building
-    at: [50.25, 37.312]
+    at: [50.75, 37.312]
     size: [3.5, 1.375]
     turn: 0
     kit: castle
@@ -1877,11 +1662,11 @@ structures:
     notes: "Two round towers under cone roofs; the wall between them carries the arched gate."
   - id: thing:gate_arch_north
     kind: wall
-    line: [[50.612, 38], [53.388, 38]]
+    line: [[51.112, 38], [53.888, 38]]
     height: 624
     thickness: 448
     gates:
-      - {at: [52, 38], width: 448, height: 416, arch: round, sides: 8}
+      - {at: [52.5, 38], width: 448, height: 416, arch: round, sides: 8}
     textures: {wall: cnb}
     parapet: 96
     battlements: true
@@ -1907,7 +1692,7 @@ structures:
     title: Wall tower
   - id: thing:gatehouse_east
     kind: building
-    at: [61.812, 44.25]
+    at: [61.812, 44.75]
     size: [1.375, 3.5]
     turn: 1.1
     kit: castle
@@ -1919,11 +1704,11 @@ structures:
     notes: "Two round towers under cone roofs; the wall between them carries the arched gate."
   - id: thing:gate_arch_east
     kind: wall
-    line: [[62.525, 44.613], [62.475, 47.387]]
+    line: [[62.525, 45.113], [62.475, 47.887]]
     height: 624
     thickness: 448
     gates:
-      - {at: [62.5, 46], width: 448, height: 416, arch: round, sides: 8}
+      - {at: [62.5, 46.5], width: 448, height: 416, arch: round, sides: 8}
     textures: {wall: cnb}
     parapet: 96
     battlements: true
@@ -1949,7 +1734,7 @@ structures:
     title: Wall tower
   - id: thing:gatehouse_west
     kind: building
-    at: [40.812, 42.25]
+    at: [40.812, 42.75]
     size: [1.375, 3.5]
     turn: 0
     kit: castle
@@ -1961,11 +1746,11 @@ structures:
     notes: "Two round towers under cone roofs; the wall between them carries the arched gate."
   - id: thing:gate_arch_west
     kind: wall
-    line: [[41.5, 45.388], [41.5, 42.612]]
+    line: [[41.5, 45.888], [41.5, 43.112]]
     height: 624
     thickness: 448
     gates:
-      - {at: [41.5, 44], width: 448, height: 416, arch: round, sides: 8}
+      - {at: [41.5, 44.5], width: 448, height: 416, arch: round, sides: 8}
     textures: {wall: cnb}
     parapet: 96
     battlements: true
@@ -2224,23 +2009,26 @@ structures:
   - id: thing:terrace_wall_1
     kind: wall
     line: [[42.5, 41.5], [44.1, 41.5]]
-    height: 48
+    raise: -256
+    height: 560
     thickness: 512
     textures: {wall: chb1}
     title: Terrace wall
     notes: "Pass four: the upper town's retaining wall (Harmondale's fieldstone, chb1)."
   - id: thing:terrace_wall_2
     kind: wall
-    line: [[44.9, 41.5], [48.35, 41.5]]
-    height: 48
+    line: [[44.9, 41.5], [48.375, 41.5]]
+    raise: -256
+    height: 560
     thickness: 512
     textures: {wall: chb1}
     title: Terrace wall
     notes: "Pass four: the upper town's retaining wall (Harmondale's fieldstone, chb1)."
   - id: thing:terrace_wall_3
     kind: wall
-    line: [[49.15, 41.5], [50.3, 41.5]]
-    height: 48
+    line: [[49.125, 41.5], [50.3, 41.5]]
+    raise: -256
+    height: 560
     thickness: 512
     textures: {wall: chb1}
     title: Terrace wall
@@ -2248,7 +2036,8 @@ structures:
   - id: thing:terrace_wall_4
     kind: wall
     line: [[51.7, 41.5], [56.1, 41.5]]
-    height: 48
+    raise: -256
+    height: 560
     thickness: 512
     textures: {wall: chb1}
     title: Terrace wall
@@ -2256,14 +2045,15 @@ structures:
   - id: thing:terrace_wall_5
     kind: wall
     line: [[56.9, 41.5], [61.5, 41.5]]
-    height: 48
+    raise: -256
+    height: 560
     thickness: 512
     textures: {wall: chb1}
     title: Terrace wall
     notes: "Pass four: the upper town's retaining wall (Harmondale's fieldstone, chb1)."
   - id: thing:town_bridge
     kind: bridge
-    line: [[52, 50.3], [52, 54.6]]
+    line: [[52.5, 50.3], [52.5, 54.6]]
     width: 512
     rise: 48
     kerb: 48
@@ -2310,21 +2100,21 @@ structures:
     into: {map: xeen_xd01.blv, at: [768, -900, 128], facing: 512, screen: {text: 5001}}
     condition: {lua: "XeenQuests.hook(\"m2.warehouse_door\")"}
   - id: thing:culvert_grate
-    kind: culvert
-    at: [61.5, 55]
+    kind: doorway
+    at: [61.5, 54.9375]
     height: 176
     width: 320
-    thickness: 112
-    depth: 16
-    textures: {wall: cwb}
+    sides: 8
+    depth: 112
+    textures: {door: 7solid01, wall: cwb}
+    floor: 352
     title: Culvert grate
     into: {map: xeen_xd01.blv, at: [4832, 4000, -640], facing: 1024}
     condition: {qbit: 110012}
     locked_text: The culvert grate is barred fast from the inside.
-    hint: Culvert
-    outflow: 0
-    water_level: 8
-    wall: [1504, 256]
+    arch: round
+    frame_height: 256
+    frame_width: 1504
   - id: thing:mine_portal
     kind: cave_mouth
     at: [44, 31]
@@ -2379,7 +2169,8 @@ structures:
   - id: thing:culvert_revetment_w
     kind: wall
     line: [[60.5, 54.8013], [60.5, 55.4]]
-    height: 38
+    raise: -112
+    height: 150
     thickness: 512
     textures: {wall: cwb}
     title: Revetment
@@ -2387,25 +2178,17 @@ structures:
   - id: thing:culvert_revetment_e
     kind: wall
     line: [[62.5, 54.8013], [62.5, 55.4]]
-    height: 38
+    raise: -112
+    height: 150
     thickness: 512
     textures: {wall: cwb}
     title: Revetment
     notes: "D-95: lines the sunken approach's side, 16 under the end face."
-  - id: thing:culvert_lintel
-    kind: platform
-    at: [61.5, 54.7617]
-    size: [1504, 20]
-    raise: 187
-    height: 16
-    textures: {wall: cwb}
-    title: Quay
-    notes: "D-95: the stone behind the culvert mouth (lintel)."
   - id: thing:culvert_cap
     kind: platform
-    at: [61.5, 54.3711]
-    size: [1504, 380]
-    height: 115
+    at: [61.5, 54.0756]
+    size: [1504, 723]
+    height: 49
     textures: {wall: cwb}
     title: Quay
     notes: "D-95: the stone behind the culvert mouth (cap)."
@@ -2441,6 +2224,38 @@ structures:
     textures: {wall: cwb}
     title: Quay
     notes: "D-95: the stone behind the culvert outfall mouth (cap)."
+  - id: thing:culvert_quay_w
+    kind: platform
+    at: [60.6094, 53.1856]
+    size: [592, 189]
+    height: 32
+    textures: {wall: cwb}
+    title: Quay
+    notes: "F25: the quay's front beside the outfall, over the cut bank."
+  - id: thing:culvert_quay_e
+    kind: platform
+    at: [62.3906, 53.1856]
+    size: [592, 189]
+    height: 32
+    textures: {wall: cwb}
+    title: Quay
+    notes: "F25: the quay's front beside the outfall, over the cut bank."
+  - id: thing:culvert_outfall_cheek_w
+    kind: wall
+    line: [[61.2266, 52.9913], [61.2266, 53.0503]]
+    height: 176
+    thickness: 32
+    textures: {wall: cwb}
+    title: Outfall
+    notes: "F25: closes the side of the outfall's tunnel between its headwall and cap."
+  - id: thing:culvert_outfall_cheek_e
+    kind: wall
+    line: [[61.7734, 52.9913], [61.7734, 53.0503]]
+    height: 176
+    thickness: 32
+    textures: {wall: cwb}
+    title: Outfall
+    notes: "F25: closes the side of the outfall's tunnel between its headwall and cap."
   - id: thing:way_in_dress_1
     kind: decoration
     at: [42.5, 32.6]
@@ -2541,6 +2356,9 @@ structures:
     kind: decoration
     at: [84.4, 32.6]
     decoration: cmpfyr00
+    title: Campfire
+    effects:
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
   - id: thing:way_in_dress_26
     kind: decoration
     at: [84.9, 32]
@@ -2672,17 +2490,20 @@ structures:
     notes: "Sealed until M7 (Act II): says so."
   - id: thing:rim_falls
     kind: waterfall
-    line: [[104, 60], [106, 60]]
+    line: [[105, 60], [106, 60]]
     rise: 64
-    textures: {rock: t2bs}
+    textures: {deck: xahull, rock: t2bs}
     title: Pitchfork Falls
     notes: The creek's fall off the world rim (the studio's waterfall word).
     top: 576
-    lean: 220
-    foot: 0
+    lean: 300
+    foot: -2400
     spread: 1.7
     back: 768
-    pool: 768
+    pool: 0
+    rocks: false
+    chute: [1900, 1050]
+    edge: true
     rock_size: 400
   - id: thing:falls_rock_1
     kind: decoration
@@ -2700,22 +2521,6 @@ structures:
     kind: decoration
     at: [103.7, 62.1]
     decoration: 7rock08
-  - id: thing:falls_rock_5
-    kind: decoration
-    at: [105.6, 58.4]
-    decoration: 7rock09
-  - id: thing:falls_rock_6
-    kind: decoration
-    at: [105.7, 61.7]
-    decoration: 7rock08
-  - id: thing:falls_rock_7
-    kind: decoration
-    at: [106.5, 59]
-    decoration: 7rock09
-  - id: thing:falls_rock_8
-    kind: decoration
-    at: [106.5, 61]
-    decoration: 7rock04
   - id: thing:falls_sound
     kind: decoration
     at: [104, 60]
@@ -2768,7 +2573,7 @@ structures:
     size: [2, 2]
     kit: stone
     parts:
-      - {id: s, at: [256, 256], size: [512, 512], posts: 48, wall_height: 320, roof: hip, roof_pitch: 40, title: Shrine of Poison, condition: {not: {map_var: shrine_used}}, else_effects: [{text: The shrine is silent.}], effects: [{set: {var: {map_var: shrine_used}, value: 1}}, {add: {var: BodyResistance, value: 5}}, {text: "+5 Body resistance (permanent)"}]}
+      - {id: s, at: [256, 256], size: [512, 512], posts: 48, wall_height: 320, roof: hip, roof_pitch: 40, title: Shrine of Poison}
     door: none
     title: Shrine of Poison
   - id: thing:water_reflector
@@ -2807,6 +2612,8 @@ structures:
     at: [30, 29]
     decoration: dec24
     title: Orc campfire
+    effects:
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
   - id: thing:outpost_crate_1
     kind: crate
     at: [30.8, 29.4]
@@ -2816,6 +2623,8 @@ structures:
     at: [56, 23]
     decoration: dec24
     title: Orc campfire
+    effects:
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
   - id: thing:outpost_crate_2
     kind: crate
     at: [56.8, 23.4]
@@ -2825,6 +2634,8 @@ structures:
     at: [97, 31]
     decoration: dec24
     title: Orc campfire
+    effects:
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
   - id: thing:outpost_crate_3
     kind: crate
     at: [97.8, 31.4]
@@ -2841,6 +2652,8 @@ structures:
     at: [23.9, 62.6]
     decoration: cmpfyr00
     title: Campfire
+    effects:
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
   - id: thing:hunters_chest
     kind: chest
     at: [24.9, 61.6]
@@ -2855,6 +2668,8 @@ structures:
     at: [11.5, 41.8]
     decoration: dec24
     title: Orc campfire
+    effects:
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
   - id: thing:west_road_crate
     kind: decoration
     at: [12.3, 42.199999999999996]
@@ -2872,6 +2687,8 @@ structures:
     at: [72.8, 9.2]
     decoration: dec24
     title: Orc campfire
+    effects:
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
   - id: thing:north_road_crate
     kind: decoration
     at: [73.6, 9.6]
@@ -2889,6 +2706,8 @@ structures:
     at: [42, 78]
     decoration: dec24
     title: Derek's campfire
+    effects:
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
   - id: thing:derek_chest
     kind: chest
     at: [42.8, 78.4]
@@ -3080,6 +2899,8 @@ structures:
     at: [92, 41.6]
     decoration: cmpfyr00
     title: Travellers' campfire
+    effects:
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
   - id: thing:travellers_camp_2
     kind: decoration
     at: [93, 41]
@@ -3104,6 +2925,8 @@ structures:
     at: [34, 68]
     decoration: cmpfyr00
     title: Woodcutters' campfire
+    effects:
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
   - id: thing:woodcutters_camp_2
     kind: decoration
     at: [35.2, 67.4]
@@ -3194,7 +3017,7 @@ structures:
       - text: "Wicker eel traps, staked in the stream. Empty."
   - id: thing:bog_bones
     kind: decoration
-    at: [95, 104.4]
+    at: [95, 102.4]
     decoration: 7dec18
     title: Bones in the bog
     effects:
@@ -3289,6 +3112,361 @@ structures:
     effects:
       - lua: "Xeen.useMirror(4017, eventId, continueStep)"
     notes: "Hook mirror.vertigo: the town mirror (A4 makes it a free transport house)."
+  - id: thing:hull_001
+    kind: decoration
+    at: [2, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_002
+    kind: decoration
+    at: [6, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_003
+    kind: decoration
+    at: [10, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_004
+    kind: decoration
+    at: [14, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_005
+    kind: decoration
+    at: [18, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_006
+    kind: decoration
+    at: [22, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_007
+    kind: decoration
+    at: [26, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_008
+    kind: decoration
+    at: [30, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_009
+    kind: decoration
+    at: [34, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_010
+    kind: decoration
+    at: [38, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_011
+    kind: decoration
+    at: [42, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_012
+    kind: decoration
+    at: [46, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_013
+    kind: decoration
+    at: [50, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_014
+    kind: decoration
+    at: [54, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_015
+    kind: decoration
+    at: [58, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_016
+    kind: decoration
+    at: [62, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_017
+    kind: decoration
+    at: [66, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_018
+    kind: decoration
+    at: [70, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_019
+    kind: decoration
+    at: [74, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_020
+    kind: decoration
+    at: [78, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_021
+    kind: decoration
+    at: [82, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_022
+    kind: decoration
+    at: [86, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_023
+    kind: decoration
+    at: [90, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_024
+    kind: decoration
+    at: [94, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_025
+    kind: decoration
+    at: [98, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_026
+    kind: decoration
+    at: [102, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_027
+    kind: decoration
+    at: [104.5, 104.98]
+    turn: -180
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_028
+    kind: decoration
+    at: [104.98, 103]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_029
+    kind: decoration
+    at: [104.98, 99]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_030
+    kind: decoration
+    at: [104.98, 95]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_031
+    kind: decoration
+    at: [104.98, 91]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_032
+    kind: decoration
+    at: [104.98, 87]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_033
+    kind: decoration
+    at: [104.98, 83]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_034
+    kind: decoration
+    at: [104.98, 79]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_035
+    kind: decoration
+    at: [104.98, 75]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_036
+    kind: decoration
+    at: [104.98, 71]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_037
+    kind: decoration
+    at: [104.98, 67]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_038
+    kind: decoration
+    at: [104.98, 63]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_039
+    kind: decoration
+    at: [104.98, 57]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_040
+    kind: decoration
+    at: [104.98, 53]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_041
+    kind: decoration
+    at: [104.98, 49]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_042
+    kind: decoration
+    at: [104.98, 45]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_043
+    kind: decoration
+    at: [104.98, 41]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_044
+    kind: decoration
+    at: [104.98, 37]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_045
+    kind: decoration
+    at: [104.98, 33]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_046
+    kind: decoration
+    at: [104.98, 29]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_047
+    kind: decoration
+    at: [104.98, 25]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_048
+    kind: decoration
+    at: [104.98, 21]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_049
+    kind: decoration
+    at: [104.98, 17]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_050
+    kind: decoration
+    at: [104.98, 13]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_051
+    kind: decoration
+    at: [104.98, 9]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_052
+    kind: decoration
+    at: [104.98, 5]
+    turn: 90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_053
+    kind: decoration
+    at: [104.98, 2.5]
+    turn: 90
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_054
+    kind: decoration
+    at: [104.98, 1.5]
+    turn: 90
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_055
+    kind: decoration
+    at: [104.98, 0.5]
+    turn: 90
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_056
+    kind: decoration
+    at: [104.98, 104.98]
+    turn: 135
+    decoration: xeen_hullc
+    notes: "U-12 (rim agent, 2026-11-23): the hull's corner piece (common/rim.py)."
+  - id: thing:shrine_poison_altar
+    kind: platform
+    at: [26, 82]
+    size: [192, 128]
+    height: 128
+    title: Shrine of Poison
+    condition: {not: {map_var: shrine_used}}
+    else_effects:
+      - text: The shrine is silent.
+    effects:
+      - set:
+          var:
+            map_var: shrine_used
+          value: 1
+      - add:
+          var: BodyResistance
+          value: 5
+      - text: "+5 Body resistance (permanent)"
+    notes: "F32 (P2 pin p16, 2026-11-23): the shrine's altar under its roof carries the click; the pavilion keeps its title (MM6 OUTE1 261, MM7 \"Shrine\"/\"Altar\")."
 actors:
   - {monster: "371", at: [53.89, 49.63], spread: 0, group: 47, hostile: false, notes: D-96 villager of Vertigo (villagers.yml)}
   - {monster: "368", at: [41.89, 87.63], spread: 0, group: 47, hostile: false, notes: D-96 villager of Vertigo (villagers.yml)}
@@ -3300,7 +3478,7 @@ actors:
   - {monster: "350", at: [54.64, 61.88], spread: 0, group: 47, hostile: false, notes: D-96 villager of Vertigo (villagers.yml)}
   - {monster: "371", at: [58.89, 36.88], spread: 0, group: 47, hostile: false, notes: D-96 villager of Vertigo (villagers.yml)}
   - {monster: "368", at: [45.39, 46.13], spread: 0, group: 47, hostile: false, notes: D-96 villager of Vertigo (villagers.yml)}
-  - {monster: "354", at: [61.64, 45.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Vertigo (villagers.yml)}
+  - {monster: "354", at: [61.39, 45.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Vertigo (villagers.yml)}
   - {monster: "350", at: [71.89, 74.13], spread: 0, group: 47, hostile: false, notes: D-96 villager of Vertigo (villagers.yml)}
   - {monster: "371", at: [51.89, 42.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Vertigo (villagers.yml)}
   - {monster: "368", at: [58.39, 55.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Vertigo (villagers.yml)}
@@ -3308,19 +3486,19 @@ actors:
   - {monster: "350", at: [51.89, 55.88], spread: 0, group: 47, hostile: false, notes: D-96 villager of Vertigo (villagers.yml)}
   - {monster: "371", at: [66.39, 43.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Vertigo (villagers.yml)}
   - {monster: "368", at: [47.14, 54.63], spread: 0, group: 47, hostile: false, notes: D-96 villager of Vertigo (villagers.yml)}
-  - {monster: "354", at: [57.14, 46.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Vertigo (villagers.yml)}
+  - {monster: "354", at: [56.89, 46.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Vertigo (villagers.yml)}
   - {monster: "350", at: [76.14, 74.88], spread: 0, group: 47, hostile: false, notes: D-96 villager of Vertigo (villagers.yml)}
   - {monster: "371", at: [45.39, 83.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Vertigo (villagers.yml)}
   - {monster: "368", at: [47.64, 42.63], spread: 0, group: 47, hostile: false, notes: D-96 villager of Vertigo (villagers.yml)}
   - {monster: "354", at: [37.64, 47.88], spread: 0, group: 47, hostile: false, notes: D-96 villager of Vertigo (villagers.yml)}
   - {monster: "404", at: [52, 36.9], spread: 0, group: 51}
   - {monster: "404", at: [53.1, 36.9], spread: 0, group: 51}
-  - {monster: "404", at: [52, 51], spread: 0, group: 51}
-  - {monster: "404", at: [53, 50.7], spread: 0, group: 51}
-  - {monster: "404", at: [40.4, 44.6], spread: 0, group: 51}
-  - {monster: "404", at: [40.4, 43.5], spread: 0, group: 51}
-  - {monster: "404", at: [63.6, 45.6], spread: 0, group: 51}
-  - {monster: "404", at: [63.6, 46.7], spread: 0, group: 51}
+  - {monster: "404", at: [52, 49.3], spread: 0, group: 51}
+  - {monster: "404", at: [53, 49.3], spread: 0, group: 51}
+  - {monster: "404", at: [40.4, 45.05], spread: 0, group: 51}
+  - {monster: "404", at: [40.4, 43.95], spread: 0, group: 51}
+  - {monster: "404", at: [63.6, 45.95], spread: 0, group: 51}
+  - {monster: "404", at: [63.6, 47.05], spread: 0, group: 51}
   - {monster: "404", at: [47.2, 44.4], spread: 0, group: 51}
   - {monster: "404", at: [56.4, 47.6], spread: 0, group: 51}
   - {monster: "404", at: [59.8, 44.9], spread: 0, group: 51}
@@ -3342,7 +3520,7 @@ actors:
   - {monster: "11300", at: [30, 88], count: 3, spread: 1, group: 94, hostile: true}
   - {monster: "11300", at: [38, 22], count: 2, spread: 0.8, group: 95, hostile: true}
   - {monster: "371", at: [41.2, 77.6], spread: 0, group: 54, npc: 4046}
-  - {monster: "371", at: [63.6, 64.6], spread: 0, group: 52, npc: 4047}
+  - {monster: "371", at: [62.35, 62.85], spread: 0, group: 52, npc: 4047}
   - {monster: "11928", at: [27.2, 60.8], spread: 0, group: 52, npc: 4048}
   - {monster: "371", at: [53.6, 44.6], spread: 0, group: 52, npc: 4049}
   - {monster: "371", at: [57.4, 44.4], spread: 0, group: 52, npc: 4050}
@@ -3396,3 +3574,8 @@ events:
       - lua: "XeenQuests.hook(\"m1.opening\")"
     once: true
     notes: "Hook m1.opening (A3, QUESTS M1; CHANGES X1-9): Crodo's dreams and Gunther's request; once."
+  - id: evt:rim_fall
+    trigger: timer
+    every: 1
+    lua: "Xeen.rimFall({{{20992, 32768}, {32768, 32768}, {32768, -32768}, {-32768, -32768}, {-32768, -20992}, {20992, -20992}}}, {{-25088, -18944, 608, 512}, {-21504, -18944, 608, 512}, {-15360, -18944, 704, 512}, {-12288, -18944, 672, 512}, {-9216, -18944, 640, 512}, {-2560, -18944, 640, 512}, {512, -18944, 608, 512}, {3584, -18944, 672, 512}, {6656, -18944, 640, 512}, {9728, -18944, 640, 512}, {13312, -18944, 864, 512}, {19456, -18944, 1024, 512}, {18944, -13312, 1024, 1024}, {18944, -9728, 1024, 1024}, {18944, -6656, 992, 1024}, {18944, -3584, 1024, 1024}, {18944, -512, 832, 1024}, {18944, 2560, 576, 1024}, {18944, 9216, 1056, 1024}, {18944, 12288, 1056, 1024}, {18944, 15360, 992, 1024}, {18944, 21504, 2240, 1024}})"
+    notes: "F29 (P2 pins p7, p12; 2026-11-23): a party in the sea below the world rim, or in the rim's foot below Xeen.RimFallDepth, is lifted back onto the rim at the nearest return point and falls the last Xeen.SkyFallHeight (common/wild.py, xeen_common.lua Xeen.rimFall). Return points (cells): [15, 101], [22, 101], [34, 101], [40, 101], [46, 101], [59, 101], [65, 101], [71, 101], [77, 101], [83, 101], [90, 101], [102, 101], [101, 90], [101, 83], [101, 77], [101, 71], [101, 65], [101, 59], [101, 46], [101, 40], [101, 34], [101, 22]."

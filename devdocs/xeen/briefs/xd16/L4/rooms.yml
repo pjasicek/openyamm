@@ -321,6 +321,10 @@ rooms:
     ceiling: 512
     ceiling_points: [[384, 0, 576]]
     theme: theme:cave
+    walls:
+      - wall: west
+        panels:
+          - {offset: 128, length: 512, surface: {texture: c2b, size: [256, 256]}, notes: flat behind exit:mouth (a rough wall would stand in front of it)}
     ambient: 20
     notes: "The arrival (entrance:x7_mouth): daylight behind between the idols, heat ahead; the way out west."
   - id: room:rough_steps

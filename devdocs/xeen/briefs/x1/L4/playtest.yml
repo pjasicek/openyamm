@@ -559,7 +559,7 @@ steps:
     clear_hostiles: 3000
 - note: Over Vertigo Bridge
 - walk_to:
-    x: -6144
+    x: -5888
     y: 6400
     z: 576
     z_tolerance: 600
@@ -922,7 +922,7 @@ steps:
     timeout_seconds: 60
     clear_hostiles: 3000
 - walk_to:
-    x: -6144
+    x: -5888
     y: 6400
     z: 576
     z_tolerance: 600
@@ -963,7 +963,7 @@ steps:
     clear_hostiles: 3000
 - walk_to:
     x: -768
-    y: 9216
+    y: 8960
     z: 640
     z_tolerance: 600
     radius: 160
@@ -1009,7 +1009,7 @@ steps:
 - note: Back in by the east gate to the north street
 - walk_to:
     x: -768
-    y: 9216
+    y: 8960
     z: 640
     z_tolerance: 600
     radius: 160
@@ -1065,9 +1065,9 @@ steps:
     clear_hostiles: 3000
 - note: Out of the north gate, up the north road into the hills
 - walk_to:
-    x: -6144
+    x: -5888
     y: 13312
-    z: 864
+    z: 800
     z_tolerance: 600
     radius: 160
     timeout_seconds: 60
@@ -1328,9 +1328,9 @@ steps:
     timeout_seconds: 120
     clear_hostiles: 3000
 - walk_to:
-    x: -6144
+    x: -5888
     y: 13312
-    z: 864
+    z: 800
     z_tolerance: 600
     radius: 160
     timeout_seconds: 120
@@ -1376,7 +1376,7 @@ steps:
     timeout_seconds: 60
     clear_hostiles: 3000
 - walk_to:
-    x: -6144
+    x: -5888
     y: 6400
     z: 576
     z_tolerance: 600
@@ -1722,7 +1722,7 @@ steps:
     timeout_seconds: 60
     clear_hostiles: 3000
 - walk_to:
-    x: -6144
+    x: -5888
     y: 6400
     z: 576
     z_tolerance: 600

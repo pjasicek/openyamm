@@ -1,0 +1,41 @@
+# dark/scifi1: first orchestration by orchestrate.py (hand-tune freely; it is never overwritten).
+# 30.0 s a pass. GM programs are 0-based; drums: 0 standard kit, 48 orchestral.
+# A channel's `slots` give the notes it plays with those FM instrument slots their own instrument.
+reverb: {seconds: 2.0, level: 0.32}
+channels:
+  2:   # counter_low: bass+lead; median 51, 0.47 s notes, sounding 75%
+    program: 87
+    pan: -0.25
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  3:   # pad: warm pad; median 66, 4.62 s notes, sounding 75%
+    program: 89
+    pan: 0.25
+    width: 0.9
+    reverb: 0.4
+    gain_db: -3
+  4:   # pad2: sweep pad; median 94, 2.77 s notes, sounding 100%
+    program: 95
+    pan: -0.5
+    width: 0.9
+    reverb: 0.4
+    gain_db: -3
+  5:   # pad2: sweep pad; median 83, 3.23 s notes, sounding 100%
+    program: 95
+    pan: 0.5
+    width: 0.9
+    reverb: 0.4
+    gain_db: -3
+  6:   # lead_mid: square lead; median 57, 0.47 s notes, sounding 100%
+    program: 80
+    pan: 0.0
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  8:   # drums (standard kit), notes [69]
+    program: 0
+    pan: 0.0
+    width: 0.5
+    reverb: 0.15
+    gain_db: -3

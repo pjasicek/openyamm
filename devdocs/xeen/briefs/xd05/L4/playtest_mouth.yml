@@ -1,0 +1,69 @@
+# XD-05 Orc Caves: from the deepest room (the back gate's guardroom) back out of the mouth on foot, and the mouth's
+# exit taken the way a player does: facing it and pressing interact (the crosshair's pick), not by its event id.
+# The Discord report (2026-11-23): "How do I leave the Orc Dungeon without going to Mount Firestone?": the rough
+# wall of the mouth stood in front of its black exit face, so no click reached it.
+id: xeen.xd05.l4.mouth
+title: Orc Caves (XD-05), out of the mouth from the back gate on foot
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd05.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 8, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 8, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 8, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 8, skills: [], equipment: {}}
+  - assert: {map: xeen_xd05.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(3); close()"}
+  # As a party that came in by the back gate from X7: drums burnt, the bar lifted, standing in the guardroom.
+  - lua_event: {source: "SetQBit(QBit(110050)) SetQBit(QBit(110051))"}
+  - set_pose: {map: xeen_xd05.blv, x: 2176, y: 12800, z: 320, yaw: 4.7124, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  # Down the back tunnel to the Drum Hall's floor, up the terraces and out through the cookfire cave and the run.
+  - walk_to: {x: 2176, y: 11648, z: -128, radius: 64, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 960, y: 11648, z: -384, radius: 64, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 960, y: 10500, z: -640, radius: 64, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 500, y: 9024, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 1600, y: 9024, z: -384, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1600, y: 8544, z: -384, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1600, y: 8000, z: -384, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 0, y: 7900, z: -384, radius: 64, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 0, y: 7100, z: -256, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 384, y: 5900, z: -256, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 384, y: 5150, z: -96, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - walk_to: {x: 600, y: 4700, z: -96, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - walk_to: {x: 864, y: 3400, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - walk_to: {x: 0, y: 3000, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
+  - walk_to: {x: 0, y: 2400, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  # The palisade gate from inside: facing it, interact opens both leaves.
+  - set_pose: {map: xeen_xd05.blv, x: 0, y: 2050, z: 0, yaw: 4.7124, pitch: 0.0}
+  - advance_runtime: {seconds: 0.3}
+  - play_lua:
+      source: |
+        local ok, ev = interact(); wait(3)
+        log('palisade gate from inside: ' .. tostring(ok) .. ' event ' .. tostring(ev))
+        if door_state(3) ~= 'open' or door_state(4) ~= 'open' then error('the palisade gate did not open from inside (event ' .. tostring(ev) .. ')') end
+  - walk_to: {x: 0, y: 1500, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 400, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The mouth: from 400 in front of the black exit, facing it, the crosshair's pick is the exit (event 18).
+  - set_pose: {map: xeen_xd05.blv, x: 0, y: 400, z: 0, yaw: 4.7124, pitch: 0.0}
+  - advance_runtime: {seconds: 0.3}
+  - play_lua:
+      source: |
+        local ok, ev = interact()
+        log('mouth interact: ' .. tostring(ok) .. ' event ' .. tostring(ev))
+        if ev ~= 18 then error('facing the mouth, interact found event ' .. tostring(ev) .. ', not the exit (18)') end
+  - assert: {dialog: {active: true, text_contains: "Do you wish to leave"}}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: xeen_x1.odm}
+  - assert: {party_position: {x: 9216, y: 16384, radius: 128, z_min: 1300, z_max: 1450, facing: 1536, facing_within: 40}}
+  - play_lua: {source: "if not qbit(110050) or not qbit(110051) then error('a quest bit was lost') end"}

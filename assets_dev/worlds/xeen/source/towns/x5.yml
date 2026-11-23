@@ -130,7 +130,7 @@ houses:
 
 npcs:
   # ---- Winterkill ----
-  - {id: 4501, name: Casper, title: Mindmeld Guildmaster, profession: Spell Master, talks: true, greet: ["Membership is strictly by invitation. Then again, I may fall asleep with the roll book open. (wink, wink)", "Still awake? I'm not."], source: "MAPS X5: Casper's bribe"}
+  - {id: 4501, name: Casper, title: Mindmeld Guildmaster, profession: Spell Master, talks: true, greet: ["The guild was closed to newcomers. Then I fell asleep with the roll book open. (wink, wink) Go on in.", "Still awake? I'm not."], source: "MAPS X5: Casper's bribe"}
   - {id: 4502, name: Mayor Randon, profession: Clerk, talks: true, house: none, place: "X5, Winterkill's square by the gongs (A6)", greet: ["My town is full of ghosts and empty of people. Ring the gongs, and come back after each wave.", "How many waves now?"]}
   - {id: 4503, name: Ulla, title: Innkeeper, profession: Cook, greet: ["The last ghost drank here every night. Never paid.", "Something hot?"]}
   - {id: 4504, name: Father Ingram, profession: Healer, greet: ["We buried the town twice. Once was enough.", "Warm yourself."]}

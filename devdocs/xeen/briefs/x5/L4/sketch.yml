@@ -154,18 +154,17 @@ heights:
     - {polygon: [[25, 85], [33, 85], [32, 96], [25, 96]], count: 4, height: [2900, 3500], radius: [2, 3], profile: cone, spacing: 3, seed: 11, notes: The giants' west crags.}
     - {polygon: [[45, 86], [53, 86], [53, 97], [46, 97]], count: 4, height: [2900, 3600], radius: [2, 3], profile: cone, spacing: 3, seed: 13, notes: The giants' east crags.}
 water:
-  bodies:
-    - id: water:rim_sea
-      kind: sea
-      level: 0
-      polygon: [[0, 0], [23, 0], [23, 105], [128, 105], [128, 128], [0, 128]]
-      notes: "Below the rim: stands for the stars (the game draws no void)."
+  bodies: []
   rivers:
     - id: water:river
       line: [[128, 62], [118, 62], [110, 63], [103, 63], [97, 63], [91, 63], [86, 62], [82, 61], [78, 61], [76, 61]]
       width_cells: 2.5
       level: 840
       notes: "The Lagoon Water from X3: open and fast in the pocket, through the Frostspine gorge and 1,000 past it (D-6.1); then frozen (a ridge of land at 800 painted ice) to the mere."
+void:
+  - id: void:rim_sea
+    polygon: [[0, 0], [23, 0], [23, 105], [128, 105], [128, 128], [0, 128]]
+    notes: "U-12: the void under the world rim (was water:rim_sea, the sea that stood for the stars)."
 roads:
   - link: link:lagoon_road
     line: [[128, 59], [118, 59], [110, 59], [104, 59.5], [98, 60]]
@@ -1143,6 +1142,8 @@ structures:
     at: [42.2, 25.8]
     decoration: cmpfyr00
     title: Campfire
+    effects:
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
   - id: thing:camp_bones
     kind: decoration
     at: [41, 26.5]
@@ -1159,6 +1160,8 @@ structures:
     at: [66.2, 22.8]
     decoration: cmpfyr00
     title: Campfire
+    effects:
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
   - id: thing:hunt_bones
     kind: decoration
     at: [65, 23.5]
@@ -1213,6 +1216,8 @@ structures:
     at: [81.4, 44.6]
     decoration: cmpfyr00
     title: Campfire
+    effects:
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
   - id: thing:frozen_sledge
     kind: chest
     at: [89.6, 53.4]
@@ -1331,6 +1336,8 @@ structures:
     at: [101.4, 37.9]
     decoration: cmpfyr00
     title: Campfire
+    effects:
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
   - id: thing:ogre_chest
     kind: chest
     at: [102.6, 36.4]
@@ -1360,6 +1367,8 @@ structures:
     at: [104.4, 86.9]
     decoration: cmpfyr00
     title: Campfire
+    effects:
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
   - id: thing:archer_chest
     kind: chest
     at: [105.6, 85.4]
@@ -1451,7 +1460,7 @@ structures:
     size: [1.6, 1.6]
     kit: stone
     parts:
-      - {id: s, at: [205, 205], size: [410, 410], posts: 40, textures: {roof: xtslate}, wall_height: 320, windows: none, roof: cone, roof_pitch: 52, title: Shrine of Cold, condition: {not: {map_var: shrine_cold_used}}, else_effects: [{text: "Frost on the altar, and silence."}], effects: [{set: {var: {map_var: shrine_cold_used}, value: 1}}, {add: {var: WaterResistance, value: 5}}, {text: "+5 Water resistance (permanent)"}]}
+      - {id: s, at: [205, 205], size: [410, 410], posts: 40, textures: {roof: xtslate}, wall_height: 320, windows: none, roof: cone, roof_pitch: 52, title: Shrine of Cold}
     door: none
     title: Shrine of Cold
   - id: thing:holy_book
@@ -1544,6 +1553,8 @@ structures:
     at: [44.2, 91.6]
     decoration: cmpfyr00
     title: Campfire
+    effects:
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
   - id: thing:outpost_char_1
     kind: decoration
     at: [42.2, 91.8]
@@ -1701,6 +1712,349 @@ structures:
     title: Bones
     effects:
       - lua: "evt.SimpleMessage(\"The bones of something big, cracked open for the marrow. The path goes on up.\")"
+  - id: thing:hull_001
+    kind: decoration
+    at: [23.02, 2]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_002
+    kind: decoration
+    at: [23.02, 6]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_003
+    kind: decoration
+    at: [23.02, 10]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_004
+    kind: decoration
+    at: [23.02, 14]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_005
+    kind: decoration
+    at: [23.02, 18]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_006
+    kind: decoration
+    at: [23.02, 22]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_007
+    kind: decoration
+    at: [23.02, 26]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_008
+    kind: decoration
+    at: [23.02, 30]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_009
+    kind: decoration
+    at: [23.02, 34]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_010
+    kind: decoration
+    at: [23.02, 38]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_011
+    kind: decoration
+    at: [23.02, 42]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_012
+    kind: decoration
+    at: [23.02, 46]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_013
+    kind: decoration
+    at: [23.02, 50]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_014
+    kind: decoration
+    at: [23.02, 54]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_015
+    kind: decoration
+    at: [23.02, 58]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_016
+    kind: decoration
+    at: [23.02, 62]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_017
+    kind: decoration
+    at: [23.02, 66]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_018
+    kind: decoration
+    at: [23.02, 70]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_019
+    kind: decoration
+    at: [23.02, 74]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_020
+    kind: decoration
+    at: [23.02, 78]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_021
+    kind: decoration
+    at: [23.02, 82]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_022
+    kind: decoration
+    at: [23.02, 86]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_023
+    kind: decoration
+    at: [23.02, 90]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_024
+    kind: decoration
+    at: [23.02, 94]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_025
+    kind: decoration
+    at: [23.02, 98]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_026
+    kind: decoration
+    at: [23.02, 102]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_027
+    kind: decoration
+    at: [23.02, 104.5]
+    turn: -90
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_028
+    kind: decoration
+    at: [25, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_029
+    kind: decoration
+    at: [29, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_030
+    kind: decoration
+    at: [33, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_031
+    kind: decoration
+    at: [37, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_032
+    kind: decoration
+    at: [41, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_033
+    kind: decoration
+    at: [45, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_034
+    kind: decoration
+    at: [49, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_035
+    kind: decoration
+    at: [53, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_036
+    kind: decoration
+    at: [57, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_037
+    kind: decoration
+    at: [61, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_038
+    kind: decoration
+    at: [65, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_039
+    kind: decoration
+    at: [69, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_040
+    kind: decoration
+    at: [73, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_041
+    kind: decoration
+    at: [77, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_042
+    kind: decoration
+    at: [81, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_043
+    kind: decoration
+    at: [85, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_044
+    kind: decoration
+    at: [89, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_045
+    kind: decoration
+    at: [93, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_046
+    kind: decoration
+    at: [97, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_047
+    kind: decoration
+    at: [101, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_048
+    kind: decoration
+    at: [105, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_049
+    kind: decoration
+    at: [109, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_050
+    kind: decoration
+    at: [113, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_051
+    kind: decoration
+    at: [117, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_052
+    kind: decoration
+    at: [121, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_053
+    kind: decoration
+    at: [125, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_054
+    kind: decoration
+    at: [23.02, 104.98]
+    turn: -135
+    decoration: xeen_hullc
+    notes: "U-12 (rim agent, 2026-11-23): the hull's corner piece (common/rim.py)."
+  - id: thing:shrine_cold_altar
+    kind: platform
+    at: [53.001, 74.401]
+    size: [192, 128]
+    height: 128
+    title: Shrine of Cold
+    condition: {not: {map_var: shrine_cold_used}}
+    else_effects:
+      - text: "Frost on the altar, and silence."
+    effects:
+      - set:
+          var:
+            map_var: shrine_cold_used
+          value: 1
+      - add:
+          var: WaterResistance
+          value: 5
+      - text: "+5 Water resistance (permanent)"
+    notes: "F32 (P2 pin p16, 2026-11-23): the shrine's altar under its roof carries the click; the pavilion keeps its title (MM6 OUTE1 261, MM7 \"Shrine\"/\"Altar\")."
 actors:
   - {monster: "11410", at: [93, 26], count: 2, spread: 0.8, group: 1, hostile: true}
   - {monster: "11410", at: [103, 29], count: 3, spread: 0.8, group: 2, hostile: true}
@@ -1900,3 +2254,8 @@ events:
       - show: thing:outpost_char_4
       - show: thing:outpost_char_5
     notes: "Q-C16: the outpost stays burnt (A6 s27)."
+  - id: evt:rim_fall
+    trigger: timer
+    every: 1
+    lua: "Xeen.rimFall({{{-32768, 32768}, {-20992, 32768}, {-20992, -20992}, {32768, -20992}, {32768, -32768}, {-32768, -32768}}}, {{-18944, 21504, 1504, 0}, {-18944, 18432, 1504, 0}, {-18944, 9216, 1024, 0}, {-18944, 6144, 1056, 0}, {-18944, 2560, 1024, 0}, {-18944, -512, 1024, 0}, {-18944, -3584, 1024, 0}, {-18944, -6656, 1120, 0}, {-18944, -19456, 2208, 0}, {-16384, -18944, 2240, 512}, {-3584, -18944, 1216, 512}, {-512, -18944, 1216, 512}, {2560, -18944, 1248, 512}, {12288, -18944, 928, 512}, {15360, -18944, 928, 512}, {18432, -18944, 928, 512}, {21504, -18944, 1024, 512}})"
+    notes: "F29 (P2 pins p7, p12; 2026-11-23): a party in the sea below the world rim, or in the rim's foot below Xeen.RimFallDepth, is lifted back onto the rim at the nearest return point and falls the last Xeen.SkyFallHeight (common/wild.py, xeen_common.lua Xeen.rimFall). Return points (cells): [27, 22], [27, 28], [27, 46], [27, 52], [27, 59], [27, 65], [27, 71], [27, 77], [27, 102], [32, 101], [57, 101], [63, 101], [69, 101], [88, 101], [94, 101], [100, 101], [106, 101]."

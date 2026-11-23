@@ -92,8 +92,9 @@ def box_uv(bm, uv, tiles_per_metre, seed):
 
 def ember_bed(name, radius, height, segments, mats, coals=0, seed=0):
     """A low glowing dome with optional heaped coals (icospheres), all `Glow`."""
-    parts = [pl.lathe(name, [(0.0, height), (radius * 0.47, height * 0.82), (radius * 0.82, height * 0.36),
-                             (radius, 0.0)], segments, mats['Glow'], u_repeat=3.0, v_scale=1 / GLOW_TILE)]
+    # Rim to axis, so the dome faces up (axis outward it faced down and the game culled it; F39).
+    parts = [pl.lathe(name, [(radius, 0.0), (radius * 0.82, height * 0.36), (radius * 0.47, height * 0.82),
+                             (0.0, height)], segments, mats['Glow'], u_repeat=3.0, v_scale=1 / GLOW_TILE)]
     for k in range(coals):
         a = 2 * math.pi * k / coals + 0.4 + seed
         cb = bmesh.new(); bmesh.ops.create_icosphere(cb, subdivisions=1, radius=1.0)

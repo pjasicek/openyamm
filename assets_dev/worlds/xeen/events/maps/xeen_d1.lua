@@ -2,6 +2,7 @@
 SetMapMetadata({onLoad = {216, 212, 243, 256, 257, 258, 259, 265, 214, 215, 217}, onLeave = {}, openedChestIds = {[165] = {18}, [173] = {19}, [179] = {20}, [183] = {21}, [184] = {22}, [191] = {23}, }, timers = {
     { eventId = 213, sourceEventId = 213, triggerStep = 0, origin = "legacy", triggerKind = "timer", scheduleKind = "interval", intervalHalfMinutes = 2 },
     { eventId = 266, sourceEventId = 266, triggerStep = 0, origin = "legacy", triggerKind = "timer", scheduleKind = "interval", intervalHalfMinutes = 1 },
+    { eventId = 269, sourceEventId = 269, triggerStep = 0, origin = "legacy", triggerKind = "timer", scheduleKind = "interval", intervalHalfMinutes = 1 },
 }})
 
 -- evt:door:building:cv_tavern
@@ -467,16 +468,7 @@ RegisterEvent(113, "A wrecked trebuchet", nil, "A wrecked trebuchet")
 RegisterEvent(114, "A wayside shrine of Mok", nil, "A wayside shrine of Mok")
 
 -- evt:part:thing:wayside_shrine/s
-RegisterEvent(115, "A wayside shrine of Mok", function()
-    if not (not ((Xeen.usedToday("d1_wayside_shrine")))) then
-        evt.StatusText("The shrine is quiet. Come back tomorrow.", 4)
-        return
-    end
-    Xeen.markToday("d1_wayside_shrine")
-    evt.ForPlayer(Players.All)
-    AddValue(LuckBonus, 10)
-    evt.StatusText("Mok bless your road. +10 Luck until you rest.", 5)
-end, "A wayside shrine of Mok")
+RegisterEvent(115, "A wayside shrine of Mok", nil, "A wayside shrine of Mok")
 
 -- evt:name:thing:grove_rope
 RegisterEvent(116, "A rope from the sky", nil, "A rope from the sky")
@@ -521,22 +513,7 @@ RegisterEvent(124, "Castle Kalindra", nil, "Castle Kalindra")
 RegisterEvent(125, "The prayer shrine", nil, "The prayer shrine")
 
 -- evt:part:thing:prayer_shrine/s
-RegisterEvent(126, "The prayer shrine", function()
-    if not (not ((Xeen.usedToday("d1_prayer_shrine")))) then
-        evt.StatusText("You pray, and the shrine is silent. Come back tomorrow.", 5)
-        return
-    end
-    Xeen.markToday("d1_prayer_shrine")
-    evt.ForPlayer(Players.All)
-    AddValue(MightBonus, 10)
-    AddValue(IntellectBonus, 10)
-    AddValue(PersonalityBonus, 10)
-    AddValue(EnduranceBonus, 10)
-    AddValue(AccuracyBonus, 10)
-    AddValue(SpeedBonus, 10)
-    AddValue(LuckBonus, 10)
-    evt.StatusText("You pray. +10 to every stat until you rest.", 4)
-end, "The prayer shrine")
+RegisterEvent(126, "The prayer shrine", nil, "The prayer shrine")
 
 -- evt:name:thing:falista_hut
 RegisterEvent(127, "Falista's hut", nil, "Falista's hut")
@@ -570,7 +547,7 @@ end, "The north gate")
 -- evt:thing:north_gate_inner
 RegisterEvent(135, "The north gate", function()
     if not ((XeenQuests.can("m14.gate_open"))) then
-        evt.MoveToMap(-512, 10752, 1152, 1536, 0, 0, 0, 0)
+        evt.MoveToMap(-256, 10752, 1152, 1536, 0, 0, 0, 0)
         XeenQuests.hook("m14.let_out")
         return
     end
@@ -663,7 +640,9 @@ end, "Joe's sign")
 RegisterEvent(168, "Justine's lean-to", nil, "Justine's lean-to")
 
 -- evt:thing:justine_fire
-RegisterEvent(169, "Campfire", nil, "Campfire")
+RegisterEvent(169, "Campfire", function()
+    local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") else evt.StatusText("You find food by the fire (+" .. food .. ").") end evt.ChangeEvent(0)
+end, "Campfire")
 
 -- evt:thing:dd04_burrow
 RegisterEvent(170, "A burrow under the wall", function()
@@ -696,7 +675,9 @@ RegisterEvent(176, "A Sardaj tent", function(continueStep)
 end, "A Sardaj tent")
 
 -- evt:thing:sardaj_fire
-RegisterEvent(177, "Campfire", nil, "Campfire")
+RegisterEvent(177, "Campfire", function()
+    local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") else evt.StatusText("You find food by the fire (+" .. food .. ").") end evt.ChangeEvent(0)
+end, "Campfire")
 
 -- evt:thing:trebuchet_sign
 RegisterEvent(178, "Sign", function()
@@ -1168,4 +1149,39 @@ RegisterEvent(266, nil, function()
     end
     SetValue(MapVar(6), 1)
     evt.SetMonGroupBit(60, MonsterBits.Hostile, true)
+end)
+
+-- evt:thing:wayside_shrine_altar
+RegisterEvent(267, "A wayside shrine of Mok", function()
+    if not (not ((Xeen.usedToday("d1_wayside_shrine")))) then
+        evt.StatusText("The shrine is quiet. Come back tomorrow.", 4)
+        return
+    end
+    Xeen.markToday("d1_wayside_shrine")
+    evt.ForPlayer(Players.All)
+    AddValue(LuckBonus, 10)
+    evt.StatusText("Mok bless your road. +10 Luck until you rest.", 5)
+end, "A wayside shrine of Mok")
+
+-- evt:thing:prayer_shrine_altar
+RegisterEvent(268, "The prayer shrine", function()
+    if not (not ((Xeen.usedToday("d1_prayer_shrine")))) then
+        evt.StatusText("You pray, and the shrine is silent. Come back tomorrow.", 5)
+        return
+    end
+    Xeen.markToday("d1_prayer_shrine")
+    evt.ForPlayer(Players.All)
+    AddValue(MightBonus, 10)
+    AddValue(IntellectBonus, 10)
+    AddValue(PersonalityBonus, 10)
+    AddValue(EnduranceBonus, 10)
+    AddValue(AccuracyBonus, 10)
+    AddValue(SpeedBonus, 10)
+    AddValue(LuckBonus, 10)
+    evt.StatusText("You pray. +10 to every stat until you rest.", 4)
+end, "The prayer shrine")
+
+-- evt:rim_fall
+RegisterEvent(269, nil, function()
+    Xeen.rimFall({{{-32768, 32768}, {-20992, 32768}, {-20992, -20992}, {32768, -20992}, {32768, -32768}, {-32768, -32768}}}, {{-18944, 21504, 1088, 0}, {-18944, 12288, 1088, 0}, {-18944, 6144, 1152, 0}, {-18944, 2560, 1120, 0}, {-18944, -512, 1088, 0}, {-18944, -3584, 1120, 0}, {-18944, -9728, 1120, 0}, {-18944, -13312, 1088, 0}, {-18944, -16384, 1088, 0}, {-18944, -19456, 1056, 0}, {-16384, -18944, 832, 512}, {-13312, -18944, 1120, 512}, {-9728, -18944, 1184, 512}, {-6656, -18944, 1088, 512}, {-3584, -18944, 1088, 512}, {-512, -18944, 1088, 512}, {2560, -18944, 1088, 512}, {6144, -18944, 992, 512}, {9216, -18944, 992, 512}, {12288, -18944, 1024, 512}, {15360, -18944, 1024, 512}, {18432, -18944, 992, 512}, {21504, -18944, 1088, 512}})
 end)

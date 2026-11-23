@@ -313,3 +313,13 @@ door; MoveToMap direction east 0, north 512, west 1024, south 1536):
 ## S32 (2026-11-22, A6 32nd session: merge point 41 and the feedback fixes)
 
 Rebuilt on merge point 41, installed with its bake 01:20. Dungeon doors with rows 5034, 5037, 5039, 5041-5043, 5045; house_doors hook added. F10: the west-rim wolf (12, 30) to the south-west corner (28, 101), the woods' wolf beyond the east rim (120, 70) to the north-east corner (104, 24): zones 663/340 -> 416 tiles. Walk (window steps, the treehouse chest's status lines), hostility, daily, Graalg parley pass; audits 0.
+
+## Rim rebuild (2026-11-23, agent xeen-rimmap-c: U-12, D-106, D-109, D-112, D-113)
+
+- The rim sea is the void (`terrain.void [[0, 105, 127, 127]]`), 32 hull pieces (MB's rim.py fix: no 1-cell piece on
+  the map's last cell 127.5, which `oymap validate` refuses: `hull_033` is no longer placed), 12 return points; Sprite
+  Falls' lip (58, 105) down the spillway, foot -2,400.
+- Checks: audit 0 errors, 0 warnings; `void.occupied` 0, doors, walls, town_fit 0, empty zones, props, check_wild clean,
+  check_faces 1 (sprite_falls), D-85 0 / DIS 0. Build warning kept: `gates.road_off` on `footbridge`.
+- Tests: walk x2 and hostility pass.
+- Generated twice (the rescue's return points from the first build's land, `XEEN_WILD_MAPS`), built, villagers placed, recorded (`agent:xeen-rimmap-c`), checked in a private hard-link root, installed with its bake, terrain weights, the minimap re-rendered and its void painted (`tools/xeen/void_minimap.py`). Scripts `output/xeen_rimmap_c/build.sh`, `install.sh`, `tests.sh`, `tours.py`; logs `output/xeen_rimmap_c/run_<key>/`; captures `output/xeen_rimmap_c/cap/<key>_after/` (day and night, against `output/xeen_rim/before/<key>/`).

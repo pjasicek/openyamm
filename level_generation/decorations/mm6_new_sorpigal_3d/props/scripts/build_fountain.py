@@ -177,6 +177,7 @@ def build(level):
             f = bm.faces.new(face)
             for loop in f.loops:
                 loop[uvs].uv = (loop.vert.co.dot(side) * 3 + 0.5, loop.vert.co.dot(radial) * 3)
+        bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])  # the faces above wind inward (F39: inside-out panels)
         parts.append(pl.to_object(f'panel{k}', bm, mats['Marble'], smooth=False))
         if level < 2:
             parts.append(pl.tube(f'rim{k}', tip - side * w_out + Vector((0, 0, 0.02)),

@@ -228,8 +228,11 @@ NORTH_ST = [[64, MAIN_Y], [64, 36.5], [66, 34.5], [66, 0]]
 SOUTH_ST_W = [[54.5, SOUTH_Y], [64, SOUTH_Y]]
 SOUTH_ST_E = [[64, SOUTH_Y], [78, SOUTH_Y]]
 SOUTH_RD = [[64, SOUTH_Y], [64, 62.5], [63, 63.5], [63, 67.5], [62, 67.5], [62, 72], [63, 73]]
-LANE_W = [[58, MAIN_Y], [58, N_EDGE - 0.5]]           # cross lanes from the main street to the promenade and the quay steps
-LANE_E = [[73, MAIN_Y], [73, N_EDGE - 0.5]]
+# U-12 rebuild (agent xeen-rimmap-a, 2026-11-23): the lanes end a cell short of the terrace's edge; their last road
+# cell lay on the step (48-49) and its grading lifted the quay's nodes under the steps to 960, so the walls beside
+# the steps took their tops from 960 (118-176 over the terrace instead of 48)
+LANE_W = [[58, MAIN_Y], [58, N_EDGE - 1.0]]           # cross lanes from the main street to the promenade and the quay steps
+LANE_E = [[73, MAIN_Y], [73, N_EDGE - 1.0]]
 LANE_SE = [[74.5, SOUTH_Y], [74.5, 64.5]]
 LANES_C = [LANE_W, LANE_E, LANE_SE]
 COBBLE = [EAST_ROAD, MAIN_E, MAIN_W, WEST_ROAD, WEST_ROAD2, NORTH_ST, SOUTH_ST_W, SOUTH_ST_E, SOUTH_RD] + LANES_C
@@ -436,7 +439,9 @@ WILD_HOUSES = [
                                                                                                'roof': TH}),
     ('building:tito_chapel', "Tito's Chapel", None, 78.5, 74.5, 'w', [2, 2.5], 'stone', 'chapel', 0, {'tito': True}),
     ('building:farmsteads', None, None, 53, 25.5, 's', [2, 1.5], 'timber', 'barn', 0, {'index': 1, 'plain': True}),
-    ('building:farmsteads', None, None, 57, 28, 's', [1.5, 1.5], 'poor', 'cottage', 4, {'index': 2, 'plain': True,
+    # P2 F27 (town_fit_check houses.buried_door, agent xeen-rimmap-a 2026-11-23): the cottage faced south into the
+    # rising fields, the land before its door 88 over the sill; it faces north, downhill toward the barn
+    ('building:farmsteads', None, None, 57, 28, 'n', [1.5, 1.5], 'poor', 'cottage', 4, {'index': 2, 'plain': True,
                                                                                          'roof': TH}),
     ('building:farmsteads', None, None, 76, 23.5, 's', [1.5, 1.5], 'timber', 'gable_porch', 0,
      {'index': 3, 'plain': True}),
@@ -1105,9 +1110,12 @@ def build():
     # of each split pair comes last in the list, so the other areas keep their words (seeds) and their markers.
     # Area centres are whole cells (validate), so the circles are small: (46, 87) 5,971 from Danulf and 1,646 from the
     # nest, (46, 88) 6,182 / 1,677, (45, 80) 6,187, (69, 81) 6,300, (68, 78) 6,199, (60, 94) 6,062.
+    # U-12 (agent xeen-rimmap-a, 2026-11-23): the void keeps the land's height on its outline, so the rim's last
+    # row of tiles (y 104) is land now; the south-east corner (tile [107, 104]) lay 12,408 from every monster (521
+    # tiles, empty_zones.py): the (94, 84) marker moves to (96, 86), 11,155 from the corner; counts unchanged
     camps('pop:sprites', [(44, 78, 2, 1.5), (46, 87, 1, 0.12), (47, 90, 1, 1), (45, 80, 1, 0.4),
                           (69, 81, 1, 0.3),
-                          (94, 84, 1, 1), (82, 96, 1, 1),
+                          (96, 86, 1, 1), (82, 96, 1, 1),
                           (72, 88, 2, 1.5), (84, 82, 2, 1.5), (90, 88, 1, 1), (78, 91, 2, 1.5), (40, 84, 1, 1),
                           (86, 72, 1, 1), (51, 93, 1, 0.25),
                           (46, 88, 1, 0.15), (68, 78, 1, 0.25)])
@@ -1160,13 +1168,19 @@ def build():
        'towers': [160, 160, 448], 'textures': {'deck': 'cwb', 'side': 'cnb', 'pier': 'cnb'},
        'title': 'The Great Bridge',
        'notes': 'Four arches from the north terrace to the south terrace over both quays and the river.'})
+    # P2 F26 (town_fit_check walls.hollow / walls.buried, as X1's terrace wall; agent xeen-rimmap-a 2026-11-23): a
+    # wall's foot is its line's lowest land less 64 and its top the highest plus `height`; on the step's middle (the
+    # land 832) that left a hollow 128 over the quay under the face and the terrace 74-144 over its top. Now the slab
+    # is the step: `raise` takes its foot 64 into the quay and its top 48 over the terrace.
+    step_mid = (PLATEAU + BANK) // 2
     def retaining(tag, y, gaps, x1=77):
         xs = [53.5] + [v for g in gaps for v in g] + [x1]
         for k in range(0, len(xs), 2):
             if xs[k + 1] - xs[k] < 0.2:
                 continue
             S({'id': 'thing:%s_wall_%d' % (tag, k // 2 + 1), 'kind': 'wall', 'line': [[xs[k], y], [xs[k + 1], y]],
-               'height': 48, 'thickness': 512, 'textures': {'wall': 'cnb'}, 'title': 'Quay wall',
+               'raise': BANK - step_mid, 'height': PLATEAU + 48 - BANK, 'thickness': 512,
+               'textures': {'wall': 'cnb'}, 'title': 'Quay wall',
                'notes': 'The terrace\'s stone face over the quay.'})
     STAIRS_N = [58, 73]
     STAIRS_S = [59.5, 73]
@@ -1790,6 +1804,11 @@ def build():
     import entrance as EN
     for _note in HD.double_doors_sketch(sketch) + HD.bury_mouths_sketch(sketch) + EN.apply(sketch, 'x2'):
         print('door:', _note)
+    # P2 feedback F29/F32/F33 (agent xeen-fb2-wild, 2026-11-23): shrine altars, campfires, the rim fall
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'common'))
+    import wild as WILD
+    for _note in WILD.apply(sketch, 'x2'):
+        print('wild:', _note)
     dump(OUT, 'project.yml', project)
     dump(OUT, 'plan.yml', plan)
     dump(OUT, 'sketch.yml', sketch)

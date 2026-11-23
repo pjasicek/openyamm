@@ -105,7 +105,9 @@ Numbers here are summaries. Each heading links to the full treatment.
   and adds rules:
   - from MAW up: affixed bosses on every map;
   - from Hard: attacking cancels Fly;
-  - from Hell: melee monsters outdoors can gain a ranged attack;
+  - from Hell: melee monsters outdoors can gain a ranged attack (a mixed monster's: it shoots now and then and closes
+    to melee), except on the starting maps (MAW's six: out01, out02, 7out01, 7out02, oute3, outd3; Xeen's Vertigo;
+    MM9's Bootcamp and Isle of Ashes; `ranged_free` in the map data);
   - Nightmare (irreversible): saving costs food, no Lloyd/Town Portal near enemies, dungeons left below 65 % killed
     revive their dead, deep overkill means death or eradication.
 - **Game modes, fixed at party creation**: Normal, Doom, Road to Insanity, Beyond Madness, Austerity. Each is a

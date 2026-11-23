@@ -143,6 +143,11 @@ ambient_sounds:
 terrain:
   attribute_overrides: []
   footstep_sound_overrides: []
+  void:
+    - [0, 0, 127, 23]
+    - [0, 24, 23, 83]
+    - [0, 84, 32, 91]
+    - [0, 92, 23, 127]
 bmodel_faces:
   interactive_faces:
     - bmodel_index: 0
@@ -12009,13 +12014,13 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 5
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 6
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
@@ -12027,19 +12032,19 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 8
-      legacy_attributes: 33554944
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 9
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 10
-      legacy_attributes: 33554944
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
@@ -12063,49 +12068,49 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 14
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 15
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 16
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 17
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 18
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 19
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 20
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 21
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
@@ -12123,25 +12128,25 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 24
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 25
-      legacy_attributes: 33554688
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 26
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 27
-      legacy_attributes: 33554688
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
@@ -12213,67 +12218,67 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 39
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 40
-      legacy_attributes: 33554944
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 41
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 42
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 43
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 44
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 45
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 46
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 47
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 48
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 49
-      legacy_attributes: 33554688
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
@@ -12285,19 +12290,19 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 51
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 52
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 53
-      legacy_attributes: 33554944
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
@@ -12321,7 +12326,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 57
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
@@ -12369,43 +12374,43 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 65
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 66
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 67
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 68
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 69
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 70
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 71
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
@@ -12423,55 +12428,55 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 74
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 75
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 76
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 77
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 78
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 79
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 80
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 81
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 82
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
@@ -12483,61 +12488,61 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 84
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 85
-      legacy_attributes: 33554688
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 86
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 87
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 88
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 89
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 90
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 91
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 92
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 93
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
@@ -12555,103 +12560,103 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 96
-      legacy_attributes: 33554944
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 97
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 98
-      legacy_attributes: 33554944
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 99
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 100
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 101
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 102
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 103
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 104
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 105
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 106
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 107
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 108
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 109
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 110
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 111
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 112
-      legacy_attributes: 33554688
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
@@ -12663,7 +12668,277 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 12
       face_index: 114
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 115
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 116
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 117
       legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 118
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 119
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 120
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 121
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 122
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 123
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 124
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 125
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 126
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 127
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 128
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 129
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 130
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 131
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 132
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 133
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 134
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 135
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 136
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 137
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 138
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 139
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 140
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 141
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 142
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 143
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 144
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 145
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 146
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 147
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 148
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 149
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 150
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 151
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 152
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 153
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 154
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 155
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 156
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 157
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 158
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 70
+      cog_trigger: 0
+    - bmodel_index: 12
+      face_index: 159
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 70
       cog_trigger: 0
@@ -12819,157 +13094,157 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 25
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 26
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 27
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 28
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 29
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 30
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 31
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 32
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 33
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 34
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 35
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 36
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 37
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 38
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 39
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 40
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 41
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 42
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 43
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 44
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 45
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 46
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 47
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 48
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 49
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 50
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
@@ -12987,13 +13262,13 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 53
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 54
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
@@ -13011,13 +13286,13 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 57
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 58
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
@@ -13029,7 +13304,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 60
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
@@ -13047,13 +13322,13 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 63
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 64
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
@@ -13065,7 +13340,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 66
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
@@ -13077,7 +13352,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 68
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
@@ -13095,7 +13370,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 71
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
@@ -13107,13 +13382,13 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 73
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 74
-      legacy_attributes: 33554688
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
@@ -13125,307 +13400,307 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 76
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 77
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 78
-      legacy_attributes: 33554688
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 79
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 80
-      legacy_attributes: 33554688
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 81
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 82
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 83
-      legacy_attributes: 33554688
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 84
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 85
-      legacy_attributes: 33554688
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 86
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 87
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 88
-      legacy_attributes: 33554688
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 89
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 90
-      legacy_attributes: 33554688
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 91
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 92
-      legacy_attributes: 33554688
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 93
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 94
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 95
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 96
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 97
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 98
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 99
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 100
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 101
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 102
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 103
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 104
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 105
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 106
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 107
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 108
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 109
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 110
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 111
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 112
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 113
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 114
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 115
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 116
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 117
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 118
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 119
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 120
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 121
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 122
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 123
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 124
-      legacy_attributes: 33554944
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 125
-      legacy_attributes: 33554688
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 126
-      legacy_attributes: 33554688
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
@@ -13437,13 +13712,13 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 128
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 129
-      legacy_attributes: 33554688
+      legacy_attributes: 33555456
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
@@ -13455,13 +13730,13 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 131
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 132
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
@@ -13473,13 +13748,13 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 134
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 135
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
@@ -13491,13 +13766,13 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 137
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 138
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
@@ -13515,73 +13790,73 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 141
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 142
-      legacy_attributes: 33555456
-      cog_number: 0
-      cog_triggered_number: 17
-      cog_trigger: 0
-    - bmodel_index: 13
-      face_index: 143
       legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
+      face_index: 143
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
       face_index: 144
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 145
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 146
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 147
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 148
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 149
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 150
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 151
-      legacy_attributes: 33555456
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 152
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
@@ -13593,97 +13868,97 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 154
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 155
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 156
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 157
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 158
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 159
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 160
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 161
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 162
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 163
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 164
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 165
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 166
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 167
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 168
-      legacy_attributes: 33555456
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 169
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
@@ -13695,7 +13970,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 171
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
@@ -13707,7 +13982,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 173
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
@@ -13725,13 +14000,13 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 176
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 177
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
@@ -13749,7 +14024,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 180
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
@@ -13767,7 +14042,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 13
       face_index: 183
-      legacy_attributes: 33554688
+      legacy_attributes: 33554944
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
@@ -13780,6 +14055,732 @@ bmodel_faces:
     - bmodel_index: 13
       face_index: 185
       legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 186
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 187
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 188
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 189
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 190
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 191
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 192
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 193
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 194
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 195
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 196
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 197
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 198
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 199
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 200
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 201
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 202
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 203
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 204
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 205
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 206
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 207
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 208
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 209
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 210
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 211
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 212
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 213
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 214
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 215
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 216
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 217
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 218
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 219
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 220
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 221
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 222
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 223
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 224
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 225
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 226
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 227
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 228
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 229
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 230
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 231
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 232
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 233
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 234
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 235
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 236
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 237
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 238
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 239
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 240
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 241
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 242
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 243
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 244
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 245
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 246
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 247
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 248
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 249
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 250
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 251
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 252
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 253
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 254
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 255
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 256
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 257
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 258
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 259
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 260
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 261
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 262
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 263
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 264
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 265
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 266
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 267
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 268
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 269
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 270
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 271
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 272
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 273
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 274
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 275
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 276
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 277
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 278
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 279
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 280
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 281
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 282
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 283
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 284
+      legacy_attributes: 33555456
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 285
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 286
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 287
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 288
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 289
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 290
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 291
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 292
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 293
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 294
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 295
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 296
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 297
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 298
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 299
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 300
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 301
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 302
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 303
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 304
+      legacy_attributes: 33554944
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 305
+      legacy_attributes: 33554688
+      cog_number: 0
+      cog_triggered_number: 17
+      cog_trigger: 0
+    - bmodel_index: 13
+      face_index: 306
+      legacy_attributes: 33554688
       cog_number: 0
       cog_triggered_number: 17
       cog_trigger: 0
@@ -14913,7 +15914,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 22
       face_index: 1
-      legacy_attributes: 33554688
+      legacy_attributes: 33562880
       cog_number: 0
       cog_triggered_number: 24
       cog_trigger: 0
@@ -14925,7 +15926,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 22
       face_index: 3
-      legacy_attributes: 33554688
+      legacy_attributes: 33562880
       cog_number: 0
       cog_triggered_number: 24
       cog_trigger: 0
@@ -14937,7 +15938,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 22
       face_index: 5
-      legacy_attributes: 33554944
+      legacy_attributes: 33563136
       cog_number: 0
       cog_triggered_number: 24
       cog_trigger: 0
@@ -14949,7 +15950,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 22
       face_index: 7
-      legacy_attributes: 33554944
+      legacy_attributes: 33563136
       cog_number: 0
       cog_triggered_number: 24
       cog_trigger: 0
@@ -16851,7 +17852,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 28
       face_index: 1
-      legacy_attributes: 33555456
+      legacy_attributes: 33563648
       cog_number: 0
       cog_triggered_number: 30
       cog_trigger: 0
@@ -16863,7 +17864,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 28
       face_index: 3
-      legacy_attributes: 33555456
+      legacy_attributes: 33563648
       cog_number: 0
       cog_triggered_number: 30
       cog_trigger: 0
@@ -16875,7 +17876,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 28
       face_index: 5
-      legacy_attributes: 33554944
+      legacy_attributes: 33563136
       cog_number: 0
       cog_triggered_number: 30
       cog_trigger: 0
@@ -17181,7 +18182,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 30
       face_index: 1
-      legacy_attributes: 33555456
+      legacy_attributes: 33563648
       cog_number: 0
       cog_triggered_number: 34
       cog_trigger: 0
@@ -17193,7 +18194,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 30
       face_index: 3
-      legacy_attributes: 33555456
+      legacy_attributes: 33563648
       cog_number: 0
       cog_triggered_number: 34
       cog_trigger: 0
@@ -17205,7 +18206,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 30
       face_index: 5
-      legacy_attributes: 33554944
+      legacy_attributes: 33563136
       cog_number: 0
       cog_triggered_number: 34
       cog_trigger: 0
@@ -18591,7 +19592,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 37
       face_index: 1
-      legacy_attributes: 33554688
+      legacy_attributes: 33562880
       cog_number: 0
       cog_triggered_number: 44
       cog_trigger: 0
@@ -18603,7 +19604,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 37
       face_index: 3
-      legacy_attributes: 33554688
+      legacy_attributes: 33562880
       cog_number: 0
       cog_triggered_number: 44
       cog_trigger: 0
@@ -18615,7 +19616,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 37
       face_index: 5
-      legacy_attributes: 33554944
+      legacy_attributes: 33563136
       cog_number: 0
       cog_triggered_number: 44
       cog_trigger: 0
@@ -18627,7 +19628,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 37
       face_index: 7
-      legacy_attributes: 33554944
+      legacy_attributes: 33563136
       cog_number: 0
       cog_triggered_number: 44
       cog_trigger: 0
@@ -25899,7 +26900,7 @@ entities:
     position:
       x: -7360
       y: 20160
-      z: 2476
+      z: 2464
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -28492,9 +29493,9 @@ entities:
     decoration_list_id: 383
     ai_attributes: 0
     position:
-      x: -18112
-      y: -14240
-      z: 1190
+      x: -11616
+      y: -22720
+      z: 1696
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -28507,9 +29508,9 @@ entities:
     decoration_list_id: 383
     ai_attributes: 0
     position:
-      x: -18432
-      y: -14784
-      z: 1440
+      x: -11936
+      y: -23264
+      z: 1672
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -28552,9 +29553,9 @@ entities:
     decoration_list_id: 383
     ai_attributes: 0
     position:
-      x: -18720
-      y: -14304
-      z: 1334
+      x: -12224
+      y: -22784
+      z: 1684
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -41229,7 +42230,7 @@ entities:
     position:
       x: -20096
       y: -27008
-      z: 992
+      z: 1032
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -41364,7 +42365,7 @@ entities:
     position:
       x: -20192
       y: -31232
-      z: 726
+      z: 768
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -42714,7 +43715,7 @@ entities:
     position:
       x: -20160
       y: 11360
-      z: 582
+      z: 438
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -43254,7 +44255,7 @@ entities:
     position:
       x: 7168
       y: 20160
-      z: 1812
+      z: 1824
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -43269,7 +44270,7 @@ entities:
     position:
       x: 8704
       y: 20160
-      z: 1812
+      z: 1824
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -43404,7 +44405,7 @@ entities:
     position:
       x: 22528
       y: 20160
-      z: 1388
+      z: 1376
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -43419,7 +44420,7 @@ entities:
     position:
       x: 24064
       y: 20160
-      z: 536
+      z: 608
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -43434,7 +44435,7 @@ entities:
     position:
       x: 25600
       y: 20160
-      z: 784
+      z: 928
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -43449,7 +44450,7 @@ entities:
     position:
       x: 27136
       y: 20160
-      z: 1324
+      z: 1312
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -43464,7 +44465,7 @@ entities:
     position:
       x: 28672
       y: 20160
-      z: 936
+      z: 960
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -43479,7 +44480,7 @@ entities:
     position:
       x: 30208
       y: 20160
-      z: 572
+      z: 608
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -43494,7 +44495,7 @@ entities:
     position:
       x: 31744
       y: 20160
-      z: 596
+      z: 608
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -44183,7 +45184,7 @@ entities:
     ai_attributes: 0
     position:
       x: -19814
-      y: -10240
+      y: -10230
       z: 1536
     facing: 180
     event_id_primary: 0
@@ -44198,7 +45199,7 @@ entities:
     ai_attributes: 0
     position:
       x: -18176
-      y: -10240
+      y: -10230
       z: 1488
     facing: 180
     event_id_primary: 0
@@ -44213,9 +45214,1089 @@ entities:
     ai_attributes: 0
     position:
       x: -16538
-      y: -10240
+      y: -10230
       z: 1494
     facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1588
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 31744
+      y: 20470
+      z: 608
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1589
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 29696
+      y: 20470
+      z: 672
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1590
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 27648
+      y: 20470
+      z: 1248
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1591
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 25600
+      y: 20470
+      z: 928
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1592
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 23552
+      y: 20470
+      z: 608
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1593
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 21504
+      y: 20470
+      z: 1408
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1594
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 19456
+      y: 20470
+      z: 1408
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1595
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 17408
+      y: 20470
+      z: 1568
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1596
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 15360
+      y: 20470
+      z: 1920
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1597
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 13312
+      y: 20470
+      z: 1792
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1598
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 11264
+      y: 20470
+      z: 1792
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1599
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 9216
+      y: 20470
+      z: 1824
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1600
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 7168
+      y: 20470
+      z: 1824
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1601
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 5120
+      y: 20470
+      z: 1760
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1602
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 3072
+      y: 20470
+      z: 1760
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1603
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: 1024
+      y: 20470
+      z: 1760
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1604
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -1024
+      y: 20470
+      z: 1760
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1605
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -3072
+      y: 20470
+      z: 2112
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1606
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -5120
+      y: 20470
+      z: 2336
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1607
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -7168
+      y: 20470
+      z: 2464
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1608
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -9216
+      y: 20470
+      z: 2528
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1609
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -11264
+      y: 20470
+      z: 2432
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1610
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -13312
+      y: 20470
+      z: 2432
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1611
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -15360
+      y: 20470
+      z: 2496
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1612
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -17408
+      y: 20470
+      z: 2464
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1613
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -19456
+      y: 20470
+      z: 2368
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1614
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: 19456
+      z: 2368
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1615
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: 17408
+      z: 2400
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1616
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: 15360
+      z: 2464
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1617
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: 13312
+      z: 2336
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1618
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: 11264
+      z: 0
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1619
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: 9216
+      z: 1376
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1620
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: 7168
+      z: 1376
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1621
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: 5120
+      z: 1440
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1622
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: 3072
+      z: 1376
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1623
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: 1024
+      z: 1376
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1624
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: -1024
+      z: 1376
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1625
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: -3072
+      z: 1344
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1626
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: -5120
+      z: 1312
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1627
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: -7168
+      z: 1376
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1628
+    name: xeen_hull1
+    decoration_list_id: 4059
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: -8448
+      z: 1488
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1629
+    name: xeen_hull1
+    decoration_list_id: 4059
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: -8960
+      z: 1520
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1630
+    name: xeen_hull1
+    decoration_list_id: 4059
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: -9472
+      z: 1536
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1631
+    name: xeen_hullf
+    decoration_list_id: 4066
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: -9984
+      z: 1536
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1632
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: -15360
+      z: 1376
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1633
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: -17408
+      z: 1440
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1634
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: -19456
+      z: 1472
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1635
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: -21504
+      z: 1568
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1636
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: -23552
+      z: 672
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1637
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: -25600
+      z: 704
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1638
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: -27648
+      z: 1216
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1639
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: -29696
+      z: 832
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1640
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: -31744
+      z: 800
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1641
+    name: xeen_hullf
+    decoration_list_id: 4066
+    ai_attributes: 0
+    position:
+      x: -20224
+      y: -10230
+      z: 1536
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1642
+    name: xeen_hullf
+    decoration_list_id: 4066
+    ai_attributes: 0
+    position:
+      x: -19712
+      y: -10230
+      z: 1536
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1643
+    name: xeen_hullf
+    decoration_list_id: 4066
+    ai_attributes: 0
+    position:
+      x: -19200
+      y: -10230
+      z: 1520
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1644
+    name: xeen_hullf
+    decoration_list_id: 4066
+    ai_attributes: 0
+    position:
+      x: -18688
+      y: -10230
+      z: 1504
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1645
+    name: xeen_hullf
+    decoration_list_id: 4066
+    ai_attributes: 0
+    position:
+      x: -18176
+      y: -10230
+      z: 1488
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1646
+    name: xeen_hullf
+    decoration_list_id: 4066
+    ai_attributes: 0
+    position:
+      x: -17664
+      y: -10230
+      z: 1456
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1647
+    name: xeen_hullf
+    decoration_list_id: 4066
+    ai_attributes: 0
+    position:
+      x: -17152
+      y: -10230
+      z: 1456
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1648
+    name: xeen_hullf
+    decoration_list_id: 4066
+    ai_attributes: 0
+    position:
+      x: -16640
+      y: -10230
+      z: 1488
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1649
+    name: xeen_hullf
+    decoration_list_id: 4066
+    ai_attributes: 0
+    position:
+      x: -16128
+      y: -10230
+      z: 1520
+    facing: 180
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1650
+    name: xeen_hullf
+    decoration_list_id: 4066
+    ai_attributes: 0
+    position:
+      x: -15862
+      y: -10496
+      z: 1536
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1651
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -15862
+      y: -11776
+      z: 1536
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1652
+    name: xeen_hull1
+    decoration_list_id: 4059
+    ai_attributes: 0
+    position:
+      x: -15862
+      y: -13056
+      z: 1504
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1653
+    name: xeen_hull1
+    decoration_list_id: 4059
+    ai_attributes: 0
+    position:
+      x: -15862
+      y: -13568
+      z: 1520
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1654
+    name: xeen_hull1
+    decoration_list_id: 4059
+    ai_attributes: 0
+    position:
+      x: -15862
+      y: -14080
+      z: 1583
+    facing: 90
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1655
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -16896
+      y: -14346
+      z: 1568
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1656
+    name: xeen_hull4
+    decoration_list_id: 4058
+    ai_attributes: 0
+    position:
+      x: -18944
+      y: -14346
+      z: 1408
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1657
+    name: xeen_hull1
+    decoration_list_id: 4059
+    ai_attributes: 0
+    position:
+      x: -20224
+      y: -14346
+      z: 1376
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1658
+    name: xeen_hullc
+    decoration_list_id: 4062
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: 20470
+      z: 2368
+    facing: 45
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1659
+    name: xeen_hullc
+    decoration_list_id: 4062
+    ai_attributes: 0
+    position:
+      x: -20470
+      y: -14346
+      z: 1376
+    facing: 45
     event_id_primary: 0
     event_id_secondary: 0
     variable_primary: 0

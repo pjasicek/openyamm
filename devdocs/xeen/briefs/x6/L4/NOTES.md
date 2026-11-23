@@ -359,3 +359,31 @@ two services and two homes on a flat pan, as L1 and D-31 approved, and from the 
   (the south one, [65, 98], unchanged), the pan's 252; land > 6,000 17 % -> 12 %. 56 markers, 140 at load, kill XP
   1.01 -> 1.06, Act IV 1.05. D-85/D-87 0 errors, audit 0.
 - Installed with its bake 01:36; walk and hostility pass from assets_dev.
+
+## Rim rebuild (agent xeen-rimmap-b, 2026-11-23; U-12, D-109, D-112, D-114; run files output/xeen_rimmap_b/x6/)
+
+- **The void and the ship.** The regeneration carries the rim kit (`common/rim.py` through `wild.apply`): the rim sea
+  and the cove are `void:rim_sea` and `void:cove` (`terrain.void` in the scene), 72 hull pieces along every land/void
+  edge, the three sand-falls on the cove's north wall on the land's edge (25.3, 28.5, 31.7 at y 83.98, turn 180). D-114
+  (decider, no spillway for sand and lava): the falls keep their 1.6-cell gap, which now holds plain kerbless hull
+  faces (`xeen_hullf`, new) instead of nothing, so from the void the sand pours in front of a hull wall with running
+  lights (`cap_extra/05`, `06`, `13`). The cove's other walls keep their decks (their inner corners read; D-109).
+- **The rescue covers the cove.** `wild.py` `RIM_VOIDS` gains `void:cove`: before, the cove lay outside the rescue's
+  polygon (a party in its middle was not lifted) and `check_wild.py` flagged 36 `rim.pit` cells there. 20 return
+  points, one new at (37, 88) beside the cove. The wild changes come with it (Arie's campfire event, D-104).
+- Studio F30/F31 (ruins, tents) and the rest of the current studio come with the rebuild.
+- **Checks** (private root, then assets_dev): audit 0 errors (2 kept warnings, the tavern's back-to-back faces, which
+  `check_faces.py` keeps), `void.occupied` 0, door_check 0, wall_check 0, town_fit 0, D-85/D-87 at 5,120 0, empty
+  zones pass, props support 0, check_wild clean, check_faces clean, house signs 0, check_exits 0, stale bakes 0.
+  town_feel: 19 figures outside the shipped ranges as before (Town feel exceptions above).
+- **Tests**: walk (370 steps) and hostility 2 of 2, `x6_warzone_entrance`, `rim_fall`; side quests q-c1, q-c8/q-c9
+  normal and `--reload` pass.
+- Installed with its bake 15:13; terrain weights; minimap re-rendered and its void painted (`void_minimap.py`).
+- **Pictures**: `output/xeen_rim/after/x6/` (rim tour, against `output/xeen_rim/before/x6/`),
+  `output/xeen_rimmap_b/x6/cap_extra/` (signature, cove falls by day and night, the falls from the void, the notch
+  corners), sheets `output/xeen_rimmap_b/x6/sheet_extra.jpg`, `sheet_rim.jpg`.
+- Seen: the rim tour's day shots (no weather command) show the void grey (65, 65, 72): the day's random weather is
+  above `voidVisibility`'s 0.4 haze; with clear weather it is 24, 28, 40 as on X1 (`cap_w/`). Engine behaviour by
+  D-109 (4), not this map's.
+- Side quests crossing it, normal and `--reload` (2026-11-23, after the installs): pass (rim doc §6, map agent MB).
+  Story segments and promotions: held for the orchestrator's single chain run after all 12 rim maps.

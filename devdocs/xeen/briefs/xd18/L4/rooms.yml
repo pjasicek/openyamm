@@ -200,6 +200,10 @@ rooms:
     rough: {step: 192, depth: 40}
     ceiling: 640
     theme: theme:road
+    walls:
+      - wall: west
+        panels:
+          - {offset: 0, length: 512, surface: {texture: t68a02b, size: [256, 256]}, notes: flat behind exit:mouth (a rough wall would stand in front of it)}
     ambient: 20
     notes: "The arrival (entrance:x7_mouth): X7's daylight behind (west), scorched rock and gnawed bones, the office's front ahead (east). Quiet (D-11.3)."
   - id: room:old_roost

@@ -1,4 +1,4 @@
-A swarm of insects swatted apart by a blow: a sudden angry burst of buzzing
+A cloud of big wasps struck apart by a blow: the buzzing hum of many wings jumps up into an angry whine, close
 
 kind: sfx
 duration: 0.6
@@ -6,4 +6,5 @@ loop: false
 variants: 3
 model: eleven_text_to_sound_v2
 prompt_influence: 0.45
+highpass_hz: 120
 loudness_db: -9

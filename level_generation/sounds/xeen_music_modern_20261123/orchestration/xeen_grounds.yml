@@ -1,0 +1,55 @@
+# xeen/grounds: first orchestration by orchestrate.py (hand-tune freely; it is never overwritten).
+# 24.0 s a pass. GM programs are 0-based; drums: 0 standard kit, 48 orchestral.
+# A channel's `slots` give the notes it plays with those FM instrument slots their own instrument.
+reverb: {seconds: 2.4, level: 0.32}
+channels:
+  0:   # bass_short: fingered bass; median 42, 0.25 s notes, sounding 65%
+    program: 33
+    pan: 0.0
+    width: 0.25
+    reverb: 0.06
+    gain_db: 0
+  1:   # bass_long: contrabass; median 38, 0.65 s notes, sounding 94%
+    program: 43
+    pan: 0.0
+    width: 0.25
+    reverb: 0.06
+    gain_db: 0
+  2:   # counter_mid: clarinet; median 65, 0.18 s notes, sounding 14%
+    program: 71
+    pan: -0.25
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+    slots:
+      0: {program: 45, pan: 0.5, width: 0.6, reverb: 0.28, gain_db: 0}   # pluck: pizzicato strings; median 65, 0.16 s notes, sounding 13%
+  3:   # counter_high: violin; median 69, 0.24 s notes, sounding 71%
+    program: 40
+    pan: 0.25
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  4:   # lead_mid: oboe; median 62, 0.12 s notes, sounding 94%
+    program: 68
+    pan: 0.0
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  5:   # pad: slow strings; median 62, 1.95 s notes, sounding 85%
+    program: 49
+    pan: 0.5
+    width: 0.9
+    reverb: 0.4
+    gain_db: -3
+  6:   # pad2: brass section; median 60, 1.96 s notes, sounding 85%
+    program: 61
+    pan: 0.15
+    width: 0.9
+    reverb: 0.4
+    gain_db: -3
+  8:   # drums (standard kit), notes [49, 56]
+    program: 0
+    pan: 0.0
+    width: 0.5
+    reverb: 0.15
+    gain_db: -3

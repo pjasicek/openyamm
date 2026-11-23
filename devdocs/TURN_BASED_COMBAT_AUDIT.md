@@ -289,6 +289,16 @@ in the queue, and drops the old map's monsters and the actions in flight there; 
 arrivals at the next attack stage. A new game and a loaded save still reset TB, and a party defeat ends it
 (`applyPartyDefeatConsequences`), since the woken party is not in a fight.
 
+### TB-18: a special jump waited for the end of turn-based mode
+
+A special jump (`evt.Jump`, a MAW Puller boss's hit, `launchParty`) is queued for the party's next physics step. In TB
+a party standing on the ground gets physics steps only while it walks or is airborne
+(`partyNeedsTurnBasedPhysicsUpdate`), so a Puller's pull stayed queued and threw the party when TB ended (Discord,
+2026-11-23). MAW's Puller calls `evt.Jump` from the hit with no turn-based case, and the original moves a jumped party
+in TB as it moves a falling one, so a queued or carrying special jump now asks for those steps too
+(`specialJumpActive` on both party runtimes): the party is thrown when the blow lands. Scenario:
+`tests/scenarios/turn_based/maw_puller_pulls_in_turn.yml`.
+
 ## Scenario support
 
 The runner gained, for this audit (documented in `tests/scenarios/README.md`):

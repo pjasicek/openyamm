@@ -1,0 +1,47 @@
+# dark/outday2: first orchestration by orchestrate.py (hand-tune freely; it is never overwritten).
+# 64.2 s a pass. GM programs are 0-based; drums: 0 standard kit, 48 orchestral.
+# A channel's `slots` give the notes it plays with those FM instrument slots their own instrument.
+reverb: {seconds: 2.4, level: 0.32}
+channels:
+  0:   # arpeggio: harp; median 65, 0.26 s notes, sounding 85%
+    program: 46
+    pan: -0.4
+    width: 0.6
+    reverb: 0.28
+    gain_db: -3
+  1:   # counter_mid: clarinet; median 65, 0.47 s notes, sounding 51%
+    program: 71
+    pan: 0.4
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  2:   # counter_mid: clarinet; median 58, 1.00 s notes, sounding 42%
+    program: 71
+    pan: -0.25
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  3:   # counter_mid: clarinet; median 61, 1.00 s notes, sounding 43%
+    program: 71
+    pan: 0.25
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  4:   # lead_low: french horn; median 46, 0.99 s notes, sounding 78%
+    program: 60
+    pan: 0.0
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  5:   # counter_mid: clarinet; median 67, 0.41 s notes, sounding 44%
+    program: 71
+    pan: 0.5
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  6:   # pluck: pizzicato strings; median 76, 0.14 s notes, sounding 13%
+    program: 45
+    pan: 0.15
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0

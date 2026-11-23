@@ -1,8 +1,9 @@
-derived: xeen_swarm_attack
+A huge beetle biting: a hard loud clack of big chitinous mandibles snapping shut twice, a short angry chirping rasp, close
 
-kind: derived
+kind: sfx
+duration: 1.0
 loop: false
 variants: 3
 model: eleven_text_to_sound_v2
 prompt_influence: 0.45
-pitch: -3
+loudness_db: -9

@@ -1,0 +1,472 @@
+format: 1
+counter: 71
+pins:
+  - id: pin:p1
+    text: npc stuck
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [-6150.196, 7579.52, 628.44]
+      yaw_radians: 4.691
+      pitch_degrees: -10.915
+      heading_yaw_units: 1529
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-22T19:58:03
+    status: resolved
+    claimed_by: agent:xeen-fb2-town
+    from: 20261122-195803-xeen_x1.yml
+    replies:
+      - author: agent:xeen-fb2-town
+        text: "F24: Vertigo Bridge's guards stood on the bridge over the creek (wandered off its side into the water against the rail); now on land at its north head, the bridge on the south street's road middle. Check town_fit_check actors.over_water (also moved Orothin off a shore tile)."
+        created: 2026-11-23T11:21:38
+        revision: 18c9d530166f88bfa9ff6431d0fabacb
+        status: resolved
+        pictures: [.oymap/pins/pictures/p1-r1.png, .oymap/pins/pictures/p1-r1-2.png]
+  - id: pin:p2
+    text: if you move further the reflection disappears
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [-6303.657, 7281.392, 591.174]
+      yaw_radians: 3.762
+      pitch_degrees: -8.285
+      heading_yaw_units: 1226
+    picture: .oymap/pins/pictures/p2.png
+    author: user
+    created: 2026-11-22T20:00:20
+    status: resolved
+    claimed_by: agent:xeen-fb2-engine
+    from: 20261122-200020-xeen_x1.yml
+    replies:
+      - author: agent:xeen-fb2-engine
+        text: "Engine fault, fixed for every map: the two water-reflection captures went to small BModel water (Vertigo's wells at 712 and fountains at 688) whose single bounding box spanned the map and contained the camera, and which were hidden behind houses; the river got none. Water faces now keep one box per connected piece and an occluded surface takes no capture (game/render/WaterGeometry.h, WaterRenderer.cpp). After: the river reflects at the pin and 300-3000 units on."
+        created: 2026-11-23T11:11:40
+        revision: 6f04d08aae36b5de023b6b2cb3f5b625
+        status: resolved
+        pictures: [.oymap/pins/pictures/p2-r1.png, .oymap/pins/pictures/p2-r1-2.png]
+  - id: pin:p3
+    text: here is something missing
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [-1183.764, 4455.622, 438.713]
+      yaw_radians: 2.089
+      pitch_degrees: -50.672
+      heading_yaw_units: 681
+    picture: .oymap/pins/pictures/p3.png
+    author: user
+    created: 2026-11-22T20:02:32
+    status: resolved
+    claimed_by: agent:xeen-fb2-town
+    from: 20261122-200232-xeen_x1.yml
+    replies:
+      - author: agent:xeen-fb2-town
+        text: "F25: the culvert's tunnel ran under the bank (grass climbed in under the dark face) and its water lay on the dry ditch floor as a flat strip; the sunken entrance's mouth is now a dark arched door in the end face (kit_pieces.SunkenEntrance). Checks culverts.ground_inside/dry_water."
+        created: 2026-11-23T11:21:38
+        revision: 18c9d530166f88bfa9ff6431d0fabacb
+        status: resolved
+        pictures: [.oymap/pins/pictures/p3-r1.png, .oymap/pins/pictures/p3-r1-2.png]
+      - author: agent:xeen-fb2-town
+        text: "Reinstalled 11:28 (quay level); the mouth unchanged."
+        created: 2026-11-23T11:31:49
+        revision: 7c7805417f3c57a4adf12f80dadd06bd
+        pictures: [.oymap/pins/pictures/p3-r2.png, .oymap/pins/pictures/p3-r2-2.png]
+  - id: pin:p4
+    text: it is not working
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [-7941.773, 4276.259, 641]
+      yaw_radians: 4.706
+      pitch_degrees: -8.131
+      heading_yaw_units: 1534
+    picture: .oymap/pins/pictures/p4.png
+    author: user
+    created: 2026-11-22T20:09:13
+    status: resolved
+    claimed_by: agent:xeen-fb2-engine
+    from: 20261122-200913-xeen_x1.yml
+    replies:
+      - author: agent:xeen-fb2-engine
+        text: "Xeen's guilds are open to all (the engine gates only MM6/MM7 guilds), so the Dues line promised a sale that never existed. Decided: no membership in Xeen; Vern and every other guild person who sold or demanded membership (Calder, Hesper, Vatawna, Aldous, Brother Cael, Casper) now say the guild is open; the dead guild_membership field is gone; tools/xeen/towns.py fails on such text."
+        created: 2026-11-23T11:11:40
+        revision: 6f04d08aae36b5de023b6b2cb3f5b625
+        status: resolved
+        pictures: [.oymap/pins/pictures/p4-r1.png]
+  - id: pin:p5
+    text: there is something missing
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [-8743.656, 11252.598, 641.589]
+      yaw_radians: 3.017
+      pitch_degrees: 3.627
+      heading_yaw_units: 983
+    picture: .oymap/pins/pictures/p5.png
+    author: user
+    created: 2026-11-22T20:13:30
+    status: resolved
+    claimed_by: agent:xeen-fb2-town
+    from: 20261122-201330-xeen_x1.yml
+    replies:
+      - author: agent:xeen-fb2-town
+        text: "F26: the terrace's retaining wall was a slab across the middle of its slope (192 over the street, underside open); now its foot is 64 in the street and its top 48 over the terrace. Check walls.hollow/buried."
+        created: 2026-11-23T11:21:38
+        revision: 18c9d530166f88bfa9ff6431d0fabacb
+        status: resolved
+        pictures: [.oymap/pins/pictures/p5-r1.png, .oymap/pins/pictures/p5-r1-2.png]
+  - id: pin:p6
+    text: gap
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [-7369.936, 11622.533, 999.533]
+      yaw_radians: 3.126
+      pitch_degrees: -12.849
+      heading_yaw_units: 1019
+    picture: .oymap/pins/pictures/p6.png
+    author: user
+    created: 2026-11-22T20:17:32
+    status: resolved
+    claimed_by: agent:xeen-fb2-town
+    from: 20261122-201732-xeen_x1.yml
+    replies:
+      - author: agent:xeen-fb2-town
+        text: "F26: the land of the terrace rose over the old slab's top (the gap); the wall now tops the terrace (the pin's pose is now inside the wall; see the view from the terrace and the street)."
+        created: 2026-11-23T11:21:38
+        revision: 18c9d530166f88bfa9ff6431d0fabacb
+        status: resolved
+        pictures: [.oymap/pins/pictures/p6-r1.png, .oymap/pins/pictures/p6-r1-2.png]
+  - id: pin:p7
+    text: You can fall in it
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [20326.949, 1049.42, 577]
+      yaw_radians: 1.496
+      pitch_degrees: -38.39
+      heading_yaw_units: 488
+    picture: .oymap/pins/pictures/p7.png
+    author: user
+    created: 2026-11-22T20:39:29
+    status: resolved
+    claimed_by: agent:xeen-fb2-town
+    from: 20261122-203929-xeen_x1.yml
+    replies:
+      - author: agent:xeen-fb2-wild
+        text: "F29: a party below the rim (the sea or the hole by the falls) is now lifted back onto the rim (rim-fall event, X1 rebuilt in a private root; installs with the next X1 install). The hole itself needs the studio's waterfall cut covered (requested)."
+        created: 2026-11-23T11:09:24
+        revision: d465aa46d0eac302f2bf44f77313f703
+      - author: agent:xeen-fb2-town
+        text: "wild agent's fix, installed with the town batch"
+        created: 2026-11-23T11:21:39
+        revision: 18c9d530166f88bfa9ff6431d0fabacb
+        status: resolved
+        pictures: [.oymap/pins/pictures/p7-r2.png]
+  - id: pin:p8
+    text: texture are z fighting
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [-20795.959, 1214.785, 621.253]
+      yaw_radians: 3.041
+      pitch_degrees: -7.759
+      heading_yaw_units: 991
+    picture: .oymap/pins/pictures/p8.png
+    author: user
+    created: 2026-11-22T21:05:27
+    status: resolved
+    claimed_by: agent:xeen-rim2
+    from: 20261122-210527-xeen_x1.yml
+    replies:
+      - author: agent:xeen-fb2-wild
+        text: "F31: the tent's canvas is laid twice back to back and the game draws both sides; studio fix requested; check_faces.py lists every such site (51 models)."
+        created: 2026-11-23T11:09:24
+        revision: d465aa46d0eac302f2bf44f77313f703
+      - author: agent:xeen-rim2
+        text: "Fixed by the studio's F31 (one drawn tent canvas) in the U-12 X1 rebuild (agent xeen-rim2); check_faces.py X1: no back_to_back on the tent. Captured at the pin's pose from the rebuilt map."
+        created: 2026-11-23T12:41:48
+        revision: 8c7a12a24d0d4b1809608d4ce2e467fc
+        status: resolved
+        pictures: [.oymap/pins/pictures/p8-r2.png]
+  - id: pin:p9
+    text: maybe allow looting it with some gold and an item
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [-17506.848, 17713.232, 1664.385]
+      yaw_radians: 1.118
+      pitch_degrees: -20.073
+      heading_yaw_units: 365
+    picture: .oymap/pins/pictures/p9.png
+    author: user
+    created: 2026-11-22T21:21:05
+    status: resolved
+    claimed_by: agent:xeen-fb2-town
+    from: 20261122-212105-xeen_x1.yml
+    replies:
+      - author: agent:xeen-fb2-wild
+        text: "F33 taken as MM7/MM8 do: campfires feed the party once (1-3 food) and with Perception a small ring; no gold (no MM campfire gives gold). The outposts keep their crate beside the fire. 29 fires on 11 maps."
+        created: 2026-11-23T11:09:24
+        revision: d465aa46d0eac302f2bf44f77313f703
+      - author: agent:xeen-fb2-town
+        text: "wild agent's fix, installed with the town batch"
+        created: 2026-11-23T11:21:39
+        revision: 18c9d530166f88bfa9ff6431d0fabacb
+        status: resolved
+        pictures: [.oymap/pins/pictures/p9-r2.png]
+  - id: pin:p10
+    text: the sound of the doom bugs are a bit strange
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [6300.294, 9475.78, 650.768]
+      yaw_radians: 0.154
+      pitch_degrees: 2.095
+      heading_yaw_units: 50
+    picture: .oymap/pins/pictures/p10.png
+    author: user
+    created: 2026-11-22T21:46:05
+    status: resolved
+    claimed_by: agent:xeen-fb2-engine
+    from: 20261122-214605-xeen_x1.yml
+    replies:
+      - author: agent:xeen-fb2-engine
+        text: "The swarm sounds were white hiss (no energy under 2.5 kHz) and the Doom Bug played them pitched down. Re-generated: swarms a low wing hum, the Doom Bug its own cricket set; sprites and snake men had the same hiss and were redone too (18 sounds). tools/xeen/check_monster_sounds.py measures every Xeen monster sound against MM6-MM8's and fails on hiss, clipping, level or length outliers."
+        created: 2026-11-23T11:11:41
+        revision: 6f04d08aae36b5de023b6b2cb3f5b625
+        status: resolved
+  - id: pin:p11
+    text: textures missing
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [16654.178, 12286.749, 1089.078]
+      yaw_radians: 1.099
+      pitch_degrees: -11.132
+      heading_yaw_units: 358
+    picture: .oymap/pins/pictures/p11.png
+    author: user
+    created: 2026-11-22T21:47:32
+    status: resolved
+    claimed_by: agent:xeen-rim2
+    from: 20261122-214732-xeen_x1.yml
+    replies:
+      - author: agent:xeen-fb2-wild
+        text: "F30: the studio's ruins leave their wall ends open at corners; studio fix requested; check_faces.py shell.open_edge lists 27 ruins."
+        created: 2026-11-23T11:09:24
+        revision: d465aa46d0eac302f2bf44f77313f703
+      - author: agent:xeen-rim2
+        text: "Fixed by the studio's F30 (ruins as closed shells: mitred corners, end faces) in the U-12 X1 rebuild (agent xeen-rim2); check_faces.py X1: open_edge 0. Captured at the pin's pose from the rebuilt map."
+        created: 2026-11-23T12:41:48
+        revision: 8c7a12a24d0d4b1809608d4ce2e467fc
+        status: resolved
+        pictures: [.oymap/pins/pictures/p11-r2.png]
+  - id: pin:p12
+    text: a bit to steep
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [21240.717, 12728.038, 1]
+      yaw_radians: 4.385
+      pitch_degrees: 2.977
+      heading_yaw_units: 1429
+    picture: .oymap/pins/pictures/p12.png
+    author: user
+    created: 2026-11-22T21:48:32
+    status: resolved
+    claimed_by: agent:xeen-fb2-town
+    from: 20261122-214832-xeen_x1.yml
+    replies:
+      - author: agent:xeen-fb2-wild
+        text: "F29: the rim cliff stays the world's edge; from the sea under it the party is now put back on the rim top (every rim map). Installs with the next X1 install."
+        created: 2026-11-23T11:09:24
+        revision: d465aa46d0eac302f2bf44f77313f703
+      - author: agent:xeen-fb2-town
+        text: "wild agent's fix, installed with the town batch"
+        created: 2026-11-23T11:21:39
+        revision: 18c9d530166f88bfa9ff6431d0fabacb
+        status: resolved
+        pictures: [.oymap/pins/pictures/p12-r2.png]
+  - id: pin:p13
+    text: The back for more Steel is overlapping
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [-10655.897, 10364.485, 641]
+      yaw_radians: 2.061
+      pitch_degrees: -9.461
+      heading_yaw_units: 672
+    picture: .oymap/pins/pictures/p13.png
+    author: user
+    created: 2026-11-22T22:07:09
+    status: resolved
+    claimed_by: agent:xeen-fb2-engine
+    from: 20261122-220709-xeen_x1.yml
+    replies:
+      - author: agent:xeen-fb2-engine
+        text: "Engine fault, shared by every world: a talking proprietor's greeting stayed drawn over the shop's shelves (and the sell/identify/repair bag). The house's body text is no longer drawn while a shop or its party inventory fills the picture (GameplayUiController::houseShopCoversDialogueBody, unit test). 38 Xeen shops and guilds had it."
+        created: 2026-11-23T11:11:41
+        revision: 6f04d08aae36b5de023b6b2cb3f5b625
+        status: resolved
+        pictures: [.oymap/pins/pictures/p13-r1.png]
+  - id: pin:p14
+    text: the house is buried
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [-6817.416, 15020.137, 911.779]
+      yaw_radians: 2.067
+      pitch_degrees: -14.412
+      heading_yaw_units: 674
+    picture: .oymap/pins/pictures/p14.png
+    author: user
+    created: 2026-11-22T22:13:55
+    status: resolved
+    claimed_by: agent:xeen-fb2-town
+    from: 20261122-221355-xeen_x1.yml
+    replies:
+      - author: agent:xeen-fb2-town
+        text: "F27: the fringe house's door faced uphill into a slope (land 56 over its sill); it faces downhill now (and its neighbour the other way off the slope). Check houses.buried_door."
+        created: 2026-11-23T11:21:38
+        revision: 18c9d530166f88bfa9ff6431d0fabacb
+        status: resolved
+        pictures: [.oymap/pins/pictures/p14-r1.png, .oymap/pins/pictures/p14-r1-2.png]
+  - id: pin:p15
+    text: npc stuck
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [-5887.021, 10816.82, 709.073]
+      yaw_radians: 1.508
+      pitch_degrees: -8.502
+      heading_yaw_units: 491
+    picture: .oymap/pins/pictures/p15.png
+    author: user
+    created: 2026-11-22T22:15:27
+    status: resolved
+    claimed_by: agent:xeen-fb2-town
+    from: 20261122-221527-xeen_x1.yml
+    replies:
+      - author: agent:xeen-fb2-town
+        text: "F24/F26: the peasant walked into the hollow under the retaining wall; the hollow is gone (wall foot in the street)."
+        created: 2026-11-23T11:21:38
+        revision: 18c9d530166f88bfa9ff6431d0fabacb
+        status: resolved
+        pictures: [.oymap/pins/pictures/p15-r1.png, .oymap/pins/pictures/p15-r1-2.png]
+  - id: pin:p16
+    text: maybe put an altar under the hut
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [-19804.652, -8633.257, 668.579]
+      yaw_radians: 5.298
+      pitch_degrees: -10.296
+      heading_yaw_units: 1727
+    picture: .oymap/pins/pictures/p16.png
+    author: user
+    created: 2026-11-22T22:22:54
+    status: resolved
+    claimed_by: agent:xeen-fb2-town
+    from: 20261122-222254-xeen_x1.yml
+    replies:
+      - author: agent:xeen-fb2-wild
+        text: "F32 taken: an altar under every effect shrine's roof carries the click (9 shrines, 7 maps). X1 built in a private root; installs with the next X1 install."
+        created: 2026-11-23T11:09:24
+        revision: d465aa46d0eac302f2bf44f77313f703
+      - author: agent:xeen-fb2-town
+        text: "wild agent's fix, installed with the town batch"
+        created: 2026-11-23T11:21:40
+        revision: 18c9d530166f88bfa9ff6431d0fabacb
+        status: resolved
+        pictures: [.oymap/pins/pictures/p16-r2.png]
+  - id: pin:p17
+    text: skeleton lords are hitting hard
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [-5847.815, -17794.738, 795.977]
+      yaw_radians: 2.485
+      pitch_degrees: -6.569
+      heading_yaw_units: 810
+    picture: .oymap/pins/pictures/p17.png
+    author: user
+    created: 2026-11-22T22:40:18
+    status: resolved
+    claimed_by: agent:xeen-fb2-engine
+    from: 20261122-224018-xeen_x1.yml
+    replies:
+      - author: agent:xeen-fb2-engine
+        text: "The Skeleton Lord row (level 16, ~17 damage a round) matches MM6-MM8's, but X1's skeleton spawn slot ran at Dif 1, whose 2% C tier is that lord, above X1's band 2-12. X1's skeletons are now Dif 0 (source/map_rows.yml and the X1 generator); X1 reads 2-11 in tools/xeen/balance.py."
+        created: 2026-11-23T11:11:41
+        revision: 6f04d08aae36b5de023b6b2cb3f5b625
+        status: resolved
+  - id: pin:p18
+    text: missing textures on both side
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [-908.227, 5627.447, 577]
+      yaw_radians: 3.125
+      pitch_degrees: -25.349
+      heading_yaw_units: 1018
+    picture: .oymap/pins/pictures/p18.png
+    author: user
+    created: 2026-11-22T23:21:48
+    status: resolved
+    claimed_by: agent:xeen-fb2-town
+    from: 20261122-232148-xeen_x1.yml
+    replies:
+      - author: agent:xeen-fb2-town
+        text: "F25: the outfall's block showed its tunnel cut through at the sides; now cheeks close them and the quay runs on to the outfall with wings either side."
+        created: 2026-11-23T11:21:39
+        revision: 18c9d530166f88bfa9ff6431d0fabacb
+        status: resolved
+        pictures: [.oymap/pins/pictures/p18-r1.png, .oymap/pins/pictures/p18-r1-2.png, .oymap/pins/pictures/p18-r1-3.png]
+      - author: agent:xeen-fb2-town
+        text: "Reinstalled 11:28 (the quay's top was 207 too high in the 11:17 install: a kit row given under water); quay level with the bank now."
+        created: 2026-11-23T11:31:49
+        revision: 7c7805417f3c57a4adf12f80dadd06bd
+        pictures: [.oymap/pins/pictures/p18-r2.png, .oymap/pins/pictures/p18-r2-2.png]
+  - id: pin:p19
+    text: the path has to be more to the right
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [-9684.931, 10439.63, 641]
+      yaw_radians: 3.523
+      pitch_degrees: -5.084
+      heading_yaw_units: 1148
+    picture: .oymap/pins/pictures/p19.png
+    author: user
+    created: 2026-11-22T23:22:41
+    status: resolved
+    claimed_by: agent:xeen-fb2-town
+    from: 20261122-232241-xeen_x1.yml
+    replies:
+      - author: agent:xeen-fb2-town
+        text: "F28: road tiles of a line x lie on x..x+1, the gates stood on the line (road half a cell aside, into the tower); the three gatehouses and the bridge now stand on the road's middle. Check gates.road_off."
+        created: 2026-11-23T11:21:39
+        revision: 18c9d530166f88bfa9ff6431d0fabacb
+        status: resolved
+        pictures: [.oymap/pins/pictures/p19-r1.png, .oymap/pins/pictures/p19-r1-2.png]

@@ -1083,7 +1083,8 @@ steps:
     timeout_seconds: 90
     clear_hostiles: 3000
 - play_lua:
-    source: 'close(); click(108); wait(0.5); if held() ~= 12524 then error("the torn pack put no book on the cursor") end; stow(); if not has_item(12524) then error("no Holy Book from the torn pack") end'
+    source: close(); click(108); wait(0.5); if held() ~= 12524 then error("the torn pack put no book on the cursor") end;
+      stow(); if not has_item(12524) then error("no Holy Book from the torn pack") end
 - note: The Troll Warren mouth (XD-23 live)
 - walk_to:
     x: 768

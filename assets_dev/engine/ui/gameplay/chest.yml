@@ -184,6 +184,113 @@ elements:
         selected: obsidian_button_tab_selected
       notes: 'The same for the party''s quest items (what is worth nothing and is no gear); the key icon is drawn by the
         renderer.'
+    - id: ChestInventoryBagTab1
+      anchor: top_left
+      offset_x: 7
+      offset_y: 302
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      text:
+        value: 'I'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+      notes: 'MAW, a party of one (five tabs of four bags), over a shop''s or chest''s party inventory: shows tab I, the
+        same bag of it as of the tab before; selected while it shows. As CharacterInventoryTab1 and Shift+1. Below the
+        grid, as the top row has no room left of the house''s or chest''s side panel.'
+    - id: ChestInventoryBagTab2
+      anchor: top_left
+      offset_x: 33
+      offset_y: 302
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      text:
+        value: 'II'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+      notes: 'As ChestInventoryBagTab1, for tab II (Shift+2).'
+    - id: ChestInventoryBagTab3
+      anchor: top_left
+      offset_x: 59
+      offset_y: 302
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      text:
+        value: 'III'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+      notes: 'As ChestInventoryBagTab1, for tab III (Shift+3).'
+    - id: ChestInventoryBagTab4
+      anchor: top_left
+      offset_x: 85
+      offset_y: 302
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      text:
+        value: 'IV'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+      notes: 'As ChestInventoryBagTab1, for tab IV (Shift+4).'
+    - id: ChestInventoryBagTab5
+      anchor: top_left
+      offset_x: 111
+      offset_y: 302
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      text:
+        value: 'V'
+        font: Fondamento
+        color: '#e8d1a4'
+        align_x: center
+        align_y: middle
+        scale: 0.416667
+      notes: 'As ChestInventoryBagTab1, for tab V (Shift+5).'
   - id: ChestTopBar
     anchor: top_center
     width: 640

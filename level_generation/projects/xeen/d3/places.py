@@ -650,7 +650,9 @@ def structures():
     S({'id': 'thing:wrath_bridge', 'kind': 'bridge', 'line': [[73.6, 46], [77.75, 46]], 'width': 640,
        'arches': {'count': 2, 'rise': 160, 'form': 'segment', 'pier_width': 256}, 'kerb': 96,
        'textures': {'deck': 't30a05c', 'side': 't30c01', 'pier': 't30c01'}, 'title': 'Wrath Bridge'})
-    S({'id': 'thing:wrath_falls', 'kind': 'waterfall', 'line': [[104.1, 62.9], [104.1, 65.1]], 'top': LD.RIVER_LVL,
+    # U-12/D-112 (agent xeen-rimmap-c, 2026-11-23): the line on the river's mouth, pouring straight east over the rim
+    # (the river ends at (104, 64); written along the edge for the old sea, the rim kit put its lip at y 62.9)
+    S({'id': 'thing:wrath_falls', 'kind': 'waterfall', 'line': [[103.2, 64.0], [104.6, 64.0]], 'top': LD.RIVER_LVL,
        'foot': 96, 'width': 1024, 'spread': 1.3, 'title': 'The Wrath Falls',
        'notes': 'The River of Wrath drops off the east rim into the stars (the signature view).'})
     S(deco('thing:falls_sound', 'Snd_Brook', (102.4, 63.6)))
@@ -786,13 +788,20 @@ GORGE_FACES = [('w1', [[78.75, 21.0], [78.75, 24.5]], 456), ('w2', [[77.75, 24.5
                ('w3', [[76.75, 30.5], [76.75, 36.5]], 284), ('e1', [[82.25, 21.0], [82.25, 27.5]], 156),
                ('e2', [[81.25, 27.5], [81.25, 33.5]], 140), ('e3', [[80.25, 33.5], [80.25, 37.5]], 360),
                ('head_w', [[78.5, 20.75], [80.35, 20.75]], 220), ('head_e', [[81.65, 20.75], [83.5, 20.75]], 32)]
+# P2 F26 (town_fit_check, agent xeen-rimmap-c, 2026-11-23): the faces' feet stood 45-88 over the gorge floor before
+# them (`walls.hollow`: e1 and the head's two slabs) and the east rim's turf rose 56-58 over e1-e3's tops
+# (`walls.buried`, over the check's 48). The feet go 128 deeper (`raise`, the same top), and e1-e3's tops 24 higher:
+# the turf's lip still shows over the rock, about 32 over it. key: (raise, extra height)
+GORGE_FIT = {'e1': (-128, 152), 'e2': (0, 24), 'e3': (0, 24), 'head_w': (-128, 128), 'head_e': (-128, 128)}
 
 
 def gorge_rock(S):
     """The gorge's walls in rock, and the head: the spring's fall in the head's gap (its own slabs off), so it comes
     out of the rock face."""
     for key, line, height in GORGE_FACES:
-        S({'id': 'thing:gorge_face_%s' % key, 'kind': 'wall', 'line': line, 'thickness': 384, 'height': height,
+        lift, more = GORGE_FIT.get(key, (0, 0))
+        S({'id': 'thing:gorge_face_%s' % key, 'kind': 'wall', 'line': line, 'thickness': 384, 'height': height + more,
+           **({'raise': lift} if lift else {}),
            'textures': dict(ROCK), 'title': 'The Wrath Spring' if key.startswith('head') else 'The gorge'})
 
 

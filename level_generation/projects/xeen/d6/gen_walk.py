@@ -269,22 +269,22 @@ add({'note': 'At load: the archers, the lava dwellers, the robots placed; Ambros
 for mid, n in ((11104, 9), (11105, 3), (11620, 11), (11621, 3), (11610, 16), (11611, 2), (11913, 1)):
     add({'assert': {'actor_count': {'monster_id': mid, 'min': n}}})
 # ---------------------------------------------------------------- Necropolis
-gx, gy = W(91.0, 72.4)
+gx, gy = W(91.5, 72.4)
 add({'note': "Necropolis's gate from outside without the pass: A3's refusal"})
 face(gx, gy, -math.pi / 2)
 event('evt:door:thing:np_gate_outer', 'The outer leaves (d6.necropolis_gate)', text='living need a pass')
 add({'grant_item': {'item_id': 12336}})
 event('evt:door:thing:np_gate_outer', 'With the pass (12336): the leaves open', dialog=False)
-walk(*W(91.0, 76.6), note='Through the gate to the mirror (necropolis_gate)', timeout=60)
+walk(*W(91.5, 76.6), note='Through the gate to the mirror (necropolis_gate)', timeout=60)
 add({'note': 'From inside the gate is always open (D-49 change 8): reload (the leaves shut again), inner leaf'})
 add({'load_map': {'map': M}})
-face(*W(91.0, 75.2), math.pi / 2)
+face(*W(91.5, 75.2), math.pi / 2)
 event('evt:door:thing:np_gate_inner', 'The inner leaves: open from inside', dialog=False)
 for b in sorted((b for b in build['buildings'] if b.get('house') and b.get('door')), key=lambda b: b['house']):
     h = b['house']
     exp = {'active': True}     # F1 (merge point 40): a proprietor who lives there opens on his talk, not the lobby
     door(b['id'], '%s (house %d): its door' % (b.get('title', ''), h), exp)
-face(*W(91.0, 77.4), 0.0)
+face(*W(91.5, 77.4), 0.0)
 event('evt:thing:np_mirror', 'The Mirror of Necropolis (4756)', dialog=True)
 event('evt:thing:np_skull', "The talking skull (d6.skull)", text='necromancers')
 for i in (1, 2, 3):

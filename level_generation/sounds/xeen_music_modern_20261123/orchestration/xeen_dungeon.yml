@@ -1,0 +1,55 @@
+# xeen/dungeon: first orchestration by orchestrate.py (hand-tune freely; it is never overwritten).
+# 119.6 s a pass. GM programs are 0-based; drums: 0 standard kit, 48 orchestral.
+# A channel's `slots` give the notes it plays with those FM instrument slots their own instrument.
+reverb: {seconds: 2.4, level: 0.32}
+channels:
+  0:   # counter_high: violin; median 71, 0.47 s notes, sounding 29%
+    program: 40
+    pan: -0.4
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+    slots:
+      0: {program: 71, pan: 0.25, width: 0.6, reverb: 0.28, gain_db: 0}   # counter_mid: clarinet; median 61, 0.92 s notes, sounding 17%
+      12: {program: 71, pan: 0.25, width: 0.6, reverb: 0.28, gain_db: 0}   # counter_mid: clarinet; median 61, 0.92 s notes, sounding 17%
+      13: {program: 71, pan: 0.25, width: 0.6, reverb: 0.28, gain_db: 0}   # counter_mid: clarinet; median 61, 0.92 s notes, sounding 17%
+  1:   # pad2: brass section; median 55, 4.16 s notes, sounding 63%
+    program: 61
+    pan: 0.4
+    width: 0.9
+    reverb: 0.4
+    gain_db: -3
+    slots:
+      1: {program: 49, pan: -0.5, width: 0.9, reverb: 0.4, gain_db: -3}   # pad: slow strings; median 50, 5.54 s notes, sounding 37%
+  2:   # counter_low: cello; median 53, 0.30 s notes, sounding 14%
+    program: 42
+    pan: -0.25
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  3:   # lead_low: french horn; median 47, 0.47 s notes, sounding 31%
+    program: 60
+    pan: 0.0
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+    slots:
+      3: {program: 61, pan: 0.15, width: 0.9, reverb: 0.4, gain_db: -3}   # pad2: brass section; median 48, 3.68 s notes, sounding 37%
+  4:   # pad2: brass section; median 60, 2.77 s notes, sounding 100%
+    program: 61
+    pan: -0.5
+    width: 0.9
+    reverb: 0.4
+    gain_db: -3
+  5:   # arpeggio: harp; median 67, 0.23 s notes, sounding 78%
+    program: 46
+    pan: 0.5
+    width: 0.6
+    reverb: 0.28
+    gain_db: -3
+  6:   # bass_short: fingered bass; median 40, 0.45 s notes, sounding 41%
+    program: 33
+    pan: 0.0
+    width: 0.25
+    reverb: 0.06
+    gain_db: 0

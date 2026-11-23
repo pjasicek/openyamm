@@ -128,7 +128,8 @@ def build(level):
         solids += wall(level)
     fl.apply(solids)
     base, tip, width = SPEC['flame']
-    whites = [pl.lathe('embers', [(u(r), u(z)) for r, z in SPEC['embers']], (12, 8, 6)[level], mats['Embers']),
+    # Rim to axis, so the embers face up (F39).
+    whites = [pl.lathe('embers', [(u(r), u(z)) for r, z in SPEC['embers'][::-1]], (12, 8, 6)[level], mats['Embers']),
               fl.flame_card('flame', mats['Flame'], 'flame03', base, tip, width)]
     return solids, whites
 

@@ -75,7 +75,9 @@ def build(level):
     profile = POT if level < 2 else [POT[i] for i in (0, 2, 4, 6, 8, 10, 12, 13, 15, 17, 19, 21)]
     solids = [pl.lathe('pot', [(u(r), u(z)) for r, z in profile], segments, mats['Pot'], u_repeat=3.0,
                        v_scale=1.0)]
-    solids.append(pl.lathe('brew', [(0, u(BREW_Z)), (u(30.4), u(BREW_Z))], segments, mats['Brew'], u_repeat=1.0,
+    # Lathe profiles run with the surface on their left (bottom to top outside): a surface seen from above runs from
+    # its rim in to the axis, or it faces down and the game culls it (F39: the floor showed through the rim).
+    solids.append(pl.lathe('brew', [(u(30.4), u(BREW_Z)), (0, u(BREW_Z))], segments, mats['Brew'], u_repeat=1.0,
                            v_scale=1.0, cap_top=False))
     for k, (centre, size, seed) in enumerate(STONES):
         if level == 2 and k >= 3:
@@ -88,7 +90,7 @@ def build(level):
         solids.append(pl.tube('log1', (u(-48), u(-6), u(4.2)), (u(49), u(-14), u(3.8)), u(4.2), u(4.0), sides,
                               mats['Logs'], v_scale=1.5))
     # The glowing bed reaches out between the stones (the sprite's fire shows in the gaps at the front).
-    whites = [pl.lathe('embers', [(0, u(5.0)), (u(14), u(4.4)), (u(24), u(2.6)), (u(31), u(0.4))],
+    whites = [pl.lathe('embers', [(u(31), u(0.4)), (u(24), u(2.6)), (u(14), u(4.4)), (0, u(5.0))],
                        (14, 10, 6)[level], mats['Glow'], u_repeat=3.0, v_scale=3.0)]
     if level < 2:
         # Charcoal lumps heaped on the bed: an inner ring under the pot and lumps in the front gaps.

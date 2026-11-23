@@ -1,13 +1,13 @@
 # Xeen: music per map
 
 A6, 2026-11-20, applied by the orchestrator to `assets_dev/worlds/xeen/source/maps.yml` (`music`): MM6–MM8 tracks by
-number (ROADMAP Q9). Since U-10 (2026-11-22, lane AU) Xeen also has eight themes of its own, tracks 92001–92008, and
+number (ROADMAP Q9). Since U-10 (2026-11-22, lane AU) Xeen also has eight themes of its own, tracks 92001–92008 (since U-13 the original MM4/MM5 songs with modern instruments), and
 the town districts of six outdoor maps play the town themes (`world.yml` `musicAreas`): [Xeen's own
-themes](#xeens-own-themes-installed-2026-11-22-u-10). The per-map table below is the current state.
+themes](#the-original-songs-modern-instruments-installed-2026-11-23-u-13). The per-map table below is the current state.
 
 ## The tracks there are
 
-Xeen's own 92001–92008 are listed under [Xeen's own themes](#xeens-own-themes-installed-2026-11-22-u-10).
+Xeen's own 92001–92008 are listed under [Xeen's own themes](#the-original-songs-modern-instruments-installed-2026-11-23-u-13).
 `Music/<n>.mp3`, from `assets_dev/worlds/mm8/music` (2–15), `mm7/music` (17–35) and `mm6/music` (37–51). There is no
 1, 16 or 36: `map_stats.txt` gives MM8's Mad Necromancer's Lab track 16 and Escaton's Palace track 0, but no file
 exists, so neither is used here. What the shipped maps use them for (`map_stats.txt`, column Track):
@@ -152,7 +152,32 @@ A6's first pass kept the 11 maps built then (marked "kept"); U-10 changed 21 row
 a run with `--world xeen` must still find them (and a shipped Xeen package must either depend on them or carry
 copies). Worth one check when the world first starts.
 
-## Xeen's own themes (installed 2026-11-22, U-10)
+## The original songs, modern instruments (installed 2026-11-23, U-13)
+
+Since U-13 the eight tracks 92001-92008 are the original Might and Magic IV/V songs: every note from the game's own
+`.m` files (`reference/mm4_5_world_of_xeen/unpacked/music/`), the composer's MT-32 velocities and channel volumes and
+the percussion track the AdLib never played, rendered with the MuseScore General SoundFont (MIT) through FluidSynth,
+with performance, stereo placement, a hall and a seamless loop added. Method, checks and all 55 renders:
+`level_generation/sounds/xeen_music_modern_20261123/README.md` (listening page `review/index.html` there). Credits
+(the SoundFont's licence asks for them): `worlds/xeen/music/XEEN_MUSIC_CREDITS.md`.
+
+| Track | Theme | Song (`.m`) | Loop |
+| --: | --- | --- | --: |
+| 92001 | Cloudside overworld | `xeen/outdoors` | 2:36 |
+| 92002 | Darkside overworld | `dark/outday1` (the game picks outday1/2/4 at random; 2 and 4 and Dragon Pharaoh's `intro/outday3` are rendered too) | 1:03 |
+| 92003 | Cloudside towns | `xeen/town` | 2:19 |
+| 92004 | Darkside towns | `dark/newbrigh` (New Bright Town, also Darkside's main menu) | 0:59 |
+| 92005 | Castles | `xeen/castle` (the whole 5:20 pass; the game started it at 1:28) | 5:20 |
+| 92006 | Dungeons and caves | `xeen/dungeon` (`xeen/cavern` is rendered too) | 2:00 |
+| 92007 | The Ancients' places | `dark/sf05` (Darkside's sci-fi places) | 0:49 |
+| 92008 | The finale | `xeen/endgame` | 2:27 |
+
+The keys follow the composer's MT-32 recordings, a whole tone above the decoded data. The previous Eleven Music
+files are backed up in `output/xeen_music_modern_install/*.pre_modern` and kept in
+`level_generation/sounds/xeen_music_20261122/out/`. Checked 2026-11-23: X1 starts 92001 and switches to 92003 in
+Vertigo's area (`output/xeen_music_modern_install/runs/x1.out`, `OPENYAMM_AUDIO_TRACE=1`).
+
+## Xeen's own themes (installed 2026-11-22, U-10; replaced by U-13)
 
 Eight themes made with Eleven Music on the user's approval (plan B: one take each, 18 000 credits; one dungeon retake, 2 250): job file, ledger,
 picks and review page in `level_generation/sounds/xeen_music_20261122/`; listen on the review page

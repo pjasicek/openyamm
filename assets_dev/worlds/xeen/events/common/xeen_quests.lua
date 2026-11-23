@@ -4135,7 +4135,7 @@ RegisterGlobalEvent(47510, "Gunther", function()
 end)
 
 RegisterGlobalEvent(47511, "Dues", function()
-    evt.SetMessage(NPCText(47510, "I'll put anyone on the guild roll for free. Dues will cost 25 gold, though."))
+    evt.SetMessage(NPCText(47510, "The roll's open to anyone since the slimes came. No dues. Off to the guild row."))
 end)
 
 RegisterGlobalEvent(47512, "Maps", function()
@@ -4819,7 +4819,7 @@ RegisterGlobalEvent(48570, "The huts", function()
 end)
 
 RegisterGlobalEvent(48601, "The rolls", function()
-    evt.SetMessage(NPCText(48600, "The guild is closed to all newcomers, so I can't enter your name on the rolls. If I receive a gift of 1000 gold, however, I may fall asleep with the roll book open. (wink, wink)"))
+    evt.SetMessage(NPCText(48600, "The guild is closed to all newcomers, so I can't enter your name on the rolls. But I sleep a lot, and the roll book lies open. (wink, wink) Your names are in it now."))
 end)
 
 RegisterGlobalEvent(48602, "Ghosts", function()

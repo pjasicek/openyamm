@@ -1,0 +1,53 @@
+# dark/dngon1: first orchestration by orchestrate.py (hand-tune freely; it is never overwritten).
+# 30.0 s a pass. GM programs are 0-based; drums: 0 standard kit, 48 orchestral.
+# A channel's `slots` give the notes it plays with those FM instrument slots their own instrument.
+reverb: {seconds: 2.4, level: 0.32}
+channels:
+  0:   # bass_short: fingered bass; median 43, 0.26 s notes, sounding 21%
+    program: 33
+    pan: 0.0
+    width: 0.25
+    reverb: 0.06
+    gain_db: 0
+  1:   # lead_mid: oboe; median 67, 1.08 s notes, sounding 32%
+    program: 68
+    pan: 0.0
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  2:   # pad: slow strings; median 48, 2.50 s notes, sounding 83%
+    program: 49
+    pan: -0.25
+    width: 0.9
+    reverb: 0.4
+    gain_db: -3
+  3:   # counter_mid: clarinet; median 59, 1.08 s notes, sounding 30%
+    program: 71
+    pan: 0.25
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  4:   # arpeggio: harp; median 48, 0.29 s notes, sounding 92%
+    program: 46
+    pan: -0.5
+    width: 0.6
+    reverb: 0.28
+    gain_db: -3
+  5:   # pluck: pizzicato strings; median 96, 0.11 s notes, sounding 85%
+    program: 45
+    pan: 0.5
+    width: 0.6
+    reverb: 0.28
+    gain_db: 0
+  6:   # bass_long: contrabass; median 31, 1.88 s notes, sounding 87%
+    program: 43
+    pan: 0.0
+    width: 0.25
+    reverb: 0.06
+    gain_db: 0
+  8:   # drums (orchestral kit), notes [36, 49]
+    program: 48
+    pan: 0.0
+    width: 0.5
+    reverb: 0.15
+    gain_db: -3

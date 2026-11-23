@@ -1,0 +1,26 @@
+format: 1
+counter: 3
+pins:
+  - id: pin:p1
+    text: the inside texture are missing
+    source: game
+    world: xeen
+    map: xeen_xd02.blv
+    pose:
+      position: [7636.564, 7217.913, -352]
+      yaw_radians: 4.811
+      pitch_degrees: -31.009
+      heading_yaw_units: 1568
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-22T23:40:59
+    status: resolved
+    claimed_by: agent:xeen-fb2-engine
+    from: 20261122-234059-xeen_xd02.yml
+    replies:
+      - author: agent:xeen-fb2-engine
+        text: "The shared cauldron model's brew disc faced down, so it was culled from above; 13 more engine fire/container models had inside-out discs or links. Rebuilt from their scripts and installed; tools/xeen/check_open_interiors.py renders every Xeen-placed container model and fails on visible back faces."
+        created: 2026-11-23T11:11:41
+        revision: 486cf85b9c6ec4f69cd93e954331761e
+        status: resolved
+        pictures: [.oymap/pins/pictures/p1-r1.png]
