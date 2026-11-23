@@ -740,7 +740,10 @@ constexpr double OutdoorPathShortcutCheckIntervalSeconds = 0.5;
 constexpr float OutdoorPathSpatialGridCellSize = 512.0f;
 constexpr float OutdoorGroundPathMinWaypointReachDistance = 48.0f;
 constexpr float OutdoorGroundPathMaxWaypointReachDistance = 128.0f;
-constexpr float OutdoorActorWaterRestrictionBModelSupportRise = 128.0f;
+// A walker's deck over water lies from 32 under its feet to this over them (a step onto a dock; a deck it walks under
+// is no support), and a step's centre within this reach of it.
+constexpr float OutdoorActorWaterRestrictionBModelSupportRise = 32.0f;
+constexpr float OutdoorActorWaterRestrictionStepReach = 8.0f;
 // Catch-up limits per frame in real time; the game speed (setGameSpeed) multiplies them.
 constexpr float MaxAccumulatedActorUpdateSeconds = 0.1f;
 constexpr float ProjectileUpdateStepSeconds = 1.0f / 60.0f;
@@ -1866,6 +1869,35 @@ void rotateDirectionClockwise(float &directionX, float &directionY, float radian
     directionY = rotatedY;
 }
 
+// A deck over water (a bridge, a dock) is land for a walker: a body still on one stands where it is, and a step goes
+// on while its centre stays over one. The test asks the map's faces near the feet, not the body's support state,
+// which a walker on a humped deck can lose a hair under its surface (P2 F24, X1 p1: a guard on Vertigo Bridge,
+// airborne by its state on the deck, was held there as over water for good).
+bool outdoorWalkerHasDeckUnder(
+    const OutdoorMovementController *pMovementController,
+    const OutdoorWorldRuntime::MapActorState &actor,
+    float x,
+    float y,
+    float reach)
+{
+    const float footZ = actor.movementStateInitialized ? actor.movementState.footZ : actor.preciseZ;
+    return pMovementController != nullptr
+        && pMovementController->hasNonFluidBModelFloorUnder(
+            x, y, footZ, reach, OutdoorActorWaterRestrictionBModelSupportRise);
+}
+
+// The water rule's test of where a walker stands: its centre over a water tile, no deck under its body.
+bool outdoorWalkerStandsOverWater(
+    const OutdoorMapData &outdoorMapData,
+    const std::optional<std::vector<uint8_t>> &outdoorLandMask,
+    const OutdoorMovementController *pMovementController,
+    const OutdoorWorldRuntime::MapActorState &actor,
+    float bodyRadius)
+{
+    return isOutdoorMonsterWaterTile(outdoorMapData, outdoorLandMask, actor.preciseX, actor.preciseY)
+        && !outdoorWalkerHasDeckUnder(pMovementController, actor, actor.preciseX, actor.preciseY, bodyRadius);
+}
+
 OutdoorWaterRestrictionResult applyOutdoorWaterRestriction(
     const OutdoorMapData &outdoorMapData,
     const std::optional<std::vector<uint8_t>> &outdoorLandMask,
@@ -1888,23 +1920,13 @@ OutdoorWaterRestrictionResult applyOutdoorWaterRestriction(
     }
 
     const auto hasNonFluidBModelSupport =
-        [pMovementController, &actor, bodyRadius](float x, float y) -> bool
+        [pMovementController, &actor](float x, float y) -> bool
     {
-        return pMovementController != nullptr
-            && actor.movementStateInitialized
-            && !actor.movementState.airborne
-            && pMovementController->hasNonFluidBModelActorSupport(
-                actor.movementState,
-                bodyRadius,
-                x,
-                y,
-                actor.movementState.footZ,
-                OutdoorActorWaterRestrictionBModelSupportRise);
+        return outdoorWalkerHasDeckUnder(pMovementController, actor, x, y, OutdoorActorWaterRestrictionStepReach);
     };
 
     const bool onWater =
-        isOutdoorMonsterWaterTile(outdoorMapData, outdoorLandMask, actor.preciseX, actor.preciseY)
-        && !hasNonFluidBModelSupport(actor.preciseX, actor.preciseY);
+        outdoorWalkerStandsOverWater(outdoorMapData, outdoorLandMask, pMovementController, actor, bodyRadius);
 
     if (onWater)
     {
@@ -17574,6 +17596,15 @@ size_t OutdoorWorldRuntime::mapActorCount() const
     return m_mapActors.size();
 }
 
+bool OutdoorWorldRuntime::actorStandsOverWater(size_t actorIndex) const
+{
+    const MapActorState *pActor = mapActorState(actorIndex);
+    return pActor != nullptr
+        && m_pOutdoorMapData != nullptr
+        && outdoorWalkerStandsOverWater(*m_pOutdoorMapData, m_outdoorLandMask,
+            m_outdoorMovementController ? &*m_outdoorMovementController : nullptr, *pActor, OeNonFlyingActorRadius);
+}
+
 bool OutdoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeActorState &state) const
 {
     const MapActorState *pActor = mapActorState(actorIndex);
@@ -23740,9 +23771,11 @@ bool OutdoorWorldRuntime::partyIsWalkingOnWaterForHud() const
 
 bool OutdoorWorldRuntime::partyNeedsTurnBasedPhysicsUpdate() const
 {
+    // A special jump (a MAW Puller's hit) launches the party at once in turn-based combat too, and carries it on
+    // while it flies; without this it waited, grounded, for turn-based combat to end.
     return m_pPartyRuntime != nullptr
-        && m_pPartyRuntime->movementState().airborne
-        && !m_pPartyRuntime->partyMovementState().flying;
+        && ((m_pPartyRuntime->movementState().airborne && !m_pPartyRuntime->partyMovementState().flying)
+            || m_pPartyRuntime->specialJumpActive());
 }
 
 void OutdoorWorldRuntime::syncSpellMovementStatesFromPartyBuffs()

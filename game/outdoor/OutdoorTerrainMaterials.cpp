@@ -726,7 +726,8 @@ bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
                 for (int cellX = cellX0; cellX < cellX0 + cellsX; ++cellX)
                 {
                     const OutdoorTerrainTile &tile = cellTile(cellX, cellY);
-                    if (!tile.valid)
+                    // The void (terrain.void) has no ground.
+                    if (!tile.valid || isOutdoorVoidCell(map, cellX, cellY))
                     {
                         continue;
                     }
@@ -871,7 +872,9 @@ bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
                 uint8_t raw = map.tileMap[size_t(cellY * MapCells + cellX)];
                 const OutdoorTerrainTile &tile = tiles[raw];
                 const bool water = tile.liquid == LiquidKind::Water;
-                if (!tile.valid || (!water && (tile.waterSurface || !submerged(cellX, cellY))))
+                // Nothing is drawn over the void past the world's edge, not even the water plane at a river's level.
+                if (!tile.valid || isOutdoorVoidCell(map, cellX, cellY)
+                    || (!water && (tile.waterSurface || !submerged(cellX, cellY))))
                 {
                     continue;
                 }
@@ -947,7 +950,7 @@ bool OutdoorTerrainMaterials::createCellTextures(const OutdoorMapData &map,
             pCell[1] = tile.water ? (tile.transitionOverlay ? 2 : 1) : 0;
             // Drawn by the liquid renderer: 255 water (may show a seabed), 128 an opaque liquid (tar, lava).
             pCell[2] = tile.waterSurface ? (tile.liquid == LiquidKind::Water ? 255 : 128) : 0;
-            pCell[3] = tile.valid ? 255 : 0;
+            pCell[3] = tile.valid && !isOutdoorVoidCell(map, cellX, cellY) ? 255 : 0;
         }
     }
     m_cells = createRgbaTexture(MapCells, MapCells, {cells});

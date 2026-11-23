@@ -913,6 +913,16 @@ int standardHealAmount(SkillMastery mastery, uint32_t skillLevel)
     return 5 + perPoint * static_cast<int>(skillLevel);
 }
 
+// A rolled damage spell's damage after the caster's own share: Hesper's item effects (item_effects spell_damage_pct)
+// and the world's Hum (Party::spellDamagePercentFor, 100 without one).
+int casterSpellDamage(const Party &party, const Character &caster, int damage)
+{
+    const int percent = caster.spellDamagePercent;
+    damage = percent != 0 ? std::max(0, damage + damage * percent / 100) : damage;
+    const int humPercent = party.spellDamagePercentFor(caster);
+    return humPercent < 100 ? damage * humPercent / 100 : damage;
+}
+
 bool resolveSpellSkill(
     const Character &caster,
     uint32_t spellId,
@@ -1472,13 +1482,8 @@ PartySpellCastResult PartySpellSystem::castSpell(
         [&party, &castAtLevel](const SpellEntry &spellEntry, SkillMastery mastery, uint32_t level, bool &critical)
     {
         const CharacterSpellCast cast = castAtLevel(spellEntry, mastery, level);
-        int damage = party.rules().combat.rollSpellDamage(cast, &critical);
-        // Hesper's item effects: per-cent spell damage (item_effects spell_damage_pct).
-        const int percent = cast.pCaster != nullptr ? cast.pCaster->spellDamagePercent : 0;
-        damage = percent != 0 ? std::max(0, damage + damage * percent / 100) : damage;
-        // The world's Hum (Party::spellDamagePercentFor): 100 without one.
-        const int humPercent = cast.pCaster != nullptr ? party.spellDamagePercentFor(*cast.pCaster) : 100;
-        return humPercent < 100 ? damage * humPercent / 100 : damage;
+        const int damage = party.rules().combat.rollSpellDamage(cast, &critical);
+        return cast.pCaster != nullptr ? casterSpellDamage(party, *cast.pCaster, damage) : damage;
     };
 
     if (party.hasPartyBuff(PartyBuffId::Invisibility))
@@ -3354,6 +3359,55 @@ std::optional<uint32_t> PartySpellSystem::manaCost(
     cast.partyCount = int(std::max<size_t>(1, party.members().size()));
     return static_cast<uint32_t>(
         party.rules().spells.manaCost(cast, spellNumbersAtMastery(*pSpellEntry, skillMastery).manaCost));
+}
+
+std::optional<PartySpellSystem::DamagePreview> PartySpellSystem::damagePreview(
+    const Party &party,
+    const Character &caster,
+    const SpellTable &spellTable,
+    uint32_t spellId)
+{
+    const SpellEntry *pSpellEntry = spellTable.findById(static_cast<int>(spellId));
+    uint32_t skillLevel = 0;
+    SkillMastery skillMastery = SkillMastery::None;
+
+    if (pSpellEntry == nullptr || !resolveSpellSkill(caster, spellId, {}, skillLevel, skillMastery))
+    {
+        return std::nullopt;
+    }
+
+    const std::optional<BackendSpellRule> rule = resolveBackendSpellRule(&party, spellId, skillMastery);
+
+    if (!rule)
+    {
+        return std::nullopt;
+    }
+
+    CharacterSpellCast cast = {};
+    cast.pCaster = &caster;
+    cast.pItemTable = party.itemTable();
+    cast.pStandardItemEnchantTable = party.standardItemEnchantTable();
+    cast.pSpecialItemEnchantTable = party.specialItemEnchantTable();
+    cast.pSpell = pSpellEntry;
+    cast.mastery = skillMastery;
+    cast.skillLevel = skillLevel;
+    cast.partyCount = int(std::max<size_t>(1, party.members().size()));
+    const std::optional<SpellDamagePreview> hit = party.rules().combat.spellDamagePreview(cast);
+
+    if (!hit)
+    {
+        return std::nullopt;
+    }
+
+    DamagePreview preview;
+    preview.hit = *hit;
+    preview.hit.minimum = casterSpellDamage(party, caster, hit->minimum);
+    preview.hit.average = casterSpellDamage(party, caster, hit->average);
+    preview.hit.maximum = casterSpellDamage(party, caster, hit->maximum);
+    preview.hits = rule->effectKind == PartySpellCastEffectKind::MultiProjectile
+        ? spellNumbersAtMastery(*pSpellEntry, skillMastery).projectileCount
+        : 1;
+    return preview;
 }
 
 std::optional<int> PartySpellSystem::healAmount(

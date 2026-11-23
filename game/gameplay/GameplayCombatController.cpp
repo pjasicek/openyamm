@@ -28,8 +28,6 @@ namespace
 {
 constexpr uint32_t KillSpeechChancePercent = 20;
 constexpr float OeRealtimeRecoveryScale = 2.133333333333333f;
-constexpr uint32_t FirstRegularBreakableItemId = 1;
-constexpr uint32_t LastRegularBreakableItemId = 134;
 
 struct DamagedMember
 {
@@ -775,12 +773,6 @@ int parseIntegerOrZero(const std::string &text)
     }
 }
 
-bool isRegularBreakableItemDefinition(const ItemDefinition &itemDefinition)
-{
-    return itemDefinition.itemId >= FirstRegularBreakableItemId
-        && itemDefinition.itemId <= LastRegularBreakableItemId;
-}
-
 int breakItemSaveBonus(const ItemDefinition &itemDefinition)
 {
     return 3 * (static_cast<int>(itemDefinition.rarity) + parseIntegerOrZero(itemDefinition.mod2));
@@ -795,7 +787,7 @@ bool itemMatchesBreakSpecial(
     switch (specialAttackKind)
     {
         case MonsterSpecialAttackKind::BreakAny:
-            return isRegularBreakableItemDefinition(itemDefinition);
+            return ItemRuntime::isRegularEquipment(itemDefinition);
         case MonsterSpecialAttackKind::BreakArmor:
             return category == ItemEnchantCategory::Armor || category == ItemEnchantCategory::Shield;
         case MonsterSpecialAttackKind::BreakWeapon:

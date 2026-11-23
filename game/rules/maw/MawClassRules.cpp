@@ -962,7 +962,10 @@ MawAscension mawAscension(const Character &caster, MawAscensionUse use)
         const double sum = baseSum({"FireMagic", "AirMagic", "WaterMagic", "EarthMagic", "SpiritMagic", "MindMagic",
                                "BodyMagic"})
             / 7;
-        return {sum, SkillMastery::Grandmaster};
+        // MAW's damage roll reads the Learning skill with its item bonuses (Legendary 25, artifact 1324), which a
+        // Shaman can only have from items: they still count on top of the schools' share.
+        const double itemAscension = use == MawAscensionUse::Damage ? caster.skillBonus("Learning") : 0;
+        return {sum + itemAscension, SkillMastery::Grandmaster};
     }
 
     const CharacterSkill *pLearning = caster.findSkill("Learning");

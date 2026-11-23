@@ -4436,6 +4436,14 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
 
             if (view.activeEventDialog().presentation == EventDialogPresentation::Mm9Rude)
             {
+                const int scroll =
+                    GameplayMm9TalkBar::scrollButtonAtPoint(view, screenWidth, screenHeight, mouseX, mouseY);
+
+                if (scroll != 0)
+                {
+                    return {GameplayDialoguePointerTargetType::Mm9TalkScroll, scroll < 0 ? size_t(0) : size_t(1)};
+                }
+
                 const std::optional<size_t> action =
                     GameplayMm9TalkBar::actionAtPoint(view, screenWidth, screenHeight, mouseX, mouseY);
                 return action ? GameplayDialoguePointerTarget{GameplayDialoguePointerTargetType::Action, *action}
@@ -4813,13 +4821,17 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
         view.interactionState().dialoguePressedTarget,
         noneDialogueTarget,
         findDialoguePointerTarget,
-        [&view](const GameplayDialoguePointerTarget &target)
+        [&view, screenWidth, screenHeight](const GameplayDialoguePointerTarget &target)
         {
             if (target.type == GameplayDialoguePointerTargetType::Action
                 && target.index < view.activeEventDialog().actions.size())
             {
                 view.eventDialogSelectionIndex() = target.index;
                 view.executeActiveDialogAction();
+            }
+            else if (target.type == GameplayDialoguePointerTargetType::Mm9TalkScroll)
+            {
+                GameplayMm9TalkBar::scroll(view, screenWidth, screenHeight, target.index == 0 ? -1 : 1);
             }
             else if (target.type == GameplayDialoguePointerTargetType::CloseButton)
             {

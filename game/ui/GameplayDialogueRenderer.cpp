@@ -560,7 +560,6 @@ void GameplayDialogueRenderer::renderDialogueOverlay(
     const std::vector<std::string> &dialogueBodyLines = view.activeEventDialog().lines;
     const bool isTransitionDialog =
         view.activeEventDialog().presentation == EventDialogPresentation::Transition;
-    const bool showDialogueTextFrame = !isTransitionDialog && !dialogueBodyLines.empty();
     std::optional<std::string> hoveredHouseServiceTopicText;
     const bool suppressServiceTopicsForShopOverlay =
         (view.houseShopOverlay().active
@@ -571,6 +570,10 @@ void GameplayDialogueRenderer::renderDialogueOverlay(
             && (view.inventoryNestedOverlay().mode == GameplayUiController::InventoryNestedOverlayMode::ShopSell
                 || view.inventoryNestedOverlay().mode == GameplayUiController::InventoryNestedOverlayMode::ShopIdentify
                 || view.inventoryNestedOverlay().mode == GameplayUiController::InventoryNestedOverlayMode::ShopRepair));
+    // The shop's own prompts and replies go to the hint line above the party bar.
+    const bool showDialogueBodyText = !isTransitionDialog
+        && !GameplayUiController::houseShopCoversDialogueBody(view.houseShopOverlay(), view.inventoryNestedOverlay());
+    const bool showDialogueTextFrame = showDialogueBodyText && !dialogueBodyLines.empty();
     const Party *pParty = view.partyReadOnly();
 
     updateHouseShopHoverTopicText(
@@ -818,7 +821,7 @@ void GameplayDialogueRenderer::renderDialogueOverlay(
         pHostHouseEntry,
         hoveredHouseServiceTopicText,
         suppressServiceTopicsForShopOverlay);
-    if (!isTransitionDialog)
+    if (showDialogueBodyText)
     {
         renderDialogueBodyText(
             view,

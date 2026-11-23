@@ -136,6 +136,12 @@ bool ItemRuntime::isHardened(bool hardenedFlag, const ItemDefinition &itemDefini
     return hardenedFlag || isArtifact(itemDefinition);
 }
 
+bool ItemRuntime::isRegularEquipment(const ItemDefinition &itemDefinition)
+{
+    return itemDefinition.rarity == ItemRarity::Common
+        && ItemEnchantRuntime::categoryForItem(itemDefinition) != ItemEnchantCategory::None;
+}
+
 std::optional<std::string> ItemRuntime::classRestriction(const ItemDefinition &itemDefinition)
 {
     if (!itemDefinition.allowedClassRoots.empty())

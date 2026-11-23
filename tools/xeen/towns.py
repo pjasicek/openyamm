@@ -11,7 +11,8 @@ built house, a house that opens by qbit only behind it with its closed text; res
 teachers_plan.yml, with a warning (WARN) when a Master place's level is below its Expert place's (D-73; Grandmaster
 before Master is no fault, U-2); every NPC has a portrait, and a profession, a teacher offer or a greeting; every built
 guild has a book of the world for each spell its shelf sells (feedback F7: Xeen had no books of its own and every guild's
-shelf was empty); every built town map's house hangs the sign of its kind (house_signs.py; a service of a signed kind
+shelf was empty); no guild person sells, prices or demands membership or dues (Xeen's guilds are open to all; pin X1 p4,
+Vern's "Dues"); every built town map's house hangs the sign of its kind (house_signs.py; a service of a signed kind
 hanging none is an ERROR, D-92); every walled town of a built outdoor map is closed but at its gates and its wall
 pieces meet flush (wall_check.py, F19); every settlement has peaceful street villagers at MM6-MM8's density from a palette of
 3-5 kinds of its own (villagers.py, villagers.yml, D-96); the generator runs.
@@ -33,6 +34,7 @@ import gen_towns  # noqa: E402
 import house_signs  # noqa: E402
 import wall_check  # noqa: E402
 import villagers  # noqa: E402
+import town_fit_check  # noqa: E402
 
 REPO = gen_towns.REPO
 BRIEFS = REPO / 'devdocs' / 'xeen' / 'briefs'
@@ -265,6 +267,63 @@ def guild_book_errors(towns, rule_sections):
             if missing:
                 errors.append(f'{town["key"]}: guild {house["id"]} {house["name"]} sells {sold} spells per school but '
                               f'Xeen has no book of spells {missing} (source/items.yml spellbooks, gen_items)')
+    return errors
+
+
+# Player pin X1 p4 (2026-11-22, "it is not working"): Vern's "Dues" asked 25 gold that nothing took. Xeen's guilds are
+# open to all (the engine gates guilds of MM6 and MM7 only, HouseInteraction.cpp magicGuildMembershipType), so no guild
+# person may sell, price or demand membership. A guild person is an NPC owning or living in a guild house, or titled
+# for a guild; their greetings and their talk-only topics (source/npcs/, npcs/flavour/) are read.
+MEMBERSHIP_WORDS = re.compile(r"\b(members?(hip)?|guild rolls?|the rolls?|roll book|dues)\b", re.I)
+PRICE_WORDS = re.compile(r"\b(gold|pay|paid|cost|costs|price|fee|bribe|gift|members only|invitation|joining)\b", re.I)
+# NPC id: why a line that matches is true in Xeen
+MEMBERSHIP_TEXT_OK = {
+    5501: 'Mordant the Pale: "used to cost": past tense, sells nothing',
+}
+
+
+def membership_text_errors(towns, npc_files=None):
+    """Lines of guild people that sell membership or dues the game does not have, and the retired `guild_membership`
+    service key."""
+    errors = []
+    guild_people = {}
+    for town in towns:
+        for house in town.get('houses', []):
+            if house.get('kind') in gen_towns.GUILD_KINDS:
+                for npc_id in [house.get('owner')] + list(house.get('residents') or []):
+                    if npc_id:
+                        guild_people[npc_id] = town['key']
+        for npc in town.get('npcs', []):
+            if 'guild' in str(npc.get('title', '')).lower():
+                guild_people[npc['id']] = town['key']
+            for service in npc.get('services') or []:
+                if isinstance(service, dict) and 'guild_membership' in service:
+                    errors.append(f'{town["key"]}: NPC {npc["id"]} {npc.get("name")} has the retired service '
+                                  f'guild_membership (Xeen guilds are open to all; nothing reads it)')
+
+    def bad_sentences(text):
+        return [s for s in re.split(r'(?<=[.!?])\s+', text) if MEMBERSHIP_WORDS.search(s) and PRICE_WORDS.search(s)]
+
+    lines = []
+    for town in towns:
+        for npc in town.get('npcs', []):
+            if npc['id'] in guild_people:
+                lines += [(town['key'], npc['id'], 'greet', text) for text in npc.get('greet') or []]
+    npc_dir = gen_towns.TOWNS.parent / 'npcs'
+    for path in npc_files if npc_files is not None else sorted(npc_dir.glob('*.yml')) + sorted(npc_dir.glob('flavour/*.yml')):
+        data = yaml.safe_load(path.read_text()) or {}
+        for npc_id, entry in (data.get('npcs') or {}).items():
+            if npc_id not in guild_people:
+                continue
+            for topic in (entry or {}).get('topics') or []:
+                texts = [topic.get('text')] + [state.get('text') for state in topic.get('states') or []]
+                lines += [(path.stem, npc_id, f'topic {topic.get("label")}', text) for text in texts if text]
+    for where, npc_id, what, text in lines:
+        if npc_id in MEMBERSHIP_TEXT_OK:
+            continue
+        for sentence in bad_sentences(text):
+            errors.append(f'{where}: guild NPC {npc_id} {what} sells or demands membership the game does not have '
+                          f'(Xeen guilds are open to all): "{sentence}"')
     return errors
 
 
@@ -586,6 +645,7 @@ def main():
     offers = sum(len(places) for places in planned.values())
     written = sum(len(v) for v in taught.values())
     errors += guild_book_errors(towns, rule_sections)
+    errors += membership_text_errors(towns)
     # every built town map's house signs against their kinds (house_signs.py; the user 2026-11-22: the Adventurer's
     # Inn hung the tavern's mug)
     sign_errors, sign_warnings = house_signs.check_all()
@@ -601,6 +661,11 @@ def main():
     villager_errors, villager_notes = villagers.check_all()
     errors += villager_errors
     notes += villager_notes
+    # how walls, houses, culverts, gates' roads and townsfolk sit on the land (town_fit_check.py; the player's pins of
+    # 2026-11-22, P2 F24-F28): hollows under walls, land over their tops, dug-in doors, roads off their gates
+    fit_errors, fit_notes = town_fit_check.towns_check()
+    errors += fit_errors
+    notes += fit_notes
     if args.stock_scenario:
         print(f'wrote {STOCK_SCENARIO.relative_to(REPO)}: {stock_scenario(towns)} shops and guilds')
 

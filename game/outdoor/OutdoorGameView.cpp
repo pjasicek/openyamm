@@ -2642,6 +2642,16 @@ bool OutdoorGameView::initialize(
     m_wetnessUniformHandle = bgfx::createUniform("u_wetness", bgfx::UniformType::Vec4);
     m_outdoorFogColorUniformHandle = bgfx::createUniform("u_fogColor", bgfx::UniformType::Vec4);
     m_skyFogUniformHandle = bgfx::createUniform("u_skyFog", bgfx::UniformType::Vec4, SkyFogUniformVectors);
+
+    if (!m_pOutdoorMapData->voidCells.empty())
+    {
+        std::vector<uint8_t> voidMask(m_pOutdoorMapData->voidCells.size());
+        std::transform(m_pOutdoorMapData->voidCells.begin(), m_pOutdoorMapData->voidCells.end(), voidMask.begin(),
+            [](uint8_t cell) { return uint8_t(cell != 0 ? 255 : 0); });
+        m_voidMaskTexture = bgfx::createTexture2D(uint16_t(OutdoorMapData::TerrainWidth),
+            uint16_t(OutdoorMapData::TerrainHeight), false, 1, bgfx::TextureFormat::R8,
+            BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP, bgfx::copy(voidMask.data(), uint32_t(voidMask.size())));
+    }
     m_outdoorFogDensitiesUniformHandle = bgfx::createUniform("u_fogDensities", bgfx::UniformType::Vec4);
     m_outdoorFogDistancesUniformHandle = bgfx::createUniform("u_fogDistances", bgfx::UniformType::Vec4);
     m_outdoorCameraPositionUniformHandle = bgfx::createUniform("u_cameraPosition", bgfx::UniformType::Vec4);
@@ -3353,6 +3363,7 @@ void OutdoorGameView::shutdown()
         m_bloodSplatVertexBufferRevision = std::numeric_limits<uint64_t>::max();
         m_outdoorFogColorUniformHandle = BGFX_INVALID_HANDLE;
         m_skyFogUniformHandle = BGFX_INVALID_HANDLE;
+        m_voidMaskTexture = BGFX_INVALID_HANDLE;
         m_outdoorFogDensitiesUniformHandle = BGFX_INVALID_HANDLE;
         m_outdoorFogDistancesUniformHandle = BGFX_INVALID_HANDLE;
         m_outdoorCameraPositionUniformHandle = BGFX_INVALID_HANDLE;
@@ -3571,6 +3582,12 @@ void OutdoorGameView::shutdown()
     {
         bgfx::destroy(m_skyFogUniformHandle);
         m_skyFogUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_voidMaskTexture))
+    {
+        bgfx::destroy(m_voidMaskTexture);
+        m_voidMaskTexture = BGFX_INVALID_HANDLE;
     }
 
     if (bgfx::isValid(m_outdoorFogDensitiesUniformHandle))
@@ -4556,6 +4573,15 @@ SkySurroundings OutdoorGameView::skySurroundings() const
     for (size_t channel = 0; channel < 3; ++channel)
     {
         surroundings.seaColorDisplay[channel] = m_distantSea.waterColorDisplay[channel] * brightness;
+    }
+
+    if (!m_pOutdoorMapData->voidCells.empty())
+    {
+        // The void's floor is the void cells' terrain height, 0 (the studio lowers them there).
+        surroundings.hasVoid = true;
+        surroundings.voidSideWeights = m_distantSea.voidWeights;
+        surroundings.cameraAboveVoid = m_skyCameraPosition[2];
+        surroundings.voidMask = m_voidMaskTexture;
     }
 
     return surroundings;

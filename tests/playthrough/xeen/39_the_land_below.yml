@@ -52,7 +52,7 @@ steps:
   - press_action: {action: cancel_dialog}
   - assert: {qbit_set: [113020]}
   # The gate without a pass: refused (m14.gate's fail text).
-  - set_pose: {map: xeen_d1.odm, x: -512, y: 11366, z: 1158, yaw: -1.5708, pitch: 0.0}
+  - set_pose: {map: xeen_d1.odm, x: -256, y: 11366, z: 1158, yaw: -1.5708, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - execute_event: {id: 134}
   - advance_runtime: {seconds: 0.5}
@@ -76,7 +76,7 @@ steps:
         if not has_item(12330) then error("no Castleview pass from Justine: " .. pack_items()) end
         if recall("gold") - gold() ~= 1000 then error("the pass cost " .. (recall("gold") - gold())) end
   # The north gate with the pass (m14.gate): entered, 2,000 experience, the inn roster.
-  - set_pose: {map: xeen_d1.odm, x: -512, y: 11366, z: 1158, yaw: -1.5708, pitch: 0.0}
+  - set_pose: {map: xeen_d1.odm, x: -256, y: 11366, z: 1158, yaw: -1.5708, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - execute_event: {id: 134}
   - advance_runtime: {seconds: 0.5}
@@ -86,7 +86,7 @@ steps:
         if not string.find(s, [[The guard reads your pass twice]], 1, true) then error("status line: " .. s) end
   - play_lua: {source: "close()"}   # the line was on the status line (D-90)
   - assert: {qbit_set: [111281, 119021]}
-  - walk_to: {x: -512, y: 9114, z: 1152, z_tolerance: 600, radius: 160, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: -256, y: 9114, z: 1152, z_tolerance: 600, radius: 160, timeout_seconds: 60, close_dialogs: true}
   # Zelda's Herbs and Remedies (house 4454): Zelda (The orb), the Dragon Pharaoh's orb (M15).
   - set_pose: {map: xeen_d1.odm, x: -2676, y: 4992, z: 1152, yaw: 3.1416, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}

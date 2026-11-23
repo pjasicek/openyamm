@@ -646,22 +646,8 @@ TEST_CASE("outdoor actor support query treats non-fluid BModel above water as br
 
     REQUIRE_EQ(state.supportKind, OutdoorSupportKind::BModelFace);
     CHECK_FALSE(state.supportIsFluid);
-    CHECK(
-        controller.hasNonFluidBModelActorSupport(
-            state,
-            37.0f,
-            bridgeX,
-            bridgeY,
-            state.footZ,
-            128.0f));
-    CHECK_FALSE(
-        controller.hasNonFluidBModelActorSupport(
-            state,
-            37.0f,
-            bridgeX + 512.0f,
-            bridgeY,
-            state.footZ,
-            128.0f));
+    CHECK(controller.hasNonFluidBModelFloorUnder(bridgeX, bridgeY, state.footZ, 8.0f, 32.0f));
+    CHECK_FALSE(controller.hasNonFluidBModelFloorUnder(bridgeX + 512.0f, bridgeY, state.footZ, 8.0f, 32.0f));
 }
 
 TEST_CASE("outdoor map bounds clamp flying party movement and report the blocked edge")

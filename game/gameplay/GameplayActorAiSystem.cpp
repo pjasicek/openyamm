@@ -1310,16 +1310,14 @@ CombatAbilityChoiceResult chooseCombatAbility(const CombatAbilityChoiceInput &in
 
     GameplayActorAttackConstraintState constraintState = input.constraintState;
 
-    if (!input.inMeleeRange && !attackAbilityIsRanged(chosenAbility, constraintState))
+    // Out of reach a monster whose first attack is a missile shoots it instead of a rolled blow. A rolled blow of a
+    // melee monster with a missile second attack stays a blow: it closes in, and shoots only when the roll picks the
+    // missile by its chance (the original's ability roll, OpenEnroth Actor::special_ability_use_check and
+    // Actor::UpdateActorAI), so a mixed monster (MM6's goblins, MAW's Hell missiles) is not an archer.
+    if (!input.inMeleeRange && !attackAbilityIsRanged(chosenAbility, constraintState)
+        && constraintState.attack1IsRanged)
     {
-        if (constraintState.attack1IsRanged)
-        {
-            chosenAbility = GameplayActorAttackAbility::Attack1;
-        }
-        else if (input.attack2Chance > 0 && constraintState.attack2IsRanged)
-        {
-            chosenAbility = GameplayActorAttackAbility::Attack2;
-        }
+        chosenAbility = GameplayActorAttackAbility::Attack1;
     }
 
     // Out of reach blocks a ranged ability outright: a monster with no blow to fall back on (a Great Wyrm) would
@@ -8549,9 +8547,16 @@ bool AI_AttackOrPursue(ActorAiCommandContext &ai)
         return AI_Mm9Engage(ai, engagement);
     }
 
+    // A pursuit under way keeps the ability rolled as it began (the roll before the stored count): MM8 decides only
+    // when an action ends, so a monster that rolled its blow walks into reach instead of stopping to shoot or cast at
+    // each recovery, and one that rolled its missile circles and shoots as it is ready.
+    const bool pursuitUnderWay = actor.runtime.motionState == ActorAiMotionState::Pursuing
+        && actor.runtime.actionSeconds > 0.0f
+        && (std::abs(actor.movement.moveDirectionX) > 0.001f || std::abs(actor.movement.moveDirectionY) > 0.001f);
     CombatAbilityChoiceInput abilityInput = {};
     abilityInput.actorId = actor.actorId;
-    abilityInput.attackDecisionCount = actor.runtime.attackDecisionCount;
+    abilityInput.attackDecisionCount =
+        pursuitUnderWay ? actor.runtime.attackDecisionCount - 1 : actor.runtime.attackDecisionCount;
     abilityInput.hasSpell1 = actor.stats.hasSpell1;
     abilityInput.spell1IsOkToCast =
         actor.stats.spell1CastSupported
@@ -8601,7 +8606,11 @@ bool AI_AttackOrPursue(ActorAiCommandContext &ai)
 
     ai.setMeleePursuitActive(engagePlan.meleePursuitActive);
     ai.resetAnimationOnChange();
-    ai.setAttackDecisionCount(abilityChoice.nextAttackDecisionCount);
+
+    if (!pursuitUnderWay)
+    {
+        ai.setAttackDecisionCount(abilityChoice.nextAttackDecisionCount);
+    }
 
     if (skirmishActive(actor, pFrame) && AI_SkirmishBeforeEngage(ai, engagement, engagePlan.action))
     {

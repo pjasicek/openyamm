@@ -1289,6 +1289,12 @@ public:
     }
     virtual size_t mapActorCount() const = 0;
     virtual bool actorRuntimeState(size_t actorIndex, GameplayRuntimeActorState &state) const = 0;
+    // A walker's centre over deep water with no deck under its body (the outdoor water rule's test; scenario checks).
+    virtual bool actorStandsOverWater(size_t actorIndex) const
+    {
+        (void)actorIndex;
+        return false;
+    }
     // The actor as the rules read it; a world may answer it without building the full runtime state.
     virtual bool actorRulesView(size_t actorIndex, GameplayActorRulesView &view) const
     {

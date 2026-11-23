@@ -269,6 +269,9 @@ public:
         std::string expert;
         std::string master;
         std::string grandmaster;
+        // The caster's damage with the spell (PartySpellSystem::damagePreview), with colour codes; empty for a spell
+        // without rolled damage.
+        std::string damage;
         float sourceX = 0.0f;
         float sourceY = 0.0f;
         float sourceWidth = 0.0f;
@@ -716,6 +719,12 @@ public:
         HouseShopLedgerCategory ledgerFilter = HouseShopLedgerCategory::All;
         HouseShopLedgerSort ledgerSort = {};
     };
+
+    // A shop's shelves, stock list or party inventory fill the house picture down to the party bar, as in MM6-MM8, so
+    // the dialogue body that was showing when the service opened (a talking proprietor's greeting) is not drawn over
+    // them (player pin X1 p13, 2026-11-22: "Back for more steel?" over the lowest shelf).
+    static bool houseShopCoversDialogueBody(
+        const HouseShopOverlayState &shop, const InventoryNestedOverlayState &nested);
 
     // A stable's or boat's Schedule popup over the house dialogue, or over an MM9 dock's talk (mm9DockId, its RUDE
     // id); the selected departure is a weekday (0 Monday) and one of its routes.

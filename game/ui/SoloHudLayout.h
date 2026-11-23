@@ -135,6 +135,15 @@ inline std::optional<size_t> soloActionBarKeyOfSlot(size_t slot)
     return slot < ActionBarSlotCount / 2 ? std::optional<size_t>(slot) : std::nullopt;
 }
 
+// The status line's top (screen pixels): where it is, or `gap` above the action bar when the bar lies under it (the
+// touch layout's bar at the bottom centre; the desktop column at the left edge never does).
+inline float soloStatusLineTop(const SoloHudRect &line, const SoloHudRect &bar, float gap)
+{
+    const bool overlaps = line.x < bar.x + bar.width && bar.x < line.x + line.width && line.y < bar.y + bar.height
+        && bar.y < line.y + line.height;
+    return overlaps ? std::min(line.y, bar.y - gap - line.height) : line.y;
+}
+
 // How far a recovery has run, 0 just begun to 1 ready, for the crosshair brackets and the slots' wedge.
 inline float soloRecoveryProgress(float remainingSeconds, float totalSeconds)
 {

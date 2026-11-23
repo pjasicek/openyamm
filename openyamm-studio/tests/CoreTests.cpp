@@ -11648,6 +11648,48 @@ TEST_CASE("F2 door rules in the audit: a lone wing, a part of a picture, a narro
     CHECK(outdoorDoorCodes({whole, steps}, "xeen") == std::vector<std::string>{"doors.off_steps error"});
 }
 
+TEST_CASE("F27 in the audit: a door whose land before it rises over its sill is buried")
+{
+    // A whole 256-wide door at y 0 looking south, its sill at 0, on flat land at 0, then with the land before it at
+    // 128 (the nodes round world [0, 0]: grid 64 and 65 each way, 32 units a step).
+    OpenYAMM::Game::OutdoorBModel house;
+    house.name = "building:f";
+    addSouthFace(house, 0, 256, 0, 0, 256, "bigdoor", 5);
+    LoadedMap map;
+    map.world = "xeen";
+    map.outdoor.emplace();
+    map.outdoor->bmodels = {house};
+    map.outdoor->heightMap.assign(static_cast<size_t>(OpenYAMM::Game::OutdoorMapData::TerrainWidth)
+        * OpenYAMM::Game::OutdoorMapData::TerrainHeight, 0);
+    TextureFitData data;
+    data.classTexts = {"textures:\n  bigdoor: {class: feature, door: single, size: [256, 256]}\n"};
+    const auto codes = [&]()
+    {
+        std::vector<std::string> found;
+
+        for (const AuditFinding &finding : auditDoorTextures(map, data))
+        {
+            found.push_back(finding.code + " " + finding.severity);
+        }
+
+        return found;
+    };
+    CHECK(codes().empty());
+
+    for (const int x : {63, 64, 65})
+    {
+        for (const int y : {64, 65})
+        {
+            map.outdoor->heightMap[static_cast<size_t>(y) * OpenYAMM::Game::OutdoorMapData::TerrainWidth + x] = 4;
+        }
+    }
+
+    CHECK(codes() == std::vector<std::string>{"houses.buried_door warning"});
+    // A step under the threshold (32 over the sill): nothing to say.
+    std::replace(map.outdoor->heightMap.begin(), map.outdoor->heightMap.end(), uint8_t{4}, uint8_t{1});
+    CHECK(codes().empty());
+}
+
 TEST_CASE("D-91 in the audit: a cave mouth that leads nowhere and is no shelter or blocked")
 {
     Project project;

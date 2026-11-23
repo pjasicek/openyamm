@@ -28,13 +28,19 @@ struct OutdoorFallPlan
     // Across the sheet at the lip; the foot's width over the lip's.
     double width = 512.0;
     double spread = 1.3;
-    // How far the sheet's foot stands out beyond the lip (0: upright).
+    // How far the sheet's foot stands out beyond the lip (0: upright); after a chute, beyond the chute's end.
     double lean = 0.0;
+    // A chute before the free sheet (`chute: [out, drop]`, a rim fall down the hull's deck): the water runs from the
+    // lip `chuteOut` out and `chuteDrop` down in one plane, then falls as the sheet. 0: none.
+    double chuteOut = 0.0;
+    double chuteDrop = 0.0;
     // How far the top water reaches back up the stream from the lip, and the foot water out into the pool.
     double back = 1088.0;
     double pool = 512.0;
     // Rock sides: on or off, their top over the stream's water, their size.
     bool rocks = true;
+    // A fall off the world's edge (`edge`): the crags stand on the land beside the lip, not down the sheet.
+    bool edge = false;
     double rise = 160.0;
     double rockSize = 384.0;
     uint32_t seed = 0;
@@ -43,6 +49,9 @@ struct OutdoorFallPlan
     std::string waterTexture;
     std::string rockTexture;
     std::string bankTexture;
+    // The spillway under a chute (`textures: {deck: <name>}`, the hull's plating on the rim, D-112): a plate under
+    // the chute with a nose at its end and an underside back under the land. Empty: none.
+    std::string deckTexture;
 };
 
 // The sketch's waterfalls, checked. Messages go to `issues`.
@@ -51,9 +60,10 @@ std::vector<OutdoorFallPlan> readOutdoorFalls(
     const std::string &world,
     std::vector<ProjectIssue> &issues);
 
-// Cuts the land for each: every node whose cell the sheet or the lip's last cell crosses is set no higher than the
-// sheet one cell further down (the foot's level for an upright fall), so no land stands in front of the sheet; water
-// nodes so lowered become dry and are added to `dried` (the lowering then takes them out of the water's tiles).
+// Cuts the land for each: every node under the sheet (with no rock sides every node whose cell the sheet crosses) or
+// the lip's last cell is set no higher than the sheet one cell further down (the foot's level for an upright fall),
+// so no land stands in front of the sheet (the crags hide the land rising at its edges, and no pit lies beside them);
+// water nodes so lowered become dry and are added to `dried` (the lowering then takes them out of the water's tiles).
 // `ground` and `waterNode` per node (index y * 128 + x), map units, NaN where dry.
 void shapeOutdoorFallLand(
     const std::vector<OutdoorFallPlan> &falls,

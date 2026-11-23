@@ -333,7 +333,9 @@ enum class GameplayDialoguePointerTargetType
     Action,
     CloseButton,
     // Cancel of the popup that offers to reset a cleared dungeon (transitionResetPopupOpen).
-    ResetPopupCancel
+    ResetPopupCancel,
+    // A scroll button of the MM9 conversation bar: index 0 up, 1 down.
+    Mm9TalkScroll
 };
 
 struct GameplayDialoguePointerTarget

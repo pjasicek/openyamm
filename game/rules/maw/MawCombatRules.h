@@ -16,6 +16,8 @@ struct GameplayWorldPoint;
 class MawRules;
 struct RulesetOptions;
 struct MawClassSpell;
+struct MawCrit;
+struct MawDraws;
 struct GameplayRuntimeActorState;
 
 // MAW's combat (devdocs/maw/COMBAT_SPEC.md §5, §7). Monster attacks: every attack rolls against the target's Speed
@@ -56,6 +58,8 @@ public:
         CombatDamageType type,
         bool indoor) const override;
     int rollSpellDamage(const CharacterSpellCast &cast, bool *pCritical = nullptr) const override;
+    // The least and the most of the roll below without a crit, and the spell crit (the class spells' blow crit).
+    std::optional<SpellDamagePreview> spellDamagePreview(const CharacterSpellCast &cast) const override;
     // Mass Distortion: 15 % + 0.5 % per point of the target's hit points, less on harder difficulties and bosses, more
     // on monsters above level 250 (SP:1714-1718, 1819-1850).
     std::optional<int> spellDamageOnTarget(const CharacterSpellCast &cast, const SpellTargetState &target) const override;
@@ -129,6 +133,11 @@ public:
 private:
     // rollSpellDamage before a solo run's talents scale it.
     int rollSpellDamageBeforeTalents(const CharacterSpellCast &cast, bool *pCritical) const;
+    // A damage spell's damage before rounding with its draws made by `draws` (rolled, or their least or most for
+    // spellDamagePreview); nothing for a spell MAW leaves to the engine. `critical` learns whether it crit, `pCrit` the
+    // crit chance and multiplier.
+    std::optional<double> drawSpellDamage(
+        const CharacterSpellCast &cast, const MawDraws &draws, bool &critical, MawCrit *pCrit) const;
     // A spell an artifact casts on the monster its wielder struck, cast on the next update.
     struct ArtifactCast
     {
@@ -169,7 +178,9 @@ private:
         CombatDamageType type,
         int partyCount) const;
     // A Death Knight's or Assassin's damage spell: a share of a weapon blow.
-    int classSpellDamage(const CharacterSpellCast &cast, const MawClassSpell &spell, bool &critical) const;
+    double classSpellDamage(
+        const CharacterSpellCast &cast, const MawClassSpell &spell, const MawDraws &draws, bool &critical,
+        MawCrit *pCrit) const;
     void applyLeech(Party &party, const PartyHitOnMonster &hit) const;
     void applyClassHitEffects(Party &party, const PartyHitOnMonster &hit) const;
     void applyAssassinHit(Party &party, const PartyHitOnMonster &hit, bool arrow) const;

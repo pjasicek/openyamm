@@ -725,6 +725,94 @@ TEST_CASE("shared actor AI closes in on a far party with only a missile")
     CHECK(updateAt(4000.0f, 4096.0f) == ActorAiMotionState::Attacking);
 }
 
+namespace
+{
+// A mixed monster (a melee attack 1, a missile attack 2 at attack2Chance %, as MM6's goblins or MAW's Hell missiles)
+// out of reach of a party 600 away, its attack ready; whether this step starts an attack.
+bool mixedMonsterAttacksOutOfReach(uint32_t attackDecisionCount, int attack2Chance, bool pursuitUnderWay)
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    ActorAiFacts actor = makeActor(12, 109);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.stats.attack2Chance = attack2Chance;
+    actor.stats.attackConstraints.attack2IsRanged = true;
+    actor.runtime.rangedAttackAnimationSeconds = 0.5f;
+    actor.runtime.meleeAttackAnimationSeconds = 0.5f;
+    actor.runtime.attackDecisionCount = attackDecisionCount;
+    actor.movement.movementAllowed = true;
+    actor.movement.effectiveMoveSpeed = 200.0f;
+
+    if (pursuitUnderWay)
+    {
+        actor.runtime.motionState = ActorAiMotionState::Pursuing;
+        actor.runtime.animationState = ActorAiAnimationState::Walking;
+        actor.runtime.actionSeconds = 2.0f;
+        actor.movement.moveDirectionX = 1.0f;
+    }
+
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {732.0f, 200.0f, 64.0f};
+    actor.target.currentDistance = 632.0f;
+    actor.target.currentEdgeDistance = 600.0f;
+    actor.target.currentCanSense = true;
+    actor.target.currentHasAttackLineOfSight = true;
+    actor.target.partyCanSenseActor = true;
+    frame.activeActors.push_back(actor);
+    const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+    REQUIRE_EQ(result.actorUpdates.size(), 1u);
+    REQUIRE(result.actorUpdates.front().state.motionState.has_value());
+    return *result.actorUpdates.front().state.motionState == ActorAiMotionState::Attacking;
+}
+}
+
+TEST_CASE("shared actor AI: out of reach a mixed monster shoots only when its roll picks the missile")
+{
+    // A rolled blow used to become the missile out of reach, so a mixed monster shot (and circled between shots) at
+    // nearly every decision whatever its attack 2 chance, like an archer (Discord 2026-11-23, OY-657).
+    int shots = 0;
+
+    for (uint32_t count = 0; count < 200; ++count)
+    {
+        shots += mixedMonsterAttacksOutOfReach(count, 1, false) ? 1 : 0;
+    }
+
+    CHECK(shots <= 4);
+
+    int certainShots = 0;
+
+    for (uint32_t count = 0; count < 200; ++count)
+    {
+        certainShots += mixedMonsterAttacksOutOfReach(count, 100, false) ? 1 : 0;
+    }
+
+    // At 600 the distance commit (30 %) still decides whether it shoots or closes in.
+    CHECK(certainShots > 20);
+    CHECK(certainShots < 120);
+}
+
+TEST_CASE("shared actor AI: a pursuit under way keeps the ability rolled as it began")
+{
+    // The roll that starts a pursuit is the one before the stored count; while the pursuit runs the monster neither
+    // re-rolls nor stops to shoot on another roll (the original decides when an action ends), so a monster that rolled
+    // its blow walks into reach.
+    int differing = 0;
+
+    for (uint32_t count = 0; count < 200; ++count)
+    {
+        CAPTURE(count);
+        const bool started = mixedMonsterAttacksOutOfReach(count, 50, false);
+        CHECK(mixedMonsterAttacksOutOfReach(count + 1, 50, true) == started);
+        differing += mixedMonsterAttacksOutOfReach(count + 1, 50, false) != started ? 1 : 0;
+    }
+
+    // The rolls do differ step to step: per-step rolls would have shot mid-pursuit.
+    CHECK(differing > 10);
+}
+
 TEST_CASE("shared actor AI returns to standing presentation when attack impact resolves")
 {
     GameplayActorAiSystem system;

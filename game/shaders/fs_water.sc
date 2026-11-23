@@ -197,6 +197,20 @@ void main()
         // The material tint retains native colour without its repeating animated pattern.
         // Ambient light still dims the water body at night; waves come from the normal map.
         vec3 waterColor = v_color0.rgb * u_waterSkyColor.w;
+        // A model's water face (a well, a culvert, a pool, a fountain: no seabed shows through it) or water without a
+        // planar capture (beyond the two-capture budget: its reflection is the flat sky colour) drew one flat colour
+        // seen from above, where the Fresnel term leaves the body alone (P2 F25, X1 p3; MM7's wells too). The waves
+        // shade the body and the sky they mirror instead, toward and away from the sun.
+        bool modelFace = flowingFace && !flowingSprite;
+        if ((modelFace || u_waterParams.y < 0.5) && !tar && falling <= 0.01)
+        {
+            vec3 sunFlat = vec3(u_waterSunDirection.xy, 0.0);
+            float sunLength = length(sunFlat);
+            vec3 tilt = normal - baseNormal * dot(normal, baseNormal);
+            float facing = sunLength > 0.001 ? dot(tilt, sunFlat / sunLength) : tilt.x;
+            waterColor *= 1.0 + clamp(facing * 2.2, -0.35, 0.35);
+            reflected *= 1.0 + clamp(facing * 1.2, -0.2, 0.2);
+        }
         color = mix(waterColor, reflected, fresnel);
         if (falling > 0.01 && !tar)
         {

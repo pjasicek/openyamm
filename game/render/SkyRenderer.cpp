@@ -35,6 +35,7 @@ enum SkySampler : uint8_t
     RingSampler = 4,
     StarsSampler = 5,
     MoonSampler = 6,
+    VoidSampler = 7,
 };
 
 // A full-screen triangle. Behind the scene it lies on the far plane and passes the depth test only where nothing was
@@ -96,6 +97,17 @@ SkyFogUniformValues packSkyFogUniform(const SkyFrameState *pFrame, const SkySurr
     values[6] = {std::max(surroundings.camera[0], MinimumSeaViewHeight), SeaHazeDistance, surroundings.camera[1],
         surroundings.camera[2]};
     values[7] = surroundings.seaSideWeights;
+
+    if (surroundings.hasVoid)
+    {
+        // The void past each side, and empty space with the air's limb (sky_common.sh, skyVoidDisplay).
+        const std::array<float, 4> &sides = surroundings.voidSideWeights;
+        const float visible = frame.voidFogVisibility;
+        values[SkyFogVoidFirst] = {sides[0] * visible, sides[1] * visible, sides[2] * visible, sides[3] * visible};
+        values[SkyFogVoidFirst + 1] = vec4(frame.voidLook.color,
+            std::max(frame.voidLook.limbDegrees, 0.1f) * DegreesToRadians);
+    }
+
     return values;
 }
 
@@ -200,8 +212,9 @@ bool SkyRenderer::initialize(const Engine::AssetFileSystem &assets)
     m_cloudsUniform = bgfx::createUniform("u_skyClouds", bgfx::UniformType::Vec4, 8);
     m_orbitUniform = bgfx::createUniform("u_skyOrbit", bgfx::UniformType::Vec4, SkyOrbitUniformVectors);
     m_rimUniform = bgfx::createUniform("u_skyRim", bgfx::UniformType::Vec4, 2);
-    const std::array<const char *, 7> samplerNames = {
-        "s_skyCloud0", "s_skyCloud1", "s_skyCloud2", "s_skyCloud3", "s_skyRing", "s_skyStars", "s_skyMoon"};
+    m_voidUniform = bgfx::createUniform("u_skyVoid", bgfx::UniformType::Vec4);
+    const std::array<const char *, 8> samplerNames = {"s_skyCloud0", "s_skyCloud1", "s_skyCloud2", "s_skyCloud3",
+        "s_skyRing", "s_skyStars", "s_skyMoon", "s_skyVoid"};
 
     for (size_t index = 0; index < samplerNames.size(); ++index)
     {
@@ -250,7 +263,7 @@ void SkyRenderer::shutdown()
     }
 
     for (bgfx::UniformHandle *pUniform : {&m_fogUniform, &m_rayUniform, &m_paramsUniform, &m_cloudsUniform,
-             &m_orbitUniform, &m_rimUniform, &m_imageSampler, &m_upscaleUniform})
+             &m_orbitUniform, &m_rimUniform, &m_voidUniform, &m_imageSampler, &m_upscaleUniform})
     {
         if (bgfx::isValid(*pUniform))
         {
@@ -308,6 +321,7 @@ void SkyRenderer::abandonGpuResources()
     m_cloudsUniform = BGFX_INVALID_HANDLE;
     m_orbitUniform = BGFX_INVALID_HANDLE;
     m_rimUniform = BGFX_INVALID_HANDLE;
+    m_voidUniform = BGFX_INVALID_HANDLE;
     m_samplers.fill(BGFX_INVALID_HANDLE);
     m_program = BGFX_INVALID_HANDLE;
     m_upscaleProgram = BGFX_INVALID_HANDLE;
@@ -328,6 +342,7 @@ bool SkyRenderer::isReady() const
     return bgfx::isValid(m_program) && bgfx::isValid(m_fogUniform) && bgfx::isValid(m_rayUniform)
         && bgfx::isValid(m_paramsUniform) && bgfx::isValid(m_cloudsUniform) && bgfx::isValid(m_orbitUniform)
         && bgfx::isValid(m_rimUniform)
+        && bgfx::isValid(m_voidUniform)
         && bgfx::isValid(m_emptyTexture)
         && bgfx::isValid(m_moonFallbackTexture)
         && std::all_of(m_samplers.begin(), m_samplers.end(),
@@ -580,7 +595,9 @@ void SkyRenderer::render(uint16_t viewId, const float *pView, const float *pProj
     // fs_sky skips each panorama at or below these weights.
     constexpr float HiddenWeight = 0.001f;
     const bgfx::TextureHandle ring = panorama(frame.horizonRing.texture, frame.horizonRing.opacity > HiddenWeight);
-    const bgfx::TextureHandle stars = panorama(frame.stars.texture, frame.scalar(SkyValue::Stars) > HiddenWeight);
+    // Over a map's void the stars show below the horizon by day too.
+    const bgfx::TextureHandle stars = panorama(frame.stars.texture,
+        frame.scalar(SkyValue::Stars) > HiddenWeight || (surroundings.hasVoid && frame.voidLook.stars > HiddenWeight));
     const bgfx::TextureHandle moon =
         panorama(frame.moonTexture, frame.scalar(SkyValue::MoonVisibility) > HiddenWeight);
     bgfx::setTexture(RingSampler, m_samplers[RingSampler], bgfx::isValid(ring) ? ring : m_emptyTexture,
@@ -598,6 +615,17 @@ void SkyRenderer::render(uint16_t viewId, const float *pView, const float *pProj
     bgfx::setUniform(m_orbitUniform, orbit.data(), SkyOrbitUniformVectors);
     const SkyRimUniformValues rim = packSkyRimUniform(frame);
     bgfx::setUniform(m_rimUniform, rim.data(), uint16_t(rim.size()));
+    // The void below the horizon (fs_sky.sc): x the map has void, y star brightness there, z camera height above
+    // the void floor, w what an open sky's fog cover leaves of it (no weather greys it). All zero, and every void branch skipped, on a map without void.
+    const bool hasVoid = surroundings.hasVoid && frame.belowHorizon != SkyBelowHorizon::Sky;
+    const std::array<float, 4> voidValues = hasVoid
+        ? std::array<float, 4>{1.0f, frame.voidLook.stars, std::max(surroundings.cameraAboveVoid, 1.0f),
+              frame.voidVisibility}
+        : std::array<float, 4>{};
+    bgfx::setUniform(m_voidUniform, voidValues.data());
+    bgfx::setTexture(VoidSampler, m_samplers[VoidSampler],
+        hasVoid && bgfx::isValid(surroundings.voidMask) ? surroundings.voidMask : m_emptyTexture,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
 
     bgfx::TransientVertexBuffer vertices;
     bgfx::allocTransientVertexBuffer(&vertices, 3, m_vertexLayout);

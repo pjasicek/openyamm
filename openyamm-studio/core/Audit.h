@@ -70,7 +70,9 @@ struct CoplanarSummary
 // original's pairs (`pOriginalPlaces`, coplanarPlaces of the original map) a pair the original has at the same place
 // is "info" and says so; the others are warnings, or with `strict` errors (`oymap audit --strict` fails on them).
 // Outdoors the models' faces, all models together (`outdoorParts`: the part of each face, from the build's
-// build.json, for the messages); `pOriginalPlaces` then from outdoorCoplanarPlaces.
+// build.json, for the messages); `pOriginalPlaces` then from outdoorCoplanarPlaces. Outdoors also one
+// "faces.back_to_back" finding for each pair of faces in one plane facing opposite ways (findOutdoorBackToBackFaces),
+// a warning, or with `strict` an error.
 std::vector<AuditFinding> auditCoplanarFaces(
     const LoadedMap &map,
     const std::vector<CoplanarPlace> *pOriginalPlaces,
@@ -243,6 +245,10 @@ std::vector<AuditFinding> auditEntranceWindows(const LoadedMap &map);
 // A map whose identity is a cave or a mine (`identity: {shape: cave}`, D-89) held to the cave-shape targets
 // (core/Metrics caveShapeOf, caveShapeTargets): one "identity.cave_shape" warning for each number below its target.
 std::vector<AuditFinding> auditCaveShape(const LoadedMap &map, const std::string &identityShape);
+
+// The void (U-12; the scene's terrain.void): nothing but decorations and waterfalls may stand on a void cell. An
+// actor, an encounter, an item lying there or a building over it is an error ("void.occupied").
+std::vector<AuditFinding> auditVoid(const LoadedMap &map);
 
 // D-91: no dark mouth leads nowhere. One "caves.blind_mouth" error for each cave mouth of the project (its
 // `blindMouths`, from the project or the installed map's <stem>.studio.yml `blind_mouths`) with no `into` that is no

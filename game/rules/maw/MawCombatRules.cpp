@@ -28,6 +28,8 @@
 #include <array>
 #include <bitset>
 #include <cmath>
+#include <functional>
+#include <limits>
 #include <optional>
 #include <random>
 #include <string>
@@ -36,8 +38,63 @@
 
 namespace OpenYAMM::Game
 {
+// The draws a MAW damage roll makes, so one formula gives both the roll and the spell inspect window's range
+// (MawCombatRules::spellDamagePreview): `pick` a whole number in [low, high] (a die, a weapon's roll, an enchantment's
+// roll; their mean for the average), `unit` a spread in [0, 1], `critDraw` what a crit chance is measured against
+// (below the chance, a crit).
+struct MawDraws
+{
+    std::function<double(int, int)> pick;
+    std::function<double()> unit;
+    std::function<double()> critDraw;
+};
+
 namespace
 {
+MawDraws rolledDraws(std::mt19937 &rng)
+{
+    MawDraws draws;
+    draws.pick = [&rng](int low, int high)
+    {
+        return double(std::uniform_int_distribution<int>(low, std::max(low, high))(rng));
+    };
+    draws.unit = [&rng]()
+    {
+        return std::uniform_real_distribution<double>(0.0, 1.0)(rng);
+    };
+    draws.critDraw = draws.unit;
+    return draws;
+}
+
+// Every draw at its least, its mean or its most, and never a crit.
+enum class MawDrawBound
+{
+    Least,
+    Mean,
+    Most,
+};
+
+MawDraws boundDraws(MawDrawBound bound)
+{
+    MawDraws draws;
+    draws.pick = [bound](int low, int high)
+    {
+        const int top = std::max(low, high);
+        return bound == MawDrawBound::Least ? double(low)
+            : bound == MawDrawBound::Most   ? double(top)
+                                            : (low + top) / 2.0;
+    };
+    draws.unit = [bound]()
+    {
+        return bound == MawDrawBound::Least ? 0.0 : bound == MawDrawBound::Most ? 1.0 : 0.5;
+    };
+    draws.critDraw = []()
+    {
+        return std::numeric_limits<double>::infinity();
+    };
+    return draws;
+}
+
 // A solo talent's extra blow (Cleave's other monsters, Sweeping Blows; user, 2026-11-15): its leech and on-hit gains
 // are a third as strong, and the special on-hit effects (stuns, paralysis, slows, pushes, artifact spells, Death
 // Grasp, Retaliation's stacks) are the main blow's alone. Only a solo run's talents make extra blows; any other game
@@ -364,13 +421,13 @@ double dragonBreathDamage(
     int maximum,
     int referenceLevel,
     double share,
-    std::mt19937 &rng,
-    bool &critical)
+    const MawDraws &draws,
+    bool &critical,
+    MawCrit *pCrit = nullptr)
 {
-    std::uniform_real_distribution<double> unit(0.0, 1.0);
-    std::uniform_int_distribution<int> roll(minimum, std::max(minimum, maximum));
-    const int first = roll(rng);
-    double damage = mawAverageOfTwoRolls(first, roll(rng)) * share;
+    // The mean of two rolls, rounded (mawAverageOfTwoRolls).
+    const double first = draws.pick(minimum, maximum);
+    double damage = mawRound((first + draws.pick(minimum, maximum)) / 2) * share;
     MawCritInputs critInputs;
     critInputs.overcrit = mawWearsLegendaryAffix(dragon, LegendaryOvercrit);
     critInputs.luck = sheet.luck.actual;
@@ -381,10 +438,17 @@ double dragonBreathDamage(
     critInputs.madness = rules.options().challengeMode == RulesetChallengeMode::BeyondMadness;
     addMapCritAffixes(rules, critInputs);
     const MawCrit crit = mawCrit(critInputs);
-    const double draw = unit(rng);
+    const double draw = draws.critDraw();
     damage *= critFactor(crit, critInputs, draw);
     critical = draw < crit.chance;
-    return damage * (0.75 + 0.25 * unit(rng) + 0.25 * unit(rng));
+
+    if (pCrit != nullptr)
+    {
+        *pCrit = crit;
+    }
+
+    const double firstSpread = draws.unit();
+    return damage * (0.75 + 0.25 * firstSpread + 0.25 * draws.unit());
 }
 
 // calcPowerVitality (COMBAT_SPEC.md §7.3) against the party's banked level: melee damage per second, and maximum HP
@@ -637,8 +701,8 @@ double enchantPace(
     return hands.empty() ? 100 : total / double(hands.size());
 }
 
-// A weapon's damage enchantment on one hit before resistance (calcEnchantDamage, IT:2125-2155): a roll in its range
-// (the average without a generator), x 1.5 with Legendary 19, at the hands' base pace.
+// A weapon's damage enchantment on one hit before resistance (calcEnchantDamage, IT:2125-2155): a draw in its range
+// (the average without draws), x 1.5 with Legendary 19, at the hands' base pace.
 std::optional<std::pair<CombatDamageType, double>> weaponEnchantDamage(
     MawRules &rules,
     const Character &character,
@@ -646,7 +710,7 @@ std::optional<std::pair<CombatDamageType, double>> weaponEnchantDamage(
     const HeldWeapon &weapon,
     bool spell,
     int partyCount,
-    std::mt19937 *pRng)
+    const MawDraws *pDraws)
 {
     const MawDamageEnchant *pEnchant = mawDamageEnchant(weapon.pState->specialEnchantId);
 
@@ -659,10 +723,9 @@ std::optional<std::pair<CombatDamageType, double>> weaponEnchantDamage(
         pEnchant->minimum, pEnchant->maximum, pEnchant->coefficient, isTwoHanded(*weapon.pItem));
     double damage = (range.minimum + range.maximum) / 2;
 
-    if (pRng != nullptr)
+    if (pDraws != nullptr)
     {
-        const int low = int(mawRound(range.minimum));
-        damage = std::uniform_int_distribution<int>(low, std::max(low, int(mawRound(range.maximum))))(*pRng);
+        damage = pDraws->pick(int(mawRound(range.minimum)), int(mawRound(range.maximum)));
     }
 
     damage *= mawWearsLegendaryAffix(character, EnchantDamageLegendary) ? 1.5 : 1;
@@ -1681,7 +1744,7 @@ void MawCombatRules::resolveCharacterAttack(
             : int(mawRound(m_rules.state().totalLevel()));
         bool critical = false;
         attack.damage = std::max(0, int(mawRound(dragonBreathDamage(m_rules, dragon, sheet, context.minimumDamage,
-            context.maximumDamage, referenceLevel, 1.0, *context.pRng, critical))));
+            context.maximumDamage, referenceLevel, 1.0, rolledDraws(*context.pRng), critical))));
         attack.criticalDamage = critical;
         return;
     }
@@ -1788,11 +1851,12 @@ void MawCombatRules::resolveCharacterAttack(
         // Each hand's damage enchantment and Fire Aura, each resisted by its own element (Damage.lua stage 27); they
         // replace the table's elemental weapon damage.
         attack.rulesWeaponElements = true;
+        const MawDraws enchantDraws = rolledDraws(*context.pRng);
 
         for (const HeldWeapon &weapon : heldWeapons(character, *context.pItemTable, true, false))
         {
             if (const std::optional<std::pair<CombatDamageType, double>> enchant = weaponEnchantDamage(
-                    m_rules, character, *context.pItemTable, weapon, false, context.partyCount, context.pRng))
+                    m_rules, character, *context.pItemTable, weapon, false, context.partyCount, &enchantDraws))
             {
                 addElement(attack.rulesElementalDamage, enchant->first, int(enchant->second * enchantCrit()));
             }
@@ -2312,23 +2376,66 @@ int MawCombatRules::rollSpellDamage(const CharacterSpellCast &cast, bool *pCriti
 
 int MawCombatRules::rollSpellDamageBeforeTalents(const CharacterSpellCast &cast, bool *pCritical) const
 {
+    static thread_local std::mt19937 rng(std::random_device{}());
     bool critical = false;
-    const auto reportCritical = [pCritical, &critical](int damage)
-    {
-        if (pCritical != nullptr)
-        {
-            *pCritical = critical;
-        }
+    const std::optional<double> damage = drawSpellDamage(cast, rolledDraws(rng), critical, nullptr);
 
-        return damage;
-    };
+    if (!damage)
+    {
+        return CombatRules::rollSpellDamage(cast, pCritical);
+    }
+
+    if (pCritical != nullptr)
+    {
+        *pCritical = critical;
+    }
+
+    return std::max(0, int(mawRound(*damage)));
+}
+
+std::optional<SpellDamagePreview> MawCombatRules::spellDamagePreview(const CharacterSpellCast &cast) const
+{
+    if (cast.pCaster == nullptr || cast.pSpell == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    // Mass Distortion takes a share of its target's hit points (spellDamageOnTarget), a class's own excepted.
+    if (cast.pSpell->id == int(SpellId::MassDistortion)
+        && mawClassSpell(cast.pCaster->className, uint32_t(cast.pSpell->id)) == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    bool critical = false;
+    MawCrit crit;
+    const std::optional<double> least = drawSpellDamage(cast, boundDraws(MawDrawBound::Least), critical, &crit);
+    const std::optional<double> mean = drawSpellDamage(cast, boundDraws(MawDrawBound::Mean), critical, nullptr);
+    const std::optional<double> most = drawSpellDamage(cast, boundDraws(MawDrawBound::Most), critical, nullptr);
+
+    if (!least || !mean || !most)
+    {
+        return CombatRules::spellDamagePreview(cast);
+    }
+
+    SpellDamagePreview preview;
+    preview.minimum = std::max(0, int(mawRound(*least)));
+    preview.maximum = std::max(preview.minimum, int(mawRound(*most)));
+    preview.average = std::clamp(int(mawRound(*mean)), preview.minimum, preview.maximum);
+    preview.criticalChance = crit.chance;
+    preview.criticalMultiplier = crit.multiplier;
+    return preview;
+}
+
+std::optional<double> MawCombatRules::drawSpellDamage(
+    const CharacterSpellCast &cast, const MawDraws &draws, bool &critical, MawCrit *pCrit) const
+{
     const SpellEntry &spell = *cast.pSpell;
     const MawClassSpell *pClassSpell = mawClassSpell(cast.pCaster->className, uint32_t(spell.id));
 
     if (pClassSpell != nullptr && pClassSpell->damage[0] > 0 && cast.pItemTable != nullptr)
     {
-        const int damage = classSpellDamage(cast, *pClassSpell, critical);
-        return reportCritical(damage);
+        return classSpellDamage(cast, *pClassSpell, draws, critical, pCrit);
     }
 
     // A dragon's Flame Blast is its breath at 70 % (Novice and Expert), 85 % (Master) or all of it, with the breath's
@@ -2340,32 +2447,27 @@ int MawCombatRules::rollSpellDamageBeforeTalents(const CharacterSpellCast &cast,
             *cast.pCaster, cast.pItemTable, cast.pStandardItemEnchantTable, cast.pSpecialItemEnchantTable);
         const CharacterCombatRows rows = mawCombatRows(m_rules, *cast.pCaster, *cast.pItemTable,
             {sheet.might.actual, sheet.accuracy.actual, sheet.luck.actual});
-        static thread_local std::mt19937 rng(std::random_device{}());
-        const int damage = int(mawRound(dragonBreathDamage(m_rules, *cast.pCaster, sheet, rows.rangedMinimumDamage,
-            rows.rangedMaximumDamage, int(mawRound(m_rules.state().totalLevel())),
-            Share[size_t(std::clamp(int(cast.mastery), 1, 4)) - 1], rng, critical)));
-        return reportCritical(damage);
+        return dragonBreathDamage(m_rules, *cast.pCaster, sheet, rows.rangedMinimumDamage, rows.rangedMaximumDamage,
+            int(mawRound(m_rules.state().totalLevel())), Share[size_t(std::clamp(int(cast.mastery), 1, 4)) - 1],
+            draws, critical, pCrit);
     }
 
     const std::optional<MawSpellDice> casterDice = mawCasterSpellDice(m_rules, *cast.pCaster, spell);
 
     if (!casterDice)
     {
-        return CombatRules::rollSpellDamage(cast, pCritical);
+        return std::nullopt;
     }
 
     const Character &caster = *cast.pCaster;
     const MawSpellDice dice = *casterDice;
-    static thread_local std::mt19937 rng(std::random_device{}());
     double damage = dice.add;
 
     if (dice.diceMin != dice.diceMax)
     {
-        std::uniform_int_distribution<int> roll(dice.diceMin, std::max(dice.diceMin, dice.diceMax));
-
         for (uint32_t point = 0; point < cast.skillLevel; ++point)
         {
-            damage += roll(rng);
+            damage += draws.pick(dice.diceMin, dice.diceMax);
         }
     }
     else
@@ -2397,13 +2499,18 @@ int MawCombatRules::rollSpellDamageBeforeTalents(const CharacterSpellCast &cast,
     addMapCritAffixes(m_rules, critInputs);
     critInputs.overcrit = mawWearsLegendaryAffix(caster, LegendaryOvercrit);
     const MawCrit crit = mawCrit(critInputs);
-    const double critDraw = std::uniform_real_distribution<double>(0.0, 1.0)(rng);
+    const double critDraw = draws.critDraw();
     damage *= critFactor(crit, critInputs, critDraw);
     critical = critDraw < crit.chance;
+
+    if (pCrit != nullptr)
+    {
+        *pCrit = crit;
+    }
+
     const auto enchantCrit = [&]()
     {
-        return mawWearsLegendaryAffix(caster, LegendaryEnchantCrits)
-                && std::uniform_real_distribution<double>(0.0, 1.0)(rng) < crit.chance
+        return mawWearsLegendaryAffix(caster, LegendaryEnchantCrits) && draws.critDraw() < crit.chance
             ? crit.multiplier
             : 1.0;
     };
@@ -2420,7 +2527,7 @@ int MawCombatRules::rollSpellDamageBeforeTalents(const CharacterSpellCast &cast,
             double weaponDamage = weaponFireAuraDamage(m_rules, caster, weapon, false, cast.partyCount) * enchantCrit();
 
             if (const std::optional<std::pair<CombatDamageType, double>> enchant = weaponEnchantDamage(
-                    m_rules, caster, *cast.pItemTable, weapon, true, cast.partyCount, &rng))
+                    m_rules, caster, *cast.pItemTable, weapon, true, cast.partyCount, &draws))
             {
                 weaponDamage += enchant->second * enchantCrit();
             }
@@ -2429,10 +2536,12 @@ int MawCombatRules::rollSpellDamageBeforeTalents(const CharacterSpellCast &cast,
         }
     }
 
-    return reportCritical(std::max(0, int(mawRound(damage))));
+    return damage;
 }
 
-int MawCombatRules::classSpellDamage(const CharacterSpellCast &cast, const MawClassSpell &spell, bool &critical) const
+double MawCombatRules::classSpellDamage(
+    const CharacterSpellCast &cast, const MawClassSpell &spell, const MawDraws &draws, bool &critical, MawCrit *pCrit)
+    const
 {
     // A weapon blow of the caster: its roll and crit plus both hands' Fire Aura and average enchantment damage, the
     // weapon's speed multiplier, halved when Weak, times the spell's share at its school's mastery; no Intellect or
@@ -2444,12 +2553,9 @@ int MawCombatRules::classSpellDamage(const CharacterSpellCast &cast, const MawCl
     const CharacterCombatRows rows = mawCombatRows(m_rules, caster, *cast.pItemTable, stats);
     const MawAttackDelay delay = mawCharacterAttackDelay(m_rules, caster, *cast.pItemTable,
         CharacterAttackMode::Melee, sheet.speed.actual, m_rules.auraSkill(5, &caster));
-    static thread_local std::mt19937 rng(std::random_device{}());
-    std::uniform_int_distribution<int> roll(rows.meleeMinimumDamage, std::max(rows.meleeMinimumDamage,
-        rows.meleeMaximumDamage));
     // rollDice: the mean of two rolls (DM:32-34).
-    const int first = roll(rng);
-    double damage = mawAverageOfTwoRolls(first, roll(rng));
+    const double first = draws.pick(rows.meleeMinimumDamage, rows.meleeMaximumDamage);
+    double damage = mawRound((first + draws.pick(rows.meleeMinimumDamage, rows.meleeMaximumDamage)) / 2);
 
     // An Assassin's crowd takes back its share of the Assassination bonus, a spell's at half (MCC:414-427; spells
     // pay no energy for it).
@@ -2471,9 +2577,14 @@ int MawCombatRules::classSpellDamage(const CharacterSpellCast &cast, const MawCl
     addMapCritAffixes(m_rules, critInputs);
     critInputs.overcrit = mawWearsLegendaryAffix(caster, LegendaryOvercrit);
     const MawCrit crit = mawCrit(critInputs);
-    const double critDraw = std::uniform_real_distribution<double>(0.0, 1.0)(rng);
+    const double critDraw = draws.critDraw();
     damage *= critFactor(crit, critInputs, critDraw);
     critical = critDraw < crit.chance;
+
+    if (pCrit != nullptr)
+    {
+        *pCrit = crit;
+    }
 
     for (const HeldWeapon &weapon : heldWeapons(caster, *cast.pItemTable, true, false))
     {
@@ -2494,7 +2605,7 @@ int MawCombatRules::classSpellDamage(const CharacterSpellCast &cast, const MawCl
     }
 
     damage *= spell.damage[size_t(std::clamp(int(cast.mastery), 1, 4)) - 1];
-    return std::max(0, int(mawRound(damage)));
+    return damage;
 }
 
 int MawCombatRules::environmentDamage(

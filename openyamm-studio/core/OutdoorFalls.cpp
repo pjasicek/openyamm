@@ -28,9 +28,9 @@
 // are planar (each chute one plane in several faces, FlowDown and Fluid) between banks of 7dirttyl. No shipped fall
 // has a decoration at its foot (Emerald has the brook sound Snd_Brook at each pool).
 //
-// So here: the land is cut where the sheet stands (every node whose cell the sheet crosses, and the last row of the
-// stream before the lip, lowered to the sheet one cell further down: the foot's level for an upright sheet), so no
-// land stands in front of it. The top water lies from `back` up the stream to the lip, a little wider than the sheet:
+// So here: the land is cut where the sheet stands (every node under it, or with no rock sides every node whose cell
+// the sheet crosses, and the last row of the stream before the lip, lowered to the sheet one cell further down: the
+// foot's level for an upright sheet), so no land stands in front of it; the crags hide the land rising at its edges. The top water lies from `back` up the stream to the lip, a little wider than the sheet:
 // its first 256 rise out of the stream from under the stream's water (the game draws a model's water opaque and with
 // finer waves than the land's, so an edge over the stream would show as a line), then 2 over the stream across its
 // end and the cut to the lip (level over at least the last 768, or a strip of the land shows); its downstream edge is
@@ -49,6 +49,8 @@ constexpr int Nodes = 128;
 constexpr double Cell = 512.0;
 // How far the top water reaches beyond the sheet's edges each side.
 constexpr double TopMargin = 32.0;
+// Beyond the lip, a node this near the sheet's edge (or under it) is cut when the fall has rock sides.
+constexpr double EdgeMargin = 32.0;
 // The top water rises from this far under the stream's water at its upstream end to 2 over it this far downstream,
 // and lies level at least this far before the lip.
 constexpr double TopSink = 12.0;
@@ -61,6 +63,17 @@ constexpr double BankInside = 48.0;
 constexpr double BankOutside = 160.0;
 constexpr double BankTaper = 256.0;
 constexpr double BankStep = 128.0;
+// The spillway under a chute (`textures: {deck}`): its plate under the chute's water, its width beyond the water's
+// each side, how far it reaches back under the land, its end short of the chute's (the water leaps off it), the nose
+// under that end and the underside's depth at the land.
+constexpr double DeckBelow = 24.0;
+constexpr double DeckMargin = 96.0;
+constexpr double DeckInland = 192.0;
+constexpr double DeckNoseBack = 96.0;
+constexpr double DeckNose = 220.0;
+constexpr double DeckUnder = 1600.0;
+// The plating's band: one repeat across a spillway face's short way.
+constexpr double DeckBand = 255.0;
 const char *SketchFile = "sketch.yml";
 
 using Point2 = std::array<double, 2>;
@@ -132,7 +145,7 @@ double noise(uint32_t seed, uint32_t a, uint32_t b, uint32_t c)
 // angle that sampling breaks into a hairline (Alvar's curved sheets show it along their rows and diagonals).
 double outAt(const OutdoorFallPlan &fall, double share)
 {
-    return fall.lean * std::clamp(share, 0.0, 1.0);
+    return share <= 0.0 ? 0.0 : fall.chuteOut + fall.lean * std::clamp(share, 0.0, 1.0);
 }
 
 double halfWidthAt(const OutdoorFallPlan &fall, double share)
@@ -156,12 +169,21 @@ double sheetHeightAt(const OutdoorFallPlan &fall, double out)
         return fall.top;
     }
 
-    if (fall.lean <= 0.0 || out >= fall.lean)
+    // Down the chute, then the free sheet from the chute's end.
+    if (out < fall.chuteOut)
+    {
+        return fall.top - fall.chuteDrop * out / fall.chuteOut;
+    }
+
+    const double top = fall.top - fall.chuteDrop;
+    const double free = out - fall.chuteOut;
+
+    if (fall.lean <= 0.0 || free >= fall.lean)
     {
         return fall.foot;
     }
 
-    return fall.top - (fall.top - fall.foot) * out / fall.lean;
+    return top - (top - fall.foot) * free / fall.lean;
 }
 
 Point3 normalOf(const std::vector<OutdoorModelPoint> &points)
@@ -404,6 +426,19 @@ std::vector<OutdoorFallPlan> readOutdoorFalls(
             fall.spread = number;
         }
 
+        const YAML::Node chute = childOf(node, "chute");
+
+        if (chute.IsDefined())
+        {
+            if (!chute.IsSequence() || chute.size() != 2 || !numberOfNode(chute[0], fall.chuteOut)
+                || !numberOfNode(chute[1], fall.chuteDrop) || fall.chuteOut < 64.0 || fall.chuteOut > 4096.0
+                || fall.chuteDrop < 0.0 || fall.chuteDrop > fall.top - fall.foot - 64.0)
+            {
+                add(".chute", "a waterfall's `chute` is [out, drop]: out 64 to 4096, drop 0 to 64 short of the fall");
+                continue;
+            }
+        }
+
         if (numberOfNode(childOf(node, "back"), number))
         {
             fall.back = number;
@@ -425,6 +460,7 @@ std::vector<OutdoorFallPlan> readOutdoorFalls(
         }
 
         fall.rocks = textOf(node, "rocks", "true") != "false";
+        fall.edge = textOf(node, "edge", "false") == "true";
         fall.banks = textOf(node, "banks", "true") != "false";
         fall.rockSize = std::clamp(fall.width * 0.45, 256.0, 640.0);
 
@@ -449,7 +485,8 @@ std::vector<OutdoorFallPlan> readOutdoorFalls(
 
         for (const auto &[pRole, pTarget] : {std::pair<const char *, std::string *>{"water", &fall.waterTexture},
                  std::pair<const char *, std::string *>{"rock", &fall.rockTexture},
-                 std::pair<const char *, std::string *>{"bank", &fall.bankTexture}})
+                 std::pair<const char *, std::string *>{"bank", &fall.bankTexture},
+                 std::pair<const char *, std::string *>{"deck", &fall.deckTexture}})
         {
             const YAML::Node entry = childOf(textures, pRole);
 
@@ -480,7 +517,7 @@ void shapeOutdoorFallLand(
     for (const OutdoorFallPlan &fall : falls)
     {
         const Point2 right = {fall.along[1], -fall.along[0]};
-        const double reach = std::max(fall.lean, 0.0) + Cell;
+        const double reach = fall.chuteOut + std::max(fall.lean, 0.0) + Cell;
         size_t lowered = 0;
         size_t dried = 0;
         std::vector<size_t> cut;
@@ -502,12 +539,17 @@ void shapeOutdoorFallLand(
                     continue;
                 }
 
-                const double share = fall.lean > 0.0 ? std::clamp(out / fall.lean, 0.0, 1.0)
-                    : (out > 0.0 ? 1.0 : 0.0);
+                const double free = out - fall.chuteOut;
+                const double share = free <= 0.0 ? 0.0 : fall.lean > 0.0 ? std::clamp(free / fall.lean, 0.0, 1.0) : 1.0;
 
-                // Beyond the lip, every node whose cell the sheet crosses; before it, only under the top water (a
+                // Beyond the lip, every node under the sheet; with no rock sides every node whose cell the sheet
+                // crosses (a cell wider each side). The crags stand over the sheet's edges and hide the land rising
+                // there, but land lowered a cell beside the sheet lay beyond them: a pit by the rocks that the party
+                // fell into (P2 feedback F29, Pitchfork Falls on X1). Before the lip, only under the top water (a
                 // node beside it lowered would open a cleft between the water and the bank).
-                if (std::abs(across) >= (out >= 0.0 ? halfWidthAt(fall, share) + Cell
+                const double besideSheet = fall.rocks ? EdgeMargin : Cell;
+
+                if (std::abs(across) >= (out >= 0.0 ? halfWidthAt(fall, share) + besideSheet
                     : fall.width * 0.5 + TopMargin))
                 {
                     continue;
@@ -625,13 +667,71 @@ void raiseOutdoorFall(
         }
     }
 
-    // The sheet: one face from the lip's edge down to the foot's, facing out along the fall.
+    // The chute (a rim fall down the hull's deck): one face from the lip's edge to the chute's end, its width the
+    // lip's; the sheet then falls from the chute's end (the seam lies on the deck's lip).
+    const double chuteLevel = lipLevel - fall.chuteDrop;
+    const double chuteSlant = oy::hypot(fall.chuteOut, fall.chuteDrop);
+
+    if (fall.chuteOut > 0.0)
     {
         const std::vector<OutdoorModelPoint> face = {placeOf(fall, 0.0, -halfTop, lipLevel),
-            placeOf(fall, footOut, -halfFoot, fall.foot), placeOf(fall, footOut, halfFoot, fall.foot),
+            placeOf(fall, fall.chuteOut, -halfTop, chuteLevel), placeOf(fall, fall.chuteOut, halfTop, chuteLevel),
             placeOf(fall, 0.0, halfTop, lipLevel)};
-        const std::vector<std::array<double, 2>> near = {{0.0, 0.0}, {halfTop - halfFoot, slant},
-            {halfTop + halfFoot, slant}, {fall.width, 0.0}};
+        const std::vector<std::array<double, 2>> near = {{0.0, 0.0}, {0.0, chuteSlant}, {fall.width, chuteSlant},
+            {fall.width, 0.0}};
+        sheetFaces.push_back(addTriangle(builder, face, planarTexels(face, near), down, fall.waterTexture, event));
+    }
+
+    // The spillway under the chute (the hull's deck where the stream crosses it, D-112): a plate `DeckBelow` under
+    // the chute and `DeckMargin` wider each side, a nose at its end, an underside back under the land and the two
+    // sides, closed so it shows from every side.
+    if (fall.chuteOut > 0.0 && !fall.deckTexture.empty())
+    {
+        const double wideDeck = halfTop + DeckMargin;
+        const double end = fall.chuteOut - DeckNoseBack;
+        const double drop = fall.chuteDrop * end / fall.chuteOut;
+        const double plate = lipLevel - DeckBelow;
+        const std::array<OutdoorModelPoint, 2> inner = {placeOf(fall, -DeckInland, -wideDeck, plate),
+            placeOf(fall, -DeckInland, wideDeck, plate)};
+        const std::array<OutdoorModelPoint, 2> lip = {placeOf(fall, end, -wideDeck, plate - drop),
+            placeOf(fall, end, wideDeck, plate - drop)};
+        const std::array<OutdoorModelPoint, 2> nose = {placeOf(fall, end, -wideDeck, plate - drop - DeckNose),
+            placeOf(fall, end, wideDeck, plate - drop - DeckNose)};
+        const std::array<OutdoorModelPoint, 2> under = {placeOf(fall, -DeckInland, -wideDeck, plate - DeckUnder),
+            placeOf(fall, -DeckInland, wideDeck, plate - DeckUnder)};
+        const Point3 up = {0.0, 0.0, 1.0};
+        const Point3 outward = {fall.along[0], fall.along[1], 0.0};
+        const Point3 downward = {-fall.along[0] * 0.3, -fall.along[1] * 0.3, -1.0};
+        const Point3 right = {fall.along[1], -fall.along[0], 0.0};
+        // Hull plating repeats along its width only (a band: TEXTURE_FIT.md): u runs along each face's long way, v
+        // spans one repeat across its short way.
+        const double top = oy::hypot(end + DeckInland, drop);
+        const double wideTexels = 2.0 * wideDeck;
+        const double underLength = oy::hypot(end + DeckInland, DeckUnder - drop - DeckNose);
+        addTriangle(builder, {inner[0], inner[1], lip[1], lip[0]}, {{0.0, 0.0}, {0.0, DeckBand}, {top, DeckBand},
+            {top, 0.0}}, up, fall.deckTexture, event);
+        addTriangle(builder, {lip[0], lip[1], nose[1], nose[0]}, {{0.0, 0.0}, {wideTexels, 0.0},
+            {wideTexels, DeckNose}, {0.0, DeckNose}}, outward, fall.deckTexture, event);
+        addTriangle(builder, {nose[0], nose[1], under[1], under[0]}, {{0.0, 0.0}, {0.0, DeckBand},
+            {underLength, DeckBand}, {underLength, 0.0}}, downward, fall.deckTexture, event);
+
+        for (const int side : {0, 1})
+        {
+            const Point3 toward = side == 0 ? Point3{-right[0], -right[1], 0.0} : right;
+            const double reach = end + DeckInland;
+            addTriangle(builder, {inner[side], lip[side], nose[side], under[side]}, {{0.0, 0.0}, {reach, 0.0},
+                {reach, DeckBand}, {0.0, DeckBand}}, toward, fall.deckTexture, event);
+        }
+    }
+
+    // The sheet: one face from the lip's (or the chute's end's) edge down to the foot's, facing out along the fall.
+    {
+        const double sheetSlant = oy::hypot(footOut - fall.chuteOut, chuteLevel - fall.foot);
+        const std::vector<OutdoorModelPoint> face = {placeOf(fall, fall.chuteOut, -halfTop, chuteLevel),
+            placeOf(fall, footOut, -halfFoot, fall.foot), placeOf(fall, footOut, halfFoot, fall.foot),
+            placeOf(fall, fall.chuteOut, halfTop, chuteLevel)};
+        const std::vector<std::array<double, 2>> near = {{0.0, chuteSlant}, {halfTop - halfFoot, chuteSlant
+            + sheetSlant}, {halfTop + halfFoot, chuteSlant + sheetSlant}, {fall.width, chuteSlant}};
         sheetFaces.push_back(addTriangle(builder, face, planarTexels(face, near), down, fall.waterTexture, event));
     }
 
@@ -709,8 +809,9 @@ void raiseOutdoorFall(
     // mostly beside the fall (not in the stream), each ring moved, turned and tilted by the seed.
     const int corners = 9;
     const double radius = fall.rockSize;
-    const double low = fall.foot - 32.0;
-    const double high = fall.top + fall.rise;
+    // Off the world's edge the crags stand on the land beside the lip, their feet in it, nothing hanging in space.
+    const double low = fall.edge ? fall.top - 2.0 * radius : fall.foot - 32.0;
+    const double high = fall.top + (fall.edge ? std::max(fall.rise, radius * 0.8) : fall.rise);
     const int rings = std::clamp(static_cast<int>(std::ceil((high - low) / 320.0)), 3, 20);
     const double pi = 3.14159265358979323846;
 
@@ -733,8 +834,8 @@ void raiseOutdoorFall(
             const double share = std::clamp((fall.top - z) / (fall.top - fall.foot), 0.0, 1.0);
             // Narrowing to the top, with ledges: a ring now and then steps in.
             const double narrow = (1.0 - 0.45 * level / rings) * (0.85 + 0.25 * noise(fall.seed, side, level, 96));
-            const double out = outAt(fall, share) + radius * 0.55;
-            const double across = sign * (halfWidthAt(fall, share) + radius * 0.8);
+            const double out = fall.edge ? -radius * 0.6 : outAt(fall, share) + radius * 0.55;
+            const double across = sign * (halfWidthAt(fall, fall.edge ? 0.0 : share) + radius * 0.8);
             const Point3 middle = placeOf(fall, out + (noise(fall.seed, side, level, 99) - 0.5) * radius * 0.35,
                 across + (noise(fall.seed, side, level, 98) - 0.5) * radius * 0.3, z);
             middles.push_back(middle);

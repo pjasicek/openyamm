@@ -16,6 +16,7 @@
 #include "game/mm9/Mm9RudeDialogue.h"
 #include "game/mm9/Mm9SkillTrainer.h"
 #include "game/party/Party.h"
+#include "game/ui/GameplayMm9TalkBar.h"
 #include "game/ui/GameplayUiController.h"
 #include "game/ui/GameplayOverlayTypes.h"
 #include "tests/PartySpellTestHarness.h"
@@ -2597,4 +2598,66 @@ TEST_CASE("MM9 black chests roll MM9's own artifacts and level-6 drops mix every
     CHECK_LT(equipment, int(Rolls) * 90 / 100);
     CHECK_GT(mm9Equipment, equipment * 8 / 100);
     CHECK_LT(mm9Equipment, equipment * 35 / 100);
+}
+
+TEST_CASE("MM9 conversation bar: a list taller than the bar keeps its way out in view and scrolls by its buttons")
+{
+    using OpenYAMM::Game::GameplayMm9TalkBar::ScrollWindow;
+    using OpenYAMM::Game::GameplayMm9TalkBar::scrollWindow;
+
+    // Android, MAW: a second-level topic menu taller than the bar sorted Back last, below the rows in view, and a
+    // touch player had no wheel or keys to scroll to it. Six topic lines and the exit line, 54 high, 2 apart, the exit
+    // 4 further; the room holds three lines: two that scroll and the pinned exit.
+    const std::vector<float> heights(7, 54.0f);
+    const std::vector<bool> exits = {false, false, false, false, false, false, true};
+    const float room = 3 * 54.0f + 2 * 2.0f + 4.0f;
+
+    ScrollWindow window = scrollWindow(heights, exits, 2.0f, 4.0f, room, 0, 3);
+    CHECK(window.scrollLines == 6);
+    CHECK(window.firstLine == 0);
+    CHECK(window.visibleLines == 2);
+    CHECK_FALSE(window.upLine.has_value());
+    REQUIRE(window.downLine.has_value());
+
+    // The down button walks the window one line at a time to the list's end, the exit pinned all along.
+    size_t taps = 0;
+
+    while (window.downLine && taps < 10)
+    {
+        const size_t firstLine = window.firstLine;
+        window = scrollWindow(heights, exits, 2.0f, 4.0f, room, *window.downLine, 3);
+        CHECK(window.firstLine == firstLine + 1);
+        ++taps;
+    }
+
+    CHECK(taps == 4);
+    CHECK(window.firstLine + window.visibleLines == window.scrollLines);
+
+    // The up button walks it back.
+    taps = 0;
+
+    while (window.upLine && taps < 10)
+    {
+        const size_t firstLine = window.firstLine;
+        window = scrollWindow(heights, exits, 2.0f, 4.0f, room, *window.upLine, 3);
+        CHECK(window.firstLine == firstLine - 1);
+        ++taps;
+    }
+
+    CHECK(taps == 4);
+    CHECK(window.firstLine == 0);
+
+    // The exit selected (Esc's row, the wheel's last) shows the list's end above it.
+    window = scrollWindow(heights, exits, 2.0f, 4.0f, room, 6, 3);
+    CHECK(window.firstLine == 4);
+    CHECK_FALSE(window.downLine.has_value());
+
+    // A list with no way out pins nothing and keeps at least three lines; a list that fits does not scroll.
+    window = scrollWindow(heights, std::vector<bool>(7, false), 2.0f, 4.0f, room, 0, 3);
+    CHECK(window.scrollLines == 7);
+    CHECK(window.visibleLines == 3);
+    window = scrollWindow(heights, exits, 2.0f, 4.0f, 1000.0f, 0, 3);
+    CHECK(window.visibleLines == 6);
+    CHECK_FALSE(window.upLine.has_value());
+    CHECK_FALSE(window.downLine.has_value());
 }

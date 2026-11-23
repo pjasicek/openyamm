@@ -720,6 +720,50 @@ TEST_CASE("outdoor fluid BModel floors do not drown the party")
     CHECK(partyRuntime.movementStatusText().empty());
 }
 
+TEST_CASE("a walker's deck over water is the model floor under its centre near its feet")
+{
+    // P2 F24 (X1 p1): the water rule kept walkers off water tiles unless their body's support state was a model
+    // face; a guard whose state on a humped bridge deck had turned airborne a hair under its surface was held on the
+    // deck as over water for good. The rule now asks the map: a non-fluid model floor under the point, from 32 under
+    // the feet to the given rise over them (a step's centre within a small reach, a standing body within its radius).
+    SyntheticOutdoorWaterBoundaryScenario scenario = createSyntheticOutdoorWaterBoundaryScenario();
+    constexpr int DeckZ = 48;
+    const int deckEastX = static_cast<int>(scenario.waterX);
+    const int deckY = static_cast<int>(scenario.waterY);
+    OpenYAMM::Game::OutdoorBModel deck = {};
+    deck.name = "deck_test";
+    deck.vertices = {
+        {deckEastX - 256, deckY - 128, DeckZ},
+        {deckEastX, deckY - 128, DeckZ},
+        {deckEastX, deckY + 128, DeckZ},
+        {deckEastX - 256, deckY + 128, DeckZ}
+    };
+    OpenYAMM::Game::OutdoorBModelFace face = {};
+    face.vertexIndices = {0, 1, 2, 3};
+    face.polygonType = 0x3;
+    deck.faces.push_back(face);
+    scenario.mapData.bmodels.push_back(std::move(deck));
+    OpenYAMM::Game::OutdoorMovementController movementController(
+        scenario.mapData,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt);
+    const float deckX = scenario.waterX - 64.0f;
+    const float pastEdgeX = scenario.waterX + 30.0f;
+    const float y = scenario.waterY;
+
+    // Feet a hair under the deck (the stuck guard) and on it.
+    CHECK(movementController.hasNonFluidBModelFloorUnder(deckX, y, DeckZ - 2.0f, 8.0f, 32.0f));
+    CHECK(movementController.hasNonFluidBModelFloorUnder(deckX, y, DeckZ + 1.0f, 8.0f, 32.0f));
+    // A step whose centre leaves the deck over the water has no floor, though a body's disc there still overlaps it.
+    CHECK_FALSE(movementController.hasNonFluidBModelFloorUnder(pastEdgeX, y, DeckZ + 1.0f, 8.0f, 32.0f));
+    CHECK(movementController.hasNonFluidBModelFloorUnder(pastEdgeX, y, DeckZ + 1.0f, 40.0f, 32.0f));
+    // A walker in the water under the deck, or one far over it, is not on it.
+    CHECK_FALSE(movementController.hasNonFluidBModelFloorUnder(deckX, y, DeckZ - 48.0f, 8.0f, 32.0f));
+    CHECK_FALSE(movementController.hasNonFluidBModelFloorUnder(deckX, y, DeckZ + 64.0f, 8.0f, 32.0f));
+}
+
 TEST_CASE("outdoor Levitate keeps the party off lava and water damage")
 {
     // The original MM8 skips both damages while any member levitates; Levitate here also gives Water Walk, so
@@ -4251,6 +4295,63 @@ TEST_CASE("artifacts count as hardened")
     CHECK(OpenYAMM::Game::ItemRuntime::isHardened(false, *pArtifact));
     CHECK_FALSE(OpenYAMM::Game::ItemRuntime::isHardened(false, *pRegularWeapon));
     CHECK(OpenYAMM::Game::ItemRuntime::isHardened(true, *pRegularWeapon));
+}
+
+TEST_CASE("break item candidates are regular equipment of every world's rows")
+{
+    // MM8 breaks its items 1-151 (weapons, armour, jewellery); the merged base's MM7 (803+) and MM6 (1603+) rows, which
+    // most loot in MM6, MM7 and Xeen comes from, are regular equipment too. Wands, potions and artifacts are not.
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const auto regular = [&](uint32_t itemId)
+    {
+        const OpenYAMM::Game::ItemDefinition *pItem = gameData.itemTable.get(itemId);
+        REQUIRE(pItem != nullptr);
+        return OpenYAMM::Game::ItemRuntime::isRegularEquipment(*pItem);
+    };
+
+    CHECK(regular(1));
+    CHECK(regular(137));
+    CHECK(regular(151));
+    CHECK(regular(803));
+    CHECK(regular(1603));
+    CHECK_FALSE(regular(152));
+    CHECK_FALSE(regular(222));
+    CHECK_FALSE(regular(500));
+}
+
+TEST_CASE("monster break item breaks an MM6 row of the merged base")
+{
+    constexpr uint32_t ActorId = 83;
+    constexpr uint32_t Mm6LongswordId = 1603;
+
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+
+    OpenYAMM::Game::Party party = makeMonsterSpecialAttackTestParty();
+    party.setItemTable(&gameData.itemTable);
+    party.setItemEnchantTables(&gameData.standardItemEnchantTable, &gameData.specialItemEnchantTable);
+
+    OpenYAMM::Game::Character *pMember = party.member(0);
+    REQUIRE(pMember != nullptr);
+    pMember->inventory.clear();
+    pMember->equipment.mainHand = Mm6LongswordId;
+
+    MonsterSpecialAttackTestWorldRuntime world = {};
+    world.actorInfo = OpenYAMM::Game::GameplayCombatActorInfo{
+        .actorId = ActorId,
+        .monsterLevel = 100,
+        .attackBonus = 1000,
+        .specialAttackKind = OpenYAMM::Game::MonsterSpecialAttackKind::BreakAny,
+        .specialAttackLevel = 1,
+        .displayName = "Item Breaker",
+    };
+
+    OpenYAMM::Game::GameplayCombatController controller = {};
+    controller.recordMonsterMeleeImpact(ActorId, 0, 1000, OpenYAMM::Game::CombatDamageType::Physical,
+        OpenYAMM::Game::GameplayActorAttackAbility::Attack2);
+    OpenYAMM::Game::GameplayCombatController::PendingCombatEventContext context{party, &world, nullptr};
+    controller.handleAndClearPendingCombatEvents(context);
+
+    CHECK(pMember->equipmentRuntime.mainHand.broken);
 }
 
 TEST_CASE("dispel magic clears party and character buffs through shared party helper")

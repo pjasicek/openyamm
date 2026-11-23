@@ -14,13 +14,15 @@ namespace OpenYAMM::Game
 struct MapStatsEntry;
 
 // The MAW ruleset's map data (rulesets/maw/data/map_levels.yml): each map's monster level band, the horizontal
-// starter maps and the Beyond Madness level of each map. Keyed by lowercase map file name.
+// starter maps, the ranged-free starting maps and the Beyond Madness level of each map. Keyed by lowercase map file
+// name.
 class MawMapLevels
 {
 public:
     bool loadFromYaml(const std::string &text, std::string &errorMessage);
     // A world's maps from its MAW balance file (rulesets/maw/worlds/<world>/balance.yml `maps`: band,
-    // horizontal_starter, madness_start, madness_level, story_bands), after map_levels.yml. A map both list is an error.
+    // horizontal_starter, madness_start, madness_level, ranged_free, story_bands), after map_levels.yml. A map both
+    // list is an error.
     bool loadWorldBalance(const std::string &text, std::string &errorMessage);
     // Low, mid and high B levels (some are halves); {1, 1, 1} for a map MAW does not list. A story band (a world's
     // balance file) replaces the map's band once its quest bit is reached: the last reached one listed wins.
@@ -44,6 +46,9 @@ public:
     bool lists(const std::string &mapFileName) const;
     bool isHorizontalStarterMap(const std::string &mapFileName) const;
     bool isMadnessStartingMap(const std::string &mapFileName) const;
+    // A starting map where Hell's melee monsters gain no ranged attack (map_levels.yml `ranged_free_maps`, MAW's six of
+    // MON:633-658; a world's balance file `ranged_free`).
+    bool isRangedFreeMap(const std::string &mapFileName) const;
     // The fixed Beyond Madness level of a map, or 0 when it has none.
     int madnessLevel(const std::string &mapFileName) const;
 
@@ -71,6 +76,7 @@ private:
     std::unordered_set<uint32_t> m_reachedStoryQBits;
     std::unordered_set<std::string> m_horizontalStarterMaps;
     std::unordered_set<std::string> m_madnessStartingMaps;
+    std::unordered_set<std::string> m_rangedFreeMaps;
     std::unordered_map<std::string, int> m_madnessLevels;
 };
 

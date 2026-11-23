@@ -482,6 +482,94 @@ def shape_rooms(rooms_doc, objects, caves, rough=None):
             n = stalactites(r, sp['stalactites'][0], sp['stalactites'][1], ob, th.get('ceiling'))
             done.append(f'stalactites {n}')
         report[rid] = ', '.join(done)
+    for rid, n in flat_behind_panels(rooms_doc, objects).items():
+        report[rid] = (report.get(rid) or 'own rough') + f', flat behind {n} exit/switch'
+    return report
+
+
+PANEL_KINDS = ('exits', 'switches')
+PANEL_MARGIN = 32
+COMPASS = {'east': 0.0, 'north': 90.0, 'west': 180.0, 'south': 270.0}
+
+
+def _find_edge(outline, wall):
+    """The outline edge a `wall:` names, as the studio's findWall: an edge number, or the edge whose outward side
+    looks most nearly toward the compass side (the first of equals)."""
+    if isinstance(wall, int):
+        return wall
+    if wall not in COMPASS:
+        return None
+    a = math.radians(COMPASS[wall])
+    best, fit = None, -2.0
+    for i, p in enumerate(outline):
+        q = outline[(i + 1) % len(outline)]
+        dx, dy = q[0] - p[0], q[1] - p[1]
+        length = math.hypot(dx, dy)
+        f = (dy * math.cos(a) - dx * math.sin(a)) / length  # outward of a counter-clockwise outline: (dy, -dx)
+        if f > fit + 1e-6:
+            best, fit = i, f
+    return best
+
+
+def flat_behind_panels(rooms_doc, objects):
+    """A rough wall keeps flat behind an exit or switch on it (the Discord report of 2026-11-23, XD-05: the studio
+    hangs a wall object 2 in front of the plan's wall line, and a rough wall's joints stand up to `depth` into the
+    room, so the black exit of the Orc Caves' mouth lay wholly behind rock and no click reached it). Each such object
+    on a wall of a room with `rough` walls gets a wall panel (`walls[].panels`) under it, its width and 32 more each
+    side: the studio builds a panelled stretch flat. Objects placed by a point (`at`) are left to the check
+    (`tools/xeen/check_exits.py`, `exits.hidden`). Returns {room id: count}."""
+    by_id = {r['id']: r for r in rooms_doc['rooms']}
+    themes = {t['id']: t for t in rooms_doc.get('themes', [])}
+    default_theme = (rooms_doc.get('defaults') or {}).get('theme')
+    out = {}
+    for kind in PANEL_KINDS:
+        for o in (objects or {}).get(kind) or []:
+            r = by_id.get(o.get('room'))
+            if not r or 'rough' not in r or 'outline' not in r or 'wall' not in o or 'at' in o:
+                continue
+            edge = _find_edge(r['outline'], o['wall'])
+            if edge is None:
+                continue
+            p, q = r['outline'][edge], r['outline'][(edge + 1) % len(r['outline'])]
+            length = math.hypot(q[0] - p[0], q[1] - p[1])
+            width = (o.get('size') or [192, 256])[0]
+            centre = round(o.get('along', 0.5) * length)
+            low = max(0.0, centre - width // 2 - PANEL_MARGIN)
+            high = min(length, centre - width // 2 + width + PANEL_MARGIN)
+            walls = r.setdefault('walls', [])
+            entry = next((w for w in walls if w.get('wall') == o['wall']), None)
+            # the wall's own picture (its `walls` entry, the room's `wall`, else its theme's)
+            surface = ((entry or {}).get('surface') or r.get('wall')
+                       or (themes.get(r.get('theme') or default_theme) or {}).get('wall'))
+            if not surface:
+                continue
+            panel = {'offset': int(math.floor(low)), 'length': int(math.floor(high - low)), 'surface': dict(surface),
+                     'notes': f'flat behind {o["id"]} (a rough wall would stand in front of it)'}
+            if entry is None:
+                entry = {'wall': o['wall']}
+                walls.append(entry)
+            if any(pn.get('notes', '').startswith(f'flat behind {o["id"]} ') for pn in entry.get('panels') or []):
+                continue
+            entry.setdefault('panels', []).append(panel)
+            out[r['id']] = out.get(r['id'], 0) + 1
+    return out
+
+
+def flat_panels_l4(l4, log=True):
+    """For an L4 whose rough walls come from its own generator, not from shape_l4 (XD-18): flat_behind_panels on
+    its rooms.yml."""
+    l4 = Path(l4)
+    text = (l4 / 'rooms.yml').read_text()
+    head = ''.join(line for line in text.splitlines(True)[:40] if line.startswith('#'))
+    rooms_doc = yaml.safe_load(text)
+    objects = yaml.safe_load((l4 / 'objects.yml').read_text()) if (l4 / 'objects.yml').exists() else {}
+    report = flat_behind_panels(rooms_doc, objects)
+    if report:
+        (l4 / 'rooms.yml').write_text(head + yaml.safe_dump(rooms_doc, sort_keys=False, allow_unicode=True,
+                                                             width=120))
+    if log:
+        for rid, n in report.items():
+            print(f'cave_shape {rid}: flat behind {n} exit/switch')
     return report
 
 

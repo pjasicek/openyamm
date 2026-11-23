@@ -2,6 +2,7 @@
 
 #include "core/Json.h"
 
+#include <array>
 #include <cstdint>
 #include <filesystem>
 #include <string>
@@ -20,7 +21,12 @@ struct MapExportOptions
 {
     // Counts, bounds and names only: no vertex, face, height or tile data.
     bool summaryOnly = false;
+    // An outdoor map's void (its scene's terrain.void rectangles), written as terrain.void.
+    std::vector<std::array<int, 4>> voidRects;
 };
+
+// The terrain.void rectangles [x0, y0, x1, y1] of an outdoor scene's text; empty without any or on a bad scene.
+std::vector<std::array<int, 4>> sceneVoidRectangles(const std::string &sceneText);
 
 MapKind mapKindFromPath(const std::filesystem::path &path);
 bool readFileBytes(const std::filesystem::path &path, std::vector<uint8_t> &bytes, std::string &errorMessage);

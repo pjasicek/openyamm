@@ -994,7 +994,7 @@ TEST_CASE("MAW bosses cast their spell at its skill times the damage multiplier 
     CHECK_EQ(strong.spell1SkillLevel, 13u);
 }
 
-TEST_CASE("MAW gives walking melee monsters a ranged attack from Hell up, outside the starting maps (A3.3)")
+TEST_CASE("MAW gives walking melee monsters a ranged attack from Hell up, outside every world's starting maps (A3.3)")
 {
     MercenaryMap world;
     RulesetOptions options;
@@ -1013,8 +1013,40 @@ TEST_CASE("MAW gives walking melee monsters a ranged attack from Hell up, outsid
     // 1d6 becomes ceil(1 / 1.4) d ceil(6 / 1.4): a shot about 60 % of the blow.
     CHECK(hell.rulesetFacts.attack2Damage == doctest::Approx(hell.rulesetFacts.attack1Damage * 3.0 / 3.5));
 
-    world.map.fileName = "out02.odm";
-    CHECK_FALSE(monsters.resolveMonster(world.context(), stats, nullptr).generatedAttack2);
+    // The starting maps are MAW's data: its six (map_levels.yml ranged_free_maps), Vertigo and MM9's Bootcamp and
+    // Isle of Ashes (their worlds' balance files, `ranged_free`). Indoors no monster gains one.
+    MawMapLevels installed;
+    std::string error;
+    REQUIRE_MESSAGE(installed.loadFromYaml(readSource("assets_dev/engine/rulesets/maw/data/map_levels.yml"), error),
+        error);
+    REQUIRE_MESSAGE(installed.loadWorldBalance(
+                        readSource("assets_dev/engine/rulesets/maw/worlds/xeen/balance.yml"), error), error);
+    REQUIRE_MESSAGE(installed.loadWorldBalance(
+                        readSource("assets_dev/engine/rulesets/maw/worlds/mm9/balance.yml"), error), error);
+    MawRules installedRules(options, installed, installedItemData());
+    const MonsterRules &installedMonsters = installedRules.gameRules().monsters;
+    const auto gains = [&](const std::string &mapFileName)
+    {
+        world.map.fileName = mapFileName;
+        return installedMonsters.resolveMonster(world.context(), stats, nullptr).generatedAttack2;
+    };
+
+    for (const char *pStart : {"out01.odm", "out02.odm", "7out01.odm", "7out02.odm", "oute3.odm", "outd3.odm",
+             "xeen_x1.odm"})
+    {
+        CAPTURE(pStart);
+        CHECK(installed.isRangedFreeMap(pStart));
+        CHECK_FALSE(gains(pStart));
+    }
+
+    CHECK(installed.isRangedFreeMap("bootcamp.blv"));
+    CHECK(installed.isRangedFreeMap("isleofashes.blv"));
+    CHECK_FALSE(installed.isRangedFreeMap("sturmford.blv"));
+    CHECK_FALSE(installed.isRangedFreeMap("out05.odm"));
+    CHECK(gains("out05.odm"));
+    CHECK(gains("xeen_x2.odm"));
+    CHECK_FALSE(gains("d05.blv"));
+    CHECK_FALSE(gains("xeen_xd02.blv"));
 }
 
 TEST_CASE("MAW's Endless Arena: wave corpses carry no gold or item, the wave boss keeps its loot (audit MON-4)")

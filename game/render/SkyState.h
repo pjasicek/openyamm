@@ -91,6 +91,15 @@ struct SkyFrameState
     // haze and fog like the stars.
     SkyRimGlow rimGlow;
     float rimGlowStrength = 0.0f;
+    // Space below the horizon over a map's void (the theme's, else the preset's, else the defaults); its star
+    // brightness already dimmed by a fog cover (voidVisibility).
+    SkyVoidLook voidLook;
+    // How much of the void the sky pass draws below the horizon: 1 in every weather (empty space stays dark with its
+    // stars), less only under an open sky's fog cover.
+    float voidVisibility = 1.0f;
+    // How far geometry seen toward the void fades into it (sky_common.sh skyFogDisplayColor): 1 in haze, less in fog
+    // weather, where fogged land fades into the fog colour instead.
+    float voidFogVisibility = 1.0f;
 
     const SkyColor &value(SkyValue id) const
     {

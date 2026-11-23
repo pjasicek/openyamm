@@ -1,0 +1,34 @@
+# MAW from Hell up gives Xeen's walking melee monsters outdoors a ranged attack 2 (zzMaw-Monsters.lua:632-658). A
+# Discord player (2026-11-23) saw toads and skeletons keep their distance and circle like archers. They must behave as
+# MAW's author describes mixed monsters: shoot now and then, then close in to melee. X2, not Vertigo: X1 is a starting
+# map, where no monster gains the attack. Walking the 2,800 takes MAW's fast toads and skeletons about 7 s; before the
+# fix the Giant Toad first struck at 13 s and the Skeleton Lord not within 15 s, both circling between shots.
+#   ./build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/maw_hell_mixed_monsters.yml --scenario-no-color
+id: xeen.maw_hell_mixed_monsters
+title: "MAW Hell in Xeen: toads and skeletons with MAW's ranged attack close in to melee"
+world: xeen
+mode: faithful
+tags: [xeen, rulesets, maw, actors, ai]
+steps:
+  - new_game_flow:
+      start_map: xeen_x2.odm
+      ruleset: {id: maw, difficulty: hell, progression: free}
+  - ai_arena: {path: maw_hell_mixed_monsters.arena.yml}
+  - advance_runtime: {seconds: 20}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_melee, before: 8, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: attack_melee, before: 8, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: attack_melee, before: 8, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 3, decision: attack_melee, before: 8, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: orbit, max_count: 2}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: orbit, max_count: 2}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: orbit, max_count: 2}
+  - assert:
+      ai_trace: {arena_monster: 3, decision: orbit, max_count: 2}

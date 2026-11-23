@@ -1,0 +1,27 @@
+id: xeen.rim_fall_pit
+title: "Xeen: a party in the hole beside X1's Pitchfork Falls is lifted back onto the rim (P2 F29, pin p7)"
+world: xeen
+mode: faithful
+tags: [xeen, outdoor, rim, regression]
+steps:
+  - note:
+      text: >-
+        P2 feedback F29 (pins p7, p12 on X1, 2026-11-23): the sea under the rim stands for the stars below and could
+        not be left (the cliff is steeper than the party climbs). Each rim map's timer event (level_generation/
+        projects/xeen/common/wild.py, xeen_common.lua Xeen.rimFall) puts a party standing in that sea back over the
+        nearest return point on the rim, from which it falls Xeen.SkyFallHeight. X1's rim sea is x 105-128 (cells);
+        p12's spot is the beach under the cliff, the nearest return point (101, 40) = (19000, 12288).
+  - new_game_flow:
+      start_map: xeen_x1.odm
+      party:
+        gold: 100
+        food: 10
+        members:
+          - {name: Hilda, class: Knight, level: 5, skills: [], equipment: {}}
+  - note:
+      text: >-
+        The hole beside Pitchfork Falls (p7). D-109 (agent xeen-rim3): the land runs level to the void's edge (x 105),
+        so the hole is the void beside the falls' lip; the nearest return point to (105.2, 61.5) is (101, 59).
+  - set_pose: {map: xeen_x1.odm, x: 21100, y: 1300, z: 40, yaw_degrees: 90, pitch: 0}
+  - advance_runtime: {seconds: 6, follow_map_move: true}
+  - assert: {party_position: {x: 18944, y: 2560, radius: 700}}

@@ -788,6 +788,8 @@ private:
     std::string m_debugSkyPreset;
     std::optional<std::string> m_debugSkyTheme;
     OutdoorDistantSea m_distantSea;
+    // The map's void cells for the sky pass (R8, 128 x 128); only on maps with terrain.void.
+    bgfx::TextureHandle m_voidMaskTexture = BGFX_INVALID_HANDLE;
     // Eye position of the frame being rendered, for the distant sea.
     std::array<float, 3> m_skyCameraPosition = {};
     bgfx::UniformHandle m_worldClipPlaneUniformHandle = BGFX_INVALID_HANDLE;

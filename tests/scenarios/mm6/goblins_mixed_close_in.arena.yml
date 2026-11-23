@@ -1,0 +1,16 @@
+# AI arena for goblins_mixed_close_in.yml: New Sorpigal's meadow east of the summon arena's spot (oute3), its map actors
+# hidden, an immortal party and MM6's three goblins 1,500 to the east: Goblin (271), Hobgoblin (272) and Goblin Lord
+# (273), each a melee monster with a bow as its attack 2 (Arrow at 10, 15 and 25 %), MAW's example of a mixed monster.
+name: mm6_goblins_mixed_close_in
+world: mm6
+map: oute3.odm
+party:
+  position: [-9728, -11319, 161]
+  yaw_degrees: 0
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+monsters:
+  - {monster_id: 271, position: [-8228, -11519, 200], yaw_degrees: 180}
+  - {monster_id: 272, position: [-8228, -11319, 200], yaw_degrees: 180}
+  - {monster_id: 273, position: [-8228, -11119, 200], yaw_degrees: 180}

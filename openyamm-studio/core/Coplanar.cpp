@@ -652,10 +652,14 @@ std::string partOfFace(const OutdoorFaceParts &parts, size_t model, size_t face)
 }
 }
 
-std::vector<OutdoorCoplanarPair> findOutdoorCoplanarFaces(const std::vector<Game::OutdoorBModel> &models)
+namespace
+{
+// The drawn faces of outdoor models (not invisible, at least three corners, some area), each with its (model, face).
+std::vector<DrawnFace> drawnOutdoorFaces(
+    const std::vector<Game::OutdoorBModel> &models,
+    std::vector<std::pair<size_t, size_t>> &origin)
 {
     std::vector<DrawnFace> faces;
-    std::vector<std::pair<size_t, size_t>> origin;
 
     for (size_t modelIndex = 0; modelIndex < models.size(); ++modelIndex)
     {
@@ -732,6 +736,166 @@ std::vector<OutdoorCoplanarPair> findOutdoorCoplanarFaces(const std::vector<Game
         }
     }
 
+    return faces;
+}
+
+// Whether a point stands in the open or shut inside a solid, as tools/xeen/check_faces.py tells it: faces face out of
+// the solids they bound, so a ray from open space meets a face's front first (or nothing: the sky, or the land),
+// one from inside a solid a face's back. Six rays nearly along the axes vote; four open is open.
+class OpenSpace
+{
+public:
+    explicit OpenSpace(const std::vector<DrawnFace> &faces)
+        : m_faces(faces)
+    {
+        for (size_t index = 0; index < faces.size(); ++index)
+        {
+            const DrawnFace &face = faces[index];
+
+            for (int x = cellOf(face.low[0]); x <= cellOf(face.high[0]); ++x)
+            {
+                for (int y = cellOf(face.low[1]); y <= cellOf(face.high[1]); ++y)
+                {
+                    m_cells[{x, y}].push_back(index);
+                }
+            }
+        }
+    }
+
+    bool openAt(const std::array<double, 3> &point, size_t skipFirst, size_t skipSecond) const
+    {
+        static const std::array<std::array<double, 3>, 6> directions = {{{1.0, 0.013, 0.007},
+            {-1.0, -0.011, 0.009}, {0.012, 1.0, 0.006}, {-0.008, -1.0, 0.011}, {0.009, 0.007, 1.0},
+            {0.006, -0.012, -1.0}}};
+        int open = 0;
+
+        for (const std::array<double, 3> &direction : directions)
+        {
+            open += rayOpen(point, direction, skipFirst, skipSecond) ? 1 : 0;
+        }
+
+        return open >= 4;
+    }
+
+private:
+    static constexpr double Cell = 512.0;
+    static constexpr double Reach = 8192.0;
+
+    static int cellOf(double value)
+    {
+        return static_cast<int>(std::floor(value / Cell));
+    }
+
+    bool rayOpen(const std::array<double, 3> &origin, std::array<double, 3> direction, size_t skipFirst,
+        size_t skipSecond) const
+    {
+        const double length = std::sqrt(direction[0] * direction[0] + direction[1] * direction[1]
+            + direction[2] * direction[2]);
+        direction = {direction[0] / length, direction[1] / length, direction[2] / length};
+        std::set<std::pair<int, int>> cells;
+
+        for (double step = 0.0; step <= Reach; step += Cell * 0.5)
+        {
+            cells.insert({cellOf(origin[0] + direction[0] * step), cellOf(origin[1] + direction[1] * step)});
+
+            if (std::fabs(direction[2]) > 0.99)
+            {
+                break;
+            }
+        }
+
+        double nearest = Reach;
+        bool front = true;
+        std::set<size_t> tried;
+
+        for (const std::pair<int, int> &cell : cells)
+        {
+            const std::map<std::pair<int, int>, std::vector<size_t>>::const_iterator found = m_cells.find(cell);
+
+            if (found == m_cells.end())
+            {
+                continue;
+            }
+
+            for (const size_t index : found->second)
+            {
+                if (index == skipFirst || index == skipSecond || !tried.insert(index).second)
+                {
+                    continue;
+                }
+
+                const DrawnFace &face = m_faces[index];
+                const double facing = face.normal[0] * direction[0] + face.normal[1] * direction[1]
+                    + face.normal[2] * direction[2];
+
+                if (std::fabs(facing) < 1.0e-9)
+                {
+                    continue;
+                }
+
+                const double distance = (face.offset - face.normal[0] * origin[0] - face.normal[1] * origin[1]
+                    - face.normal[2] * origin[2]) / facing;
+
+                if (distance <= 0.5 || distance >= nearest)
+                {
+                    continue;
+                }
+
+                const std::array<double, 3> hit = {origin[0] + direction[0] * distance,
+                    origin[1] + direction[1] * distance, origin[2] + direction[2] * distance};
+
+                if (inside(face, hit))
+                {
+                    nearest = distance;
+                    front = facing < 0.0;
+                }
+            }
+        }
+
+        return front;
+    }
+
+    // A point of a face's plane inside its polygon (even-odd, in the plane's two widest axes).
+    static bool inside(const DrawnFace &face, const std::array<double, 3> &point)
+    {
+        int dropped = 0;
+
+        for (int axis = 1; axis < 3; ++axis)
+        {
+            if (std::fabs(face.normal[axis]) > std::fabs(face.normal[dropped]))
+            {
+                dropped = axis;
+            }
+        }
+
+        const int u = dropped == 0 ? 1 : 0;
+        const int v = dropped == 2 ? 1 : 2;
+        bool in = false;
+
+        for (size_t index = 0, previous = face.points.size() - 1; index < face.points.size(); previous = index++)
+        {
+            const std::array<double, 3> &a = face.points[index];
+            const std::array<double, 3> &b = face.points[previous];
+
+            if ((a[v] > point[v]) != (b[v] > point[v])
+                && point[u] < (b[u] - a[u]) * (point[v] - a[v]) / (b[v] - a[v]) + a[u])
+            {
+                in = !in;
+            }
+        }
+
+        return in;
+    }
+
+    const std::vector<DrawnFace> &m_faces;
+    std::map<std::pair<int, int>, std::vector<size_t>> m_cells;
+};
+}
+
+std::vector<OutdoorCoplanarPair> findOutdoorCoplanarFaces(const std::vector<Game::OutdoorBModel> &models)
+{
+    std::vector<std::pair<size_t, size_t>> origin;
+    const std::vector<DrawnFace> faces = drawnOutdoorFaces(models, origin);
     std::vector<CoplanarPair> found;
     std::set<std::pair<uint32_t, uint32_t>> seen;
     // Outdoors a face 1 unit in front of another still flickers at the distances the party sees models from (a
@@ -752,6 +916,105 @@ std::vector<OutdoorCoplanarPair> findOutdoorCoplanarFaces(const std::vector<Game
         outdoor.at = pair.at;
         outdoor.normal = pair.normal;
         pairs.push_back(outdoor);
+    }
+
+    std::sort(pairs.begin(), pairs.end(), [](const OutdoorCoplanarPair &left, const OutdoorCoplanarPair &right)
+    {
+        return std::tie(left.firstModel, left.firstFace, left.secondModel, left.secondFace)
+            < std::tie(right.firstModel, right.firstFace, right.secondModel, right.secondFace);
+    });
+    return pairs;
+}
+
+std::vector<OutdoorCoplanarPair> findOutdoorBackToBackFaces(const std::vector<Game::OutdoorBModel> &models)
+{
+    std::vector<std::pair<size_t, size_t>> origin;
+    const std::vector<DrawnFace> faces = drawnOutdoorFaces(models, origin);
+    // By the normal (to about a fifth of a degree), as findInPose: a group meets the group of the opposite normal.
+    std::map<std::array<long long, 3>, std::vector<size_t>> byNormal;
+
+    for (size_t index = 0; index < faces.size(); ++index)
+    {
+        byNormal[{std::llround(faces[index].normal[0] * 300.0), std::llround(faces[index].normal[1] * 300.0),
+            std::llround(faces[index].normal[2] * 300.0)}].push_back(index);
+    }
+
+    std::vector<OutdoorCoplanarPair> pairs;
+    const OpenSpace space(faces);
+
+    for (const std::pair<const std::array<long long, 3>, std::vector<size_t>> &group : byNormal)
+    {
+        const std::array<long long, 3> opposite = {-group.first[0], -group.first[1], -group.first[2]};
+        const std::map<std::array<long long, 3>, std::vector<size_t>>::const_iterator other =
+            byNormal.find(opposite);
+
+        // Each two groups once.
+        if (other == byNormal.end() || !(group.first < opposite))
+        {
+            continue;
+        }
+
+        // The other group's faces by their plane's distance seen along this group's normal (its offset negated).
+        std::vector<std::pair<double, size_t>> along;
+
+        for (const size_t index : other->second)
+        {
+            along.push_back({-faces[index].offset, index});
+        }
+
+        std::sort(along.begin(), along.end());
+
+        for (const size_t first : group.second)
+        {
+            const DrawnFace &a = faces[first];
+            const double reach = PlaneDistance + 1.0e-3;
+            std::vector<std::pair<double, size_t>>::const_iterator candidate = std::lower_bound(along.begin(),
+                along.end(), std::pair<double, size_t>(a.offset - reach, 0));
+
+            for (; candidate != along.end() && candidate->first < a.offset + reach; ++candidate)
+            {
+                const DrawnFace &b = faces[candidate->second];
+
+                if (a.normal[0] * b.normal[0] + a.normal[1] * b.normal[1] + a.normal[2] * b.normal[2]
+                    > -NormalAgreement)
+                {
+                    continue;
+                }
+
+                const std::optional<std::pair<double, std::array<double, 3>>> overlap = overlapOf(a, b, reach);
+
+                if (!overlap)
+                {
+                    continue;
+                }
+
+                // Two solids touching hide the faces between them: only a pair with open space on a side shows.
+                const std::array<double, 3> &at = overlap->second;
+                const auto beside = [&](double way)
+                {
+                    return std::array<double, 3>{at[0] + a.normal[0] * way, at[1] + a.normal[1] * way,
+                        at[2] + a.normal[2] * way};
+                };
+
+                if (!space.openAt(beside(2.0), first, candidate->second)
+                    && !space.openAt(beside(-2.0), first, candidate->second))
+                {
+                    continue;
+                }
+
+                OutdoorCoplanarPair pair;
+                const std::pair<size_t, size_t> &from = origin[std::min(a.face, b.face)];
+                const std::pair<size_t, size_t> &to = origin[std::max(a.face, b.face)];
+                pair.firstModel = from.first;
+                pair.firstFace = from.second;
+                pair.secondModel = to.first;
+                pair.secondFace = to.second;
+                pair.area = overlap->first;
+                pair.at = overlap->second;
+                pair.normal = faces[std::min(a.face, b.face)].normal;
+                pairs.push_back(pair);
+            }
+        }
     }
 
     std::sort(pairs.begin(), pairs.end(), [](const OutdoorCoplanarPair &left, const OutdoorCoplanarPair &right)
@@ -825,7 +1088,8 @@ size_t markOutdoorPairsAsOriginal(
 std::string describeOutdoorCoplanarPair(
     const std::vector<Game::OutdoorBModel> &models,
     const OutdoorCoplanarPair &pair,
-    const OutdoorFaceParts &parts)
+    const OutdoorFaceParts &parts,
+    bool backToBack)
 {
     const auto faceText = [&models, &parts](size_t model, size_t face)
     {
@@ -835,7 +1099,8 @@ std::string describeOutdoorCoplanarPair(
     };
 
     return faceText(pair.firstModel, pair.firstFace) + " and " + faceText(pair.secondModel, pair.secondFace)
-        + " lie in one plane facing the same way and overlap by " + whole(pair.area) + " square units at ["
+        + (backToBack ? " lie in one plane back to back" : " lie in one plane facing the same way")
+        + " and overlap by " + whole(pair.area) + " square units at ["
         + whole(pair.at[0]) + ", " + whole(pair.at[1]) + ", " + whole(pair.at[2]) + "]: they flicker (z-fighting)"
         + (pair.asOriginal ? std::string("; the original has the same pair here") : std::string());
 }
@@ -843,7 +1108,8 @@ std::string describeOutdoorCoplanarPair(
 std::vector<std::string> describeOutdoorCoplanarGroups(
     const std::vector<Game::OutdoorBModel> &models,
     const std::vector<OutdoorCoplanarPair> &pairs,
-    const OutdoorFaceParts &parts)
+    const OutdoorFaceParts &parts,
+    bool backToBack)
 {
     // A group: the two (model, part) sides, in the order met.
     using Side = std::pair<size_t, std::string>;
@@ -914,7 +1180,13 @@ std::vector<std::string> describeOutdoorCoplanarGroups(
         const bool samePart = key.first == key.second;
         std::string what;
 
-        if (!samePart && !key.first.second.empty() && !key.second.second.empty() && firstMet == drawnOf(key.first)
+        if (backToBack)
+        {
+            what = "the game draws outdoor faces from both sides, so one face is enough: leave one out or hide it "
+                   "(the party still meets a hidden face), or move it off the other's plane";
+        }
+        else if (!samePart && !key.first.second.empty() && !key.second.second.empty()
+            && firstMet == drawnOf(key.first)
             && secondMet == drawnOf(key.second))
         {
             what = "the two parts are identical (every face of each lies on one of the other): leave one out";
@@ -936,7 +1208,8 @@ std::vector<std::string> describeOutdoorCoplanarGroups(
         const OutdoorCoplanarPair &first = *members.front();
         sentences.push_back((samePart ? sideText(key.first) : sideText(key.first) + " and " + sideText(key.second))
             + ": " + std::to_string(members.size()) + (members.size() == 1 ? " pair" : " pairs")
-            + " of faces in one plane facing the same way (" + whole(area) + " square units; the first "
+            + (backToBack ? " of faces in one plane back to back (" : " of faces in one plane facing the same way (")
+            + whole(area) + " square units; the first "
             + models[first.firstModel].faces[first.firstFace].textureName + " on "
             + models[first.secondModel].faces[first.secondFace].textureName + " at [" + whole(first.at[0]) + ", "
             + whole(first.at[1]) + ", " + whole(first.at[2]) + "]" + (original != 0 ? ", " + std::to_string(original)

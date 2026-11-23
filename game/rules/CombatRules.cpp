@@ -185,6 +185,26 @@ int CombatRules::rollSpellDamage(const CharacterSpellCast &cast, bool *pCritical
     return std::max(0, damage);
 }
 
+std::optional<SpellDamagePreview> CombatRules::spellDamagePreview(const CharacterSpellCast &cast) const
+{
+    // Torch Light and the other spells without damage carry the table's default die of 1; Mass Distortion takes its
+    // share of the target instead (spellDamageOnTarget).
+    if (cast.pSpell == nullptr
+        || (cast.pSpell->damageBase <= 0 && cast.pSpell->damageDiceSides <= 0)
+        || cast.pSpell->id == int(SpellId::MassDistortion))
+    {
+        return std::nullopt;
+    }
+
+    const SpellMasteryNumbers numbers = spellNumbersAtMastery(*cast.pSpell, cast.mastery);
+    const int skill = int(cast.skillLevel);
+    SpellDamagePreview preview;
+    preview.minimum = std::max(0, numbers.damageBase + (skill > 0 ? numbers.damageDiceMin * skill : 0));
+    preview.maximum = std::max(0, numbers.damageBase + (skill > 0 ? numbers.damageDiceMax * skill : 0));
+    preview.average = (preview.minimum + preview.maximum + 1) / 2;
+    return preview;
+}
+
 bool CombatRules::weaponKindMultiplierApplies() const
 {
     return true;

@@ -129,6 +129,26 @@ inline std::vector<WaterVertex> buildSpriteWaterGeometry(const BillboardQuad &qu
     return vertices;
 }
 
+// A surface's bounds are kept per connected piece: faces of one level far apart (a map's wells, its fountains) are
+// separate patches, so a capture's nearest-first choice measures the piece near the camera, not one box over the map
+// that the camera stands inside (player pin X1 p2, 2026-11-22: two wells' and two fountains' boxes took the two-capture
+// budget from the river in view).
+inline void addWaterFacePatch(std::vector<std::array<bx::Vec3, 2>> &patches, const bx::Vec3 &low, const bx::Vec3 &high)
+{
+    constexpr float Touch = 1.0f;
+    for (std::array<bx::Vec3, 2> &patch : patches)
+    {
+        if (low.x <= patch[1].x + Touch && high.x >= patch[0].x - Touch && low.y <= patch[1].y + Touch
+            && high.y >= patch[0].y - Touch && low.z <= patch[1].z + Touch && high.z >= patch[0].z - Touch)
+        {
+            patch[0] = {std::min(patch[0].x, low.x), std::min(patch[0].y, low.y), std::min(patch[0].z, low.z)};
+            patch[1] = {std::max(patch[1].x, high.x), std::max(patch[1].y, high.y), std::max(patch[1].z, high.z)};
+            return;
+        }
+    }
+    patches.push_back({low, high});
+}
+
 // Partition horizontal levels so a waterfall or a stepped pool cannot acquire an incorrect planar reflection (and
 // mirrors by their planes), and
 // liquids so each draws as its own kind, opaque ones with the solid scene and see-through ones (a tint alpha below
@@ -183,10 +203,11 @@ inline std::vector<WaterSurfaceGeometry> buildWaterFaceGeometry(std::span<const 
             surface.seeThrough = seeThrough;
             surface.sectorId = sectorId;
             surface.backSectorId = backSectorId;
-            surface.patches.push_back({bx::Vec3{a.x, a.y, a.z}, bx::Vec3{a.x, a.y, a.z}});
             geometry.push_back(std::move(surface));
             found = geometry.end() - 1;
         }
+        bx::Vec3 low = {a.x, a.y, a.z};
+        bx::Vec3 high = low;
         for (size_t corner = 0; corner < 3; ++corner)
         {
             WaterVertex vertex = vertices[index + corner];
@@ -194,11 +215,10 @@ inline std::vector<WaterSurfaceGeometry> buildWaterFaceGeometry(std::span<const 
             vertex.normalY = unitNormal.y;
             vertex.normalZ = unitNormal.z;
             found->vertices.push_back(vertex);
-            bx::Vec3 &lo = found->patches.front()[0];
-            bx::Vec3 &hi = found->patches.front()[1];
-            lo = {std::min(lo.x, vertex.x), std::min(lo.y, vertex.y), std::min(lo.z, vertex.z)};
-            hi = {std::max(hi.x, vertex.x), std::max(hi.y, vertex.y), std::max(hi.z, vertex.z)};
+            low = {std::min(low.x, vertex.x), std::min(low.y, vertex.y), std::min(low.z, vertex.z)};
+            high = {std::max(high.x, vertex.x), std::max(high.y, vertex.y), std::max(high.z, vertex.z)};
         }
+        addWaterFacePatch(found->patches, low, high);
     }
     return geometry;
 }

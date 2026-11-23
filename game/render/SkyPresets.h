@@ -115,6 +115,18 @@ struct SkyStarField
     float poleElevationDegrees = 55.0f;
 };
 
+// Space past the world's edge (a map's terrain.void, U-12): what the sky shows below the horizon over the void.
+// Used only on maps with void cells; a preset or theme `void` block sets it, a theme's overriding the preset's.
+struct SkyVoidLook
+{
+    // Linear RGB of empty space.
+    SkyColor color = {0.004f, 0.006f, 0.016f};
+    // Star brightness below the horizon, by day and night.
+    float stars = 0.9f;
+    // Depth below the horizon over which the horizon's haze turns into space (the air's limb).
+    float limbDegrees = 3.0f;
+};
+
 struct SkyPreset
 {
     std::string name;
@@ -131,6 +143,7 @@ struct SkyPreset
     SkyHorizonRing horizonRing;
     SkyStarField stars;
     SkyOrbitRing orbitRing;
+    std::optional<SkyVoidLook> voidLook;
     std::vector<SkyCloudLayer> clouds;
     // A storm sky keeps its own look in rain instead of switching to the generic rain preset.
     bool storm = false;
@@ -181,6 +194,7 @@ struct SkyTheme
     float haze = 0.0f;
     float starScale = 1.0f;
     std::optional<SkyRimGlow> rimGlow;
+    std::optional<SkyVoidLook> voidLook;
 };
 
 class SkyPresetLibrary

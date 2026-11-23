@@ -201,6 +201,17 @@ struct CharacterSpellCast
     bool fromScroll = false;
 };
 
+// What one hit of a party damage spell deals before its target's resistances (the spell inspect window): the least, the
+// average and the most an ordinary roll gives, and the chance and multiplier of a critical hit, which they leave out.
+struct SpellDamagePreview
+{
+    int minimum = 0;
+    int average = 0;
+    int maximum = 0;
+    double criticalChance = 0;
+    double criticalMultiplier = 1;
+};
+
 // The monster a party spell lands on, for spells that read it (Mass Distortion).
 struct SpellTargetState
 {
@@ -351,6 +362,9 @@ public:
     // A damage spell's roll: the table's base plus its dice per skill point at the cast mastery. pCritical, when given,
     // learns whether the roll was a critical hit (Standard: never).
     virtual int rollSpellDamage(const CharacterSpellCast &cast, bool *pCritical = nullptr) const;
+    // The range rollSpellDamage rolls in, or nothing for a spell that rolls no damage (no damage at all, or a share of
+    // its target's hit points). Standard: the table's base plus its dice per skill point, never a critical hit.
+    virtual std::optional<SpellDamagePreview> spellDamagePreview(const CharacterSpellCast &cast) const;
     // A spell whose damage is a share of its target's hit points (Mass Distortion): the damage on this target, or
     // nothing for the roll above. Standard: 25 % of the target's current hit points plus 2 % per skill point.
     virtual std::optional<int> spellDamageOnTarget(const CharacterSpellCast &cast, const SpellTargetState &target) const;

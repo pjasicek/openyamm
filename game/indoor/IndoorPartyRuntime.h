@@ -65,6 +65,8 @@ public:
     // Fly Up/Fly Down while on a ladder: +1, -1 or 0 (devdocs/INDOOR_ROTATING_MOVERS_AND_LADDERS.md, "Ladders").
     void setLadderVerticalInput(int verticalInput);
     bool climbingLadder() const;
+    // A special jump (the event Jump, a MAW Puller's hit) waits for its first step or still carries the party.
+    bool specialJumpActive() const;
     // Swimming (scene `water_volumes`, devdocs/mm9_rework/MM9_WATER_SWIMMING_DESIGN.md): the look direction and the
     // movement keys for the next update; ignored on a map without water volumes.
     void setSwimInput(const IndoorSwimInput &input);

@@ -51,7 +51,7 @@ function dirname(path: string): string
 }
 
 // a/b/../c -> a/c; leading ../ beyond the root is refused (null).
-function normalise(path: string): string | null
+export function normalise(path: string): string | null
 {
     const parts: string[] = [];
     for (const part of path.split('/'))

@@ -79,6 +79,21 @@ bool GameplayUiController::characterScreenSupportsInspection(const CharacterScre
     return screen.open;
 }
 
+bool GameplayUiController::houseShopCoversDialogueBody(
+    const HouseShopOverlayState &shop, const InventoryNestedOverlayState &nested)
+{
+    if (shop.active && shop.mode != HouseShopMode::None)
+    {
+        return true;
+    }
+
+    return nested.active
+        && (nested.mode == InventoryNestedOverlayMode::ShopDisplay
+            || nested.mode == InventoryNestedOverlayMode::ShopSell
+            || nested.mode == InventoryNestedOverlayMode::ShopIdentify
+            || nested.mode == InventoryNestedOverlayMode::ShopRepair);
+}
+
 bool GameplayUiController::houseShopModeSupportsItemInspection(HouseShopMode mode)
 {
     switch (mode)

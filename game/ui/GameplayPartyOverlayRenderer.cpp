@@ -7762,6 +7762,8 @@ void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(GameplayScreenRunti
     const GameplayScreenRuntime::HudLayoutElement *pExpertLayout = context.findHudLayoutElement("SpellInspectExpert");
     const GameplayScreenRuntime::HudLayoutElement *pMasterLayout = context.findHudLayoutElement("SpellInspectMaster");
     const GameplayScreenRuntime::HudLayoutElement *pGrandmasterLayout = context.findHudLayoutElement("SpellInspectGrandmaster");
+    // The caster's damage, between the description and the mastery rows.
+    const GameplayScreenRuntime::HudLayoutElement *pDamageLayout = context.findHudLayoutElement("SpellInspectDamage");
 
     if (pRootLayout == nullptr
         || pTitleLayout == nullptr
@@ -7806,6 +7808,7 @@ void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(GameplayScreenRunti
     const float bodyHeight = bodyLines.empty() ? bodyLineHeight : bodyLineHeight * static_cast<float>(bodyLines.size());
     static constexpr float SpellInspectBodyToRowsGap = 10.0f;
     static constexpr float SpellInspectRowGap = 2.0f;
+    static constexpr float SpellInspectDamageToRowsGap = 8.0f;
     static constexpr float SpellInspectBottomPadding = 15.0f;
 
     const auto resolveWrappedLines =
@@ -7847,8 +7850,12 @@ void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(GameplayScreenRunti
         showMaster ? resolveWrappedLines(*pMasterLayout, overlay.master) : std::vector<std::string>{};
     const std::vector<std::string> grandmasterLines =
         showGrandmaster ? resolveWrappedLines(*pGrandmasterLayout, overlay.grandmaster) : std::vector<std::string>{};
-    float rowsHeight = 0.0f;
-    bool hasRows = false;
+    const bool showDamage = pDamageLayout != nullptr && !overlay.damage.empty();
+    const std::vector<std::string> damageLines =
+        showDamage ? resolveWrappedLines(*pDamageLayout, overlay.damage) : std::vector<std::string>{};
+    float rowsHeight = showDamage ? rowHeight(*pDamageLayout, damageLines) : 0.0f;
+    bool hasRows = showDamage;
+    bool hasMasteryRows = false;
 
     for (const auto &[showRow, pLayout, pLines] : {
              std::tuple<bool, const GameplayScreenRuntime::HudLayoutElement *, const std::vector<std::string> *>{
@@ -7867,11 +7874,13 @@ void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(GameplayScreenRunti
 
         if (hasRows)
         {
-            rowsHeight += SpellInspectRowGap * popupScale;
+            rowsHeight += (showDamage && !hasMasteryRows ? SpellInspectDamageToRowsGap : SpellInspectRowGap)
+                * popupScale;
         }
 
         rowsHeight += rowHeight(*pLayout, *pLines);
         hasRows = true;
+        hasMasteryRows = true;
     }
 
     const float rootWidth = provisionalRoot.width;
@@ -8088,6 +8097,17 @@ void GameplayPartyOverlayRenderer::renderSpellInspectOverlay(GameplayScreenRunti
                 };
 
             float nextRowY = std::round(bodyBaseRect->y + bodyHeight + SpellInspectBodyToRowsGap * popupScale);
+
+            if (showDamage)
+            {
+                if (const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> damageRect =
+                        resolveLayout("SpellInspectDamage"))
+                {
+                    nextRowY = renderWrappedRow(*pDamageLayout, *damageRect, nextRowY, damageLines)
+                        + SpellInspectDamageToRowsGap * popupScale;
+                }
+            }
+
             const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> normalRect = resolveLayout("SpellInspectNormal");
             const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> expertRect = resolveLayout("SpellInspectExpert");
             const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> masterRect = resolveLayout("SpellInspectMaster");

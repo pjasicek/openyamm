@@ -2,6 +2,7 @@
 
 #include "game/FaceEnums.h"
 #include "game/indoor/IndoorGeometryUtils.h"
+#include "game/outdoor/OutdoorGeometryUtils.h"
 
 #include <yaml-cpp/yaml.h>
 
@@ -39,6 +40,10 @@ constexpr double LeastCopies = 0.75;
 constexpr double LeastPair = 192.0;
 constexpr double StepsReach = 128.0;
 constexpr double StepsOffset = 32.0;
+// F27 (tools/xeen/town_fit_check.py `houses.buried_door`): the land before an outdoor door (32, 96 and 160 in front
+// of it; at its middle and 0.6 of its half width each side) standing more than this over its sill: the door is dug
+// into a slope.
+constexpr double DoorBury = 48.0;
 }
 
 double dot3(const std::array<double, 3> &a, const std::array<double, 3> &b)
@@ -1428,6 +1433,58 @@ std::vector<AuditFinding> auditDoorTextures(const LoadedMap &map, const TextureF
                             + rounded(off, 1.0) + " along its wall from the middle of " + step.first + " before it",
                         "Centre the door on its steps (the door's bay, or the steps' place)."});
                 }
+            }
+        }
+    }
+
+    // F27: an outdoor door whose land before it rises over its sill (the game's terrain triangles), as
+    // tools/xeen/town_fit_check.py `houses.buried_door` has it (pin p14 on X1: a house dug into a slope).
+    const size_t terrainNodes = static_cast<size_t>(Game::OutdoorMapData::TerrainWidth)
+        * static_cast<size_t>(Game::OutdoorMapData::TerrainHeight);
+
+    if (map.outdoor && map.outdoor->heightMap.size() == terrainNodes)
+    {
+        for (const Leaf &leaf : leaves)
+        {
+            const std::map<std::string, TextureClass>::const_iterator known = classes.find(leaf.texture);
+
+            if (!leaf.outdoor || known == classes.end() || known->second.door.empty()
+                || std::abs(leaf.front.normal[2]) > 0.1)
+            {
+                continue;
+            }
+
+            const double middle = (leaf.front.low + leaf.front.high) * 0.5;
+            const double half = (leaf.front.high - leaf.front.low) * 0.5;
+            double worst = -1.0e18;
+            std::array<double, 2> place = {};
+
+            for (const double out : {32.0, 96.0, 160.0})
+            {
+                for (const double side : {-0.6, 0.0, 0.6})
+                {
+                    const double x = leaf.front.normal[0] * (leaf.front.planeDistance + out)
+                        + leaf.front.along[0] * (middle + half * side);
+                    const double y = leaf.front.normal[1] * (leaf.front.planeDistance + out)
+                        + leaf.front.along[1] * (middle + half * side);
+                    const double rise = Game::sampleOutdoorTerrainHeight(*map.outdoor, static_cast<float>(x),
+                        static_cast<float>(y)) - leaf.front.bottom;
+
+                    if (rise > worst)
+                    {
+                        worst = rise;
+                        place = {x, y};
+                    }
+                }
+            }
+
+            if (worst > DoorLimits::DoorBury)
+            {
+                findings.push_back({"houses.buried_door", "warning", leaf.name + " (" + leaf.texture + "): the land "
+                        "before it rises " + rounded(worst, 1.0) + " over its sill at [" + rounded(place[0], 1.0)
+                        + ", " + rounded(place[1], 1.0) + "]: the door is dug into a slope",
+                    "Lower the land before the door to its sill (an apron, `heights` in the sketch), or raise the "
+                    "house's floor; or turn the door away from the slope."});
             }
         }
     }

@@ -238,13 +238,9 @@ public:
         const OutdoorMoveState &currentState,
         float desiredVelocityX,
         float desiredVelocityY) const;
-    bool hasNonFluidBModelActorSupport(
-        const OutdoorMoveState &state,
-        float bodyRadius,
-        float x,
-        float y,
-        float z,
-        float maxFloorRise) const;
+    // A walkable, non-fluid model face (a deck, a dock, a bridge) lies under (x, y), or within reach of it, from
+    // CloseToGroundHeight under the feet to maxFloorRise over them. It asks the map, not a body's support state.
+    bool hasNonFluidBModelFloorUnder(float x, float y, float footZ, float reach, float maxFloorRise) const;
     void setActorColliders(const std::vector<OutdoorActorCollision> &actorColliders);
     // Per map entity: decorations that are hidden now (hiddenDecorationEntities) and so do not collide.
     void setHiddenDecorationEntities(const std::vector<bool> &hiddenEntities);

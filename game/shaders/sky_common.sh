@@ -5,8 +5,12 @@
 // [5] lit water colour of the open sea past the map edge (display space), sea visibility (0 in dense fog);
 // [6] camera height above the sea, distance at which the sea's haze reaches 63%, camera x, y from the map centre;
 // [7] sea past the west (-X), east (+X), south (-Y) and north (+Y) edges (0 = land, 1 = open sea);
-// [8] onward: the map's mist (mist.sh, included below), all zero on a map without any.
-uniform vec4 u_skyFog[40];
+// [8] onward: the map's mist (mist.sh, included below), all zero on a map without any;
+// [40] the void past the west, east, south and north edges (terrain.void; 0 = none);
+// [41] empty space's colour (linear), the air limb's depth below the horizon (radians; 0 = the map has no void).
+uniform vec4 u_skyFog[42];
+#define SKY_VOID_SIDES 40
+#define SKY_VOID_LOOK 41
 
 // Strongest share of the preset's aerial haze that distance alone adds before the view-distance fade.
 #define AerialHazeDepth 0.35
@@ -74,25 +78,52 @@ float skyMapEdgeFog(vec3 worldPosition)
     return smoothstep(edgeDistance - fadeWidth, edgeDistance, horizontalDistance);
 }
 
+// The per-side weight (west, east, south, north) of the side where a view ray in this horizontal direction leaves
+// the terrain square, blended across the corners.
+float skyExitSideWeight(vec2 direction, vec4 sides)
+{
+    float halfSize = u_skyFog[4].x;
+    vec2 local = clamp(u_skyFog[6].zw, vec2_splat(-halfSize), vec2_splat(halfSize));
+    vec2 side = vec2(direction.x >= 0.0 ? 1.0 : -1.0, direction.y >= 0.0 ? 1.0 : -1.0);
+    vec2 exitDistance = (side * halfSize - local) / max(abs(direction), vec2_splat(0.0001)) * side;
+    float sideX = direction.x >= 0.0 ? sides.y : sides.x;
+    float sideY = direction.y >= 0.0 ? sides.w : sides.z;
+    // Blend across the corner where the exit moves from an X side to a Y side.
+    float towardY = smoothstep(-0.6, 0.6,
+        (exitDistance.x - exitDistance.y) / max(min(exitDistance.x, exitDistance.y), 1.0));
+    return mix(sideX, sideY, towardY);
+}
+
 // How much open sea lies past the map edge where a view ray in this horizontal direction leaves the terrain square.
 float skySeaWeight(vec2 direction)
 {
-    float halfSize = u_skyFog[4].x;
-
-    if (halfSize <= 0.0 || u_skyFog[5].w <= 0.0)
+    if (u_skyFog[4].x <= 0.0 || u_skyFog[5].w <= 0.0)
     {
         return 0.0;
     }
 
-    vec2 local = clamp(u_skyFog[6].zw, vec2_splat(-halfSize), vec2_splat(halfSize));
-    vec2 side = vec2(direction.x >= 0.0 ? 1.0 : -1.0, direction.y >= 0.0 ? 1.0 : -1.0);
-    vec2 exitDistance = (side * halfSize - local) / max(abs(direction), vec2_splat(0.0001)) * side;
-    float sideX = direction.x >= 0.0 ? u_skyFog[7].y : u_skyFog[7].x;
-    float sideY = direction.y >= 0.0 ? u_skyFog[7].w : u_skyFog[7].z;
-    // Blend across the corner where the exit moves from an X side to a Y side.
-    float towardY = smoothstep(-0.6, 0.6,
-        (exitDistance.x - exitDistance.y) / max(min(exitDistance.x, exitDistance.y), 1.0));
-    return mix(sideX, sideY, towardY) * u_skyFog[5].w;
+    return skyExitSideWeight(direction, u_skyFog[7]) * u_skyFog[5].w;
+}
+
+// How much of the void (the world's end, terrain.void) lies past the map edge in this horizontal direction; 0 on a
+// map without void. The side weights come with what dense fog leaves of the void (SkyRenderer: haze does not grey it).
+float skyVoidSideWeight(vec2 direction)
+{
+    if (u_skyFog[SKY_VOID_LOOK].w <= 0.0 || u_skyFog[4].x <= 0.0)
+    {
+        return 0.0;
+    }
+
+    return skyExitSideWeight(direction, u_skyFog[SKY_VOID_SIDES]);
+}
+
+// Empty space below the horizon in `direction`: the horizon's haze over the first degrees down (the air's limb,
+// glowing at the world's edge), then the space colour.
+vec3 skyVoidDisplay(vec3 direction, vec3 horizonDisplay)
+{
+    float depth = asin(clamp(-direction.z, 0.0, 1.0));
+    float limb = smoothstep(0.0, u_skyFog[SKY_VOID_LOOK].w, depth);
+    return mix(horizonDisplay, skyLinearToDisplay(u_skyFog[SKY_VOID_LOOK].rgb), limb);
 }
 
 // The open sea past the map edge, below the horizon in `direction`: the water colour turning into the sky's
@@ -108,8 +139,20 @@ vec3 skyDistantSeaDisplay(vec3 direction, vec3 horizonDisplay)
     return mix(sea, horizonDisplay, 1.0 - exp(-distance / u_skyFog[6].y));
 }
 
-// Enhanced fog ratio: the world's distance fog, aerial haze that grows toward the far distance, and the map-edge
-// fade. Classic (no sky share) keeps the world fog ratio unchanged.
+// On a map with void (terrain.void), geometry below the void's floor (z 0: the hull's deck and underside, falls pouring
+// off the rim) fades into empty space with its depth, so nothing ends in a hard edge in space.
+float skyVoidDepthFog(vec3 worldPosition)
+{
+    if (u_skyFog[SKY_VOID_LOOK].w <= 0.0)
+    {
+        return 0.0;
+    }
+
+    return smoothstep(200.0, 2600.0, -worldPosition.z);
+}
+
+// Enhanced fog ratio: the world's distance fog, aerial haze that grows toward the far distance, the map-edge fade and
+// the void's depth. Classic (no sky share) keeps the world fog ratio unchanged.
 float skyFogRatio(float fogRatio, vec3 worldPosition, float distance, float farDistance)
 {
     if (u_skyFog[1].w <= 0.0)
@@ -122,7 +165,7 @@ float skyFogRatio(float fogRatio, vec3 worldPosition, float distance, float farD
     // percent, which from the air shows as a hard cut where the terrain ends.
     float haze = max(u_skyFog[4].w * AerialHazeDepth * smoothstep(farDistance * 0.3, farDistance * 0.9, distance),
         smoothstep(farDistance * ViewEndFadeStart, farDistance, distance));
-    return max(max(fogRatio, haze), skyMapEdgeFog(worldPosition));
+    return max(max(max(fogRatio, haze), skyMapEdgeFog(worldPosition)), skyVoidDepthFog(worldPosition));
 }
 
 // Water fog ratio: on a sea-facing view the water fades into the open sea past the map edge over the whole far
@@ -159,5 +202,12 @@ vec3 skyFogDisplayColor(float fogRatio, vec3 flatDisplayColor, vec3 worldPositio
     // map edge (the sky pass draws it there), so fogged water, coast and ships fade into it rather than into a band
     // of horizon haze.
     float sea = toFragment.z < 0.0 ? skySeaWeight(direction.xy) : 0.0;
-    return sea > 0.0 ? mix(color, skyDistantSeaDisplay(normalize(toFragment), color), sea) : color;
+    color = sea > 0.0 ? mix(color, skyDistantSeaDisplay(normalize(toFragment), color), sea) : color;
+
+    // Below the horizon toward the void (terrain.void), what lies behind is empty space: the hull, the cliffs and
+    // the falls fade into it rather than into the horizon haze; shallow views keep the haze (the air's limb).
+    // Under the void's floor every view looks into it.
+    float voidWeight = toFragment.z < 0.0 ? skyVoidSideWeight(direction.xy) : 0.0;
+    voidWeight = u_skyFog[SKY_VOID_LOOK].w > 0.0 && worldPosition.z < 0.0 ? 1.0 : voidWeight;
+    return voidWeight > 0.0 ? mix(color, skyVoidDisplay(normalize(toFragment), color), voidWeight) : color;
 }

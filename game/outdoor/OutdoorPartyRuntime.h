@@ -47,6 +47,8 @@ public:
     const OutdoorMovementEvents &movementEvents() const;
     const OutdoorMovementConsequences &movementConsequences() const;
     const OutdoorPartyMovementState &partyMovementState() const;
+    // A special jump (the event Jump, a MAW Puller's hit) waits for its first step or still carries the party.
+    bool specialJumpActive() const;
     const Party &party() const;
     Party &party();
     const std::string &movementStatusText() const;

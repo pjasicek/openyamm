@@ -1,0 +1,63 @@
+id: xeen.rim_fall
+title: "Xeen: a party in the sea under the world rim is lifted back onto the rim (P2 F29)"
+world: xeen
+mode: faithful
+tags: [xeen, outdoor, rim, regression]
+steps:
+  - note:
+      text: >-
+        P2 feedback F29 (pins p7, p12 on X1, 2026-11-23): the sea under the rim stands for the stars below and could
+        not be left (the cliff is steeper than the party climbs). Each rim map's timer event (level_generation/
+        projects/xeen/common/wild.py, xeen_common.lua Xeen.rimFall) puts a party standing in that sea back over the
+        nearest return point on the rim, from which it falls Xeen.SkyFallHeight. X1's rim sea is x 105-128 (cells);
+        p12's spot is the beach under the cliff, the nearest return point (101, 40) = (19000, 12288).
+  - new_game_flow:
+      start_map: xeen_x1.odm
+      party:
+        gold: 100
+        food: 10
+        members:
+          - {name: Hilda, class: Knight, level: 5, skills: [], equipment: {}}
+  - note:
+      text: >-
+        X1's opening message (timer event 102, one game minute after the start) is a modal message. As in the game,
+        an open dialog stops a single-player world (its timers, the party's fall) until the player closes it, so it is
+        read and closed first.
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - press_action: {action: escape, expect_before: {dialog: {active: true}}}
+  - set_pose: {map: xeen_x1.odm, x: 21240, y: 12728, z: 1, yaw_degrees: 250, pitch: 0}
+  - advance_runtime: {seconds: 6, follow_map_move: true}
+  - assert: {party_position: {x: 18944, y: 12288, radius: 700}}
+  - note:
+      text: >-
+        The move within the map (evt.MoveToMap "0", keepHeight) keeps the map's timers: the party lands on the rim
+        top (ground 1056), and the same timer lifts it out of the hole beside Pitchfork Falls (p7) afterwards.
+  - advance_runtime: {seconds: 4}
+  - assert: {party_position: {x: 18944, y: 12288, radius: 64, z_max: 1120}}
+  - note:
+      text: >-
+        D-109 (agent xeen-rim3): the land runs level to the void's edge (x 105), so the hole beside Pitchfork Falls is
+        the void itself; the nearest return point to (105.2, 61.5) is (101, 59).
+  - set_pose: {map: xeen_x1.odm, x: 21100, y: 1300, z: 40, yaw_degrees: 90, pitch: 0}
+  - advance_runtime: {seconds: 6, follow_map_move: true}
+  - assert: {party_position: {x: 18944, y: 2560, radius: 700}}
+  - note:
+      text: >-
+        F33 in the same map: a campfire (X1's west orc outpost, event 83 from ids.lock.yml) feeds the party
+        (common/wild.py, MM8 Global 285/286; once: evt.ChangeEvent(0) clears the decoration's event). F32: the Shrine of Poison's altar (event 278)
+        gives +5 Body resistance with its status line.
+  - execute_event: {id: 83}
+  - play_lua: {source: "if not string.find(status() or '', 'by the fire', 1, true) then error('no campfire line: ' .. tostring(status())) end"}
+  - execute_event: {id: 278}
+  - play_lua: {source: "if not string.find(status() or '', 'Body resistance', 1, true) then error('no altar line: ' .. tostring(status())) end"}
+  - note:
+      text: >-
+        D-109 (9, agent xeen-rim3): one fall's damage per trip over the edge. A party that drops into the void (here
+        off X1's south rim, which D-109 made, about 770 to the void's floor) lands on no ground: the rescue lifts it
+        onto the nearest return point (65, 101) and its fall of Xeen.SkyFallHeight (850) is the only one it takes
+        (850 x (max HP / 10) / 256, the engine's fall damage: 19 for Hilda; two falls would cost 37).
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 40}
+  - set_pose: {map: xeen_x1.odm, x: 0, y: -21400, z: 900, yaw_degrees: 270, pitch: 0}
+  - advance_runtime: {seconds: 8, follow_map_move: true}
+  - assert: {party_position: {x: 512, y: -18944, radius: 700}}
+  - assert: {member_points: {member_index: 0, health_min: 21, health_max: 21}}

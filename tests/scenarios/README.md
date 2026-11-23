@@ -196,6 +196,8 @@ breath_min, breath_max, drowning_ticks_min, drowning_ticks_max, foot_z_min, foot
 state (`dry`, `wading`, `falling`, `bed`, `submerged`, `surface`, `surface_jump`), its breath (1 full, 1 with the eye
 out), the drowning ticks taken on this map and its feet's height; the swim keys are `movement_segment`'s `jump`,
 `fly_up`, `fly_down` with the pitch from `start` (Verhoffin Ruins' `scenario_swim.yml`).
+`assert: {actor_visible: {actor_index, over_water: bool}}` checks whether an outdoor walker's centre stands over deep
+water with no deck under it, as the water rule tests it (`xeen/x1_bridge_walkers.yml`).
 
 For monster AI (AI arenas, [mm9/ai/README.md](mm9/ai/README.md)): `ai_arena: {path, log}` sets an arena up (the map's
 actors hidden, the arena's monsters spawned, the party placed, the decision trace on), `assert: {ai_trace:

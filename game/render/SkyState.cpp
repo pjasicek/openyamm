@@ -339,6 +339,7 @@ const SkyFrameState &SkyStateModel::update(const SkyInputs &inputs, float realDe
     frame.moonTexture = dominant.moonTexture;
     frame.stars = dominant.stars;
     frame.stars.brightness = lerp(pFrom->stars.brightness, pTo->stars.brightness, blend);
+    frame.voidLook = dominant.voidLook.value_or(SkyVoidLook{});
     frame.horizonRing = dominant.horizonRing;
     frame.horizonRing.opacity = lerp(
         pFrom->horizonRing.texture == dominant.horizonRing.texture ? pFrom->horizonRing.opacity : 0.0f,
@@ -395,6 +396,11 @@ const SkyFrameState &SkyStateModel::update(const SkyInputs &inputs, float realDe
             const float night = std::clamp(frame.scalar(SkyValue::Stars), 0.0f, 1.0f);
             frame.rimGlow = *pTheme->rimGlow;
             frame.rimGlowStrength = lerp(frame.rimGlow.dayStrength, frame.rimGlow.nightStrength, night);
+        }
+
+        if (pTheme->voidLook)
+        {
+            frame.voidLook = *pTheme->voidLook;
         }
 
         applySkyTheme(*pTheme, frame);
@@ -498,6 +504,14 @@ const SkyFrameState &SkyStateModel::update(const SkyInputs &inputs, float realDe
 
     // The rim glow fades in haze and fog as the sun's glow does.
     frame.rimGlowStrength *= (1.0f - frame.fogAmount * 0.85f) * (1.0f - fogCover);
+    // The void (terrain.void) is empty space, not air: no haze, night, overcast, rain, snow, ash or fog weather greys
+    // it or hides its stars (U-12); only an open sky's fog cover takes it away.
+    frame.voidVisibility = 1.0f - fogCover;
+    frame.voidLook.stars *= frame.voidVisibility;
+    // Geometry seen toward the void fades into it in haze, but into the fog colour in fog weather thicker than any
+    // theme's haze, so fogged land stays grey rather than darkening toward the rim.
+    frame.voidFogVisibility = std::clamp(1.0f - std::max(frame.fogAmount - 0.4f, 0.0f) / 0.6f, 0.0f, 1.0f)
+        * (1.0f - fogCover);
 
     // The ring and its lights shine like the stars: full at night, a pale ghost by day, gone in fog.
     frame.orbitRing.opacity *= frame.scalar(SkyValue::Stars);

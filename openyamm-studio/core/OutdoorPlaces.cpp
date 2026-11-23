@@ -245,6 +245,12 @@ public:
             return false;
         }
 
+        // Nothing is scattered over the void (U-12, D-109): the world ends there.
+        if (!m_lowered.voidCells.empty() && m_lowered.voidCells[cell] != 0)
+        {
+            return false;
+        }
+
         for (const OutdoorBuildingPlan &building : m_lowered.buildings)
         {
             if (x > building.covered[0] - 0.25 && x < building.covered[2] + 0.25 && y > building.covered[1] - 0.25

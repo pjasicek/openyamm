@@ -327,19 +327,15 @@ int levelOf(const std::unordered_map<int, int> &levels, int monsterId, int fallb
     return it != levels.end() ? it->second : fallback;
 }
 
+// The starting maps are MAW's data (map_levels.yml `ranged_free_maps`, a world's balance file `ranged_free`).
 bool gainsHellRangedAttack(
     const RulesetOptions &options,
-    const std::string &mapFileName,
     bool outdoorMap,
+    bool rangedFreeMap,
     const MonsterTable::MonsterStatsEntry &stats,
     bool bountyMap)
 {
-    static const std::array<const char *, 6> StartingMaps = {
-        "out01.odm", "out02.odm", "7out01.odm", "7out02.odm", "oute3.odm", "outd3.odm",
-    };
-    const std::string map = lowerFileName(mapFileName);
-    const bool hellOutdoors = options.difficulty >= RulesetDifficulty::Hell && outdoorMap
-        && std::find(StartingMaps.begin(), StartingMaps.end(), map) == StartingMaps.end();
+    const bool hellOutdoors = options.difficulty >= RulesetDifficulty::Hell && outdoorMap && !rangedFreeMap;
     return (hellOutdoors || bountyMap) && !stats.attack1HasMissile && stats.attack2Chance <= 0 && !stats.hasSpell1
         && !stats.canFly;
 }
@@ -673,11 +669,11 @@ GameplayMonsterBolsterResult MawMonsterRules::resolveMonsterByRules(
     double attack2Average =
         mawDiceAverage(stats.attack2Damage.diceRolls, stats.attack2Damage.diceSides, stats.attack2Damage.bonus);
 
-    // From Hell up, outdoors outside the six starting maps, and on a bounty hunt's map on any difficulty, a walking
-    // melee-only monster also shoots: chance 10, 20 or 30 % by tier, its dice and bonus cut from attack 1's
-    // (MON:632-658).
-    if (gainsHellRangedAttack(
-            m_rules.options(), mapFileName, m_rules.outdoorMap(mapFileName), stats, m_rules.bountyLevel().has_value()))
+    // From Hell up, outdoors outside the starting maps (MAW's six, Vertigo and MM9's start), and on a bounty hunt's map
+    // on any difficulty, a walking melee-only monster also shoots: chance 10, 20 or 30 % by tier, its dice and bonus
+    // cut from attack 1's (MON:632-658).
+    if (gainsHellRangedAttack(m_rules.options(), m_rules.outdoorMap(mapFileName),
+            m_rules.mapLevels().isRangedFreeMap(mapFileName), stats, m_rules.bountyLevel().has_value()))
     {
         result.generatedAttack2 = true;
         result.generatedAttack2IsRanged = true;

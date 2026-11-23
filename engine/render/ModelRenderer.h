@@ -19,9 +19,9 @@
 
 namespace OpenYAMM::Engine
 {
-// Vectors in the shared u_skyFog uniform (game/shaders/sky_common.sh): the sky's 8 and the map's mist
-// (game/render/Mist.h: 2, 3 per layer, 3 per volume; game/render/SkyRenderer.cpp checks the sum).
-constexpr uint16_t ModelSkyFogVectors = 8 + 32;
+// Vectors in the shared u_skyFog uniform (game/shaders/sky_common.sh): the sky's 8, the map's mist
+// (game/render/Mist.h: 2, 3 per layer, 3 per volume) and the void's 2 (game/render/SkyRenderer.cpp checks the sum).
+constexpr uint16_t ModelSkyFogVectors = 8 + 32 + 2;
 
 struct ModelRenderLighting
 {

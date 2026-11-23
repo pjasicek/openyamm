@@ -1,0 +1,15 @@
+# AI arena for skeleton_archers_keep_range.yml: Dagger Wound (out01.odm, mm8_melee_out01's spot), an immortal party and
+# MM8's three skeleton archers (172-174: Arrow attack 1, Fire Arrow attack 2), ranged-only monsters, 1,500 to the east.
+name: mm8_skeleton_archers_keep_range
+world: mm8
+map: out01.odm
+party:
+  position: [3760, 7696, 0]
+  yaw_degrees: 0
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+monsters:
+  - {monster_id: 172, position: [5260, 7496, 0], yaw_degrees: 180}
+  - {monster_id: 173, position: [5260, 7696, 0], yaw_degrees: 180}
+  - {monster_id: 174, position: [5260, 7896, 0], yaw_degrees: 180}

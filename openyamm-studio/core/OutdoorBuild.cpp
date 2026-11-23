@@ -595,6 +595,30 @@ std::string writeSceneText(
     }
 
     scene["terrain"]["footstep_sound_overrides"] = footsteps;
+
+    // The sketch's void (U-12) as cell rectangles [x0, y0, x1, y1]: each row's runs, stacked while the span repeats.
+    const std::vector<std::array<int, 4>> voidRects = outdoorVoidRectangles(lowered.voidCells);
+
+    if (!voidRects.empty())
+    {
+        YAML::Node rects(YAML::NodeType::Sequence);
+
+        for (const std::array<int, 4> &rect : voidRects)
+        {
+            YAML::Node node(YAML::NodeType::Sequence);
+            node.SetStyle(YAML::EmitterStyle::Flow);
+
+            for (const int value : rect)
+            {
+                node.push_back(value);
+            }
+
+            rects.push_back(node);
+        }
+
+        scene["terrain"]["void"] = rects;
+    }
+
     // The scene says which faces carry events: the game clears every face's event and sets these.
     YAML::Node interactive(YAML::NodeType::Sequence);
 
@@ -1082,6 +1106,69 @@ void listNotBuilt(const Project &project, std::vector<std::string> &warnings)
 }
 
 // The original a project is matched against: map_stats.reference, else its base; empty for none.
+// A number of a sketch entry, or `fallback`.
+double sketchNumber(const YAML::Node &node, const char *pKey, double fallback)
+{
+    const YAML::Node value = childOf(node, pKey);
+    double number = fallback;
+
+    if (value.IsDefined() && value.IsScalar())
+    {
+        const std::string &text = value.Scalar();
+        const std::from_chars_result read = std::from_chars(text.data(), text.data() + text.size(), number);
+        number = read.ec == std::errc() ? number : fallback;
+    }
+
+    return number;
+}
+
+// A point [x, y] in cells of the sketch; false unless it is a pair of numbers.
+bool sketchCell(const YAML::Node &point, std::array<double, 2> &cell)
+{
+    if (!point.IsDefined() || !point.IsSequence() || point.size() != 2 || !point[0].IsScalar()
+        || !point[1].IsScalar())
+    {
+        return false;
+    }
+
+    for (size_t axis = 0; axis < 2; ++axis)
+    {
+        const std::string &text = point[axis].Scalar();
+
+        if (std::from_chars(text.data(), text.data() + text.size(), cell[axis]).ec != std::errc())
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+// Points [x, y] in cells of a sketch list; false unless every one is a pair of numbers.
+bool sketchCells(const YAML::Node &node, std::vector<std::array<double, 2>> &points)
+{
+    points.clear();
+
+    if (!node.IsDefined() || !node.IsSequence())
+    {
+        return false;
+    }
+
+    for (const YAML::Node &point : node)
+    {
+        std::array<double, 2> cell = {};
+
+        if (!sketchCell(point, cell))
+        {
+            return false;
+        }
+
+        points.push_back(cell);
+    }
+
+    return true;
+}
+
 std::string outdoorOriginalOf(const Project &project)
 {
     const YAML::Node card = project.document("project.yml");
@@ -1092,7 +1179,8 @@ std::string outdoorOriginalOf(const Project &project)
 
 // Faces of the built models in one plane over each other (core/Coplanar.h): one warning for each pair of parts whose
 // faces fight, pairs the original has at the same place left out (`original`: the original's file, read when the
-// asset root can be opened here), and a summary line.
+// asset root can be opened here), and a summary line; then one `faces.back_to_back` warning for each pair of parts
+// whose faces lie back to back.
 void warnOutdoorCoplanar(
     const Project &project,
     const BuildOptions &options,
@@ -1172,6 +1260,15 @@ void warnOutdoorCoplanar(
             + (matched.empty() ? std::string("no original to match")
                 : std::to_string(asOriginal) + " as the original (" + matched + ")")
             + ", " + std::to_string(fresh.size()) + " new (`oymap audit` lists each pair)");
+    }
+
+    // Faces back to back (P2 feedback F31): the game draws outdoor faces from both sides, so a sheet laid both ways
+    // flickers.
+    const std::vector<OutdoorCoplanarPair> backToBack = findOutdoorBackToBackFaces(models);
+
+    for (const std::string &sentence : describeOutdoorCoplanarGroups(models, backToBack, parts, true))
+    {
+        warnings.push_back("faces.back_to_back: " + sentence);
     }
 }
 
@@ -1663,6 +1760,64 @@ void checkSketch(const Project &project, std::vector<ProjectIssue> &issues, std:
 }
 }
 
+std::vector<std::array<int, 4>> outdoorVoidRectangles(const std::vector<uint8_t> &voidCells)
+{
+    std::vector<std::array<int, 4>> rects;
+
+    if (voidCells.size() != static_cast<size_t>(OutdoorNodeCount) * OutdoorNodeCount)
+    {
+        return rects;
+    }
+
+    // The rectangles still growing downward, by their span.
+    std::vector<size_t> open;
+
+    for (int y = 0; y < OutdoorNodeCount; ++y)
+    {
+        std::vector<std::array<int, 2>> runs;
+
+        for (int x = 0; x < OutdoorNodeCount; ++x)
+        {
+            if (voidCells[static_cast<size_t>(y) * OutdoorNodeCount + static_cast<size_t>(x)] == 0)
+            {
+                continue;
+            }
+
+            if (!runs.empty() && runs.back()[1] == x - 1)
+            {
+                runs.back()[1] = x;
+            }
+            else
+            {
+                runs.push_back({x, x});
+            }
+        }
+
+        std::vector<size_t> next;
+
+        for (const std::array<int, 2> &run : runs)
+        {
+            const std::vector<size_t>::const_iterator same = std::find_if(open.begin(), open.end(),
+                [&](size_t index) { return rects[index][0] == run[0] && rects[index][2] == run[1]; });
+
+            if (same != open.end())
+            {
+                rects[*same][3] = y;
+                next.push_back(*same);
+            }
+            else
+            {
+                next.push_back(rects.size());
+                rects.push_back({run[0], y, run[1], y});
+            }
+        }
+
+        open = next;
+    }
+
+    return rects;
+}
+
 void validateOutdoorProject(const Project &project, std::vector<ProjectIssue> &issues)
 {
     validateOutdoorProject(project, std::filesystem::path(), issues);
@@ -1729,6 +1884,163 @@ void fillOutdoorView(const Project &project, const BuildOptions &options, const 
         view.start = {lowered.start->x, lowered.start->y, lowered.start->z};
         view.startFacing = lowered.start->facing;
     }
+}
+
+std::vector<std::string> outdoorRoadOffWarnings(const Project &project, const LoweredOutdoorMap &lowered)
+{
+    using Cell = std::array<double, 2>;
+    // A passage: its name, its two ends in cells.
+    struct Passage
+    {
+        std::string name;
+        Cell from = {};
+        Cell to = {};
+    };
+    std::vector<Passage> passages;
+    const YAML::Node structures = childOf(project.document("sketch.yml"), "structures");
+    const auto unit = [](const Cell &from, const Cell &to)
+    {
+        const double length = std::max(std::hypot(to[0] - from[0], to[1] - from[1]), 1.0e-9);
+        return Cell{(to[0] - from[0]) / length, (to[1] - from[1]) / length};
+    };
+
+    for (size_t index = 0; structures.IsDefined() && structures.IsSequence() && index < structures.size(); ++index)
+    {
+        const YAML::Node node = structures[index];
+        const std::string kind = textOf(node, "kind");
+        const std::string id = textOf(node, "id", "structures[" + std::to_string(index) + "]");
+        std::vector<Cell> line;
+
+        if ((kind != "wall" && kind != "bridge") || !sketchCells(childOf(node, "line"), line) || line.size() < 2)
+        {
+            continue;
+        }
+
+        if (kind == "bridge")
+        {
+            // Across each head of the bridge.
+            const double half = sketchNumber(node, "width", 384.0) * 0.5 / 512.0;
+
+            for (const bool last : {false, true})
+            {
+                const Cell &head = last ? line.back() : line.front();
+                const Cell along = last ? unit(line[line.size() - 2], head) : unit(line[1], head);
+                const Cell across = {-along[1], along[0]};
+                passages.push_back({id + " (its " + std::string(last ? "last" : "first") + " head)",
+                    {head[0] - across[0] * half, head[1] - across[1] * half},
+                    {head[0] + across[0] * half, head[1] + across[1] * half}});
+            }
+
+            continue;
+        }
+
+        const YAML::Node gates = childOf(node, "gates");
+        const bool closed = textOf(node, "closed") == "true";
+
+        for (size_t gate = 0; gates.IsDefined() && gates.IsSequence() && gate < gates.size(); ++gate)
+        {
+            Cell at = {};
+
+            if (!sketchCell(childOf(gates[gate], "at"), at))
+            {
+                continue;
+            }
+
+            // Along the stretch of the wall nearest the gate's place.
+            double nearest = 1.0e18;
+            Cell along = {1.0, 0.0};
+
+            for (size_t stretch = 0; stretch + 1 < line.size() + (closed ? 1 : 0); ++stretch)
+            {
+                const Cell &from = line[stretch];
+                const Cell &to = line[(stretch + 1) % line.size()];
+                const Cell way = {to[0] - from[0], to[1] - from[1]};
+                const double squared = std::max(way[0] * way[0] + way[1] * way[1], 1.0e-9);
+                const double share = std::clamp(((at[0] - from[0]) * way[0] + (at[1] - from[1]) * way[1])
+                    / squared, 0.0, 1.0);
+                const double distance = std::hypot(from[0] + way[0] * share - at[0],
+                    from[1] + way[1] * share - at[1]);
+
+                if (distance < nearest)
+                {
+                    nearest = distance;
+                    along = unit(from, to);
+                }
+            }
+
+            const double half = sketchNumber(gates[gate], "width", 384.0) * 0.5 / 512.0;
+            passages.push_back({id + " gates[" + std::to_string(gate) + "]",
+                {at[0] - along[0] * half, at[1] - along[1] * half},
+                {at[0] + along[0] * half, at[1] + along[1] * half}});
+        }
+    }
+
+    std::vector<std::string> warnings;
+    const auto road = [&lowered](const Cell &point)
+    {
+        const int column = static_cast<int>(std::floor(point[0]));
+        const int row = static_cast<int>(std::floor(point[1]));
+
+        if (column < 0 || row < 0 || column >= OutdoorNodeCount || row >= OutdoorNodeCount
+            || lowered.tiles.size() != static_cast<size_t>(OutdoorNodeCount * OutdoorNodeCount))
+        {
+            return false;
+        }
+
+        const uint8_t tile = lowered.tiles[static_cast<size_t>(row) * OutdoorNodeCount + column];
+        return tile >= 198 && tile < 234;
+    };
+
+    for (const Passage &passage : passages)
+    {
+        const double length = std::hypot(passage.to[0] - passage.from[0], passage.to[1] - passage.from[1]);
+
+        if (length < 1.0e-6)
+        {
+            continue;
+        }
+
+        const Cell along = unit(passage.from, passage.to);
+        const Cell across = {-along[1], along[0]};
+        double low = 1.0e18;
+        double high = -1.0e18;
+
+        // The passage and a cell beyond each end (the road's whole width), and 0.4 of a cell each side of it.
+        for (int step = 0; step <= 96; ++step)
+        {
+            const double t = -1.0 + step / 96.0 * (length + 2.0);
+
+            for (const double off : {-0.4, 0.0, 0.4})
+            {
+                if (road({passage.from[0] + along[0] * t + across[0] * off,
+                        passage.from[1] + along[1] * t + across[1] * off}))
+                {
+                    low = std::min(low, t);
+                    high = std::max(high, t);
+                }
+            }
+        }
+
+        if (low > high)
+        {
+            continue;
+        }
+
+        const double off = ((low + high) * 0.5 - length * 0.5) * 512.0;
+
+        if (std::abs(off) > 128.0)
+        {
+            std::ostringstream text;
+            text << "gates.road_off: " << passage.name << ": the road through it at ["
+                 << std::round((passage.from[0] + passage.to[0]) * 50.0) / 100.0 << ", "
+                 << std::round((passage.from[1] + passage.to[1]) * 50.0) / 100.0 << "] is centred "
+                 << std::lround(off) << " off its middle: the road runs into its side (road tiles are whole cells: "
+                 << "a way through on a cell line, not on x.5, has its road to one side)";
+            warnings.push_back(text.str());
+        }
+    }
+
+    return warnings;
 }
 
 bool buildOutdoorProject(const Project &project, const BuildOptions &options, BuildResult &result)
@@ -2428,6 +2740,11 @@ bool buildOutdoorProject(const Project &project, const BuildOptions &options, Bu
     const bool assetsReadable = PHYSFS_isInit() == 0;
     const bool throughAssets = !options.dryRun && !options.assetRoot.empty() && assetsReadable;
     warnOutdoorCoplanar(project, options, lowered, models, assetsReadable, result.warnings);
+
+    for (const std::string &warning : outdoorRoadOffWarnings(project, lowered))
+    {
+        result.warnings.push_back(warning);
+    }
 
     fillOutdoorView(project, options, lowered, *readBack, tileTableText);
 

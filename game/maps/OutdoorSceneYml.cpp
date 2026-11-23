@@ -563,6 +563,55 @@ bool parseOutdoorTerrainFootstepSoundOverride(
         && readScalarNode(overrideNode, "run_sound_id", overrideEntry.runSoundId, errorMessage);
 }
 
+// terrain.void: a sequence of [x0, y0, x1, y1] cell rectangles, inclusive, inside the 128 x 128 tile grid.
+bool parseOutdoorTerrainVoid(const YAML::Node &voidNode, std::vector<std::array<int, 4>> &rects,
+    std::string &errorMessage)
+{
+    if (!voidNode.IsSequence())
+    {
+        errorMessage = "terrain.void must be a sequence of [x0, y0, x1, y1] cell rectangles";
+        return false;
+    }
+
+    rects.clear();
+    rects.reserve(voidNode.size());
+
+    for (const YAML::Node &rectNode : voidNode)
+    {
+        std::array<int, 4> rect = {};
+
+        if (!rectNode.IsSequence() || rectNode.size() != rect.size())
+        {
+            errorMessage = "terrain.void rectangle must be [x0, y0, x1, y1]";
+            return false;
+        }
+
+        try
+        {
+            for (size_t index = 0; index < rect.size(); ++index)
+            {
+                rect[index] = rectNode[index].as<int>();
+            }
+        }
+        catch (const std::exception &)
+        {
+            errorMessage = "terrain.void rectangle values must be integers";
+            return false;
+        }
+
+        if (rect[0] < 0 || rect[1] < 0 || rect[2] >= OutdoorMapData::TerrainWidth
+            || rect[3] >= OutdoorMapData::TerrainHeight || rect[0] > rect[2] || rect[1] > rect[3])
+        {
+            errorMessage = "terrain.void rectangle is outside 0-127 or reversed";
+            return false;
+        }
+
+        rects.push_back(rect);
+    }
+
+    return true;
+}
+
 bool applyOptionalActorCoordinateOverride(
     const YAML::Node &positionNode,
     const char *key,
@@ -2182,6 +2231,14 @@ std::optional<OutdoorSceneData> OutdoorSceneYmlLoader::loadFromText(
         }
     }
 
+    if (const YAML::Node voidNode = terrainNode["void"]; voidNode)
+    {
+        if (!parseOutdoorTerrainVoid(voidNode, sceneData.terrainVoidRects, errorMessage))
+        {
+            return std::nullopt;
+        }
+    }
+
     const YAML::Node surfaceAnimationsNode = rootNode["surface_animations"];
 
     if (surfaceAnimationsNode)
@@ -3396,6 +3453,24 @@ bool buildOutdoorMapStateFromScene(
     outdoorMapData.attributeMap.assign(
         OutdoorMapData::TerrainWidth * OutdoorMapData::TerrainHeight,
         0);
+    outdoorMapData.voidCells.clear();
+
+    if (!sceneData.terrainVoidRects.empty())
+    {
+        outdoorMapData.voidCells.assign(OutdoorMapData::TerrainWidth * OutdoorMapData::TerrainHeight, 0);
+
+        for (const std::array<int, 4> &rect : sceneData.terrainVoidRects)
+        {
+            for (int y = rect[1]; y <= rect[3]; ++y)
+            {
+                for (int x = rect[0]; x <= rect[2]; ++x)
+                {
+                    outdoorMapData.voidCells[size_t(y) * OutdoorMapData::TerrainWidth + size_t(x)] = 1;
+                }
+            }
+        }
+    }
+
     outdoorMapData.terrainFootstepSoundOverrides.clear();
     outdoorMapData.terrainFootstepSoundOverrides.reserve(sceneData.terrainFootstepSoundOverrides.size());
 

@@ -182,6 +182,9 @@ struct OutdoorSceneData
     std::vector<WorldAmbientSound> ambientSounds;
     std::vector<OutdoorSceneTerrainAttributeOverride> terrainAttributeOverrides;
     std::vector<OutdoorSceneTerrainFootstepSoundOverride> terrainFootstepSoundOverrides;
+    // `terrain.void`: cell rectangles [x0, y0, x1, y1] (inclusive, tile_map cells, y 0 the north row) where the
+    // world ends: no terrain, water or ground plants are drawn and the sky shows space below the horizon.
+    std::vector<std::array<int, 4>> terrainVoidRects;
     std::vector<OutdoorSceneSurfaceAnimation> surfaceAnimations;
     std::vector<OutdoorSceneInteractiveFace> interactiveFaces;
     std::vector<OutdoorScenePerceptionFace> perceptionFaces;

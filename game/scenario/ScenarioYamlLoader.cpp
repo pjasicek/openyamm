@@ -83,7 +83,7 @@ const std::vector<NestedKeys> AssertBlockKeys = {
         "foot_z_min", "foot_z_max"}},
     {"actor_visible", {"actor_index", "map", "name", "monster_id", "current_hp", "max_hp", "dead", "hidden",
         "hostile_to_party", "report_state", "near", "far", "faces", "has_aim_target", "has_detected_party",
-        "combat_targeting_party", "shield_raised", "shield_fraction", "hp", "hp_below", "got_hit",
+        "combat_targeting_party", "shield_raised", "shield_fraction", "hp", "hp_below", "got_hit", "over_water",
         // recorded:
         "world", "party", "yaw", "pitch", "actor_pos"}},
     {"ai_trace", {"actor_index", "arena_monster", "decision", "event", "target", "detail", "min_count", "max_count",

@@ -1,0 +1,36 @@
+id: turn_based.maw_puller_pulls_in_turn
+title: Turn-based under MAW - a Puller boss's hit pulls the party at once, not when turn-based combat ends
+world: mm8
+mode: faithful
+tags: [turn_based, regression, maw]
+steps:
+  - note:
+      text: >-
+        A Puller boss (MAW affix 11) jumps the party it strikes at itself (evt.Jump). The jump waited for the party's
+        next physics step, and in turn-based combat a party standing on the ground gets none, so the pull stayed queued
+        until turn-based combat ended and then threw the party (Discord, 2026-11-23). A queued or carrying special jump
+        now runs the party's physics in turn-based combat as a fall does. A ranged boss (Archer A) strikes from afar,
+        so the pull moves the party well away from where it stood.
+  - new_game_flow:
+      start_map: out01.odm
+      ruleset: {id: maw, difficulty: maw, progression: free}
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: A, class: Knight, level: 100, skills: [{name: Sword, level: 10, mastery: 2}], equipment: {}}
+  - advance_runtime: {seconds: 1}
+  - damage_actor: {all: true, amount: 1000000}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: loc, expect_contains: "position=(3560.000, 7696.000"}
+  - spawn_actor: {monster_id: 202, near_party: true, boss_affix: 11}
+  - advance_runtime: {seconds: 0.1}
+  - press_action: combat
+  - advance_runtime: {seconds: 0.5}
+  - assert: {turn_based: {active: true, report: true}}
+  - setup_shortcut: {kind: set_member_points, member_index: 0, health: 1000000}
+  - console: {line: loc, expect_contains: "position=(3560.000, 7696.000"}
+  # The party passes every turn; the boss shoots it and each hit that lands pulls it, while combat stays turn-based.
+  - turn_based_turns: {count: 4}
+  - assert: {turn_based: {active: true}}
+  - console: {line: loc, expect_not_contains: "position=(3560.000, 7696.000"}

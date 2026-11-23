@@ -13,12 +13,15 @@ xeen_x1:
   - name: Vertigo
     inside: [[53.5, 46.6], [44.0, 40.0], [60.5, 47.5]]
     seals:
-      - [[51.1, 38.0], [52.9, 38.0]]      # north gate
-      - [[62.5, 45.1], [62.5, 46.9]]      # east gate
-      - [[41.5, 43.1], [41.5, 44.9]]      # west gate
-      - [[51.2, 52.0], [52.8, 52.0]]      # the bridge from the south gate over the creek
+      - [[51.6, 38.0], [53.4, 38.0]]      # north gate (P2 F28: the gates on their roads' middles, x.5)
+      - [[62.5, 45.6], [62.5, 47.4]]      # east gate
+      - [[41.5, 43.6], [41.5, 45.4]]      # west gate
+      - [[51.7, 52.0], [53.3, 52.0]]      # the bridge from the south gate over the creek
     box: [37, 33, 68, 57]
     circuit: ['thing:wall_run_*', 'thing:gate_arch_*']   # the creek ends: water end piers (D-94, walls.water_end)
+    # P2 F26: the terrace's retaining wall ends flank the town hall's steps; the hall's clock tower stands proud
+    # into the gap between them by design (its door over the steps), the rest of each end face is the steps' side
+    joints_ok: ['thing:terrace_wall_2', 'thing:terrace_wall_3']
 # X3's Newcastle walls are staged (untouchable and hidden until the castle is built, D-13): not an enclosure yet.
 xeen_x4:
   - name: Burlock
@@ -53,7 +56,7 @@ xeen_d1:
   - name: Castleview
     inside: [[63.0, 54.0], [55.0, 50.0], [70.0, 60.0]]
     seals:
-      - [[62.3, 44.0], [63.7, 44.0]]      # north gate
+      - [[62.8, 44.0], [64.2, 44.0]]      # north gate (on its road, x 63.5)
       - [[51.7, 62.0], [52.8, 63.0]]      # Queen's gate
     box: [46, 40, 80, 68]
     circuit: ['thing:wall_*', 'thing:jetty_bastion']
@@ -102,6 +105,6 @@ xeen_d6:
   - name: Necropolis
     inside: [[91.0, 78.0], [84.0, 88.0], [98.0, 76.0]]
     seals:
-      - [[90.4, 74.0], [91.6, 74.0]]      # the gate
+      - [[90.9, 74.0], [92.1, 74.0]]      # the gate (on the lane's middle, x 91.5)
     box: [78, 70, 104, 94]
     circuit: ['thing:np_wall_*', 'thing:np_gate_wall']

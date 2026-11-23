@@ -13271,7 +13271,10 @@ float IndoorWorldRuntime::gameplayViewAspectRatio() const
 
 bool IndoorWorldRuntime::partyNeedsTurnBasedPhysicsUpdate() const
 {
-    return m_pPartyRuntime != nullptr && !m_pPartyRuntime->movementState().grounded;
+    // A special jump (a MAW Puller's hit) launches the party at once in turn-based combat too; without this it
+    // waited, grounded, for turn-based combat to end.
+    return m_pPartyRuntime != nullptr
+        && (!m_pPartyRuntime->movementState().grounded || m_pPartyRuntime->specialJumpActive());
 }
 
 void IndoorWorldRuntime::syncSpellMovementStatesFromPartyBuffs()

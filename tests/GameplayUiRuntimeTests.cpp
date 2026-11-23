@@ -439,3 +439,36 @@ TEST_CASE("MAW bag overview: identify and repair act on the inspected item's bag
     CHECK_NE(GameplayScreenController::itemInspectInteractionKey(openBagOverlay),
         GameplayScreenController::itemInspectInteractionKey(otherBagOverlay));
 }
+
+TEST_CASE("a shop's shelves and its party inventory hide the house dialogue's body text")
+{
+    // Player pin X1 p13 (2026-11-22): a talking proprietor's greeting stayed drawn over the shelves' lowest plank.
+    using OpenYAMM::Game::GameplayUiController;
+    GameplayUiController::HouseShopOverlayState shop;
+    GameplayUiController::InventoryNestedOverlayState nested;
+    CHECK_FALSE(GameplayUiController::houseShopCoversDialogueBody(shop, nested));
+
+    shop.active = true;
+    for (const GameplayUiController::HouseShopMode mode : {GameplayUiController::HouseShopMode::BuyStandard,
+             GameplayUiController::HouseShopMode::BuySpecial, GameplayUiController::HouseShopMode::BuySpellbooks})
+    {
+        shop.mode = mode;
+        CHECK(GameplayUiController::houseShopCoversDialogueBody(shop, nested));
+    }
+
+    shop = {};
+    nested.active = true;
+    for (const GameplayUiController::InventoryNestedOverlayMode mode :
+        {GameplayUiController::InventoryNestedOverlayMode::ShopDisplay,
+            GameplayUiController::InventoryNestedOverlayMode::ShopSell,
+            GameplayUiController::InventoryNestedOverlayMode::ShopIdentify,
+            GameplayUiController::InventoryNestedOverlayMode::ShopRepair})
+    {
+        nested.mode = mode;
+        CHECK(GameplayUiController::houseShopCoversDialogueBody(shop, nested));
+    }
+
+    // A chest's transfer screen is no house screen: its message stays.
+    nested.mode = GameplayUiController::InventoryNestedOverlayMode::ChestTransfer;
+    CHECK_FALSE(GameplayUiController::houseShopCoversDialogueBody(shop, nested));
+}

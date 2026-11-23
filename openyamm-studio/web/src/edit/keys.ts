@@ -69,6 +69,7 @@ export const SKETCH_KEYED: Record<string, KeyedList> = {
     '/water/bodies': { field: 'id' },
     '/water/rivers': { field: 'id' },
     '/water/shores': key('shore'),
+    '/void': { field: 'id' },
     '/roads': key('road'),
     '/districts': key('district'),
     '/districts/*/plots': key('plot'),

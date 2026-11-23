@@ -648,6 +648,19 @@ TEST_CASE("MAW skill popups fill every number for every class line and keep the 
         CHECK_NE(withoutColor(skills.statTooltip(party, party.members()[0], "FireResistance", "Table."))
                 .find(std::string("takes ") + percent + " % off fire hits"), std::string::npos);
         party.member(0)->itemResistanceEnchants.fire = 0;
+
+        // MAW's own paragraph follows the table's text on every resistance row (zzMaw-Stats.lua:742-744).
+        for (const char *pStat : {"FireResistance", "AirResistance", "WaterResistance", "EarthResistance",
+                 "MindResistance", "BodyResistance"})
+        {
+            CAPTURE(pStat);
+            const std::string text = withoutColor(skills.statTooltip(party, party.members()[0], pStat, "Table."));
+            CHECK(text.starts_with("Table.\n\nDamage of this kind is reduced by the percent shown"));
+            CHECK_NE(text.find("Light damage is resisted by the lower of the Mind and Body resistances"),
+                std::string::npos);
+            CHECK_NE(text.find("Energy damage by the lowest resistance of all"), std::string::npos);
+        }
+
         CHECK_FALSE(skills.resistanceCut(party, party.members()[0], "Might"));
         CHECK_FALSE(standardSkillRules().resistanceCut(party, party.members()[0], "FireResistance"));
     }

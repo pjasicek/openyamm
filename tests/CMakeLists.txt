@@ -477,6 +477,8 @@ add_executable(openyamm_unit_tests
     ../game/ui/HouseShopLedger.cpp
     ../game/ui/SpellbookUiLayout.cpp
     ../game/ui/UiLayoutManager.cpp
+    ../game/ui/GameplayHudCommon.cpp
+    ../game/ui/GameplayMm9TalkBarScroll.cpp
     ../game/outdoor/OutdoorMeadow.cpp
     ../game/outdoor/OutdoorLightingRuntime.cpp
     ../game/outdoor/OutdoorLightingData.cpp

@@ -83,13 +83,21 @@ class SunkenEntrance:
     `revet_to`, their tops 16 under `top`; a stone cap at `top` reaches from the end face's back to row `back_to` over
     the cut's slope behind it, with a lintel over the tunnel's last part so the dark face stays in sight. `outfall`
     (a creek behind) is the creek side's own low barred mouth at the waterline on the bank's edge (`outfall_y`), in a
-    small block of the same stone: a drain, not a second door."""
+    small block of the same stone: a drain, not a second door.
+
+    P2 feedback F25 (pins p3, p18, 2026-11-23; tools/xeen/town_fit_check.py `culverts.*`, `walls.hollow`): `under`
+    rows behind the end face are cut to the floor too, so the land under the mouth's tunnel is the floor's (it climbed
+    into the arch as a grass slope under the dark face); the mouth sits DRY_SINK under the floor so its tunnel water
+    lies under the land (a dry ditch shows no flat strip of water); the revetments reach down to the floor (they hung
+    over it); the outfall's block has cheeks over its tunnel's sides between the headwall and the cap (seen from the
+    creek its side showed the tunnel cut through)."""
 
     THICK = 112           # the mouth's headwall
     DEPTH = 16            # the dark face behind it
+    DRY_SINK = 16         # a dry mouth's floor under the ditch's floor: its tunnel water stays under the land
 
     def __init__(self, name, x0, x1, face_y, floor_to, ramp_to, ground, top, depth=PARTY_H + 32, back_to=None,
-                 revet_to=None, texture='cwb', land=None, revet_thick=CELL):
+                 revet_to=None, texture='cwb', land=None, revet_thick=CELL, under=0):
         self.name, self.x0, self.x1 = name, x0, x1
         self.face_y, self.floor_to, self.ramp_to = face_y, floor_to, ramp_to
         self.ground, self.floor, self.top = ground, ground - depth, top
@@ -97,8 +105,9 @@ class SunkenEntrance:
         self.revet_to = revet_to if revet_to is not None else ramp_to
         self.revet_thick = revet_thick     # thinner where a house stands at the slope's top (X4's undercroft stair)
         self.land = land or (lambda i, j: ground)        # the land's node heights round the ditch, before the cut
-        self.rows = range(int(face_y), floor_to + 1)
+        self.rows = range(int(face_y) - under, floor_to + 1)
         assert face_y == int(face_y), 'the end face stands on a whole row of floor nodes'
+        assert under * CELL >= self.THICK + self.DEPTH or under == 0, 'the cut rows behind reach past the dark face'
 
     def node(self, i, j):
         """A node's height after the cut (the floor's, else the land's)."""
@@ -137,7 +146,7 @@ class SunkenEntrance:
                             **st))
         return out
 
-    def structures(self, mouth, outfall_y=None, outfall=None):
+    def structures(self, mouth, outfall_y=None, outfall=None, quay=False):
         """The mouth (a culvert structure: `at`, `thickness`, `depth` and `wall` are set here), the revetments, the
         cap and lintel behind it, and with `outfall_y` the creek side's mouth with its block (words over the
         defaults in `outfall`)."""
@@ -146,10 +155,20 @@ class SunkenEntrance:
         # the ditch's width over the revetments' outer faces ((x1 - x0 + 2) cells with CELL-thick revetments)
         width = (self.x1 - self.x0) * CELL + 2 * self.revet_thick
         # the end face 16 inside the revetments' outer faces at either end (no faces in one plane)
-        m = dict(mouth, at=[xm, round(self.face_y, 4)], thickness=self.THICK, depth=self.DEPTH,
-                 wall=[width - 32, self.top - self.floor])
-        m.setdefault('textures', tex)
-        crown = self.floor + m.get('height', 384)
+        # F25 (pin p3): the mouth is a dark arched door in the end face (a `doorway`: its frame the end face, `THICK`
+        # deep, its sill on the floor), not a culvert's tunnel: the tunnel ran back under the bank, whose land (held
+        # at the creek's level) climbed into it as a grass slope under the dark face, and its water lay on the dry
+        # floor as a flat strip. A dark door in a stone face is the MM6-MM8 way into a dungeon from a wall.
+        keep = {k: v for k, v in mouth.items() if k not in ('kind', 'outflow', 'water_level', 'hint', 'thickness',
+                                                              'depth', 'wall', 'grating')}
+        m = dict(keep, kind='doorway', at=[xm, round(self.face_y - 32.0 / CELL, 4)], floor=self.floor,
+                 width=mouth.get('width', 288), height=mouth.get('height', 384), arch=mouth.get('arch', 'round'),
+                 sides=mouth.get('sides', 8), depth=self.THICK, frame_width=width - 32,
+                 frame_height=self.top - self.floor)
+        tx = dict(tex, **(mouth.get('textures') or {}))
+        tx.setdefault('door', '7solid01')
+        m['textures'] = tx
+        crown = self.floor + m['height']
         assert crown <= self.top - 80, 'the mouth\'s crown must stay 80 under the top (the lintel over the tunnel)'
         out = [m]
         back = self.face_y - self.THICK / CELL
@@ -157,13 +176,19 @@ class SunkenEntrance:
         for side, cx in (('w', self.x0 - half), ('e', self.x1 + half)):
             steps = [self.face_y + (self.revet_to - self.face_y) * k / 8 for k in range(9)]
             high = max(self.stored(cx, y) for y in steps)
-            out.append({'id': 'thing:%s_revetment_%s' % (self.name, side), 'kind': 'wall',
-                        'line': [[cx, round(back + 0.02, 4)], [cx, self.revet_to]],
-                        'height': max(32, round(self.top - 16 - high)), 'thickness': self.revet_thick, 'textures': tex,
-                        'title': 'Revetment', 'notes': "D-95: lines the sunken approach's side, 16 under the end face."})
+            low = min(self.stored(cx, y) for y in steps)
+            # F25: the foot down to the floor (a wall's foot is its line's lowest land less 64: it hung over the floor)
+            sink = min(0, round(self.floor - 32 - (low - 64)))
+            rv = {'id': 'thing:%s_revetment_%s' % (self.name, side), 'kind': 'wall',
+                  'line': [[cx, round(back + 0.02, 4)], [cx, self.revet_to]],
+                  'height': max(32, round(self.top - 16 - high - sink)), 'thickness': self.revet_thick, 'textures': tex,
+                  'title': 'Revetment', 'notes': "D-95: lines the sunken approach's side, 16 under the end face."}
+            if sink:
+                rv['raise'] = sink
+            out.append(rv)
         if self.back_to is not None:
-            out += self.backing(self.name, xm, width - 32, self.face_y, 1, self.THICK, self.DEPTH, self.top,
-                                self.back_to)
+            out += [st for st in self.backing(self.name, xm, width - 32, self.face_y, 1, self.THICK, -4, self.top,
+                                              self.back_to) if not st['id'].endswith('_lintel')]
         if outfall_y is not None:
             water = self.land(round(xm), math.ceil(outfall_y))
             o = {'id': 'thing:%s_outfall' % self.name, 'kind': 'culvert', 'turn': 180, 'at': [xm, outfall_y],
@@ -177,6 +202,33 @@ class SunkenEntrance:
             out.append(o)
             out += self.backing(self.name + '_outfall', xm, o['width'] + 96, outfall_y, -1, o['thickness'],
                                 o['depth'], o_top, outfall_y + 0.4)
+            if quay:
+                # F25: with the cut reaching under the bank (`under`), the cap runs on to the outfall's block and two
+                # wings either side of it close the quay's front along the water: nothing of the cut bank shows
+                ow = (o['width'] + 96) / 2.0 / CELL
+                cw = (width - 32) / 2.0 / CELL
+                a0 = outfall_y + o['thickness'] / CELL
+                b0 = outfall_y + 0.4
+                for side, sx in (('w', -1), ('e', 1)):
+                    mx = xm + sx * (ow + cw) / 2.0
+                    my = (a0 + b0) / 2.0
+                    out.append({'id': 'thing:%s_quay_%s' % (self.name, side), 'kind': 'platform',
+                                'at': [round(mx, 4), round(my, 4)],
+                                'size': [round((cw - ow) * CELL), round((b0 - a0) * CELL)],
+                                'height': round(self.top - self.stored(mx, my)), 'textures': tex, 'title': 'Quay',
+                                'notes': "F25: the quay's front beside the outfall, over the cut bank."})
+            # F25 (p18): cheeks over the tunnel's sides between the headwall's back and the cap, 4 inside the block's
+            # sides (no faces in one plane), from the creek's bed to the lintel's foot
+            a = outfall_y + o['thickness'] / CELL - 0.01
+            b = outfall_y + (o['thickness'] + o['depth'] + 4) / CELL + 0.01
+            half = (o['width'] + 96) / 2.0 - 4 - 16      # 32 thick (a wall's least), 4 inside the block's side
+            for side, sx in (('w', -1), ('e', 1)):
+                cx = round(xm + sx * half / CELL, 4)
+                g = min(self.stored(cx, a), self.stored(cx, b))
+                out.append({'id': 'thing:%s_outfall_cheek_%s' % (self.name, side), 'kind': 'wall',
+                            'line': [[cx, round(a, 4)], [cx, round(b, 4)]], 'thickness': 32,
+                            'height': round(o_top - 16 - g), 'textures': tex, 'title': 'Outfall',
+                            'notes': "F25: closes the side of the outfall's tunnel between its headwall and cap."})
         return out
 
 

@@ -28,11 +28,13 @@
 #include "tests/PartySpellTestHarness.h"
 #include "tests/RegressionGameData.h"
 
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <filesystem>
 #include <fstream>
 #include <iterator>
+#include <limits>
 #include <memory>
 #include <optional>
 #include <random>
@@ -2024,4 +2026,135 @@ TEST_CASE("MAW missile and spell crits reach the status line: breath's Flame Bla
     CHECK(GameplayCombatController::formatPartyProjectileActorImpactStatusText("Dragon", "Ogre", events[1],
         &rules.gameRules().combat).find("(CRIT!)") == std::string::npos);
     CHECK_FALSE(events[2].critical);
+}
+
+TEST_CASE("The spell inspect window's damage range holds every roll that did not crit: Standard and MAW (user)")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    MawRules rules(RulesetOptions{}, MawMapLevels{}, installedItemData());
+    const SpellEntry *pFireBolt = gameData.spellTable.findById(spellIdValue(SpellId::FireBolt));
+    const SpellEntry *pFireball = gameData.spellTable.findById(spellIdValue(SpellId::Fireball));
+    const SpellEntry *pFlameBlast = gameData.spellTable.findById(123);
+    const SpellEntry *pBlades = gameData.spellTable.findById(39);
+    const SpellEntry *pTorchLight = gameData.spellTable.findById(spellIdValue(SpellId::TorchLight));
+    const SpellEntry *pMassDistortion = gameData.spellTable.findById(spellIdValue(SpellId::MassDistortion));
+    REQUIRE(pFireBolt != nullptr);
+    REQUIRE(pFireball != nullptr);
+    REQUIRE(pFlameBlast != nullptr);
+    REQUIRE(pBlades != nullptr);
+    REQUIRE(pTorchLight != nullptr);
+    REQUIRE(pMassDistortion != nullptr);
+
+    Character sorcerer;
+    sorcerer.name = "Sorcerer";
+    sorcerer.className = "Sorcerer";
+    sorcerer.level = 30;
+    sorcerer.intellect = 200;
+    Character dragon;
+    dragon.name = "Dragon";
+    dragon.className = "Dragon";
+    dragon.raceId = 5;
+    dragon.level = 30;
+    dragon.might = dragon.accuracy = dragon.speed = 89;
+    dragon.skills["DragonAbility"] = {"DragonAbility", 17, SkillMastery::Grandmaster};
+    Character assassin = assassinWithSword();
+
+    const auto castOf = [&](const Character &caster, const SpellEntry &spell, SkillMastery mastery)
+    {
+        CharacterSpellCast cast;
+        cast.pCaster = &caster;
+        cast.pItemTable = &gameData.itemTable;
+        cast.pSpell = &spell;
+        cast.mastery = mastery;
+        cast.skillLevel = 12;
+        return cast;
+    };
+    const auto checkRolls = [](const CombatRules &combat, const CharacterSpellCast &cast)
+    {
+        const std::optional<SpellDamagePreview> preview = combat.spellDamagePreview(cast);
+        REQUIRE(preview.has_value());
+        CHECK(preview->minimum <= preview->maximum);
+        CHECK(preview->minimum <= preview->average);
+        CHECK(preview->average <= preview->maximum);
+        int lowest = std::numeric_limits<int>::max();
+        int highest = 0;
+        double total = 0;
+        int ordinary = 0;
+
+        for (int roll = 0; roll < 3000; ++roll)
+        {
+            bool critical = false;
+            const int damage = combat.rollSpellDamage(cast, &critical);
+
+            if (!critical)
+            {
+                lowest = std::min(lowest, damage);
+                highest = std::max(highest, damage);
+                total += damage;
+                ++ordinary;
+            }
+        }
+
+        REQUIRE(ordinary > 0);
+        CHECK(lowest >= preview->minimum);
+        CHECK(highest <= preview->maximum);
+        CHECK(total / ordinary == doctest::Approx(preview->average).epsilon(0.05));
+        return *preview;
+    };
+
+    // Standard: the table's dice per skill point, never a crit; nothing for a spell without damage or one that takes
+    // a share of its target.
+    const SpellDamagePreview standard =
+        checkRolls(standardGameRules().combat, castOf(sorcerer, *pFireBolt, SkillMastery::Normal));
+    CHECK_EQ(standard.minimum, 12);
+    CHECK_EQ(standard.average, 24);
+    CHECK_EQ(standard.maximum, 36);
+    CHECK_EQ(standard.criticalChance, 0.0);
+    CHECK_FALSE(standardGameRules().combat.spellDamagePreview(castOf(sorcerer, *pTorchLight, SkillMastery::Normal)));
+    CHECK_FALSE(
+        standardGameRules().combat.spellDamagePreview(castOf(sorcerer, *pMassDistortion, SkillMastery::Normal)));
+
+    // MAW: the dice spells with Intellect and the spell crit, a dragon's Flame Blast and an Assassin's Blades.
+    const SpellDamagePreview fireball =
+        checkRolls(rules.gameRules().combat, castOf(sorcerer, *pFireball, SkillMastery::Master));
+    CHECK(fireball.criticalChance > 0);
+    CHECK(fireball.criticalMultiplier > 1);
+    checkRolls(rules.gameRules().combat, castOf(dragon, *pFlameBlast, SkillMastery::Grandmaster));
+    checkRolls(rules.gameRules().combat, castOf(assassin, *pBlades, SkillMastery::Master));
+    CHECK_FALSE(rules.gameRules().combat.spellDamagePreview(castOf(sorcerer, *pMassDistortion, SkillMastery::Master)));
+}
+
+TEST_CASE("MAW an Expert staff guards its holder and resists for the party (Discord, 2026-11-23)")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    MawRules rules(RulesetOptions{}, MawMapLevels{}, installedItemData());
+    const ItemDefinition *pPriestly = gameData.itemTable.get(81);
+    REQUIRE(pPriestly != nullptr);
+    REQUIRE(canonicalSkillName(pPriestly->skillGroup) == "Staff");
+
+    // Priestly Staff (rung 3.5, two-handed) at power 20: guard 8 + 11 = 19. Expert Staff 10: 2 % x 19 x (10 + 10) =
+    // 7.6, so 8 Armor Class and 8 resistance for the party (zzMAW-Skills.lua skillAC/skillResistance, Expert 2).
+    Character holder = member("Thorn", "Shaman", 20);
+    holder.equipment.mainHand = 81;
+    holder.equipmentRuntime.mainHand.rulesetFields.itemPower = 20;
+    holder.skills["Staff"] = {"Staff", 10, SkillMastery::Expert};
+    const std::optional<MawWeaponGuard> guard =
+        mawWeaponGuard(rules, holder, *pPriestly, holder.equipmentRuntime.mainHand.rulesetFields);
+    REQUIRE(guard.has_value());
+    CHECK_EQ(guard->guard, 19);
+    CHECK_EQ(guard->armorClass, 8);
+    CHECK_EQ(guard->resistance, 8);
+    CHECK_EQ(mawStaffPartyResistance(rules, holder, gameData.itemTable), 8);
+
+    // The weakest staff of a family has no flat guard: unpowered, it gives nothing at Expert, as in MAW.
+    holder.equipmentRuntime.mainHand.rulesetFields.itemPower = 0;
+    holder.equipment.mainHand = 79;
+    const ItemDefinition *pJourney = gameData.itemTable.get(79);
+    REQUIRE(pJourney != nullptr);
+    const std::optional<MawWeaponGuard> weakest =
+        mawWeaponGuard(rules, holder, *pJourney, holder.equipmentRuntime.mainHand.rulesetFields);
+    REQUIRE(weakest.has_value());
+    CHECK_EQ(weakest->armorClass, 0);
 }

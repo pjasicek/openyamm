@@ -131,6 +131,8 @@ public:
     const OutdoorMovementEvents &lastEvents() const;
     const OutdoorMovementConsequences &lastConsequences() const;
     const OutdoorPartyMovementState &partyMovementState() const;
+    // A special jump (the event Jump, a MAW Puller's hit) waits for its first step or still carries the party.
+    bool specialJumpActive() const;
     bool isRunningMovement(const OutdoorMovementInput &input) const;
     const OutdoorMovementTuning &tuning() const;
     const OutdoorMovementEffects &pendingEffects() const;

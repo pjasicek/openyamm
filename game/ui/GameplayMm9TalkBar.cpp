@@ -122,6 +122,12 @@ struct Layout
     std::vector<Row> rows;
     bool moreAbove = false;
     bool moreBelow = false;
+    // The scroll buttons beside a list taller than the bar, and the row each selects to scroll one line (the list
+    // follows the selection).
+    Box scrollUp;
+    Box scrollDown;
+    std::optional<size_t> scrollUpAction;
+    std::optional<size_t> scrollDownAction;
 };
 
 // MM9 puts two spaces after its full stops; the bar collapses every run of spaces.
@@ -318,102 +324,96 @@ std::optional<Layout> layout(GameplayScreenRuntime &context, int width, int heig
     y += (6 + RuleHeight + 8 + 2) * k;
     const float choicesTop = y;
 
-    // The rows, all of them, before the height limit picks the ones in view.
+    // The rows, all of them, before the height limit picks the ones in view. Each line holds one row, or two side by
+    // side in two columns; `reserve` keeps a strip at the right of the list free for the scroll buttons.
     result.choiceFontHeight = (result.twoColumns ? 20.0f : 21.0f) * k;
     result.choiceLineHeight = result.choiceFontHeight * 1.18f;
     const float minimumRowHeight = (TouchRows ? 54.0f : 36.0f) * k;
     const float rowGap = 2 * k;
+    const float exitGap = 4 * k;
     const float columnGap = 12 * k;
-    const float columnWidth = result.twoColumns ? (contentWidth - columnGap) / 2 : contentWidth;
     const float textOffset = (TouchRows ? 34.0f : 70.0f) * k;
     std::vector<Row> rows;
     std::vector<size_t> lineOfRow;
-    float rowY = 0;
-    size_t lineCount = 0;
+    std::vector<float> lineHeights;
+    std::vector<bool> exitLines;
+    float rowsHeight = 0;
 
-    for (size_t index = 0; index < order.size();)
+    const auto measureRows = [&](float reserve)
     {
-        const size_t action = order[index];
-        const bool exitRow = dialog.actions[action].choiceMark == EventDialogChoiceMark::Exit;
-        const size_t perLine = result.twoColumns && !exitRow ? 2 : 1;
-        float lineHeight = minimumRowHeight;
-        const size_t lineStart = rows.size();
+        rows.clear();
+        lineOfRow.clear();
+        lineHeights.clear();
+        exitLines.clear();
+        const float listWidth = contentWidth - reserve;
+        const float columnWidth = result.twoColumns ? (listWidth - columnGap) / 2 : listWidth;
+        float rowY = 0;
 
-        if (exitRow && index > 0)
+        for (size_t index = 0; index < order.size();)
         {
-            rowY += 4 * k;
-        }
+            const size_t action = order[index];
+            const bool exitRow = dialog.actions[action].choiceMark == EventDialogChoiceMark::Exit;
+            const size_t perLine = result.twoColumns && !exitRow ? 2 : 1;
+            float lineHeight = minimumRowHeight;
+            const size_t lineStart = rows.size();
 
-        for (size_t column = 0; column < perLine && index < order.size(); ++column)
-        {
-            const size_t columnAction = order[index];
-
-            if (column > 0 && dialog.actions[columnAction].choiceMark == EventDialogChoiceMark::Exit)
+            if (exitRow && index > 0)
             {
-                break;
+                rowY += exitGap;
             }
 
-            Row row;
-            row.action = columnAction;
-            row.key = TouchRows ? std::string() : keyLabel(dialog, columnAction);
-            const EventDialogAction &choice = dialog.actions[columnAction];
-            const float tagWidth = choice.choiceTag.empty()
-                ? 0.0f : text.width(SmallFont, 13 * k, choice.choiceTag) + 26 * k;
-            const float rowWidth = exitRow ? contentWidth : columnWidth;
-            row.lines = text.wrap(ChoiceFont, result.choiceFontHeight, collapseSpaces(choice.label),
-                rowWidth - textOffset - 12 * k - tagWidth);
-            row.box = {float(column) * (columnWidth + columnGap), rowY, rowWidth, 0};
-            lineHeight = std::max(lineHeight,
-                float(std::max<size_t>(1, row.lines.size())) * result.choiceLineHeight + 12 * k);
-            rows.push_back(std::move(row));
-            ++index;
+            for (size_t column = 0; column < perLine && index < order.size(); ++column)
+            {
+                const size_t columnAction = order[index];
+
+                if (column > 0 && dialog.actions[columnAction].choiceMark == EventDialogChoiceMark::Exit)
+                {
+                    break;
+                }
+
+                Row row;
+                row.action = columnAction;
+                row.key = TouchRows ? std::string() : keyLabel(dialog, columnAction);
+                const EventDialogAction &choice = dialog.actions[columnAction];
+                const float tagWidth = choice.choiceTag.empty()
+                    ? 0.0f : text.width(SmallFont, 13 * k, choice.choiceTag) + 26 * k;
+                const float rowWidth = exitRow ? contentWidth : columnWidth;
+                row.lines = text.wrap(ChoiceFont, result.choiceFontHeight, collapseSpaces(choice.label),
+                    rowWidth - textOffset - 12 * k - tagWidth);
+                row.box = {float(column) * (columnWidth + columnGap), rowY, rowWidth, 0};
+                lineHeight = std::max(lineHeight,
+                    float(std::max<size_t>(1, row.lines.size())) * result.choiceLineHeight + 12 * k);
+                rows.push_back(std::move(row));
+                ++index;
+            }
+
+            for (size_t rowIndex = lineStart; rowIndex < rows.size(); ++rowIndex)
+            {
+                rows[rowIndex].box.height = lineHeight;
+                lineOfRow.push_back(lineHeights.size());
+            }
+
+            lineHeights.push_back(lineHeight);
+            exitLines.push_back(exitRow);
+            rowY += lineHeight + rowGap;
         }
 
-        for (size_t rowIndex = lineStart; rowIndex < rows.size(); ++rowIndex)
-        {
-            rows[rowIndex].box.height = lineHeight;
-            lineOfRow.push_back(lineCount);
-        }
-
-        rowY += lineHeight + rowGap;
-        ++lineCount;
-    }
+        rowsHeight = rowY > 0 ? rowY - rowGap : 0;
+    };
 
     const float bottomInset = (6 + FrameBorder) * k;
     const float topInset = (2 + FrameBorder) * k;
     // The room: under the height limit and below the top HUD, the medallion included.
     const float maximumHeight = std::min(float(height) * MaxHeightShare, panelBottom - 150 * k);
-    float rowsHeight = rowY > 0 ? rowY - rowGap : 0;
-    size_t firstLine = 0;
-    size_t visibleLines = lineCount;
+    const float room = maximumHeight - topInset - choicesTop - bottomInset;
+    measureRows(0.0f);
 
-    if (topInset + choicesTop + rowsHeight + bottomInset > maximumHeight && lineCount > 0)
+    if (rowsHeight > room && !lineHeights.empty())
     {
-        // Whole lines of rows that fit, at least a few, kept round the selection.
-        const float room = maximumHeight - topInset - choicesTop - bottomInset;
-        visibleLines = 0;
-        float used = 0;
-        std::vector<float> lineHeights(lineCount, 0.0f);
-
-        for (const Row &row : rows)
-        {
-            lineHeights[lineOfRow[&row - rows.data()]] = row.box.height;
-        }
-
-        for (size_t line = 0; line < lineCount; ++line)
-        {
-            const float next = used + lineHeights[line] + (line > 0 ? rowGap : 0);
-
-            if (next > room && visibleLines >= MinimumVisibleRows)
-            {
-                break;
-            }
-
-            used = next;
-            ++visibleLines;
-        }
-
-        visibleLines = std::min(visibleLines, lineCount);
+        // Past the height limit the rows narrow for the scroll buttons beside them, and whole lines of them show,
+        // kept round the selection, with the way out pinned below (a touch player has no wheel or keys to reach it).
+        const float gutter = (TouchRows ? 56.0f : 30.0f) * k;
+        measureRows(gutter);
         size_t selectedLine = 0;
         const size_t selection = context.eventDialogSelectionIndex();
 
@@ -425,23 +425,52 @@ std::optional<Layout> layout(GameplayScreenRuntime &context, int width, int heig
             }
         }
 
-        firstLine = selectedLine >= visibleLines ? selectedLine - visibleLines + 1 : 0;
-        result.moreAbove = firstLine > 0;
-        result.moreBelow = firstLine + visibleLines < lineCount;
-        const float shift = firstLine > 0 ? rows[size_t(std::find(lineOfRow.begin(), lineOfRow.end(), firstLine)
-            - lineOfRow.begin())].box.y : 0.0f;
+        const GameplayMm9TalkBar::ScrollWindow window = GameplayMm9TalkBar::scrollWindow(lineHeights, exitLines,
+            rowGap, exitGap, room, selectedLine, MinimumVisibleRows);
+        const auto firstRowOf = [&](size_t line)
+        {
+            return size_t(std::find(lineOfRow.begin(), lineOfRow.end(), line) - lineOfRow.begin());
+        };
+        const size_t windowEnd = window.firstLine + window.visibleLines;
+        const float shift = rows[firstRowOf(window.firstLine)].box.y;
+        float windowBottom = 0;
         std::vector<Row> visible;
 
         for (size_t rowIndex = 0; rowIndex < rows.size(); ++rowIndex)
         {
-            if (lineOfRow[rowIndex] >= firstLine && lineOfRow[rowIndex] < firstLine + visibleLines)
+            if (lineOfRow[rowIndex] >= window.firstLine && lineOfRow[rowIndex] < windowEnd)
             {
                 Row row = rows[rowIndex];
                 row.box.y -= shift;
+                windowBottom = std::max(windowBottom, row.box.y + row.box.height);
                 visible.push_back(std::move(row));
             }
         }
 
+        if (window.scrollLines < lineHeights.size())
+        {
+            const float pinShift = rows[firstRowOf(window.scrollLines)].box.y - (windowBottom + rowGap + exitGap);
+
+            for (size_t rowIndex = 0; rowIndex < rows.size(); ++rowIndex)
+            {
+                if (lineOfRow[rowIndex] >= window.scrollLines)
+                {
+                    Row row = rows[rowIndex];
+                    row.box.y -= pinShift;
+                    visible.push_back(std::move(row));
+                }
+            }
+        }
+
+        result.moreAbove = window.upLine.has_value();
+        result.moreBelow = window.downLine.has_value();
+        result.scrollUpAction = window.upLine ? std::optional<size_t>(rows[firstRowOf(*window.upLine)].action)
+                                              : std::nullopt;
+        result.scrollDownAction = window.downLine
+            ? std::optional<size_t>(rows[firstRowOf(*window.downLine)].action) : std::nullopt;
+        // The buttons' strip beside the lines in view: its upper half scrolls up, its lower half down.
+        result.scrollUp = {contentWidth - gutter, 0, gutter, windowBottom / 2};
+        result.scrollDown = {contentWidth - gutter, windowBottom / 2, gutter, windowBottom - windowBottom / 2};
         rows = std::move(visible);
         rowsHeight = 0;
 
@@ -470,6 +499,12 @@ std::optional<Layout> layout(GameplayScreenRuntime &context, int width, int heig
     {
         row.box.x += originX;
         row.box.y += originY + choicesTop;
+    }
+
+    for (Box *pBox : {&result.scrollUp, &result.scrollDown})
+    {
+        pBox->x += originX;
+        pBox->y += originY + choicesTop;
     }
 
     result.rows = std::move(rows);
@@ -753,6 +788,42 @@ std::optional<size_t> GameplayMm9TalkBar::actionAtPoint(GameplayScreenRuntime &c
     return std::nullopt;
 }
 
+int GameplayMm9TalkBar::scrollButtonAtPoint(GameplayScreenRuntime &context, int width, int height, float x, float y)
+{
+    const std::optional<Layout> bar = layout(context, width, height);
+
+    if (!bar)
+    {
+        return 0;
+    }
+
+    if (bar->scrollUpAction && bar->scrollUp.contains(x, y))
+    {
+        return -1;
+    }
+
+    if (bar->scrollDownAction && bar->scrollDown.contains(x, y))
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
+void GameplayMm9TalkBar::scroll(GameplayScreenRuntime &context, int width, int height, int direction)
+{
+    const std::optional<Layout> bar = layout(context, width, height);
+    const std::optional<size_t> action = !bar ? std::nullopt
+        : direction < 0 ? bar->scrollUpAction
+        : direction > 0 ? bar->scrollDownAction
+        : std::nullopt;
+
+    if (action)
+    {
+        context.eventDialogSelectionIndex() = *action;
+    }
+}
+
 void GameplayMm9TalkBar::render(GameplayScreenRuntime &context, int width, int height, float mouseX, float mouseY)
 {
     const std::optional<Layout> bar = layout(context, width, height);
@@ -863,29 +934,34 @@ void GameplayMm9TalkBar::render(GameplayScreenRuntime &context, int width, int h
         renderRow(paint, text, *bar, row, dialog.actions[row.action], hot == row.action);
     }
 
-    // More rows past the height limit: small chevrons at the list's right edge.
-    if (bar->moreAbove || bar->moreBelow)
+    // More rows past the height limit: chevrons in the strip beside the list, the top one scrolling up and the
+    // bottom one down when clicked or tapped. On touch they sit on buttons a finger can find.
+    const float line = std::max(1.0f, k);
+    const float size = (TouchRows ? 22.0f : 14.0f) * k;
+    const auto renderScrollButton = [&](const Box &box, bool up)
     {
-        const float x = bar->content.x + bar->content.width - 6 * k;
-        const float top = bar->rows.empty() ? bar->content.y : bar->rows.front().box.y;
-        float bottom = top;
+        const bool hover = box.contains(mouseX, mouseY);
 
-        for (const Row &row : bar->rows)
+        if (TouchRows)
         {
-            bottom = std::max(bottom, row.box.y + row.box.height);
+            const Box button = {box.x + 4 * k, box.y + 2 * k, box.width - 4 * k, box.height - 4 * k};
+            paint.fill(button, hover ? HotFill : KeyFill);
+            paint.frame(button, line, hover ? HotBorder : KeyBorder);
         }
 
-        const float size = 14 * k;
+        const float glyphY = up ? box.y + 4 * k : box.y + box.height - size - 4 * k;
+        paint.glyph(up ? UpGlyph : DownGlyph, {box.x + box.width / 2 - size / 2, glyphY, size, size},
+            hover ? Gold : ScrollMark);
+    };
 
-        if (bar->moreAbove)
-        {
-            paint.glyph(UpGlyph, {x - size / 2, top - size - 1 * k, size, size}, ScrollMark);
-        }
+    if (bar->moreAbove)
+    {
+        renderScrollButton(bar->scrollUp, true);
+    }
 
-        if (bar->moreBelow)
-        {
-            paint.glyph(DownGlyph, {x - size / 2, bottom + 1 * k, size, size}, ScrollMark);
-        }
+    if (bar->moreBelow)
+    {
+        renderScrollButton(bar->scrollDown, false);
     }
 }
 }

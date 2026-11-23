@@ -343,7 +343,9 @@ void WaterRenderer::prepare(const ViewFrustum &frustum, const bx::Vec3 &camera, 
         Surface *pNearest = nullptr;
         for (Surface &surface : m_surfaces)
         {
-            if (surface.reflection < 0 && reflectsFrom(surface, camera)
+            // A surface the main view's last occlusion answer found hidden (a well behind a house) takes no capture:
+            // it would spend the budget on water nobody sees (player pin X1 p2).
+            if (surface.reflection < 0 && !surface.occluded && reflectsFrom(surface, camera)
                 && (pNearest == nullptr || surface.distanceSquared < pNearest->distanceSquared))
             {
                 pNearest = &surface;

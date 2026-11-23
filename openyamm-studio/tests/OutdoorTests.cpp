@@ -598,6 +598,7 @@ TEST_CASE("the report and the pictures of an outdoor comparison are written, the
 
 // ---- The land, the ground and the roads of an outdoor project (core/OutdoorLowering, core/OutdoorGround) ----
 
+#include "core/OutdoorBuild.h"
 #include "core/OutdoorGround.h"
 #include "core/OutdoorLowering.h"
 #include "core/Schema.h"
@@ -774,6 +775,44 @@ TEST_CASE("water lies on the corners of cells: open water inside the outline, th
     CHECK(sampleAt(lowered, 81, 31) == 320 / 32);
     CHECK(lowered.tileSets == std::array<uint16_t, 4>{90, 126, 342, 414});
     CHECK(lowered.masterTile == 0);
+}
+
+TEST_CASE("the void (U-12) lies at 0 and dry, its outline at the land's height, its cells have four corners in it, "
+    "and no water may overlap it")
+{
+    const std::string rim = "void:\n  - {id: void:rim, polygon: [[105, 0], [128, 0], [128, 128], [105, 128]]}\n";
+    const LoweredOutdoorMap lowered = loweredOf(std::string(LevelLand) + rim);
+    REQUIRE(lowered.voidCells.size() == static_cast<size_t>(Side) * Side);
+    CHECK(lowered.voidCells[10 * Side + 105] == 1);
+    CHECK(lowered.voidCells[127 * Side + 127] == 1);
+    // The cell west of the outline has its east corners on it only: the land's last cell, level to the edge (D-109:
+    // the outline keeps the land's height, so the drop lies in the first void cell, which is never drawn).
+    CHECK(lowered.voidCells[10 * Side + 104] == 0);
+    CHECK(sampleAt(lowered, 104, 10) > 0);
+    CHECK(sampleAt(lowered, 105, 10) == sampleAt(lowered, 104, 10));
+    CHECK(sampleAt(lowered, 106, 10) == 0);
+    CHECK(sampleAt(lowered, 120, 60) == 0);
+    CHECK(lowered.waterCells == 0);
+    CHECK(outdoorVoidRectangles(lowered.voidCells) == std::vector<std::array<int, 4>>{{105, 0, 127, 127}});
+    CHECK(loweredOf(LevelLand).voidCells.empty());
+
+    // A notch: the runs of each row stack into rectangles while their span repeats.
+    std::vector<uint8_t> cells(static_cast<size_t>(Side) * Side, 0);
+
+    for (int y = 0; y < Side; ++y)
+    {
+        for (int x = y >= 40 && y < 50 ? 100 : 110; x < Side; ++x)
+        {
+            cells[static_cast<size_t>(y) * Side + x] = 1;
+        }
+    }
+
+    CHECK(outdoorVoidRectangles(cells)
+        == std::vector<std::array<int, 4>>{{110, 0, 127, 39}, {100, 40, 127, 49}, {110, 50, 127, 127}});
+
+    const std::vector<ProjectIssue> issues = refusedWith(std::string(LevelLand) + rim + "water:\n  bodies:\n"
+        "    - {id: water:sea, kind: sea, level: 0, polygon: [[100, 0], [128, 0], [128, 128], [100, 128]]}\n");
+    CHECK(anyIssue(issues, "lie in the void"));
 }
 
 TEST_CASE("a river is at least one open cell wide with a shore on each side")
@@ -6055,6 +6094,13 @@ TEST_CASE("a waterfall: top water to the lip, a free sheet to the pool, foot wat
     }
 
     CHECK(leaningSheets == 1);
+    // F29: with rock sides only the land under the sheet is cut (beside it a pit lay beyond the crags); with none,
+    // every node whose cell the sheet crosses, as the upright fall above.
+    CHECK(ground(leaning.lowered, 50, 64) <= 640.0);
+    CHECK(ground(leaning.lowered, 51, 64) > 1600.0);
+    CHECK(ground(leaning.lowered, 49, 64) > 1600.0);
+    CHECK(ground(upright.lowered, 51, 64) <= 640.0);
+    CHECK(ground(upright.lowered, 49, 64) <= 640.0);
     // The crags and the two banks (two slopes of triangles every 128 along the top water's 1088, and an end).
     CHECK(dirtFaces > 40 + 2 * (2 * 2 * 9 + 1) - 1);
     CHECK(leaning.things.models[0].faces.size() > model.faces.size());
@@ -6065,6 +6111,32 @@ TEST_CASE("a waterfall: top water to the lip, a free sheet to the pool, foot wat
     CHECK(anyIssue(falls("line: [[50, 64], [50, 60]], top: 1664, foot: 1640, width: 512").issues,
         "a waterfall falls"));
     CHECK(anyIssue(falls("line: [[50, 64], [50, 60]], top: 1664, foot: 640").issues, "needs a `width`"));
+
+    // A chute before the sheet (a rim fall down the hull's deck, D-112): two planes meeting at the chute's end, the
+    // chute from the lip's level down `drop`, the sheet from there to the foot; each plane flows one way.
+    const Falls chuted = falls("line: [[50, 64], [50, 60]], top: 1664, foot: 640, width: 512, rocks: false, "
+        "banks: false, chute: [600, 300], lean: 100");
+    REQUIRE(chuted.issues.empty());
+    REQUIRE(chuted.things.models.size() == 1);
+    std::vector<std::array<int, 2>> drops;
+
+    for (const Game::OutdoorBModelFace &face : chuted.things.models[0].faces)
+    {
+        const std::array<int, 2> heights = heightsOf(chuted.things.models[0], face);
+
+        if (heights[1] - heights[0] > 16)
+        {
+            drops.push_back(heights);
+            const std::vector<std::array<double, 2>> chuteFlows = flows(chuted.things.models[0], face);
+            REQUIRE(chuteFlows.size() == 2);
+            CHECK(chuteFlows[0][1] == doctest::Approx(chuteFlows[1][1]).epsilon(0.01));
+        }
+    }
+
+    std::sort(drops.begin(), drops.end());
+    CHECK(drops == std::vector<std::array<int, 2>>{{640, 1366}, {1366, 1666}});
+    CHECK(anyIssue(falls("line: [[50, 64], [50, 60]], top: 1664, foot: 640, width: 512, chute: [600, 2000]").issues,
+        "`chute` is [out, drop]"));
 }
 
 // ---- Ways in (outdoor code batch O-B): cave mouths, hatches, arched heads, door dressing ----
@@ -7747,6 +7819,104 @@ TEST_CASE("O-D: a ruin: bays to their own heights, some gone, a whole door, wall
     CHECK(anyIssue(buildingIssues("door: none, parts: [{size: [512, 512], ruin: {gaps: 1.5}}]"), "a ruin is"));
 }
 
+namespace
+{
+// The edges of a model's drawn faces over `floor` (one end 8 or more over it) that no other face runs along for more
+// than 8 units: a closed shell has none (tools/xeen/check_faces.py `shell.open_edge`).
+size_t openEdgesOver(const Game::OutdoorBModel &model, int floor)
+{
+    using Point = std::array<double, 3>;
+    struct Edge
+    {
+        Point from;
+        Point to;
+        size_t face = 0;
+    };
+    std::vector<Edge> edges;
+
+    for (size_t face = 0; face < model.faces.size(); ++face)
+    {
+        const std::vector<uint16_t> &corners = model.faces[face].vertexIndices;
+
+        for (size_t corner = 0; corner < corners.size(); ++corner)
+        {
+            const Game::OutdoorBModelVertex &a = model.vertices[corners[corner]];
+            const Game::OutdoorBModelVertex &b = model.vertices[corners[(corner + 1) % corners.size()]];
+            edges.push_back({{static_cast<double>(a.x), static_cast<double>(a.y), static_cast<double>(a.z)},
+                {static_cast<double>(b.x), static_cast<double>(b.y), static_cast<double>(b.z)}, face});
+        }
+    }
+
+    const auto onEdge = [](const Point &point, const Edge &edge)
+    {
+        const Point along = {edge.to[0] - edge.from[0], edge.to[1] - edge.from[1], edge.to[2] - edge.from[2]};
+        const double squared = along[0] * along[0] + along[1] * along[1] + along[2] * along[2];
+        double share = squared > 0.0 ? ((point[0] - edge.from[0]) * along[0] + (point[1] - edge.from[1]) * along[1]
+            + (point[2] - edge.from[2]) * along[2]) / squared : 0.0;
+        share = std::clamp(share, 0.0, 1.0);
+        double distance = 0.0;
+
+        for (size_t axis = 0; axis < 3; ++axis)
+        {
+            const double apart = point[axis] - edge.from[axis] - along[axis] * share;
+            distance += apart * apart;
+        }
+
+        return distance <= 0.75 * 0.75;
+    };
+    size_t open = 0;
+
+    for (const Edge &edge : edges)
+    {
+        if (std::max(edge.from[2], edge.to[2]) < floor + 8.0)
+        {
+            continue;
+        }
+
+        const double length = std::sqrt((edge.to[0] - edge.from[0]) * (edge.to[0] - edge.from[0])
+            + (edge.to[1] - edge.from[1]) * (edge.to[1] - edge.from[1])
+            + (edge.to[2] - edge.from[2]) * (edge.to[2] - edge.from[2]));
+        const int steps = std::max(1, static_cast<int>(std::ceil(length / 2.0)));
+        double bare = 0.0;
+
+        for (int step = 0; step < steps; ++step)
+        {
+            const double share = (step + 0.5) / steps;
+            const Point point = {edge.from[0] + (edge.to[0] - edge.from[0]) * share,
+                edge.from[1] + (edge.to[1] - edge.from[1]) * share, edge.from[2] + (edge.to[2] - edge.from[2]) * share};
+            const bool covered = std::any_of(edges.begin(), edges.end(), [&](const Edge &other)
+            {
+                return other.face != edge.face && onEdge(point, other);
+            });
+            bare += covered ? 0.0 : length / steps;
+        }
+
+        open += bare > 8.0 ? 1 : 0;
+    }
+
+    return open;
+}
+}
+
+TEST_CASE("F30: a ruin is a closed shell: its corners closed by mitred inner faces and end faces")
+{
+    // A box with gaps and a door, and round parts of eight and twelve sides (the Ruined watchtower on X1, the Rim
+    // Watch on D3): every edge over the floor runs along another face, and no faces lie on each other.
+    for (const char *pPlot : {"textures: {wall_top: t14c01}, parts: [{size: [1024, 768], wall_height: 512, roof: "
+             "none, ruin: {height: [128, 384], gaps: 0.3, seed: 7}}]",
+             "door: none, parts: [{shape: round, at: [410, 410], radius: 320, sides: 8, wall_height: 448, roof: none, "
+             "ruin: {height: [128, 448], gaps: 0.3, seed: 3}}]",
+             "door: none, parts: [{shape: round, at: [512, 512], radius: 448, sides: 12, wall_height: 384, roof: none, "
+             "ruin: {height: [96, 384], gaps: 0.2, thickness: 32, seed: 11}}]"})
+    {
+        CAPTURE(pPlot);
+        const Game::OutdoorBModel ruin = raisedPlot(pPlot);
+        CHECK(openEdgesOver(ruin, 640) == 0);
+        CHECK(findOutdoorCoplanarFaces({ruin}).empty());
+        CHECK(findOutdoorBackToBackFaces({ruin}).empty());
+    }
+}
+
 TEST_CASE("O-D: eaves on chosen walls only; a recess under a hanging part leaves its underside out")
 {
     const Game::OutdoorBModel house = raisedPlot("door: none, eaves: 64, fascia: 0, parts: [{size: [512, 512], "
@@ -8418,15 +8588,64 @@ TEST_CASE("O-F: a tent: walls leaning in under a gable, the front open under an 
     CHECK(pTent->maxZ == 640 + 400);
     // The awning reaches 192 south of the walls' top at the front.
     CHECK(pTent->minY == 14 * 512 - (488 - 96) - 192);
+    // F31: the inner side in another picture lies 2 inward of the canvas, so none lies back to back with it.
+    CHECK(findOutdoorBackToBackFaces({*pTent}).empty());
     issues.clear();
     const Game::OutdoorBModel *pFrame = builtModel("  - {id: thing:a, kind: tent, at: [50, 50], open: false}\n",
         issues);
     REQUIRE(pFrame != nullptr);
     // Two slopes and two gables, both ways, and two poles.
     CHECK(pFrame->faces.size() == 8 + 2 * 4);
+    // F31: in one picture the canvas is drawn once (the game draws outdoor faces from both sides) over a hidden inner
+    // face the party still meets.
+    CHECK(findOutdoorBackToBackFaces({*pFrame}).empty());
+    CHECK(findOutdoorCoplanarFaces({*pFrame}).empty());
+    size_t hidden = 0;
+
+    for (const Game::OutdoorBModelFace &face : pFrame->faces)
+    {
+        hidden += Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::Invisible) ? 1 : 0;
+    }
+
+    CHECK(hidden == 4);
     issues.clear();
     builtModel("  - {id: thing:a, kind: tent, at: [50, 50], open: false, awning: 100}\n", issues);
     CHECK(anyIssue(issues, "an awning needs the open front"));
+}
+
+TEST_CASE("F31: faces back to back: a sheet laid both ways is found, one 2 apart or hidden is not")
+{
+    const auto sheet = [](double apart, bool hide)
+    {
+        Game::OutdoorBModel model;
+        OutdoorModelBuilder builder(model);
+        builder.addSurface({{0.0, 0.0, 0.0}, {256.0, 0.0, 0.0}, {256.0, 0.0, 256.0}, {0.0, 0.0, 256.0}}, "t14a01", 0);
+        const int back = builder.addSurface({{0.0, apart, 256.0}, {256.0, apart, 256.0}, {256.0, apart, 0.0},
+            {0.0, apart, 0.0}}, "t14a01", 0);
+
+        if (hide)
+        {
+            builder.hide(back);
+        }
+
+        builder.finish();
+        return model;
+    };
+    const std::vector<OutdoorCoplanarPair> pairs = findOutdoorBackToBackFaces({sheet(0.0, false)});
+    REQUIRE(pairs.size() == 1);
+    CHECK(pairs[0].area == doctest::Approx(256.0 * 256.0));
+    CHECK(findOutdoorCoplanarFaces({sheet(0.0, false)}).empty());
+    CHECK(findOutdoorBackToBackFaces({sheet(1.0, false)}).size() == 1);
+    CHECK(findOutdoorBackToBackFaces({sheet(2.0, false)}).empty());
+    CHECK(findOutdoorBackToBackFaces({sheet(0.0, true)}).empty());
+    // Two models, one face each, are compared too.
+    Game::OutdoorBModel first = sheet(0.0, false);
+    Game::OutdoorBModel second = first;
+    first.faces.pop_back();
+    second.faces.erase(second.faces.begin());
+    CHECK(findOutdoorBackToBackFaces({first, second}).size() == 1);
+    CHECK(describeOutdoorCoplanarPair({sheet(0.0, false)}, pairs[0], {}, true).find("back to back")
+        != std::string::npos);
 }
 
 TEST_CASE("O-F: an arcade: openings under arches between piers, open through, its top walkable")
@@ -9486,6 +9705,7 @@ TEST_CASE("S8d: a chamfered platform, a culvert's grating, a tent with a door un
     REQUIRE(!canvas.empty());
     CHECK(door[0]->cogTriggeredNumber != canvas[0]->cogTriggeredNumber);
     CHECK(findOutdoorCoplanarFaces({*pTent}).empty());
+    CHECK(findOutdoorBackToBackFaces({*pTent}).empty());
     // A doorway facing east is one turned -90; its portico in the roof's texture.
     CHECK(pBandits->vertices.size() == pTurned->vertices.size());
     CHECK(pBandits->minX == pTurned->minX);
@@ -10352,4 +10572,32 @@ TEST_CASE("D-91: a cave mouth that leads nowhere is a lit shelter or blocked by 
     const CaveBuild both = caveBuild("  - {id: thing:den, kind: cave_mouth, at: [50, 50], form: shelter, into: {map: "
         "d49.blv, at: [0, 0, 0], facing: 0}}\n");
     CHECK(anyIssue(both.issues, "a cave mouth's `form` is shelter"));
+}
+
+TEST_CASE("F28: a gate or a bridge's head whose road tiles are centred off its middle is said in the build")
+{
+    // A road east to west along row 50 through a wall standing north to south at x 45, and a road north from a
+    // bridge's head at y 49 along column 70.
+    const auto warnings = [](const std::string &gateAt, const std::string &bridgeX)
+    {
+        const Project project = buildingProject("      - {building: building:home, at: [40, 40], facing: s}\n",
+            "roads:\n  - {link: road:a, line: [[30.5, 50.5], [60.5, 50.5]]}\n"
+            "  - {link: road:b, line: [[70.5, 49.5], [70.5, 60.5]]}\n"
+            "structures:\n  - {id: thing:wall, kind: wall, line: [[45, 46], [45, 55]], gates: [{at: " + gateAt
+            + ", width: 384}]}\n"
+            "  - {id: thing:bridge, kind: bridge, line: [[" + bridgeX + ", 45], [" + bridgeX + ", 49]], width: 384}\n");
+        LoweredOutdoorMap lowered;
+        std::vector<ProjectIssue> issues;
+        REQUIRE(lowerOutdoorProject(project, lowered, issues));
+        return outdoorRoadOffWarnings(project, lowered);
+    };
+    CHECK(warnings("[45, 50.5]", "70.5").empty());
+    const std::vector<std::string> off = warnings("[45, 50]", "70");
+    REQUIRE(off.size() == 2);
+    CHECK(off[0].find("gates.road_off: thing:wall gates[0]") == 0);
+    // Half a cell (256, to the sampling's step of 15) to the south of the gate's middle.
+    const size_t centred = off[0].find("is centred ");
+    REQUIRE(centred != std::string::npos);
+    CHECK(std::abs(std::stoi(off[0].substr(centred + 11)) - 256) <= 16);
+    CHECK(off[1].find("gates.road_off: thing:bridge (its last head)") == 0);
 }

@@ -2,8 +2,11 @@
 
 #include "core/IndoorBuild.h"
 
+#include <array>
+#include <cstdint>
 #include <optional>
 #include <utility>
+#include <vector>
 
 namespace OpenYAMM::Studio
 {
@@ -35,6 +38,16 @@ bool validateOutdoorProject(const Project &project, const BuildOptions &options,
 // game's loaders in memory, and, when the options name an asset root, through core/MapLoad from a mount folder as
 // the game would read it. True when the map was built (and, unless dryRun, written) without issues.
 bool buildOutdoorProject(const Project &project, const BuildOptions &options, BuildResult &result);
+
+struct LoweredOutdoorMap;
+
+// F28 (tools/xeen/town_fit_check.py `gates.road_off`): the build's warnings for a way through a wall (each `gates`
+// entry of a `kind: wall`, its passage `width` along the wall's line at its `at`) or a bridge's head (across each end
+// of a `kind: bridge`'s line, its `width` wide) whose road tiles are centred more than 128 off the passage's middle:
+// the road runs into the tower beside the arch. Road tiles are whole cells, so a gate or a bridge on a cell line (not
+// on x.5) has its road on one side of its middle. Measured on the lowered map's tiles (the road set, local tiles 198
+// to 233) along the passage and a cell beyond each end, 0.4 of a cell each side of it.
+std::vector<std::string> outdoorRoadOffWarnings(const Project &project, const LoweredOutdoorMap &lowered);
 
 // A way from an outdoor project's map to a neighbour across a side of the map (project.yml `neighbours` with
 // `kind: edge` and a `side`).
@@ -104,6 +117,10 @@ bool upsertOutdoorWeatherRow(
     const std::filesystem::path &tablesDirectory,
     std::vector<std::string> &changes,
     std::string &errorMessage);
+
+// The void cells of a lowering (LoweredOutdoorMap::voidCells, 128 x 128) as the scene's terrain.void rectangles
+// [x0, y0, x1, y1], inclusive: each row's runs, stacked while a run's span repeats on the next row.
+std::vector<std::array<int, 4>> outdoorVoidRectangles(const std::vector<uint8_t> &voidCells);
 
 // atmosphere.yml `sky_theme`, empty when the project names none.
 std::string outdoorSkyTheme(const Project &project);

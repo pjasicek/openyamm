@@ -374,6 +374,16 @@ std::vector<AuditFinding> auditCoplanarFaces(
                       "same, or run through each other along a wall, become one part or meet at the wall."});
         }
 
+        // Back to back (P2 feedback F31): the game draws outdoor faces from both sides.
+        for (const OutdoorCoplanarPair &pair : findOutdoorBackToBackFaces(models))
+        {
+            findings.push_back({"faces.back_to_back", strict ? "error" : "warning",
+                describeOutdoorCoplanarPair(models, pair, outdoorParts, true),
+                "The game draws an outdoor model's faces from both sides: lay one face (hide the other if the party "
+                "must still meet it from behind), or move one off the other's plane. Two solids that touch hide "
+                "theirs: leave those."});
+        }
+
         return findings;
     }
 
@@ -4396,6 +4406,94 @@ std::vector<AuditFinding> auditCaveShape(const LoadedMap &map, const std::string
         findings.push_back({"identity.cave_shape", "warning", what + "with " + percent(shape.wallRoughShare)
                 + " % of its wall area rough (shipped caves " + percent(targets.wallRoughShare) + " % or more)",
             "Draw the natural rooms with irregular outlines off the grid and `rough` walls."});
+    }
+
+    return findings;
+}
+
+std::vector<AuditFinding> auditVoid(const LoadedMap &map)
+{
+    std::vector<AuditFinding> findings;
+
+    if (!map.outdoor || map.outdoor->voidCells.empty())
+    {
+        return findings;
+    }
+
+    const Game::OutdoorMapData &outdoor = *map.outdoor;
+    const auto inVoid = [&outdoor](double x, double y)
+    {
+        return Game::isOutdoorVoidCell(outdoor, int(std::floor(Game::outdoorWorldToGridXFloat(float(x)))),
+            int(std::floor(Game::outdoorWorldToGridYFloat(float(y)))));
+    };
+    const auto occupied = [&findings](const std::string &what, double x, double y)
+    {
+        findings.push_back({"void.occupied", "error", what + " stands over the void at (" + roundedUnits(x) + ", "
+            + roundedUnits(y) + "): nothing but the hull, the falls and sounds belongs there",
+            "Move it onto the land, or take that part out of the sketch's void."});
+    };
+
+    if (map.state)
+    {
+        for (size_t index = 0; index < map.state->actors.size(); ++index)
+        {
+            const Game::MapDeltaActor &actor = map.state->actors[index];
+
+            if (inVoid(actor.x, actor.y))
+            {
+                occupied("actor " + std::to_string(index) + " (" + actor.name + ")", actor.x, actor.y);
+            }
+        }
+
+        for (size_t index = 0; index < map.state->spriteObjects.size(); ++index)
+        {
+            const Game::MapDeltaSpriteObject &object = map.state->spriteObjects[index];
+
+            if (inVoid(object.x, object.y))
+            {
+                occupied("item " + std::to_string(index), object.x, object.y);
+            }
+        }
+    }
+
+    for (size_t index = 0; index < outdoor.spawns.size(); ++index)
+    {
+        const Game::OutdoorSpawn &spawn = outdoor.spawns[index];
+
+        if (inVoid(spawn.x, spawn.y))
+        {
+            occupied("encounter " + std::to_string(index), spawn.x, spawn.y);
+        }
+    }
+
+    // Decorations (D-109): only the world's hull and the sand and lava falls hang over the void; ambient sounds are
+    // no decorations.
+    for (size_t index = 0; index < outdoor.entities.size(); ++index)
+    {
+        const Game::OutdoorEntity &entity = outdoor.entities[index];
+        std::string name = entity.name;
+        std::transform(name.begin(), name.end(), name.begin(),
+            [](unsigned char character) { return static_cast<char>(std::tolower(character)); });
+
+        if (inVoid(entity.x, entity.y) && !name.starts_with("xeen_hull") && name != "xeen_sandfall"
+            && name != "xeen_lavafall")
+        {
+            occupied("the decoration " + std::to_string(index) + " (" + entity.name + ")", entity.x, entity.y);
+        }
+    }
+
+    for (const Game::OutdoorBModel &model : outdoor.bmodels)
+    {
+        std::string name = model.name;
+        std::transform(name.begin(), name.end(), name.begin(),
+            [](unsigned char character) { return static_cast<char>(std::tolower(character)); });
+        const double x = 0.5 * (model.minX + model.maxX);
+        const double y = 0.5 * (model.minY + model.maxY);
+
+        if (name.find("fall") == std::string::npos && inVoid(x, y))
+        {
+            occupied("the model " + model.name, x, y);
+        }
     }
 
     return findings;

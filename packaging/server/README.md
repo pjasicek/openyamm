@@ -47,3 +47,20 @@ compromised server can serve wrong files but cannot produce a manifest that clie
 Each upload removes content packs and apps that none of the newest three releases references (players mid-update and
 rollbacks need the previous ones) and download folders older than the newest two. Files the publisher does not own
 in those folders stay. The old `/var/www/html/openyamm/flatpak/` folder is no longer used and can be deleted.
+
+## Map Studio's hosted page (oyeditor.jasicek.net)
+
+A static site of its own: `/var/www/oyeditor`, owned by `pjasicek`, served by `nginx-oyeditor.conf` (installed as
+`/etc/nginx/sites-available/oyeditor.jasicek.net`, linked from `sites-enabled`; its own certificate,
+`certbot certonly --nginx -d oyeditor.jasicek.net`, renewed by certbot's timer). DNS: the `*.jasicek.net` wildcard.
+Set up on 2026-11-22. To publish a new version from this PC (over the LAN, `ssh server`):
+
+```sh
+tools/heavy.sh 24 openyamm-studio/build.sh wasm -j16
+(cd openyamm-studio/web && npm run build)
+node openyamm-studio/web/scripts/stage_hosted.mjs --version <v> --core openyamm-studio/build-wasm --out output/oyeditor/site
+openyamm-studio/web/scripts/deploy_hosted.sh output/oyeditor/site
+```
+
+Older versions stay on the server (a page open in one keeps working); `studio/versions.json` and the root
+`index.html` send new visitors to the newest.

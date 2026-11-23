@@ -7,6 +7,7 @@ import { unzipSync, zipSync } from 'three/examples/jsm/libs/fflate.module.js';
 import { HostedSession, projectFileWanted } from './session.ts';
 import type { Backing, CoreModule, ProjectFile } from './session.ts';
 import type { ByteSource } from './packfs.ts';
+import { normalise } from './install.ts';
 import type { PickedFile } from './install.ts';
 import type { HostedNotice, HostedReply, HostedRequest, Picked, ProjectPlace } from './protocol.ts';
 
@@ -53,6 +54,155 @@ async function walkHandle(handle: FileSystemDirectoryHandle, wanted: (path: stri
         }
     }
     return out;
+}
+
+type Listed = { path: string; file: File };
+
+// Runs work on the items, at most `limit` at once, keeping their order.
+async function mapLimited<T, R>(items: T[], limit: number, work: (item: T) => Promise<R>): Promise<R[]>
+{
+    const results: R[] = new Array(items.length);
+    let next = 0;
+    const lane = async () =>
+    {
+        while (next < items.length)
+        {
+            const at = next++;
+            results[at] = await work(items[at]);
+        }
+    };
+    await Promise.all(Array.from({ length: Math.min(limit, items.length) }, lane));
+    return results;
+}
+
+async function childrenOf(handle: FileSystemDirectoryHandle): Promise<Map<string, FileSystemHandle>>
+{
+    const children = new Map<string, FileSystemHandle>();
+    for await (const [name, child] of (handle as unknown as { entries(): AsyncIterable<[string, FileSystemHandle]> }).entries())
+    {
+        children.set(name, child);
+    }
+    return children;
+}
+
+// The file at a slash-separated path under a directory handle, or null.
+async function fileAt(root: FileSystemDirectoryHandle, path: string): Promise<File | null>
+{
+    try
+    {
+        const parts = path.split('/');
+        let dir = root;
+        for (const part of parts.slice(0, -1))
+        {
+            dir = await dir.getDirectoryHandle(part);
+        }
+        return await (await dir.getFileHandle(parts[parts.length - 1])).getFile();
+    }
+    catch
+    {
+        return null;
+    }
+}
+
+// Every file under a directory, its folders read side by side (a development tree has about 85 000 files).
+async function walkFast(handle: FileSystemDirectoryHandle, prefix: string, out: Listed[]): Promise<void>
+{
+    const folders: [string, FileSystemDirectoryHandle][] = [];
+    const files: [string, FileSystemFileHandle][] = [];
+    for (const [name, child] of await childrenOf(handle))
+    {
+        const path = `${prefix}/${name}`;
+        if (child.kind === 'directory')
+        {
+            folders.push([path, child as FileSystemDirectoryHandle]);
+        }
+        else
+        {
+            files.push([path, child as FileSystemFileHandle]);
+        }
+    }
+    out.push(...await mapLimited(files, 64, async ([path, file]) => ({ path, file: await file.getFile() })));
+    await mapLimited(folders, 8, ([path, folder]) => walkFast(folder, path, out));
+}
+
+// What open_assets needs from a folder the person picked, found without walking all of it: an install's packs as its
+// app/<release>/index.json names them, the packages (engine.zip, worlds/*.zip), or a development tree's engine/ and
+// worlds/; a folder holding one of those (a checkout picked whole, with assets_dev) is looked into one level down.
+// Walking every file took minutes on a large folder with nothing on the page to show for it (2026-11-22).
+async function assetFiles(root: FileSystemDirectoryHandle, depth = 0): Promise<Listed[] | null>
+{
+    const children = await childrenOf(root);
+    const app = children.get('app');
+    if (app?.kind === 'directory')
+    {
+        const current = await fileAt(app as FileSystemDirectoryHandle, 'current');
+        const release = current ? (await current.text()).trim() : '';
+        const index = release ? await fileAt(root, `app/${release}/index.json`) : null;
+        if (current && index)
+        {
+            const parsed = JSON.parse(await index.text()) as { store?: string; packs?: { file: string; language?: unknown }[] };
+            const store = normalise(`app/${release}/${parsed.store ?? ''}`);
+            const out: Listed[] = [{ path: 'app/current', file: current }, { path: `app/${release}/index.json`, file: index }];
+            if (store !== null && Array.isArray(parsed.packs))
+            {
+                // A pack not found is left out: openInstall then names it as missing.
+                const packs = await mapLimited(parsed.packs.filter((pack) => !pack.language), 32, async (pack) =>
+                {
+                    const path = store ? `${store}/${pack.file}` : pack.file;
+                    const file = await fileAt(root, path);
+                    return file ? { path, file } : null;
+                });
+                out.push(...packs.filter((entry): entry is Listed => entry !== null));
+            }
+            return out;
+        }
+    }
+    if (children.get('engine.zip')?.kind === 'file')
+    {
+        const out: Listed[] = [];
+        for (const [name, child] of children)
+        {
+            if (child.kind === 'file' && /\.zip$/i.test(name))
+            {
+                out.push({ path: name, file: await (child as FileSystemFileHandle).getFile() });
+            }
+        }
+        const worlds = children.get('worlds');
+        if (worlds?.kind === 'directory')
+        {
+            for (const [name, child] of await childrenOf(worlds as FileSystemDirectoryHandle))
+            {
+                if (child.kind === 'file' && /\.zip$/i.test(name))
+                {
+                    out.push({ path: `worlds/${name}`, file: await (child as FileSystemFileHandle).getFile() });
+                }
+            }
+        }
+        return out;
+    }
+    if (children.get('engine')?.kind === 'directory' && children.get('worlds')?.kind === 'directory')
+    {
+        const out: Listed[] = [];
+        await Promise.all(['engine', 'worlds'].map((name) => walkFast(children.get(name) as FileSystemDirectoryHandle, name, out)));
+        return out;
+    }
+    if (depth === 0)
+    {
+        // assets_dev first: a checkout has other folders with engine/ and worlds/ (build output, play roots).
+        const folders = [...children].filter(([, child]) => child.kind === 'directory')
+            .sort(([a], [b]) => Number(b === 'assets_dev') - Number(a === 'assets_dev'));
+        for (const [, child] of folders)
+        {
+            const inner = await childrenOf(child as FileSystemDirectoryHandle);
+            const looksLike = (inner.get('app')?.kind === 'directory') || inner.get('engine.zip')?.kind === 'file'
+                || (inner.get('engine')?.kind === 'directory' && inner.get('worlds')?.kind === 'directory');
+            if (looksLike)
+            {
+                return assetFiles(child as FileSystemDirectoryHandle, 1);
+            }
+        }
+    }
+    return null;
 }
 
 async function pickedFiles(picked: Picked, wanted?: (path: string) => boolean): Promise<{ path: string; file: File }[]>
@@ -157,7 +307,7 @@ async function handle(request: HostedRequest): Promise<{ value: unknown; transfe
     case 'open_assets':
     {
         const started = performance.now();
-        const list = await pickedFiles(request.picked);
+        const list = request.picked.kind === 'handle' ? (await assetFiles(request.picked.handle) ?? []) : await pickedFiles(request.picked);
         const listed = performance.now();
         const picked: PickedFile[] = withoutTop(list).map((entry) => ({ path: entry.path, source: fileSource(entry.file) }));
         const install = session.openAssets(picked);

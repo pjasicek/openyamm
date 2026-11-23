@@ -10980,6 +10980,16 @@ bool assertActorVisible(
             && success;
     }
 
+    // The walker's centre stands (true) or does not stand (false) over deep water with no deck under it, as the
+    // outdoor water rule tests it (a bridge or a dock is land).
+    if (actorNode["over_water"])
+    {
+        const IGameplayWorldRuntime *pWorldRuntime = std::as_const(*context.runtimeDriver).worldRuntime();
+        success = pWorldRuntime != nullptr
+            && checkRuntimeField("over_water", boolText(pWorldRuntime->actorStandsOverWater(actorIndex)))
+            && success;
+    }
+
     if (actorNode["shield_raised"])
     {
         success = hasRuntimeState && runtimeState.shield.present

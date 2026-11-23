@@ -864,6 +864,12 @@ TerrainDecorationPlacement scatterTerrainDecorations(const OutdoorMapData &map,
         modelBounds.push_back({min, max});
     }
     std::array<std::vector<const TerrainDecorationRule *>, 256> rulesByTile;
+    // Nothing grows in the void (terrain.void).
+    const std::vector<const TerrainDecorationRule *> noRules;
+    const auto cellRules = [&](int cellX, int cellY) -> const std::vector<const TerrainDecorationRule *> &
+    {
+        return isOutdoorVoidCell(map, cellX, cellY) ? noRules : rulesByTile[map.tileMap[size_t(cellY) * width + cellX]];
+    };
     for (size_t tile = 0; tile < textures.size(); ++tile)
     {
         for (const TerrainDecorationRule &rule : config.rules)
@@ -900,7 +906,7 @@ TerrainDecorationPlacement scatterTerrainDecorations(const OutdoorMapData &map,
                     return false;
                 }
                 bool allowed = false;
-                for (const TerrainDecorationRule *pNeighbor : rulesByTile[map.tileMap[ty * width + tx]])
+                for (const TerrainDecorationRule *pNeighbor : cellRules(tx, ty))
                 {
                     if (pNeighbor->stone == rule.stone && pNeighbor->family == rule.family &&
                         materialCoverage(*pNeighbor, gx - tx, gy - ty, fullFootprint) > 0.0f)
@@ -927,7 +933,7 @@ TerrainDecorationPlacement scatterTerrainDecorations(const OutdoorMapData &map,
         {
             return false;
         }
-        for (const TerrainDecorationRule *pRule : rulesByTile[map.tileMap[ty * width + tx]])
+        for (const TerrainDecorationRule *pRule : cellRules(tx, ty))
         {
             if (!pRule->stone && materialCoverage(*pRule, gridX - tx, gridY - ty) > 0.0f)
             {
@@ -996,7 +1002,7 @@ TerrainDecorationPlacement scatterTerrainDecorations(const OutdoorMapData &map,
         }
         const float u = gridX - float(x);
         const float v = gridY - float(y);
-        for (const TerrainDecorationRule *pCandidate : rulesByTile[map.tileMap[size_t(y) * width + x]])
+        for (const TerrainDecorationRule *pCandidate : cellRules(x, y))
         {
             if (!pCandidate->stone && materialCoverage(*pCandidate, u, v, true) > 0.0f)
             {
@@ -1037,7 +1043,7 @@ TerrainDecorationPlacement scatterTerrainDecorations(const OutdoorMapData &map,
             for (int x = 0; x < width - 1; ++x)
             {
                 const uint32_t cell = y * width + x;
-                for (const TerrainDecorationRule *pRule : rulesByTile[map.tileMap[cell]])
+                for (const TerrainDecorationRule *pRule : cellRules(x, y))
                 {
                     const TerrainDecorationRule &rule = *pRule;
                     if (rule.stone != stone)

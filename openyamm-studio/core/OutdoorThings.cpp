@@ -5453,7 +5453,8 @@ private:
     // comes to the ground): `size: [length, width]` (the ridge runs along the length, south to north when not
     // turned), the walls' `wall_height` and how far they `lean` in at their top, the ridge `height`; the front (south)
     // `open` or closed, an `awning` (its depth) carrying the roof on past the open front on two poles, a pole under
-    // each end of the ridge. The canvas is drawn both ways (`canvas` out, `inner` in), so the open tent is seen into.
+    // each end of the ridge. The canvas is seen both ways (`canvas` out, `inner` in: one face drawn from both sides
+    // when they are one picture, else the inner face 2 inward), so the open tent is seen into.
     void raiseTent(const YAML::Node &node, OutdoorModelBuilder &builder)
     {
         Point2 middle = {0.0, 0.0};
@@ -5532,19 +5533,52 @@ private:
         const double eave = ground + walls;
         const double ridge = ground + height;
         const double front = -topLength - awning;
-        // Both ways: the canvas outside, the inner side within.
+        // Both ways: the canvas outside, the inner side within. The game draws an outdoor model's faces from both
+        // sides, so two faces on the same points flicker (P2 feedback F31, the Hunters' tent on X1): with the inner
+        // side in the canvas's own picture the canvas is drawn once and the inner face is kept, not drawn, so the
+        // party inside still meets the canvas; in another picture it lies 2 inward of the canvas.
         // With a `hint` (batch O-H: Erathia's healers' "Tent"), the canvas says it and the click is the open
-        // front's inside, or a closed tent's front end.
-        const auto both = [&](const std::vector<OutdoorModelPoint> &points, const std::array<double, 3> &out)
+        // front's inside, or a closed tent's front end; a canvas drawn once is the open front's inside too.
+        const auto sheet = [&](const std::vector<OutdoorModelPoint> &points, const std::array<double, 3> &out,
+            const std::string &outside, const std::string &inside, bool used)
         {
-            facing(builder, points, out, canvas, m_event);
+            const int outerFace = facing(builder, points, out, outside, m_event);
             const size_t innerFace = faceCount();
-            facing(builder, points, {-out[0], -out[1], -out[2]}, inner, m_event);
+            const std::array<double, 3> in = {-out[0], -out[1], -out[2]};
 
-            if (open)
+            if (inside == outside)
+            {
+                builder.hide(facing(builder, points, in, inside, m_event));
+
+                if (used && open && outerFace >= 0)
+                {
+                    m_usedFaces.insert(static_cast<size_t>(outerFace));
+                }
+
+                return;
+            }
+
+            const double length = std::max(oy::hypot(out[0], out[1], out[2]), 1.0e-9);
+            std::vector<OutdoorModelPoint> moved = points;
+
+            for (OutdoorModelPoint &point : moved)
+            {
+                for (size_t axis = 0; axis < 3; ++axis)
+                {
+                    point[axis] += in[axis] / length * 2.0;
+                }
+            }
+
+            facing(builder, moved, in, inside, m_event);
+
+            if (used && open)
             {
                 markUsed(innerFace);
             }
+        };
+        const auto both = [&](const std::vector<OutdoorModelPoint> &points, const std::array<double, 3> &out)
+        {
+            sheet(points, out, canvas, inner, true);
         };
 
         for (const double way : {-1.0, 1.0})
@@ -5615,10 +5649,8 @@ private:
                 const std::vector<OutdoorModelPoint> doorFace = {end(-door, foot), end(door, foot),
                     end(door, doorTop), end(-door, doorTop)};
                 const size_t doorFrom = faceCount();
-                facing(builder, doorFace, out, doorTexture, m_event);
-                facing(builder, doorFace, {-out[0], -out[1], -out[2]}, inner, m_event);
-                markUsed(doorFrom);
-                m_usedFaces.erase(doorFrom + 1);
+                sheet(doorFace, out, doorTexture, inner, false);
+                m_usedFaces.insert(doorFrom);
             }
             else if (walls > 0.0)
             {

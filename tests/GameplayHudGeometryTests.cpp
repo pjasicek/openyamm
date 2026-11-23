@@ -7,10 +7,60 @@
 #include "game/ui/GameplayClock.h"
 #include "game/ui/GameplayPortraitGems.h"
 #include "game/ui/RestHourglassAnimation.h"
+#include "game/ui/SoloHudLayout.h"
+#include "game/ui/UiLayoutManager.h"
 
+#include <array>
+#include <filesystem>
+#include <fstream>
 #include <limits>
+#include <optional>
+#include <sstream>
+#include <string>
+#include <unordered_map>
 
 using namespace OpenYAMM::Game;
+
+namespace
+{
+std::string loadGameplayLayout(const char *pName)
+{
+    std::ifstream input(std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/engine/ui/gameplay" / pName);
+    std::ostringstream text;
+    text << input.rdbuf();
+    return text.str();
+}
+
+GameplayResolvedHudLayoutElement resolveLayout(const UiLayoutManager &layouts, const std::string &id, int width,
+    int height)
+{
+    const std::unordered_map<std::string, float> none;
+    const std::optional<GameplayResolvedHudLayoutElement> rect =
+        GameplayHudCommon::resolveHudLayoutElement(layouts, none, none, id, width, height, 0, 0);
+    REQUIRE(rect);
+    return *rect;
+}
+
+// The solo action bar's grid from its layout elements, as GameplaySoloHud reads them.
+SoloActionBarGrid soloBarGrid(const UiLayoutManager &layouts)
+{
+    const UiLayoutManager::LayoutElement *pBar = layouts.findElement("SoloActionBar");
+    const UiLayoutManager::LayoutElement *pSlot = layouts.findElement("SoloActionSlot");
+    const UiLayoutManager::LayoutElement *pRight = layouts.findElement("SoloActionSlotRight");
+    const UiLayoutManager::LayoutElement *pBelow = layouts.findElement("SoloActionSlotBelow");
+    REQUIRE(pBar != nullptr);
+    REQUIRE(pSlot != nullptr);
+    REQUIRE(pRight != nullptr);
+    REQUIRE(pBelow != nullptr);
+    return soloActionBarGrid(pBar->width, pBar->height, pSlot->width, pRight->gapX - pSlot->gapX - pSlot->width,
+        pBelow->gapY - pSlot->gapY - pSlot->height, pSlot->gapX, pSlot->gapY);
+}
+
+bool intersects(const GameplayResolvedHudLayoutElement &a, const GameplayResolvedHudLayoutElement &b)
+{
+    return a.x < b.x + b.width && b.x < a.x + a.width && a.y < b.y + b.height && b.y < a.y + a.height;
+}
+}
 
 TEST_CASE("creature inspect crops native sprite coordinates without fitting the canvas")
 {
@@ -130,6 +180,66 @@ TEST_CASE("Obsidian thumb controls retain bottom placement until the party frame
     GameplayResolvedHudLayoutElement alreadyClear = group;
     alreadyClear.y += offset;
     CHECK(GameplayHudCommon::touchPanelVerticalOffset(alreadyClear, fullParty) == 0);
+}
+
+TEST_CASE("solo action bar on touch screens lies clear of every thumb control")
+{
+    // Desktop: the column of keys 1-0 down the left edge, unchanged.
+    UiLayoutManager desktop;
+    REQUIRE(desktop.loadLayoutText("gameplay.yml", loadGameplayLayout("gameplay.yml")));
+    const SoloActionBarGrid column = soloBarGrid(desktop);
+    CHECK(column.columns == 1);
+    CHECK(column.rows == 10);
+
+    // Touch: gameplay.yml with the touch supplement over it, as GameplayUiController loads them on Android.
+    UiLayoutManager touch;
+    REQUIRE(touch.loadLayoutText("gameplay.yml", loadGameplayLayout("gameplay.yml")));
+    REQUIRE(touch.loadLayoutText("touch_controls.yml", loadGameplayLayout("touch_controls.yml")));
+    const SoloActionBarGrid grid = soloBarGrid(touch);
+    CHECK(grid.columns == 5);
+    CHECK(grid.rows == 2);
+
+    // Phones at 2:1, 20:9, 21:9 and 16:9, tablets at 16:10 and 4:3, a small 16:9 screen.
+    const std::array<std::array<int, 2>, 7> screens = {{{2160, 1080}, {2400, 1080}, {2520, 1080}, {1920, 1080},
+        {2560, 1600}, {2048, 1536}, {1280, 720}}};
+    // Each thumb control with the group it lifts with.
+    const std::array<std::array<const char *, 2>, 8> controls = {{
+        {"OutdoorMobileSystemPanel", "OutdoorMobileSystemPanel"},
+        {"OutdoorMobileButtonPause", "OutdoorMobileSystemPanel"},
+        {"OutdoorMobileButtonInventory", "OutdoorMobileSystemPanel"},
+        {"OutdoorMobileInspectButton", "OutdoorMobileSystemPanel"},
+        {"OutdoorMobileActionPanel", "OutdoorMobileActionPanel"},
+        {"OutdoorMobileButtonAttack", "OutdoorMobileActionPanel"},
+        {"OutdoorMobileButtonCast", "OutdoorMobileActionPanel"},
+        {"OutdoorMobileButtonQuickCast", "OutdoorMobileActionPanel"}}};
+    for (const std::array<int, 2> &screen : screens)
+    {
+        CAPTURE(screen[0]);
+        CAPTURE(screen[1]);
+        const GameplayResolvedHudLayoutElement bar = resolveLayout(touch, "SoloActionBar", screen[0], screen[1]);
+        // Inside the screen, two units above its edge: the runtime's shrink-to-fit leaves it at full size.
+        CHECK(bar.x >= 0);
+        CHECK(bar.x + bar.width <= float(screen[0]));
+        CHECK(bar.y + bar.height <= float(screen[1]) - 2 * bar.scale + 0.01f);
+        // Keys at least 40 units of the 480-high reference.
+        CHECK(grid.slot * bar.scale >= 40.0f * float(screen[1]) / 480.0f - 0.01f);
+
+        for (const std::array<const char *, 2> &control : controls)
+        {
+            CAPTURE(control[0]);
+            GameplayResolvedHudLayoutElement rect = resolveLayout(touch, control[0], screen[0], screen[1]);
+            // The runtime's lift of the groups over the bar (GameplayScreenRuntime::resolveHudLayoutElement).
+            const GameplayResolvedHudLayoutElement panel = resolveLayout(touch, control[1], screen[0], screen[1]);
+            rect.y += GameplayHudCommon::touchPanelVerticalOffset(panel, bar);
+            CHECK_FALSE(intersects(rect, bar));
+            CHECK(rect.y >= 0);
+        }
+    }
+
+    // The status line moves above the bar at the bottom centre and stays put beside the desktop column.
+    const SoloHudRect line{795, 980, 744, 58};
+    CHECK(soloStatusLineTop(line, {819, 973, 522, 225}, 13.5f) == doctest::Approx(973 - 13.5f - 58));
+    CHECK(soloStatusLineTop(line, {17, 213, 115, 860}, 13.5f) == line.y);
 }
 
 TEST_CASE("Obsidian rest hourglass drains then turns without resetting its painted orientation")

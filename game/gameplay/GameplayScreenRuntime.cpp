@@ -797,6 +797,11 @@ std::vector<GameplayTouchControl> GameplayScreenRuntime::mobileTouchControls(int
     {
         append(pId);
     }
+    // A solo run's action bar: a finger on a key presses it rather than starting the movement stick or the camera.
+    if (soloHud())
+    {
+        append("SoloActionBar");
+    }
     if (interactionState().followerPanelOpen)
     {
         append("OutdoorFollowerPanel");
@@ -4332,10 +4337,17 @@ std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> GameplayScreenRun
         rect->height = std::max(float(screenHeight) - 2 * rect->scale - rect->y, rect->height * 0.4f);
         return rect;
     }
-    // The status line stays at the bottom centre, just above the screen's edge, with no frame under it.
+    // The status line stays at the bottom centre, just above the screen's edge, with no frame under it; above the
+    // action bar where the bar sits there (the touch layout).
     if (solo && layoutId == "OutdoorGameplayStatusBar")
     {
         rect->y = float(screenHeight) - rect->height - 8 * rect->scale;
+        if (const std::optional<ResolvedHudLayoutElement> bar =
+                resolveHudLayoutElement("SoloActionBar", screenWidth, screenHeight, 0, 0))
+        {
+            rect->y = soloStatusLineTop({rect->x, rect->y, rect->width, rect->height},
+                {bar->x, bar->y, bar->width, bar->height}, 6 * rect->scale);
+        }
         return rect;
     }
     // The minimap's clock: a small plate on the circle's lower rim between the zoom buttons, as WoW shows its time.
@@ -4467,8 +4479,10 @@ std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> GameplayScreenRun
         {
             const std::optional<ResolvedHudLayoutElement> panel = uiRuntime().resolveHudLayoutElement(
                 pElement->id, screenWidth, screenHeight, 0, 0);
+            // A solo run draws no party frame: the groups clear its action bar instead, which the touch layout puts
+            // in the frame's place at the bottom centre (touch_controls.yml).
             const std::optional<ResolvedHudLayoutElement> basebar = resolveHudLayoutElement(
-                "OutdoorGameplayBasebar", screenWidth, screenHeight, 0, 0);
+                solo ? "SoloActionBar" : "OutdoorGameplayBasebar", screenWidth, screenHeight, 0, 0);
             if (panel && basebar)
             {
                 rect->y += GameplayHudCommon::touchPanelVerticalOffset(*panel, *basebar);

@@ -779,6 +779,12 @@ const OutdoorPartyMovementState &OutdoorMovementDriver::partyMovementState() con
     return m_partyMovementState;
 }
 
+bool OutdoorMovementDriver::specialJumpActive() const
+{
+    return m_pendingImpulseVelocityX != 0.0f || m_pendingImpulseVelocityY != 0.0f || m_pendingImpulseVelocityZ != 0.0f
+        || m_jumpCarryVelocityX != 0.0f || m_jumpCarryVelocityY != 0.0f;
+}
+
 const OutdoorMovementTuning &OutdoorMovementDriver::tuning() const
 {
     return m_tuning;

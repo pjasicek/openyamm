@@ -286,6 +286,8 @@ struct OutdoorMapData
     std::vector<uint32_t> decorationMap;
     std::vector<OutdoorSpawn> spawns;
     std::vector<OutdoorTerrainFootstepSoundOverride> terrainFootstepSoundOverrides;
+    // Void cells (the scene's terrain.void): empty, or TerrainWidth x TerrainHeight with 1 where the world ends.
+    std::vector<uint8_t> voidCells;
     std::vector<OutdoorBModelMechanism> mechanisms;
     std::vector<OutdoorDestructible> destructibles;
     std::vector<OutdoorDestructibleReceiver> destructibleReceivers;

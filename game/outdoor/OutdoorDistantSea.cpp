@@ -33,6 +33,8 @@ OutdoorDistantSea measureOutdoorDistantSea(
     // Grid x grows east (+X) and grid y grows south (-Y); corner cells count for both of their sides.
     std::array<int, 4> sideCells = {};
     std::array<int, 4> sideWater = {};
+    std::array<int, 4> sideVoid = {};
+    std::array<int, 4> sideAll = {};
     int waterCells = 0;
     float heightSum = 0.0f;
     std::array<float, 3> colorSum = {};
@@ -46,6 +48,20 @@ OutdoorDistantSea measureOutdoorDistantSea(
                 x < BorderCells, x >= CellsWide - BorderCells, y >= CellsHigh - BorderCells, y < BorderCells};
 
             if (!onSide[0] && !onSide[1] && !onSide[2] && !onSide[3])
+            {
+                continue;
+            }
+
+            const bool voidCell = !mapData.voidCells.empty()
+                && mapData.voidCells[size_t(y) * OutdoorMapData::TerrainWidth + size_t(x)] != 0;
+
+            for (size_t side = 0; side < onSide.size(); ++side)
+            {
+                sideAll[side] += onSide[side] ? 1 : 0;
+                sideVoid[side] += onSide[side] && voidCell ? 1 : 0;
+            }
+
+            if (voidCell)
             {
                 continue;
             }
@@ -82,6 +98,18 @@ OutdoorDistantSea measureOutdoorDistantSea(
         }
     }
 
+    const auto shareWeight = [](int count, int total)
+    {
+        const float share = float(count) / float(std::max(total, 1));
+        const float ramp = std::clamp((share - NoSeaShare) / (FullSeaShare - NoSeaShare), 0.0f, 1.0f);
+        return ramp * ramp * (3.0f - 2.0f * ramp);
+    };
+
+    for (size_t side = 0; side < sea.voidWeights.size(); ++side)
+    {
+        sea.voidWeights[side] = sideVoid[side] > 0 ? shareWeight(sideVoid[side], sideAll[side]) : 0.0f;
+    }
+
     if (waterCells == 0)
     {
         return sea;
@@ -89,9 +117,8 @@ OutdoorDistantSea measureOutdoorDistantSea(
 
     for (size_t side = 0; side < sea.sideWeights.size(); ++side)
     {
-        const float share = float(sideWater[side]) / float(std::max(sideCells[side], 1));
-        const float ramp = std::clamp((share - NoSeaShare) / (FullSeaShare - NoSeaShare), 0.0f, 1.0f);
-        sea.sideWeights[side] = ramp * ramp * (3.0f - 2.0f * ramp);
+        // A side with void past it has no sea; its other cells measure the sea as before.
+        sea.sideWeights[side] = sea.voidWeights[side] > 0.0f ? 0.0f : shareWeight(sideWater[side], sideCells[side]);
     }
 
     sea.seaLevel = heightSum / float(waterCells);

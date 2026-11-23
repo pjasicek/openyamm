@@ -108,6 +108,8 @@ bool outdoorTerrainSlopeTooHigh(const OutdoorMapData &outdoorMapData, float x, f
 uint8_t sampleOutdoorTerrainTileAttributes(const OutdoorMapData &outdoorMapData, float x, float y);
 bool isOutdoorTerrainWater(const OutdoorMapData &outdoorMapData, float x, float y);
 bool isOutdoorTerrainBurning(const OutdoorMapData &outdoorMapData, float x, float y);
+// Whether a terrain cell lies in the map's void (terrain.void); false on maps without one.
+bool isOutdoorVoidCell(const OutdoorMapData &outdoorMapData, int cellX, int cellY);
 bool buildOutdoorFaceGeometry(
     const OutdoorBModel &bModel,
     size_t bModelIndex,

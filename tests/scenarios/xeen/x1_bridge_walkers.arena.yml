@@ -1,0 +1,18 @@
+# AI arena for x1_bridge_walkers.yml: X1's Vertigo Bridge (thing:town_bridge, x 52.5 over Pitchfork Creek: deck
+# x -6144..-5632, y 4813..7014, kerbs 32 wide), its map actors hidden, five peaceful town guards (404) wandering on
+# its deck (centre, both kerbs, the south half) and on the north bank beside it.
+name: x1_bridge_walkers
+world: xeen
+map: xeen_x1.odm
+party:
+  position: [-5888, 7900, 640]
+  yaw_degrees: 270
+  pitch_degrees: -10
+  invulnerable: true
+trace: false
+monsters:
+  - {monster_id: 404, position: [-5888, 6200, 650], hostile: false}
+  - {monster_id: 404, position: [-6072, 6000, 655], hostile: false}
+  - {monster_id: 404, position: [-5704, 5600, 660], hostile: false}
+  - {monster_id: 404, position: [-5888, 5200, 650], hostile: false}
+  - {monster_id: 404, position: [-5440, 6800, 576], hostile: false}

@@ -121,6 +121,34 @@ TEST_CASE("indoor water separates pool elevations and keeps waterfalls out of pl
     CHECK(buildWaterFaceGeometry({}, 1, -1).empty());
 }
 
+TEST_CASE("water faces of one level far apart keep separate bounds for the nearest-capture choice")
+{
+    // Player pin X1 p2 (2026-11-22): Vertigo's three wells at one height made one box over half the map; the camera
+    // stood inside it at the river, so the wells (and the fountains) took both captures and the river showed none.
+    const auto vertex = [](float x, float y, float z)
+    { return WaterVertex{x, y, z, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0xff4a4429u}; };
+    const std::vector<WaterVertex> triangles = {
+        vertex(0, 0, 712), vertex(160, 0, 712), vertex(0, 160, 712),
+        vertex(160, 0, 712), vertex(160, 160, 712), vertex(0, 160, 712),
+        vertex(5000, 9000, 712), vertex(5160, 9000, 712), vertex(5000, 9160, 712)
+    };
+    const std::vector<WaterSurfaceGeometry> geometry = buildWaterFaceGeometry(triangles, -1, -1);
+    REQUIRE(geometry.size() == 1);
+    REQUIRE(geometry[0].patches.size() == 2);
+    CHECK(geometry[0].patches[0][1].x == 160);
+    CHECK(geometry[0].patches[0][1].y == 160);
+    CHECK(geometry[0].patches[1][0].x == 5000);
+    CHECK(geometry[0].patches[1][0].y == 9000);
+    // A camera between the two wells is far from both, not inside a shared box.
+    const bx::Vec3 camera = {2500, 4500, 900};
+    for (const std::array<bx::Vec3, 2> &patch : geometry[0].patches)
+    {
+        const bx::Vec3 closest = {std::clamp(camera.x, patch[0].x, patch[1].x),
+            std::clamp(camera.y, patch[0].y, patch[1].y), std::clamp(camera.z, patch[0].z, patch[1].z)};
+        CHECK(bx::length(bx::sub(camera, closest)) > 4000.0f);
+    }
+}
+
 TEST_CASE("water face directional flow follows native UV orientation on horizontal and vertical faces")
 {
     const std::array<std::array<float, 2>, 3> uvs = {{{0, 0}, {1, 0}, {0, 1}}};

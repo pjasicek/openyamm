@@ -1,0 +1,123 @@
+#!/usr/bin/env python3
+"""The wild-land rules of Xeen's outdoor maps on the installed maps (P2 feedback F29, F32, F33; 2026-11-23).
+
+- `rim.event` (error): a map with a sea under its world rim (`water:sky` / `water:rim_sea` in its L4 sketch) has the
+  rim-fall timer (`Xeen.rimFall(` in its map Lua, written by level_generation/projects/xeen/common/wild.py).
+- `rim.point` (error): every return point of that event stands on the built map's land: at least 320 over the sea,
+  within 64 of the height the generator read, on level ground (no node within one cell more than 192 off).
+- `rim.pit` (error): no land near the rim (1,024 to 4,096 from the rim sea, past the rescue's margin
+  Xeen.RimFallMargin) lies below Xeen.RimFallDepth (320) unless it is water: a hole by the rim the rescue misses.
+- `wild.altar` (error): a shrine pavilion (a building part on posts with a click in the sketch) carries no click of its
+  own; its altar (`<id>_altar`) does.
+- `wild.campfire` (error): every campfire decoration of the sketch (common/wild.py FIRES) has an event.
+
+  python3 tools/xeen/check_wild.py [--assets ROOT] [--maps xeen_x1,...] [--check]
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import sys
+from pathlib import Path
+
+import yaml
+
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / 'tools' / 'xeen'))
+sys.path.insert(0, str(ROOT / 'level_generation' / 'projects' / 'xeen' / 'common'))
+import check_faces  # noqa: E402
+import wild  # noqa: E402
+
+OUTDOOR = ['x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'd1', 'd2', 'd3', 'd4', 'd5', 'd6']
+
+
+def check(key, assets: Path, cache: Path):
+    stem = 'xeen_' + key
+    findings = []
+    sketch = yaml.safe_load((ROOT / 'devdocs' / 'xeen' / 'briefs' / key / 'L4' / 'sketch.yml').read_text())
+    lua = (assets / 'worlds' / 'xeen' / 'events' / 'maps' / (stem + '.lua')).read_text()
+    data = check_faces.export_map(assets / 'worlds' / 'xeen' / 'maps' / (stem + '.odm'), assets, cache)
+    terrain = check_faces.Terrain(data)
+    seas = wild.rim_seas(sketch)
+    if seas:
+        match = re.search(r'Xeen\.rimFall\((\{.*?\}\}\}), (\{.*?\}\})', lua)
+        if not match:
+            findings.append(('rim.event', 'no rim-fall event in the map Lua (rebuild from the generator)'))
+        else:
+            for x, y, z, _ in re.findall(r'\{(-?\d+), (-?\d+), (-?\d+), (-?\d+)\}', match.group(2)):
+                x, y, z = int(x), int(y), int(z)
+                ground = terrain.height(x, y)
+                near = [terrain.height(x + dx, y + dy) for dx in (-512, 0, 512) for dy in (-512, 0, 512)]
+                if ground < 320 or abs(ground - z) > 64 or max(near) - min(near) > 384:
+                    findings.append(('rim.point', 'return point (%d, %d, %d): the land there is %d (around %d-%d)'
+                                     % (x, y, z, ground, min(near), max(near))))
+        world_seas = [[wild.W(cx, cy) for cx, cy in sea] for sea in seas]
+        for gy in range(2, 126):
+            for gx in range(2, 126):
+                wx, wy = wild.W(gx + 0.5, gy + 0.5)
+                h = terrain.height(wx, wy)
+                if h >= 320:
+                    continue
+                if any(wild._inside(sea, wx, wy) for sea in world_seas):
+                    continue
+                distance = min(edge_distance(sea, wx, wy) for sea in world_seas)
+                if distance <= 1024 or distance > 4096:
+                    continue      # the rescue's margin; low land far from the rim is a valley, not the rim's foot
+                if any(body_covers(body, gx + 0.5, gy + 0.5) for body in (sketch.get('water') or {}).get('bodies') or []):
+                    continue
+                findings.append(('rim.pit', 'land below 320 at cell (%d, %d), height %d, away from the rim sea'
+                                 % (gx, gy, h)))
+    for thing in sketch.get('structures') or []:
+        if thing.get('kind') == 'building':
+            for part in thing.get('parts') or []:
+                if isinstance(part, dict) and part.get('posts') and part.get('effects') \
+                        and 'shrine' in ('%s %s' % (part.get('title') or '', thing.get('title') or '')).lower():
+                    findings.append(('wild.altar', '%s: the pavilion carries the click; put it on an altar'
+                                     % thing['id']))
+        if thing.get('kind') == 'decoration' and thing.get('decoration') in wild.FIRES \
+                and thing['id'] not in wild.FIRE_SKIP and not thing.get('effects'):
+            findings.append(('wild.campfire', '%s (%s): no event' % (thing['id'], thing.get('decoration'))))
+    return findings
+
+
+def edge_distance(polygon, x, y):
+    best = float('inf')
+    for index, a in enumerate(polygon):
+        b = polygon[index - 1]
+        dx, dy = b[0] - a[0], b[1] - a[1]
+        length = dx * dx + dy * dy
+        share = 0.0 if length == 0 else max(0.0, min(1.0, ((x - a[0]) * dx + (y - a[1]) * dy) / length))
+        best = min(best, ((x - a[0] - dx * share) ** 2 + (y - a[1] - dy * share) ** 2) ** 0.5)
+    return best
+
+
+def body_covers(body, cx, cy):
+    polygon = body.get('polygon')
+    return bool(polygon) and wild._inside(polygon, cx, cy)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__.split('\n\n')[0])
+    parser.add_argument('--assets', default=str(ROOT / 'assets_dev'))
+    parser.add_argument('--maps')
+    parser.add_argument('--cache', default=str(ROOT / 'output' / 'xeen_fb' / 'faces_cache'))
+    parser.add_argument('--check', action='store_true')
+    args = parser.parse_args()
+    keys = [m.replace('xeen_', '') for m in args.maps.split(',')] if args.maps else OUTDOOR
+    total = 0
+    for key in keys:
+        findings = check(key, Path(args.assets), Path(args.cache))
+        rules = {}
+        for rule, text in findings:
+            rules[rule] = rules.get(rule, 0) + 1
+            if rule != 'rim.pit' or rules[rule] <= 5:
+                print('xeen_%s error %s: %s' % (key, rule, text))
+        print('xeen_%s: %s' % (key, ', '.join('%s %d' % kv for kv in sorted(rules.items())) or 'clean'))
+        total += len(findings)
+    print('%d maps, %d errors' % (len(keys), total))
+    return 1 if args.check and total else 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())

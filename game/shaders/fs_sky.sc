@@ -10,6 +10,8 @@ SAMPLER2D(s_skyCloud3, 3);
 SAMPLER2D(s_skyRing, 4);
 SAMPLER2D(s_skyStars, 5);
 SAMPLER2D(s_skyMoon, 6);
+// The map's void cells (terrain.void): R8, one texel per terrain cell, 1 = void; a blank texture without void.
+SAMPLER2D(s_skyVoid, 7);
 
 // Clip position to a world-space view ray: inverse of (translation-free view * projection).
 uniform mat4 u_skyRay;
@@ -28,6 +30,9 @@ uniform vec4 u_skyOrbit[12];
 // The theme's rim glow (packSkyRimUniform): [0] horizon direction of its middle (x, y), half width, height (radians);
 // [1] colour times strength, depth below the horizon (radians). Zero colour: none.
 uniform vec4 u_skyRim[2];
+// The void below the horizon (SkyRenderer::render): x 1 when the map has void, y star brightness there, z the
+// camera's height above the void floor. All zero on a map without void.
+uniform vec4 u_skyVoid;
 
 #define SKY_PI 3.14159265
 
@@ -83,7 +88,9 @@ vec3 applyCloud(vec3 color, vec4 shape, vec4 motion, vec4 texel, vec3 direction,
     return mix(color, cloudColor, cover * cloudFade);
 }
 
-vec3 starField(vec3 direction)
+// bandShare: the weight of the painted band (the milky way) against the point stars; brightness and density: the
+// preset's (u_skyParams[5].zw), or the void's own.
+vec3 starField(vec3 direction, float bandShare, float brightness, float density)
 {
     vec3 pole = u_skyParams[7].xyz;
     vec3 rotated = rotateAroundAxis(direction, pole, u_skyParams[2].w);
@@ -96,7 +103,7 @@ vec3 starField(vec3 direction)
     float pick = skyHash13(cell);
     float star = 0.0;
 
-    if (pick > 1.0 - u_skyParams[5].w * 0.08)
+    if (pick > 1.0 - density * 0.08)
     {
         vec3 center = cell + 0.25 + 0.5 * skyHash33(cell);
         float distanceToStar = length(p - center);
@@ -105,7 +112,7 @@ vec3 starField(vec3 direction)
     }
 
     vec3 tint = mix(vec3(0.75, 0.82, 1.0), vec3(1.0, 0.9, 0.78), skyHash13(cell + 9.0));
-    return (band * 0.6 + tint * star * star * 3.0) * u_skyParams[5].z;
+    return (band * bandShare + tint * star * star * 3.0) * brightness;
 }
 
 vec3 moonDisc(vec3 direction, out float coverage, out float lit)
@@ -232,6 +239,62 @@ vec3 belowHorizonFog(vec3 direction, float belowMode)
     return sea > 0.0 ? mix(horizon, skyDistantSeaDisplay(direction, horizon), sea) : horizon;
 }
 
+// How much of the view below the horizon in this direction looks into the void: where the ray meets the void floor
+// inside the terrain square, that cell's void mask (filtered, a soft edge); past the square, the mask's border cell
+// where the ray leaves it, so the void runs on to the horizon wherever the map's edge is void and stops nowhere else.
+// u_skyVoid.w: how much an open sky's fog cover leaves of it (no weather greys it).
+float skyVoidWeight(vec3 direction)
+{
+    if (u_skyVoid.x < 0.5 || direction.z >= 0.0)
+    {
+        return 0.0;
+    }
+
+    float halfSize = u_skyFog[4].x;
+    vec2 start = clamp(u_skyFog[6].zw, vec2_splat(-halfSize), vec2_splat(halfSize));
+    vec2 hit = u_skyFog[6].zw + direction.xy * (u_skyVoid.z / max(-direction.z, 0.00001));
+
+    if (max(abs(hit.x), abs(hit.y)) >= halfSize)
+    {
+        vec2 delta = hit - start;
+        vec2 side = vec2(delta.x >= 0.0 ? 1.0 : -1.0, delta.y >= 0.0 ? 1.0 : -1.0);
+        vec2 reach = (side * halfSize - start) / max(abs(delta), vec2_splat(0.0001)) * side;
+        hit = start + delta * clamp(min(reach.x, reach.y), 0.0, 1.0);
+    }
+
+    float halfTexel = 0.5 / 128.0;
+    vec2 uv = clamp(vec2(hit.x + halfSize, halfSize - hit.y) / (2.0 * halfSize), vec2_splat(halfTexel),
+        vec2_splat(1.0 - halfTexel));
+    return texture2DLod(s_skyVoid, uv, 0.0).r * u_skyVoid.w;
+}
+
+// The void over the below-horizon colour (display space): the air's limb turning into empty space, with stars by
+// day and night (turned a quarter round from the sky's own, so they do not mirror them).
+vec3 applyVoid(vec3 below, vec3 direction)
+{
+    float weight = skyVoidWeight(direction);
+
+    if (weight <= 0.0)
+    {
+        return below;
+    }
+
+    vec3 horizonDirection = normalize(vec3(direction.xy, 0.0) + vec3(0.0, 0.0, 0.0001));
+    vec3 horizon = mix(u_skyParams[6].rgb, skyLinearToDisplay(skyGradientLinear(horizonDirection)), u_skyFog[1].w);
+    vec3 space = pow(skyVoidDisplay(direction, horizon), vec3_splat(2.2));
+    float depth = asin(clamp(-direction.z, 0.0, 1.0));
+    float starAmount = u_skyVoid.y * smoothstep(0.0, u_skyFog[SKY_VOID_LOOK].w, depth);
+
+    if (starAmount > 0.001)
+    {
+        // Point stars of the void's own brightness and density, no painted band: the same by day and by night
+        // whatever the preset's stars (D-109: the night void no lighter than the day's), near black between them.
+        space += starField(vec3(-direction.y, direction.x, -direction.z), 0.0, 1.0, 1.0) * starAmount;
+    }
+
+    return mix(below, skyLinearToDisplay(space), weight);
+}
+
 // The pixel position is a parameter: the Metal shader build sees gl_FragCoord only inside main().
 float skyDither(vec2 pixel)
 {
@@ -252,14 +315,15 @@ void main()
 
     if (fogBelowHorizon && direction.z <= -0.012)
     {
-        vec3 below = belowHorizonFog(direction, belowMode);
+        // The void over the hazed and misted fog colour: empty space keeps its dark and its stars by night too.
+        vec3 below = applyVoid(mistApplySky(belowHorizonFog(direction, belowMode), direction), direction);
 
         if (rimLit)
         {
             below = skyLinearToDisplay(pow(below, vec3_splat(2.2)) + rimGlow(direction));
         }
 
-        gl_FragColor = vec4(mistApplySky(below, direction) + skyDither(gl_FragCoord.xy), 1.0);
+        gl_FragColor = vec4(below + skyDither(gl_FragCoord.xy), 1.0);
         return;
     }
 
@@ -271,7 +335,7 @@ void main()
 
     if (starVisibility > 0.001)
     {
-        color += starField(skyDirection) * starVisibility;
+        color += starField(skyDirection, 0.6, u_skyParams[5].z, u_skyParams[5].w) * starVisibility;
     }
 
     float orbitHorizon = smoothstep(0.0, 0.15, skyDirection.z);
@@ -372,11 +436,19 @@ void main()
         display = mix(display, belowHorizonFog(direction, belowMode), 1.0 - smoothstep(-0.012, 0.004, direction.z));
     }
 
+    display = mistApplySky(display, direction);
+
+    // The void after the mist (as in the early exit above); its limb starts from the horizon colour, so it joins.
+    if (fogBelowHorizon && direction.z < 0.0)
+    {
+        display = applyVoid(display, direction);
+    }
+
     // Below the horizon the glow shows over the fog colour (the void beyond the land's edge).
     if (rimLit && direction.z < 0.0)
     {
         display = skyLinearToDisplay(pow(display, vec3_splat(2.2)) + rimGlow(direction));
     }
 
-    gl_FragColor = vec4(mistApplySky(display, direction) + skyDither(gl_FragCoord.xy), 1.0);
+    gl_FragColor = vec4(display + skyDither(gl_FragCoord.xy), 1.0);
 }

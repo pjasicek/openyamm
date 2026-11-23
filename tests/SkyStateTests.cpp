@@ -1,7 +1,9 @@
 #include "doctest/doctest.h"
 
 #include "game/StringUtils.h"
+#include "game/maps/OutdoorSceneYml.h"
 #include "game/outdoor/OutdoorDistantSea.h"
+#include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorMapData.h"
 #include "game/render/SkyClock.h"
 #include "game/render/SkyPresets.h"
@@ -11,6 +13,8 @@
 #include <cmath>
 #include <filesystem>
 #include <fstream>
+#include <iterator>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -868,4 +872,168 @@ TEST_CASE("sky theme rim glow blends day to night by the star weight and fades i
     // Unknown keys are refused.
     SkyPresetLibrary refused;
     CHECK_FALSE(refused.loadFromYaml(withThemes("  bad: {rim_glow: {glow: 1}}\n"), error));
+}
+
+TEST_CASE("the void (terrain.void) has no sea past it and counts its own share of each side")
+{
+    constexpr int CellsWide = OutdoorMapData::TerrainWidth - 1;
+    constexpr int CellsHigh = OutdoorMapData::TerrainHeight - 1;
+    OutdoorMapData map = {};
+    map.heightMap.assign(size_t(OutdoorMapData::TerrainWidth) * OutdoorMapData::TerrainHeight, 0);
+    map.tileMap.assign(map.heightMap.size(), 0);
+    // Sea along the south (grid y grows south); the east band is void (dry, height 0); land elsewhere.
+    std::vector<uint8_t> landMask(size_t(CellsWide) * CellsHigh, 1);
+    map.voidCells.assign(map.heightMap.size(), 0);
+
+    for (int y = 0; y < CellsHigh; ++y)
+    {
+        for (int x = 0; x < CellsWide; ++x)
+        {
+            landMask[size_t(y) * CellsWide + size_t(x)] = y >= CellsHigh - 10 && x < 100 ? 0 : 1;
+            map.voidCells[size_t(y) * OutdoorMapData::TerrainWidth + size_t(x)] = x >= 105 ? 1 : 0;
+        }
+    }
+
+    const OutdoorDistantSea sea = measureOutdoorDistantSea(map, landMask, nullptr);
+    CHECK(sea.voidWeights[1] == doctest::Approx(1.0f)); // east: all void
+    CHECK(sea.sideWeights[1] == 0.0f);
+    CHECK(sea.sideWeights[2] == doctest::Approx(1.0f)); // south: the void corner counts neither way
+    CHECK(sea.voidWeights[2] == 0.0f);
+    CHECK(sea.voidWeights[0] == 0.0f);
+    CHECK(sea.voidWeights[3] == 0.0f);
+    CHECK(isOutdoorVoidCell(map, 110, 5));
+    CHECK_FALSE(isOutdoorVoidCell(map, 20, 5));
+    CHECK_FALSE(isOutdoorVoidCell(map, -1, 5));
+
+    // Without void cells nothing changes: no void weights, the same sea.
+    map.voidCells.clear();
+    const OutdoorDistantSea plain = measureOutdoorDistantSea(map, landMask, nullptr);
+    CHECK(plain.voidWeights == std::array<float, 4>{});
+    CHECK_FALSE(isOutdoorVoidCell(map, 110, 5));
+}
+
+TEST_CASE("terrain.void rectangles parse into the map's void cells, and bad ones stop the load")
+{
+    std::ifstream file(std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/worlds/mm8/maps/out04.scene.yml");
+    REQUIRE(file.good());
+    std::ostringstream stream;
+    stream << file.rdbuf();
+    const std::string text = stream.str();
+    const auto withVoid = [&text](const std::string &rects)
+    {
+        std::string changed = text;
+        const std::string marker = "terrain:\n";
+        changed.insert(changed.find(marker) + marker.size(), "  void: " + rects + "\n");
+        return changed;
+    };
+    const OutdoorSceneYmlLoader loader = {};
+    std::string error;
+
+    const std::optional<OutdoorSceneData> plain = loader.loadFromText(text, error);
+    REQUIRE_MESSAGE(plain.has_value(), error);
+    CHECK(plain->terrainVoidRects.empty());
+
+    const std::optional<OutdoorSceneData> scene = loader.loadFromText(withVoid("[[105, 0, 126, 126], [0, 0, 3, 2]]"),
+        error);
+    REQUIRE_MESSAGE(scene.has_value(), error);
+    REQUIRE(scene->terrainVoidRects.size() == 2);
+    CHECK(scene->terrainVoidRects[0] == std::array<int, 4>{105, 0, 126, 126});
+
+    CHECK_FALSE(loader.loadFromText(withVoid("[[5, 0, 4, 3]]"), error).has_value());
+    CHECK_FALSE(loader.loadFromText(withVoid("[[0, 0, 128, 3]]"), error).has_value());
+    CHECK_FALSE(loader.loadFromText(withVoid("[[0, 0, 3]]"), error).has_value());
+    CHECK_FALSE(loader.loadFromText(withVoid("{x: 1}"), error).has_value());
+
+    std::ifstream geometryFile(std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/worlds/mm8/maps/out04.odm",
+        std::ios::binary);
+    REQUIRE(geometryFile.good());
+    const std::vector<uint8_t> geometryBytes(
+        (std::istreambuf_iterator<char>(geometryFile)), std::istreambuf_iterator<char>());
+    std::optional<OutdoorMapData> map = OutdoorMapDataLoader{}.loadFromBytes(geometryBytes);
+    REQUIRE(map);
+    MapDeltaData state;
+    REQUIRE_MESSAGE(buildOutdoorMapStateFromScene(*scene, *map, state, error), error);
+    REQUIRE(map->voidCells.size() == size_t(OutdoorMapData::TerrainWidth) * OutdoorMapData::TerrainHeight);
+    CHECK(isOutdoorVoidCell(*map, 105, 0));
+    CHECK(isOutdoorVoidCell(*map, 126, 126));
+    CHECK(isOutdoorVoidCell(*map, 3, 2));
+    CHECK_FALSE(isOutdoorVoidCell(*map, 104, 50));
+    CHECK_FALSE(isOutdoorVoidCell(*map, 4, 2));
+
+    std::optional<OutdoorMapData> plainMap = OutdoorMapDataLoader{}.loadFromBytes(geometryBytes);
+    REQUIRE(plainMap);
+    MapDeltaData plainState;
+    REQUIRE_MESSAGE(buildOutdoorMapStateFromScene(*plain, *plainMap, plainState, error), error);
+    CHECK(plainMap->voidCells.empty());
+}
+
+TEST_CASE("a sky preset's and a theme's void block set the space below the horizon over the void")
+{
+    const std::string text = withPreset(R"(  spacey:
+    inherits: day
+    void: {color: [0.01, 0.02, 0.03], stars: 1.5, limb_deg: 4}
+)");
+    SkyPresetLibrary library;
+    std::string error;
+    REQUIRE_MESSAGE(library.loadFromYaml(text, error), error);
+    const SkyPreset *pPreset = library.find("spacey");
+    REQUIRE(pPreset != nullptr);
+    REQUIRE(pPreset->voidLook.has_value());
+    CHECK(pPreset->voidLook->stars == doctest::Approx(1.5f));
+    CHECK(pPreset->voidLook->limbDegrees == doctest::Approx(4.0f));
+    CHECK(pPreset->voidLook->color[2] == doctest::Approx(0.03f));
+    CHECK_FALSE(library.find("day")->voidLook.has_value());
+
+    std::string themed = TestLibraryYaml;
+    themed.insert(themed.find("maps: {OUT04"), "  dark: {void: {stars: 0.5}}\n");
+    SkyPresetLibrary themedLibrary;
+    REQUIRE_MESSAGE(themedLibrary.loadFromYaml(themed, error), error);
+    SkyStateModel model;
+    model.setLibrary(&themedLibrary);
+    SkyInputs inputs = {};
+    inputs.mapFileName = "out02.odm";
+    inputs.gameMinutes = 12.0f * 60.0f;
+    // The defaults without a block; the theme's block over them.
+    CHECK(model.update(inputs, 0.016f).voidLook.stars == doctest::Approx(SkyVoidLook{}.stars));
+    inputs.forcedTheme = std::string("dark");
+    model.snap();
+    const SkyFrameState &frame = model.update(inputs, 0.016f);
+    CHECK(frame.voidLook.stars == doctest::Approx(0.5f));
+    CHECK(frame.voidLook.limbDegrees == doctest::Approx(SkyVoidLook{}.limbDegrees));
+
+    SkyPresetLibrary refused;
+    CHECK_FALSE(refused.loadFromYaml(withPreset("  bad:\n    inherits: day\n    void: {glow: 1}\n"), error));
+}
+
+TEST_CASE("no weather greys the void or hides its stars; fogged geometry still fades into the fog")
+{
+    const SkyPresetLibrary library = loadTestLibrary();
+    SkyStateModel model;
+    model.setLibrary(&library);
+    SkyInputs inputs = {};
+    inputs.gameMinutes = 13.0f * 60.0f;
+    const SkyFrameState clear = model.update(inputs, 0.016f);
+    CHECK(clear.voidVisibility == 1.0f);
+    CHECK(clear.voidFogVisibility == 1.0f);
+
+    // Dense fog weather, then heavy rain in it: the void and its stars stay; geometry fades into the fog colour.
+    inputs.foggy = true;
+    inputs.fogStrongDistance = 2048.0f;
+    model.snap();
+    SkyFrameState foggy = model.update(inputs, 0.016f);
+    CHECK(foggy.fogAmount > 0.8f);
+    CHECK(foggy.voidVisibility == 1.0f);
+    CHECK(foggy.voidLook.stars == doctest::Approx(clear.voidLook.stars));
+    CHECK(foggy.voidFogVisibility < 0.5f);
+    inputs.raining = true;
+    inputs.precipitation = 1.0f;
+    model.snap();
+    foggy = model.update(inputs, 0.016f);
+    CHECK(foggy.voidVisibility == 1.0f);
+    CHECK(foggy.voidLook.stars == doctest::Approx(clear.voidLook.stars));
+
+    // Only an open sky's fog cover takes the void away.
+    inputs.fogCover = 1.0f;
+    model.snap();
+    CHECK(model.update(inputs, 0.016f).voidVisibility == 0.0f);
 }

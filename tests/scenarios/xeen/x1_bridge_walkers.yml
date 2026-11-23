@@ -1,0 +1,98 @@
+id: xeen.x1_bridge_walkers
+title: "Xeen: guards wandering on Vertigo Bridge and its bank never stand over the creek (P2 F24)"
+world: xeen
+mode: faithful
+tags: [xeen, outdoor, actors, water, regression]
+steps:
+  - note:
+      text: >-
+        P2 feedback F24 (pin p1 on X1, 2026-11-23): a guard stood stuck on Vertigo Bridge against its rail. The
+        outdoor water rule keeps walkers off deep water unless a deck is under them; it asked the walker's support
+        state, which a guard on the humped deck could lose a hair under its surface (airborne by its state), and the
+        rule then held it on the deck as over water for good. It now asks the map: a non-fluid model floor under the
+        walker's centre (a step) or its body (where it stands), from 32 under its feet to 32 over them. Five guards
+        wander on the deck and the bank for two minutes; none ever stands over the creek.
+  - new_game_flow:
+      start_map: xeen_x1.odm
+      party:
+        gold: 100
+        food: 10
+        members:
+          - {name: Hilda, class: Knight, level: 5, skills: [], equipment: {}}
+  - note:
+      text: X1's opening message is a modal message that stops the world; it is read and closed first.
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - press_action: {action: escape, expect_before: {dialog: {active: true}}}
+  - ai_arena: {path: x1_bridge_walkers.arena.yml}
+  - advance_runtime: {seconds: 10}
+  - assert: {actor_visible: {actor_index: last-4, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-3, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-2, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-1, over_water: false}}
+  - assert: {actor_visible: {actor_index: last, over_water: false}}
+  - advance_runtime: {seconds: 10}
+  - assert: {actor_visible: {actor_index: last-4, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-3, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-2, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-1, over_water: false}}
+  - assert: {actor_visible: {actor_index: last, over_water: false}}
+  - advance_runtime: {seconds: 10}
+  - assert: {actor_visible: {actor_index: last-4, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-3, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-2, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-1, over_water: false}}
+  - assert: {actor_visible: {actor_index: last, over_water: false}}
+  - advance_runtime: {seconds: 10}
+  - assert: {actor_visible: {actor_index: last-4, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-3, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-2, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-1, over_water: false}}
+  - assert: {actor_visible: {actor_index: last, over_water: false}}
+  - advance_runtime: {seconds: 10}
+  - assert: {actor_visible: {actor_index: last-4, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-3, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-2, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-1, over_water: false}}
+  - assert: {actor_visible: {actor_index: last, over_water: false}}
+  - advance_runtime: {seconds: 10}
+  - assert: {actor_visible: {actor_index: last-4, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-3, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-2, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-1, over_water: false}}
+  - assert: {actor_visible: {actor_index: last, over_water: false}}
+  - advance_runtime: {seconds: 10}
+  - assert: {actor_visible: {actor_index: last-4, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-3, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-2, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-1, over_water: false}}
+  - assert: {actor_visible: {actor_index: last, over_water: false}}
+  - advance_runtime: {seconds: 10}
+  - assert: {actor_visible: {actor_index: last-4, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-3, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-2, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-1, over_water: false}}
+  - assert: {actor_visible: {actor_index: last, over_water: false}}
+  - advance_runtime: {seconds: 10}
+  - assert: {actor_visible: {actor_index: last-4, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-3, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-2, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-1, over_water: false}}
+  - assert: {actor_visible: {actor_index: last, over_water: false}}
+  - advance_runtime: {seconds: 10}
+  - assert: {actor_visible: {actor_index: last-4, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-3, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-2, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-1, over_water: false}}
+  - assert: {actor_visible: {actor_index: last, over_water: false}}
+  - advance_runtime: {seconds: 10}
+  - assert: {actor_visible: {actor_index: last-4, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-3, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-2, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-1, over_water: false}}
+  - assert: {actor_visible: {actor_index: last, over_water: false}}
+  - advance_runtime: {seconds: 10}
+  - assert: {actor_visible: {actor_index: last-4, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-3, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-2, over_water: false}}
+  - assert: {actor_visible: {actor_index: last-1, over_water: false}}
+  - assert: {actor_visible: {actor_index: last, over_water: false}}

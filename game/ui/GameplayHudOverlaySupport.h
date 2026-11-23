@@ -81,6 +81,9 @@ public:
     // A shop's party inventory (display, sell, identify, repair) shows the bag overview too: several bags, desktop and
     // no bag zoomed with its button.
     static bool shopBagOverviewActive(const GameplayScreenRuntime &context);
+    // A shop's or chest's party inventory shows the tab buttons (ChestInventoryBagTab1-5): a party of one with more
+    // than four bags, as the inventory page's CharacterInventoryTab1-5.
+    static bool nestedInventoryTabsShown(const GameplayScreenRuntime &context);
     // The inventory page shows the tab buttons (CharacterInventoryTab1-5): a party of one with more than four bags
     // (InventoryBags::TabBags) and not the Adventurers' Inn roster.
     static bool inventoryTabsShown(const GameplayScreenRuntime &context);

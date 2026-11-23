@@ -320,11 +320,39 @@ public:
         return true;
     }
 
+    // A `void` block over the look it starts from (the preset's inherited one, or the defaults).
+    bool applyVoidLook(const YAML::Node &node, std::optional<SkyVoidLook> &look, const std::string &where)
+    {
+        if (!node)
+        {
+            return true;
+        }
+
+        if (!node.IsMap())
+        {
+            return fail(where + " must be a map");
+        }
+
+        SkyVoidLook value = look.value_or(SkyVoidLook{});
+
+        if (!checkKeys(node, {"color", "stars", "limb_deg"}, where)
+            || !readOptionalTint(node, "color", value.color, where)
+            || !readOptionalFloat(node, "stars", value.stars, 0.0f, 4.0f, where)
+            || !readOptionalFloat(node, "limb_deg", value.limbDegrees, 0.1f, 30.0f, where))
+        {
+            return false;
+        }
+
+        look = value;
+        return true;
+    }
+
     bool applyTheme(const YAML::Node &node, SkyTheme &theme, const std::string &where)
     {
         return checkKeys(node, {"preset", "sky_tint", "sun_tint", "cloud_tint", "saturation", "haze", "stars",
-                   "rim_glow"}, where)
+                   "rim_glow", "void"}, where)
             && applyRimGlow(node["rim_glow"], theme, where + ".rim_glow")
+            && applyVoidLook(node["void"], theme.voidLook, where + ".void")
             && readOptionalString(node, "preset", theme.preset, where)
             && readOptionalTint(node, "sky_tint", theme.skyTint, where)
             && readOptionalTint(node, "sun_tint", theme.sunTint, where)
@@ -338,7 +366,8 @@ public:
     {
         if (!checkKeys(node, {"inherits", "keys", "sun_disc_degrees", "moon_disc_degrees", "moon_texture",
                 "moon_phase_offset", "below_horizon", "fog_tint_sky_mix", "horizon_ring", "stars", "orbit_ring",
-                "clouds", "storm", "draw_sky"}, where))
+                "clouds", "storm", "draw_sky", "void"}, where)
+            || !applyVoidLook(node["void"], preset.voidLook, where + ".void"))
         {
             return false;
         }

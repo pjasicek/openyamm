@@ -172,6 +172,11 @@ const OutdoorPartyMovementState &OutdoorPartyRuntime::partyMovementState() const
     return m_movementDriver.partyMovementState();
 }
 
+bool OutdoorPartyRuntime::specialJumpActive() const
+{
+    return m_movementDriver.specialJumpActive();
+}
+
 const Party &OutdoorPartyRuntime::party() const
 {
     return m_party;

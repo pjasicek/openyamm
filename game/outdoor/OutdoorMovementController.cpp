@@ -2877,6 +2877,17 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
         partyInputSpeed.z = 0.0f;
     }
 
+    if (landedThisFrame
+        && !finalFloor.fromBModel
+        && isOutdoorVoidCell(*m_pOutdoorMapData,
+            int(std::floor(outdoorWorldToGridXFloat(partyNewPosition.x))),
+            int(std::floor(outdoorWorldToGridYFloat(partyNewPosition.y)))))
+    {
+        // The void's floor (terrain.void) is no ground: a party that walked over the world's edge is lifted back onto
+        // the rim by the map's rescue, whose fall is the only one it takes.
+        fallDistance = 0.0f;
+    }
+
     OutdoorMoveState result = {};
     float clampedX = partyNewPosition.x;
     float clampedY = partyNewPosition.y;
@@ -2931,12 +2942,11 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
     return result;
 }
 
-bool OutdoorMovementController::hasNonFluidBModelActorSupport(
-    const OutdoorMoveState &state,
-    float bodyRadius,
+bool OutdoorMovementController::hasNonFluidBModelFloorUnder(
     float x,
     float y,
-    float z,
+    float footZ,
+    float reach,
     float maxFloorRise) const
 {
     if (m_pOutdoorMapData == nullptr)
@@ -2944,30 +2954,37 @@ bool OutdoorMovementController::hasNonFluidBModelActorSupport(
         return false;
     }
 
-    const bool bModelGround = outdoorMapUsesBModelGround(*m_pOutdoorMapData);
-    const float radius = std::max(1.0f, bodyRadius);
+    const float slack = std::max(reach, 0.0f);
     std::vector<size_t> candidateFaceIndices;
-    collectFaceCandidates(
-        x - std::max(radius, FloorCheckSlack),
-        y - std::max(radius, FloorCheckSlack),
-        x + std::max(radius, FloorCheckSlack),
-        y + std::max(radius, FloorCheckSlack),
-        candidateFaceIndices);
-    const FloorSample floor = queryFloorLevel(
-        *m_pOutdoorMapData,
-        bModelGround,
-        m_faces,
-        state,
-        &candidateFaceIndices,
-        radius,
-        std::max(0.0f, maxFloorRise),
-        x,
-        y,
-        z,
-        FloorSupportMode::ActorConditionalBModels,
-        true);
+    collectFaceCandidates(x - slack, y - slack, x + slack, y + slack, candidateFaceIndices);
 
-    return floor.hasFloor && floor.fromBModel && !floor.isFluid;
+    for (size_t faceIndex : candidateFaceIndices)
+    {
+        if (faceIndex >= m_faces.size())
+        {
+            continue;
+        }
+
+        const OutdoorFaceGeometryData &geometry = m_faces[faceIndex];
+        float height = 0.0f;
+
+        if (outdoorFaceBlocksMovement(geometry)
+            && geometry.isWalkable
+            && !hasFaceAttribute(geometry.attributes, FaceAttribute::Fluid)
+            && x >= geometry.minX - slack
+            && x <= geometry.maxX + slack
+            && y >= geometry.minY - slack
+            && y <= geometry.maxY + slack
+            && isPointInsideOrNearPolygon(x, y, geometry.vertices, slack)
+            && calculateFaceHeight(geometry, x, y, height)
+            && height <= footZ + maxFloorRise
+            && height >= footZ - CloseToGroundHeight)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 std::optional<MapBoundaryEdge> OutdoorMovementController::detectBoundaryBlock(

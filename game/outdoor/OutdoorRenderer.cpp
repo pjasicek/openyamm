@@ -2340,7 +2340,7 @@ std::vector<OutdoorGameView::TexturedTerrainVertex> OutdoorRenderer::buildTerrai
             const uint8_t rawTileId = mapData.tileMap[tileMapIndex];
             const OutdoorTerrainTile &tile = terrainTiles.tiles[size_t(rawTileId)];
 
-            if (!tile.valid || !tile.waterSurface)
+            if (!tile.valid || !tile.waterSurface || isOutdoorVoidCell(mapData, gridX, gridY))
             {
                 continue;
             }

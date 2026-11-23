@@ -548,6 +548,11 @@ findings are the calibration (`output/xeen_a1/lights_mm678.txt`).
 and on any other map with `--doors` (`--doors-measure` adds each leaf's numbers): a door picture shown more than once
 across its leaf, one wing of a double door on a single wide leaf, a pair of leaves showing one wing the same way round;
 outdoors also `doors.lone_wing`, `doors.part_picture`, `doors.narrow_pair` and `doors.off_steps` (merge point 41).
+Outdoors also `houses.buried_door` (a warning; P2 feedback F27, `tools/xeen/town_fit_check.py`'s rule): the land
+32 to 160 before a door stands more than 48 over its sill. Outdoors `oymap audit` and the build warn of
+`faces.back_to_back` (F31): two drawn faces in one plane facing opposite ways, open space on a side (the game draws
+outdoor faces from both sides, so they flicker); the build also of `gates.road_off` (F28): a wall gate's passage or
+a bridge's head whose road tiles are centred more than 128 off its middle (road tiles are whole cells).
 What each texture is comes from `engine/models/texture_classes.yml` (and a world's `models/texture_classes.yml`),
 written by `tools/xeen/texture_classes.py`.
 
@@ -1157,6 +1162,9 @@ should send are in `web/scripts/hosted_server.mjs` (the content security policy 
 paired studio on 127.0.0.1, `application/wasm`, immutable caching of `assets/` and `core/`) and the compressed
 copies `stage_hosted.mjs` writes beside each text and wasm file (`<file>.br`, `<file>.gz`, sent with
 `Content-Encoding` to a browser that accepts them, `Vary: Accept-Encoding`); a real host should do the same.
+It is deployed at https://oyeditor.jasicek.net/ (2026-11-22, version 3.0.0): nginx settings in
+`packaging/server/nginx-oyeditor.conf`, upload with `web/scripts/deploy_hosted.sh`, steps in
+`packaging/server/README.md`.
 
 **Speed and size (S8f).** The wasm core stays at `-O3` with Emscripten's dlmalloc. Tried and not kept: mimalloc
 (CMake `OYMAP_WASM_MALLOC=mimalloc`: an indoor commit about 15 % sooner, but Castle Darkmoor's checks job grows the

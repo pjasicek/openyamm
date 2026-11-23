@@ -46,7 +46,8 @@ SPECIAL_TARGETS = {
     'mm8-out15': {'world': 'mm8', 'map': 'out15.odm', 'pos': [0.0, 0.0, 3000.0], 'yaw': 0.0},
     'mm8-out01': {'world': 'mm8', 'map': 'out01.odm', 'pos': [3560.0, 7696.0, 1800.0], 'yaw': 1.0},
     'mm7-7out15': {'world': 'mm7', 'map': '7out15.odm', 'pos': [0.0, 0.0, 3000.0], 'yaw': 0.0},
-    'mm9-thjorgard': {'world': 'mm9', 'map': 'thjorgard.odm', 'pos': [0.0, 0.0, 3000.0], 'yaw': 0.0},
+    # MM9's regions are BLV maps with terrain and the outdoor sky (the MM9 rework); over Thjorgard's start point.
+    'mm9-thjorgard': {'world': 'mm9', 'map': 'thjorgard.blv', 'pos': [-12830.0, -19987.0, 3600.0], 'yaw': 3.1416},
 }
 
 # Themed maps (sky.yml `maps`): one boot each, comparing Classic, Enhanced without a theme and themed at four times.

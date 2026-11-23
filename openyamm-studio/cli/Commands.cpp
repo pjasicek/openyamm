@@ -225,6 +225,24 @@ int runExport(const std::vector<std::string> &rawArguments)
         return 1;
     }
 
+    // An outdoor map's void (U-12) lives in its scene beside it.
+    if (mapKindFromPath(path) == MapKind::Outdoor)
+    {
+        const std::string sceneName = path.stem().string() + ".scene.yml";
+        std::string sceneText;
+
+        if (sessionOpen)
+        {
+            sceneText = session.files().readTextFile("Data/games/" + sceneName).value_or(std::string());
+        }
+        else
+        {
+            readTextFile(path.parent_path() / sceneName, sceneText);
+        }
+
+        options.voidRects = sceneVoidRectangles(sceneText);
+    }
+
     JsonWriter writer(pretty);
     writer.beginObject();
     writer.field("file", path.filename().string());
@@ -1305,6 +1323,8 @@ bool auditTarget(const AuditRequest &request, AuditOutcome &outcome, ReadFailure
     // A cave or a mine shaped as one (D-89).
     const std::vector<AuditFinding> caveFindings = auditCaveShape(map, opened.identityShape);
     findings.insert(findings.end(), caveFindings.begin(), caveFindings.end());
+    const std::vector<AuditFinding> voidFindings = auditVoid(map);
+    findings.insert(findings.end(), voidFindings.begin(), voidFindings.end());
     const std::vector<AuditFinding> mouthFindings = auditBlindMouths(opened.blindMouths);
     findings.insert(findings.end(), mouthFindings.begin(), mouthFindings.end());
     const std::vector<AuditFinding> rideFindings =

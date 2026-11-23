@@ -3,6 +3,8 @@
 #include "game/indoor/IndoorMapData.h"
 #include "game/outdoor/OutdoorMapData.h"
 
+#include <yaml-cpp/yaml.h>
+
 #include <algorithm>
 #include <fstream>
 
@@ -132,6 +134,27 @@ void exportOutdoor(const Game::OutdoorMapData &map, const MapExportOptions &opti
         numberArray(writer, "height_map", map.heightMap);
         numberArray(writer, "tile_map", map.tileMap);
         numberArray(writer, "attribute_map", map.attributeMap);
+    }
+
+    if (!options.voidRects.empty())
+    {
+        // Where the world ends (U-12): the scene's cell rectangles, inclusive.
+        writer.key("void");
+        writer.beginArray();
+
+        for (const std::array<int, 4> &rect : options.voidRects)
+        {
+            writer.beginArray();
+
+            for (const int64_t value : rect)
+            {
+                writer.value(value);
+            }
+
+            writer.endArray();
+        }
+
+        writer.endArray();
     }
 
     writer.endObject();
@@ -466,6 +489,32 @@ bool readFileBytes(const std::filesystem::path &path, std::vector<uint8_t> &byte
 
     bytes.assign(std::istreambuf_iterator<char>(stream), std::istreambuf_iterator<char>());
     return true;
+}
+
+std::vector<std::array<int, 4>> sceneVoidRectangles(const std::string &sceneText)
+{
+    std::vector<std::array<int, 4>> rects;
+
+    try
+    {
+        const YAML::Node voids = YAML::Load(sceneText)["terrain"]["void"];
+
+        for (size_t index = 0; voids && voids.IsSequence() && index < voids.size(); ++index)
+        {
+            const YAML::Node rect = voids[index];
+
+            if (rect.IsSequence() && rect.size() == 4)
+            {
+                rects.push_back({rect[0].as<int>(), rect[1].as<int>(), rect[2].as<int>(), rect[3].as<int>()});
+            }
+        }
+    }
+    catch (const std::exception &)
+    {
+        rects.clear();
+    }
+
+    return rects;
 }
 
 bool exportMapJson(

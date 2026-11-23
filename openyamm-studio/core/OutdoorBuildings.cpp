@@ -4412,36 +4412,48 @@ private:
         return (value & 0xffffff) / 16777216.0;
     }
 
-    // A ruined wall: the bays of its lowest row each to its own height (a door's bay stands whole), some gone; the
-    // rows above over the bays under them; the wall `thickness` thick with its inner face, its tops and the ends
-    // where a stretch is lower or gone.
-    void raiseRuinWall(size_t wall)
+    // A piece of a ruined wall: a stretch of one row between two bay edges of any row (so the pieces of the rows,
+    // the tops and the foundation meet corner to corner: a long edge past another face's corner leaves a crack where
+    // the corners are rounded to whole units), its foot and top, its role, its door (an index into the building's
+    // doors, or -1; a door is one piece) and where its picture starts along it (plain bays side by side that stand as
+    // high run on as one picture, as on a whole wall).
+    struct RuinPiece
     {
-        if (backWall(wall))
-        {
-            return;
-        }
+        double from = 0.0;
+        double to = 0.0;
+        double low = 0.0;
+        double high = 0.0;
+        std::string role;
+        int door = -1;
+        double u = 0.0;
+    };
 
+    // The pieces of a ruined wall: the bays of its lowest row each to its own height (a door's bay stands whole),
+    // some gone; the rows above over the bays under them. `cuts`: every bay edge of every row, in order.
+    std::vector<RuinPiece> ruinPieces(size_t wall, std::vector<double> &cuts) const
+    {
         const OutdoorRuinPlan &ruin = m_part.ruin;
-        const double length = lengthOf(m_part.outline[wall], m_part.outline[(wall + 1) % m_count]);
-
-        if (m_part.bottom == 0.0 && m_building.foundation > 0.0)
-        {
-            wallPiece(wall, 0.0, length, m_floor - m_building.foundation, m_floor, texture("base"), 0.0, length, 0.0,
-                m_building.foundation, m_nameEvent);
-        }
-
         // The lowest row's bays: their heights (0: gone).
         const std::vector<double> lowEdges = bayEdgesOf(m_part, wall, false);
         std::vector<double> standing(lowEdges.size() - 1, 0.0);
+        const auto doorAt = [&](int row, size_t bay)
+        {
+            for (size_t index = 0; index < m_building.doors.size(); ++index)
+            {
+                const OutdoorDoorPlan &door = m_building.doors[index];
+
+                if (row == 0 && door.part == m_partIndex && door.wall == wall && door.bay == bay && door.storey == 0)
+                {
+                    return static_cast<int>(index);
+                }
+            }
+
+            return -1;
+        };
 
         for (size_t bay = 0; bay < standing.size(); ++bay)
         {
-            const bool door = std::any_of(m_building.doors.begin(), m_building.doors.end(),
-                [&](const OutdoorDoorPlan &plan)
-                {
-                    return plan.part == m_partIndex && plan.wall == wall && plan.bay == bay && plan.storey == 0;
-                });
+            const bool door = doorAt(0, bay) >= 0;
             const double height = ruin.low + (ruin.high - ruin.low) * chance(static_cast<uint32_t>(wall),
                 static_cast<uint32_t>(bay), 1);
             standing[bay] = door ? std::max(height, std::min(m_part.wallHeight, RowHeight))
@@ -4463,166 +4475,276 @@ private:
 
             return least > 1.0e17 ? 0.0 : least;
         };
-        // The pieces made, [from, to, high], for the tops.
-        std::vector<std::array<double, 3>> made;
-        std::vector<double> cuts = lowEdges;
-
-        for (int row = 0; m_floor + row * RowHeight + (row > 0 ? m_part.band : 0.0) < m_top - 0.5; ++row)
+        std::vector<RuinPiece> pieces;
+        const auto rowLow = [&](int row)
         {
-            const double low = m_floor + row * RowHeight + (row > 0 ? m_part.band : 0.0);
+            return m_floor + row * RowHeight + (row > 0 ? m_part.band : 0.0);
+        };
+        cuts = lowEdges;
+
+        for (int row = 1; rowLow(row) < m_top - 0.5; ++row)
+        {
+            const std::vector<double> edges = bayEdgesOf(m_part, wall, true);
+            cuts.insert(cuts.end(), edges.begin(), edges.end());
+        }
+
+        std::sort(cuts.begin(), cuts.end());
+        cuts.erase(std::unique(cuts.begin(), cuts.end(), [](double a, double b)
+        {
+            return std::fabs(a - b) < 0.5;
+        }), cuts.end());
+
+        for (int row = 0; rowLow(row) < m_top - 0.5; ++row)
+        {
+            const double low = rowLow(row);
             const double rowHigh = std::min(m_top, low + RowHeight);
             const std::vector<std::string> &bays = row == 0 ? m_part.bays[wall] : m_part.upperBays[wall];
             const std::vector<double> edges = bayEdgesOf(m_part, wall, row > 0);
             const size_t count = std::max<size_t>(1, bays.size());
-            cuts.insert(cuts.end(), edges.begin(), edges.end());
 
             for (size_t bay = 0, end = 1; bay < count; bay = end)
             {
                 const double from = edges[bay];
-                const auto doorAt = [&](size_t index) -> OutdoorDoorPlan *
-                {
-                    for (OutdoorDoorPlan &door : m_building.doors)
-                    {
-                        if (row == 0 && door.part == m_partIndex && door.wall == wall && door.bay == index
-                            && door.storey == 0)
-                        {
-                            return &door;
-                        }
-                    }
-
-                    return nullptr;
-                };
-                OutdoorDoorPlan *pDoor = doorAt(bay);
+                const int door = doorAt(row, bay);
                 const std::string role = bays.empty() ? "wall" : bays[bay];
                 const double high = std::min(rowHigh, m_floor + standsOver(from, edges[bay + 1]));
                 end = bay + 1;
 
                 // Plain bays side by side that stand as high are one face, as on a whole wall.
-                while (pDoor == nullptr && end < count && tiles(role) && bays[end] == role && doorAt(end) == nullptr
+                while (door < 0 && end < count && tiles(role) && bays[end] == role && doorAt(row, end) < 0
                     && std::fabs(std::min(rowHigh, m_floor + standsOver(edges[end], edges[end + 1])) - high) < 0.5)
                 {
                     ++end;
                 }
-
-                const double to = edges[end];
 
                 if (high < low + 1.0)
                 {
                     continue;
                 }
 
-                const std::string &faceTexture = pDoor != nullptr && !pDoor->texture.empty() ? pDoor->texture
-                    : texture(role);
-                const double across = to - from;
-                const int piece = wallPiece(wall, from, to, low, high, faceTexture, 0.0, across,
-                    RowHeight - (high - low), RowHeight, pDoor != nullptr && pDoor->event != 0 ? pDoor->event
-                    : m_nameEvent);
-                made.push_back({from, to, high});
-
-                if (pDoor != nullptr)
+                if (door >= 0)
                 {
-                    const Point2 middle = onWall(wall, (from + to) * 0.5);
-                    const Point2 &left = m_part.outline[wall];
-                    const Point2 &right = m_part.outline[(wall + 1) % m_count];
-                    pDoor->face = piece;
-                    pDoor->x = middle[0];
-                    pDoor->y = middle[1];
-                    pDoor->z = low;
-                    pDoor->normalX = (right[1] - left[1]) / length;
-                    pDoor->normalY = -(right[0] - left[0]) / length;
+                    pieces.push_back({from, edges[end], low, high, role, door, 0.0});
+                    continue;
                 }
 
-                if (ruin.thickness > 0.0)
-                {
-                    // The inner face, clear of the walls across each corner.
-                    const double in = ruin.thickness;
-                    const double innerFrom = std::max(from, in);
-                    const double innerTo = std::min(to, length - in);
+                // Cut at every bay edge of the other rows within it.
+                double start = from;
 
-                    if (innerTo > innerFrom + 0.5)
+                for (const double cut : cuts)
+                {
+                    if (cut > start + 0.5 && cut < edges[end] - 0.5)
                     {
-                        texelFace({at(onWall(wall, innerTo, in), low), at(onWall(wall, innerFrom, in), low),
-                            at(onWall(wall, innerFrom, in), high), at(onWall(wall, innerTo, in), high)},
-                            textureOr("inside", "wall"), {{0.0, RowHeight}, {innerTo - innerFrom, RowHeight},
-                            {innerTo - innerFrom, RowHeight - (high - low)}, {0.0, RowHeight - (high - low)}},
-                            m_nameEvent);
+                        pieces.push_back({start, cut, low, high, role, -1, start - from});
+                        start = cut;
                     }
                 }
+
+                pieces.push_back({start, edges[end], low, high, role, -1, start - from});
             }
         }
 
-        if (ruin.thickness <= 0.0)
-        {
-            return;
-        }
+        return pieces;
+    }
 
-        // The wall's top over each stretch between the bays' edges (the highest piece over it), stretches of one
-        // height as one; an end where the next stands lower or is gone.
-        std::sort(cuts.begin(), cuts.end());
-        cuts.erase(std::unique(cuts.begin(), cuts.end(), [](double a, double b)
-        {
-            return std::fabs(a - b) < 0.5;
-        }), cuts.end());
+    // The wall's top over each stretch between the bays' edges (`cuts`, in order): [from, to, height], the highest
+    // piece over it, the part's floor where none stands.
+    std::vector<std::array<double, 3>> ruinTops(const std::vector<RuinPiece> &pieces,
+        const std::vector<double> &cuts) const
+    {
         std::vector<std::array<double, 3>> tops;
 
         for (size_t index = 0; index + 1 < cuts.size(); ++index)
         {
-            double high = 0.0;
+            double high = m_floor;
 
-            for (const std::array<double, 3> &piece : made)
+            for (const RuinPiece &piece : pieces)
             {
-                if (piece[0] < cuts[index] + 0.5 && piece[1] > cuts[index + 1] - 0.5)
+                if (piece.from < cuts[index] + 0.5 && piece.to > cuts[index + 1] - 0.5)
                 {
-                    high = std::max(high, piece[2]);
+                    high = std::max(high, piece.high);
                 }
             }
 
-            if (!tops.empty() && std::fabs(tops.back()[2] - high) < 0.5 && std::fabs(tops.back()[1] - cuts[index]) < 0.5)
+            tops.push_back({cuts[index], cuts[index + 1], high});
+        }
+
+        return tops;
+    }
+
+    // How high a ruined wall stands at its start (`atEnd` false) or its end: the part's floor where it is gone or not
+    // raised (a back wall).
+    double ruinStandsAt(size_t wall, bool atEnd) const
+    {
+        if (backWall(wall))
+        {
+            return m_floor;
+        }
+
+        std::vector<double> cuts;
+        const std::vector<RuinPiece> pieces = ruinPieces(wall, cuts);
+        const std::vector<std::array<double, 3>> tops = ruinTops(pieces, cuts);
+
+        return tops.empty() ? m_floor : atEnd ? tops.back()[2] : tops.front()[2];
+    }
+
+    // Where the inner faces of a wall and the next meet at their corner (the two lines `in` inside the outline
+    // crossing): how far along each wall from its own start, the first for `wall` (its length less a convex
+    // corner's share), the second for the next wall.
+    std::array<double, 2> ruinMitre(size_t wall, double in) const
+    {
+        const Point2 &left = m_part.outline[wall];
+        const Point2 &corner = m_part.outline[(wall + 1) % m_count];
+        const Point2 &right = m_part.outline[(wall + 2) % m_count];
+        const double firstLength = std::max(lengthOf(left, corner), 1.0e-9);
+        const double secondLength = std::max(lengthOf(corner, right), 1.0e-9);
+        const Point2 first = {(corner[0] - left[0]) / firstLength, (corner[1] - left[1]) / firstLength};
+        const Point2 second = {(right[0] - corner[0]) / secondLength, (right[1] - corner[1]) / secondLength};
+        const double turn = first[0] * second[1] - first[1] * second[0];
+
+        if (std::fabs(turn) < 1.0e-6)
+        {
+            // Straight on (or folded back): the inner faces meet over the corner.
+            return {firstLength, 0.0};
+        }
+
+        // Each wall's inside is to its left: (-y, x).
+        const Point2 shift = {(-second[1] + first[1]) * in, (second[0] - first[0]) * in};
+        const double along = (shift[0] * second[1] - shift[1] * second[0]) / turn;
+        const Point2 meet = {-first[1] * in + first[0] * along, first[0] * in + first[1] * along};
+        const double onSecond = (meet[0] + second[1] * in) * second[0] + (meet[1] - second[0] * in) * second[1];
+        // Never past the far end of either wall (a corner sharper than the walls are long).
+        return {std::clamp(firstLength + along, 0.0, firstLength * 2.0),
+            std::clamp(onSecond, -secondLength, secondLength)};
+    }
+
+    // A ruined wall (ruinPieces): the wall `thickness` thick with its inner face, its tops and its ends where a
+    // stretch is lower or gone. At each corner of the outline the inner faces of the two walls meet where their
+    // lines cross (mitred) and the higher wall's end closes it down to the lower's top along that mitre, so a ruin is
+    // a closed shell (P2 feedback F30, the Ruined watchtower on X1).
+    void raiseRuinWall(size_t wall)
+    {
+        if (backWall(wall))
+        {
+            return;
+        }
+
+        const OutdoorRuinPlan &ruin = m_part.ruin;
+        const double length = lengthOf(m_part.outline[wall], m_part.outline[(wall + 1) % m_count]);
+        std::vector<double> cuts;
+        const std::vector<RuinPiece> pieces = ruinPieces(wall, cuts);
+        const double in = ruin.thickness;
+        // The foundation: under the whole wall, in stretches between the bay edges; with a thickness its inside too
+        // and a sill at the floor where the wall is gone (below), so the land lying a little under the floor shows
+        // no gap.
+        const double foundation = m_part.bottom == 0.0 ? m_building.foundation : 0.0;
+
+        for (size_t index = 0; foundation > 0.0 && index + 1 < cuts.size(); ++index)
+        {
+            wallPiece(wall, cuts[index], cuts[index + 1], m_floor - foundation, m_floor, texture("base"), cuts[index],
+                cuts[index + 1], 0.0, foundation, m_nameEvent);
+        }
+        const size_t previous = (wall + m_count - 1) % m_count;
+        // How far along this wall its inner face starts and ends: where the inside lines of the walls before and
+        // after cross it.
+        const double innerStart = in > 0.0 ? ruinMitre(previous, in)[1] : 0.0;
+        const double innerEnd = in > 0.0 ? ruinMitre(wall, in)[0] : length;
+
+        // The inside of a stretch from `low` to `high` (to the mitre at a corner).
+        const auto innerFace = [&](double from, double to, double low, double high, const std::string &textureName,
+            double vTop, double vBottom)
+        {
+            const double innerFrom = from < 0.5 ? innerStart : std::max(from, innerStart);
+            const double innerTo = to > length - 0.5 ? innerEnd : std::min(to, innerEnd);
+
+            if (innerTo > innerFrom + 0.5)
             {
-                tops.back()[1] = cuts[index + 1];
+                texelFace({at(onWall(wall, innerTo, in), low), at(onWall(wall, innerFrom, in), low),
+                    at(onWall(wall, innerFrom, in), high), at(onWall(wall, innerTo, in), high)}, textureName,
+                    {{length - innerTo, vBottom}, {length - innerFrom, vBottom}, {length - innerFrom, vTop},
+                    {length - innerTo, vTop}}, m_nameEvent);
             }
-            else
+        };
+
+        for (size_t index = 0; foundation > 0.0 && in > 0.0 && index + 1 < cuts.size(); ++index)
+        {
+            innerFace(cuts[index], cuts[index + 1], m_floor - foundation, m_floor, texture("base"), 0.0, foundation);
+        }
+
+        for (const RuinPiece &piece : pieces)
+        {
+            OutdoorDoorPlan *pDoor = piece.door >= 0 ? &m_building.doors[static_cast<size_t>(piece.door)] : nullptr;
+            const std::string &faceTexture = pDoor != nullptr && !pDoor->texture.empty() ? pDoor->texture
+                : texture(piece.role);
+            const double across = piece.to - piece.from;
+            const double tall = piece.high - piece.low;
+            const int face = wallPiece(wall, piece.from, piece.to, piece.low, piece.high, faceTexture, piece.u,
+                piece.u + across, RowHeight - tall, RowHeight,
+                pDoor != nullptr && pDoor->event != 0 ? pDoor->event : m_nameEvent);
+
+            if (pDoor != nullptr)
             {
-                tops.push_back({cuts[index], cuts[index + 1], high});
+                const Point2 middle = onWall(wall, (piece.from + piece.to) * 0.5);
+                const Point2 &left = m_part.outline[wall];
+                const Point2 &right = m_part.outline[(wall + 1) % m_count];
+                pDoor->face = face;
+                pDoor->x = middle[0];
+                pDoor->y = middle[1];
+                pDoor->z = piece.low;
+                pDoor->normalX = (right[1] - left[1]) / length;
+                pDoor->normalY = -(right[0] - left[0]) / length;
+            }
+
+            if (in > 0.0)
+            {
+                innerFace(piece.from, piece.to, piece.low, piece.high, textureOr("inside", "wall"), RowHeight - tall,
+                    RowHeight);
             }
         }
 
+        if (in <= 0.0)
+        {
+            return;
+        }
+
+        const std::vector<std::array<double, 3>> tops = ruinTops(pieces, cuts);
         const std::string &capTexture = textureOr("wall_top", "trim");
         const Point2 &left = m_part.outline[wall];
         const Point2 &right = m_part.outline[(wall + 1) % m_count];
         const std::array<double, 3> along = {(right[0] - left[0]) / length, (right[1] - left[1]) / length, 0.0};
-        const double in = ruin.thickness;
+        // The inner point over a place along the wall: at a corner the mitre's.
+        const auto inside = [&](double place)
+        {
+            return onWall(wall, place < 0.5 ? innerStart : place > length - 0.5 ? innerEnd : place, in);
+        };
 
         for (size_t index = 0; index < tops.size(); ++index)
         {
             const std::array<double, 3> &top = tops[index];
 
-            if (top[2] < m_floor + 0.5)
+            // Where the wall is gone: the foundation's sill, or nothing.
+            if (top[2] < m_floor + 0.5 && foundation <= 0.0)
             {
                 continue;
             }
 
             surface(facing({at(onWall(wall, top[0]), top[2]), at(onWall(wall, top[1]), top[2]),
-                at(onWall(wall, top[1], in), top[2]), at(onWall(wall, top[0], in), top[2])}, {0.0, 0.0, 1.0}),
-                capTexture, m_nameEvent);
+                at(inside(top[1]), top[2]), at(inside(top[0]), top[2])}, {0.0, 0.0, 1.0}), capTexture, m_nameEvent);
 
             for (const bool end : {false, true})
             {
                 const double place = end ? top[1] : top[0];
-
-                if (place < 0.5 || place > length - 0.5)
-                {
-                    continue;
-                }
-
-                const double beside = end ? (index + 1 < tops.size() ? tops[index + 1][2] : m_floor)
+                // Beside it: the next stretch of this wall, or at a corner the wall round it.
+                const bool corner = place < 0.5 || place > length - 0.5;
+                const double beside = corner ? ruinStandsAt(end ? (wall + 1) % m_count : previous, !end)
+                    : end ? (index + 1 < tops.size() ? tops[index + 1][2] : m_floor)
                     : (index > 0 ? tops[index - 1][2] : m_floor);
                 const double foot = std::max(beside, m_floor);
 
                 if (top[2] > foot + 0.5)
                 {
-                    surface(facing({at(onWall(wall, place), foot), at(onWall(wall, place, in), foot),
-                        at(onWall(wall, place, in), top[2]), at(onWall(wall, place), top[2])},
+                    surface(facing({at(onWall(wall, place), foot), at(inside(place), foot),
+                        at(inside(place), top[2]), at(onWall(wall, place), top[2])},
                         end ? along : std::array<double, 3>{-along[0], -along[1], 0.0}), texture("wall"),
                         m_nameEvent);
                 }

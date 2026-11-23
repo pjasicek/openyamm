@@ -214,6 +214,17 @@ void handleNestedInventoryBagButtons(GameplayScreenRuntime &context, const Gamep
         }
     }
 
+    // A party of one's tabs, over a party inventory (shops and a chest's party view): as the inventory page's tabs.
+    for (int tab = 0; GameplayHudOverlaySupport::nestedInventoryTabsShown(context)
+             && tab < InventoryBags::tabCount(bagCount); ++tab)
+    {
+        if (pressed("ChestInventoryBagTab" + std::to_string(tab + 1)))
+        {
+            GameplayPartyOverlayInputController::openBagTab(context, tab);
+            return;
+        }
+    }
+
     // The party's pouches, over a party inventory: the pouch's tab in the bags' place, its button again the bags.
     GameplayUiController::InventoryNestedOverlayState &overlay = context.inventoryNestedOverlay();
 

@@ -20,9 +20,11 @@ class AssetFileSystem;
 
 namespace OpenYAMM::Game
 {
-// The sky's own vectors, then the map's mist (game/shaders/mist.sh).
+// The sky's own vectors, then the map's mist (game/shaders/mist.sh), then the void past the world's edge.
 constexpr uint16_t SkyFogSkyVectors = 8;
-constexpr uint16_t SkyFogUniformVectors = SkyFogSkyVectors + MistUniformVectors;
+constexpr uint16_t SkyFogVoidVectors = 2;
+constexpr uint16_t SkyFogVoidFirst = SkyFogSkyVectors + MistUniformVectors;
+constexpr uint16_t SkyFogUniformVectors = SkyFogVoidFirst + SkyFogVoidVectors;
 // u_skyFog values shared by the sky pass and every fog blend (see game/shaders/sky_common.sh).
 using SkyFogUniformValues = std::array<std::array<float, 4>, SkyFogUniformVectors>;
 
@@ -39,6 +41,12 @@ struct SkySurroundings
     std::array<float, 3> camera = {};
     // The map's mist this frame (packMistUniform); all zero without any.
     MistUniformValues mist = {};
+    // The map's void (terrain.void, U-12): whether it has any, the void past each side as seaSideWeights, the
+    // camera's height above the void floor and the per-cell void mask (R8, 128 x 128) the sky pass samples.
+    bool hasVoid = false;
+    std::array<float, 4> voidSideWeights = {};
+    float cameraAboveVoid = 0.0f;
+    bgfx::TextureHandle voidMask = BGFX_INVALID_HANDLE;
 };
 
 // Packs the shared sky-fog uniform; a null frame gives the Classic (flat fog) values. The mist is packed either way.
@@ -112,7 +120,8 @@ private:
     bgfx::UniformHandle m_cloudsUniform = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_orbitUniform = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_rimUniform = BGFX_INVALID_HANDLE;
-    std::array<bgfx::UniformHandle, 7> m_samplers;
+    bgfx::UniformHandle m_voidUniform = BGFX_INVALID_HANDLE;
+    std::array<bgfx::UniformHandle, 8> m_samplers;
     bgfx::TextureHandle m_emptyTexture = BGFX_INVALID_HANDLE;
     bgfx::TextureHandle m_moonFallbackTexture = BGFX_INVALID_HANDLE;
     std::unordered_map<std::string, bgfx::TextureHandle> m_textures;

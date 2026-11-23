@@ -384,6 +384,7 @@ add_library(openyamm_game STATIC
     ui/GameplayQuickItems.cpp
     ui/GameplayTransportSchedule.cpp
     ui/GameplayMm9TalkBar.cpp
+    ui/GameplayMm9TalkBarScroll.cpp
     ui/GameplayPartyOverlayRenderer.cpp
     ui/GameplayStatisticsScreen.cpp
     ui/GameplayUiOverlayOrchestrator.cpp

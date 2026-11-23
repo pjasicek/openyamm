@@ -66,6 +66,9 @@ struct LoweredOutdoorMap
     // Per water body and river, in the order of the sketch's bodies then rivers: its `tile_set` (a liquid the
     // ground lays in a ground set: tar, lava), empty for the map's water set.
     std::vector<std::string> waterSets;
+    // Per cell: 1 where the world ends (the sketch's `void`, U-12: all four corners in a void polygon). The nodes
+    // in a void lie at 0, dry; the game draws no ground there (the scene's terrain.void). Empty without any void.
+    std::vector<uint8_t> voidCells;
     // The roads as cells, their beds levelled into the heights.
     std::vector<OutdoorRoadRun> roads;
     // The buildings to raise, each with its floor's height; the ground under its plot is level at it.

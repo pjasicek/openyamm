@@ -21,6 +21,10 @@ public:
     static bool isArtifact(const ItemDefinition &itemDefinition);
     // Items hardened by the potion and all artifacts never break (GrayFace's HardenArtifacts), except on eradication.
     static bool isHardened(bool hardenedFlag, const ItemDefinition &itemDefinition);
+    // A weapon, armour piece or jewel that is no artifact, relic or special: what a monster's Break Item attack picks
+    // from. MM8 takes its items 1-151 (MM8-Rel.exe 0x48edd6), exactly these rows of its table; by kind, the merged
+    // base's MM6 and MM7 rows and MM9's and Xeen's count too.
+    static bool isRegularEquipment(const ItemDefinition &itemDefinition);
     static std::optional<std::string> classRestriction(const ItemDefinition &itemDefinition);
     static std::optional<std::string> raceRestriction(const ItemDefinition &itemDefinition);
     // Who may wear a class- or race-gated item, as the popup and a refused equip say it ("Knights only").

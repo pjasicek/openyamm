@@ -104,6 +104,14 @@ struct OutdoorCoplanarPair
 
 std::vector<OutdoorCoplanarPair> findOutdoorCoplanarFaces(const std::vector<Game::OutdoorBModel> &models);
 
+// Outdoors: two drawn faces in one plane facing opposite ways (back to back) whose polygons overlap, by the same rules
+// (planes within a unit, at least 8 square units and 1.5 units wide). The game draws every face of an outdoor model
+// from both sides (no culling), so such a pair is drawn at one depth from either side and flickers: a sheet laid both
+// ways (P2 feedback F31, the studio's tent canvas). A pair shut inside solids on both sides (two solids touching) is
+// hidden and left out: open space as tools/xeen/check_faces.py tells it (six rays from 2 units each side of the
+// overlap's middle; one meeting a face's front first, or nothing, is open; four of six).
+std::vector<OutdoorCoplanarPair> findOutdoorBackToBackFaces(const std::vector<Game::OutdoorBModel> &models);
+
 std::vector<CoplanarPlace> outdoorCoplanarPlaces(
     const std::vector<Game::OutdoorBModel> &models,
     const std::vector<OutdoorCoplanarPair> &pairs);
@@ -126,17 +134,21 @@ struct OutdoorOriginals
 // Per model, the part each face belongs to (empty: not known): "part:<id>" for a building's parts.
 using OutdoorFaceParts = std::vector<std::vector<std::string>>;
 
-// One sentence naming both faces (structure, part, texture), the overlap and where it is.
+// One sentence naming both faces (structure, part, texture), the overlap and where it is; `backToBack` for a pair of
+// findOutdoorBackToBackFaces.
 std::string describeOutdoorCoplanarPair(
     const std::vector<Game::OutdoorBModel> &models,
     const OutdoorCoplanarPair &pair,
-    const OutdoorFaceParts &parts);
+    const OutdoorFaceParts &parts,
+    bool backToBack = false);
 
 // The pairs of one structure's two parts (or two structures' parts) said once: how many pairs, their area, and
 // what it looks like: "identical" when every drawn face of each part has a partner in the other, else the parts
-// "run through each other" along shared planes. One sentence per group, the groups in the order first met.
+// "run through each other" along shared planes. One sentence per group, the groups in the order first met. With
+// `backToBack` the pairs of findOutdoorBackToBackFaces, said as such.
 std::vector<std::string> describeOutdoorCoplanarGroups(
     const std::vector<Game::OutdoorBModel> &models,
     const std::vector<OutdoorCoplanarPair> &pairs,
-    const OutdoorFaceParts &parts);
+    const OutdoorFaceParts &parts,
+    bool backToBack = false);
 }

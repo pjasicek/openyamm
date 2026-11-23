@@ -59,6 +59,11 @@ bool MawMapLevels::loadFromYaml(const std::string &text, std::string &errorMessa
             m_horizontalStarterMaps.insert(lowerCopy(map.as<std::string>()));
         }
 
+        for (const YAML::Node &map : root["ranged_free_maps"])
+        {
+            m_rangedFreeMaps.insert(lowerCopy(map.as<std::string>()));
+        }
+
         for (const YAML::Node &map : root["madness"]["starting_maps"])
         {
             m_madnessStartingMaps.insert(lowerCopy(map.as<std::string>()));
@@ -170,6 +175,11 @@ bool MawMapLevels::loadWorldBalance(const std::string &text, std::string &errorM
             if (map["madness_start"].as<bool>(false))
             {
                 m_madnessStartingMaps.insert(mapFileName);
+            }
+
+            if (map["ranged_free"].as<bool>(false))
+            {
+                m_rangedFreeMaps.insert(mapFileName);
             }
 
             if (const int level = map["madness_level"].as<int>(0); level > 0)
@@ -330,6 +340,11 @@ bool MawMapLevels::isHorizontalStarterMap(const std::string &mapFileName) const
 bool MawMapLevels::isMadnessStartingMap(const std::string &mapFileName) const
 {
     return m_madnessStartingMaps.contains(lowerCopy(mapFileName));
+}
+
+bool MawMapLevels::isRangedFreeMap(const std::string &mapFileName) const
+{
+    return m_rangedFreeMaps.contains(lowerCopy(mapFileName));
 }
 
 int MawMapLevels::madnessLevel(const std::string &mapFileName) const

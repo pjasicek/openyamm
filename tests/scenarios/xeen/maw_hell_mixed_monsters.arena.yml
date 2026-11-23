@@ -1,0 +1,18 @@
+# AI arena for maw_hell_mixed_monsters.yml: X2's main street (x 0, the town gates' guards at y 3021 and 8243), its map
+# actors hidden, an immortal party standing at the south end and four Xeen melee monsters 2,800 to the north: a Giant
+# Toad (11450, tier A) and a Swamp Toad (11452, C), a Skeleton (11240, A) and a Skeleton Lord (11242, C). Under MAW
+# from Hell up each gains a ranged attack 2 (Arrow, 10 or 30 %).
+name: xeen_maw_hell_mixed_monsters
+world: xeen
+map: xeen_x2.odm
+party:
+  position: [0, 3400, 1024]
+  yaw_degrees: 90
+  pitch_degrees: -8
+  invulnerable: true
+trace: true
+monsters:
+  - {monster_id: 11450, position: [-300, 6200, 1024], yaw_degrees: 270}
+  - {monster_id: 11452, position: [-100, 6200, 1024], yaw_degrees: 270}
+  - {monster_id: 11240, position: [100, 6200, 1024], yaw_degrees: 270}
+  - {monster_id: 11242, position: [300, 6200, 1024], yaw_degrees: 270}

@@ -1,0 +1,25 @@
+# Ranged-only monsters keep their range: MM8's skeleton archers shoot at their recovery and circle between shots, never
+# walking into melee (the counterpart of mm6/goblins_mixed_close_in.yml, where mixed monsters close in).
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm8/skeleton_archers_keep_range.yml --scenario-no-color
+id: mm8.skeleton_archers_keep_range
+title: "MM8's skeleton archers (ranged only) shoot and circle at range, never closing to melee"
+world: mm8
+mode: faithful
+tags: [mm8, actors, ai, regression]
+steps:
+  - new_game_flow: {start_map: out01.odm}
+  - ai_arena: {path: skeleton_archers_keep_range.arena.yml}
+  - advance_runtime: {seconds: 20}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_ranged, min_count: 3}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: attack_ranged, min_count: 3}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: attack_ranged, min_count: 3}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_melee, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: attack_melee, max_count: 0}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: attack_melee, max_count: 0}

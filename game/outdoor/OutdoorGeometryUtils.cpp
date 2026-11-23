@@ -427,6 +427,17 @@ bool isOutdoorTerrainBurning(const OutdoorMapData &outdoorMapData, float x, floa
     return (sampleOutdoorTerrainTileAttributes(outdoorMapData, x, y) & TerrainTileBurn) != 0;
 }
 
+bool isOutdoorVoidCell(const OutdoorMapData &outdoorMapData, int cellX, int cellY)
+{
+    if (outdoorMapData.voidCells.empty() || cellX < 0 || cellY < 0 || cellX >= OutdoorMapData::TerrainWidth
+        || cellY >= OutdoorMapData::TerrainHeight)
+    {
+        return false;
+    }
+
+    return outdoorMapData.voidCells[size_t(cellY) * OutdoorMapData::TerrainWidth + size_t(cellX)] != 0;
+}
+
 bool buildOutdoorFaceGeometry(
     const OutdoorBModel &bModel,
     size_t bModelIndex,

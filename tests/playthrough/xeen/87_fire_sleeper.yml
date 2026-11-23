@@ -147,9 +147,9 @@ steps:
   - walk_to: {x: 1100, y: 3500, z: 256, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
   - walk_to: {x: 300, y: 4700, z: 256, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
   - walk_to: {x: -900, y: 4000, z: 256, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
-  - walk_to: {x: -2600, y: 4090, z: 380, z_tolerance: 160, radius: 96, timeout_seconds: 60, close_dialogs: true}
-  - walk_to: {x: -3300, y: 4096, z: 384, z_tolerance: 160, radius: 128, timeout_seconds: 60, close_dialogs: true}
-  - walk_to: {x: -4055, y: 4567, z: 392, z_tolerance: 160, radius: 96, timeout_seconds: 60, close_dialogs: true}
+  - walk_to: {x: -2600, y: 4090, z: 380, z_tolerance: 160, radius: 96, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -3300, y: 4096, z: 384, z_tolerance: 160, radius: 128, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -4055, y: 4567, z: 392, z_tolerance: 160, radius: 96, timeout_seconds: 60, clear_hostiles: 1500, close_dialogs: true}
   # The Fire Sleeper (event 17): awake, the Grunfeld field active (m38.sleeper_fire's third state).
   - play_lua: {source: "clear_hostiles(3000); remember('xp', experience(0)); remember('xp3', experience(3)); remember('gold', gold()); click(17); wait(0.5)"}
   - play_lua:

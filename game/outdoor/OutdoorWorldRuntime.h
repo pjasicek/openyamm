@@ -818,6 +818,7 @@ public:
     bool isChestOpened(uint32_t chestId) const;
     size_t mapActorCount() const override;
     bool actorRuntimeState(size_t actorIndex, GameplayRuntimeActorState &state) const override;
+    bool actorStandsOverWater(size_t actorIndex) const override;
     bool actorRulesView(size_t actorIndex, GameplayActorRulesView &view) const override;
     GameplayActorHitFeedback &actorHitFeedback() override
     {

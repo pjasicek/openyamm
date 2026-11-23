@@ -2075,9 +2075,14 @@ bool GameplayPartyOverlayInputController::openBagTab(GameplayScreenRuntime &cont
         context.setStatusBarEvent(Engine::Utf8::capitalizedFirst(name));
     }
 
+    // The tab shows in a pouch's place, on the inventory page and over a shop's or chest's party inventory.
     if (!partyBagButtonsShown(context))
     {
         context.characterScreen().inventoryPouch.shown.reset();
+    }
+    else
+    {
+        context.inventoryNestedOverlay().pouch.shown.reset();
     }
 
     return true;

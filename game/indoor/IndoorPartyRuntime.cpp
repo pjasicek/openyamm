@@ -232,6 +232,15 @@ bool IndoorPartyRuntime::climbingLadder() const
     return m_ladderIndex.has_value() || m_ladderGlide.has_value();
 }
 
+bool IndoorPartyRuntime::specialJumpActive() const
+{
+    // Once launched the party leaves the floor; until a step has moved it, the jump's carry and climb are set.
+    const bool launched = (m_jumpCarryVelocityX != 0.0f || m_jumpCarryVelocityY != 0.0f)
+        && m_movementState.verticalVelocity > 0.0f;
+    return launched || m_pendingImpulseVelocityX != 0.0f || m_pendingImpulseVelocityY != 0.0f
+        || m_pendingImpulseVelocityZ != 0.0f;
+}
+
 void IndoorPartyRuntime::startLadderGlide(float toX, float toY, float toFootZ, std::optional<size_t> ontoLadderIndex)
 {
     // About walking speed, never so short that it reads as a jump.

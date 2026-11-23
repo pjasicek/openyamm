@@ -1304,6 +1304,30 @@
       },
       "additionalProperties": false
     },
+    "void": {
+      "description": "Where the world ends (U-12, the Xeen world's rim): outlines of cells the game draws no ground in, empty space and stars showing below the horizon through them. Their nodes lie at 0 and dry; a cell with all four corners inside or on an outline is a void cell (the scene's terrain.void). No water may overlap a void. Only decorations and waterfalls may stand in it (the audit).",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "polygon"
+        ],
+        "properties": {
+          "id": {
+            "description": "The void's id, void:<name>.",
+            "$ref": "common.schema.json#/$defs/id"
+          },
+          "polygon": {
+            "$ref": "#/$defs/polygon"
+          },
+          "notes": {
+            "$ref": "common.schema.json#/$defs/notes"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
     "roads": {
       "description": "The line of each plan link that is a road, a path, a bridge or a water route.",
       "type": "array",
@@ -3269,7 +3293,7 @@
             ]
           },
           "textures": {
-            "description": "Textures by role, by name. Building: as a plot's. Wall: wall, top. Fence: post, rail (the post's when left out). Waterfall: water, rock, bank (names only; the bank in the world's dirt tile: 6dirttyl, 7dirttyl, dirttyl). Bridge: deck, side, pier, tower (the end posts of `towers`; the pier's when left out). Well, fountain: wall, water, roof. Obelisk, platform, stairs: wall, top. Chest, crate: wall, top. Sign: wall, board. Doorway: wall, door, top (the frame's top; the wall's when left out), roof (S8d: the slopes and gable of its `roof: gable` portico, the wall's when left out; a turf hood in the ground's grass: Erathia's bandit caves, Grass over CWB). Left out: what the shipped maps of the world put on such things (stone, timber, the chest's own textures). Cave mouth, hatch: shell (the world's dirt tile: dirttyl, 7dirttyl, 6dirttyl; Yaardrake's voltyl, the dragon cave's cwb1), door (solid01, 7solid01, solid10; a `door` mouth: the world's door panel). A role may be {texture, liquid: water | lava, flow: up | down | left | right}: a liquid face. Culvert: wall, water, door (the dark face), grating (its bars, S8d; the wall's when left out). Cave mouth: ledge (the ramp before a set-back mouth: the world's dirt tile). Portal: frame, dais, membrane (a liquid entry allowed). Arch: wall, under. Stone ring: wall, top, lintel, altar, altar_top. Walkway: top, wall, under, post. Deck: top, wall, under, post. Tent: canvas, inner, pole, door (S8d: a door on a closed front). Arcade: wall, under, top.",
+            "description": "Textures by role, by name. Building: as a plot's. Wall: wall, top. Fence: post, rail (the post's when left out). Waterfall: water, rock, bank, deck (names only; the bank in the world's dirt tile: 6dirttyl, 7dirttyl, dirttyl; deck: the spillway plate under a `chute`, none when left out). Bridge: deck, side, pier, tower (the end posts of `towers`; the pier's when left out). Well, fountain: wall, water, roof. Obelisk, platform, stairs: wall, top. Chest, crate: wall, top. Sign: wall, board. Doorway: wall, door, top (the frame's top; the wall's when left out), roof (S8d: the slopes and gable of its `roof: gable` portico, the wall's when left out; a turf hood in the ground's grass: Erathia's bandit caves, Grass over CWB). Left out: what the shipped maps of the world put on such things (stone, timber, the chest's own textures). Cave mouth, hatch: shell (the world's dirt tile: dirttyl, 7dirttyl, 6dirttyl; Yaardrake's voltyl, the dragon cave's cwb1), door (solid01, 7solid01, solid10; a `door` mouth: the world's door panel). A role may be {texture, liquid: water | lava, flow: up | down | left | right}: a liquid face. Culvert: wall, water, door (the dark face), grating (its bars, S8d; the wall's when left out). Cave mouth: ledge (the ramp before a set-back mouth: the world's dirt tile). Portal: frame, dais, membrane (a liquid entry allowed). Arch: wall, under. Stone ring: wall, top, lintel, altar, altar_top. Walkway: top, wall, under, post. Deck: top, wall, under, post. Tent: canvas, inner, pole, door (S8d: a door on a closed front). Arcade: wall, under, top.",
             "type": "object",
             "additionalProperties": {
               "anyOf": [
@@ -4865,6 +4889,25 @@
               "waterfall"
             ]
           },
+          "chute": {
+            "description": "Waterfall: a chute before the free sheet, [out, drop] in map units (out 64 to 4096): the water runs from the lip that far out and down in one plane (a rim fall down the hull's deck, D-112), then the sheet falls from the chute's end, its foot `lean` beyond it (none when left out).",
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2,
+            "x-kinds": [
+              "waterfall"
+            ]
+          },
+          "edge": {
+            "description": "Waterfall: the fall pours off the world's edge into the void (U-12): its lip on the land's edge, the crags standing on the land either side of the lip (from a little under the stream to `rise` over it) instead of down the sheet, which hangs free (false when left out).",
+            "type": "boolean",
+            "x-kinds": [
+              "waterfall"
+            ]
+          },
           "rock_size": {
             "description": "Waterfall: the crags' radius, 64 to 2048 (0.45 of the width, 256 to 640).",
             "type": "number",
@@ -5094,7 +5137,9 @@
               "pool",
               "rocks",
               "rock_size",
-              "banks"
+              "banks",
+              "edge",
+              "chute"
             ]
           ],
           [

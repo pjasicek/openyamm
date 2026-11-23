@@ -244,6 +244,21 @@ void renderPartyBagButtons(GameplayScreenRuntime &view, int width, int height)
                 button->y + (button->height - size) * 0.5f, size);
         }
     }
+
+    // A party of one's tabs (MAW) over a shop's or chest's party inventory: selected while the open bag is in that tab.
+    for (int tab = 0; GameplayHudOverlaySupport::nestedInventoryTabsShown(view)
+             && tab < InventoryBags::tabCount(bagCount); ++tab)
+    {
+        const std::string id = "ChestInventoryBagTab" + std::to_string(tab + 1);
+
+        if (pCharacter != nullptr && view.findHudLayoutElement(id) != nullptr)
+        {
+            GameplayUiSkin::renderButton(view, id, width, height,
+                !GameplayHudOverlaySupport::nestedPouchShown(view)
+                    && pCharacter->rulesetState.currentBag / InventoryBags::TabBags == tab,
+                true);
+        }
+    }
 }
 } // namespace
 

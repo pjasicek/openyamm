@@ -851,3 +851,56 @@ TEST_CASE("MAW shows combo points and Elementalist stacks at the portraits and n
     CHECK_EQ(skills.skillDisplayName(knight, "Unarmed"), "Unarmed");
     CHECK_EQ(skills.skillDisplayName(member("Dragon", 20), "Unarmed"), "Unarmed");
 }
+
+TEST_CASE("MAW Enlightenment grows a Shaman's small pool by its share, floored (Discord, 2026-11-23)")
+{
+    // Shaman: 10 SP + 1 per level (MAW's Class HP SP.txt), Personality 14 (effect 0): 10 + 1 x 20 = 30 SP. Enlightenment
+    // adds 0.5/1/1.5/2 % of the pool per point (MawCore Formulas.enlightenmentManaPerSkill, zzMaw-Items.lua addMana),
+    // the pool counting Meditation x mastery x SP per level; the result is a whole number of spell points.
+    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    ClassMultiplierTable multipliers;
+    REQUIRE(multipliers.loadFromRows(
+        {{"Class", "HP base", "HP", "SP base", "SP", "Mode"}, {"Shaman", "25", "3", "10", "1", "Mixed"}}));
+    rules.setClassMultiplierTable(&multipliers);
+    const ClassMultiplierEntry *pShaman = multipliers.get("Shaman");
+    REQUIRE(pShaman != nullptr);
+
+    Character shaman = member("Shaman", 20);
+    shaman.personality = 14;
+    const int pool = rules.gameRules().classes.baseMaxSpellPoints(shaman, *pShaman).value_or(0);
+    REQUIRE_EQ(pool, 30);
+    const auto enlightened = [&](uint32_t level, SkillMastery mastery)
+    {
+        Character copy = shaman;
+        copy.maxSpellPoints = pool;
+        copy.skills["Enlightenment"] = {"Enlightenment", level, mastery};
+        rules.gameRules().skills.applyResourceBonuses(copy);
+        return copy.magicalBonuses.maxSpellPoints;
+    };
+
+    // Novice 5: 30 x 2.5 % = 0.75, floored to nothing; Expert 8: 2.4 -> 2; Master 12: 5.4 -> 5.
+    CHECK_EQ(enlightened(5, SkillMastery::Normal), 0);
+    CHECK_EQ(enlightened(8, SkillMastery::Expert), 2);
+    CHECK_EQ(enlightened(12, SkillMastery::Master), 5);
+
+    // Meditation 4 at Expert joins the base: (30 + 1 x 4 x 2) x 18 % = 6.84 -> 6.
+    shaman.skills["Meditation"] = {"Meditation", 4, SkillMastery::Expert};
+    CHECK_EQ(rules.classRules().enlightenmentMeditationMana(shaman), doctest::Approx(8));
+    CHECK_EQ(enlightened(12, SkillMastery::Master), 6);
+}
+
+TEST_CASE("MAW Shaman spell damage counts the items' Ascension on top of the schools (Discord, 2026-11-23)")
+{
+    // MAW's damage roll reads Learning with its item bonuses (zzMaw-Spells.lua:1978-1993); a Shaman has Learning only
+    // from items (Legendary 25: +10). Costs and heals keep the schools' share alone, as MAW's ascension() does.
+    Character shaman = member("Shaman", 20);
+    shaman.skills["FireMagic"] = {"FireMagic", 14, SkillMastery::Expert};
+    shaman.skills["BodyMagic"] = {"BodyMagic", 7, SkillMastery::Expert};
+    CHECK(mawAscension(shaman, MawAscensionUse::Damage).skill == doctest::Approx(3));
+
+    shaman.itemSkillBonuses["Learning"] = 10;
+    CHECK(mawAscension(shaman, MawAscensionUse::Damage).skill == doctest::Approx(13));
+    CHECK(mawAscension(shaman, MawAscensionUse::Cost).skill == doctest::Approx(3));
+    CHECK(mawAscension(shaman, MawAscensionUse::Heal).skill == doctest::Approx(3));
+    CHECK(mawAscension(shaman, MawAscensionUse::CastTime).skill == doctest::Approx(10));
+}

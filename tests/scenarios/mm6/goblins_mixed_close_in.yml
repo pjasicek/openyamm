@@ -1,0 +1,23 @@
+# MM6's goblins are mixed monsters (melee attack 1, Arrow attack 2 at 10/15/25 %): out of reach they shoot when the
+# roll picks the bow and otherwise walk into reach, as in the original (OpenEnroth Actor::UpdateActorAI). Before
+# 2026-11-23 a rolled blow out of reach became the bow, so they kept their distance and circled like archers (the
+# Goblin and the Goblin Lord had not struck within 12 s). They still shoot: the Goblin Lord's bow (25 %) on the way.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm6/goblins_mixed_close_in.yml --scenario-no-color
+id: mm6.goblins_mixed_close_in
+title: "MM6's goblins (melee with a bow) close in to melee instead of circling as archers"
+world: mm6
+mode: faithful
+tags: [mm6, actors, ai, regression]
+steps:
+  - new_game_flow: {start_map: oute3.odm}
+  - ai_arena: {path: goblins_mixed_close_in.arena.yml}
+  - advance_runtime: {seconds: 20}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_melee, before: 10, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 1, decision: attack_melee, before: 10, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: attack_melee, before: 10, min_count: 1}
+  - assert:
+      ai_trace: {arena_monster: 2, decision: attack_ranged, min_count: 1}
