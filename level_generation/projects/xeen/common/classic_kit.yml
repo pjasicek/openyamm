@@ -1,0 +1,87 @@
+# Which Xeen buildings take which classic kit (classic_kit.py reads this; the user's decisions of 2026-11-24: the kits
+# replace the MM6-MM8 stand-ins everywhere on Xeen's outdoor maps; castles and keeps in the castle walls, town walls
+# and gates as they are; the dark places in the tower walls).
+#
+# Kits: house (Clouds of Xeen's half-timber town walls), stone (its castle walls: sandstone), tower (its tower walls:
+# dark blocks).
+#
+# Without an entry here a building takes a kit by these rules:
+# - a part on one of MM7's half-timber kits (plaster, timber, grey, rich, poor) that names no wall: house; a district
+#   plot's part on MM7's stone kit: stone (Cloudside's towns, as generated);
+# - a district plot that names its wall at the building level (Darkside's towns, X6's desert houses: MM8 stand-ins):
+#   tower where the map's `towns` says so, else stone for a civic building (its building id holds a `civic_words`
+#   word), else house; unless that wall is one of `leave_walls` (special materials);
+# - anything else (a structure with walls of its own) keeps what its generator gave it.
+# A part that names a wall of its own that is one of `special_walls` (benches, crates, crests, Ancient metal, tents,
+# bark ...) is never changed.
+civic_words: [guild, temple, bank, town_hall, library, jail, storage, embalmer]
+# Stables (and caravan yards, the travel pit): not houses but, as on MM8's maps, a small closed office with the door and
+# the sign, an open pen for the horses (a low plank fence and a roof on posts) and a fenced paddock without a roof
+# (the user, 2026-11-24). A plot whose building id holds one of these words is rebuilt so (classic_kit.stables).
+stables_words: [stable, travel_pit, coach]
+# The maps whose stables are rebuilt so (the X4 pilot approved by the user on 2026-11-24: every stables).
+stables_maps: [x1, x2, x4, x6, d1, d3]
+leave_walls: [xdbark, t68a13mm, tentwal1, tentwal2, tentwal3, tentwal7a]
+special_walls: [xdbark, t68a13mm, tentwal1, tentwal2, tentwal3, tentwal7a, xkshimmer, cstr128, xahull, xahullbn,
+  gn_mtl01, gn_mtl02, gn_mtl03, xaenergy, egybiga, egybigb, xngold6, 7trimda, 7trimd, t06a10, btrima2, t09a04a,
+  t09b11b, vlcwl2, vlcwl3a, xngong, trim11_32]
+# Whole towns in one kit: Necropolis, the city of the dead.
+towns:
+  d6: tower
+# Buildings by their title (structures) or building id (plots): kit, or {kit, walls: [building-level walls that
+# convert; parts on others stay]}. Castles and keeps: stone; the evil towers, Castle Blackfang: tower; stand-in
+# shrines, huts, mills and watch posts: their kit. Town walls, gates and watchtowers are not listed: they stay.
+buildings:
+  x1:
+    Shrine of Poison: stone
+    Ruined cottage: stone
+    The Witch Tower: tower
+  x2:
+    Darzog's Tower: tower
+    Temple of Yak: tower
+  x3:
+    Newcastle Keep: stone
+    Ruins of Newcastle: stone
+    Tower of High Magic: tower
+  x4:
+    Castle Burlock: stone
+  x5:
+    Darkstone Tower: tower
+  x6:
+    Castle Basenji: stone
+    The Shrine of Energy: stone
+    The ruined caravanserai: stone
+    The Warzone: stone
+    Saul's hermitage: stone
+  x7:
+    The Shrine of Fire: stone
+    The watch's barracks, roofless: stone
+    The watch's pony shed, its roof fallen in: stone
+    The watch's signal tower: stone
+    The dwarves' east lookout: stone
+  d1:
+    Castle Kalindra: {kit: stone, walls: [hcwall]}
+    Miller Dunn's mill: house
+    Falista's hut: house
+    The prayer shrine: stone
+    A wayside shrine of Mok: stone
+    Ellinger's Tower: tower
+    The Western Tower: tower
+  d2:
+    A hut in the clearing: house
+    The Southern Tower: tower
+  d3:
+    A roadside ruin: stone
+    Wayside shrine of the desert sun: stone
+    The pear hut: house
+    The Great Eastern Tower: tower
+  d4:
+    Castle Blackfang: tower
+    Castle Blackfang's gate: tower
+    The keep of Castle Blackfang: tower
+    The ruined tower: tower
+    Ector's cabin: house
+  d5:
+    The Northern Tower: tower
+  d6:
+    A watchtower of the dead: tower

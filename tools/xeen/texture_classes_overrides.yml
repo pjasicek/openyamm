@@ -53,6 +53,10 @@ textures:
   # half of one double door (arch or frame on the hinge side, the meeting edge plain; output/xeen_fb/f2/*.png). Xeen's
   # houses had hung one of them alone as a single door (Vertigo Town Hall's 7hhr1d2, the t06/t07/t09 town doors).
   7hhr1d1: {class: feature, door: wing, twin: 7hhr1d2}
+  # The classic Clouds kit's double door (2026-11-24): one wing, its own twin (the second leaf hangs it mirrored).
+  xvdoorw: {class: feature, door: wing, twin: xvdoorw}
+  xvsdoorw: {class: feature, door: wing, twin: xvsdoorw}
+  xvtdoorw: {class: feature, door: wing, twin: xvtdoorw}
   7hhr1d2: {class: feature, door: wing, twin: 7hhr1d1}
   t06a03: {class: feature, door: wing, twin: t06b03}
   t06b03: {class: feature, door: wing, twin: t06a03}
@@ -85,6 +89,18 @@ textures:
   hkm3er: {storey_stack: edge}
   hkm3erw: {storey_stack: edge}
   t07b0*: {storey_stack: edge}
+  # The classic Vertigo kit (level_generation/xeen_art/kit_textures/vertigo_classic, 2026-11-24): every bay has half a
+  # beam at its top and bottom edges, so storeys stacked on it meet in one beam.
+  xvwall: {storey_stack: module}
+  xvswall: {storey_stack: module}
+  xvtwall: {storey_stack: module}
+  xvtwin: {storey_stack: module}
+  xvswin: {storey_stack: module}
+  xvscornl: {storey_stack: module}
+  xvscornr: {storey_stack: module}
+  xvwin: {storey_stack: module}
+  xvcornl: {storey_stack: module}
+  xvcornr: {storey_stack: module}
   hhm2b2: {storey_stack: module}
   hhm2bw: {storey_stack: module}
   hhm2el: {storey_stack: module}

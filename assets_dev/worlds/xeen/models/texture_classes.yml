@@ -178,8 +178,28 @@ textures:
   xtslate: {border: [44, 56, 60], class: tile, mirror: 0.18, motif: 0.06, seam: [0.82, 1.54], size: [128, 128], tiles: [true, true]}
   xtslatew: {border: [47, 59, 61], class: tile, mirror: 0.09, motif: 0.07, seam: [1.01, 2.02], size: [128, 256], tiles: [true, true]}
   xufield: {border: [61, 34, 64], class: tile, mirror: 0.04, motif: 0.14, seam: [0.65, 1.27], size: [256, 256], tiles: [true, true]}
+  xvbeam: {border: [114, 56, 20], class: tile, mirror: 0.2, motif: 0.04, seam: [1.21, 0.74], size: [64, 32], tiles: [true, true]}
+  xvcornl: {border: [110, 54, 19], class: tile, mirror: 0.68, mirror_twin: xvcornr, motif: 2.37, override: true, seam: [9.27, 4.15], size: [128, 256], storey_stack: module, tiles: [false, false]}
+  xvcornr: {border: [109, 53, 19], class: tile, mirror: 0.68, mirror_twin: xvcornl, motif: 2.37, override: true, seam: [7.93, 4.23], size: [128, 256], storey_stack: module, tiles: [false, false]}
+  xvdoor: {border: [112, 55, 20], class: feature, door: single, mirror: 0.79, motif: 0.59, seam: [1.45, 3.9], size: [128, 256], tiles: [true, false]}
+  xvdoorw: {border: [78, 39, 11], class: feature, door: wing, mirror: 0.26, motif: 0.14, override: true, seam: [3.79, 4.59], size: [128, 256], tiles: [false, false], twin: xvdoorw}
   xvkban: {border: [82, 37, 29], class: feature, mirror: 0.73, motif: 0.91, seam: [0.76, 2.63], size: [128, 256], tiles: [true, true]}
   xvkmask: {border: [75, 68, 60], class: feature, mirror: 0.51, motif: 0.52, seam: [0.73, 0.82], size: [128, 128], tiles: [true, true]}
+  xvridge: {border: [114, 56, 20], class: tile, mirror: 0.08, motif: 0.04, seam: [0.74, 1.2], size: [32, 64], tiles: [true, true]}
+  xvscornl: {border: [124, 68, 29], class: feature, mirror: 0.31, motif: 0.96, override: true, seam: [11.67, 7.0], size: [128, 256], storey_stack: module, tiles: [false, false]}
+  xvscornr: {border: [125, 69, 30], class: feature, mirror: 0.29, motif: 0.92, override: true, seam: [11.13, 7.01], size: [128, 256], storey_stack: module, tiles: [false, false]}
+  xvsdoor: {border: [117, 64, 26], class: feature, door: single, mirror: 0.77, motif: 1.12, seam: [0.43, 4.24], size: [128, 256], tiles: [true, false]}
+  xvsdoorw: {border: [102, 51, 19], class: feature, door: wing, mirror: 0.1, motif: 0.47, override: true, seam: [1.66, 6.3], size: [128, 256], tiles: [true, false], twin: xvsdoorw}
+  xvshgl: {border: [116, 60, 24], class: tile, mirror: 0.25, motif: 0.03, seam: [0.75, 1.43], size: [128, 128], tiles: [true, true]}
+  xvswall: {border: [120, 65, 26], class: trim_u, mirror: 0.46, motif: 1.09, override: true, seam: [0.7, 6.3], size: [128, 256], storey_stack: module, tiles: [true, false]}
+  xvswin: {border: [120, 65, 26], class: feature, mirror: 0.6, motif: 0.97, override: true, seam: [0.59, 4.67], size: [128, 256], storey_stack: module, tiles: [true, false]}
+  xvtdoor: {border: [41, 41, 41], class: feature, door: single, mirror: 0.61, motif: 0.81, seam: [0.89, 6.19], size: [128, 256], tiles: [true, false]}
+  xvtdoorw: {border: [34, 33, 33], class: feature, door: wing, mirror: 0.23, motif: 0.78, override: true, seam: [5.37, 3.38], size: [128, 256], tiles: [false, false], twin: xvtdoorw}
+  xvthat: {border: [118, 85, 3], class: tile, mirror: 0.0, motif: 0.04, seam: [1.2, 2.44], size: [128, 128], tiles: [true, true]}
+  xvtwall: {border: [43, 43, 42], class: tile, mirror: 0.51, motif: 0.34, override: true, seam: [0.75, 0.9], size: [128, 256], storey_stack: module, tiles: [true, true]}
+  xvtwin: {border: [43, 43, 42], class: feature, mirror: 0.59, motif: 0.97, override: true, seam: [0.75, 0.96], size: [128, 256], storey_stack: module, tiles: [true, true]}
+  xvwall: {border: [112, 55, 20], class: tile, mirror: 0.92, motif: 2.54, override: true, seam: [2.88, 4.1], size: [128, 256], storey_stack: module, tiles: [true, false]}
+  xvwin: {border: [112, 55, 20], class: feature, mirror: 0.9, motif: 0.98, override: true, seam: [1.7, 3.33], size: [128, 256], storey_stack: module, tiles: [true, false]}
   xwbrew: {border: [72, 102, 3], class: tile, mirror: 0.09, motif: 0.15, seam: [1.1, 1.03], size: [128, 128], tiles: [true, true]}
   xwcage: {border: [19, 19, 16], class: trim_u, mirror: 0.4, motif: 0.32, override: true, seam: [0.82, 7.19], size: [128, 256], storey_stack: module, tiles: [true, false]}
   xwcloudst: {border: [161, 169, 198], class: feature, mirror: 0.28, motif: 0.13, seam: [6.43, 9.38], size: [512, 512], tiles: [false, false]}

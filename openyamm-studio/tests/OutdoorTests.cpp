@@ -1417,6 +1417,57 @@ TEST_CASE("roofs: flat can be stood on, lean-to rises to the back, a gable's end
     // The ridge runs east-west (the longer side): the east and west walls carry the gable ends, in their own
     // texture.
     CHECK(gableEnds == 2);
+    // A verge: the slopes run on 48 past each gable end (the ridge east-west, the house 1024 along it), a barge board
+    // 24 high under the roof's edge at each end, two per end; the gable faces stay in the end walls' planes.
+    const Game::OutdoorBModel verged = raised(", roof: gable, roof_height: 200, eaves: 0, fascia: 0, verge: 48, "
+        "textures: {wall: wallx, window: wallx, door: doorx, post_left: wallx, post_right: wallx, roof: roofx, "
+        "gable: gablex, trim: trimx}");
+    CHECK(verged.maxX - verged.minX == 1024 + 2 * 48);
+    CHECK(verged.maxZ == 640 + 256 + 200);
+    size_t boards = 0;
+
+    for (const Game::OutdoorBModelFace &face : verged.faces)
+    {
+        boards += face.textureName == "trimx" ? 1 : 0;
+
+        if (face.textureName == "gablex")
+        {
+            for (const uint16_t index : face.vertexIndices)
+            {
+                CHECK((verged.vertices[index].x == verged.minX + 48 || verged.vertices[index].x == verged.maxX - 48));
+            }
+        }
+
+        if (face.textureName == "trimx")
+        {
+            // Out at the verge, upright, facing away from the house.
+            CHECK((verged.vertices[face.vertexIndices[0]].x == verged.minX
+                || verged.vertices[face.vertexIndices[0]].x == verged.maxX));
+            CHECK(face.polygonType == 1);
+        }
+    }
+
+    CHECK(boards == 4);
+    // `verge_walls: [e]`: only the east end runs on (a shed against the west end): two boards, the west end flush.
+    const Game::OutdoorBModel eastOnly = raised(", roof: gable, roof_height: 200, eaves: 0, fascia: 0, verge: 48, "
+        "verge_walls: [e], textures: {roof: roofx, gable: gablex, trim: trimx}");
+    CHECK(eastOnly.maxX - eastOnly.minX == 1024 + 48);
+    CHECK(std::count_if(eastOnly.faces.begin(), eastOnly.faces.end(), [](const Game::OutdoorBModelFace &face)
+    {
+        return face.textureName == "trimx";
+    }) == 2);
+    // Refused off a gable: a hip has no gable ends.
+    {
+        Project project = buildingProject("      - {building: building:home, at: [40, 40], facing: s, roof: hip, "
+            "verge: 48}\n");
+        LoweredOutdoorMap lowered;
+        std::vector<ProjectIssue> issues;
+        lowerOutdoorProject(project, lowered, issues);
+        CHECK(std::any_of(issues.begin(), issues.end(), [](const ProjectIssue &issue)
+        {
+            return issue.message.find("verge runs a box's gable") != std::string::npos;
+        }));
+    }
     // Harmondale's ordinary roof is a gable at 50 degrees: over a depth of 768 it rises tan(50) * 384.
     const Game::OutdoorBModel harmondale = raised("", "mm7");
     CHECK(harmondale.maxZ == 640 + 256 + std::lround(384.0 * std::tan(50.0 * 3.14159265358979323846 / 180.0)));

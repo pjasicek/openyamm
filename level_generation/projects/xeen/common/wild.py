@@ -7,7 +7,9 @@ Each outdoor map's gen.py calls `apply(sketch, '<key>')` on its finished sketch 
   (OUTE1 event 261 on the altar faces of `shrineE` only) and MM7's "Shrine" (hint) / "Altar" (the click) pairs.
 - **Campfires (F33).** Every campfire decoration without an event of its own feeds the party once (MM8 Global 285/286
   "Camp Fire": food, then the event is gone) and a character with Perception finds a small ring on the cursor (MM7's
-  campfire, Global 1162/1163 here); the status line says what was found (F13).
+  campfire, Global 1162/1163 here); the status line says what was found (F13). `once: true` gives each fire a map
+  variable of its own: evt.ChangeEvent(0), MM8's way, only works on native interactive decorations (a decoration
+  variable), not on a studio thing, and left every fire giving food and rings forever (Discord, 2026-11-24).
 - **The rim fall (F29).** The sea under the world rim (`water:sky` / `water:rim_sea`, level 0) gets a timer event: a
   party in it or in the rim's foot below Xeen.RimFallDepth (not flying) is lifted back onto the rim at the nearest of
   a few return points and falls the last Xeen.SkyFallHeight (xeen_common.lua `Xeen.rimFall`). The return points
@@ -35,8 +37,7 @@ CAMPFIRE_LUA = ('local food = math.random(1, 3) evt.Add(Food, food) '
                 'local ring = IsAtLeast(PerceptionSkill, 1) '
                 'if ring then evt.GiveItem(1, ItemType.Ring_) end '
                 'if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") '
-                'else evt.StatusText("You find food by the fire (+" .. food .. ").") end '
-                'evt.ChangeEvent(0)')
+                'else evt.StatusText("You find food by the fire (+" .. food .. ").") end')
 CLICK_KEYS = ('condition', 'effects', 'else_effects', 'locked_text', 'question', 'once', 'lua')
 
 
@@ -95,6 +96,7 @@ def campfires(sketch):
             continue
         if thing['id'] in FIRE_SKIP or any(key in thing for key in CLICK_KEYS):
             continue
+        thing['once'] = True
         thing['effects'] = [{'lua': CAMPFIRE_LUA}]
         if not thing.get('title'):
             thing['title'] = 'Campfire'

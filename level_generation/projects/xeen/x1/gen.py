@@ -1721,6 +1721,10 @@ def build():
     import wild as WILD
     for _note in WILD.apply(sketch, 'x1'):
         print('wild:', _note)
+    # The classic Clouds kit (2026-11-24): Clouds of Xeen's own half-timbered walls on Vertigo's houses
+    import classic_kit as CK
+    for _note in CK.apply(sketch, 'x1'):
+        print(_note)
     dump('sketch.yml', sketch)
     dump('atmosphere.yml', atmosphere)
     # Points of interest out in the land (CHANGES X1-7: 40-50; the town's own things are listed apart). Written to

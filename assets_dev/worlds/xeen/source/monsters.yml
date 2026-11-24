@@ -758,6 +758,10 @@ families:
     where: Vertigo, Joe's Warehouse, Witch Tower
     party: medium
     ac_x: 0.7
+    # Bites and stings only: the BDragonFly rows are MM8's Flame, Frost and Energy Drakes, whose breath the tiers
+    # took as Fire, Water and Energy missiles while these lines were missing (Discord, 2026-11-24).
+    type: Phys
+    missile: 0
     resist: {water: +10, air: +10, phys: 20}
     tiers:
       # The Doom Bug is a walking cricket: not a flyer like the BDragonFly whose sprites it borrows.

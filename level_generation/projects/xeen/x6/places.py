@@ -431,7 +431,7 @@ def coach_yard(S):
        'open': False, 'title': "Gorm's coach",
        'notes': 'The Warzone coach (A4 4305): a closed coach standing by the cliff (dressing, no click).'})
     for i, (d, at) in enumerate([('haybale2', (83.5, 97.6)), ('haybale2', (83.85, 97.65)),
-                                 ('bigbarel', (86.85, 92.35)), ('smlbarel', (87.15, 92.35))]):
+                                 ('bigbarel', (86.85, 92.2)), ('smlbarel', (87.15, 92.2))]):   # clear of the coach
         S(deco('thing:yard_prop_%d' % (i + 1), d, at))
     S({'id': 'thing:yard_trough', 'kind': 'platform', 'at': [85.6, 97.6], 'size': [640, 160], 'height': 96,
        'textures': {'top': 'wtrtyl', 'wall': 'chb1'}, 'title': 'Water trough'})

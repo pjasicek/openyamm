@@ -1,3 +1,7 @@
+# Since 2026-11-24 (decision U-14) the half-timbered houses of X1-X7 wear the classic Clouds kit instead of the
+# MM7 hh textures below: Clouds of Xeen's own town walls, xvwall/xvwin/xvdoor/xvcornl/xvcornr/xvbeam/xvridge/
+# xvshgl/xvthat (level_generation/xeen_art/kit_textures/vertigo_classic/README.md, put on by
+# level_generation/projects/xeen/common/classic_kit.py). The MM7 hh entries stay as the kit's record and reserve.
 # Xeen town building kit (A6, 2026-11-20). Shipped MM6-MM8 textures by role, then the new ones made for the kit
 # (level_generation/xeen_art/kit_textures/towns: specs.yml, finished/<name>.png at 4x). Sizes are logical texels
 # (the x4 masters in level_generation/textures_x4/masters/<world>/<name>.png are 4x). `maps`: the shipped outdoor maps

@@ -1070,6 +1070,10 @@ def main():
     import wild as WILD
     for _note in WILD.apply(sk, 'x3'):
         print('wild:', _note)
+    # The classic Clouds kit (2026-11-24): Clouds of Xeen's own half-timbered walls on the map's houses
+    import classic_kit as CK
+    for _note in CK.apply(sk, 'x3'):
+        print(_note)
     for level in ('L3', 'L4'):
         out = os.path.join(BRIEFS, level)
         dump(out, 'project.yml', project)

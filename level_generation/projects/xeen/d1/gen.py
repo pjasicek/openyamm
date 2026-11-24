@@ -1962,6 +1962,10 @@ def build():
     import wild as WILD
     for _note in WILD.apply(sketch, 'd1'):
         print('wild:', _note)
+    # The classic kits (2026-11-24): Clouds of Xeen's own walls on the map's buildings (classic_kit.yml)
+    import classic_kit as CK
+    for _note in CK.apply(sketch, 'd1'):
+        print(_note)
     # F16/D-90 (s32): every door into a dungeon shows its trans.txt row (A3's source/entrances.yml) in the window
     import entrance_screens as ES
     print('entrance screens:', ES.apply_sketch(sketch, 'xeen_d1'))

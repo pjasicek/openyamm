@@ -1,0 +1,665 @@
+{
+ "xvabeam": {
+  "chosen": 2,
+  "versions": [
+   {
+    "note": "",
+    "prompt": "prompts/xvabeam_v1.txt",
+    "raw": "raw/xvabeam_v1.png",
+    "refs": [
+     "refs/xvabeam_v1_1.png"
+    ],
+    "version": 1
+   },
+   {
+    "finished": {
+     "gain": 0.642,
+     "raw_size": [
+      1536,
+      1024
+     ],
+     "seam_gains": [
+      1.065,
+      1.285,
+      1.468
+     ],
+     "seam_shift": [
+      0,
+      0
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvabeam_v2.txt",
+    "raw": "raw/xvabeam_v2.png",
+    "refs": [
+     "refs/xvabeam_v2_1.png"
+    ],
+    "seam_raw": "raw/xvabeam_v2_seam.png",
+    "version": 2
+   }
+  ]
+ },
+ "xvacorn": {
+  "chosen": 2,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.395,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvacorn_v1.txt",
+    "raw": "raw/xvacorn_v1.png",
+    "refs": [
+     "refs/xvacorn_v1_1.png",
+     "refs/xvacorn_v1_2.png"
+    ],
+    "version": 1
+   },
+   {
+    "finished": {
+     "gain": 0.481,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "The left post must be ONE heavy corner post about twice as wide as the right-hand post and fully visible inside the canvas; the right-hand post is cut in half by the right edge.",
+    "prompt": "prompts/xvacorn_v2.txt",
+    "raw": "raw/xvacorn_v2.png",
+    "refs": [
+     "refs/xvacorn_v2_1.png",
+     "refs/xvacorn_v2_2.png"
+    ],
+    "version": 2
+   }
+  ]
+ },
+ "xvadoor": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.51,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvadoor_v1.txt",
+    "raw": "raw/xvadoor_v1.png",
+    "refs": [
+     "refs/xvadoor_v1_1.png",
+     "refs/xvadoor_v1_2.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xvadoorw": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.518,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvadoorw_v1.txt",
+    "raw": "raw/xvadoorw_v1.png",
+    "refs": [
+     "refs/xvadoorw_v1_1.png",
+     "refs/xvadoorw_v1_2.png",
+     "refs/xvadoorw_v1_3.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xvascourse": {
+  "versions": [
+   {
+    "note": "",
+    "prompt": "prompts/xvascourse_v1.txt",
+    "raw": "raw/xvascourse_v1.png",
+    "refs": [
+     "refs/xvascourse_v1_1.png",
+     "refs/xvascourse_v1_2.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xvasdoor": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.511,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvasdoor_v1.txt",
+    "raw": "raw/xvasdoor_v1.png",
+    "refs": [
+     "refs/xvasdoor_v1_1.png",
+     "refs/xvasdoor_v1_2.png",
+     "refs/xvasdoor_v1_3.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xvasdoorw": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.515,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvasdoorw_v1.txt",
+    "raw": "raw/xvasdoorw_v1.png",
+    "refs": [
+     "refs/xvasdoorw_v1_1.png",
+     "refs/xvasdoorw_v1_2.png",
+     "refs/xvasdoorw_v1_3.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xvashgl": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.522,
+     "raw_size": [
+      1254,
+      1254
+     ],
+     "seam_gains": [
+      0.828,
+      0.969,
+      1.395
+     ],
+     "seam_shift": [
+      0,
+      0
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvashgl_v1.txt",
+    "raw": "raw/xvashgl_v1.png",
+    "refs": [
+     "refs/xvashgl_v1_1.png"
+    ],
+    "seam_raw": "raw/xvashgl_v1_seam.png",
+    "version": 1
+   }
+  ]
+ },
+ "xvasquoin": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.514,
+     "raw_size": [
+      1024,
+      1536
+     ],
+     "seam_gains": [
+      1.054,
+      1.143,
+      1.186
+     ],
+     "seam_shift": [
+      0,
+      -1
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvasquoin_v1.txt",
+    "raw": "raw/xvasquoin_v1.png",
+    "refs": [
+     "refs/xvasquoin_v1_1.png",
+     "refs/xvasquoin_v1_2.png"
+    ],
+    "seam_raw": "raw/xvasquoin_v1_seam.png",
+    "version": 1
+   }
+  ]
+ },
+ "xvaswall": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.506,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvaswall_v1.txt",
+    "raw": "raw/xvaswall_v1.png",
+    "refs": [
+     "refs/xvaswall_v1_1.png",
+     "refs/xvaswall_v1_2.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xvaswin": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.509,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvaswin_v1.txt",
+    "raw": "raw/xvaswin_v1.png",
+    "refs": [
+     "refs/xvaswin_v1_1.png",
+     "refs/xvaswin_v1_2.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xvatdoor": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.806,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvatdoor_v1.txt",
+    "raw": "raw/xvatdoor_v1.png",
+    "refs": [
+     "refs/xvatdoor_v1_1.png",
+     "refs/xvatdoor_v1_2.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xvatdoorw": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.795,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvatdoorw_v1.txt",
+    "raw": "raw/xvatdoorw_v1.png",
+    "refs": [
+     "refs/xvatdoorw_v1_1.png",
+     "refs/xvatdoorw_v1_2.png",
+     "refs/xvatdoorw_v1_3.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xvathat": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.314,
+     "raw_size": [
+      1254,
+      1254
+     ],
+     "seam_gains": [
+      0.904,
+      0.876,
+      1.035
+     ],
+     "seam_shift": [
+      0,
+      1
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvathat_v1.txt",
+    "raw": "raw/xvathat_v1.png",
+    "refs": [
+     "refs/xvathat_v1_1.png"
+    ],
+    "seam_raw": "raw/xvathat_v1_seam.png",
+    "version": 1
+   }
+  ]
+ },
+ "xvatwall": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.807,
+     "raw_size": [
+      1024,
+      1536
+     ],
+     "seam_gains": [
+      0.902,
+      0.906,
+      0.917
+     ],
+     "seam_shift": [
+      0,
+      0
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvatwall_v1.txt",
+    "raw": "raw/xvatwall_v1.png",
+    "refs": [
+     "refs/xvatwall_v1_1.png",
+     "refs/xvatwall_v1_2.png"
+    ],
+    "seam_raw": "raw/xvatwall_v1_seam.png",
+    "version": 1
+   }
+  ]
+ },
+ "xvatwin": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.784,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvatwin_v1.txt",
+    "raw": "raw/xvatwin_v1.png",
+    "refs": [
+     "refs/xvatwin_v1_1.png",
+     "refs/xvatwin_v1_2.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xvawall": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.512,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvawall_v1.txt",
+    "raw": "raw/xvawall_v1.png",
+    "refs": [
+     "refs/xvawall_v1_1.png",
+     "refs/xvawall_v1_2.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xvawin": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.5,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvawin_v1.txt",
+    "raw": "raw/xvawin_v1.png",
+    "refs": [
+     "refs/xvawin_v1_1.png",
+     "refs/xvawin_v1_2.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xvbbeam": {
+  "chosen": 2,
+  "versions": [
+   {
+    "note": "",
+    "prompt": "prompts/xvbbeam_v1.txt",
+    "raw": "raw/xvbbeam_v1.png",
+    "refs": [
+     "refs/xvbbeam_v1_1.png",
+     "refs/xvbbeam_v1_2.png"
+    ],
+    "version": 1
+   },
+   {
+    "finished": {
+     "gain": 1.014,
+     "raw_size": [
+      1536,
+      1024
+     ],
+     "seam_gains": [
+      1.178,
+      1.274,
+      1.337
+     ],
+     "seam_shift": [
+      0,
+      0
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvbbeam_v2.txt",
+    "raw": "raw/xvbbeam_v2.png",
+    "refs": [
+     "refs/xvbbeam_v2_1.png",
+     "refs/xvbbeam_v2_2.png"
+    ],
+    "seam_raw": "raw/xvbbeam_v2_seam.png",
+    "version": 2
+   }
+  ]
+ },
+ "xvbcorn": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.473,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvbcorn_v1.txt",
+    "raw": "raw/xvbcorn_v1.png",
+    "refs": [
+     "refs/xvbcorn_v1_1.png",
+     "refs/xvbcorn_v1_2.png",
+     "refs/xvbcorn_v1_3.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xvbdoor": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.485,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvbdoor_v1.txt",
+    "raw": "raw/xvbdoor_v1.png",
+    "refs": [
+     "refs/xvbdoor_v1_1.png",
+     "refs/xvbdoor_v1_2.png",
+     "refs/xvbdoor_v1_3.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xvbshgl": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.73,
+     "raw_size": [
+      1254,
+      1254
+     ],
+     "seam_gains": [
+      0.945,
+      0.983,
+      1.074
+     ],
+     "seam_shift": [
+      0,
+      0
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvbshgl_v1.txt",
+    "raw": "raw/xvbshgl_v1.png",
+    "refs": [
+     "refs/xvbshgl_v1_1.png",
+     "refs/xvbshgl_v1_2.png"
+    ],
+    "seam_raw": "raw/xvbshgl_v1_seam.png",
+    "version": 1
+   }
+  ]
+ },
+ "xvbthat": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.576,
+     "raw_size": [
+      1254,
+      1254
+     ],
+     "seam_gains": [
+      0.832,
+      0.96,
+      2.203
+     ],
+     "seam_shift": [
+      0,
+      0
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvbthat_v1.txt",
+    "raw": "raw/xvbthat_v1.png",
+    "refs": [
+     "refs/xvbthat_v1_1.png",
+     "refs/xvbthat_v1_2.png"
+    ],
+    "seam_raw": "raw/xvbthat_v1_seam.png",
+    "version": 1
+   }
+  ]
+ },
+ "xvbwall": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.492,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvbwall_v1.txt",
+    "raw": "raw/xvbwall_v1.png",
+    "refs": [
+     "refs/xvbwall_v1_1.png",
+     "refs/xvbwall_v1_2.png",
+     "refs/xvbwall_v1_3.png"
+    ],
+    "version": 1
+   }
+  ]
+ },
+ "xvbwin": {
+  "chosen": 1,
+  "versions": [
+   {
+    "finished": {
+     "gain": 0.555,
+     "raw_size": [
+      1024,
+      1536
+     ]
+    },
+    "note": "",
+    "prompt": "prompts/xvbwin_v1.txt",
+    "raw": "raw/xvbwin_v1.png",
+    "refs": [
+     "refs/xvbwin_v1_1.png",
+     "refs/xvbwin_v1_2.png",
+     "refs/xvbwin_v1_3.png"
+    ],
+    "version": 1
+   }
+  ]
+ }
+}

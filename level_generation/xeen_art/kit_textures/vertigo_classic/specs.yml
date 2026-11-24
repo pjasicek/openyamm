@@ -1,0 +1,401 @@
+# The Vertigo classic pilot (2026-11-24, the user's request after a Discord question: "the original building textures
+# in Xeen, upscaled and modernised"). Clouds of Xeen's town walls (XEEN.CC ftown1/ftown2: cream plaster panels in a
+# timber frame, the plank door) repainted at the 4x tier as Map Studio house panels (128 x 256 bays), and the parts
+# the original never shows (windows, corner posts, roofs, beams) painted in the same style. Two variants for the
+# user to compare: A keeps the original's colours, B is the same design weathered to sit beside MM7's Harmondale.
+# References: pics/ (prep_refs.py: the original frames enlarged, and layout guides of one bay made from them).
+# Made with level_generation/textures_xeen/xtex.py --project level_generation/xeen_art/kit_textures/vertigo_classic;
+# derive.py makes the mirrored, cropped and turned pieces; pilot.py builds the scratch maps and the comparison page.
+style: |-
+  Asset: {asset} for a high-resolution remaster of Might and Magic IV: Clouds of Xeen (1992), used in a 3D engine like
+  that of Might and Magic VI-VIII.
+  The reference images show the original 1992 VGA art (small pixel art shown enlarged) and a smoothed layout guide made
+  from it: {family}.
+  Repaint it at high resolution as a modern remaster would: keep the original's design, layout, proportions and colours,
+  and add the believable material detail its low resolution could not show (one texel is about one centimetre), in a
+  hand-painted, slightly stylised realism, not a photograph. No pixel-art look, no dithering, no hard pixel steps.
+  Flat orthographic front view, even diffuse light, no perspective, no vignette, no baked highlights, glare or cast
+  shadows, no watermark or signature.
+  {body}
+dungeons:
+  classic_a:
+    family_words: >-
+      the half-timbered houses of the town of Vertigo: smooth pale peach-pink lime plaster with faint hairline cracks
+      and a fine stippled grain, in panels framed by squared oak beams of a warm mid reddish brown; clean, bright and
+      cheerful, the original's own colours kept exactly
+  classic_b:
+    family_words: >-
+      the half-timbered houses of the town of Vertigo, aged a few decades: warm off-white lime plaster with a faint
+      peach tint, soft weathering, faint grime near the bottom and hairline cracks, in panels framed by dark weathered
+      oak beams with visible grain, wooden pegs at the joints and drying checks; the original's colours a little darker
+      and less saturated, to sit beside the half-timbered town of Harmondale in Might and Magic VII
+  stone_a:
+    family_words: >-
+      the castle walls of the towns of Clouds of Xeen: tall slabs of smooth warm orange-brown sandstone with soft
+      darker marbling, framed by courses and columns of small dressed sandstone blocks with chamfered edges and dark
+      mortar joints; doors of dark oak planks bound with riveted iron bands under round-headed arches of sandstone
+      voussoirs; warm, clean and bright, the original's own colours kept
+  tower_a:
+    family_words: >-
+      the dark towers of Clouds of Xeen (the towers of witches and wizards and the strongholds of evil): walls of big
+      rough-hewn dark grey stone blocks laid in courses with dark joints and chipped edges, doors of dark planks under a
+      rounded head with a heavy iron ring, between plain stone pilasters under a stone lintel; cold, grim and dark, the
+      original's own colours kept
+textures:
+  # ---------------------------------------------------------------- A: the original's colours
+  xvawall:
+    dungeon: classic_a
+    size: [128, 256]
+    kind: picture
+    squeeze: true
+    refs: [pic/guide_wall, pic/native_wall]
+    tone: {luma: 138}
+    role: wall
+    what: >-
+      One bay of a half-timbered wall, laid out exactly as Reference 1 (the layout guide): a vertical squared oak post
+      runs the full height along the left edge and another along the right edge, each cut in half lengthwise by the
+      canvas edge, so bays placed side by side meet in one whole post; a horizontal oak beam runs the full width along
+      the top edge and another along the bottom edge; between them one tall plaster panel fills the rest, slightly
+      recessed behind the timber. Reference 2 is the original wall of three such panels. No window, door, torch or other
+      object on the panel.
+  xvawin:
+    dungeon: classic_a
+    size: [128, 256]
+    kind: picture
+    squeeze: true
+    refs: [pic/guide_window, pic/native_wall]
+    tone: {luma: 128}
+    role: window
+    what: >-
+      The same bay of a half-timbered wall (Reference 1 is the layout guide; Reference 2 the original wall): half posts
+      along the left and right edges, beams along the top and bottom edges, the plaster panel between. In the upper
+      middle of the panel, where the guide shows it, a small casement window: a squared oak frame and a projecting oak
+      sill, two small leaded panes of greenish bottle glass divided by a central oak mullion, the room behind dark.
+      Plaster all round the window.
+  xvadoor:
+    dungeon: classic_a
+    size: [128, 256]
+    kind: picture
+    squeeze: true
+    refs: [pic/guide_door, pic/native_door]
+    tone: {luma: 71}       # the wall's gain (0.51) on the raw door
+    role: door
+    what: >-
+      The same bay of a half-timbered wall with its door, laid out exactly as Reference 1 (the layout guide): half posts
+      along the left and right edges, beams along the top and bottom edges, and the original's door (Reference 2,
+      middle): a door of dark brown vertical oak planks held by two horizontal battens, with a small polished brass
+      lock plate and keyhole near its right edge, filling the whole width between the two posts and rising from the
+      bottom beam to an oak lintel at about four fifths of the height; a strip of plaster panel above the lintel.
+  xvacorn:
+    dungeon: classic_a
+    size: [128, 256]
+    kind: picture
+    squeeze: true
+    refs: [pic/guide_corner, pic/native_wall]
+    tone: {luma: 130}
+    role: post_left
+    what: >-
+      The end bay of a half-timbered wall, laid out exactly as Reference 1 (the layout guide): along the left edge a
+      heavy squared oak corner post, whole and entirely inside the canvas, about twice as wide as the other posts, its
+      outer corner slightly chamfered; along the right edge an ordinary post cut in half lengthwise by the canvas edge;
+      beams along the top and bottom edges; the plaster panel between. No window, door or object.
+  xvashgl:
+    dungeon: classic_a
+    size: [128, 128]
+    kind: tile
+    refs: [pic/native_well]
+    tone: {luma: 78}
+    role: roof
+    what: >-
+      A roof of split wooden shingles as on the roof of the original's town well (the reference): overlapping
+      horizontal rows of rectangular shingles of slightly varied width, each row hiding the top of the one below, the
+      butt ends a little ragged, dark gaps between them, in the warm brown of the original's timber; seen straight on
+      as a flat roof surface, the rows level, about eight rows over the canvas height.
+  xvathat:
+    dungeon: classic_a
+    size: [128, 128]
+    kind: tile
+    refs: [pic/native_hut]
+    tone: {luma: 92}
+    role: roof
+    what: >-
+      A thatched roof as on the original's straw hut (the reference): thick golden straw thatch laid in bundles running
+      down the slope, the straw ends forming soft overlapping courses, warm golden yellow with darker brown hollows
+      between the bundles; seen straight on as a flat roof surface, the straw running from the top of the canvas to the
+      bottom.
+  xvabeam:
+    dungeon: classic_a
+    size: [64, 32]
+    kind: tile
+    refs: [pic/beam_a]
+    tone: {luma: 72}
+    role: trim
+    what: >-
+      Only wood: the side of one squared oak beam filling the whole canvas edge to edge, the wood of the reference
+      (four strips of the same beam cut from the wall, for its colour and grain only): the grain running horizontally
+      along the whole length, a few small knots and drying checks, the warm brown of the original's beams. No plaster,
+      no panels, no posts, no joints, no frame, no separate planks: one continuous piece of wood.
+  # ---------------------------------------------------------------- B: weathered, beside MM7
+  xvbwall:
+    dungeon: classic_b
+    size: [128, 256]
+    kind: picture
+    squeeze: true
+    refs: [pic/guide_wall, pic/native_wall, mm7/hhm2b2]
+    tone: {luma: 116}
+    role: wall
+    what: >-
+      One bay of a half-timbered wall, laid out exactly as Reference 1 (the layout guide): a vertical squared oak post
+      runs the full height along the left edge and another along the right edge, each cut in half lengthwise by the
+      canvas edge, so bays placed side by side meet in one whole post; a horizontal oak beam runs the full width along
+      the top edge and another along the bottom edge; between them one tall plaster panel fills the rest, slightly
+      recessed behind the timber. Reference 2 is the original wall of three such panels; Reference 3 is a finished
+      Might and Magic VII wall whose level of detail and weathering to match (not its layout). No window, door, torch or
+      other object on the panel.
+  xvbwin:
+    dungeon: classic_b
+    size: [128, 256]
+    kind: picture
+    squeeze: true
+    refs: [pic/guide_window, pic/native_wall, mm7/hhm2bw]
+    tone: {luma: 108}
+    role: window
+    what: >-
+      The same bay of a half-timbered wall (Reference 1 is the layout guide; Reference 2 the original wall; Reference
+      3 a Might and Magic VII window bay for the level of detail only): half posts along the left and right edges,
+      beams along the top and bottom edges, the plaster panel between. In the upper middle of the panel, where the guide
+      shows it, a small casement window: a squared oak frame and a projecting oak sill, two small leaded panes of
+      greenish bottle glass divided by a central oak mullion, the room behind dark. Plaster all round the window.
+  xvbdoor:
+    dungeon: classic_b
+    size: [128, 256]
+    kind: picture
+    squeeze: true
+    refs: [pic/guide_door, pic/native_door, mm7/hhm2d]
+    tone: {luma: 56}       # the wall's gain (0.49) on the raw door
+    role: door
+    what: >-
+      The same bay of a half-timbered wall with its door, laid out exactly as Reference 1 (the layout guide): half posts
+      along the left and right edges, beams along the top and bottom edges, and the original's door (Reference 2,
+      middle): a door of dark brown vertical oak planks held by two horizontal battens, with a small brass lock plate
+      and keyhole near its right edge, filling the whole width between the two posts and rising from the bottom beam to
+      an oak lintel at about four fifths of the height; a strip of plaster panel above the lintel. Reference 3 is a
+      Might and Magic VII door bay, for the level of detail and wear only.
+  xvbcorn:
+    dungeon: classic_b
+    size: [128, 256]
+    kind: picture
+    squeeze: true
+    refs: [pic/guide_corner, pic/native_wall, mm7/hhm2el]
+    tone: {luma: 110}
+    role: post_left
+    what: >-
+      The end bay of a half-timbered wall, laid out exactly as Reference 1 (the layout guide): along the left edge a
+      heavy squared oak corner post, whole and entirely inside the canvas, about twice as wide as the other posts, its
+      outer corner slightly chamfered; along the right edge an ordinary post cut in half lengthwise by the canvas edge;
+      beams along the top and bottom edges; the plaster panel between. Reference 3 (Might and Magic VII) for the level
+      of detail only. No window, door or object.
+  xvbshgl:
+    dungeon: classic_b
+    size: [128, 128]
+    kind: tile
+    refs: [pic/native_well, mm7/hhm2rf]
+    tone: {luma: 66}
+    role: roof
+    what: >-
+      A roof of split wooden shingles as on the roof of the original's town well (Reference 1), weathered like the
+      Might and Magic VII shingles of Reference 2: overlapping horizontal rows of rectangular shingles of slightly
+      varied width, each row hiding the top of the one below, the butt ends ragged, dark gaps between them, warm brown
+      going grey-brown with age, a little moss in a few gaps; seen straight on as a flat roof surface, the rows level,
+      about eight rows over the canvas height.
+  xvbthat:
+    dungeon: classic_b
+    size: [128, 128]
+    kind: tile
+    refs: [pic/native_hut, mm7/hhp2rf]
+    tone: {luma: 74}
+    role: roof
+    what: >-
+      A thatched roof as on the original's straw hut (Reference 1), weathered like the Might and Magic VII thatch of
+      Reference 2: thick straw thatch laid in bundles running down the slope, the straw ends forming soft overlapping
+      courses, golden straw going to a dull ochre and grey-brown with age, darker hollows between the bundles; seen
+      straight on as a flat roof surface, the straw running from the top of the canvas to the bottom.
+  xvbbeam:
+    dungeon: classic_b
+    size: [64, 32]
+    kind: tile
+    refs: [pic/beam_b, mm7/trim2_32a]
+    tone: {luma: 62}
+    role: trim
+    what: >-
+      Only wood: the side of one squared oak beam filling the whole canvas edge to edge, the wood of Reference 1 (four
+      strips of the same beam cut from the wall, for its colour and grain only), weathered like the Might and Magic VII
+      beam of Reference 2: the grain running horizontally along the whole length, knots, drying checks and a little
+      grey weathering, dark brown. No plaster, no panels, no posts, no joints, no frame, no separate planks: one
+      continuous piece of wood.
+  # ---------------------------------------------------------------- the town hall's double door (2026-11-24)
+  # One wing of the original's double door (XEEN.CC ftown2 frame 8), for Map Studio's two-leaf doors (the second leaf
+  # mirrored): the Vertigo Town Hall's, in place of MM7's carved 7hhr1d1. Installed as xvdoorw.
+  xvadoorw:
+    dungeon: classic_a
+    size: [128, 256]
+    kind: picture
+    squeeze: true
+    refs: [pic/guide_wing, pic/native_gate, pic/kit_door]
+    tone: {luma: 52}       # the walls' gain (0.51) on the raw return, as the single door's
+    role: door wing
+    what: >-
+      One wing (the left leaf) of the original's double door, laid out exactly as Reference 1 (the layout guide, the
+      left half of the door in Reference 2): upright dark brown oak planks; two heavy horizontal battens studded with
+      rows of small brass rivets; two long polished brass strap hinges along the left (hinge) edge, reaching in across
+      the battens; between the battens a recessed plank panel framed by a thin brass bead; a small brass handle at the
+      right edge at half height. The right edge is the plain plank edge where the other wing meets it. The same warm
+      dark brown oak and brass as the door of Reference 3 (a finished door of the set). Only the door leaf, edge to
+      edge: no wall, no plaster, no posts round it.
+  # ---------------------------------------------------------------- the classic stone kit (2026-11-24)
+  # Clouds of Xeen's castle walls (XEEN.CC fcstl1/fcstl2) for the towns' stone buildings (temples, guilds, the bank),
+  # in place of MM7's chb1 fieldstone and hhm1d door; compose_stone.py makes the kit (xvs*) from these.
+  xvaswall:
+    dungeon: stone_a
+    size: [128, 256]
+    kind: picture
+    squeeze: true
+    refs: [pic/guide_swall, pic/native_cwall]
+    tone: {luma: 90}
+    role: stone wall
+    what: >-
+      One bay of a town castle wall, laid out exactly as Reference 1 (the layout guide; Reference 2 is the original
+      wall of two such slabs): one tall slab of smooth warm sandstone with soft darker marbling veins filling the
+      middle; along the top edge and along the bottom edge a course of small dressed sandstone blocks with chamfered
+      edges, each course cut in half lengthwise by the canvas edge; along the left and right edges a thin dark mortar
+      joint where the next slab meets. No quoins, no door, no window, no lamp.
+  xvascourse:
+    dungeon: stone_a
+    size: [128, 32]
+    kind: tile
+    refs: [pic/guide_course, pic/native_cwall]
+    tone: {luma: 112}
+    role: stone course
+    what: >-
+      One course of dressed sandstone blocks, as along the top of the original wall (References 1 and 2): a single row
+      of rectangular blocks of slightly varied length with chamfered edges and dark mortar joints between them, the
+      row filling the whole canvas height, the same warm orange-brown sandstone with faint marbling.
+  xvasquoin:
+    dungeon: stone_a
+    size: [32, 128]
+    kind: tile
+    refs: [pic/guide_quoin, pic/native_cwall]
+    tone: {luma: 87}
+    role: stone quoins
+    what: >-
+      One column of dressed sandstone quoin blocks, as at the ends of the original wall (References 1 and 2): blocks
+      stacked one above another, each a little taller than the column is wide, chamfered edges and dark mortar joints
+      between them, the column filling the whole canvas width, the same warm orange-brown sandstone.
+  xvasdoor:
+    dungeon: stone_a
+    size: [128, 256]
+    kind: picture
+    squeeze: true
+    refs: [pic/guide_sdoor, pic/native_cdoor, pic/kit_door]
+    tone: {luma: 74}
+    role: stone door
+    what: >-
+      The bay of the town castle wall with its door, laid out exactly as Reference 1 (the layout guide; Reference 2 the
+      original): the original's door of upright dark oak planks bound by two broad iron bands studded with rivets and
+      edged with iron straps, a small brass lock plate, set in a round-headed arch of dressed sandstone voussoirs with
+      jambs of stacked blocks, the arch filling most of the bay's width and rising to just under the top course; the
+      sandstone slab round the arch; a course of blocks cut in half along the top edge and along the bottom edge, the
+      bottom course under the door as its threshold. The oak and brass as the door of Reference 3. No glow, no light
+      and no shadow at the door's foot.
+  xvaswin:
+    dungeon: stone_a
+    size: [128, 256]
+    kind: picture
+    squeeze: true
+    refs: [pic/guide_swin, pic/native_cwall]
+    tone: {luma: 88}
+    role: stone window
+    what: >-
+      The bay of the town castle wall with a window, laid out exactly as Reference 1 (the layout guide; Reference 2 the
+      original wall): in the upper middle of the sandstone slab a narrow round-headed window ringed by dressed sandstone
+      voussoirs, small diamond leaded panes of greenish glass, dark behind, a projecting stone sill; the marbled slab
+      round it; a course of blocks cut in half along the top edge and along the bottom edge; thin mortar joints along
+      the left and right edges.
+
+
+  # ---------------------------------------------------------------- the classic tower kit (2026-11-24)
+  # Clouds of Xeen's tower walls (XEEN.CC ftowr1/ftowr2) for the dark places (the evil towers, Castle Blackfang,
+  # Necropolis); compose_tower.py makes the kit (xvt*) from these.
+  xvatwall:
+    dungeon: tower_a
+    size: [128, 256]
+    kind: tile
+    refs: [pic/guide_twall, pic/native_twall]
+    tone: {luma: 42}       # the original tower wall's own brightness (43)
+    role: tower wall
+    what: >-
+      A wall of big rough-hewn dark grey stone blocks as the original tower wall (References 1 and 2, its blocks
+      repeated): exactly three courses of blocks from the top of the canvas to the bottom, each block about one and a
+      half times as wide as it is tall, the courses' joints staggered (running bond), dark mortar joints, chipped
+      edges, a few darker stains; the same cold dark grey; nothing else.
+  xvatdoor:
+    dungeon: tower_a
+    size: [128, 256]
+    kind: picture
+    squeeze: true
+    refs: [pic/guide_tdoor, pic/native_tdoor]
+    tone: {luma: 40}       # the original tower wall's own brightness (43)
+    role: tower door
+    what: >-
+      The original tower door in its wall, laid out exactly as Reference 1 (the layout guide; Reference 2 the
+      original): a door of dark weathered planks laid across, under a rounded head, with a heavy black iron ring on a
+      plate at its right side; plain dark stone pilasters either side and a stone lintel across the top; the big dark
+      grey blocks of the wall beyond the pilasters at both edges. Cold dark grey stone, the door's wood a very dark
+      grey-brown.
+  xvatwin:
+    dungeon: tower_a
+    size: [128, 256]
+    kind: picture
+    squeeze: true
+    refs: [pic/guide_twin, pic/native_twall]
+    tone: {luma: 44}       # the original tower wall's own brightness (43)
+    role: tower window
+    what: >-
+      The dark tower wall with a window, laid out exactly as Reference 1 (the layout guide; Reference 2 the original
+      wall): in the upper middle a narrow round-headed window opening ringed by dressed dark stone, three black iron
+      bars across it, only darkness behind, a projecting stone sill; the big dark grey blocks of the wall all round,
+      three courses to the canvas's height.
+  # ---------------------------------------------------------------- double-door wings (2026-11-24)
+  # Map Studio hangs a two-leaf door's picture on each leaf, the second mirrored: one wing each, from the original's
+  # double doors (the castle set's arched iron-banded pair, fcstl2 frame 8; the tower set's braced pair, ftowr2
+  # frame 8), for the many two-leaf doors of Darkside's towns. Installed as xvsdoorw and xvtdoorw.
+  xvasdoorw:
+    dungeon: stone_a
+    size: [128, 256]
+    kind: picture
+    squeeze: true
+    refs: [pic/guide_swing, pic/native_cgate, pic/kit_sdoor]
+    tone: {luma: 66}
+    role: stone door wing
+    what: >-
+      One wing (the left leaf) of the original's arched double door, laid out exactly as Reference 1 (the layout
+      guide, the left half of the door in Reference 2): upright dark oak planks bound by broad iron bands studded with
+      rivets, an iron strap down the left (hinge) edge, an iron ring pull near the right edge at half height; the top
+      of the leaf follows the round arch, with the dressed sandstone voussoirs of the arch in the top left corner
+      above it. The right edge is the plain plank edge where the other wing meets it. The oak, iron and stone as the
+      door of Reference 3. No glow, no light at the door's foot.
+  xvatdoorw:
+    dungeon: tower_a
+    size: [128, 256]
+    kind: picture
+    squeeze: true
+    refs: [pic/guide_twing, pic/native_tgate, pic/kit_tdoor]
+    tone: {luma: 35}
+    role: tower door wing
+    what: >-
+      One wing (the left leaf) of the original tower's double door, laid out exactly as Reference 1 (the layout guide,
+      the left half of the door in Reference 2): two panels of dark brown planks, one above the other, each crossed
+      corner to corner by a diagonal iron brace (an X), framed by a black iron frame with a horizontal iron bar across
+      the middle; a black iron ring at the right edge at half height. The right edge is the plain edge where the
+      other wing meets it. Grim and dark, the wood and iron as the door of Reference 3.
+

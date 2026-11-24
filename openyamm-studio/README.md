@@ -280,6 +280,9 @@ there). `oymap build` makes a classic ODM with its scene and script:
   (a gable whose slopes are a curve across the ridge: `tiers` from each eaves side with a flat crown between, as
   the temples', or a half ellipse `roof_height` high in `vault_segments`; its ends closed in the `gable` texture);
   `half_hip` on a box's gable (the ends hipped up to that height, a small gable above: Erathia's House 10);
+  `verge` on a box's gable (2026-11-24, Xeen's classic Clouds kit: the slopes run on that far past each gable end,
+  with a barge board `barge` high under the roof's edge there in the `trim` texture; the eaves' fascia runs on
+  with them; `verge_walls` names the ends that take it, the other flush where a wing or shed stands against it);
   `pent` on a part (a skirt roof round the walls at a storey); `flare` (walls leaning out, a batter the other way:
   Castle Gryphonheart's bailey); `porches[].open_corner` (a recess to its wall's end open at that corner, the wall
   across standing back by its depth: HouseR2S); `doors[].sill` (a door standing over its row's foot, a whole door

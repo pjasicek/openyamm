@@ -1802,3 +1802,203 @@ textures:
     maker: codex image generation and seam pass, level_generation/xeen_art/map_textures/p3 (xtex.py --project, A6 planes sub-agent, D-58), 2026-11-21, v1, gain 0.527, seams 1.03 / 0.92
     source: assets_source/worlds/xeen/textures_x4/xpegeode.png
     installed: world (2026-11-21)
+  - name: xvwall
+    family: "cloudside_town; Clouds of Xeen's own town walls (XEEN.CC ftown1/ftown2), the classic Vertigo kit"
+    area: "plain bay: half posts at both edges, half beams top and bottom, Vertigo plaster (also the gable)"
+    maps: [X1]
+    size: [128, 256]
+    kind: tile
+    maker: codex image generation (variant A) and composition, level_generation/xeen_art/kit_textures/vertigo_classic (xtex.py --project, compose.py), 2026-11-24
+    source: assets_source/worlds/xeen/textures_x4/xvwall.png
+    installed: world (2026-11-24)
+    reuse: "the Clouds towns' half-timbered houses (Rivercity, Asp, Winterkill, Nightshadow, hamlets)"
+  - name: xvwin
+    family: "cloudside_town; Clouds of Xeen's own town walls (XEEN.CC ftown1/ftown2), the classic Vertigo kit"
+    area: "bay with a leaded casement window and sill (not in the original: painted in its style)"
+    maps: [X1]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation (variant A) and composition, level_generation/xeen_art/kit_textures/vertigo_classic (xtex.py --project, compose.py), 2026-11-24
+    source: assets_source/worlds/xeen/textures_x4/xvwin.png
+    installed: world (2026-11-24)
+    reuse: "the Clouds towns' half-timbered houses (Rivercity, Asp, Winterkill, Nightshadow, hamlets)"
+  - name: xvdoor
+    family: "cloudside_town; Clouds of Xeen's own town walls (XEEN.CC ftown1/ftown2), the classic Vertigo kit"
+    area: "bay with the original's plank door (lintel, jambs, leaf, brass lock) in the shared frame"
+    maps: [X1]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation (variant A) and composition, level_generation/xeen_art/kit_textures/vertigo_classic (xtex.py --project, compose.py), 2026-11-24
+    source: assets_source/worlds/xeen/textures_x4/xvdoor.png
+    installed: world (2026-11-24)
+    reuse: "the Clouds towns' half-timbered houses (Rivercity, Asp, Winterkill, Nightshadow, hamlets)"
+  - name: xvcornl
+    family: "cloudside_town; Clouds of Xeen's own town walls (XEEN.CC ftown1/ftown2), the classic Vertigo kit"
+    area: "post_left: a whole corner post along the left edge, the right edge as every bay"
+    maps: [X1]
+    size: [128, 256]
+    kind: tile
+    maker: codex image generation (variant A) and composition, level_generation/xeen_art/kit_textures/vertigo_classic (xtex.py --project, compose.py), 2026-11-24
+    source: assets_source/worlds/xeen/textures_x4/xvcornl.png
+    installed: world (2026-11-24)
+    reuse: "the Clouds towns' half-timbered houses (Rivercity, Asp, Winterkill, Nightshadow, hamlets)"
+  - name: xvcornr
+    family: "cloudside_town; Clouds of Xeen's own town walls (XEEN.CC ftown1/ftown2), the classic Vertigo kit"
+    area: "post_right: a whole corner post along the right edge, the left edge as every bay"
+    maps: [X1]
+    size: [128, 256]
+    kind: tile
+    maker: codex image generation (variant A) and composition, level_generation/xeen_art/kit_textures/vertigo_classic (xtex.py --project, compose.py), 2026-11-24
+    source: assets_source/worlds/xeen/textures_x4/xvcornr.png
+    installed: world (2026-11-24)
+    reuse: "the Clouds towns' half-timbered houses (Rivercity, Asp, Winterkill, Nightshadow, hamlets)"
+  - name: xvbeam
+    family: "cloudside_town; Clouds of Xeen's own town walls (XEEN.CC ftown1/ftown2), the classic Vertigo kit"
+    area: "oak beam, grain along: eaves trim; the posts and beams of every bay are cut from it"
+    maps: [X1]
+    size: [64, 32]
+    kind: tile
+    maker: codex image generation (variant A) and composition, level_generation/xeen_art/kit_textures/vertigo_classic (xtex.py --project, compose.py), 2026-11-24
+    source: assets_source/worlds/xeen/textures_x4/xvbeam.png
+    installed: world (2026-11-24)
+    reuse: "the Clouds towns' half-timbered houses (Rivercity, Asp, Winterkill, Nightshadow, hamlets)"
+  - name: xvridge
+    family: "cloudside_town; Clouds of Xeen's own town walls (XEEN.CC ftown1/ftown2), the classic Vertigo kit"
+    area: "the beam turned upright: the ridge beam"
+    maps: [X1]
+    size: [32, 64]
+    kind: derived
+    maker: codex image generation (variant A) and composition, level_generation/xeen_art/kit_textures/vertigo_classic (xtex.py --project, compose.py), 2026-11-24
+    source: assets_source/worlds/xeen/textures_x4/xvridge.png
+    installed: world (2026-11-24)
+    reuse: "the Clouds towns' half-timbered houses (Rivercity, Asp, Winterkill, Nightshadow, hamlets)"
+  - name: xvshgl
+    family: "cloudside_town; Clouds of Xeen's own town walls (XEEN.CC ftown1/ftown2), the classic Vertigo kit"
+    area: "split wooden shingle roof, after the original's town well (012.obj)"
+    maps: [X1]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation (variant A) and composition, level_generation/xeen_art/kit_textures/vertigo_classic (xtex.py --project, compose.py), 2026-11-24
+    source: assets_source/worlds/xeen/textures_x4/xvshgl.png
+    installed: world (2026-11-24)
+    reuse: "the Clouds towns' half-timbered houses (Rivercity, Asp, Winterkill, Nightshadow, hamlets)"
+  - name: xvthat
+    family: "cloudside_town; Clouds of Xeen's own town walls (XEEN.CC ftown1/ftown2), the classic Vertigo kit"
+    area: "golden straw thatch, after the original's straw hut (052.obj)"
+    maps: [X1]
+    size: [128, 128]
+    kind: tile
+    maker: codex image generation (variant A) and composition, level_generation/xeen_art/kit_textures/vertigo_classic (xtex.py --project, compose.py), 2026-11-24
+    source: assets_source/worlds/xeen/textures_x4/xvthat.png
+    installed: world (2026-11-24)
+    reuse: "the Clouds towns' half-timbered houses (Rivercity, Asp, Winterkill, Nightshadow, hamlets)"
+  - name: xvdoorw
+    family: "cloudside_town; Clouds of Xeen's own town walls (XEEN.CC ftown2 frame 8, the double door), the classic Vertigo kit"
+    area: "one wing of the original's double door (planks, studded battens, brass strap hinges), for two-leaf doors (the second leaf mirrored): Vertigo Town Hall"
+    maps: [X1]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation and composition, level_generation/xeen_art/kit_textures/vertigo_classic (xtex.py --project, compose.py), 2026-11-24
+    source: assets_source/worlds/xeen/textures_x4/xvdoorw.png
+    installed: world (2026-11-24)
+    reuse: "any classic-kit house's double door"
+  - name: xvswall
+    family: "royal_castle; Clouds of Xeen's castle walls (XEEN.CC fcstl1/fcstl2), the classic stone kit"
+    area: "plain bay: a marbled sandstone slab, a course of dressed blocks along its top and bottom, half a mortar joint at each side (also the gable)"
+    maps: [X1, X2, X3, X4, X5]
+    size: [128, 256]
+    kind: tile
+    maker: codex image generation and composition, level_generation/xeen_art/kit_textures/vertigo_classic (xtex.py --project, compose_stone.py), 2026-11-24
+    source: assets_source/worlds/xeen/textures_x4/xvswall.png
+    installed: world (2026-11-24)
+    reuse: "the Clouds towns' stone buildings (temples, guilds, banks)"
+  - name: xvswin
+    family: "royal_castle; Clouds of Xeen's castle walls (XEEN.CC fcstl1/fcstl2), the classic stone kit"
+    area: "bay with an arched leaded window ringed by voussoirs, a stone sill (not in the original: painted in its style)"
+    maps: [X1, X2, X3, X4, X5]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation and composition, level_generation/xeen_art/kit_textures/vertigo_classic (xtex.py --project, compose_stone.py), 2026-11-24
+    source: assets_source/worlds/xeen/textures_x4/xvswin.png
+    installed: world (2026-11-24)
+    reuse: "the Clouds towns' stone buildings (temples, guilds, banks)"
+  - name: xvsdoor
+    family: "royal_castle; Clouds of Xeen's castle walls (XEEN.CC fcstl1/fcstl2), the classic stone kit"
+    area: "bay with the original's arched door: oak planks bound by riveted iron bands under an arch of sandstone voussoirs"
+    maps: [X1, X2, X3, X4, X5]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation and composition, level_generation/xeen_art/kit_textures/vertigo_classic (xtex.py --project, compose_stone.py), 2026-11-24
+    source: assets_source/worlds/xeen/textures_x4/xvsdoor.png
+    installed: world (2026-11-24)
+    reuse: "the Clouds towns' stone buildings (temples, guilds, banks)"
+  - name: xvscornl
+    family: "royal_castle; Clouds of Xeen's castle walls (XEEN.CC fcstl1/fcstl2), the classic stone kit"
+    area: "post_left: a whole column of dressed quoins along the left edge"
+    maps: [X1, X2, X3, X4, X5]
+    size: [128, 256]
+    kind: tile
+    maker: codex image generation and composition, level_generation/xeen_art/kit_textures/vertigo_classic (xtex.py --project, compose_stone.py), 2026-11-24
+    source: assets_source/worlds/xeen/textures_x4/xvscornl.png
+    installed: world (2026-11-24)
+    reuse: "the Clouds towns' stone buildings (temples, guilds, banks)"
+  - name: xvscornr
+    family: "royal_castle; Clouds of Xeen's castle walls (XEEN.CC fcstl1/fcstl2), the classic stone kit"
+    area: "post_right: a whole column of dressed quoins along the right edge"
+    maps: [X1, X2, X3, X4, X5]
+    size: [128, 256]
+    kind: tile
+    maker: codex image generation and composition, level_generation/xeen_art/kit_textures/vertigo_classic (xtex.py --project, compose_stone.py), 2026-11-24
+    source: assets_source/worlds/xeen/textures_x4/xvscornr.png
+    installed: world (2026-11-24)
+    reuse: "the Clouds towns' stone buildings (temples, guilds, banks)"
+  - name: xvtwall
+    family: "towers; Clouds of Xeen's tower walls (XEEN.CC ftowr1/ftowr2), the classic tower kit"
+    area: "big rough-hewn dark grey blocks, three courses to a storey, seamless (also the corners and gables)"
+    maps: [X1, X2, X3, X5, D1, D2, D3, D4, D5, D6]
+    size: [128, 256]
+    kind: tile
+    maker: codex image generation and composition, level_generation/xeen_art/kit_textures/vertigo_classic (xtex.py --project, compose_tower.py), 2026-11-24
+    source: assets_source/worlds/xeen/textures_x4/xvtwall.png
+    installed: world (2026-11-24)
+    reuse: "the dark places: evil towers, Castle Blackfang, Necropolis"
+  - name: xvtwin
+    family: "towers; Clouds of Xeen's tower walls (XEEN.CC ftowr1/ftowr2), the classic tower kit"
+    area: "a barred round-headed slit in the dark blocks (not in the original: painted in its style)"
+    maps: [X1, X2, X3, X5, D1, D2, D3, D4, D5, D6]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation and composition, level_generation/xeen_art/kit_textures/vertigo_classic (xtex.py --project, compose_tower.py), 2026-11-24
+    source: assets_source/worlds/xeen/textures_x4/xvtwin.png
+    installed: world (2026-11-24)
+    reuse: "the dark places: evil towers, Castle Blackfang, Necropolis"
+  - name: xvtdoor
+    family: "towers; Clouds of Xeen's tower walls (XEEN.CC ftowr1/ftowr2), the classic tower kit"
+    area: "the original's tower door: dark planks under a rounded head, an iron ring, stone pilasters and lintel"
+    maps: [X1, X2, X3, X5, D1, D2, D3, D4, D5, D6]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation and composition, level_generation/xeen_art/kit_textures/vertigo_classic (xtex.py --project, compose_tower.py), 2026-11-24
+    source: assets_source/worlds/xeen/textures_x4/xvtdoor.png
+    installed: world (2026-11-24)
+    reuse: "the dark places: evil towers, Castle Blackfang, Necropolis"
+  - name: xvsdoorw
+    family: "royal_castle; Clouds of Xeen's castle walls (XEEN.CC fcstl2 frame 8, the arched double door), the classic stone kit"
+    area: "one wing of the original's arched iron-banded double door (the second leaf mirrored)"
+    maps: [D1, D4, D5, D6]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, level_generation/xeen_art/kit_textures/vertigo_classic (xtex.py --project), 2026-11-24
+    source: assets_source/worlds/xeen/textures_x4/xvsdoorw.png
+    installed: world (2026-11-24)
+    reuse: "any two-leaf door of the kit's buildings"
+  - name: xvtdoorw
+    family: "towers; Clouds of Xeen's tower walls (XEEN.CC ftowr2 frame 8, the braced double door), the classic tower kit"
+    area: "one wing of the original tower's X-braced double door (the second leaf mirrored)"
+    maps: [D1, D4, D5, D6]
+    size: [128, 256]
+    kind: picture
+    maker: codex image generation, level_generation/xeen_art/kit_textures/vertigo_classic (xtex.py --project), 2026-11-24
+    source: assets_source/worlds/xeen/textures_x4/xvtdoorw.png
+    installed: world (2026-11-24)
+    reuse: "any two-leaf door of the kit's buildings"

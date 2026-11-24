@@ -19,6 +19,11 @@ cp -r assets_dev/worlds/xeen/terrain_materials $tmp/worlds/xeen/terrain_material
 cp -r assets_dev/worlds/xeen/terrain_decorations $tmp/worlds/xeen/terrain_decorations
 cp -al assets_dev/worlds/xeen/maps $tmp/worlds/xeen/maps
 cp -al assets_dev/engine/data_tables $tmp/engine/data_tables
+# terrain_materials.py reads the material library and the liquids table from the root it is given (--assets): real
+# copies of those two files (2026-11-24: without them `weights` stopped at a missing library.yml, nothing swapped)
+mkdir -p $tmp/engine/terrain_materials $tmp/engine/liquids
+cp assets_dev/engine/terrain_materials/library.yml $tmp/engine/terrain_materials/library.yml
+cp assets_dev/engine/liquids/liquids.yml $tmp/engine/liquids/liquids.yml
 # the world's terrainTileset (mm7): without world.yml terrain_materials.py reads MM8's tile names (X7's lava rows, 21:39)
 ln assets_dev/worlds/xeen/world.yml $tmp/worlds/xeen/world.yml
 # open-air BLVs' ground files (oymap build writes <stem>_blv.yml, XD-17 2026-11-21) are not ODMs: `edges` would open

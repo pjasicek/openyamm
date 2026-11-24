@@ -3,6 +3,11 @@
 texture of the shipped MM6-MM8 maps and the Xeen maps is, by measurement, name and the hand-written overrides.
 
   tools/xeen/texture_classes.py [--root assets_dev] [--oymap <oymap>] [--out <file>] [--report <file>]
+  tools/xeen/texture_classes.py --only NAME... [--root assets_dev]
+
+`--only`: measure only the named Xeen textures (worlds/xeen/textures_x2/<name>.png) and replace or add their lines in
+worlds/xeen/models/texture_classes.yml, every other line as it stands (a full rerun drifts from the committed
+classes: AGENT_GUIDE.md); the engine file is not written. For textures no map lays yet (no `used`).
 
 For every texture a face of those maps lays (and every texture of Xeen's own), from its native picture
 (assets_source/textures/native_mm6_mm8/<world>/textures/*.bmp; Xeen's textures_x2/*.png):
@@ -268,11 +273,21 @@ def main():
     parser.add_argument("--report", type=Path, help="also write a table of every texture's numbers here")
     parser.add_argument("--measure-dir", type=Path, help="keep each map's measured output here (without --oymap: "
                         "read it from there)")
+    parser.add_argument("--only", nargs="+", help="measure only these Xeen textures and update their lines")
     args = parser.parse_args()
 
     index = native_index()
     xeen_textures = {path.stem.lower(): path for path in (args.root / "worlds" / "xeen" / "textures_x2").glob("*.png")}
-    names = used_textures(args.root) | set(xeen_textures)
+    if args.only:
+        only = {name.lower() for name in args.only}
+        missing = sorted(only - set(xeen_textures))
+        if missing:
+            print(f"not in worlds/xeen/textures_x2: {missing}", file=sys.stderr)
+            return 1
+        index = {}
+        names = only
+    else:
+        names = used_textures(args.root) | set(xeen_textures)
     if args.oymap or args.measure_dir:
         # Without --oymap the measured output kept in --measure-dir is read again.
         used, pairs = run_oymap(args.oymap, args.root, args.measure_dir)
@@ -356,6 +371,20 @@ def main():
             lines.append(f"  {name}: " + yaml.safe_dump(rows[name], default_flow_style=True, width=1000).strip()
                          + "\n")
         return "".join(lines)
+
+    if args.only:
+        # The named rows replace or join the committed lines of the Xeen file; nothing else changes.
+        path = args.root / "worlds" / "xeen" / "models" / "texture_classes.yml"
+        lines = {}
+        for line in path.read_text().splitlines(keepends=True):
+            if line.startswith("  ") and ":" in line:
+                lines[line.strip().split(":", 1)[0]] = line
+        for name in rows:
+            lines[name] = f"  {name}: " + yaml.safe_dump(rows[name], default_flow_style=True, width=1000).strip() + "\n"
+        write_atomically(path, header + "textures:\n" + "".join(lines[name] for name in sorted(lines)))
+        for name in sorted(rows):
+            print(lines[name], end="")
+        return 0
 
     engine_rows = [name for name in rows if sources[name] != "xeen"]
     xeen_rows = [name for name in rows if sources[name] == "xeen"]

@@ -9,7 +9,8 @@
   Xeen.RimFallMargin) lies below Xeen.RimFallDepth (320) unless it is water: a hole by the rim the rescue misses.
 - `wild.altar` (error): a shrine pavilion (a building part on posts with a click in the sketch) carries no click of its
   own; its altar (`<id>_altar`) does.
-- `wild.campfire` (error): every campfire decoration of the sketch (common/wild.py FIRES) has an event.
+- `wild.campfire` (error): every campfire decoration of the sketch (common/wild.py FIRES) has an event, and the
+  generated food-and-ring event (wild.CAMPFIRE_LUA) runs once (`once: true`); without it the fire refills forever.
 
   python3 tools/xeen/check_wild.py [--assets ROOT] [--maps xeen_x1,...] [--check]
 """
@@ -78,6 +79,10 @@ def check(key, assets: Path, cache: Path):
         if thing.get('kind') == 'decoration' and thing.get('decoration') in wild.FIRES \
                 and thing['id'] not in wild.FIRE_SKIP and not thing.get('effects'):
             findings.append(('wild.campfire', '%s (%s): no event' % (thing['id'], thing.get('decoration'))))
+        fire_lua = [effect for effect in thing.get('effects') or []
+                    if isinstance(effect, dict) and 'a ring in the ashes' in str(effect.get('lua') or '')]
+        if fire_lua and thing.get('once') is not True:
+            findings.append(('wild.campfire', '%s: the campfire event is not `once: true`' % thing['id']))
     return findings
 
 

@@ -30,6 +30,13 @@ struct OutdoorRoofPlan
     double eaves = 0.0;
     // The upright band between the walls' top and the roof's foot.
     double fascia = 0.0;
+    // `verge` (a box's gable): how far the slopes run on past each gable end, so the roof shows its edge over the
+    // gable; `barge`: the height of the board under that edge at each end, in the `trim` texture. 0: none.
+    double verge = 0.0;
+    double barge = 0.0;
+    // `verge_walls`: the gable ends (by their walls, s e n w = 0 to 3) that take the verge; all when left out (the
+    // other end stays flush where a wing or a shed stands against it).
+    std::array<bool, 4> vergeWalls = {true, true, true, true};
     // Hip: how far the ridge is drawn in from each end; 0: half the shorter side.
     double hipRun = 0.0;
     // A beam along the ridge of a hip or gable roof, this wide and high; 0: none.

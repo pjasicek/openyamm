@@ -583,7 +583,9 @@ def structures():
                                   ((67.55, 54.75), (67.85, 54.75)), ((55.35, 57.4), (55.35, 57.7))]):
         S(deco('thing:village_barrel_%d' % (i + 1), 'bigbarel', p1))
         S(deco('thing:village_barrel_%d_pair' % (i + 1), 'smlbarel', p2))
-    for i, at in enumerate([(68.6, 54.8), (68.6, 55.4)]):
+    # The second bale in the stables' paddock (classic_kit's stables, 2026-11-24: the old shed is an open fenced
+    # paddock now; at 68.6, 55.4 the bale stood through its east fence)
+    for i, at in enumerate([(68.6, 54.8), (68.05, 55.85)]):
         S(deco('thing:stable_hay_%d' % (i + 1), 'haybale2', at))
     # Burlock's yard trees and flower beds (the scatter cannot place inside the village wall's box)
     for i, at in enumerate([(56.0, 54.1), (65.2, 58.2), (59.5, 61.3), (66.8, 61.6)]):

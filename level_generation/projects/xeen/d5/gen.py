@@ -911,6 +911,10 @@ def build():
     import wild as WILD
     for _note in WILD.apply(sketch, 'd5'):
         print('wild:', _note)
+    # The classic kits (2026-11-24): Clouds of Xeen's own walls on the map's buildings (classic_kit.yml)
+    import classic_kit as CK
+    for _note in CK.apply(sketch, 'd5'):
+        print(_note)
     print('entrance screens:', ES.apply_sketch(sketch, 'xeen_d5'))
     for lv in ('L4', 'L3'):
         dump(os.path.join(BRIEFS, lv), 'project.yml', project)

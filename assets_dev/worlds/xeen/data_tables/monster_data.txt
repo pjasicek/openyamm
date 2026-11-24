@@ -168,9 +168,9 @@ Default Monster Data					Stats								Movement and Combat					Attack 1			Attack 
 11330	Arachnoid	Xeen Arachnoid A	14	62	14	336	5%11D4+L2	1	N	Med	Normal	4	300	90	0	Poison2	Phys	2D6+6	0	0	0	0	0	0	0	0	0	5	5	5	5	5	5	20	5	5	0	0
 11331	Arachnoid Hunter	Xeen Arachnoid B	18	86	15	504	8%10D8+L2	1	N	Med	Aggress	4	280	90	0	Poison2	Phys	2D9+6	0	20	Body	2D6+5	Body	0	0	0	0	5	5	5	5	5	5	20	5	5	0	0
 11332	Arachnoid Queen	Xeen Arachnoid C	24	130	19	816	7%15D8+L3	1	N	Short	Aggress	4	260	80	0	Poison3	Phys	3D7+9	0	0	0	0	0	0	0	0	0	5	5	5	5	5	5	20	5	5	0	0
-11340	Doom Bug	Xeen Swarm A	2	6	4	24	1D4	1	N	Free	Aggress	4	240	100	0	Poison1	Fire	1D3+1	Fire	0	0	0	0	0	0	0	0	0	10	10	0	0	0	0	0	0	20	0
-11341	Insect Swarm	Xeen Swarm B	4	14	4	56	1%2D4+L1	1	Y	Long	Aggress	4	260	60	0	0	Water	1D4+2	Water	0	0	0	0	0	0	0	0	0	10	10	0	0	0	0	0	0	20	0
-11342	Stingers	Xeen Swarm C	6	22	5	96	2%4D4+L1	1	Y	Med	Suicidal	4	280	90	0	Weak	Ener	1D6+2	Ener	0	0	0	0	0	0	0	0	0	10	10	0	0	0	0	0	0	20	0
+11340	Doom Bug	Xeen Swarm A	2	6	4	24	1D4	1	N	Free	Aggress	4	240	100	0	Poison1	Phys	1D3+1	0	0	0	0	0	0	0	0	0	0	10	10	0	0	0	0	0	0	20	0
+11341	Insect Swarm	Xeen Swarm B	4	14	4	56	1%2D4+L1	1	Y	Long	Aggress	4	260	60	0	0	Phys	1D4+2	0	0	0	0	0	0	0	0	0	0	10	10	0	0	0	0	0	0	20	0
+11342	Stingers	Xeen Swarm C	6	22	5	96	2%4D4+L1	1	Y	Med	Suicidal	4	280	90	0	Weak	Phys	1D6+2	0	0	0	0	0	0	0	0	0	0	10	10	0	0	0	0	0	0	20	0
 11350	Hell Hornet	Xeen Hornet A	35	228	21	1575	8%28D8+L4	0	Y	Long	Aggress	4	300	80	0	Poison2	Phys	4D8+12	0	0	0	0	0	0	0	0	0	15	10	10	15	15	15	15	15	15	20	0
 11351	Hornet Swarm	Xeen Hornet B	42	302	23	2184	12%37D8+L4	0	Y	Long	Aggress	4	310	60	0	Age	Phys	5D7+15	0	0	0	0	0	0	0	0	0	18	10	10	18	18	18	18	18	18	20	0
 11352	Hornet Queen	Xeen Hornet C	50	400	26	3000	16%41D10+L5	0	Y	Long	Suicidal	4	320	70	0	Poison3	Phys	6D7+16	0	0	0	0	0	0	0	0	0	18	10	10	18	18	18	18	18	18	20	0

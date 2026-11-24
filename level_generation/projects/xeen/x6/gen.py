@@ -336,6 +336,10 @@ def main():
     import wild as WILD
     for _note in WILD.apply(sk, 'x6'):
         print('wild:', _note)
+    # The classic Clouds kit (2026-11-24): Clouds of Xeen's own half-timbered walls on the map's houses
+    import classic_kit as CK
+    for _note in CK.apply(sk, 'x6'):
+        print(_note)
     atmos = {'format': 0, 'sky': 'plansky2', 'weather': {},
              'notes': "D-31: the shipped clear preset (plansky2 is the clear preset's alias) in every weather, no rain; "
                       "the world's sky.yml gives xeen_x6.odm the arid theme (A6)."}

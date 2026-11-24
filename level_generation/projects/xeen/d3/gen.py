@@ -324,6 +324,10 @@ def main():
     import wild as WILD
     for _note in WILD.apply(sk, 'd3'):
         print('wild:', _note)
+    # The classic kits (2026-11-24): Clouds of Xeen's own walls on the map's buildings (classic_kit.yml)
+    import classic_kit as CK
+    for _note in CK.apply(sk, 'd3'):
+        print(_note)
     atmos = {'format': 0, 'sky': 'xeendark1', 'weather': {},
              'notes': "Darkside's amber day (xeendark1; A3's Lua switches xeendark2/3 by the sun's stage on load, "
                       'evt:sky). No weather. The bright face\'s glow above the east rim: asked of A6 (the preset has '

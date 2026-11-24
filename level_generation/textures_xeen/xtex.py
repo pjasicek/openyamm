@@ -198,7 +198,7 @@ def base_image(spec):
     return image
 
 
-def build_prompt(name, spec, dungeon_words):
+def build_prompt(name, spec, dungeon_words, style=STYLE):
     family = dungeon_words
     what = ' '.join(spec['what'].split())
     kind = spec['kind']
@@ -222,7 +222,7 @@ def build_prompt(name, spec, dungeon_words):
         body = EDIT_FRAME.format(what=what)
         asset = 'a flat surface albedo texture'
         canvas_text = '1024x1024 (square)'
-    prompt = STYLE.format(asset=asset, family=family, body=body)
+    prompt = style.format(asset=asset, family=family, body=body)
     return prompt, canvas_text
 
 
@@ -277,7 +277,9 @@ def cmd_gen(args):
             words = dungeon['family_words']
             if name in ('xnbugtank', 'xntonics', 'xnheartsgn', 'xnfeedsgn', 'xnheartgt'):
                 words = words + '; and ' + dungeon['cellar_words']
-            prompt, size_text = build_prompt(name, spec, ' '.join(words.split()))
+            # A project's own `style` (the same {asset}, {family} and {body} fields) replaces the MM6-MM8 one: the
+            # Vertigo classic pilot's references are the original Xeen art, not finished MM6-MM8 textures.
+            prompt, size_text = build_prompt(name, spec, ' '.join(words.split()), data.get('style', STYLE))
             if args.note:
                 prompt += '\nCorrection for this attempt: ' + args.note
             refs = references(name, spec, version)
@@ -505,7 +507,12 @@ def cmd_finish(args):
             crop = raw.convert('RGB').crop((x0, y0, x1, y1))
             rgb = np.asarray(crop.resize((width, height), Image.LANCZOS), float)
         elif kind == 'picture':
-            image = crop_to_aspect(raw.convert('RGB'), art_aspect(spec)).resize((width, height), Image.LANCZOS)
+            if spec.get('squeeze'):
+                # `squeeze: true`: the model laid the whole layout guide out over its wider canvas, edges included
+                # (a bay's posts at both sides), so the whole return is resized to the face, not cropped.
+                image = raw.convert('RGB').resize((width, height), Image.LANCZOS)
+            else:
+                image = crop_to_aspect(raw.convert('RGB'), art_aspect(spec)).resize((width, height), Image.LANCZOS)
             rgb = np.asarray(image, float)
         elif kind == 'cutout':
             rgb, alpha = finish_cutout(spec, raw)
