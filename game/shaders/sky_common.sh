@@ -11,6 +11,10 @@
 uniform vec4 u_skyFog[42];
 #define SKY_VOID_SIDES 40
 #define SKY_VOID_LOOK 41
+// Height over the void's floor (z 0) up to which geometry fades into empty space toward a void side; Xeen's land
+// beside the void stands at 352 or more (the lowest percent of every map's land), so only the hull's lower deck,
+// its underside and the falls' feet take it.
+#define VoidFogHeight 256.0
 
 // Strongest share of the preset's aerial haze that distance alone adds before the view-distance fade.
 #define AerialHazeDepth 0.35
@@ -206,8 +210,11 @@ vec3 skyFogDisplayColor(float fogRatio, vec3 flatDisplayColor, vec3 worldPositio
 
     // Below the horizon toward the void (terrain.void), what lies behind is empty space: the hull, the cliffs and
     // the falls fade into it rather than into the horizon haze; shallow views keep the haze (the air's limb).
-    // Under the void's floor every view looks into it.
-    float voidWeight = toFragment.z < 0.0 ? skyVoidSideWeight(direction.xy) : 0.0;
+    // Under the void's floor every view looks into it. Only geometry near the void's floor (z 0: the hull's deck,
+    // the falls' feet) takes it: the land and what stands on it keep the haze, else every ground fragment seen from
+    // the air toward a void side faded into space, in bands by direction (X4 Burlock Savannah, 2026-11-24).
+    float voidWeight = toFragment.z < 0.0
+        ? skyVoidSideWeight(direction.xy) * (1.0 - smoothstep(0.0, VoidFogHeight, worldPosition.z)) : 0.0;
     voidWeight = u_skyFog[SKY_VOID_LOOK].w > 0.0 && worldPosition.z < 0.0 ? 1.0 : voidWeight;
     return voidWeight > 0.0 ? mix(color, skyVoidDisplay(normalize(toFragment), color), voidWeight) : color;
 }
