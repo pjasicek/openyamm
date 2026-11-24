@@ -4933,6 +4933,7 @@ bool Party::learnMemberSkill(size_t memberIndex, const std::string &skillName)
     pMember->skills[skill.name] = skill;
     pMember->synchronizeInnateAbilitySpells();
     GameMechanics::refreshCharacterBaseResources(*pMember, false, m_pClassMultiplierTable);
+    rebuildMagicalBonusesFromBuffs();
     return true;
 }
 
@@ -4988,6 +4989,9 @@ bool Party::increaseActiveMemberSkillLevel(const std::string &skillName)
     m_lastStatus = rules().skills.afterSkillRaised(*pMember, canonicalSkill, m_pClassSkillTable);
 
     GameMechanics::refreshCharacterBaseResources(*pMember, false, m_pClassMultiplierTable);
+    // A ruleset's skill bonuses on the resources (MAW: Enlightenment, Bodybuilding, Endurance) are magical bonuses,
+    // rebuilt with the buffs, not part of the base pools.
+    rebuildMagicalBonusesFromBuffs();
     return true;
 }
 
@@ -5022,6 +5026,7 @@ bool Party::resetActiveMemberSkills()
 
     addGold(-*cost, GoldReason::Guild);
     GameMechanics::refreshCharacterBaseResources(*pMember, false, m_pClassMultiplierTable);
+    rebuildMagicalBonusesFromBuffs();
     m_lastStatus = Engine::tr("{name}'s skills were reset: {points} skill points.",
         {{"name", pMember->name}, {"points", pMember->skillPoints}});
     return true;

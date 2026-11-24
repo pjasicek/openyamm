@@ -904,3 +904,43 @@ TEST_CASE("MAW Shaman spell damage counts the items' Ascension on top of the sch
     CHECK(mawAscension(shaman, MawAscensionUse::Heal).skill == doctest::Approx(3));
     CHECK(mawAscension(shaman, MawAscensionUse::CastTime).skill == doctest::Approx(10));
 }
+
+TEST_CASE("MAW Enlightenment raised on the skills page grows the spell points at once (Discord, 2026-11-24)")
+{
+    // A Sekhem's sheet kept 146 SP while Enlightenment went from 4 to 17: the raise refreshed only the base pools, and
+    // Enlightenment's share is a magical bonus.
+    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    ClassMultiplierTable multipliers;
+    REQUIRE(multipliers.loadFromRows(
+        {{"Class", "HP base", "HP", "SP base", "SP", "Mode"}, {"Shaman", "25", "3", "10", "1", "Mixed"}}));
+    rules.setClassMultiplierTable(&multipliers);
+    bindGameRules(&rules.gameRules());
+
+    Character shaman = member("Shaman", 100);
+    shaman.personality = 100;
+    shaman.skillPoints = 200;
+    shaman.skills["Enlightenment"] = {"Enlightenment", 9, SkillMastery::Expert};
+    PartySeed seed;
+    seed.members = {shaman};
+    Party party;
+    party.setClassMultiplierTable(&multipliers);
+    party.seed(seed);
+    party.setRules(&rules.gameRules());
+    GameMechanics::refreshCharacterBaseResources(*party.member(0), true, &multipliers);
+    party.refreshDerivedState();
+    const auto maximum = [&party, &multipliers]()
+    {
+        return GameMechanics::calculateEffectiveCharacterMaxSpellPoints(party.members()[0], &multipliers);
+    };
+
+    // 10 + 1 x (100 + 2 x 20) = 150 SP; Expert 9: 150 x 9 % = 13.5 -> 13.
+    REQUIRE_EQ(maximum(), 163);
+    const int current = party.members()[0].spellPoints;
+
+    // Expert 10: 150 x 10 % = 15, shown at once; the current spell points stay as they were, as in MAW.
+    REQUIRE(party.increaseActiveMemberSkillLevel("Enlightenment"));
+    CHECK_EQ(party.members()[0].findSkill("Enlightenment")->level, 10u);
+    CHECK_EQ(maximum(), 165);
+    CHECK_EQ(party.members()[0].spellPoints, current);
+    bindGameRules(nullptr);
+}

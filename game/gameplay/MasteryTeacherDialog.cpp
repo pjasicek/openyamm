@@ -649,6 +649,7 @@ bool applySkillMasteryTraining(
     }
 
     party.addGold(-evaluation->cost, GoldReason::Guild);
+    party.refreshDerivedState();
     message = Engine::tr(
         "{name} is now a {mastery} in {skill}.",
         {{"name", pCharacter->name},
