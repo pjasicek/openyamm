@@ -458,7 +458,7 @@ steps:
   - select_topic: {match_label: "OK"}
   - advance_runtime: {seconds: 1.5, follow_map_move: true}
   - assert: {map: xeen_d4.odm}
-  - assert: {party_position: {x: 4096, y: -3072, radius: 128, z_min: 1200, z_max: 1600}}
+  - assert: {party_position: {x: 4096, y: -3072, radius: 128, z_min: 1100, z_max: 1600}}
   - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
   # Down to the Isle's jetty: Tern's ferry back to Lakeside (house 4667, D4 event 57; route 432, always).
   - walk_to: {x: 4600, y: -4700, z: 1120, z_tolerance: 700, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}

@@ -478,7 +478,8 @@ bool indoorMoverFaceApproachesBody(
 bool indoorMoverFaceBlocksBody(
     const IndoorMoverBody &body,
     std::span<const bx::Vec3> previous,
-    std::span<const bx::Vec3> current)
+    std::span<const bx::Vec3> current,
+    const bx::Vec3 &slideDirection)
 {
     // The support movement lifts the feet after each mechanism step, so they lie on the floor's previous pose.
     constexpr float FootTolerance = 2.0f;
@@ -494,6 +495,13 @@ bool indoorMoverFaceBlocksBody(
     // underside of a door rising beside it) moves the solid away from the body, not into it.
     const bx::Vec3 normal = polygonNormal(current);
     if (moverLength(normal) <= 0.5f)
+    {
+        return true;
+    }
+    // A face sliding within 60 degrees of its own plane leads with its edge: the solid behind it comes at a body on
+    // either side (a leaf's two faces with the body between them, which neither side test below would see).
+    constexpr float EdgeOnLimit = 0.5f;
+    if (moverLength(slideDirection) > 0.5f && std::fabs(moverDot(slideDirection, normal)) < EdgeOnLimit)
     {
         return true;
     }

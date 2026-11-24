@@ -118,3 +118,30 @@ TEST_CASE("indoor translucent faces are single-sided unless the data says otherw
     translucency.twoSided = true;
     CHECK(OpenYAMM::Game::indoorTranslucentFaceVisibleFrom(translucency, normal, point, {0.0f, 15.0f, 0.0f}));
 }
+
+TEST_CASE("an indoor scene marks only the solid decoration faces as combat cover")
+{
+    using namespace OpenYAMM::Game;
+    IndoorSceneYmlLoader loader;
+    IndoorSceneData scene;
+    scene.initialState.visibleOutlines.resize(875);
+    std::string error;
+    const std::string overlay = "format_version: 1\nkind: indoor_scene_overlay\n";
+    REQUIRE(loader.applyOverlayFromText(scene, overlay + "decoration_collision_faces: [1]\n", error));
+
+    IndoorMapData map;
+    map.faces.resize(2);
+    MapDeltaData delta;
+    REQUIRE_MESSAGE(buildIndoorMapStateFromScene(scene, map, delta, error), error);
+    CHECK_FALSE(map.faces[0].decorationCollision);
+    CHECK(map.faces[1].decorationCollision);
+
+    scene.decorationCollisionFaces.clear();
+    REQUIRE_MESSAGE(buildIndoorMapStateFromScene(scene, map, delta, error), error);
+    CHECK_FALSE(map.faces[1].decorationCollision);
+
+    scene.decorationCollisionFaces = {2};
+    CHECK_FALSE(buildIndoorMapStateFromScene(scene, map, delta, error));
+    CHECK(error.find("out of range") != std::string::npos);
+    CHECK_FALSE(loader.applyOverlayFromText(scene, overlay + "decoration_collision_faces: broken\n", error));
+}

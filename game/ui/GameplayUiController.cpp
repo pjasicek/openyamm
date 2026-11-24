@@ -691,6 +691,31 @@ void GameplayUiController::clearHouseBankState()
     resolvedState().houseBankState = {};
 }
 
+float statusTextReadingSeconds(const std::string &text)
+{
+    // MM6-MM8 hold every status line 2 seconds, which is enough for their short lines but not for a longer one, such as
+    // Xeen's event texts (feedback F53, 2026-11-24): a line stays at least 12 characters a second. A wide (CJK)
+    // character reads as 2.5 of them. Lines up to about 24 characters keep the original 2 seconds.
+    constexpr float CharactersPerSecond = 12.0f;
+    constexpr float MaximumSeconds = 12.0f;
+    float characters = 0.0f;
+
+    for (const char character : text)
+    {
+        const unsigned char byte = static_cast<unsigned char>(character);
+
+        if ((byte & 0xC0u) == 0x80u)
+        {
+            continue;
+        }
+
+        // Lead bytes from 0xE3 start U+3000 and above (CJK punctuation, kana, ideographs, Hangul).
+        characters += byte >= 0xE3u ? 2.5f : 1.0f;
+    }
+
+    return std::min(characters / CharactersPerSecond, MaximumSeconds);
+}
+
 void GameplayUiController::setStatusBarEvent(
     const std::string &text,
     float durationSeconds,
@@ -709,7 +734,9 @@ void GameplayUiController::setStatusBarEvent(
     }
 
     state.statusBar.eventText = Engine::localize(text);
-    state.statusBar.eventRemainingSeconds = std::max(0.0f, durationSeconds);
+    state.statusBar.eventRemainingSeconds = durationSeconds > 0.0f
+        ? std::max(durationSeconds, statusTextReadingSeconds(state.statusBar.eventText))
+        : 0.0f;
     state.statusBar.eventPriority = priority;
 
     if (m_pStatusBarEventLog != nullptr)

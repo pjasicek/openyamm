@@ -668,7 +668,9 @@ struct EventRuntimeState
     std::unordered_map<uint32_t, RuntimeMapNote> runtimeMapNotes;
     std::unordered_map<std::string, SavedLocation> savedLocations;
     std::unordered_map<uint64_t, TransportRouteOverride> transportRouteOverrides;
-    uint32_t eventRandomState = 0;
+    // The event roll stream (EventRuntime.cpp nextEventRandom): 0 until the first roll seeds it from the system's random
+    // source; runtime only, never saved. Tests set a nonzero value for a fixed sequence.
+    uint64_t eventRandomState = 0;
     std::optional<MapNoteSourcePoint> activeEventMapNoteSourcePoint;
     uint32_t activeHistoryContinentId = 1;
     std::unordered_map<uint32_t, int32_t> historyEventTimes;

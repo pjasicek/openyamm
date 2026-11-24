@@ -247,6 +247,24 @@ std::optional<ImageDimensions> readImageDimensions(std::span<const uint8_t> head
     };
     int64_t width = 0;
     int64_t height = 0;
+    if (hasCookedTextureSignature(header))
+    {
+        const auto size = readCookedTextureSize(header);
+        if (!size)
+        {
+            return std::nullopt;
+        }
+        // The cooker pads sprites to blocks. HUD hit areas use the content rectangle drawn from those blocks.
+        const int contentWidth = int(little(112, 2));
+        const int contentHeight = int(little(114, 2));
+        if (little(116, 4) != 0 || contentWidth > (*size)[0] || contentHeight > (*size)[1]
+            || (contentWidth == 0) != (contentHeight == 0))
+        {
+            return std::nullopt;
+        }
+        return contentWidth == 0 ? ImageDimensions{(*size)[0], (*size)[1]}
+                                 : ImageDimensions{contentWidth, contentHeight};
+    }
     constexpr std::array<uint8_t, 8> pngSignature = {137, 80, 78, 71, 13, 10, 26, 10};
     if (header.size() >= 33 && std::equal(pngSignature.begin(), pngSignature.end(), header.begin()))
     {

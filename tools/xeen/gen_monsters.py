@@ -23,6 +23,8 @@ MASTERIES = {'N', 'E', 'M', 'G'}
 BONUSES = {'poison1', 'poison2', 'poison3', 'disease1', 'disease2', 'disease3', 'curse', 'weak', 'asleep', 'afraid',
            'drunk', 'insane', 'paralyze', 'uncon', 'dead', 'stone', 'errad', 'brkitem', 'brkarmor', 'brkweapon',
            'steal', 'age', 'drainsp'}
+LETHAL_BONUSES = {'stone', 'dead', 'errad'}
+LETHAL_BONUS_MIN_LEVEL = 27
 DAMAGE_TYPES = {'Phys', 'Fire', 'Air', 'Water', 'Earth', 'Mind', 'Spirit', 'Body', 'Light', 'Dark', 'Ener'}
 RELATIONS = {'friendly', 'close', 'short', 'medium', 'long'}
 TIER_LETTERS = 'ABCDEFGHIJ'
@@ -216,6 +218,12 @@ class Monsters:
         bonus = settings.get('bonus') or 0
         if bonus and str(bonus).lower().rsplit('x', 1)[0] not in BONUSES:
             raise BuildError(f'{where}: unknown bonus {bonus!r}')
+        # D-119 (F54, 2026-11-24): a touch that petrifies, kills or eradicates ends a solo run; MM6-MM8 give one to no
+        # monster below level 27 (the Basilisk). The Gorgon Sprite (16) and the Medusa Sprite (10) had Stone.
+        if bonus and str(bonus).lower().rsplit('x', 1)[0] in LETHAL_BONUSES and level < LETHAL_BONUS_MIN_LEVEL:
+            raise BuildError(f'{where}: bonus {bonus!r} at level {level}: Stone, Dead and Errad need level '
+                             f'{LETHAL_BONUS_MIN_LEVEL} or more (MM6-MM8 have none below it); give a lesser bonus '
+                             '(Weak, Curse, Paralyze ...)')
         attack_type = settings.get('type') or xeenlib.cell(stand_in, 17) or 'Phys'
         if attack_type not in DAMAGE_TYPES:
             raise BuildError(f'{where}: unknown damage type {attack_type!r}')
@@ -245,6 +253,19 @@ class Monsters:
         if settings.get('fly') not in (None, 'Y', 'N'):
             raise BuildError(f"{where}: fly {settings['fly']!r} is not Y or N")
         fly = settings.get('fly') or xeenlib.cell(stand_in, 9) or 'N'
+        # A ranged flyer (X2 p8, a player, 2026-11-24: "the sprites are always in the air"). A flying row with a
+        # missile is MM6-MM8's ranged flyer: outdoors it hovers its radius + 512 above the party and circles it at
+        # range (AI_Pursue's WantedZ; OutdoorWorldRuntime's flying ranged pursuit height), never in melee reach; a
+        # melee flyer comes down to the party (MM's harpies, gargoyles, bats, wyverns). The Sprites took the Will o'
+        # Wisp's Light missile (and their own Air) and stayed out of reach, where the source's sprites have no ranged
+        # attack. Such a row says `ranged_flyer: "<why>"` (family or tier: the source's R or A flag, or MM's
+        # ranged-flyer kinds: wisps, eyes, elementals, dragons, constructs), else the build stops.
+        missiles = [missile] + ([attack2[2]] if attack2 else [])
+        if fly == 'Y' and any(str(value) not in ('0', '', 'None') for value in missiles) \
+                and not settings.get('ranged_flyer'):
+            raise BuildError(f'{where}: a flyer with a missile ({", ".join(str(value) for value in missiles)}) hovers '
+                             'out of melee reach (MM6-MM8\'s ranged flyer); give it `missile: 0` (a melee flyer that '
+                             'comes down to the party) or say `ranged_flyer: "<why>"`')
         cells = [
             row_id, name, picture, level, hit_points, armour, experience, treasure,
             settings.get('blood', xeenlib.cell(stand_in, 8) or 1), fly,
@@ -288,6 +309,23 @@ class Monsters:
         # would let bolts strike the sand worm's 130 mound from 30 units off.
         if 'radius' in settings and int(row[5] or 0) > 0:
             row[5] = str(settings['radius'])
+        # The corpse (feedback F54, 2026-11-24): a descriptor without a dead sprite (SpriteDead null: MM's wisps,
+        # elementals and robots) leaves no body when the monster dies, and the game then drops none of its table
+        # loot (gold and item: MM6-MM8's rule). Such a row must say which it is: `corpse: dying` keeps a body (the
+        # dying sprite stands for the dead one; the model ends in its death pose), `corpse: none` vanishes as in
+        # MM6-MM8 and loses its loot. The Xeen sprites wore the Will o' Wisp's descriptor and dropped nothing.
+        corpse = settings.get('corpse')
+        if corpse not in (None, 'dying', 'none'):
+            raise BuildError(f'{where}: corpse {corpse!r} is not dying or none')
+        if row[17].strip().lower() == 'null':
+            if corpse is None:
+                raise BuildError(f'{where}: {stand_in_descriptor!r} has no dead sprite, so the monster leaves no '
+                                 f'corpse and drops no loot; set `corpse: dying` (a body) or `corpse: none` (vanishes)')
+            if corpse == 'dying':
+                row[17] = row[16]
+        # The struck body's material where the borrowed sprites' is wrong (the sprites are fey, not wisps of light).
+        if settings.get('hit_material'):
+            row[-1] = str(settings['hit_material'])
         return row
 
 

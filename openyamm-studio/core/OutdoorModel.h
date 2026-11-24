@@ -12,6 +12,8 @@ namespace OpenYAMM::Studio
 {
 // A point of a model in world units.
 using OutdoorModelPoint = std::array<double, 3>;
+// Logical repeat size of pictures that share a horizontal and vertical phase on outdoor walls.
+using OutdoorWallTiles = std::map<std::string, std::array<double, 2>>;
 
 // Whether the game's party walks up a model face that climbs `rise` over `run` (map units): game/outdoor slides
 // it down a face whose normal points up less than 0.70767 (WalkableNormalZ, just under 45 degrees) when the face
@@ -32,7 +34,7 @@ uint32_t outdoorLiquidBits(const std::string &liquid, const std::string &flow, c
 class OutdoorModelBuilder
 {
 public:
-    explicit OutdoorModelBuilder(Game::OutdoorBModel &model);
+    explicit OutdoorModelBuilder(Game::OutdoorBModel &model, const OutdoorWallTiles *pWallTiles = nullptr);
 
     // A face with its texels given per corner. `event` (0 for none) makes the face one that can be clicked and
     // runs that event. The face's number in the model, or -1 when the points span no area.
@@ -55,7 +57,9 @@ public:
         uint16_t event);
 
     // A prism over a convex outline (counter-clockwise seen from above) between two heights: its sides, its top
-    // when `top` names a texture, its underside when `bottom` names one.
+    // when `top` names a texture, its underside when `bottom` names one. `leaveOut`, when not -1, is a side left out
+    // (the one from that corner of the outline to the next): a side lying on another solid's face, which would lie
+    // back to back with it.
     void addPrism(
         const std::vector<std::array<double, 2>> &outline,
         double low,
@@ -63,7 +67,8 @@ public:
         const std::string &sideTexture,
         const std::string &topTexture,
         const std::string &bottomTexture,
-        uint16_t event);
+        uint16_t event,
+        int leaveOut = -1);
 
     // The hidden sloping face the shipped maps lay over a flight of steps (Harmondale's Fort__1: attributes 0x3108,
     // 220 flights on the 42 MM6-MM8 outdoor maps): a face like `addSurface`'s, not drawn (Invisible) and not
@@ -93,6 +98,7 @@ private:
     uint16_t vertexOf(const OutdoorModelPoint &point);
 
     Game::OutdoorBModel &m_model;
+    const OutdoorWallTiles *m_pWallTiles;
     std::map<std::array<int, 3>, uint16_t> m_indices;
 };
 }

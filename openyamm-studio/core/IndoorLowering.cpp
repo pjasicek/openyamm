@@ -1,6 +1,7 @@
 #include "core/IndoorLowering.h"
 
 #include "core/ChestKinds.h"
+#include "core/OutdoorDecorationCollision.h"
 #include "core/CoreMath.h"
 #include "core/Polygon.h"
 #include "core/Looks.h"
@@ -1295,6 +1296,7 @@ public:
             return false;
         }
 
+        m_decorationCollision.emplace(m_options.assetRoot, textOr(card, "world", ""), m_lowered.mapStem, true);
         checkSurfaceSizes();
         readRooms();
 
@@ -2349,6 +2351,20 @@ private:
                         claimFeature(block.featureId, "platform", block.path);
                     }
 
+                    if (blockNode["part_of"])
+                    {
+                        if (block.pillar || blockNode["id"])
+                        {
+                            issue("rooms.yml", block.path + ".part_of", "`part_of` makes a platform without an `id` a "
+                                "part of another platform (it runs that platform's click); a pillar or a platform "
+                                "with an `id` of its own is none", "schema");
+                        }
+                        else
+                        {
+                            block.partOf = blockNode["part_of"].Scalar();
+                        }
+                    }
+
                     if (!block.pillar)
                     {
                         block.lidSurface = blockNode["top_surface"]
@@ -3303,6 +3319,8 @@ private:
                     solidOf("BEAM", outline, bottom, levelTop.value_or(bottom + depth), surface, surface);
                 beam.second.hasBottom = true;
                 beam.second.sourcePath = beamPath;
+                // A beam that is a part of a clicked platform (a capstan's bar): it runs the platform's click.
+                beam.second.partOf = textOr(beamNode, "part_of", "");
 
                 if (beamNode["bottom_end"])
                 {
@@ -3983,6 +4001,7 @@ private:
             box.lidSurface = block.lidSurface;
             box.endSurface = block.endSurface;
             box.featureId = block.featureId;
+            box.partOf = block.partOf;
             box.sourcePath = block.pillar ? "" : block.path;
             box.unseen = block.unseen;
             box.passable = block.passable;
@@ -9146,6 +9165,8 @@ private:
         // The `id` of the level or platform the block is, or of the plate: what a step event or a `floors` entry
         // names. Its top is then built as a node of its own when one of them does.
         std::string featureId;
+        // The platform this block is a part of (`part_of`): its click and its face changes are that platform's.
+        std::string partOf;
         // A floor plate (objects.yml `plates`): cut into the floor, its top level with it or up to 8 above.
         bool plate = false;
         std::string platePath;
@@ -9449,6 +9470,9 @@ private:
         LoweredSurface surface;
         std::optional<LoweredSurface> lidSurface;
         std::string featureId;
+        // `part_of`: the id of the platform this block is a part of (a winch's iron head on its drum): it runs that
+        // platform's click and changes with it.
+        std::string partOf;
         // A top that slopes or twists: its rise above the block's foot at each corner of the footprint.
         std::vector<double> topRises;
         // A slab under a sloping top (`thickness`): its underside lies this far under the top at every corner.
@@ -9779,6 +9803,7 @@ private:
         std::string owner;
         size_t room = 0;
         Vec3 position;
+        std::vector<std::array<double, 3>> solid;
     };
 
     // What an object names with `block` (a switch) or `rides` (a chest): a block with upright sides and a level top
@@ -12182,6 +12207,28 @@ private:
             : node["back_surface"] ? std::vector<std::vector<DoorPicture>>{{DoorPicture{
                   readSurface(node["back_surface"], surface), false}}}
             : drawing.front;
+
+        // A single hinged leaf seen from behind is its front mirrored (the knocker stays at the free edge): without a
+        // back of its own, or with a `back_surface` of the front's texture, its back shows the front's pictures
+        // mirrored, the row read from the other end (F44, 2026-11-24: XD-24's oak and iron doors showed their knocker
+        // beside the hinge from one room). A pair's wings are mirror images of each other, so its back is its front.
+        const bool backIsFront = !node["back_surface"]
+            || (drawing.front.size() == 1 && drawing.front[0].size() == 1
+                && drawing.back[0][0].surface.texture == drawing.front[0][0].surface.texture);
+        if (!node["back_pictures"] && backIsFront && leaves.size() == 1
+            && textOr(node, "kind", "slide_up") == "hinged")
+        {
+            for (std::vector<DoorPicture> &row : drawing.back)
+            {
+                std::reverse(row.begin(), row.end());
+
+                for (DoorPicture &picture : row)
+                {
+                    picture.mirror = !picture.mirror;
+                }
+            }
+        }
+
         const bool saysTile = textOr(node, "tile", "") == "true";
         drawing.tiled = saysTile || door.fold;
         bool sideways = false;
@@ -13471,7 +13518,7 @@ private:
 
         for (BoxObject &box : m_boxes)
         {
-            if (isBlock && box.partOfRoom && !box.plate && box.featureId == id)
+            if (isBlock && box.partOfRoom && !box.plate && (box.featureId == id || (!id.empty() && box.partOf == id)))
             {
                 box.cog = cog;
                 box.nodeName = box.nodeName.starts_with("TRIGGER_") ? box.nodeName : "TRIGGER_part_" + box.nodeName;
@@ -15908,6 +15955,11 @@ private:
                 marker.nodeName = "DECOR_" + idName(id);
                 marker.room = *room;
                 marker.position = {std::round(position.x), std::round(position.y), std::round(position.z)};
+                if (m_decorationCollision && textOr(node, "hidden", "") != "true")
+                {
+                    marker.solid = m_decorationCollision->place(decorationName, position.x, position.y, position.z,
+                        degrees, false, m_lowered.warnings);
+                }
                 m_markers.push_back(marker);
                 m_lowered.placed.push_back({id, "decoration", decorationName, {marker.position.x, marker.position.y,
                     marker.position.z}});
@@ -16043,6 +16095,28 @@ private:
             kindById[panel.first] = "wall panel";
         }
 
+        // A part names a platform of the map (XD-02's winch: its iron head and bars on the drum). Each part is a
+        // node of its own name, so that it can carry the platform's click and face changes.
+        size_t partIndex = 0;
+
+        for (BoxObject &box : m_boxes)
+        {
+            if (box.partOf.empty())
+            {
+                continue;
+            }
+
+            if (floorKind(box.partOf) != "platform")
+            {
+                issue("rooms.yml", box.sourcePath + ".part_of", "`part_of` names the platform this one is a part of "
+                    "(a platform of rooms.yml with that `id`); " + box.partOf + " is none", "reference");
+                box.partOf.clear();
+                continue;
+            }
+
+            box.nodeName = "TRIGGER_partof_" + idName(box.partOf) + "_" + std::to_string(partIndex++);
+        }
+
         // The events' Lua.
         for (const WiringEvent &wiringEvent : wiringEvents)
         {
@@ -16145,6 +16219,12 @@ private:
                     {
                         box.eventId = wiringEvent.eventId;
                         box.nodeName = "TRIGGER_block_" + idName(source);
+                    }
+                    // Its parts (`part_of`) run the same click, each a node of its own (the player clicks the whole
+                    // thing: XD-02's winch head and bars answered nothing, 2026-11-24).
+                    else if (box.partOf == source && box.partOfRoom)
+                    {
+                        box.eventId = wiringEvent.eventId;
                     }
                 }
             }
@@ -22680,9 +22760,14 @@ private:
             // The side seen from the opening's `to` room may have a surface of its own.
             LoweredSurface backSurface = readSurface(doorNode["back_surface"], surface);
             backSurface.fit = true;
+            // A hinged leaf's back without a surface of its own is its front mirrored (F44; see readDoorDrawing).
+            const bool mirrorBack =
+                backSurface.texture == surface.texture && textOr(doorNode, "kind", "slide_up") == "hinged";
+            const WallTextureBox mirroredBox = {opening.fromHigh, opening.fromLow, opening.bottom, opening.top};
             addWallRectangle(
                 node, backSurface, frame, opening.fromLow, opening.fromHigh, opening.bottom, opening.top, far,
-                {frame.outward.x, frame.outward.y, 0.0}, opening.top);
+                {frame.outward.x, frame.outward.y, 0.0}, opening.top, {}, {}, std::nullopt, std::nullopt,
+                mirrorBack ? &mirroredBox : nullptr);
             if (textOr(doorNode, "kind", "slide_up") == "hinged")
             {
                 // A leaf that swings shows its edges and its top: close the slab. The hinge stands at the side of
@@ -22902,6 +22987,25 @@ private:
         {
             m_owner = ownerOf(marker.owner, marker.room);
             const LoweredRoom &room = m_lowered.rooms[marker.room];
+            if (!marker.solid.empty())
+            {
+                GlbNode body;
+                body.name = "TRIGGER_solid_" + marker.nodeName;
+                for (size_t first = 0; first + 2 < marker.solid.size(); first += 3)
+                {
+                    std::vector<Vec3> corners;
+                    for (size_t i = first; i < first + 3; ++i)
+                    {
+                        const auto &p = marker.solid[i];
+                        corners.push_back({std::round(p[0]), std::round(p[1]), std::round(p[2])});
+                    }
+                    addFace(body, room.wall, corners, std::vector<std::array<double, 2>>(3), polygonNormal(corners));
+                }
+                m_nodeFlags[body.name].push_back("invisible");
+                m_lowered.decorationCollisionNodes.insert(body.name);
+                m_ownedNodes[marker.room].push_back(body.name);
+                m_lowered.nodes.push_back(std::move(body));
+            }
             GlbNode node;
             node.name = marker.nodeName;
             std::vector<Vec3> points;
@@ -23146,6 +23250,17 @@ private:
             const float speed = static_cast<float>(numberOr(doorNode, "speed", 128.0));
             mechanism.openSpeed = speed;
             mechanism.closeSpeed = speed;
+
+            // A hinged leaf opens away from whoever opens it, so from its `from` room it swings through the doorway
+            // into the `to` room: a rotating mover whose faces are listed in both rooms, drawn while either is seen
+            // (XD-05's gate leaves vanished when the yard was seen alone through a window, 2026-11-24). A trapdoor
+            // rises into the room it lies in and stays as it is.
+            if (door.hinged && !door.hatch && opening.toRoom != opening.fromRoom)
+            {
+                mechanism.kind = "rotating";
+                mechanism.extraRoomIds = {"room_" + m_lowered.rooms[opening.toRoom].name};
+            }
+
             const std::vector<DoorLeaf> &leaves = m_doorLeaves[doorIndex];
 
             if (m_doorDrawings[doorIndex].slabs)
@@ -23498,6 +23613,7 @@ private:
     std::vector<Recess> m_recesses;
     // Blocks with heights given outright (levels, steps, parapets), read with their rooms.
     std::vector<std::pair<std::string, BoxObject>> m_pendingSolids;
+    std::optional<DecorationCollisionModels> m_decorationCollision;
     std::vector<MarkerObject> m_markers;
     // Per room: the nodes besides its ROOM_ node that belong to its sector.
     std::vector<std::vector<std::string>> m_ownedNodes;

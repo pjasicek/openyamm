@@ -20,6 +20,8 @@
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/party/Party.h"
+#include "game/rules/maw/MawItemFormulas.h"
+#include "game/rules/maw/MawRules.h"
 #include "game/tables/CharacterDollTable.h"
 
 #include "tests/RegressionGameData.h"
@@ -1036,7 +1038,92 @@ public:
         m_activeCorpseView.reset();
     }
 
+    // Spotted ground items the loot tests add; taking one removes it, as the worlds do.
+    void addSpottedGroundItem(const OpenYAMM::Game::GameplayWorldItemInspectState &item)
+    {
+        m_groundItems.push_back({item, true});
+    }
+
+    std::vector<OpenYAMM::Game::GameplayWorldItemInspectState> groundItems() const
+    {
+        std::vector<OpenYAMM::Game::GameplayWorldItemInspectState> items;
+
+        for (const SpottedGroundItem &groundItem : m_groundItems)
+        {
+            items.push_back(groundItem.state);
+        }
+
+        return items;
+    }
+
+    std::vector<size_t> collectableSpottedWorldItemIndices() const override
+    {
+        std::vector<size_t> indices;
+
+        for (size_t index = m_groundItems.size(); index-- > 0;)
+        {
+            if (m_groundItems[index].spotted)
+            {
+                indices.push_back(index);
+            }
+        }
+
+        return indices;
+    }
+
+    void unspotWorldItem(size_t worldItemIndex) override
+    {
+        if (worldItemIndex < m_groundItems.size())
+        {
+            m_groundItems[worldItemIndex].spotted = false;
+        }
+    }
+
+    bool worldItemInspectState(
+        size_t worldItemIndex,
+        OpenYAMM::Game::GameplayWorldItemInspectState &state) const override
+    {
+        if (worldItemIndex >= m_groundItems.size())
+        {
+            return false;
+        }
+
+        state = m_groundItems[worldItemIndex].state;
+        return true;
+    }
+
+    bool updateWorldItemInspectState(size_t worldItemIndex, const OpenYAMM::Game::InventoryItem &item) override
+    {
+        if (worldItemIndex >= m_groundItems.size())
+        {
+            return false;
+        }
+
+        m_groundItems[worldItemIndex].state.item = item;
+        return true;
+    }
+
+    bool takeWorldItemInspectState(
+        size_t worldItemIndex,
+        OpenYAMM::Game::GameplayWorldItemInspectState &state) override
+    {
+        if (!worldItemInspectState(worldItemIndex, state))
+        {
+            return false;
+        }
+
+        m_groundItems.erase(m_groundItems.begin() + std::ptrdiff_t(worldItemIndex));
+        return true;
+    }
+
 private:
+    struct SpottedGroundItem
+    {
+        OpenYAMM::Game::GameplayWorldItemInspectState state;
+        bool spotted = false;
+    };
+
+    std::vector<SpottedGroundItem> m_groundItems;
     std::vector<OpenYAMM::Game::GameplayCorpseViewState> m_satchels;
     std::optional<OpenYAMM::Game::GameplayCorpseViewState> m_activeCorpseView;
     OpenYAMM::Game::GameplayActorHitFeedback m_actorHitFeedback;
@@ -5808,11 +5895,12 @@ TEST_CASE("looting every satchel takes all the gold and each item that fits, and
     }
 
     CHECK_EQ(goldSounds, 1u);
-    REQUIRE_EQ(summary.takenItems.size(), 1u);
-    CHECK_EQ(summary.takenItems[0].objectDescriptionId, 1406u);
+    REQUIRE_EQ(summary.items.size(), 1u);
+    CHECK_EQ(summary.items[0].item.objectDescriptionId, 1406u);
+    CHECK_FALSE(summary.items[0].sold);
+    CHECK_EQ(summary.soldItemCount, 0u);
     // Where it went, for the summary to inspect (identify, repair) the item itself.
-    REQUIRE_EQ(summary.takenItemPlaces.size(), 1u);
-    const OpenYAMM::Game::GameplayUiController::LootedItemPlace &place = summary.takenItemPlaces[0];
+    const OpenYAMM::Game::GameplayUiController::LootedItemPlace &place = summary.items[0].place;
     const OpenYAMM::Game::Character *pRecipient = world.party()->member(place.memberIndex);
     REQUIRE(pRecipient != nullptr);
     const OpenYAMM::Game::InventoryItem *pPlaced =
@@ -5826,6 +5914,72 @@ TEST_CASE("looting every satchel takes all the gold and each item that fits, and
     REQUIRE_EQ(world.satchels()[1].items.size(), 1u);
     CHECK_EQ(world.satchels()[1].items[0].itemId, 1407u);
     CHECK_EQ(world.lootableCorpseActorIndices(), std::vector<size_t>{1});
+}
+
+TEST_CASE("gathering spotted ground items: one list of every item taken, the loot filter's sales marked with their "
+          "gold, and the party's own drops kept")
+{
+    const OpenYAMM::Tests::RegressionMapLoader &mapLoader = requireRegressionMapLoader();
+    OpenYAMM::Game::RulesetOptions options;
+    options.preferences.lootFilter =
+        OpenYAMM::Game::rulesetLootFilterWithPreset(OpenYAMM::Game::RulesetLootFilterPreset::VeryStrict);
+    OpenYAMM::Game::MawRules rules(options, OpenYAMM::Game::MawMapLevels{});
+    RecordingGameplayWorldContext world;
+    OpenYAMM::Game::Party &party = *world.party();
+    party.setItemTable(&mapLoader.gameDataLoader.getItemTable());
+    party.setItemEnchantTables(
+        &mapLoader.gameDataLoader.getStandardItemEnchantTable(),
+        &mapLoader.gameDataLoader.getSpecialItemEnchantTable());
+    party.seed(createRegressionPartySeed());
+    party.setRules(&rules.gameRules());
+
+    // A Common weapon of the map's, which Very strict sells; the same weapon the party dropped; a gold pile.
+    const auto groundWeapon = [](bool droppedByPlayer)
+    {
+        OpenYAMM::Game::GameplayWorldItemInspectState state = {};
+        state.item.objectDescriptionId = 1;
+        state.item.width = 1;
+        state.item.height = 1;
+        state.item.rulesetFields.lootRarity = uint8_t(OpenYAMM::Game::MawRarity::Common);
+        state.droppedByPlayer = droppedByPlayer;
+        return state;
+    };
+    OpenYAMM::Game::GameplayWorldItemInspectState pile = {};
+    pile.isGold = true;
+    pile.goldAmount = 100;
+    world.addSpottedGroundItem(groundWeapon(false));
+    world.addSpottedGroundItem(groundWeapon(true));
+    world.addSpottedGroundItem(pile);
+    const int goldBefore = party.gold();
+
+    OpenYAMM::Game::GameplayUiController::LootSummaryOverlayState summary = {};
+    OpenYAMM::Game::lootSpottedWorldItems(world, party, summary);
+
+    CHECK(summary.active);
+    CHECK_EQ(summary.groundItemCount, 3u);
+    // One list in the order taken (the highest index first): the party's own weapon into the bags, then the map's
+    // weapon sold, with its gold.
+    REQUIRE_EQ(summary.items.size(), 2u);
+    CHECK_EQ(summary.soldItemCount, 1u);
+    const OpenYAMM::Game::GameplayUiController::LootedItem &kept = summary.items[0];
+    const OpenYAMM::Game::GameplayUiController::LootedItem &sold = summary.items[1];
+    CHECK_EQ(kept.item.objectDescriptionId, 1u);
+    CHECK_FALSE(kept.sold);
+    CHECK_EQ(kept.soldGold, 0);
+    const OpenYAMM::Game::InventoryItem *pKept = OpenYAMM::Game::InventoryBags::itemInBagAt(
+        *party.member(kept.place.memberIndex), kept.place.bag, kept.place.gridX, kept.place.gridY);
+    REQUIRE(pKept != nullptr);
+    CHECK_EQ(pKept->objectDescriptionId, 1u);
+    CHECK_EQ(sold.item.objectDescriptionId, 1u);
+    CHECK(sold.sold);
+    CHECK_GT(sold.soldGold, 0);
+    // The gold adds up: the pile and the sale, all of it in the party's purse but the followers' share.
+    CHECK_EQ(summary.goldAmount, 100 + sold.soldGold);
+    CHECK_EQ(party.gold() - goldBefore, summary.goldAmount - summary.followerGoldShare);
+    CHECK(summary.leftGroundItems.empty());
+    // Every item is accounted for: nothing is left on the ground, nothing vanished.
+    CHECK(world.groundItems().empty());
+    CHECK_EQ(summary.items.size() + summary.leftGroundItems.size(), 2u);
 }
 
 TEST_CASE("mm7 shoals let a dragon in with a carried wetsuit and still want the others worn")

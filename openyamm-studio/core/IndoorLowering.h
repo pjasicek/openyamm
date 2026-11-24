@@ -590,6 +590,8 @@ struct LoweredIndoorMap
     int sceneCeiling = 1024;
     // An event runs when walked into (wiring `touch: true`): the scene's `party_movement: {touch_faces: run}`.
     bool touchFaces = false;
+    // Native faces of the invisible solids behind fixed decoration models (physical projectile and sight cover).
+    std::set<std::string> decorationCollisionNodes;
     int fogWeakDistance = 4096;
     int fogStrongDistance = 8192;
     // The actor number of the first of `monsters`: 0 for a new map. An overlay project's monsters (objects.yml

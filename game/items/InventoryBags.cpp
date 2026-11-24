@@ -702,7 +702,7 @@ std::vector<uint8_t> carriedBags(const Party &party, int bagCount, bool withPouc
         bags.push_back(uint8_t(bag));
     }
 
-    for (const ItemPouch pouch : {ItemPouch::Alchemy, ItemPouch::Crafting, ItemPouch::Quest})
+    for (const ItemPouch pouch : {ItemPouch::Alchemy, ItemPouch::Crafting, ItemPouch::Quest, ItemPouch::Loot})
     {
         if (withPouches && party.hasPouch(pouch))
         {
@@ -812,8 +812,8 @@ PlacementPreview previewPlaceInBag(
     preview.gridY = gridY;
     const std::optional<ItemPouch> pouch = party.pouchFor(item);
 
-    // An item goes to its pouch wherever it is dropped, and a pouch takes nothing else: no place to show.
-    if (pouch ? bag != pouchBag(*pouch) : isPouchBag(bag))
+    // An item goes to its pouch wherever it is dropped, and a pouch of one kind takes nothing else: no place to show.
+    if (pouch ? bag != pouchBag(*pouch) : isKindPouchBag(bag))
     {
         return preview;
     }

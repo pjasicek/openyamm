@@ -917,7 +917,8 @@ bool GameplayScreenRuntime::soloTalents() const
 
 bool GameplayScreenRuntime::soloHud() const
 {
-    return soloRun() || settingsSnapshot().soloHudPreview;
+    // (A session without settings, as the spell service tests make, has no preview.)
+    return soloRun() || (m_pSettings != nullptr && m_pSettings->soloHudPreview);
 }
 
 const StandardItemEnchantTable *GameplayScreenRuntime::standardItemEnchantTable() const

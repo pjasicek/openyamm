@@ -19,7 +19,8 @@ steps:
   - assert: {qbit_clear: [111100, 111120, 110100, 111241, 112060]}
   # Vertigo Stables (house 4016). The checkpoint is a Monday: Hob lists Rivercity only. The party waits a day for the
   # Tuesday coach to Burlock (route 404, Tuesdays and Saturdays).
-  - set_pose: {map: xeen_x1.odm, x: 768, y: 9212, z: 640, yaw: -1.5708, pitch: 0.0}
+  # the stables' office door (368, 8912) since the classic kit's stables (2026-11-24): 300 north of it, facing it
+  - set_pose: {map: xeen_x1.odm, x: 368, y: 9212, z: 640, yaw: -1.5708, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - press_interact: {expect: {kind: event_target}}
   - assert: {dialog: {action_label_present: "2 days to Rivercity and Lake Darzog for 50 gold"}}

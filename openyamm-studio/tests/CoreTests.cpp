@@ -3190,6 +3190,33 @@ TEST_CASE("a door slides sideways into the wall beside its doorway, or parts in 
     CHECK(hingedPair.lua.find("evt.SetDoorState(2, DoorAction.Trigger)") != std::string::npos);
     CHECK_FALSE(hingedPair.walks({256.0f, 256.0f, 0.0f}, {672.0f, 256.0f, 0.0f}, false));
 
+    // A hinged leaf opens away from whoever opens it, so it swings through the doorway into the other room: its
+    // faces are listed in both rooms (the room behind them is room b), and their kind follows their normal (facet
+    // type 0), so the game draws it while only room b is seen (XD-05's gate leaves, 2026-11-24). One leaf alike.
+    const BuiltMoving hingedOne = buildMoving(DoorRooms, doorObjects("kind: hinged"), DoorWiring);
+    INFO(issueText(hingedOne.rooms));
+    REQUIRE(hingedOne.rooms.built);
+
+    for (const BuiltMoving *pBuilt : {&hingedPair, &hingedOne})
+    {
+        const OpenYAMM::Game::IndoorMapData &map = *pBuilt->loaded.indoor;
+
+        for (const YAML::Node &door : pBuilt->doors)
+        {
+            for (const uint16_t faceId : door["face_ids"].as<std::vector<uint16_t>>())
+            {
+                const OpenYAMM::Game::IndoorFace &face = map.faces[faceId];
+                CHECK(face.facetType == 0);
+                REQUIRE(face.roomBehindNumber != face.roomNumber);
+                REQUIRE(face.roomBehindNumber < map.sectors.size());
+                const std::vector<uint16_t> &behind = map.sectors[face.roomBehindNumber].faceIds;
+                const std::vector<uint16_t> &own = map.sectors[face.roomNumber].faceIds;
+                CHECK(std::find(behind.begin(), behind.end(), faceId) != behind.end());
+                CHECK(std::find(own.begin(), own.end(), faceId) != own.end());
+            }
+        }
+    }
+
     // The wing picture lies on the left leaf as it is and mirrored on the right: the texels of the two leaves'
     // fronts run opposite ways along the wall.
     {
@@ -6286,6 +6313,22 @@ const char *const PlacedRooms =
     "  - {id: open:ab, from: room:a, to: room:b, width: 128, height: 128}\n";
 }
 
+TEST_CASE("a placed indoor monster writes the signed low word of a large experience reward")
+{
+    const std::vector<std::pair<std::string, std::string>> tables = {
+        {"monster_data.txt", std::string(MonsterTableText)
+            + "10049\tHive boss\tBoss\t80\t2000\t40\t100000\t0\t1\tN\tShort\tNormal\t4\t220\t100\n"},
+        {"monster_descriptors.txt", std::string(MonsterDescriptorText) + "10049\tBoss\t200\t60\t220\n"}};
+    const BuiltPlaced built = buildPlaced(PlacedRooms, "format: 0\nstart: {room: room:a, at: [100, 100]}\n"
+        "monsters:\n  - {id: monster:boss, room: room:a, monster: 10049, at: [256, 256]}\n", tables);
+    INFO(issueText(built));
+    REQUIRE(built.built);
+    const auto &actors = built.scene->initialState.actors;
+    REQUIRE(actors.size() == 1);
+    CHECK(actors[0].monsterInfoId == 10049);
+    CHECK(actors[0].monsterId == -31072);
+}
+
 TEST_CASE("placed monsters and items on the floor become the scene's actors and sprite objects")
 {
     const std::string objects =
@@ -6572,6 +6615,59 @@ TEST_CASE("a platform and a wall panel with an id are clicked, and a mover that 
     CHECK(refused("text: Keep out", "text: Keep out",
         "movers:\n  - {id: mover:podium, room: room:a, at: [800, 800], size: [64, 64], height: 112, "
         "travel: [0, 0, 0]}\n").find("write it in rooms.yml as a platform of its room") != std::string::npos);
+}
+
+TEST_CASE("the parts of a clicked platform (part_of) run its click and change with it")
+{
+    // A winch: a drum (clicked), an iron head standing on it and a bar through it (XD-02, 2026-11-24).
+    const std::string rooms =
+        "rooms:\n"
+        "  - id: room:a\n"
+        "    outline: [[0, 0], [1024, 0], [1024, 1024], [0, 1024]]\n"
+        "    floor: 0\n"
+        "    ceiling: 512\n"
+        "    platforms:\n"
+        "      - {id: platform:winch, at: [512, 512], size: [96, 96], rise: 80}\n"
+        "      - {part_of: platform:winch, at: [512, 512], size: [48, 48], base: 80, rise: 28}\n"
+        "    beams:\n"
+        "      - {part_of: platform:winch, path: [[420, 512], [604, 512]], width: 12, depth: 12, bottom: 90}\n"
+        "      - {part_of: platform:winch, path: [[512, 420], [512, 604]], width: 12, depth: 12, bottom: 96}\n";
+    const std::string objects = "format: 0\nstart: {room: room:a, at: [100, 100]}\n";
+    const std::string wiring =
+        "format: 0\nevents:\n"
+        "  - {id: evt:winch, preset: text, source: platform:winch, title: Winch, text: The rope runs out}\n"
+        "  - {id: evt:hide, preset: script, trigger: load, effects: [{hide: platform:winch}]}\n";
+    const BuiltTriggers built = buildTriggers(rooms, objects, wiring);
+    INFO(issueText(built.rooms));
+    REQUIRE(built.rooms.built);
+    size_t clicked = 0;
+    std::set<int> cogs;
+
+    for (const OpenYAMM::Game::IndoorFace &face : built.rooms.map.faces)
+    {
+        if (face.cogTriggered == 1)
+        {
+            ++clicked;
+            CHECK((face.attributes & ClickFlag) == ClickFlag);
+            cogs.insert(face.cogNumber);
+        }
+    }
+
+    // The drum's four sides and top, the head's four sides and top, each bar's six faces: all clicked, all
+    // carrying the one face number the effect hides.
+    CHECK(clicked >= 5 + 5 + 6 + 6 - 4);
+    REQUIRE(cogs.size() == 1);
+    CHECK(*cogs.begin() != 0);
+
+    // A part names a platform that exists, and a platform with an id of its own is no part.
+    const std::string head = "{part_of: platform:winch, at";
+    std::string wrong = rooms;
+    wrong.replace(wrong.find(head), head.size(), "{part_of: platform:drum, at");
+    CHECK(issueText(buildTriggers(wrong, objects, wiring).rooms).find("platform:drum is none") != std::string::npos);
+    std::string named = rooms;
+    named.replace(named.find(head), 1, "{id: platform:head, ");
+    CHECK(issueText(buildTriggers(named, objects, wiring).rooms).find("a platform with an `id` of its own is none")
+        != std::string::npos);
 }
 
 namespace

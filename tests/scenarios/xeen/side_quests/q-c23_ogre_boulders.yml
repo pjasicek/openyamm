@@ -147,7 +147,6 @@ steps:
   - walk_to: {x: -1600, y: 3616, z: 32, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   - walk_to: {x: -2752, y: 3740, z: 32, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   - play_lua: {source: "click(14); wait(0.5)"}
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1}
   - play_lua:
       source: |

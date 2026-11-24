@@ -1027,6 +1027,23 @@ TEST_CASE("a road lies level across its width: its bed follows the land along it
     CHECK(sampleAt(graded, 60, 80) == 640 / 32);
     CHECK(sampleAt(graded, 60, 81) == 640 / 32);
     CHECK(sampleAt(bare, 60, 80) > 640 / 32 + 30);
+    // P4 (X3's Newcastle mirror): a bed that lowers the land by more than two steps beside a fixture is told; a road
+    // whose bed keeps to the land is not.
+    const LoweredOutdoorMap beside = loweredOf(grid + "roads:\n"
+        "  - {link: road:across, line: [[30.5, 40.5], [90.5, 40.5]]}\n"
+        "  - {link: road:cut, line: [[30.5, 80.5], [90.5, 80.5]], bed: [640, 640]}\n"
+        "structures:\n  - {id: thing:mirror, kind: portal, at: [60, 79.6], radius: 112}\n"
+        "  - {id: thing:well, kind: well, at: [60, 39.6]}\n");
+    const auto told = [&beside](const std::string &fragment)
+    {
+        return std::count_if(beside.warnings.begin(), beside.warnings.end(), [&fragment](const std::string &warning)
+        {
+            return warning.find(fragment) != std::string::npos;
+        });
+    };
+    CHECK(told("the bed of road:cut lowers the land") == 1);
+    CHECK(told("within a cell of thing:mirror") == 1);
+    CHECK(told("thing:well") == 0);
     // A bed with the wrong number of heights is refused.
     CHECK(anyIssue(refusedWith(grid + "roads:\n  - {link: road:x, line: [[30.5, 80.5], [90.5, 80.5]], "
         "bed: [640]}\n"), "one height for each of the 2 points"));
@@ -1733,6 +1750,7 @@ TEST_CASE("spawn points and scattered decorations stand on free land, the same p
 // ---- Structures, their events, travel and the rest of the second batch (core/OutdoorThings, OutdoorInstall) ----
 
 #include "core/ChestKinds.h"
+#include "core/Coplanar.h"
 #include "core/OutdoorBuild.h"
 #include "core/OutdoorThings.h"
 #include "game/maps/OutdoorSceneYml.h"
@@ -1743,12 +1761,12 @@ namespace
 {
 // The things of a project with the house of `buildingProject` and what the test adds to the sketch.
 OutdoorThings thingsOf(const std::string &more, std::vector<ProjectIssue> &issues, IdsLock &ids,
-    std::vector<std::string> *pWarnings = nullptr)
+    std::vector<std::string> *pWarnings = nullptr, const OutdoorDoorPictures *pDoorPictures = nullptr)
 {
     const Project project = buildingProject("      - {building: building:home, at: [40, 40], facing: s}\n", more);
     LoweredOutdoorMap lowered;
     std::vector<ProjectIssue> lowering;
-    REQUIRE(lowerOutdoorProject(project, lowered, lowering));
+    REQUIRE(lowerOutdoorProject(project, lowered, lowering, nullptr, {}, pDoorPictures));
     OutdoorThings things;
     std::vector<std::string> warnings;
     OutdoorEventWords words(project, {}, ids, issues);
@@ -2448,6 +2466,32 @@ TEST_CASE("forms: hip and gable roofs on a house with cut corners, a part that t
         "      - {building: building:home, at: [40, 40], facing: s, floor: 704}\n");
     CHECK(terrace.buildings[0].base == 704);
     CHECK(terrace.storedHeightAt(41, 41) == 704);
+    // P4: on a platform a floor off the land's step stands where it is said, the land under it at the step under it
+    // (X2's stalls at 1040 on a court topped at 1040: the land rounded up to 1056 rose through the court's paving).
+    // On the land the floor keeps the nearest step, the land flush with it (D1's town at 1150 on land at 1152).
+    const std::string court = "structures:\n  - {id: thing:court, kind: platform, at: [40.5, 40.5], size: [2048, 2048], "
+        "height: 16}\n";
+
+    for (const int floor : {720, 735, 736 + 16})
+    {
+        const LoweredOutdoorMap offStep = loweredBuildings(
+            "      - {building: building:home, at: [40, 40], facing: s, floor: " + std::to_string(floor) + "}\n", court);
+        CHECK(offStep.buildings[0].base == floor);
+        const LoweredOutdoorMap onLand = loweredBuildings(
+            "      - {building: building:home, at: [40, 40], facing: s, floor: " + std::to_string(floor) + "}\n");
+        CHECK(onLand.buildings[0].base == std::round(floor / 32.0) * 32.0);
+        CHECK(onLand.storedHeightAt(41, 41) == onLand.buildings[0].base);
+
+        for (int y = 40; y <= 41; ++y)
+        {
+            for (int x = 40; x <= 41; ++x)
+            {
+                CHECK(offStep.storedHeightAt(x, y) <= floor);
+                CHECK(offStep.storedHeightAt(x, y) > floor - 32);
+            }
+        }
+    }
+
     CHECK(loweredBuildings("      - {building: building:home, at: [40, 40], facing: s}\n").buildings[0].base == 640);
     // Water under the plot: the plot stands at the water's level unless its floor is said lower (Vertigo's falls
     // building at the cliff's foot, whose plot the high stream reached, stood at the stream's level).
@@ -2518,6 +2562,10 @@ TEST_CASE("forms: a ramp is one sloping slab; a doorway reaches back into the sl
     CHECK(den.maxY - den.minY == 256 + 512);
     CHECK(den.maxX - den.minX == 384);
     CHECK(den.maxZ == 640 + 288);
+    // The hood's roof and cheeks have no backs on the frame's front (P3 2026-11-24, X1's Witch Tower door: they lay
+    // back to back with it).
+    CHECK(findOutdoorBackToBackFaces({den}).empty());
+    CHECK(findOutdoorCoplanarFaces({den}).empty());
 
     // A castle gate of two leaves (X4's, DOORS.md): the door picture once on each half, the right one mirrored; one
     // face more than the gate of one leaf, arched or square.
@@ -2558,6 +2606,88 @@ TEST_CASE("forms: a ramp is one sloping slab; a doorway reaches back into the sl
     CHECK(anyIssue(refused("  - {id: thing:r, kind: stairs, line: [[50, 50], [50.25, 50]], rise: 512, "
         "ramp: true}\n"), "steeper than 45 degrees"));
     CHECK(anyIssue(refused("  - {id: thing:d, kind: doorway, at: [60, 60], depth: 4}\n"), "16 to 2048 deep"));
+}
+
+TEST_CASE("a standalone doorway fits a painting to each leaf in its logical texels")
+{
+    std::vector<ProjectIssue> issues;
+    IdsLock ids;
+    const OutdoorDoorPictures pictures = parseOutdoorDoorPictures(
+        {"textures:\n  panel: {class: feature, door: single, size: [256, 64]}\n"});
+    const OutdoorThings doors = thingsOf("structures:\n"
+        "  - {id: thing:plain, kind: doorway, at: [50, 50], width: 192, height: 288, textures: {door: grate}}\n"
+        "  - {id: thing:furnace, kind: doorway, at: [60, 60], width: 192, height: 288, "
+        "textures: {door: {texture: grate, fit: true, size: [128, 128]}}}\n"
+        "  - {id: thing:pair, kind: doorway, at: [70, 70], width: 384, height: 288, leaves: 2, "
+        "textures: {door: {texture: panel, fit: true, size: [192, 96]}}}\n"
+        "  - {id: thing:classed, kind: doorway, at: [80, 80], width: 192, height: 288, textures: {door: panel}}\n",
+        issues, ids, nullptr, &pictures);
+    REQUIRE(issues.empty());
+    REQUIRE(doors.models.size() == 4);
+    const Game::OutdoorBModelFace &plain = doors.models[0].faces.back();
+    const Game::OutdoorBModelFace &furnace = doors.models[1].faces.back();
+    CHECK(plain.textureUs == std::vector<int16_t>{0, 128, 128, 0});
+    CHECK(plain.textureVs == std::vector<int16_t>{256, 256, 0, 0});
+    CHECK(furnace.textureUs == plain.textureUs);
+    CHECK(furnace.textureVs == std::vector<int16_t>{128, 128, 0, 0});
+
+    const auto &paired = doors.models[2].faces;
+    const auto &left = paired.at(paired.size() - 2);
+    const auto &right = paired.back();
+    CHECK(left.textureUs == std::vector<int16_t>{0, 192, 192, 0});
+    CHECK(right.textureUs == std::vector<int16_t>{192, 0, 0, 192});
+    CHECK(left.textureVs == std::vector<int16_t>{96, 96, 0, 0});
+    CHECK(right.textureVs == left.textureVs);
+    const auto &classed = doors.models[3].faces.back();
+    CHECK(classed.textureUs == std::vector<int16_t>{0, 256, 256, 0});
+    CHECK(classed.textureVs == plain.textureVs);
+
+    for (const char *invalid : {"fit: true", "fit: false, size: [128, 128]", "fit: true, size: [128, 0]"})
+    {
+        issues.clear();
+        thingsOf(std::string("structures:\n  - {id: thing:bad, kind: doorway, at: [60, 60], "
+            "textures: {door: {texture: grate, ") + invalid + "}}}\n", issues, ids);
+        CHECK(anyIssue(issues, "a fitted door picture"));
+    }
+}
+
+TEST_CASE("named wall tiles stay in phase across a doorway hood and its jambs")
+{
+    std::vector<ProjectIssue> issues;
+    IdsLock ids;
+    const OutdoorThings doors = thingsOf("wall_tiles: {iron: [256, 64]}\nstructures:\n"
+        "  - {id: thing:furnace, kind: doorway, at: [27, 25], width: 192, height: 288, depth: 384, hood: 96, "
+        "textures: {wall: iron, door: {texture: grate, fit: true, size: [128, 128]}}}\n", issues, ids);
+    REQUIRE(issues.empty());
+    REQUIRE(doors.models.size() == 1);
+    const auto &model = doors.models.front();
+    size_t walls = 0;
+    for (const auto &face : model.faces)
+    {
+        if (face.textureName == "iron" && face.polygonType == 1)
+        {
+            ++walls;
+            for (size_t i = 0; i < face.vertexIndices.size(); ++i)
+            {
+                const auto &point = model.vertices[face.vertexIndices[i]];
+                const int u = point.y * (face.planeNormalX / 65536) - point.x * (face.planeNormalY / 65536);
+                CHECK((face.textureUs[i] - u) % 256 == 0);
+                CHECK((face.textureVs[i] + point.z) % 64 == 0);
+            }
+        }
+    }
+    CHECK(walls >= 8);
+    CHECK(model.faces.back().textureUs == std::vector<int16_t>{0, 128, 128, 0});
+    CHECK(model.faces.back().textureVs == std::vector<int16_t>{128, 128, 0, 0});
+
+    for (const std::string bad : {"[]", "{iron: [256, 0]}", "{iron: [256.25, 64]}"})
+    {
+        issues.clear();
+        LoweredOutdoorMap lowered;
+        const Project project = buildingProject("", "wall_tiles: " + bad + "\n");
+        CHECK_FALSE(lowerOutdoorProject(project, lowered, issues));
+        CHECK(anyIssue(issues, "wall"));
+    }
 }
 
 namespace
@@ -2786,6 +2916,140 @@ TEST_CASE("a model of a shipped map is taken by name to where the sketch says, w
     std::filesystem::remove_all(root, error);
 }
 
+TEST_CASE("P3: a humped bridge's ends meet land that falls across them within 32 on every side")
+{
+    // The land rises about 48 a cell to the south over the rows 52 to 68 (a grid 8 cells apart: 256, 640, 1024),
+    // across a bridge running east 1024 wide: D4's Snow River bridge (+33 and +43 at a kerb when its ends stood 16
+    // over the land's middle).
+    std::string grid = "heights:\n  grid:\n    step: 8\n    unit: 64\n    rows:\n";
+
+    for (int y = 0; y < 16; ++y)
+    {
+        grid += "      - [";
+
+        for (int x = 0; x < 16; ++x)
+        {
+            grid += (x == 0 ? "" : ", ") + std::to_string(y == 6 ? 4 : y == 8 ? 16 : 10);
+        }
+
+        grid += "]\n";
+    }
+
+    Project project = buildingProject("      - {building: building:home, at: [40, 40], facing: s}\n",
+        "structures:\n  - {id: thing:bridge, kind: bridge, line: [[20, 60], [28, 60]], width: 1024, rise: 32}\n");
+    ProjectFile &sketch = project.files["sketch.yml"];
+    REQUIRE(sketch.text.find(LevelLand) != std::string::npos);
+    sketch.text.replace(sketch.text.find(LevelLand), std::string(LevelLand).size(), grid);
+    sketch.document = YAML::Load(sketch.text);
+    LoweredOutdoorMap lowered;
+    std::vector<ProjectIssue> issues;
+    REQUIRE(lowerOutdoorProject(project, lowered, issues));
+    IdsLock ids;
+    OutdoorEventWords words(project, {}, ids, issues);
+    OutdoorThings things;
+    std::vector<std::string> warnings;
+    raiseOutdoorThings(project, lowered, {}, ids, words, things, issues, warnings);
+    REQUIRE(issues.empty());
+    REQUIRE(things.models.size() == 1);
+    const Game::OutdoorBModel *pBridge = &things.models[0];
+
+    for (const double end : {20.0, 28.0})
+    {
+        // The deck's top at the end (its highest corner there), and the land 24 beyond it at its middle and a
+        // quarter of its width each side, as tools/xeen/town_fit_check.py `bridges.step` reads them.
+        const int endX = static_cast<int>(std::lround((end - 64.0) * 512.0));
+        int deck = -(1 << 30);
+
+        for (const Game::OutdoorBModelVertex &vertex : pBridge->vertices)
+        {
+            deck = vertex.x == endX ? std::max(deck, vertex.z) : deck;
+        }
+
+        const double beyond = end + (end < 24.0 ? -24.0 : 24.0) / 512.0;
+        double lowest = 1.0e9;
+        double highest = -1.0e9;
+
+        for (const double across : {-0.5, 0.0, 0.5})
+        {
+            const double land = lowered.groundHeightAt(beyond, 60.0 + across);
+            CAPTURE(end);
+            CAPTURE(across);
+            CHECK(std::fabs(deck - land) <= 32.0);
+            lowest = std::min(lowest, land);
+            highest = std::max(highest, land);
+        }
+
+        // Steep enough that 16 over the middle would leave more than 32 on the low side.
+        CHECK(highest - lowest > 40.0);
+    }
+}
+
+TEST_CASE("P3: drop_overlaps drops of a taken model's faces lying on each other the smaller of each two")
+{
+    // A sail laid both ways (front and back on the same corners) with a patch on its front: as MM7's Lady Catherine
+    // (Nystor's ship on Xeen's X2), whose hull boards and trim lie back to back and two trims on each other.
+    const std::filesystem::path root = std::filesystem::temp_directory_path() / "oymap_outdoor_drop_overlaps_root";
+    std::error_code error;
+    std::filesystem::create_directories(root / "worlds" / "mm8" / "maps", error);
+    Game::OutdoorMapData source = testMap();
+    source.decorationMap.assign(Side * Side, 0);
+    Game::OutdoorBModel sail;
+    sail.name = "sail";
+    sail.vertices = {{0, 0, 600}, {256, 0, 600}, {256, 0, 856}, {0, 0, 856}, {64, 0, 664}, {192, 0, 664},
+        {192, 0, 792}, {64, 0, 792}};
+
+    for (const std::array<uint16_t, 4> &corners : {std::array<uint16_t, 4>{0, 1, 2, 3},
+        std::array<uint16_t, 4>{3, 2, 1, 0}, std::array<uint16_t, 4>{4, 5, 6, 7}})
+    {
+        Game::OutdoorBModelFace face;
+        face.vertexIndices.assign(corners.begin(), corners.end());
+        face.textureName = "t06b01";
+        face.textureUs.assign(4, 0);
+        face.textureVs.assign(4, 0);
+        sail.faces.push_back(face);
+    }
+
+    source.bmodels = {sail};
+    const std::optional<std::vector<uint8_t>> bytes = Game::OutdoorMapDataWriter().buildBytes(source);
+    REQUIRE(bytes);
+    std::string writeError;
+    REQUIRE(writeBinaryFileAtomically(root / "worlds" / "mm8" / "maps" / "src.odm", *bytes, writeError));
+    const auto raised = [&root](const std::string &structures, std::vector<ProjectIssue> &issues)
+    {
+        const Project project = buildingProject("      - {building: building:home, at: [40, 40], facing: s}\n",
+            "structures:\n" + structures);
+        LoweredOutdoorMap lowered;
+        std::vector<ProjectIssue> lowering;
+        REQUIRE(lowerOutdoorProject(project, lowered, lowering));
+        IdsLock ids;
+        OutdoorEventWords words(project, root, ids, issues);
+        OutdoorThings things;
+        std::vector<std::string> warnings;
+        raiseOutdoorThings(project, lowered, root, ids, words, things, issues, warnings);
+        return things;
+    };
+    std::vector<ProjectIssue> issues;
+    const OutdoorThings whole = raised("  - {id: thing:s, kind: model, from: {map: src.odm, models: [sail]}}\n",
+        issues);
+    REQUIRE(issues.empty());
+    REQUIRE(whole.models.size() == 1);
+    CHECK(whole.models[0].faces.size() == 3);
+    CHECK(findOutdoorBackToBackFaces({whole.models[0]}).size() == 2);
+    CHECK(findOutdoorCoplanarFaces({whole.models[0]}).size() == 1);
+    const OutdoorThings dropped = raised("  - {id: thing:s, kind: model, from: {map: src.odm, models: [sail]}, "
+        "drop_overlaps: true}\n", issues);
+    REQUIRE(issues.empty());
+    REQUIRE(dropped.models.size() == 1);
+    // The patch (smaller than the front) and the back (as large as the front, and the later) are dropped.
+    REQUIRE(dropped.models[0].faces.size() == 1);
+    CHECK(dropped.models[0].faces[0].vertexIndices.size() == 4);
+    CHECK(findOutdoorBackToBackFaces({dropped.models[0]}).empty());
+    CHECK(findOutdoorCoplanarFaces({dropped.models[0]}).empty());
+    raised("  - {id: thing:s, kind: model, from: {map: src.odm, models: [sail]}, drop_overlaps: some}\n", issues);
+    CHECK(anyIssue(issues, "`drop_overlaps: true` drops"));
+    std::filesystem::remove_all(root, error);
+}
+
 TEST_CASE("a door behind a condition; a chest that opens with its key; a part with a name and a click of its own")
 {
     Project project = buildingProject(
@@ -2876,7 +3140,11 @@ TEST_CASE("events nobody clicks: on entering, by the clock, a floor stepped on; 
     std::filesystem::create_directories(root / "engine" / "data_tables", error);
     {
         std::ofstream decorations(root / "engine" / "data_tables" / "decoration_data.txt");
-        decorations << "#\tName\n13\tparty start\n101\ttree12\n102\ttree37\n";
+        decorations << "#\tName\n13\tparty start\n101\ttree12\n";
+        const auto world = root / "worlds" / "mm8";
+        std::filesystem::create_directories(world);
+        std::ofstream(world / "world.yml") << "tableContributions: [{table: decorations, mode: append, path: trees.txt}]\n";
+        std::ofstream(world / "trees.txt") << "102\ttree37\n";
         // The tile table of the test land is not there: the build reads it with an asset root.
     }
     const std::string house = "      - {building: building:home, at: [40, 40], facing: s, house: 904, hidden: true}\n";
@@ -6984,6 +7252,41 @@ TEST_CASE("O-A: scatter groups, a click on every decoration, things on water and
         "  - {id: b, group: 5, decoration: tree12, count: 1, circle: {at: [20, 20], r: 3}}\n", "already the group");
 }
 
+TEST_CASE("a scatter support radius preserves the calibrated sites when the decoration cylinder is removed")
+{
+    const auto sites = [](int tableRadius, const std::string &support)
+    {
+        const Project project = buildingProject(HomePlot, "scatter:\n  - {decoration: vase, count: 75, spacing: 0.5, "
+            "polygon: [[70, 70], [100, 70], [100, 100], [70, 100]]" + support + "}\n");
+        std::vector<ProjectIssue> issues;
+        LoweredOutdoorMap ground;
+        REQUIRE(lowerOutdoorProject(project, ground, issues));
+        // Level shelves separated by slopes. Radius 65 rejects placements that a point can occupy.
+        for (int y = 69; y <= 101; ++y)
+        {
+            for (int x = 69; x <= 101; ++x)
+            {
+                ground.samples[y * OutdoorNodeCount + x] = x % 8 < 4 ? 20 : 32;
+            }
+        }
+        const std::string table = "1\tnothing\t\n101\tvase\tVase\t0\t" + std::to_string(tableRadius) + "\n";
+        OutdoorPlaces places;
+        std::vector<std::string> warnings;
+        REQUIRE(placeOutdoorThings(project, ground, table, places, issues, warnings));
+        std::vector<std::array<int, 2>> points;
+        for (const OutdoorPlacedDecoration &decoration : places.decorations)
+        {
+            points.push_back({decoration.x, decoration.y});
+        }
+        return points;
+    };
+    const auto calibrated = sites(65, "");
+    REQUIRE(calibrated.size() == 75);
+    CHECK(sites(0, "") != calibrated);
+    CHECK(sites(0, ", support_radius: 65") == calibrated);
+    CHECK(sites(65, ", support_radius: 0") == sites(0, ""));
+}
+
 TEST_CASE("O-A: a stand of mixed kinds, spacing across entries, a share closer, a thinned rim; clumps keep a cell")
 {
     const std::string table = "#\tInternalName\tHint\n1\tnothing\t\n101\ttree12\ttree\n102\ttree37\ttree\n";
@@ -7391,6 +7694,84 @@ TEST_CASE("O-C: a bridge on arches: soffits, spandrels and piers to the land, as
         "no `piers`");
 }
 
+TEST_CASE("an arched bridge beds both ends and its centre pier across a slope while both vaults stay open")
+{
+    const Project project = buildingProject("", "structures:\n  - {id: thing:bridge, kind: bridge, "
+        "line: [[40, 60], [52, 60]], width: 1536, height: 1536, thickness: 64, "
+        "arches: {spans: [1024, 1024], rise: 256, pier_width: 1024}}\n");
+    LoweredOutdoorMap ground;
+    std::vector<ProjectIssue> issues;
+    REQUIRE(lowerOutdoorProject(project, ground, issues));
+    for (int y = 58; y <= 62; ++y)
+    {
+        for (int x = 40; x <= 52; ++x)
+        {
+            ground.samples[y * OutdoorNodeCount + x] = static_cast<uint8_t>(32 - 4 * (y - 58));
+        }
+    }
+    // Two hollows lie inside the supports. The third lies outside the bridge, so the east minimum is exactly
+    // halfway down a terrain edge, below every footprint corner and every terrain vertex inside that footing.
+    ground.samples[61 * OutdoorNodeCount + 41] = 4;
+    ground.samples[61 * OutdoorNodeCount + 46] = 7;
+    ground.samples[62 * OutdoorNodeCount + 50] = 4;
+    IdsLock ids;
+    OutdoorEventWords words(project, {}, ids, issues);
+    OutdoorThings things;
+    std::vector<std::string> warnings;
+    REQUIRE(raiseOutdoorThings(project, ground, {}, ids, words, things, issues, warnings));
+    const Game::OutdoorBModel *bridge = onlyModel(things, issues);
+    REQUIRE(bridge != nullptr);
+    using Vertex = Game::OutdoorBModelVertex;
+    const auto range = [&](const Game::OutdoorBModelFace &face, int Vertex::*coordinate)
+    {
+        const auto [lo, hi] = std::minmax_element(face.vertexIndices.begin(), face.vertexIndices.end(),
+            [&](uint16_t a, uint16_t b) { return bridge->vertices[a].*coordinate < bridge->vertices[b].*coordinate; });
+        return std::array<int, 2>{bridge->vertices[*lo].*coordinate, bridge->vertices[*hi].*coordinate};
+    };
+    const auto worldX = [](int cell) { return (cell - 64) * 512; };
+    const std::array<int, 2> across = {1280, 2816};
+    struct Support { int from, to, bottom; };
+    for (const Support &support : {Support{40, 43, 32}, Support{45, 47, 128}, Support{49, 52, 288}})
+    {
+        CAPTURE(support.from);
+        const std::array<int, 2> along = {worldX(support.from), worldX(support.to)};
+        int ends = 0, sides = 0;
+        for (const auto &face : bridge->faces)
+        {
+            const auto x = range(face, &Vertex::x), y = range(face, &Vertex::y);
+            if (y == across && x[0] == x[1] && (x[0] == along[0] || x[0] == along[1]))
+                ++ends;
+            else if (x == along && y[0] == y[1] && (y[0] == across[0] || y[0] == across[1])
+                     && face.planeNormalZ == 0)
+                ++sides;
+            else
+                continue;
+            CHECK(range(face, &Vertex::z)[0] == support.bottom);
+            CHECK(std::count_if(face.vertexIndices.begin(), face.vertexIndices.end(),
+                [&](uint16_t i) { return bridge->vertices[i].z == support.bottom; }) == 2);
+        }
+        CHECK(ends == 2);
+        CHECK(sides == 2);
+    }
+    // A vertical ray under each crown still sees the two original soffit panels at deck height minus thickness.
+    for (int x : {worldX(44), worldX(48)})
+    {
+        int hits = 0;
+        for (const auto &face : bridge->faces)
+        {
+            const auto span = range(face, &Vertex::x);
+            if (face.planeNormalZ < 0 && span[0] <= x && x <= span[1] && range(face, &Vertex::y) == across)
+            {
+                const double z = -(double(face.planeNormalX) * x + double(face.planeNormalY) * 2048
+                    + face.planeDistance) / face.planeNormalZ;
+                CHECK(z == doctest::Approx(1472).epsilon(0.0002));
+                ++hits;
+            }
+        }
+        CHECK(hits == 2);
+    }
+}
+
 TEST_CASE("O-C: a sagging footbridge with rope rails and end towers, as Harmondale's NewOut2Bridge_")
 {
     std::vector<ProjectIssue> issues;
@@ -7551,6 +7932,51 @@ TEST_CASE("O-C: a cave mouth set back behind a ledge: the rim a recess narrowing
     CHECK(pCave->minY == doctest::Approx(front).epsilon(0.001));
     const CaveBuild refused = caveBuild("  - {id: thing:cave, kind: cave_mouth, at: [50, 50], mouth: {ledge: 64}}\n");
     CHECK(anyIssue(refused.issues, "a ledge needs a setback"));
+}
+
+TEST_CASE("P4: a rough cave mouth's shell has no two faces on each other, whatever its seed")
+{
+    // X5's xd10_north: roughness moved two points of one ring past each other where the footprint's side flattens
+    // them into one plane, and the quad between them folded onto itself (two faces of the shell on each other).
+    // Where the rim reaches the footprint's corner, a shaken ring of the corner's column stood on the rim's jamb; two
+    // cuts a unit apart (the front's and the footprint edge's) made sliver faces that folded over their neighbours.
+    size_t builds = 0;
+    size_t found = 0;
+
+    for (const char *pShape : {"size: [576, 1536], crest: 480, mouth: {width: 448, height: 384, depth: 75, rim: 64}",
+             "size: [1536, 1536], crest: 480, mouth: {width: 448, height: 384, depth: 75}",
+             "size: [1024, 1024], crest: 736, mouth: {width: 512, height: 384, depth: 256}",
+             "size: [1024, 1280], free: true, crest: 400, mouth: {width: 256, height: 256, depth: 128}"})
+    {
+        for (const char *pRoughness : {"0", "0.4", "0.7", "1"})
+        {
+            for (int seed = 1; seed <= 60; ++seed)
+            {
+                const CaveBuild build = caveBuild("  - {id: thing:xd10_north, kind: cave_mouth, at: [50, 50], "
+                    + std::string(pShape) + ", roughness: " + pRoughness + ", seed: " + std::to_string(seed)
+                    + ", title: In, into: {map: d49.blv}}\n",
+                    "  ridges:\n    - {line: [[44, 47], [56, 47]], height: 1600, width: 1}\n");
+                REQUIRE(build.issues.empty());
+                const Game::OutdoorBModel *pCave = modelNamed(build.things, "thing:xd10_north");
+                REQUIRE(pCave != nullptr);
+                const size_t pairs = findOutdoorCoplanarFaces({*pCave}).size()
+                    + findOutdoorBackToBackFaces({*pCave}).size();
+
+                if (pairs > 0)
+                {
+                    const std::string what = std::string(pShape) + " roughness " + pRoughness + " seed "
+                        + std::to_string(seed) + ": " + std::to_string(pairs);
+                    MESSAGE(what);
+                }
+
+                found += pairs;
+                ++builds;
+            }
+        }
+    }
+
+    CHECK(builds == 960);
+    CHECK(found == 0);
 }
 
 // ---- Masses and roofs (outdoor code batch O-D): domes, batter and buttresses, roofs to the ground, terraces and
@@ -8034,6 +8460,37 @@ TEST_CASE("O-D: a battered town wall, one whose top follows the land, round and 
     }
 
     CHECK(highest == 640 + 256);
+
+    // An arched gate in a wall whose top follows the land: the lintel over the arch starts at the arch's apex, so
+    // nothing stands across the gate under it (it went down into the land: Burlock's village wall, X4, 2026-11-24).
+    std::vector<ProjectIssue> gateIssues;
+    const OutdoorThings gated = thingsOf("structures:\n  - {id: thing:wall, kind: wall, line: [[50, 50], [56, 50]], "
+        "height: 448, thickness: 128, top: follow, gates: [{at: [53, 50], width: 512, height: 384, arch: round}]}\n",
+        gateIssues, ids);
+    const Game::OutdoorBModel *pGated = onlyModel(gated, gateIssues);
+    REQUIRE(pGated != nullptr);
+    const int gateX = (53 - 64) * 512;
+    size_t across = 0;
+
+    for (const Game::OutdoorBModelFace &face : pGated->faces)
+    {
+        int minX = 1 << 30;
+        int maxX = -(1 << 30);
+        int minZ = 1 << 30;
+        int maxZ = -(1 << 30);
+
+        for (const uint16_t index : face.vertexIndices)
+        {
+            minX = std::min(minX, pGated->vertices[index].x);
+            maxX = std::max(maxX, pGated->vertices[index].x);
+            minZ = std::min(minZ, pGated->vertices[index].z);
+            maxZ = std::max(maxZ, pGated->vertices[index].z);
+        }
+
+        across += minX < gateX && maxX > gateX && minZ < 640 + 100 && maxZ > 640 + 100 ? 1 : 0;
+    }
+
+    CHECK(across == 0);
 
     std::vector<ProjectIssue> padIssues;
     const OutdoorThings pad = thingsOf("structures:\n  - {id: thing:pad, kind: platform, at: [50, 50], sides: 8, "
@@ -9749,6 +10206,17 @@ TEST_CASE("S8d: a chamfered platform, a culvert's grating, a tent with a door un
     REQUIRE(dark.size() == 1);
     CHECK(bars.front()->cogTriggeredNumber == dark[0]->cogTriggeredNumber);
     CHECK(findOutdoorCoplanarFaces({*pOutfall}).empty());
+    // P3 2026-11-24: the upright bars' feet 2 under the water (12 over the floor), not on its plane (X1's outfall).
+    CHECK(findOutdoorBackToBackFaces({*pOutfall}).empty());
+    int barFoot = 1 << 30;
+
+    for (const Game::OutdoorBModelFace *pBar : bars)
+    {
+        barFoot = std::min(barFoot, heightsOf(*pOutfall, *pBar)[0]);
+    }
+
+    // The dark face stands on the water.
+    CHECK(barFoot == heightsOf(*pOutfall, *dark[0])[0] - 2);
     // The tent's door on its closed front carries the house; the canvas says "Tent"; a hip, no gable triangle.
     const std::vector<const Game::OutdoorBModelFace *> door = facesWith(*pTent, "t14a03");
     REQUIRE(door.size() == 1);
@@ -9849,6 +10317,65 @@ TEST_CASE("S8d: audit names a solid decoration in a doorway's way, not one besid
     }
 
     CHECK(found == 1);
+}
+
+TEST_CASE("P3: audit names a table across a doorway's way out (XD-14's great hall), not one clear of it or low")
+{
+    // XD-14's kennels door: a portal 224 wide in the kennels' face of a wall 128 thick (x 1408 to 1536), its jambs
+    // through the wall, and the hall's long table 64 high and 64 off the wall running across the opening's width.
+    const auto mapWith = [](int tableNorth, int tableHigh, uint32_t attributes)
+    {
+        LoadedMap map;
+        map.world = "xeen";
+        map.indoor = Game::IndoorMapData();
+        Game::IndoorMapData &indoor = *map.indoor;
+        const auto quad = [&indoor](std::array<std::array<int, 3>, 4> corners, bool isPortal, uint32_t bits)
+        {
+            Game::IndoorFace face;
+            face.isPortal = isPortal;
+            face.attributes = bits;
+            face.roomNumber = 12;
+            face.roomBehindNumber = isPortal ? 16 : 12;
+
+            for (const std::array<int, 3> &corner : corners)
+            {
+                face.vertexIndices.push_back(static_cast<uint16_t>(indoor.vertices.size()));
+                indoor.vertices.push_back({corner[0], corner[1], corner[2]});
+            }
+
+            indoor.faces.push_back(face);
+        };
+        quad({{{1536, 944, 0}, {1536, 720, 0}, {1536, 720, 320}, {1536, 944, 320}}}, true, 0);
+        quad({{{1408, 720, 0}, {1536, 720, 0}, {1536, 720, 320}, {1408, 720, 320}}}, false, 0);
+        quad({{{1536, 944, 0}, {1408, 944, 0}, {1408, 944, 320}, {1536, 944, 320}}}, false, 0);
+        quad({{{1344, tableNorth, tableHigh}, {1344, -128, tableHigh}, {1344, -128, 0}, {1344, tableNorth, 0}}}, false,
+            attributes);
+        return map;
+    };
+    const auto found = [](const LoadedMap &map)
+    {
+        size_t count = 0;
+
+        for (const AuditFinding &finding : auditLooks(map, "", {}))
+        {
+            if (finding.code == "face.in_doorway")
+            {
+                ++count;
+                CHECK(finding.severity == "error");
+                CHECK(finding.message.find("face 3 ") != std::string::npos);
+            }
+        }
+
+        return count;
+    };
+    // Across the opening: the party's middle gets 155 out, short of the jambs' 128 and its radius.
+    CHECK(found(mapWith(896, 64, 0)) == 1);
+    // Clear of the opening's width and the party's radius (as rebuilt); low enough to step on; a wall one sees.
+    CHECK(found(mapWith(656, 64, 0)) == 0);
+    CHECK(found(mapWith(896, 48, 0)) == 0);
+    CHECK(found(mapWith(896, 320, 0)) == 0);
+    // Not drawn and as high: an invisible wall.
+    CHECK(found(mapWith(896, 320, Game::faceAttributeBit(Game::FaceAttribute::Invisible))) == 1);
 }
 
 TEST_CASE("Xeen dressing: audit keeps containers off doors, doorways and walking lines, by walls, clumps in storerooms")
@@ -10161,6 +10688,90 @@ TEST_CASE("Xeen dressing outdoors: house doors, the walking line between them, h
 
     CHECK(found["dressing.door"].empty());
     CHECK(found["dressing.walking_line"].empty());
+}
+
+TEST_CASE("F40 prop overlap: barrels drawn into each other and into a wall, an item inside one, a model's outline")
+{
+    // A room (floor at 0, x and y 0-1000) with a wall along its north side (y 1000).
+    LoadedMap map;
+    map.world = "xeen";
+    map.fileName = "xeen_test.blv";
+    map.indoor = Game::IndoorMapData();
+    Game::IndoorMapData &indoor = *map.indoor;
+    const auto face = [&indoor](const std::vector<Game::IndoorVertex> &points, const std::array<int32_t, 3> &normal)
+    {
+        Game::IndoorFace added;
+
+        for (const Game::IndoorVertex &point : points)
+        {
+            added.vertexIndices.push_back(static_cast<uint16_t>(indoor.vertices.size()));
+            indoor.vertices.push_back(point);
+        }
+
+        added.textureName = "stone";
+        added.planeNormal = normal;
+        indoor.faces.push_back(added);
+    };
+    face({{0, 0, 0}, {1000, 0, 0}, {1000, 1000, 0}, {0, 1000, 0}}, {0, 0, 65536});
+    face({{0, 1000, 0}, {0, 1000, 300}, {1000, 1000, 300}, {1000, 1000, 0}}, {0, -65536, 0});
+    const auto entity = [](const char *pName, int x, int y)
+    {
+        Game::IndoorEntity placed;
+        placed.name = pName;
+        placed.x = x;
+        placed.y = y;
+        return placed;
+    };
+    // 0 and 1 drawn 20 into each other; 2 standing 20 in the wall; 3 and 4 kegs 15 apart, whose model is drawn 60
+    // round them.
+    indoor.entities = {entity("bigbarel", 300, 300), entity("bigbarel", 340, 300), entity("bigbarel", 500, 990),
+        entity("keg", 700, 500), entity("keg", 775, 500)};
+    // A treasure inside barrel 1.
+    Game::IndoorSpawn treasure;
+    treasure.x = 355;
+    treasure.y = 300;
+    treasure.typeId = 2;
+    indoor.spawns.push_back(treasure);
+    PropOverlapData data;
+    data.decorationTableText = "Decoration Data\n#\tInternalName\tHint\tType\tRadius\tHeight\tLightRadius\tLightRed\t"
+        "LightGreen\tLightBlue\tSoundId\tFlags\tSpriteId\n"
+        "1\tbigbarel\tbarrel\t0\t30\t40\t0\t0\t0\t0\t0\t0\t100\n"
+        "2\tkeg\tkeg\t0\t30\t40\t0\t0\t0\t0\t0\t0\t100\n";
+    const auto findings = [&map, &data]()
+    {
+        std::map<std::string, std::vector<std::string>> found;
+
+        for (const AuditFinding &finding : auditPropOverlap(map, data, std::string()))
+        {
+            found[finding.code + " " + finding.severity].push_back(
+                finding.message.substr(0, finding.message.find(' ', 11)));
+        }
+
+        return found;
+    };
+    std::map<std::string, std::vector<std::string>> found = findings();
+    CHECK(found["prop.overlap error"] == std::vector<std::string>{"decoration 0"});
+    CHECK(found["prop.wall error"] == std::vector<std::string>{"decoration 2"});
+    CHECK(found["item.hidden error"] == std::vector<std::string>{"treasure spawn"});
+    CHECK(found["prop.squeeze warning"] == std::vector<std::string>{"decoration 3"});
+
+    // The kegs' model (a square 3 across, 1 high, bound 40 high): drawn 60 round each, into each other.
+    data.bindingTexts = {"decorations:\n  - {name: keg, model: keg.glb, height: 40}\n"};
+    data.readModel = [](const std::string &model) -> std::optional<PropModelShape>
+    {
+        if (model != "keg.glb")
+        {
+            return std::nullopt;
+        }
+
+        PropModelShape shape;
+        shape.height = 1.0;
+        shape.outlines.fill({{-1.5, -1.5}, {1.5, -1.5}, {1.5, 1.5}, {-1.5, 1.5}});
+        return shape;
+    };
+    found = findings();
+    CHECK(found["prop.overlap error"] == std::vector<std::string>{"decoration 0", "decoration 3"});
+    CHECK(found["prop.squeeze warning"].empty());
 }
 
 TEST_CASE("Xeen prop support: a barrel over a terrace's edge, one in the air, a chest of the wrong pieces")
@@ -10651,4 +11262,286 @@ TEST_CASE("F28: a gate or a bridge's head whose road tiles are centred off its m
     REQUIRE(centred != std::string::npos);
     CHECK(std::abs(std::stoi(off[0].substr(centred + 11)) - 256) <= 16);
     CHECK(off[1].find("gates.road_off: thing:bridge (its last head)") == 0);
+}
+
+TEST_CASE("a decoration stands on its rotated bearing points on the two native terrain triangles")
+{
+    LoweredOutdoorMap map;
+    std::vector<ProjectIssue> issues;
+    const Project layout = buildingProject("", "decoration_feet: {arch: [[128, 0, 8], [-128, 0, 0]]}\n");
+    REQUIRE(lowerOutdoorProject(layout, map, issues));
+    const auto sample = [](int x, int y) { return y * OutdoorNodeCount + x; };
+    std::fill(map.samples.begin(), map.samples.end(), 0);
+    map.samples[sample(20, 20)] = 0;
+    map.samples[sample(21, 20)] = 20;
+    map.samples[sample(20, 21)] = 4;
+    map.samples[sample(21, 21)] = 8;
+    CHECK(map.decorationGroundAt("other", 20.5, 20.5, 0) == doctest::Approx(128));
+    CHECK(map.decorationGroundAt("arch", 20.5, 20.5, 0) == doctest::Approx(96));
+    // After the turn the foot of the arch at the lower side still stands above the empty space at its middle.
+    CHECK(map.decorationGroundAt("arch", 20.5, 20.5, 90) == doctest::Approx(160));
+    CHECK(map.decorationGroundAt("arch", 20.5, 20.5, 180) == doctest::Approx(88));
+    std::vector<ProjectIssue> invalidIssues;
+    CHECK_FALSE(lowerOutdoorProject(buildingProject("", "decoration_feet: {arch: []}\n"), map, invalidIssues));
+    CHECK(anyIssue(invalidIssues, "foot offsets"));
+}
+
+TEST_CASE("explicit decoration feet meet the rounded terrain across subdivisions and keep level ground")
+{
+    LoweredOutdoorMap map;
+    map.decorationFeet["stone"] = {{0, 0, 0}};
+    map.samples.assign(OutdoorNodeCount * OutdoorNodeCount, 10);
+    for (int y = 0; y < OutdoorNodeCount; ++y)
+    {
+        map.samples[y * OutdoorNodeCount + 21] = 18;
+        map.samples[y * OutdoorNodeCount + 22] = 42;
+    }
+    // The ODM stores x=20.43 at cell 20.4296875. The seven-subdivision triangle sits lowest there in this
+    // 0, 0, 256, 1024 rise above the plateau. The continuous curve and the four/eight meshes all differ.
+    CHECK(map.decorationGroundAt("other", 20.43, 30.25, 0) == doctest::Approx(430.08));
+    CHECK(map.decorationGroundAt("stone", 20.43, 30.25, 0) == doctest::Approx(401.6661).epsilon(0.000003));
+    CHECK(map.decorationGroundAt("stone", 40.43, 30.25, 0) == doctest::Approx(320));
+    CHECK(map.decorationGroundAt("stone", 128, -1, 0) == doctest::Approx(320));
+}
+
+// ---- Collision of decorations drawn as 3D models (`collision: model`, 2026-11-24: Xeen's world hull) ----
+
+#include "core/OutdoorDecorationCollision.h"
+
+namespace
+{
+// A box from (-1, 0, -0.25) to (1, 1, 0.25) in glTF units as a binary glTF: 8 corners, 12 triangles.
+void writeBoxGlb(const std::filesystem::path &path, float height = 1.0f)
+{
+    std::array<float, 24> corners = {-1, 0, -0.25f, 1, 0, -0.25f, 1, 1, -0.25f, -1, 1, -0.25f,
+        -1, 0, 0.25f, 1, 0, 0.25f, 1, 1, 0.25f, -1, 1, 0.25f};
+    for (size_t i = 1; i < corners.size(); i += 3)
+    {
+        corners[i] *= height;
+    }
+    const std::array<uint16_t, 36> indices = {0, 2, 1, 0, 3, 2, 4, 5, 6, 4, 6, 7, 0, 1, 5, 0, 5, 4,
+        3, 7, 6, 3, 6, 2, 0, 4, 7, 0, 7, 3, 1, 2, 6, 1, 6, 5};
+    std::string binary(reinterpret_cast<const char *>(corners.data()), sizeof(corners));
+    binary.append(reinterpret_cast<const char *>(indices.data()), sizeof(indices));
+    std::string json = "{\"asset\":{\"version\":\"2.0\"},\"scene\":0,\"scenes\":[{\"nodes\":[0]}],"
+        "\"nodes\":[{\"mesh\":0,\"name\":\"box\"}],\"meshes\":[{\"name\":\"box\",\"primitives\":[{\"attributes\":"
+        "{\"POSITION\":0},\"indices\":1}]}],\"buffers\":[{\"byteLength\":" + std::to_string(binary.size()) + "}],"
+        "\"bufferViews\":[{\"buffer\":0,\"byteOffset\":0,\"byteLength\":96},{\"buffer\":0,\"byteOffset\":96,"
+        "\"byteLength\":72}],\"accessors\":[{\"bufferView\":0,\"componentType\":5126,\"count\":8,\"type\":\"VEC3\","
+        "\"min\":[-1,0,-0.25],\"max\":[1,1,0.25]},{\"bufferView\":1,\"componentType\":5123,\"count\":36,"
+        "\"type\":\"SCALAR\"}]}";
+    json.append((4 - json.size() % 4) % 4, ' ');
+    const uint32_t total = 12 + 8 + static_cast<uint32_t>(json.size()) + 8 + static_cast<uint32_t>(binary.size());
+    std::ofstream out(path, std::ios::binary);
+    const auto word = [&out](uint32_t value)
+    {
+        out.write(reinterpret_cast<const char *>(&value), 4);
+    };
+    word(0x46546C67u);
+    word(2);
+    word(total);
+    word(static_cast<uint32_t>(json.size()));
+    word(0x4E4F534Au);
+    out << json;
+    word(static_cast<uint32_t>(binary.size()));
+    word(0x004E4942u);
+    out << binary;
+}
+}
+
+TEST_CASE("decoration collision: a `collision: model` binding raises the model's hidden triangles where it is drawn")
+{
+    const std::filesystem::path root = std::filesystem::temp_directory_path() / "oymap_decoration_collision";
+    std::filesystem::remove_all(root);
+    std::filesystem::create_directories(root / "engine" / "models");
+    std::filesystem::create_directories(root / "worlds" / "w" / "models");
+    writeBoxGlb(root / "engine" / "models" / "box.glb");
+    {
+        std::ofstream engine(root / "engine" / "models" / "decorations.yml");
+        engine << "decorations:\n  - {name: plate, model: engine/models/box.glb, height: 100, yaw: facing}\n"
+                  "  - {name: crate, model: engine/models/box.glb, height: 100, yaw: facing, collision: model}\n";
+        std::ofstream world(root / "worlds" / "w" / "models" / "decorations.yml");
+        world << "decorations:\n  - {name: plate, model: engine/models/box.glb, height: 100, yaw: facing, "
+                 "collision: model}\n";
+    }
+
+    std::vector<OutdoorPlacedDecoration> placed(4);
+    placed[0].name = "plate";
+    placed[1].name = "crate";
+    placed[2].name = "crate";
+    placed[3].name = "tree";
+
+    for (OutdoorPlacedDecoration &decoration : placed)
+    {
+        decoration.x = 1000;
+        decoration.y = 2000;
+        decoration.z = 500;
+        decoration.facing = 90;
+    }
+
+    std::vector<std::string> warnings;
+    const std::vector<Game::OutdoorBModel> models = raiseDecorationCollision(root, "w", "m",
+        placed, {"thing:plate", "thing:crate", "thing:hidden_crate", "thing:tree"}, {false, false, true, false},
+        warnings);
+    // The world's plate (its entry replaces the engine's) and the shown crate; not the hidden one, not the tree.
+    REQUIRE(models.size() == 2);
+    CHECK(warnings.empty());
+    CHECK(models[0].name == "collision:thing:plate");
+    CHECK(models[0].faces.size() == 12);
+
+    for (const Game::OutdoorBModelFace &face : models[0].faces)
+    {
+        CHECK(Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::Invisible));
+    }
+
+    // 100 high (the binding's height over the model's 1), turned by its facing (90): the model's 2-wide x runs
+    // along the map's y, its 0.5-deep z along x.
+    CHECK(models[0].minZ == 500);
+    CHECK(models[0].maxZ == 600);
+    CHECK(models[0].maxX - models[0].minX == 50);
+    CHECK(models[0].maxY - models[0].minY == 200);
+    CHECK(models[0].minY == 1900);
+    std::filesystem::remove_all(root);
+}
+
+TEST_CASE("static decoration model proxies use the visual scale and opt only permanent scatter into collision")
+{
+    const auto root = std::filesystem::temp_directory_path() / "oymap_test_collision_proxy";
+    std::filesystem::create_directories(root / "worlds/w/models");
+    writeBoxGlb(root / "worlds/w/models/show.glb");
+    writeBoxGlb(root / "worlds/w/models/body.glb", 0.5f);
+    const std::string row = "{name: rock, model: worlds/w/models/show.glb, height: 100, yaw: facing, collision: model, "
+        "collision_model: worlds/w/models/body.glb";
+    {
+        std::ofstream outdoor(root / "worlds/w/models/decorations.yml");
+        outdoor << "decorations:\n  - " << row << ", collision_scatter: true}\n"
+            "  - {name: plant, model: worlds/w/models/show.glb, height: 100, collision: model}\n";
+        std::ofstream indoor(root / "worlds/w/models/indoor_decorations.yml");
+        indoor << "decorations:\n  - " << row << ", maps: [room.blv]}\n";
+    }
+    std::vector<std::string> warnings;
+    OutdoorPlacedDecoration rock;
+    rock.name = "rock";
+    OutdoorPlacedDecoration plant;
+    plant.name = "plant";
+    const auto models = raiseDecorationCollision(root, "w", "out", {}, {}, {}, warnings, {rock, plant});
+    REQUIRE(models.size() == 1);
+    CHECK(models[0].maxZ == 50);
+    DecorationCollisionModels room(root, "w", "room", true);
+    const auto vertices = room.place("rock", 0, 0, 10, 0, false, warnings);
+    REQUIRE(vertices.size() == 36);
+    CHECK(std::max_element(vertices.begin(), vertices.end(), [](const auto &a, const auto &b)
+        { return a[2] < b[2]; })->at(2) == 60);
+    DecorationCollisionModels elsewhere(root, "w", "other", true);
+    CHECK(elsewhere.place("rock", 0, 0, 0, 0, false, warnings).empty());
+    CHECK(warnings.empty());
+    std::filesystem::remove_all(root);
+}
+
+TEST_CASE("decoration collision: `collision_model: lod` raises the coarsest LOD, placed by the base mesh's height")
+{
+    const auto root = std::filesystem::temp_directory_path() / "oymap_test_collision_lod";
+    std::filesystem::remove_all(root);
+    std::filesystem::create_directories(root / "worlds/w/models");
+    {
+        // Mesh 0 (the node's): the box 1 high, its extras naming LODs 1 and 2; mesh 2 (the coarsest): the lower half
+        // of the box's front face, two triangles.
+        std::array<float, 24> corners = {-1, 0, -0.25f, 1, 0, -0.25f, 1, 1, -0.25f, -1, 1, -0.25f,
+            -1, 0, 0.25f, 1, 0, 0.25f, 1, 1, 0.25f, -1, 1, 0.25f};
+        const std::array<float, 12> card = {-1, 0, 0, 1, 0, 0, 1, 0.5f, 0, -1, 0.5f, 0};
+        const std::array<uint16_t, 36> indices = {0, 2, 1, 0, 3, 2, 4, 5, 6, 4, 6, 7, 0, 1, 5, 0, 5, 4,
+            3, 7, 6, 3, 6, 2, 0, 4, 7, 0, 7, 3, 1, 2, 6, 1, 6, 5};
+        std::string binary(reinterpret_cast<const char *>(corners.data()), sizeof(corners));
+        binary.append(reinterpret_cast<const char *>(card.data()), sizeof(card));
+        binary.append(reinterpret_cast<const char *>(indices.data()), sizeof(indices));
+        std::string json = "{\"asset\":{\"version\":\"2.0\"},\"scene\":0,\"scenes\":[{\"nodes\":[0]}],"
+            "\"nodes\":[{\"mesh\":0,\"name\":\"rock\"}],\"meshes\":["
+            "{\"name\":\"rock\",\"extras\":{\"openyamm_lods\":[1,2]},\"primitives\":[{\"attributes\":"
+            "{\"POSITION\":0},\"indices\":2}]},"
+            "{\"name\":\"rock_lod1\",\"primitives\":[{\"attributes\":{\"POSITION\":0},\"indices\":2}]},"
+            "{\"name\":\"rock_lod2\",\"primitives\":[{\"attributes\":{\"POSITION\":1},\"indices\":3}]}],"
+            "\"buffers\":[{\"byteLength\":" + std::to_string(binary.size()) + "}],"
+            "\"bufferViews\":[{\"buffer\":0,\"byteOffset\":0,\"byteLength\":96},{\"buffer\":0,\"byteOffset\":96,"
+            "\"byteLength\":48},{\"buffer\":0,\"byteOffset\":144,\"byteLength\":72}],"
+            "\"accessors\":[{\"bufferView\":0,\"componentType\":5126,\"count\":8,\"type\":\"VEC3\","
+            "\"min\":[-1,0,-0.25],\"max\":[1,1,0.25]},{\"bufferView\":1,\"componentType\":5126,\"count\":4,"
+            "\"type\":\"VEC3\",\"min\":[-1,0,0],\"max\":[1,0.5,0]},{\"bufferView\":2,\"componentType\":5123,"
+            "\"count\":36,\"type\":\"SCALAR\"},{\"bufferView\":2,\"componentType\":5123,\"count\":6,"
+            "\"type\":\"SCALAR\"}]}";
+        json.append((4 - json.size() % 4) % 4, ' ');
+        const uint32_t total = 12 + 8 + uint32_t(json.size()) + 8 + uint32_t(binary.size());
+        std::ofstream out(root / "worlds/w/models/rock.glb", std::ios::binary);
+        const auto word = [&out](uint32_t value)
+        {
+            out.write(reinterpret_cast<const char *>(&value), 4);
+        };
+        word(0x46546C67u);
+        word(2);
+        word(total);
+        word(uint32_t(json.size()));
+        word(0x4E4F534Au);
+        out << json;
+        word(uint32_t(binary.size()));
+        word(0x004E4942u);
+        out << binary;
+    }
+    writeBoxGlb(root / "worlds/w/models/hull.glb");
+    {
+        std::ofstream outdoor(root / "worlds/w/models/decorations.yml");
+        outdoor << "decorations:\n"
+            "  - {name: rock, model: worlds/w/models/rock.glb, height: 100, yaw: facing, collision: model, "
+            "collision_model: lod, collision_scatter: true}\n"
+            "  - {name: hull, model: worlds/w/models/hull.glb, height: 100, yaw: facing, collision: model, "
+            "collision_model: lod}\n";
+    }
+    OutdoorPlacedDecoration rock;
+    rock.name = "rock";
+    rock.z = 10;
+    OutdoorPlacedDecoration hull;
+    hull.name = "hull";
+    std::vector<std::string> warnings;
+    // The scattered rock (it asks for collision_scatter) and the hull structure, which has no LODs: its whole box.
+    const auto models = raiseDecorationCollision(root, "w", "out", {hull}, {"thing:hull"}, {false}, warnings, {rock});
+    CHECK(warnings.empty());
+    REQUIRE(models.size() == 2);
+    CHECK(models[0].name == "collision:thing:hull");
+    CHECK(models[0].faces.size() == 12);
+    CHECK(models[0].maxZ == 100);
+    CHECK(models[1].name == "collision:scatter_0");
+    // The coarsest LOD's two triangles, scaled by the base mesh's height 1 (100 world units per unit): 50 high.
+    CHECK(models[1].faces.size() == 2);
+    CHECK(models[1].minZ == 10);
+    CHECK(models[1].maxZ == 60);
+    std::filesystem::remove_all(root);
+}
+
+#include "core/MapLoad.h"
+#include "game/outdoor/OutdoorGeometryUtils.h"
+
+TEST_CASE("void audit: a hull decoration's hidden collision over the void is no finding, another model is")
+{
+    LoadedMap map;
+    map.outdoor = Game::OutdoorMapData{};
+    map.outdoor->voidCells.assign(size_t(Game::OutdoorMapData::TerrainWidth) * Game::OutdoorMapData::TerrainHeight, 0);
+    // The cell holding the map's middle is void.
+    const int cellX = static_cast<int>(std::floor(Game::outdoorWorldToGridXFloat(0.0f)));
+    const int cellY = static_cast<int>(std::floor(Game::outdoorWorldToGridYFloat(0.0f)));
+    map.outdoor->voidCells[size_t(cellY) * Game::OutdoorMapData::TerrainWidth + size_t(cellX)] = 1;
+    const auto modelAt = [](const std::string &name)
+    {
+        Game::OutdoorBModel model;
+        model.name = name;
+        model.minX = -100;
+        model.maxX = 100;
+        model.minY = -100;
+        model.maxY = 100;
+        return model;
+    };
+    map.outdoor->bmodels = {modelAt("collision:thing:hull_001"), modelAt("thing:crate")};
+    Game::OutdoorEntity hull;
+    hull.name = "xeen_hull4";
+    map.outdoor->entities = {hull};
+    const std::vector<AuditFinding> findings = auditVoid(map);
+    REQUIRE(findings.size() == 1);
+    CHECK(findings[0].message.find("thing:crate") != std::string::npos);
 }

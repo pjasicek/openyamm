@@ -8484,12 +8484,12 @@ std::vector<double> outdoorBayEdges(const OutdoorPartPlan &part, size_t wall, bo
     return edges;
 }
 
-Game::OutdoorBModel raiseOutdoorBuilding(OutdoorBuildingPlan &plan)
+Game::OutdoorBModel raiseOutdoorBuilding(OutdoorBuildingPlan &plan, const OutdoorWallTiles *pWallTiles)
 {
     Game::OutdoorBModel model;
     model.name = plan.id;
     model.secondaryName = plan.id;
-    OutdoorModelBuilder builder(model);
+    OutdoorModelBuilder builder(model, pWallTiles);
 
     plan.faceParts.clear();
 

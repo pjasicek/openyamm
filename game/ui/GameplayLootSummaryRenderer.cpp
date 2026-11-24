@@ -1,5 +1,6 @@
 #include "game/ui/GameplayLootSummaryRenderer.h"
 #include "engine/Localization.h"
+#include "engine/Utf8Text.h"
 
 #include "game/items/InventoryBags.h"
 #include "game/items/ItemRuntime.h"
@@ -29,16 +30,22 @@ constexpr float ColumnGap = 4.0f;
 constexpr float ScrollbarRoom = 6.0f;
 constexpr float IconSize = 18.0f;
 constexpr int WheelRows = 3;
+// A sold item's icon, dimmed.
+constexpr uint8_t SoldIconAlpha = 110;
 // The HUD's gold icon (gameplay.yml OutdoorGoldIcon) in front of the gold amount.
 constexpr const char *GoldIconAsset = "scorebg_gold";
 constexpr float GoldIconWidth = 19.733333f;
 constexpr float GoldIconHeight = 14.4f;
+// The gold icon in front of a sold item's gold, smaller than the summary's own.
+constexpr float RowCoinScale = 0.75f;
 
-// An item of the list, and where it went in the bags (none for one left in its satchel).
+// An item of the list, and where it went in the bags (none for one left behind or sold), or the gold the loot filter
+// sold it for.
 struct SummaryEntry
 {
     const InventoryItem *pItem = nullptr;
     const GameplayUiController::LootedItemPlace *pPlace = nullptr;
+    std::optional<int> soldGold;
 };
 
 // A line of the list: a header across both columns, or up to two items.
@@ -48,38 +55,59 @@ struct SummaryLine
     std::array<SummaryEntry, 2> entries = {};
 };
 
-void appendItemLines(const std::vector<InventoryItem> &items,
-    const std::vector<GameplayUiController::LootedItemPlace> *pPlaces, std::vector<SummaryLine> &lines)
+void appendEntryLines(const std::vector<SummaryEntry> &entries, std::vector<SummaryLine> &lines)
 {
-    const auto entry = [&items, pPlaces](size_t index) -> SummaryEntry
-    {
-        if (index >= items.size())
-        {
-            return {};
-        }
-
-        return {&items[index], pPlaces != nullptr && index < pPlaces->size() ? &(*pPlaces)[index] : nullptr};
-    };
-
-    for (size_t index = 0; index < items.size(); index += 2)
+    for (size_t index = 0; index < entries.size(); index += 2)
     {
         SummaryLine line;
-        line.entries = {entry(index), entry(index + 1)};
+        line.entries = {entries[index], index + 1 < entries.size() ? entries[index + 1] : SummaryEntry{}};
         lines.push_back(line);
     }
+}
+
+void appendItemLines(const std::vector<InventoryItem> &items, std::vector<SummaryLine> &lines)
+{
+    std::vector<SummaryEntry> entries;
+
+    for (const InventoryItem &item : items)
+    {
+        entries.push_back({&item, nullptr, std::nullopt});
+    }
+
+    appendEntryLines(entries, lines);
+}
+
+std::string groupedNumber(int value)
+{
+    std::string digits = std::to_string(std::abs(value));
+
+    for (int index = int(digits.size()) - 3; index > 0; index -= 3)
+    {
+        digits.insert(size_t(index), ",");
+    }
+
+    return value < 0 ? "-" + digits : digits;
 }
 
 std::vector<SummaryLine> buildLines(const GameplayUiController::LootSummaryOverlayState &state)
 {
     std::vector<SummaryLine> lines;
-    appendItemLines(state.takenItems, &state.takenItemPlaces, lines);
+    std::vector<SummaryEntry> looted;
+
+    for (const GameplayUiController::LootedItem &item : state.items)
+    {
+        looted.push_back(item.sold ? SummaryEntry{&item.item, nullptr, item.soldGold}
+                                   : SummaryEntry{&item.item, &item.place, std::nullopt});
+    }
+
+    appendEntryLines(looted, lines);
 
     if (!state.leftItems.empty())
     {
         SummaryLine header;
         header.header = Engine::tr("Left in satchels: no room in the bags");
         lines.push_back(header);
-        appendItemLines(state.leftItems, nullptr, lines);
+        appendItemLines(state.leftItems, lines);
     }
 
     if (!state.leftGroundItems.empty())
@@ -87,7 +115,7 @@ std::vector<SummaryLine> buildLines(const GameplayUiController::LootSummaryOverl
         SummaryLine header;
         header.header = Engine::tr("Left on the ground: no room in the bags");
         lines.push_back(header);
-        appendItemLines(state.leftGroundItems, nullptr, lines);
+        appendItemLines(state.leftGroundItems, lines);
     }
 
     return lines;
@@ -116,18 +144,6 @@ float maximumScroll(size_t lineCount, const Rect &list)
     return std::max(0.0f, float(lineCount) * RowHeight - visibleHeight);
 }
 
-std::string groupedNumber(int value)
-{
-    std::string digits = std::to_string(std::abs(value));
-
-    for (int index = int(digits.size()) - 3; index > 0; index -= 3)
-    {
-        digits.insert(size_t(index), ",");
-    }
-
-    return value < 0 ? "-" + digits : digits;
-}
-
 
 // The rules' rarity colour (0xRRGGBB) as the label's ABGR, else the list's ivory.
 uint32_t itemNameColor(const GameplayScreenRuntime &context, const InventoryItem &item)
@@ -143,6 +159,49 @@ uint32_t itemNameColor(const GameplayScreenRuntime &context, const InventoryItem
 }
 
 // The gold amount centred with the HUD's gold icon in front of it.
+// The text cut with an ellipsis to fit the width (pixels), measured with the layout element's font and scale.
+std::string fittedText(GameplayScreenRuntime &context, const char *pStyleId, const std::string &value, float available,
+    float scale)
+{
+    const UiLayoutManager::LayoutElement *pStyle = context.findHudLayoutElement(pStyleId);
+
+    if (pStyle == nullptr)
+    {
+        return value;
+    }
+
+    const float textScale = scale * std::max(0.1f, pStyle->textScale);
+    const auto widthOf = [&](const std::string &text)
+    {
+        return context.measureHudTextWidth(pStyle->fontName, text) * textScale;
+    };
+
+    if (widthOf(value) <= available)
+    {
+        return value;
+    }
+
+    std::string result = value;
+
+    while (result.size() > 1)
+    {
+        // A whole character: shown names may be translated into letters of several bytes.
+        Engine::Utf8::popBack(result);
+
+        while (!result.empty() && result.back() == ' ')
+        {
+            result.pop_back();
+        }
+
+        if (widthOf(result + "...") <= available)
+        {
+            return result + "...";
+        }
+    }
+
+    return result;
+}
+
 void renderGold(GameplayScreenRuntime &context, const GameplayBenchPainter &painter, int goldAmount,
     int followerGoldShare)
 {
@@ -195,17 +254,22 @@ void GameplayLootSummaryRenderer::render(GameplayScreenRuntime &context, int wid
     painter.label("LootSummaryTitle", Engine::tr("Map Looted"));
     const std::string satchels = Engine::trn("{count} satchel", "{count} satchels", state.satchelCount,
         {{"count", state.satchelCount}});
-    const std::string items = Engine::trn("{count} item", "{count} items", state.takenItems.size(),
-        {{"count", state.takenItems.size()}});
+    const size_t keptCount = state.items.size() - state.soldItemCount;
+    const std::string items = Engine::trn("{count} item", "{count} items", keptCount, {{"count", keptCount}});
     const std::string groundItems = Engine::trn("{count} ground item", "{count} ground items", state.groundItemCount,
         {{"count", state.groundItemCount}});
+    // Only spotted ground items are sold here: the satchels' drops were filtered when they were rolled.
     painter.label("LootSummaryOverview",
         state.groundItemCount == 0 ? Engine::tr("{satchels} emptied, {items} taken",
             {{"satchels", satchels}, {"items", items}})
-        : state.satchelCount == 0 ? Engine::tr("{ground} picked up, {items} taken",
+        : state.satchelCount == 0 && state.soldItemCount == 0 ? Engine::tr("{ground} picked up, {items} taken",
             {{"ground", groundItems}, {"items", items}})
-        : Engine::tr("{satchels} emptied, {ground} picked up, {items} taken",
-            {{"satchels", satchels}, {"ground", groundItems}, {"items", items}}));
+        : state.satchelCount == 0 ? Engine::tr("{ground} picked up: {kept} kept, {sold} sold",
+            {{"ground", groundItems}, {"kept", keptCount}, {"sold", state.soldItemCount}})
+        : state.soldItemCount == 0 ? Engine::tr("{satchels} emptied, {ground} picked up, {items} taken",
+            {{"satchels", satchels}, {"ground", groundItems}, {"items", items}})
+        : Engine::tr("{satchels} emptied, {ground} picked up: {kept} kept, {sold} sold",
+            {{"satchels", satchels}, {"ground", groundItems}, {"kept", keptCount}, {"sold", state.soldItemCount}}));
     renderGold(context, painter, state.goldAmount, state.followerGoldShare);
 
     if (const std::optional<Rect> list = painter.rect("LootSummaryList"))
@@ -265,12 +329,39 @@ void GameplayLootSummaryRenderer::render(GameplayScreenRuntime &context, int wid
                     painter.fill(cell, GameplayBenchColors::HoverColor);
                 }
 
+                // An item the loot filter sold is dimmed, with the gold icon and its gold at the row's end.
+                float priceWidth = 0.0f;
+
+                if (entry.soldGold)
+                {
+                    const std::string price = groupedNumber(*entry.soldGold);
+
+                    if (const UiLayoutManager::LayoutElement *pPriceStyle =
+                            context.findHudLayoutElement("LootSummaryRowPrice"))
+                    {
+                        const float textWidth = std::ceil(
+                            context.measureHudTextWidth(pPriceStyle->fontName, price) * s * pPriceStyle->textScale);
+                        const float coinWidth = GoldIconWidth * RowCoinScale * s;
+                        const float coinHeight = GoldIconHeight * RowCoinScale * s;
+                        priceWidth = coinWidth + textWidth + 9 * s;
+                        GameplayUiSkin::renderTexture(context, GoldIconAsset,
+                            {std::round(cell.x + cell.width - priceWidth + 3 * s),
+                                std::round(cell.y + (cell.height - coinHeight) * 0.5f), coinWidth, coinHeight, s});
+                        // Right-aligned over the whole row, so that the font's snapped scale never clips it.
+                        painter.text("LootSummaryRowPrice", {cell.x + (IconSize + 6) * s, cell.y,
+                            cell.width - (IconSize + 8) * s, cell.height, s}, price);
+                    }
+                }
+
                 painter.itemIcon(pDefinition,
-                    {cell.x + 2 * s, cell.y + (RowHeight - IconSize) * 0.5f * s, IconSize * s, IconSize * s, s});
+                    {cell.x + 2 * s, cell.y + (RowHeight - IconSize) * 0.5f * s, IconSize * s, IconSize * s, s},
+                    entry.soldGold ? SoldIconAlpha : 255);
                 const std::string name = ItemRuntime::displayName(
                     *pItem, *pDefinition, context.standardItemEnchantTable(), context.specialItemEnchantTable());
-                painter.text("LootSummaryRowLabel", {cell.x + (IconSize + 6) * s, cell.y,
-                    cell.width - (IconSize + 8) * s, cell.height, s}, name, itemNameColor(context, *pItem));
+                const float nameWidth = cell.width - (IconSize + 8) * s - priceWidth;
+                painter.text("LootSummaryRowLabel", {cell.x + (IconSize + 6) * s, cell.y, nameWidth, cell.height, s},
+                    fittedText(context, "LootSummaryRowLabel", name, nameWidth, s),
+                    entry.soldGold ? GameplayBenchColors::DisabledTextColor : itemNameColor(context, *pItem));
 
                 // An item in the bags inspects as the inventory's own: right-click identifies or repairs it when
                 // the party can.

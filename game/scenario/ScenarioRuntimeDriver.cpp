@@ -224,6 +224,9 @@ struct ScenarioGameApplicationAccess
         // Standard keeps potions and quest items in the members' bags, as its scenarios expect, whatever the local
         // Party pouches setting (unit tests cover the pouches: *party pouches*).
         application.m_settings.partyPouches = false;
+        // Looted items go to the bags in every ruleset, as the MAW scenarios expect, whatever the local New loot pouch
+        // setting (unit tests cover the loot pouch: *loot pouch*).
+        application.m_settings.lootPouch = false;
         // Scenarios check the combat log (the combat_log step) in every ruleset and world.
         application.m_settings.combatLog = CombatLogMode::On;
         // A scenario's `pin` never lands in the player's pin inbox, which the Map Studio imports.
@@ -1427,6 +1430,36 @@ bool ScenarioRuntimeDriver::advanceMovementFrame(
     return true;
 }
 
+namespace
+{
+// The party's body (IndoorWorldRuntime's PartyCollisionRadius/Height) on the walker's routes: it steps up stairs as a
+// walker does and may drop from any ledge.
+PathObject scenarioPartyPathObject()
+{
+    PathObject object = {};
+    object.radius = 37.0f;
+    object.height = 192.0f;
+    object.stepLength = 32.0f;
+    object.stepHeight = 40.0f;
+    object.dropHeight = 2048.0f;
+    object.riserHeight = 80.0f;
+    return object;
+}
+
+// The indoor path map the walker plans and steers on; none outdoors or before it is built.
+std::shared_ptr<const PathMap> scenarioIndoorPathMap(GameApplication &application)
+{
+    IMapSceneRuntime *pSceneRuntime = ScenarioGameApplicationAccess::mapSceneRuntime(application);
+
+    if (pSceneRuntime == nullptr || pSceneRuntime->kind() != SceneKind::Indoor)
+    {
+        return nullptr;
+    }
+
+    return static_cast<IndoorSceneRuntime *>(pSceneRuntime)->worldRuntime().currentIndoorPathMap();
+}
+}
+
 std::vector<ScenarioPose> ScenarioRuntimeDriver::planWalkRoute(
     const ScenarioPose &from,
     const ScenarioPose &to,
@@ -1441,8 +1474,7 @@ std::vector<ScenarioPose> ScenarioRuntimeDriver::planWalkRoute(
         return {to};
     }
 
-    const std::shared_ptr<const PathMap> pathMap =
-        static_cast<IndoorSceneRuntime *>(pSceneRuntime)->worldRuntime().currentIndoorPathMap();
+    const std::shared_ptr<const PathMap> pathMap = scenarioIndoorPathMap(m_application);
 
     if (pathMap == nullptr)
     {
@@ -1450,17 +1482,10 @@ std::vector<ScenarioPose> ScenarioRuntimeDriver::planWalkRoute(
         return {to};
     }
 
-    // The party's body (IndoorWorldRuntime's PartyCollisionRadius/Height); it steps up stairs as a walker does and
-    // may drop from any ledge.
     PathPlanRequest request = {};
     request.source = {from.x, from.y, from.z};
     request.target = {to.x, to.y, to.z};
-    request.object.radius = 37.0f;
-    request.object.height = 192.0f;
-    request.object.stepLength = 32.0f;
-    request.object.stepHeight = 40.0f;
-    request.object.dropHeight = 2048.0f;
-    request.object.riserHeight = 80.0f;
+    request.object = scenarioPartyPathObject();
     request.nodeLimit = nodeLimit;
     request.sourceSnapDistance = 96.0f;
     request.allowPartialPath = true;
@@ -1929,6 +1954,8 @@ bool ScenarioRuntimeDriver::walkTo(const ScenarioWalkRequest &request, ScenarioW
     constexpr float SidestepSeconds = 0.8f;
     constexpr float SteerLookahead = 96.0f;
     constexpr float StuckLookahead = 400.0f;
+    // A waypoint this close is passed whether or not the next one is in a straight line.
+    constexpr float WaypointReach = 24.0f;
     constexpr float LookaheadBoostSeconds = 3.0f;
     constexpr size_t MaxStuckInOnePlace = 12;
     // A move further than this in one frame on the same map is a teleport, not a step.
@@ -2094,9 +2121,21 @@ bool ScenarioRuntimeDriver::walkTo(const ScenarioWalkRequest &request, ScenarioW
 
         // Steers at a point a little ahead on the route (further when stuck): a slide along a round decoration the
         // path map does not hold carries the party round it, where aiming at its middle stops it dead.
+        // On a planned indoor route it looks past a waypoint only at one it can walk to straight (the path map's body
+        // test): a route rounds the end of a thin obstacle (an open door leaf, XD-26's fence door, 2026-11-24) with
+        // no room to spare, and aiming past the corner slid the party along the obstacle into the wrong corner. Stuck,
+        // it aims further regardless, round what the path map does not hold.
         const float lookahead = lookaheadBoostLeft > 0.0f ? StuckLookahead : SteerLookahead;
+        const std::shared_ptr<const PathMap> steerMap = request.plan && route.size() > 1 && lookaheadBoostLeft <= 0.0f
+            ? scenarioIndoorPathMap(m_application)
+            : nullptr;
         while (routeIndex + 1 < route.size()
-            && std::hypot(route[routeIndex].x - pose.x, route[routeIndex].y - pose.y) <= lookahead)
+            && std::hypot(route[routeIndex].x - pose.x, route[routeIndex].y - pose.y) <= lookahead
+            && (steerMap == nullptr
+                || std::hypot(route[routeIndex].x - pose.x, route[routeIndex].y - pose.y) <= WaypointReach
+                || steerMap->canReachDirectly({pose.x, pose.y, pose.z},
+                    {route[routeIndex + 1].x, route[routeIndex + 1].y, route[routeIndex + 1].z},
+                    scenarioPartyPathObject())))
         {
             ++routeIndex;
         }
@@ -3311,7 +3350,7 @@ std::optional<BagItemRef> findCarriedItem(const Party &party, size_t memberIndex
 
     std::vector<uint8_t> bags = {pMember->rulesetState.currentBag};
 
-    for (const ItemPouch pouch : {ItemPouch::Alchemy, ItemPouch::Crafting, ItemPouch::Quest})
+    for (const ItemPouch pouch : {ItemPouch::Alchemy, ItemPouch::Crafting, ItemPouch::Quest, ItemPouch::Loot})
     {
         if (party.hasPouch(pouch))
         {

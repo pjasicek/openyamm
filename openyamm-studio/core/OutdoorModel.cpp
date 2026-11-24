@@ -97,8 +97,9 @@ bool outdoorSlopeWalkable(double rise, double run)
     return normalZ >= WalkableNormalZ;
 }
 
-OutdoorModelBuilder::OutdoorModelBuilder(Game::OutdoorBModel &model)
+OutdoorModelBuilder::OutdoorModelBuilder(Game::OutdoorBModel &model, const OutdoorWallTiles *pWallTiles)
     : m_model(model)
+    , m_pWallTiles(pWallTiles)
 {
 }
 
@@ -145,11 +146,31 @@ int OutdoorModelBuilder::addFace(
         face.cogTriggeredNumber = event;
     }
 
+    std::vector<std::array<double, 2>> tiled;
+    // A turned vault's vertical end can tilt by a fraction of a degree when its curved edge is rounded to units.
+    if (std::fabs(normal[2]) < 0.001 && m_pWallTiles != nullptr && m_pWallTiles->contains(texture))
+    {
+        // The authored plane is shared even when rounding the native vertices slightly changes each bay's normal.
+        const OutdoorModelPoint authored = normalOf(points, length);
+        const OutdoorModelPoint &plane = oy::hypot(authored[0], authored[1]) > 1.0e-6 ? authored : normal;
+        const double horizontal = oy::hypot(plane[0], plane[1]);
+        const double rightX = -plane[1] / horizontal;
+        const double rightY = plane[0] / horizontal;
+        const auto &repeat = m_pWallTiles->at(texture);
+        // Subtract whole periods at the first vertex so distant structures fit the native signed 16-bit texels.
+        const double baseU = std::round((points.front()[0] * rightX + points.front()[1] * rightY) / repeat[0]) * repeat[0];
+        const double baseV = std::round(-points.front()[2] / repeat[1]) * repeat[1];
+        for (const OutdoorModelPoint &point : points)
+        {
+            tiled.push_back({point[0] * rightX + point[1] * rightY - baseU, -point[2] - baseV});
+        }
+    }
+    const auto &surfaceTexels = tiled.empty() ? texels : tiled;
     for (size_t index = 0; index < points.size(); ++index)
     {
         face.vertexIndices.push_back(vertexOf(points[index]));
-        face.textureUs.push_back(texel(texels[index][0]));
-        face.textureVs.push_back(texel(texels[index][1]));
+        face.textureUs.push_back(texel(surfaceTexels[index][0]));
+        face.textureVs.push_back(texel(surfaceTexels[index][1]));
     }
 
     face.textureName = texture;
@@ -236,7 +257,8 @@ void OutdoorModelBuilder::addPrism(
     const std::string &sideTexture,
     const std::string &topTexture,
     const std::string &bottomTexture,
-    uint16_t event)
+    uint16_t event,
+    int leaveOut)
 {
     const size_t count = outline.size();
     std::vector<OutdoorModelPoint> top;
@@ -246,8 +268,13 @@ void OutdoorModelBuilder::addPrism(
     {
         const std::array<double, 2> &from = outline[index];
         const std::array<double, 2> &to = outline[(index + 1) % count];
-        addSurface({{from[0], from[1], low}, {to[0], to[1], low}, {to[0], to[1], high}, {from[0], from[1], high}},
-            sideTexture, event);
+
+        if (static_cast<int>(index) != leaveOut)
+        {
+            addSurface({{from[0], from[1], low}, {to[0], to[1], low}, {to[0], to[1], high},
+                {from[0], from[1], high}}, sideTexture, event);
+        }
+
         top.push_back({from[0], from[1], high});
         bottom.push_back({outline[count - 1 - index][0], outline[count - 1 - index][1], low});
     }

@@ -104,7 +104,7 @@ steps:
   - advance_runtime: {seconds: 1.5, follow_map_move: true}
   - assert: {map: xeen_d1.odm}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
-  - set_pose: {map: xeen_d1.odm, x: 3844, y: 5376, z: 1152, yaw: 0.0, pitch: 0.0}
+  - set_pose: {map: xeen_d1.odm, x: 3844, y: 5904, z: 1152, yaw: 0.0, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - clear_hostiles: {radius: 3000}
   # D-82 point 5: no member down before Kramer's bounty (it reads every member's experience or class).

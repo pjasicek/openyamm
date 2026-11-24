@@ -813,6 +813,20 @@ std::string writeSceneText(
             }
         }
 
+        // A sliding door or gate stops for the party and the monsters: closing onto a body it opens again, opening it
+        // holds (`bodies: reverse`, as the hinged leaves above and MM9's doors). Without it a gate shut through the
+        // party standing in its doorway (F43, XD-02's east-cart gateway, 2026-11-24). Lifts and movers stay as they
+        // are: they carry what stands on them.
+        for (const LoweredDoor &loweredDoor : lowered.doors)
+        {
+            if (!loweredDoor.hinged && !node["mover"]
+                && (loweredDoor.doorId == static_cast<int>(door.doorId)
+                    || loweredDoor.secondDoorId == static_cast<int>(door.doorId)))
+            {
+                node["mover"]["bodies"] = "reverse";
+            }
+        }
+
         // A leaf that folds (`fold: true`): only its free edge moves, as the shipped maps' sliding doors are made.
         // The compiler moves every vertex of a mechanism's node; the free edge is the one farthest in the closing
         // direction in the drawn (shut) pose, and the other vertices leave the record and stay at the jamb.
@@ -1175,6 +1189,23 @@ std::string writeSceneText(
         }
 
         scene["water_volumes"].push_back(node);
+    }
+
+    YAML::Node solidFaces(YAML::NodeType::Sequence);
+    solidFaces.SetStyle(YAML::EmitterStyle::Flow);
+    for (const auto &group : compiled.generatedFaceGroups)
+    {
+        if (lowered.decorationCollisionNodes.contains(group.sourceNodeName))
+        {
+            for (uint16_t face : group.faceIds)
+            {
+                solidFaces.push_back(face);
+            }
+        }
+    }
+    if (solidFaces.size() > 0)
+    {
+        scene["decoration_collision_faces"] = solidFaces;
     }
 
     // Faces laid with a `translucent` surface, one entry per translucency.
@@ -3175,7 +3206,8 @@ YAML::Node sceneActorNode(const LoweredMonster &monster, int actorIndex)
     node["hp"] = monster.hitPoints;
     node["hostility_type"] = 0;
     node["monster_info_id"] = monster.monsterId;
-    node["monster_id"] = monster.experience;
+    // The legacy actor record exposes the low 16 bits of experience as a signed word.
+    node["monster_id"] = static_cast<int16_t>(monster.experience);
     node["radius"] = monster.radius;
     node["height"] = monster.height;
     node["move_speed"] = monster.moveSpeed;

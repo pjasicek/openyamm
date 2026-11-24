@@ -89,8 +89,7 @@ constexpr int32_t Mm6CircusFourLeafCloverPoints = 5;
 
 int resolveMonthFromDayOfYear(int dayOfYear);
 int currentGameMinutesFromRuntimeState(const EventRuntimeState &runtimeState);
-uint32_t randomJumpSeed(uint16_t eventId, uint8_t step, const EventRuntimeState &runtimeState);
-uint32_t nextEventRandom(uint16_t eventId, uint8_t step, EventRuntimeState &runtimeState);
+uint32_t nextEventRandom(EventRuntimeState &runtimeState);
 std::optional<std::string> skillNameForEvtVariable(EvtVariable variableId);
 SkillMastery normalizeCheckSkillMastery(uint32_t rawMastery);
 bool evaluateCompareValue(
@@ -381,8 +380,6 @@ bool matchesRandomGiveItemType(const ItemDefinition &itemDefinition, uint32_t tr
 std::optional<InventoryItem> generateRandomEventItem(
     EventRuntimeState &runtimeState,
     Party *pParty,
-    uint16_t eventId,
-    uint8_t randomStep,
     uint32_t treasureLevel,
     const std::function<bool(const ItemDefinition &)> &filter)
 {
@@ -400,7 +397,7 @@ std::optional<InventoryItem> generateRandomEventItem(
     request.mode = ItemGenerationMode::Generic;
     request.allowRareItems = true;
     request.worldId = runtimeState.mapWorldId;
-    std::mt19937 rng(nextEventRandom(eventId, randomStep, runtimeState));
+    std::mt19937 rng(nextEventRandom(runtimeState));
     return ItemGenerator::generateRandomInventoryItem(
         *pItemTable,
         *pParty->standardItemEnchantTable(),
@@ -414,7 +411,6 @@ std::optional<InventoryItem> generateRandomEventItem(
 std::optional<InventoryItem> createGrantedEventItem(
     EventRuntimeState &runtimeState,
     Party *pParty,
-    uint16_t eventId,
     uint32_t treasureLevel,
     uint32_t treasureType,
     uint32_t itemId)
@@ -437,8 +433,6 @@ std::optional<InventoryItem> createGrantedEventItem(
     return generateRandomEventItem(
         runtimeState,
         pParty,
-        eventId,
-        static_cast<uint8_t>(runtimeState.grantedItems.size() & 0xFFu),
         treasureLevel,
         [treasureType](const ItemDefinition &itemDefinition)
         {
@@ -1313,22 +1307,24 @@ EvtSeason currentSeasonFromRuntimeState(const EventRuntimeState &runtimeState)
     return EvtSeason::Winter;
 }
 
-uint32_t randomJumpSeed(uint16_t eventId, uint8_t step, const EventRuntimeState &runtimeState)
+// The rolls of events (RandomJump, RandomBetween, random GiveItem and SummonRandomItem): a SplitMix64 stream seeded
+// from the system's random source on the first roll after a map loads, as MM6-MM8 roll with rand() seeded at start.
+// The state is not saved, so the loot of a fire, heap or smith differs between games and between reloads. A test sets
+// eventRandomState to a nonzero value for a fixed sequence.
+uint32_t nextEventRandom(EventRuntimeState &runtimeState)
 {
-    return static_cast<uint32_t>(eventId) * 2654435761u
-        ^ static_cast<uint32_t>(step) * 40503u
-        ^ static_cast<uint32_t>(std::max(0, currentGameMinutesFromRuntimeState(runtimeState)));
-}
-
-uint32_t nextEventRandom(uint16_t eventId, uint8_t step, EventRuntimeState &runtimeState)
-{
-    if (runtimeState.eventRandomState == 0)
+    while (runtimeState.eventRandomState == 0)
     {
-        runtimeState.eventRandomState = randomJumpSeed(eventId, step, runtimeState);
+        std::random_device randomDevice;
+        runtimeState.eventRandomState = (uint64_t(randomDevice()) << 32) ^ randomDevice();
     }
 
-    runtimeState.eventRandomState = runtimeState.eventRandomState * 1664525u + 1013904223u;
-    return runtimeState.eventRandomState;
+    runtimeState.eventRandomState += 0x9e3779b97f4a7c15ull;
+    uint64_t mixed = runtimeState.eventRandomState;
+    mixed = (mixed ^ (mixed >> 30)) * 0xbf58476d1ce4e5b9ull;
+    mixed = (mixed ^ (mixed >> 27)) * 0x94d049bb133111ebull;
+    mixed ^= mixed >> 31;
+    return uint32_t(mixed >> 32);
 }
 
 std::optional<PortraitId> eventPortraitId(uint32_t rawPortraitId)
@@ -5608,6 +5604,24 @@ int luaTurnGroup(lua_State *pLuaState)
     return turnMapActorsFromLua(pLuaState, true);
 }
 
+// evt.GetMapActorMonsterId(actorIndex): the resolved monster table row, including for a corpse.
+int luaGetMapActorMonsterId(lua_State *pLuaState)
+{
+    const auto *pWorld = dynamic_cast<const IGameplayWorldRuntime *>(
+        readonlySceneEventContext(executionContextFromLua(pLuaState)));
+    const lua_Integer index = luaL_checkinteger(pLuaState, 1);
+    GameplayRuntimeActorState actor = {};
+
+    if (index < 0 || pWorld == nullptr || !pWorld->actorRuntimeState(static_cast<size_t>(index), actor))
+    {
+        lua_pushnil(pLuaState);
+        return 1;
+    }
+
+    lua_pushinteger(pLuaState, actor.monsterId);
+    return 1;
+}
+
 // evt.GetMapActorPosition(actorIndex): x, y, z of the actor's feet, or nil for no such actor.
 int luaGetMapActorPosition(lua_State *pLuaState)
 {
@@ -6068,7 +6082,7 @@ int luaSetHeldItem(lua_State *pLuaState)
         return 0;
     }
 
-    std::optional<InventoryItem> item = createGrantedEventItem(*pRuntimeState, pParty, 0, 1, 0, itemId);
+    std::optional<InventoryItem> item = createGrantedEventItem(*pRuntimeState, pParty, 1, 0, itemId);
 
     if (!item)
     {
@@ -6243,7 +6257,7 @@ int luaGivePartyMemberItem(lua_State *pLuaState)
         return 1;
     }
 
-    std::optional<InventoryItem> item = createGrantedEventItem(*pRuntimeState, pParty, 0, 1, 0, itemId);
+    std::optional<InventoryItem> item = createGrantedEventItem(*pRuntimeState, pParty, 1, 0, itemId);
 
     if (!item)
     {
@@ -6297,7 +6311,7 @@ int luaReplacePartyInventoryItems(lua_State *pLuaState)
         }
 
         // The party's pouches too, unless one is a member's inventory for an operation and so done above.
-        for (const ItemPouch pouch : {ItemPouch::Crafting, ItemPouch::Alchemy, ItemPouch::Quest})
+        for (const ItemPouch pouch : {ItemPouch::Crafting, ItemPouch::Alchemy, ItemPouch::Quest, ItemPouch::Loot})
         {
             const bool open = std::any_of(pParty->members().begin(), pParty->members().end(),
                 [pouch](const Character &member)
@@ -6822,8 +6836,9 @@ int luaMoveNpc(lua_State *pLuaState)
 
 int luaRandomJump(lua_State *pLuaState)
 {
-    const uint16_t eventId = static_cast<uint16_t>(luaL_checkinteger(pLuaState, 1));
-    const uint8_t step = static_cast<uint8_t>(luaL_checkinteger(pLuaState, 2));
+    // Arguments 1 and 2 (the event and step of the EVT original) are checked only: every roll draws the next value.
+    luaL_checkinteger(pLuaState, 1);
+    luaL_checkinteger(pLuaState, 2);
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
     luaL_checktype(pLuaState, 3, LUA_TTABLE);
 
@@ -6850,7 +6865,7 @@ int luaRandomJump(lua_State *pLuaState)
         return 1;
     }
 
-    const uint32_t randomValue = nextEventRandom(eventId, step, *pRuntimeState);
+    const uint32_t randomValue = nextEventRandom(*pRuntimeState);
     lua_pushinteger(pLuaState, validTargets[randomValue % validTargets.size()]);
     return 1;
 }
@@ -6859,18 +6874,16 @@ int luaRandomBetween(lua_State *pLuaState)
 {
     const int32_t minimum = static_cast<int32_t>(luaL_checkinteger(pLuaState, 1));
     const int32_t maximum = static_cast<int32_t>(luaL_checkinteger(pLuaState, 2));
-    const uint8_t step = static_cast<uint8_t>(std::max<lua_Integer>(0, luaL_optinteger(pLuaState, 3, 0)));
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
-    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
 
-    if (pRuntimeState == nullptr || pExecutionContext == nullptr || maximum < minimum)
+    if (pRuntimeState == nullptr || maximum < minimum)
     {
         lua_pushinteger(pLuaState, minimum);
         return 1;
     }
 
     const uint32_t range = static_cast<uint32_t>(static_cast<int64_t>(maximum) - minimum + 1);
-    const uint32_t randomValue = nextEventRandom(pExecutionContext->currentEventId, step, *pRuntimeState);
+    const uint32_t randomValue = nextEventRandom(*pRuntimeState);
     lua_pushinteger(pLuaState, minimum + static_cast<int32_t>(randomValue % range));
     return 1;
 }
@@ -7927,8 +7940,6 @@ int luaSummonRandomItem(lua_State *pLuaState)
         const std::optional<InventoryItem> item = generateRandomEventItem(
             *pRuntimeState,
             pParty,
-            pExecutionContext->currentEventId,
-            static_cast<uint8_t>(index & 0xFFu),
             treasureLevel,
             [&kindEquipStat](const ItemDefinition &itemDefinition)
             {
@@ -9789,7 +9800,7 @@ int luaGiveItem(lua_State *pLuaState)
     if (argumentCount == 1)
     {
         const uint32_t itemId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
-        item = createGrantedEventItem(*pRuntimeState, pParty, 0, 1, 0, itemId);
+        item = createGrantedEventItem(*pRuntimeState, pParty, 1, 0, itemId);
     }
     else
     {
@@ -9797,9 +9808,7 @@ int luaGiveItem(lua_State *pLuaState)
         const uint32_t treasureType = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
         const uint32_t itemId =
             argumentCount >= 3 ? static_cast<uint32_t>(luaL_checkinteger(pLuaState, 3)) : 0;
-        LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
-        const uint16_t eventId = pExecutionContext != nullptr ? pExecutionContext->currentEventId : 0;
-        item = createGrantedEventItem(*pRuntimeState, pParty, eventId, treasureLevel, treasureType, itemId);
+        item = createGrantedEventItem(*pRuntimeState, pParty, treasureLevel, treasureType, itemId);
     }
 
     if (item)
@@ -10499,6 +10508,7 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "SetActorRoutine", luaSetActorRoutine);
     registerLuaFunction(pLuaState, "DetachActorItem", luaDetachActorItem);
     registerLuaFunction(pLuaState, "SetMm9ActorCanReceiveDamage", luaSetMm9ActorCanReceiveDamage);
+    registerLuaFunction(pLuaState, "GetMapActorMonsterId", luaGetMapActorMonsterId);
     registerLuaFunction(pLuaState, "GetMapActorPosition", luaGetMapActorPosition);
     registerLuaFunction(pLuaState, "TurnActor", luaTurnActor);
     registerLuaFunction(pLuaState, "TurnGroup", luaTurnGroup);

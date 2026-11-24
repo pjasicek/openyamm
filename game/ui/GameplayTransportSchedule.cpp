@@ -1,5 +1,7 @@
 #include "game/ui/GameplayTransportSchedule.h"
 #include "engine/Localization.h"
+#include "game/events/EventDialogContent.h"
+#include "game/events/EventRuntime.h"
 
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
@@ -233,8 +235,10 @@ std::optional<ScheduleSource> currentSource(GameplayScreenRuntime &context)
     }
 
     const HouseEntry *pHouse = context.houseTable() != nullptr ? context.houseTable()->get(state.houseId) : nullptr;
+    const EventRuntimeState *pEventRuntimeState =
+        context.worldRuntime() != nullptr ? context.worldRuntime()->eventRuntimeState() : nullptr;
 
-    if (!dialog.isHouseDialog || dialog.sourceId != state.houseId || pHouse == nullptr)
+    if (!GameplayTransportSchedule::dialogueIsInHouse(dialog, pEventRuntimeState, state.houseId) || pHouse == nullptr)
     {
         return std::nullopt;
     }
@@ -730,6 +734,21 @@ void renderFooter(GameplayScreenRuntime &context, const Painter &paint, const La
     renderButton(context, paint, layout.travel, k, "obsidian_button_rest_", travelLabel(context, schedule),
         refusal.empty(), hovered == TargetTravel, pressed, ButtonLabelSize);
 }
+}
+
+bool GameplayTransportSchedule::dialogueIsInHouse(
+    const EventDialogContent &dialog,
+    const EventRuntimeState *pEventRuntimeState,
+    uint32_t houseId)
+{
+    // The stable's own screen, or its talking proprietor's talk in it (Xeen's Hob in Vertigo Stables, feedback F52:
+    // the dialogue's source is then the NPC and the stable is the host house; the popup closed as it opened).
+    if (dialog.isHouseDialog)
+    {
+        return dialog.sourceId == houseId;
+    }
+
+    return pEventRuntimeState != nullptr && pEventRuntimeState->dialogueState.hostHouseId == houseId;
 }
 
 bool GameplayTransportSchedule::isOpen(GameplayScreenRuntime &context)

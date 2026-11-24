@@ -87,17 +87,20 @@ bool handleSellTrashClick(GameplayScreenRuntime &view, const HouseEntry &houseEn
         }
     };
 
-    // Sell trash starts the pick; the same button is Cancel while picking.
+    // Sell trash starts the pick; the same button is Cancel while picking. On the loot pouch's tab all of it is
+    // trash: the pick is everything there the shop buys.
     if (pointerOnLayoutElement(view, "DialogueShopSellTrashButton", screenWidth, screenHeight, mouseX, mouseY))
     {
+        const bool lootTab = GameplayHudOverlaySupport::nestedPouchShown(view) == ItemPouch::Loot;
         overlay.sellTrashPicking = !overlay.sellTrashPicking;
-        overlay.sellTrashItems = overlay.sellTrashPicking
-            ? HouseServiceRuntime::findSellTrash(*pParty, *view.itemTable(), houseEntry)
-            : std::vector<BagItemRef>();
+        overlay.sellTrashItems = !overlay.sellTrashPicking ? std::vector<BagItemRef>()
+            : lootTab ? HouseServiceRuntime::findLootPouchTrash(*pParty, *view.itemTable(), houseEntry)
+                      : HouseServiceRuntime::findSellTrash(*pParty, *view.itemTable(), houseEntry);
 
         if (overlay.sellTrashPicking && overlay.sellTrashItems.empty())
         {
-            view.setStatusBarEvent(Engine::tr("Nothing here counts as trash; click items to add them."));
+            view.setStatusBarEvent(lootTab ? Engine::tr("This shop buys nothing of the new loot.")
+                                           : Engine::tr("Nothing here counts as trash; click items to add them."));
         }
 
         return true;

@@ -1,0 +1,35 @@
+# A hinged leaf listed in both rooms of its doorway (Map Studio since 2026-11-24, as MM9's converted doors): XD-26's
+# fence door (door 1, event 5, pivot (3136, 1440)) opened from the east nests swings into the fence's cache (the far
+# room) and stands there along y = 1440 out to x = 3328. Its half in the cache now blocks, as a leaf must (the build
+# before listed it in the near room only and the party walked through it there), and the scenario walker rounds its
+# free end: its planned route passes the end with no room to spare, and the walker used to aim past the corner, slide
+# along the leaf into the cache's north-west corner and stick (XD-26 playtest step 62). Needs assets_dev's Xeen world
+# (git-ignored). A1, xeen-fb3-doorfix.
+id: xeen.xd26.open_leaf_far_room
+title: XD-26's open fence door blocks in the room it swings into, and the walker rounds it
+world: xeen
+mode: faithful
+tags: [xeen, mechanisms, regression]
+steps:
+  - new_game_flow:
+      start_map: xeen_xd26.blv
+  - setup_shortcut: {kind: immortal, value: true}
+  - set_pose: {map: xeen_xd26.blv, x: 2950, y: 1344, z: 1024, yaw_degrees: 0, pitch: 0}
+  - clear_hostiles: {radius: 30000}
+  - play_lua: {source: "open_door(5, 1); if door_state(1) ~= 'open' then error('door 1 is ' .. door_state(1)) end"}
+  # Through the doorway south of the open leaf into the cache.
+  - walk_to: {x: 3400, y: 1344, z: 1024, plan: false, radius: 48, timeout_seconds: 10}
+  # North of the leaf, walking south: the leaf's half in the cache stops the party at its north face (y 1448 + 37).
+  - movement_segment:
+      input: forward
+      seconds: 1.5
+      actor_collision: false
+      actor_ai: false
+      start: {map: xeen_xd26.blv, x: 3260, y: 1600, z: 1024, yaw_degrees: -90, pitch: 0}
+      expect_stop: {map: xeen_xd26.blv, x: 3260, y: 1485, z: 1024, yaw_degrees: -90, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 24
+      tolerance_z: 8
+  # From the cache's north-west corner, where the walker stuck, round the leaf's free end and out to the east nests.
+  - set_pose: {map: xeen_xd26.blv, x: 3237, y: 1619, z: 1024, yaw_degrees: 180, pitch: 0}
+  - walk_to: {x: 2816, y: 1900, z: 1024, radius: 48, timeout_seconds: 15}

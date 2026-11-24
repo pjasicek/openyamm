@@ -1,0 +1,5 @@
+# Findings of tools/xeen/check_faces.py that a decision keeps: {map, rule, model, reason}. A kept finding is listed
+# but does not fail `--check`. Keep each reason short and say what would end it.
+# (2026-11-24, P3 studio round: Nystor's ship on X2 no longer kept: `drop_overlaps: true` on its `kind: model` drops
+# the taken model's overlapping faces; the installed X2 shows its 4 findings until its next rebuild.)
+kept: []

@@ -1,0 +1,42 @@
+id: mm7.wine_cellar_vampire_leave
+title: "MM7 - leaving the Wine Cellar any way, not only by its door, completes Crag Hack's vampire quest"
+world: mm7
+mode: faithful
+tags: [mm7, events, quests, regression]
+steps:
+  - note:
+      text: >-
+        The Wine Cellar's (7d16) leave event sets 619 "Slayed the vampire" when actor 0 is defeated. Actor 0 (the Super
+        Vampire with the Vampire's Cape) and its two guards are placed hidden and nothing ever shows them: MM7 counts a
+        hidden monster as defeated, so leaving the cellar by any way (Town Portal, Lloyd's Beacon) finished the quest.
+        MMMerge's converted event carries InvisibleAsDead 0, which OpenYAMM honours since merge point 31 (3.2), so only
+        the door (event 501, which sets 619 itself) still did. The event exporter now writes every MM7 kill check with
+        InvisibleAsDead true, MM7's rule (Discord, Kris, 2026-11-24).
+  - new_game_flow:
+      start_map: 7out02.odm
+  - setup_shortcut: {kind: set_qbit, id: 626, value: true}
+  - speak_npc: {source_id: 420}
+  - select_topic: {action_id: 901}
+  - assert:
+      qbit_set: [618]
+      qbit_clear: [619]
+  - press_action: {action: cancel_dialog}
+  - load_map: {map: 7d16.blv}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      actor_visible: {actor_index: 0, hidden: true, dead: false}
+  # Out of the cellar without its door, as Town Portal or Lloyd's Beacon takes the party.
+  - lua_event:
+      source: |
+        evt.MoveToMap(8216, -10619, 289, 0, 0, 0, 0, 0, "7out13.odm")
+  - advance_runtime: {seconds: 0.2, present_dialogs: true}
+  - select_topic: {kind: map_transition_confirm, action_id: 0}
+  - advance_runtime: {seconds: 0.5, follow_map_move: true}
+  - assert:
+      map: 7out13.odm
+      qbit_set: [619]
+  - speak_npc: {source_id: 420}
+  - select_topic: {action_id: 902}
+  - assert:
+      qbit_set: [628]
+      qbit_clear: [618]

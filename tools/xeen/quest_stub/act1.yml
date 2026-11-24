@@ -70,11 +70,15 @@ steps:
   - hook: q-c20.statue_disease
   - expect: {qbit: q-c20.done, item: "engine:471"}
   - talk: [4042, q-c21]
+  - event: 255                              # a Phirna plant (X1 evt:thing:phirna_1): one root, then dug up
   - hook: q-c21.phirna_plant
   - hook: [q-c21.phirna_plant, false]
   - talk: [4042, q-c21]
+  - hook: [q-c21.phirna_plant, false]       # the root handed over (or thrown away): still dug up (X1 p26)
+  - event: 256
   - hook: q-c21.phirna_plant
   - talk: [4042, q-c21]
+  - event: 0
   - expect: {item: "engine:226", qbit: q-c21.done}
   - talk: [4046, q-c22]
   - talk: [4041, Untie]

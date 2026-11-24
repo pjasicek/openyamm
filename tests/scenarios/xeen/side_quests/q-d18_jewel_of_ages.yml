@@ -344,7 +344,7 @@ steps:
         if not string.find(s, [[The fountain removes all effects of unnatural aging.]], 1, true) then error("status line: " .. s) end
   - play_lua: {source: "close()"}
   # Sandcaster's Guild of Light (house 4610): Nasir reads Ellinger's letter; the Wizard becomes an Archmage.
-  - set_pose: {map: xeen_d3.odm, x: -13696, y: 20548, z: 1511, yaw: 1.5708, pitch: 0.0}
+  - set_pose: {map: xeen_d3.odm, x: -13824, y: 20548, z: 1504, yaw: 1.5708, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - clear_hostiles: {radius: 3000}
   - play_lua: {source: "for _, i in ipairs({0}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before the letter for Nasir: ' .. c) end end end"}

@@ -151,16 +151,12 @@ steps:
   - walk_to: {x: -1568, y: 5760, z: -1792, radius: 96, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
   - walk_to: {x: -1568, y: 7000, z: -1792, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
   - play_lua: {source: "clear_hostiles(700); for i = 0, 3 do remember('xp' .. i, experience(i)) end; click(82); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: "Shrine of Minor Evil."}}
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1, present_dialogs: true}
   - play_lua:
       source: |
         local s = tostring(status())
         if not string.find(s, [[The Shrine of Minor Evil cracks and falls in. Something small and spiteful goes out of the room. (+1,000 experience)]], 1, true) then error("status line: " .. s) end
   - play_lua: {source: "close(); wait(0.5); click(80); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: "Shrine of Lesser Evil."}}
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1, present_dialogs: true}
   - play_lua:
       source: |
@@ -180,8 +176,6 @@ steps:
   # The Shrines of Great Evil: Great.
   - walk_to: {x: 1500, y: 7000, z: -1792, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
   - play_lua: {source: "clear_hostiles(700); for i = 0, 3 do remember('xp' .. i, experience(i)) end; click(78); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: "Shrine of Great Evil."}}
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1, present_dialogs: true}
   - play_lua:
       source: |
@@ -243,20 +237,19 @@ steps:
   - play_lua: {source: "clear_hostiles(1500)"}
   - walk_to: {x: 0, y: 10432, z: -2560, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
   - walk_to: {x: -300, y: 11500, z: -2560, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
-  - play_lua: {source: "clear_hostiles(700); for i = 0, 3 do remember('xp' .. i, experience(i)) end; click(69); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: "Lord Xeen Machine. Destroy?"}}
-  - answer_input: {text: "Yes"}
+  - play_lua: {source: "clear_hostiles(700); for i = 0, 3 do remember('xp' .. i, experience(i)) end; status(); click(69); wait(0.5)"}
   - advance_runtime: {seconds: 2.0, present_dialogs: true}
-  - assert: {dialog: {active: true, text_contains: "You pull the four cores out of the Lord Xeen Machine one by one."}}
   - play_lua:
       source: |
+        local s = tostring(status())
+        if not string.find(s, "You pull the four cores out of the Lord Xeen Machine one by one.", 1, true) then error("machine line: " .. s) end
         close(); wait(1); close()
         if not qbit(118145) then error("machine_broken 118145 not set") end
         if not qbit(114041) then error("q-f2.done 114041 not set") end
         for i = 0, 3 do local d = experience(i) - recall("xp" .. i); if d ~= 10000 then error("the machine paid member " .. i .. " " .. d) end end
-        click(69); wait(0.5)
-  - assert: {dialog: {active: true, text_contains: "The Lord Xeen Machine is dark and cold."}}
-  - play_lua: {source: "close(); wait(0.3)"}
+        status(); click(69); wait(0.5)
+        local m = tostring(status())
+        if not string.find(m, "The Lord Xeen Machine is dark and cold.", 1, true) then error("broken machine: " .. m) end
   # Back up the bone stair to the Shrine of Ultimate Evil: No, then Yes: out to X7.
   - walk_to: {x: 0, y: 9300, z: -2560, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}
   - walk_to: {x: 0, y: 7300, z: -1792, z_tolerance: 120, radius: 96, timeout_seconds: 40, clear_hostiles: 3000, close_dialogs: true}

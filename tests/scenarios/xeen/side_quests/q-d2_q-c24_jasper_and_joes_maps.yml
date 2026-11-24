@@ -60,7 +60,7 @@ steps:
   - assert: {qbit_set: [113040]}
   - assert: {autonote: {id: 4420}}
   # Castleview Jail (house 4468): Warden Krupp (Jasper: proof wanted), Jasper (Joe: the fake maps).
-  - set_pose: {map: xeen_d1.odm, x: 1920, y: 8724, z: 1152, yaw: 1.5708, pitch: 0.0}
+  - set_pose: {map: xeen_d1.odm, x: 2176, y: 8724, z: 1152, yaw: 1.5708, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - press_interact: {expect: {kind: event_target}}
   - advance_runtime: {seconds: 0.5}
@@ -104,7 +104,7 @@ steps:
         if item_count(12355) ~= 1 then error("Joe's maps: " .. tostring(item_count(12355))) end
   - assert: {qbit_set: [112480, 112481]}
   # The jail: Warden Krupp reads Joe's map (jasper_freed); the party keeps it. Jasper moves to Jethro's.
-  - set_pose: {map: xeen_d1.odm, x: 1920, y: 8724, z: 1152, yaw: 1.5708, pitch: 0.0}
+  - set_pose: {map: xeen_d1.odm, x: 2176, y: 8724, z: 1152, yaw: 1.5708, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - press_interact: {expect: {kind: event_target}}
   - advance_runtime: {seconds: 0.5}
@@ -174,7 +174,7 @@ steps:
   - assert: {autonote: {id: 4380}}
   # Kramer's Caravans (house 4464): the caravan to Lakeside on D4 (route 414, Mondays and Thursdays; the new game's
   # first day is a Monday), 75 gold.
-  - set_pose: {map: xeen_d1.odm, x: 3844, y: 5376, z: 1152, yaw: 0.0, pitch: 0.0}
+  - set_pose: {map: xeen_d1.odm, x: 3844, y: 5904, z: 1152, yaw: 0.0, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - press_interact: {expect: {kind: event_target}}
   - advance_runtime: {seconds: 0.5}

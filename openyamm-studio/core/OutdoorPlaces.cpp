@@ -574,9 +574,9 @@ bool placeAlong(const YAML::Node &node, const std::string &path, std::vector<Pro
     return true;
 }
 
-// The words of a node as one text, maps in key order, leaving out `id` and `notes` (what events call the entry's
-// decorations and what is said of them do not move them).
-void nodeText(const YAML::Node &node, std::string &text)
+// The words of a node as one text, maps in key order. Names, notes and the entry's optional ground support
+// test leave the stream of candidate points intact.
+void nodeText(const YAML::Node &node, std::string &text, bool entryRoot = false)
 {
     if (node.IsScalar())
     {
@@ -603,7 +603,7 @@ void nodeText(const YAML::Node &node, std::string &text)
             const std::string key = entry->first.Scalar();
             noteRead(entry->second);
 
-            if (key != "id" && key != "notes")
+            if (key != "id" && key != "notes" && !(entryRoot && key == "support_radius"))
             {
                 sorted.emplace(key, entry->second);
             }
@@ -628,7 +628,7 @@ void nodeText(const YAML::Node &node, std::string &text)
 uint32_t scatterSeed(const YAML::Node &node, std::map<std::string, uint32_t> &repeats)
 {
     std::string text;
-    nodeText(node, text);
+    nodeText(node, text, true);
     uint32_t hash = 2166136261u;
 
     for (const char character : text)
@@ -979,7 +979,8 @@ bool placeOutdoorThings(
                     ? std::round(lowest + (highest - lowest) * tryChance(seed, static_cast<uint32_t>(placeIndex), 6))
                     : 0.0;
                 OutdoorPlacedDecoration decoration = {kinds[kind].first, kindIds[kind], worldX(point[0]),
-                    worldY(point[1]), static_cast<int>(std::lround(lowered.groundHeightAt(point[0], point[1]) + lift)),
+                    worldY(point[1]), static_cast<int>(std::lround(
+                        lowered.decorationGroundAt(kinds[kind].first, point[0], point[1], 0) + lift)),
                     target};
                 decoration.entry = static_cast<int>(index);
                 places.decorations.push_back(decoration);
@@ -1040,6 +1041,18 @@ bool placeOutdoorThings(
             options.levelRadius = std::max(options.levelRadius,
                 radius == radii.end() ? 0.0 : radius->second / OutdoorCellSize);
         }
+        if (const YAML::Node support = childOf(node, "support_radius"); support.IsDefined())
+        {
+            double radius = 0.0;
+            if (!numberOf(support, radius) || radius < 0.0)
+            {
+                issues.push_back({SketchFile, path + ".support_radius", "a ground support radius is a nonnegative "
+                    "number of map units", "geometry"});
+                continue;
+            }
+            options.levelRadius = radius / OutdoorCellSize;
+        }
+
         const std::string spacingGroup = textOf(node, "spacing_group");
         const YAML::Node closeShare = childOf(node, "close_share");
         const YAML::Node closeSpacing = childOf(node, "close_spacing");

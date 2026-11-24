@@ -363,7 +363,9 @@ Engine::ModelStaticPlacement DecorationModelSet::placementFor(const Binding &bin
 {
     const Engine::ModelBounds &bounds = binding.asset->staticBounds;
     const float scale = binding.height / (bounds.max[1] - bounds.min[1]) * heightJitter(binding, billboard);
-    const float z = float(billboard.z) + binding.zOffset;
+    // Studio bakes solid model faces at the authored height. A fire or smoke sprite can be snapped to the terrain.
+    const int baseZ = binding.modelCollision ? billboard.authoredEmitterZ.value_or(billboard.z) : billboard.z;
+    const float z = float(baseZ) + binding.zOffset;
     Engine::ModelStaticPlacement placement;
     if (wall)
     {
@@ -1058,6 +1060,7 @@ bool DecorationModelSet::load(const Engine::AssetFileSystem &assets, const std::
             binding.randomYaw = yaw == "random";
             binding.yawOffset = entry["yaw_offset"].as<float>(0.0f);
             binding.zOffset = entry["z_offset"].as<float>(0.0f);
+            binding.modelCollision = entry["collision"].as<std::string>("") == "model";
             const std::string mount = entry["mount"].as<std::string>("ground");
             if (mount != "ground" && mount != "wall")
             {

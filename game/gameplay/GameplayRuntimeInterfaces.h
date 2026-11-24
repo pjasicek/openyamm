@@ -125,6 +125,8 @@ struct GameplayWorldItemInspectState
     InventoryItem item = {};
     uint32_t goldAmount = 0;
     bool isGold = false;
+    // The party dropped or threw it (SpriteAttrDroppedByPlayer): its own item, which the loot filter never takes.
+    bool droppedByPlayer = false;
 };
 
 enum class ActorAiAnimationState : uint8_t

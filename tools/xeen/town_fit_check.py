@@ -25,9 +25,34 @@ draws it (wall_check.py's terrain and models). Errors:
 - `culverts.open_side` (F25): a culvert's tunnel is open at its side: a body looking in at the side half-way along the
   tunnel sees no face turned toward it before the tunnel's middle (the outfall's block standing in the creek; p18).
 
+- `platforms.through` (X2 p6, 2026-11-24): the land rises more than PLATFORM_THROUGH over a platform's top inside
+  its top face (a paved court, a dais): the ground shows through the paving as a slope with a thin strip of paving
+  left at its edge (Bridge Square's stalls: their floor 1040, the land under them rounded up to 1056, over the court's
+  top at 1040; the "cut path strip" of pin p6).
+- `things.overhang` (X3 p3, 2026-11-24): the land under a free-standing portal (a mirror's dais), fountain or well
+  falls more than OVERHANG under the model's lowest point: its plinth or dais hangs over a slope (Newcastle's mirror
+  at the head of the gate ramp, whose road bed cut into the terrace beside it).
 - `actors.over_water` (F24): a walking actor (a row that neither flies nor swims, not `hostile: true`) placed over a
   water tile, on a bridge or a shore: its home is over the creek; it wanders back, steps off the bridge's side into
   the water and sticks against the rail (Vertigo Bridge's guards, pin p1).
+
+- `bridges.step` (F48): a bridge's or pier's deck ends more than BRIDGE_STEP over (or under) the land or the deck
+  just beyond its end: a step the party cannot climb (The Great Bridge, the causeway, pins X2 p4, X3 p7) or a deck
+  buried in a bank (Medin's jetty, X2 p10). An end over water (a pier's head) is not looked at, nor a deck that ends
+  in the air by design (D1's Lucio's Jetty, D-5.3: kept in town_fit_kept.yml).
+- `houses.jammed` (F49): a house (a building with a door) stands less than HOUSE_GAP from another building, or less
+  than WALL_GAP from a wall that stands over its floor, or runs into either: walls through walls, a plinth sticking out, a lane too narrow to
+  walk (Joe's shop and warehouse, X1 p21; the quay houses against the terrace wall, X2 p2). Measured from the house's
+  wall faces to the other model's upright faces, as built. Pieces of one town wall's circuit, a building's staged
+  alternates (`staged`, `hidden`) and a fitting on a house (a doorless building at most half a cell
+  each way: D1's barred jail window) are not looked at, nor gatehouses and towers (a house is a `building:` or a thing with `house:`).
+
+- `props.in_wall` (F40): a decoration whose disc (its radius in decoration_data.txt) reaches more than PROP_INTO into
+  a solid upright face of a model, at the decoration's height: a barrel through a tent's wall (Ebenezer's tent, X3
+  p2), a crate in a house. A decoration placed on purpose in a model (D4's beacons on Blackfang's wall walk) is
+  listed with its reason in tools/xeen/town_fit_kept.yml ({map, rule, thing (a glob), reason}): printed, not failed.
+  A decoration that starts hidden and is shown by an event that hides the model is not looked at against that model:
+  the two are never seen at once (D2's charred stumps on the line of the burned palisade).
 
 Exit 1 on an error. Run by `towns.py --strict` (like wall_check.py; the sites listed in town_fit_pending.yml, found
 on maps not rebuilt yet, are warnings there) and by every outdoor map job on its build before install
@@ -58,6 +83,11 @@ FLUID = 0x10
 ROAD_TILES = range(198, 234)   # the road tile set (the fourth set, 90 + 3 * 36)
 DARK = ('7solid01', 'solid01', 'solid10')
 STEP = 48
+BRIDGE_STEP = 32         # a deck's end this far over or under what is beyond it
+HOUSE_GAP = 128          # a house this near another building is jammed (a body of 74 cannot pass; reads as one lump)
+PROP_INTO = 8            # a decoration's disc this far into a model's face
+WALL_FLUSH = 32          # ... unless it backs onto the wall within this (flush)
+WALL_GAP = 96            # ... this near a wall standing over its floor: a slot behind it, or the wall runs into it
 
 
 def world(p):
@@ -229,6 +259,310 @@ def check_doors(mp, errors, listing):
                 errors.append(('houses.buried_door', mp.stem, record['name'], 'the land before its door rises %d over '
                                'the sill (cell %.2f, %.2f): the house is dug into a slope' %
                                (worst, *W.world_to_cell(*c))))
+
+
+# ------------------------------------------------------------------------------------------------ bridges (F48)
+
+def _up_z(models, p, top=None):
+    """The highest solid face turned up over the point (under `top` when given)."""
+    best = None
+    for m in models:
+        if p[0] < m.lo[0] - 1 or p[0] > m.hi[0] + 1 or p[1] < m.lo[1] - 1 or p[1] > m.hi[1] + 1:
+            continue
+        for pts, n, solid in m.faces:
+            if n[2] < 0.7 or not solid or not W.in_polygon(p, pts[:, :2]):
+                continue
+            z = pts[0][2] - (n[0] * (p[0] - pts[0][0]) + n[1] * (p[1] - pts[0][1])) / n[2]
+            if (top is None or z <= top) and (best is None or z > best):
+                best = z
+    return best
+
+
+def check_bridges(mp, errors, listing):
+    for tid, s in mp.things.items():
+        if s.get('kind') != 'bridge' or tid not in mp.models or len(s.get('line') or []) < 2:
+            continue
+        line = [world(p) for p in s['line']]
+        others = [m for name, ms in mp.models.items() if name != tid for m in ms]
+        for index, (end, before) in enumerate(((line[0], line[1]), (line[-1], line[-2]))):
+            if index == 1 and s.get('ends_in_air'):
+                continue
+            u = (end - before) / np.linalg.norm(end - before)
+            side = np.array([-u[1], u[0]]) * float(s.get('width', 384)) * 0.25
+            for offset in (0.0, 1.0, -1.0):
+                inside = end - u * 40 + side * offset
+                beyond = end + u * 24 + side * offset
+                deck = _up_z(mp.models[tid], inside)
+                if deck is None or bool(mp.terrain.blocked(*beyond)[0]):
+                    break             # no deck there (a rope bridge), or the end is over water: a pier's head
+                land = float(mp.terrain.ground(*beyond))
+                floor = _up_z(others, beyond, deck + BRIDGE_STEP + 16)
+                under = max(land, floor) if floor is not None else land
+                if listing:
+                    print('  %s %s end %d: deck %d, beyond %d' % (mp.stem, tid, index, deck, under))
+                if abs(deck - under) > BRIDGE_STEP:
+                    errors.append(('bridges.step', mp.stem, tid, 'its deck ends %+d over what is beyond it (cell '
+                                   '%.2f, %.2f): a step the party cannot %s' %
+                                   (deck - under, *W.world_to_cell(*end), 'climb' if deck > under else 'step down onto '
+                                    'from the buried end')))
+                    break
+
+
+# ------------------------------------------------------------------------------------------------ houses (F49)
+
+PLATFORM_THROUGH = 4      # the land may touch a platform's top, not rise through it
+PLATFORM_SAMPLE = 64
+
+
+OVERHANG = 24
+OVERHANG_KINDS = ('portal', 'fountain', 'well')   # buildings carry plinths and lintels over gaps on purpose
+
+
+def check_overhangs(mp, errors, listing):
+    for tid, s in mp.things.items():
+        if s.get('kind') not in OVERHANG_KINDS or tid not in mp.models or s.get('hidden'):
+            continue
+        for m in mp.models[tid]:
+            bottom = float(m.lo[2])
+            worst = None
+            for x in np.linspace(m.lo[0] + 16, m.hi[0] - 16, 6):
+                for y in np.linspace(m.lo[1] + 16, m.hi[1] - 16, 6):
+                    if m.hull is not None and not W.in_polygon((x, y), m.hull):
+                        continue
+                    drop = bottom - float(mp.terrain.ground(x, y))
+                    if drop > OVERHANG and (worst is None or drop > worst[0]):
+                        worst = (drop, x, y)
+            if listing:
+                print('  %s %s: %s' % (mp.stem, tid, 'on its land' if worst is None else 'over %+d' % worst[0]))
+            if worst is not None:
+                errors.append(('things.overhang', mp.stem, tid, 'the land falls %d under its foot at cell %.2f, %.2f: '
+                               'it hangs over a slope' % (worst[0], *W.world_to_cell(worst[1], worst[2]))))
+                break
+
+
+def check_platforms(mp, errors, listing):
+    for tid, s in mp.things.items():
+        if s.get('kind') != 'platform' or tid not in mp.models:
+            continue
+        worst = None
+        for m in mp.models[tid]:
+            ups = [(pts, nrm) for pts, nrm, solid in m.faces if nrm[2] > 0.7]
+            if not ups:
+                continue
+            top = max(float(pts[:, 2].max()) for pts, _ in ups)
+            for pts, nrm in ups:
+                if float(pts[:, 2].min()) < top - 1:
+                    continue                      # a sloped or lower face (a step): only the flat top
+                lo, hi = pts[:, :2].min(0), pts[:, :2].max(0)
+                for x in np.arange(lo[0] + 16, hi[0] - 15, PLATFORM_SAMPLE):
+                    for y in np.arange(lo[1] + 16, hi[1] - 15, PLATFORM_SAMPLE):
+                        if not W.in_polygon((x, y), pts[:, :2], edge=-16):
+                            continue
+                        rise = float(mp.terrain.ground(x, y)) - top
+                        if rise > PLATFORM_THROUGH and (worst is None or rise > worst[0]):
+                            worst = (rise, x, y)
+        if listing:
+            print('  %s %s: %s' % (mp.stem, tid, 'land under its top' if worst is None else 'land %+d' % worst[0]))
+        if worst is not None:
+            errors.append(('platforms.through', mp.stem, tid, 'the land rises %d over its top at cell %.2f, %.2f: the '
+                           'ground shows through the paving' % (worst[0], *W.world_to_cell(worst[1], worst[2]))))
+
+
+def _upright_segments(model, floor, top):
+    """The xy segments of a model's solid upright faces that stand between `floor` and `top`."""
+    segs = []
+    for pts, n, solid in model.faces:
+        if abs(n[2]) > 0.3 or not solid or pts[:, 2].max() <= floor + 48 or pts[:, 2].min() >= top:
+            continue
+        xy = pts[:, :2]
+        d = np.ptp(xy, 0)
+        if np.hypot(*d) < 8:
+            continue
+        a, b = xy[np.argmin(xy @ (xy[-1] - xy[0]))], xy[np.argmax(xy @ (xy[-1] - xy[0]))]
+        if np.allclose(a, b):
+            a, b = xy.min(0), xy.max(0)
+        segs.append((a, b, np.asarray(n[:2], dtype=float)))
+    return segs
+
+
+def _seg_gap(hull, a, b):
+    """The distance from a convex hull (xy) to a segment; negative when the segment enters it."""
+    for t in np.linspace(0.0, 1.0, 9):
+        if _strictly_in(a + (b - a) * t, hull):
+            return -1.0
+    best = 1e18
+    for i in range(len(hull)):
+        p, q = hull[i], hull[(i + 1) % len(hull)]
+        best = min(best, _pseg(p, a, b), _pseg(q, a, b), _pseg(a, p, q), _pseg(b, p, q))
+    return best
+
+
+def _strictly_in(p, hull, inset=16.0):
+    if not W.in_polygon(p, hull):
+        return False
+    for i in range(len(hull)):
+        if _pseg(p, hull[i], hull[(i + 1) % len(hull)]) < inset:
+            return False
+    return True
+
+
+def _pseg(p, a, b):
+    d = b - a
+    t = 0.0 if not d.any() else max(0.0, min(1.0, float(np.dot(p - a, d) / np.dot(d, d))))
+    return float(np.hypot(*(a + t * d - p)))
+
+
+def _is_house(mp, name):
+    s = mp.things.get(name) or {}
+    # a house: a `building:` (a door of the towns' houses) or a thing that is one (`house:`); a gatehouse, a tower or a
+    # ghost house's gate with a door is a work of the wall or the wild, not a house of the town (D1, D6; P3 2026-11-24)
+    return name.startswith('building:') or (s.get('kind') == 'building' and not s.get('hidden') and s.get('house'))
+
+
+def _along_walls(house, a, b, floor, top):
+    """Whether every point of a segment that lies inside a house's hull is within WALL_FLUSH of one of the house's
+    own upright faces (the segment runs along its wall, not into its body)."""
+    own = _upright_segments(house, floor, top)
+    for t in np.linspace(0.0, 1.0, 17):
+        p = a + (b - a) * t
+        if _strictly_in(p, house.hull) and min((_pseg(p, q, r) for q, r, _ in own), default=1e18) > WALL_FLUSH:
+            return False
+    return True
+
+
+def _fitting(s):
+    size = s.get('size') or [9, 9]
+    return s.get('kind') == 'building' and s.get('door', 'none') == 'none' and max(size) <= 0.5
+
+
+def check_houses(mp, cfg, errors, listing):
+    import fnmatch
+    circuit = [g for site in (cfg.get(mp.stem) or []) for g in site.get('circuit', [])]
+    names = list(mp.models)
+    for name in names:
+        if not _is_house(mp, name) or any(fnmatch.fnmatch(name, g) for g in circuit):
+            continue
+        for house in mp.models[name]:
+            if house.hull is None:
+                continue
+            floor, top = house.lo[2], house.hi[2]
+            worst = None
+            for other in names:
+                s = mp.things.get(other) or {}
+                if other == name or s.get('staged') or s.get('hidden') or _fitting(s) \
+                        or s.get('kind') not in ('building', 'wall', None) \
+                        or (other.split('#')[0] == name.split('#')[0] and not other.startswith('building:')):
+                    continue
+                if s.get('kind') is None and not other.startswith('building:'):
+                    continue
+                for m in mp.models[other]:
+                    if np.any(house.lo[:2] > m.hi[:2] + HOUSE_GAP) or np.any(m.lo[:2] > house.hi[:2] + HOUSE_GAP):
+                        continue
+                    # a gatehouse, a tower or another work that is not a house counts as a wall (P3: D1's gatehouse
+                    # 112 from the smithy is a lane, not two houses reading as one lump)
+                    is_wall = not _is_house(mp, other)
+                    limit = WALL_GAP if is_wall else HOUSE_GAP
+                    for a, b, n in _upright_segments(m, floor, top):
+                        g = _seg_gap(house.hull, a, b)
+                        if is_wall and 0 <= g <= WALL_FLUSH:
+                            continue    # its back flush against a terrace's or a town wall's face
+                        if is_wall and g < 0 and _along_walls(house, a, b, floor, top):
+                            continue    # inside the convex hull only: it runs along the house's own wall (a tower
+                            # standing forward of the front put the terrace wall's flush face inside the hull)
+                        if is_wall and g >= 0 and float(np.max((house.hull - a) @ n)) <= 1.0:
+                            continue    # a face looking away from the house (a wall's end behind its back corner)
+                        if g < limit and (worst is None or g < worst[0]):
+                            worst = (g, other, (a + b) / 2)
+            if worst is not None:
+                if listing:
+                    print('  %s %s: %s at %d' % (mp.stem, name, worst[1], worst[0]))
+                errors.append(('houses.jammed', mp.stem, name, '%s at cell %.2f, %.2f: %s' %
+                               (worst[1], *W.world_to_cell(*worst[2]),
+                                'runs into it' if worst[0] < 0 else 'only %d between them' % worst[0])))
+
+
+# ------------------------------------------------------------------------------------------------ props (F40)
+
+def decoration_sizes():
+    sizes = {}
+    path = xeenlib.ROOT / 'assets_dev' / 'engine' / 'data_tables' / 'decoration_data.txt'
+    for line in path.read_text(encoding='latin-1').splitlines()[2:]:
+        cols = line.split('\t')
+        if len(cols) > 5 and cols[1]:
+            try:
+                sizes[cols[1].lower()] = (float(cols[4]), float(cols[5]))
+            except ValueError:
+                pass
+    return sizes
+
+
+def never_together(sketch):
+    """(shown, hidden) pairs an event swaps: a thing that starts hidden and is shown by an event that hides the other
+    (D2's charred stumps where the burned palisade stood): the two are never seen at once."""
+    pairs = set()
+    for ev in sketch.get('events') or []:
+        shown, hidden = set(), set()
+        for eff in ev.get('effects') or []:
+            if not isinstance(eff, dict):
+                continue
+            for key, into in (('show', shown), ('hide', hidden)):
+                v = eff.get(key)
+                into.update(v if isinstance(v, list) else [v] if v else [])
+        pairs.update((a, b) for a in shown for b in hidden)
+    return pairs
+
+
+def check_props(mp, errors, listing):
+    sizes = decoration_sizes()
+    swapped = never_together(mp.sketch)
+    for tid, s in mp.things.items():
+        if s.get('kind') != 'decoration' or 'at' not in s or s.get('against'):
+            continue
+        radius, height = sizes.get(str(s.get('decoration', '')).lower(), (0.0, 0.0))
+        if radius < 16:
+            continue
+        p = world(s['at'])
+        z0 = float(mp.terrain.ground(p[0], p[1])) + 8
+        z1 = z0 + max(height, 32) - 16
+        angles = np.linspace(0, 2 * np.pi, 12, endpoint=False)
+        ring = np.stack([np.cos(angles), np.sin(angles)], 1) * (radius - PROP_INTO)
+        cloud = np.array([[p[0] + r[0], p[1] + r[1], z] for r in ring for z in (z0, (z0 + z1) / 2, z1)])
+        hit = None
+        for name, ms in mp.models.items():
+            if s.get('hidden') and (tid, name) in swapped:
+                continue
+            for m in ms:
+                if np.any(p < m.lo[:2] - radius) or np.any(p > m.hi[:2] + radius) or m.lo[2] > z1 or m.hi[2] < z0:
+                    continue
+                for pts, n, solid in m.faces:
+                    if abs(n[2]) > 0.8 or not solid:
+                        continue
+                    side = (cloud - pts[0]) @ n
+                    if side.min() >= 0 or side.max() <= 0:
+                        continue
+                    axis = int(np.argmax(np.abs(n)))
+                    keep = [i for i in range(3) if i != axis]
+                    inside = [W.in_polygon(q[keep] - n[keep] * ((q - pts[0]) @ n), pts[:, keep])
+                              for q in cloud if abs((q - pts[0]) @ n) < radius]
+                    if any(inside):
+                        hit = name
+                        break
+                if hit:
+                    break
+            if hit:
+                break
+        if hit:
+            errors.append(('props.in_wall', mp.stem, tid, '%s (radius %d) stands through a face of %s (cell %.2f, '
+                           '%.2f)' % (s.get('decoration'), radius, hit, *s['at'])))
+
+
+def _pseg_poly(p, xy):
+    """The distance from p to an upright face's footprint (a segment in xy)."""
+    axis = xy[-1] - xy[0]
+    if not axis.any():
+        axis = np.ptp(xy, 0)
+    a, b = xy[np.argmin(xy @ axis)], xy[np.argmax(xy @ axis)]
+    return _pseg(p, a, b)
 
 
 # ------------------------------------------------------------------------------------------------ gates
@@ -427,6 +761,11 @@ def check_map(stem, odm=None, sketch=None, listing=False):
     check_gates(mp, cfg, errors, listing)
     check_culverts(mp, faces, errors, listing)
     check_actors(mp, errors, listing)
+    check_bridges(mp, errors, listing)
+    check_houses(mp, cfg, errors, listing)
+    check_props(mp, errors, listing)
+    check_platforms(mp, errors, listing)
+    check_overhangs(mp, errors, listing)
     return errors
 
 
@@ -451,7 +790,7 @@ def towns_check():
     """(errors, notes) as text lines for towns.py --strict."""
     known = pending()
     errors, notes, seen = [], [], set()
-    for rule, stem, what, text in check_all():
+    for rule, stem, what, text in drop_kept(check_all())[0]:
         key = (stem, '%s %s' % (rule, what))
         seen.add(key)
         line = 'town_fit %s %s %s: %s' % (rule, stem, what, text)
@@ -459,6 +798,24 @@ def towns_check():
     for stem, entry in sorted(known - seen):
         errors.append('town_fit %s: %s is fixed: drop it from tools/xeen/town_fit_pending.yml' % (stem, entry))
     return errors, notes
+
+
+KEPT = Path(__file__).resolve().with_name('town_fit_kept.yml')
+
+
+def drop_kept(errors):
+    """Split the findings into errors and those town_fit_kept.yml keeps (with the reason)."""
+    import fnmatch
+    entries = (yaml.safe_load(KEPT.read_text()) or []) if KEPT.exists() else []
+    out, kept = [], []
+    for rule, stem, what, text in errors:
+        hit = next((e for e in entries if e.get('map') == stem and e.get('rule') == rule
+                    and fnmatch.fnmatch(what, e.get('thing', ''))), None)
+        if hit:
+            kept.append((rule, stem, what, text, hit.get('reason', '')))
+        else:
+            out.append((rule, stem, what, text))
+    return out, kept
 
 
 def main():
@@ -473,6 +830,9 @@ def main():
         errors = check_map(stem, args.odm, args.sketch, args.list)
     else:
         errors = check_all(args.stems or None, args.list)
+    errors, kept = drop_kept(errors)
+    for rule, stem, what, text, reason in kept:
+        print('kept %s %s %s: %s (%s)' % (rule, stem, what, text, reason))
     for rule, stem, what, text in errors:
         print('ERROR %s %s %s: %s' % (rule, stem, what, text))
     print('town_fit_check: %d error(s)' % len(errors))

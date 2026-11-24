@@ -1,7 +1,8 @@
 # Xeen side quest Q-D26, The Megadragon (D7, DD-17), from a new game on D7 with a level-60 party during M33 (M30
 # done, Corak's Soul Box carried). The Skyroads are an open-air sky map: the party is placed beside each thing, as the
 # main chain's segment 75 and hooks_d7.yml do (PLAYBOOK.md section 2). The dead-end road in sight of the roost: the
-# Megadragon (actor 37, row 11654) at its post on Castle Alamar's roof hatch. The hatch (D7 event 49) while it lives
+# Megadragon (actor 37, row 11654) at its post by the crag over Castle Alamar's roof hatch
+# (D-122: 2,235 from the hatch's landing since 2026-11-24). The hatch (D7 event 49) while it lives
 # and without the key: the source's locked line at once (no question since the final rebuild). The Megadragon killed (deliberately,
 # by the party's clear near it): its check sets slain 113520 with the status line; its 16,875 kill experience is
 # shared, 4,218 per member.
@@ -42,7 +43,7 @@ steps:
   - set_pose: {map: xeen_d7.blv, x: -21926, y: 7762, z: 1506, yaw: 0.5236, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - assert: {actor_visible: {actor_index: 37, hidden: false}}
-  - assert: {actor_count: {monster_id: 11654, near: [-19456, 9216, 600], min: 1, max: 1}}
+  - assert: {actor_count: {monster_id: 11654, near: [-19584, 10496, 600], min: 1, max: 1}}
   # The hatch (event 49) without the key: the question, Yes: the source's locked line, no move.
   - set_pose: {map: xeen_d7.blv, x: -18688, y: 8448, z: 1536, yaw: 3.1416, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
@@ -56,7 +57,7 @@ steps:
       source: |
         for i = 0, 3 do remember("xp" .. i, experience(i)) end
         status()
-        log("cleared " .. clear_hostiles(1500)); wait(3)
+        log("cleared " .. clear_hostiles(2500)); wait(3)
         local s = status() or ""
         if not string.find(s, "The Megadragon is dead. The sky is a little quieter.", 1, true) then error("no slain line: " .. s) end
         if not qbit(113520) then error("q-d26.slain 113520 not set") end

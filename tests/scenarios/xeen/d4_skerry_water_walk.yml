@@ -1,0 +1,36 @@
+# D-120 (2026-11-24): D4's skerry strongbox stands on a rock in the lake, an optional find of Act IV reached by Water
+# Walk or Fly (tools/xeen/check_reach.yml keeps it). This walks to it: Water Walk cast on the west shore at the nearest
+# walked-on land (55.9, 73.1), then straight over the water to the skerry, nobody hurt, and its strongbox opens.
+#   build/game/openyamm --headless-run-scenario tests/scenarios/xeen/d4_skerry_water_walk.yml --scenario-no-color
+id: xeen.d4_skerry_water_walk
+title: "D4: Water Walk carries the party over the lake to the skerry's strongbox (D-120)"
+world: xeen
+mode: faithful
+tags: [xeen, outdoor, spells, regression]
+steps:
+  - new_game_flow:
+      start_map: xeen_d4.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: Sefa, class: Sorcerer, level: 40, skills: [], equipment: {}}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  # Water Walk on the west shore, then straight over the lake to the skerry.
+  - set_pose: {map: xeen_d4.odm, x: -4160, y: -4672, z: 1056, yaw: 0.533, pitch: 0.0}
+  - clear_hostiles: {radius: 8000}
+  - cast_spell: {member_index: 0, spell_id: 27, skill: 10, mastery: 3}
+  - walk_to: {x: -1536, y: -3330, z: 1056, radius: 128, plan: false, timeout_seconds: 60, clear_hostiles: 6000}
+  - assert:
+      party_position: {x: -1536, y: -3330, radius: 200}
+  # Walked on the water, not through it: nobody drowned on the way (without the spell the same walk wades in and
+  # every member is hurt).
+  - assert: {party_health: {full: true}}
+  # The strongbox (event 94) faces the party from 200 south: it opens.
+  - set_pose: {map: xeen_d4.odm, x: -1536, y: -3330, z: 1056, yaw: 1.5708, pitch: 0.0}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        if not take_chest() then error("the skerry strongbox did not open") end
+        for _ = 1, 3 do if not close() then break end end

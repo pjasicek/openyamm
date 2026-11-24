@@ -500,7 +500,8 @@ public:
         std::unordered_set<uint64_t> explosiveMixes;
         // The shared pouches' items (Party::pouchItems), by ItemPouch; older saves have none and gather theirs when
         // loaded (Party::gatherPouchItems).
-        // The party's own two; the quest pouch is the campaign's (campaign.questPouch) and its place here stays empty.
+        // The party's own three; the quest pouch is the campaign's (campaign.questPouch) and its place here stays
+        // empty.
         std::array<std::vector<InventoryItem>, ItemPouchCount> pouches;
         // What the ruleset keeps for the party (Party::rulesetState). A save holds it inside the ruleset's state.
         PartyRulesetState rulesetState;
@@ -824,6 +825,15 @@ public:
     void setPartyPouches(bool enabled);
     // Whether the setting is on and has effect: a ruleset without pouches, in a game of one player.
     bool partyPouches() const;
+    // The Gameplay setting GameSettings::lootPouch: what the party picks up or loots (storePickedUpItem: the ground,
+    // chests' Take All, corpses) and has no pouch of its own goes to the loot pouch instead of the bags, under any
+    // ruleset. Under a ruleset with pouches the loot pouch is there either way; under one without, while the setting is
+    // on or it holds something (hasPouch). The setting moves nothing.
+    void setLootPouch(bool enabled);
+    bool lootGoesToPouch(const InventoryItem &item) const;
+    // An item picked up or looted: into the loot pouch when lootGoesToPouch, else as tryGrantInventoryItem. The pouch
+    // it went to, if any, is in pPouch.
+    bool tryGrantLootItem(const InventoryItem &item, size_t *pRecipientMemberIndex, std::optional<ItemPouch> *pPouch);
     // Under a ruleset without pouches, after the setting or the shared world changed: the items of a pouch the
     // party no longer keeps go back into the members' bags (what finds no room stays in the pouch, which then stays:
     // hasPouch), then the items of the pouches it keeps come out of the bags (gatherPouchItems). Returns how many
@@ -1259,8 +1269,8 @@ private:
     std::optional<int> m_awakeDayIndex;
     std::string m_lastStatus;
     std::unordered_set<uint32_t> m_everOwnedItemIds;
-    // The crafting and alchemy pouches. The quest pouch is the campaign's (CampaignState::questPouch): its place here
-    // stays empty.
+    // The crafting, alchemy and loot pouches. The quest pouch is the campaign's (CampaignState::questPouch): its
+    // place here stays empty.
     std::array<std::vector<InventoryItem>, ItemPouchCount> m_pouches;
     PartyRulesetState m_rulesetState;
     bool m_mirror = false;
@@ -1303,6 +1313,7 @@ private:
     // A setting like m_formationTargetingActive: not saved, not reset.
     bool m_mm9LootInOlderWorlds = false;
     bool m_partyPouches = false;
+    bool m_lootPouch = false;
     PartyBuffState m_cartographerWizardEye = {};
     uint32_t m_heldItemIdForQueries = 0;
     std::vector<uint32_t> m_humQBits;

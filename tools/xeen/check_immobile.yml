@@ -1,0 +1,12 @@
+# Immobile hostile melee monsters held on purpose (tools/xeen/check_immobile.py skips these). Each line says why.
+# Anything else immobile and melee-only should be leashed instead (`leash: <radius>` in the map's objects.yml).
+held:
+  # D-1.2: Cloud and Sky Golems standing like weather on the skyroads and heights, a danger far above the band that
+  # the party goes round; they keep their places.
+  d7: {pattern: "_golems_", why: "skyroad golems (D-1.2), avoided, not fought"}
+  x8: {pattern: "cloud_golem_", why: "the heights' golems (D-1.2)"}
+  x9: {pattern: "_golems_", why: "the skyroad golems (D-1.2)"}
+  # D-98: the six throne guards stand in ranks and are freed with Lord Xeen 4 s after his first-sight line.
+  xd19: {pattern: "throne_", why: "freed by the throne room's script (D-98)"}
+  # D-4: Bog Things and Marsh Horrors lie in the cellar lagoon (the row's Move is stand): an ambush in the water.
+  xd13: {pattern: "cellar_", why: "the lagoon's ambush (D-4)"}

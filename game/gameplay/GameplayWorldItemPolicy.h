@@ -21,9 +21,9 @@ bool worldItemPickupAllowed(const MapWorldItemSource &source, const Party &party
 // pickup event, which waits for the party's own hand.
 bool worldItemCollectable(const MapWorldItemSource &source, const Party &party);
 
-// Where an item the party picked up or looted (ground, chest Take All, corpses) went, as Party::tryGrantInventoryItem
-// gives it: the party's pouch for it (ItemRules::pouch; MAW's crafting materials, potions and reagents), else the
-// bags of the member named.
+// Where an item the party picked up or looted (ground, chest Take All, corpses) went, as Party::tryGrantLootItem
+// gives it: the party's pouch for it (ItemRules::pouch; MAW's crafting materials, potions and reagents), the loot pouch
+// (MAW, while the Gameplay setting New loot pouch is on), else the bags of the member named.
 struct StoredPickup
 {
     size_t memberIndex = 0;

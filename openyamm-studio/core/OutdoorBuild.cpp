@@ -8,6 +8,7 @@
 #include "core/MonsterRelations.h"
 #include "core/IndoorLowering.h"
 #include "core/Ops.h"
+#include "core/OutdoorDecorationCollision.h"
 #include "core/OutdoorLowering.h"
 #include "core/OutdoorPlaces.h"
 #include "core/OutdoorThings.h"
@@ -2354,7 +2355,7 @@ bool buildOutdoorProject(const Project &project, const BuildOptions &options, Bu
 
     for (OutdoorBuildingPlan &building : lowered.buildings)
     {
-        Game::OutdoorBModel model = raiseOutdoorBuilding(building);
+        Game::OutdoorBModel model = raiseOutdoorBuilding(building, &lowered.wallTiles);
         words.applyToModel(building.id, model);
         models.push_back(model);
     }
@@ -2462,6 +2463,27 @@ bool buildOutdoorProject(const Project &project, const BuildOptions &options, Bu
         }
     }
 
+    OutdoorPlaces places;
+    std::string decorationTable;
+
+    // The engine's decorations and the world's own (world.yml `decorations`: Xeen's basalt boulders, A5 on X7).
+    if (!options.assetRoot.empty())
+    {
+        readWorldTable(options.assetRoot, lowered.world, "decoration_data.txt", "decorations", decorationTable);
+    }
+
+    if (!placeOutdoorThings(project, lowered, decorationTable, places, result.issues, result.warnings,
+            things.covered))
+    {
+        return false;
+    }
+
+    const size_t drawnModelCount = models.size();
+    std::vector<Game::OutdoorBModel> collision = raiseDecorationCollision(options.assetRoot, lowered.world,
+        lowered.mapStem, things.decorations, things.decorationIds, things.decorationHidden, result.warnings,
+        places.decorations);
+    models.insert(models.end(), std::make_move_iterator(collision.begin()), std::make_move_iterator(collision.end()));
+
     const std::string stem = lowered.mapStem;
     result.mapFile = stem + ".odm";
     Game::OutdoorMapData map;
@@ -2494,21 +2516,6 @@ bool buildOutdoorProject(const Project &project, const BuildOptions &options, Bu
     {
         result.issues.push_back({"", "", "the ODM the build wrote does not read back: "
             + (readBack ? errorMessage : std::string("the game's loader refuses it")), "build"});
-        return false;
-    }
-
-    OutdoorPlaces places;
-    std::string decorationTable;
-
-    // The engine's decorations and the world's own (world.yml `decorations`: Xeen's basalt boulders, A5 on X7).
-    if (!options.assetRoot.empty())
-    {
-        readWorldTable(options.assetRoot, lowered.world, "decoration_data.txt", "decorations", decorationTable);
-    }
-
-    if (!placeOutdoorThings(project, lowered, decorationTable, places, result.issues, result.warnings,
-            things.covered))
-    {
         return false;
     }
 
@@ -2583,7 +2590,8 @@ bool buildOutdoorProject(const Project &project, const BuildOptions &options, Bu
     // Every face that carries an event: the game clears the events of all faces and sets these.
     std::vector<DoorFace> doors;
 
-    for (size_t model = 0; model < models.size(); ++model)
+    // Static decoration solids already carry their immutable Invisible bit in the ODM.
+    for (size_t model = 0; model < drawnModelCount; ++model)
     {
         for (size_t face = 0; face < models[model].faces.size(); ++face)
         {

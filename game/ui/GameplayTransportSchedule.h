@@ -1,8 +1,12 @@
 #pragma once
 
+#include <cstdint>
+
 namespace OpenYAMM::Game
 {
 class GameplayScreenRuntime;
+struct EventDialogContent;
+struct EventRuntimeState;
 struct GameplayInputFrame;
 
 // A stable's or boat's Schedule popup over the house dialogue, or over an MM9 dock's talk
@@ -12,6 +16,9 @@ struct GameplayInputFrame;
 // wait costs, and its button waits for the day and travels.
 namespace GameplayTransportSchedule
 {
+// Whether a house's Schedule may show over this dialogue: the house's own screen, or the talk of its proprietor who
+// talks (the dialogue's source is the NPC, the house its host).
+bool dialogueIsInHouse(const EventDialogContent &dialog, const EventRuntimeState *pEventRuntimeState, uint32_t houseId);
 // Whether the popup is open over the active house dialogue; a stale one (another dialogue) is closed.
 bool isOpen(GameplayScreenRuntime &context);
 // Draws the popup above the dialogue.

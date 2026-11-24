@@ -22510,6 +22510,7 @@ bool OutdoorWorldRuntime::worldItemInspectState(size_t worldItemIndex, GameplayW
     state.item = pWorldItem->item;
     state.goldAmount = pWorldItem->goldAmount;
     state.isGold = pWorldItem->isGold;
+    state.droppedByPlayer = (pWorldItem->attributes & SpriteAttrDroppedByPlayer) != 0;
     return true;
 }
 

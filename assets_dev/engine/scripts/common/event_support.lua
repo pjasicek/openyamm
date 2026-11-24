@@ -825,6 +825,7 @@ function support.registerScopeEvent(scopeName, tableName, eventId, title, handle
 
     if handler ~= nil then
         evt[tableName][eventId] = function(...)
+            support.runningEventId = eventId
             evt._BeginEvent(eventId)
             handler(...)
         end
@@ -899,6 +900,7 @@ function support.appendScopeEvent(scopeName, tableName, eventId, handler)
         if previous ~= nil then
             previous(...)
         else
+            support.runningEventId = eventId
             evt._BeginEvent(eventId)
         end
 
@@ -1309,6 +1311,12 @@ function support.currentEventSpellId()
     return evt.GetActiveEventSpellId()
 end
 
+-- The id of the map or global event that is running (0 before any): a helper several events call tells them apart by
+-- it, such as Xeen's harvest spots (worlds/xeen/events/common/xeen_common.lua, XeenQuests.hook).
+function support.currentEventId()
+    return support.runningEventId or 0
+end
+
 function support.getPartyVariable(variableId)
     return evt.GetPartyVariable(variableId)
 end
@@ -1704,6 +1712,7 @@ RestAndHealParty = support.restAndHealParty
 GetRuntimeVariable = support.getRuntimeVariable
 SetRuntimeVariable = support.setRuntimeVariable
 CurrentEventSpellId = support.currentEventSpellId
+CurrentEventId = support.currentEventId
 GetPartyVariable = support.getPartyVariable
 SetPartyVariable = support.setPartyVariable
 GetClassId = support.getClassId

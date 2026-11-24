@@ -30,6 +30,9 @@ namespace OpenYAMM::Game
 struct RulesetProgressSummary;
 struct TrainerEntry;
 
+// The least time a status line stays up so that it can be read: its length at 12 characters a second (at most 12 s).
+float statusTextReadingSeconds(const std::string &text);
+
 class GameplayUiController
 {
 public:
@@ -300,6 +303,17 @@ public:
         uint8_t gridY = 0;
     };
 
+    // An item the gather key took: into the bags, or sold by MAW's loot filter for its gold.
+    struct LootedItem
+    {
+        InventoryItem item;
+        // Where it went in the bags; unused for a sold item.
+        LootedItemPlace place;
+        bool sold = false;
+        // The gold the loot filter sold it for (part of the summary's goldAmount).
+        int soldGold = 0;
+    };
+
     // What MAW's gather key looted on a completed map (lootAllCorpses), until dismissed.
     struct LootSummaryOverlayState
     {
@@ -308,9 +322,10 @@ public:
         int goldAmount = 0;
         // Part of goldAmount the party's followers took.
         int followerGoldShare = 0;
-        std::vector<InventoryItem> takenItems;
-        // takenItems' places, one each.
-        std::vector<LootedItemPlace> takenItemPlaces;
+        // Every item taken, in the order taken (the satchels', then the spotted ground items), the sold ones included.
+        std::vector<LootedItem> items;
+        // Of items, the ones the loot filter sold (spotted ground items only: drops are filtered when rolled).
+        size_t soldItemCount = 0;
         // Items the bags had no room for: left in their satchels, which are gathered in front of the party.
         std::vector<InventoryItem> leftItems;
         // Spotted ground items and gold piles taken (WorldItemSpotter), the ones the loot filter sold included.

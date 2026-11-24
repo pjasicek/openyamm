@@ -5,6 +5,7 @@
 #include "core/OutdoorRim.h"
 #include "core/Polygon.h"
 #include "core/SketchRead.h"
+#include "game/outdoor/OutdoorGeometryUtils.h"
 
 #include <algorithm>
 #include <charconv>
@@ -1028,6 +1029,59 @@ public:
         {
             issue("", "an outdoor map is built from its sketch: the project has no sketch.yml", "project");
             return false;
+        }
+
+        const YAML::Node wallTiles = childOf(m_sketch, "wall_tiles");
+        if (wallTiles.IsDefined())
+        {
+            if (!wallTiles.IsMap())
+            {
+                issue("wall_tiles", "wall_tiles maps each repeated wall texture to its logical [width, height]", "geometry");
+                return false;
+            }
+            for (const auto &entry : wallTiles)
+            {
+                Point2 repeat;
+                if (!entry.first.IsScalar() || entry.first.Scalar().empty() || !pointOf(entry.second, repeat)
+                    || std::min(repeat[0], repeat[1]) < 1 || std::max(repeat[0], repeat[1]) > 32767
+                    || std::floor(repeat[0]) != repeat[0] || std::floor(repeat[1]) != repeat[1])
+                {
+                    issue("wall_tiles", "a wall tile needs its texture name and two positive whole texel dimensions up to 32767", "geometry");
+                    return false;
+                }
+                m_lowered.wallTiles[entry.first.Scalar()] = repeat;
+            }
+        }
+
+        const YAML::Node footSets = childOf(m_sketch, "decoration_feet");
+        if (footSets.IsDefined())
+        {
+            if (!footSets.IsMap())
+            {
+                issue("decoration_feet", "name each decoration and its ground contact points", "geometry");
+                return false;
+            }
+            for (const auto &entry : footSets)
+            {
+                if (!entry.first.IsScalar() || entry.first.Scalar().empty() || !entry.second.IsSequence()
+                    || entry.second.size() == 0)
+                {
+                    issue("decoration_feet", "a decoration needs a list of foot offsets", "geometry");
+                    return false;
+                }
+                auto &contacts = m_lowered.decorationFeet[entry.first.Scalar()];
+                for (const auto &foot : entry.second)
+                {
+                    std::array<double, 3> point{};
+                    if (!foot.IsSequence() || foot.size() != 3 || !numberOf(foot[0], point[0])
+                        || !numberOf(foot[1], point[1]) || !numberOf(foot[2], point[2]))
+                    {
+                        issue("decoration_feet", "foot offsets are [east, north, up] in map units", "geometry");
+                        return false;
+                    }
+                    contacts.push_back(point);
+                }
+            }
         }
 
         // The land up to the peaks, kept from an earlier lowering of the same land words (OutdoorLandCache).
@@ -3679,6 +3733,8 @@ private:
 
         std::vector<double> sum(NodeTotal, 0.0);
         std::vector<double> count(NodeTotal, 0.0);
+        // The road whose bed reaches each node first, for the warning below.
+        std::vector<int> byRoad(NodeTotal, -1);
         const std::vector<double> &ground = m_lowered.ground;
 
         for (const OutdoorRoadRun &run : m_lowered.roads)
@@ -3733,6 +3789,11 @@ private:
                     {
                         sum[nodeIndex(cornerX, cornerY)] += bed;
                         count[nodeIndex(cornerX, cornerY)] += 1.0;
+
+                        if (byRoad[nodeIndex(cornerX, cornerY)] < 0)
+                        {
+                            byRoad[nodeIndex(cornerX, cornerY)] = static_cast<int>(&run - m_lowered.roads.data());
+                        }
                     }
                 }
             }
@@ -3750,12 +3811,104 @@ private:
             fixed[point.node] = 1;
         }
 
+        std::vector<double> lowered(NodeTotal, 0.0);
+
         for (size_t node = 0; node < NodeTotal; ++node)
         {
             if (count[node] > 0.0 && fixed[node] == 0)
             {
+                lowered[node] = m_lowered.ground[node] - sum[node] / count[node];
                 m_lowered.ground[node] = sum[node] / count[node];
             }
+        }
+
+        warnRoadBedsUnderThings(lowered, byRoad);
+    }
+
+    // P4 (X3's Newcastle, 2026-11-24): a road's bed, eased along the road over five cells, can lower the land beside
+    // a building or under a fixture standing by the road (a gate stair run on into a terrace cut a ramp under the
+    // mirror's dais and the gate tower's plinth). Told where a bed lowers a node within a cell of a building's plot
+    // or of a portal, fountain, well, obelisk, stone ring, trilithon or arch by more than two steps.
+    void warnRoadBedsUnderThings(const std::vector<double> &lowered, const std::vector<int> &byRoad)
+    {
+        constexpr double Tolerated = 64.0;
+        struct Footprint
+        {
+            std::string id;
+            double west = 0.0;
+            double north = 0.0;
+            double east = 0.0;
+            double south = 0.0;
+        };
+        std::vector<Footprint> footprints;
+
+        for (const OutdoorBuildingPlan &building : m_lowered.buildings)
+        {
+            footprints.push_back({building.id, building.west, building.north, building.east, building.south});
+        }
+
+        static const std::set<std::string> fixtures = {"portal", "fountain", "well", "obelisk", "stone_ring",
+            "trilithon", "arch"};
+        const YAML::Node structures = childOf(m_sketch, "structures");
+
+        for (size_t index = 0; structures.IsDefined() && structures.IsSequence() && index < structures.size(); ++index)
+        {
+            const YAML::Node structure = structures[index];
+            Point2 at = {0.0, 0.0};
+
+            if (!fixtures.contains(textOf(structure, "kind")) || !pointOf(childOf(structure, "at"), at))
+            {
+                continue;
+            }
+
+            // Its reach from its middle, in cells: `radius`, or half the longer side of `size`, or a quarter cell.
+            double reach = 128.0;
+            Point2 size = {0.0, 0.0};
+
+            if (!numberOf(childOf(structure, "radius"), reach) && pointOf(childOf(structure, "size"), size))
+            {
+                reach = std::max(size[0], size[1]) * 0.5;
+            }
+
+            reach /= OutdoorCellSize;
+            footprints.push_back({textOf(structure, "id"), at[0] - reach, at[1] - reach, at[0] + reach,
+                at[1] + reach});
+        }
+
+        // Per road and footprint: the deepest drop.
+        std::map<std::pair<int, size_t>, double> deepest;
+
+        for (size_t which = 0; which < footprints.size(); ++which)
+        {
+            const Footprint &footprint = footprints[which];
+            const int west = std::max(0, static_cast<int>(std::floor(footprint.west)));
+            const int east = std::min(Nodes - 1, static_cast<int>(std::ceil(footprint.east)));
+            const int north = std::max(0, static_cast<int>(std::floor(footprint.north)));
+            const int south = std::min(Nodes - 1, static_cast<int>(std::ceil(footprint.south)));
+
+            for (int y = north; y <= south; ++y)
+            {
+                for (int x = west; x <= east; ++x)
+                {
+                    const size_t node = nodeIndex(x, y);
+
+                    if (byRoad[node] >= 0 && lowered[node] > Tolerated)
+                    {
+                        double &drop = deepest[{byRoad[node], which}];
+                        drop = std::max(drop, lowered[node]);
+                    }
+                }
+            }
+        }
+
+        for (const std::pair<const std::pair<int, size_t>, double> &found : deepest)
+        {
+            const std::string &road = m_lowered.roads[static_cast<size_t>(found.first.first)].link;
+            m_lowered.warnings.push_back("roads: the bed of " + (road.empty() ? std::string("a road") : road)
+                + " lowers the land " + formatNumber(std::round(found.second)) + " within a cell of "
+                + footprints[found.first.second].id + ": it may stand over a hollow or show its foundation (a bed "
+                "follows the land eased over five cells along the road; end the road at its edge, or give the road "
+                "a `bed`)");
         }
     }
 
@@ -3764,6 +3917,57 @@ private:
     // ground. A plot that covers no node (under one cell) takes the land's height at its middle and levels
     // nothing; its foundation covers the slope. Water keeps its level: a plot with water under it stands at
     // least at the water's level, and is told, unless its `floor` is said lower.
+    // Whether a building's plot overlaps a platform of the sketch (`kind: platform`, drawn): its box (`size`, turned
+    // or not, by its bounds) or its round (`radius`).
+    bool onPlatform(const OutdoorBuildingPlan &building) const
+    {
+        const YAML::Node structures = childOf(m_sketch, "structures");
+
+        for (size_t index = 0; structures.IsDefined() && structures.IsSequence() && index < structures.size(); ++index)
+        {
+            const YAML::Node structure = structures[index];
+            Point2 at = {0.0, 0.0};
+            Point2 size = {0.0, 0.0};
+            double radius = 0.0;
+
+            if (textOf(structure, "kind") != "platform" || textOf(structure, "invisible") == "true"
+                || !pointOf(childOf(structure, "at"), at))
+            {
+                continue;
+            }
+
+            double reachX = 0.0;
+            double reachY = 0.0;
+
+            if (pointOf(childOf(structure, "size"), size))
+            {
+                double turn = 0.0;
+                numberOf(childOf(structure, "turn"), turn);
+                const double angle = turn * 3.14159265358979323846 / 180.0;
+                const double c = std::fabs(oy::cos(angle));
+                const double t = std::fabs(oy::sin(angle));
+                reachX = (size[0] * c + size[1] * t) * 0.5 / OutdoorCellSize;
+                reachY = (size[0] * t + size[1] * c) * 0.5 / OutdoorCellSize;
+            }
+            else if (numberOf(childOf(structure, "radius"), radius))
+            {
+                reachX = reachY = radius / OutdoorCellSize;
+            }
+            else
+            {
+                continue;
+            }
+
+            if (building.west < at[0] + reachX && building.east > at[0] - reachX && building.north < at[1] + reachY
+                && building.south > at[1] - reachY)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     void levelPlots(const std::vector<double> &waterNode)
     {
         std::string wet;
@@ -3857,7 +4061,12 @@ private:
                 // The sketch says the floor: a building at a terrace's edge stands on the terrace, not at the
                 // mean of the terrace and the slope below it. Said under the water of its plot, it stands there (a
                 // fall's pool at the foot of a cliff whose stream reaches the plot): the water keeps its level.
-                building.base = std::round(building.floor / OutdoorHeightStep) * OutdoorHeightStep;
+                // On the land the floor takes the land's nearest step of 32, the land flush with it. On a platform
+                // (a paved court, a dais) it stands where it is said, on the platform's top, and the land under it,
+                // hidden by the platform, takes the step at or under it (below): X2's stalls at 1040 on a court topped
+                // at 1040, rounded to 1056, raised the land under them through the court's paving.
+                building.base = onPlatform(building) ? building.floor
+                    : std::round(building.floor / OutdoorHeightStep) * OutdoorHeightStep;
 
                 if (building.base < waterLevel - OutdoorHeightStep * 0.5)
                 {
@@ -3944,7 +4153,8 @@ private:
 
                     if (std::isnan(waterNode[nodeIndex(x, y)]) && !keep)
                     {
-                        m_lowered.ground[nodeIndex(x, y)] = building.base - plinth;
+                        m_lowered.ground[nodeIndex(x, y)] =
+                            std::floor((building.base - plinth) / OutdoorHeightStep + 1.0e-6) * OutdoorHeightStep;
                     }
                 }
             }
@@ -4263,6 +4473,58 @@ double LoweredOutdoorMap::groundHeightAt(double x, double y) const
     const double southEast = at(x0 + 1, y0 + 1);
     return shareX >= shareY ? northWest + shareX * (northEast - northWest) + shareY * (southEast - northEast)
                             : northWest + shareY * (southWest - northWest) + shareX * (southEast - southWest);
+}
+
+double LoweredOutdoorMap::decorationGroundAt(const std::string &name, double cellX, double cellY, int facing) const
+{
+    const auto feet = decorationFeet.find(name);
+    if (feet == decorationFeet.end() || samples.size() != NodeTotal)
+    {
+        return groundHeightAt(cellX, cellY);
+    }
+
+    Game::OutdoorMapData terrain;
+    terrain.heightMap = samples;
+    // Both placed and scattered ODM objects store their origin in whole world units.
+    const auto storedCell = [](double cell)
+    {
+        return Nodes / 2 + std::round((cell - Nodes / 2) * OutdoorCellSize) / OutdoorCellSize;
+    };
+    cellX = storedCell(cellX);
+    cellY = storedCell(cellY);
+    const auto groundUnderFoot = [&](double x, double y)
+    {
+        x = std::clamp(x, 0.0, double(Nodes - 1));
+        y = std::clamp(y, 0.0, double(Nodes - 1));
+        double height = groundHeightAt(x, y);
+        // OutdoorTerrainMaterials::createMesh draws triangles between rounded samples. Native and full smoothing
+        // bound every intermediate smoothing strength at this foot for each subdivision.
+        for (int steps = 2; steps <= 8; ++steps)
+        {
+            const int ix = std::min(int(x * steps), (Nodes - 1) * steps - 1);
+            const int iy = std::min(int(y * steps), (Nodes - 1) * steps - 1);
+            const double u = x * steps - ix, v = y * steps - iy;
+            const auto vertex = [&](int dx, int dy)
+            {
+                return Game::outdoorSmoothedTerrainHeight(terrain, float(ix + dx) / steps, float(iy + dy) / steps, 1.0f);
+            };
+            const double nw = vertex(0, 0), se = vertex(1, 1);
+            const double surface = u >= v ? (1.0 - u) * nw + (u - v) * vertex(1, 0) + v * se
+                                          : (1.0 - v) * nw + (v - u) * vertex(0, 1) + u * se;
+            height = std::min(height, surface);
+        }
+        return height;
+    };
+    const double angle = facing * (3.14159265358979323846 / 180.0);
+    const double c = oy::cos(angle), s = oy::sin(angle);
+    double lowest = OutdoorHighestSample * OutdoorHeightStep;
+    for (const auto &point : feet->second)
+    {
+        const double east = c * point[0] - s * point[1];
+        const double north = s * point[0] + c * point[1];
+        lowest = std::min(lowest, groundUnderFoot(cellX + east / OutdoorCellSize, cellY - north / OutdoorCellSize) - point[2]);
+    }
+    return lowest;
 }
 
 bool outdoorNodeOnLine(const std::vector<std::array<double, 2>> &line, double width, int x, int y, size_t &segment,

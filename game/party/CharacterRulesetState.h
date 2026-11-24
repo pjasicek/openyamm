@@ -82,15 +82,18 @@ struct CharacterRulesRuntime
 };
 
 // The party's shared pouches (ItemRules::pouch; ours, in place of MAW's crafting bag, zzzMaw_CraftingBag.lua, and
-// its alchemist): Workbench materials; potions, bottles and reagents; quest items. Party::pouchItems holds them; the
-// inventory shows each as an endless tab of its own (InventoryBags::pouchBag). Saves write them in this order.
+// its alchemist): Workbench materials; potions, bottles and reagents; quest items; and new loot (ours, the leather
+// pouch tab; user, 2026-11-24): what the party picks up or loots and has no other pouch waits there, to be kept by
+// moving it to a bag or sold as trash. Party::pouchItems holds them; the inventory shows each as an endless tab of its
+// own (InventoryBags::pouchBag). Saves write them in this order.
 enum class ItemPouch : uint8_t
 {
     Crafting,
     Alchemy,
     Quest,
+    Loot,
 };
-constexpr size_t ItemPouchCount = 3;
+constexpr size_t ItemPouchCount = 4;
 
 struct CharacterRulesetState
 {

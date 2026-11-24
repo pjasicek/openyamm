@@ -744,8 +744,8 @@ bool OutdoorEventWords::knownDecoration(const std::string &name)
         m_decorationsLoaded = true;
         std::string text;
 
-        if (!m_assetRoot.empty()
-            && readTextFile(m_assetRoot / "engine" / "data_tables" / "decoration_data.txt", text))
+        if (readWorldTable(m_assetRoot, textOf(m_project.document("project.yml"), "world"),
+                "decoration_data.txt", "decorations", text))
         {
             std::istringstream lines(text);
             std::string line;
@@ -1036,8 +1036,8 @@ void OutdoorEventWords::effects(const YAML::Node &effects, const std::string &pa
 
             if (!knownDecoration(picture))
             {
-                add(at + ".set_sprite.to", "there is no decoration named " + picture + " in engine/data_tables/"
-                    "decoration_data.txt; `oymap assets <text> --kind decoration` lists them", "reference");
+                add(at + ".set_sprite.to", "there is no decoration named " + picture
+                    + " in the engine or world decoration tables", "reference");
                 continue;
             }
 

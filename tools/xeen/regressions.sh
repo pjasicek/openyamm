@@ -27,6 +27,7 @@ scenarios=(
     tests/scenarios/xeen/dd17_belt_forward_held.yml
     tests/scenarios/equip_carried_item.yml
     tests/scenarios/mm7/hidden_monsters_not_killed.yml
+    tests/scenarios/mm7/wine_cellar_vampire_leave.yml
     tests/scenarios/mm6/given_item_full_packs.yml
     tests/scenarios/xeen/given_item_held_kept.yml
     tests/scenarios/xeen/given_item_waiting_saved.yml

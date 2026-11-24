@@ -1106,11 +1106,18 @@ void IndoorSceneRuntime::applyMoverBodyRules(
         };
         // A face stops the mover only when it comes at the body: not the floor under its feet (a pressure plate
         // rising again carries it) and not a face the body is behind (indoorMoverFaceBlocksBody).
-        const auto touches = [&polygons, &previousPolygons](const IndoorMoverBody &body)
+        // A sliding mover's faces move along the door's direction; a rotating one's have no single direction.
+        const bool slides = !mover.rotation && !mover.spin;
+        const bx::Vec3 slideDirection = slides
+            ? bx::Vec3{fixedIndoorDoorDirectionComponentToFloat(door.directionX),
+                fixedIndoorDoorDirectionComponentToFloat(door.directionY),
+                fixedIndoorDoorDirectionComponentToFloat(door.directionZ)}
+            : bx::Vec3{0.0f, 0.0f, 0.0f};
+        const auto touches = [&polygons, &previousPolygons, &slideDirection](const IndoorMoverBody &body)
         {
             for (size_t index = 0; index < polygons.size(); ++index)
             {
-                if (indoorMoverFaceBlocksBody(body, previousPolygons[index], polygons[index]))
+                if (indoorMoverFaceBlocksBody(body, previousPolygons[index], polygons[index], slideDirection))
                 {
                     return true;
                 }

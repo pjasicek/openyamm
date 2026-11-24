@@ -228,14 +228,16 @@ void handleNestedInventoryBagButtons(GameplayScreenRuntime &context, const Gamep
     // The party's pouches, over a party inventory: the pouch's tab in the bags' place, its button again the bags.
     GameplayUiController::InventoryNestedOverlayState &overlay = context.inventoryNestedOverlay();
 
-    for (const auto &[pId, pouch] : {std::pair("ChestInventoryCraftingPouch", ItemPouch::Crafting),
-             std::pair("ChestInventoryAlchemyPouch", ItemPouch::Alchemy),
-             std::pair("ChestInventoryQuestPouch", ItemPouch::Quest)})
+    const std::array<std::optional<ItemPouch>, 4> slots = GameplayHudOverlaySupport::pouchButtons(*pParty);
+
+    for (size_t slot = 0; slot < slots.size(); ++slot)
     {
-        if (overlay.active && pParty->hasPouch(pouch) && pressed(pId))
+        const std::optional<ItemPouch> pouch = slots[slot];
+
+        if (overlay.active && pouch && pressed("ChestInventoryPouch" + std::to_string(slot + 1)))
         {
             overlay.pouch.thumbDragOffset.reset();
-            overlay.pouch.shown = overlay.pouch.shown == pouch ? std::nullopt : std::optional<ItemPouch>(pouch);
+            overlay.pouch.shown = overlay.pouch.shown == pouch ? std::nullopt : pouch;
             return;
         }
     }

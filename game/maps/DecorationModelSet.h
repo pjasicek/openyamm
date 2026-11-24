@@ -147,6 +147,7 @@ private:
         bool randomYaw = true;
         float yawOffset = 0.0f;
         float zOffset = 0.0f;
+        bool modelCollision = false;
         std::array<float, 3> lodPixels = Engine::ModelLodPixels;
         // variant: the glTF material variant (KHR_materials_variants) it draws, one GLB serving several colours;
         // 0 is the default material.

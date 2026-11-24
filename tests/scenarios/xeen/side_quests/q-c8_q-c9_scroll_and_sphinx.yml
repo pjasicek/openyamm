@@ -269,8 +269,10 @@ steps:
   - walk_to: {x: 4400, y: 1216, z: -420, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - walk_to: {x: 3300, y: 1216, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - walk_to: {x: 2112, y: 700, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
-  - walk_to: {x: 2368, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
-  - walk_to: {x: 1200, y: 0, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # Into the great hall by the kennels' door (door 10, event 20): the east tower's foot has no way into the hall.
+  - walk_to: {x: 1700, y: 832, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(20, 10); if door_state(10) ~= 'open' then error('kennels door: ' .. door_state(10)) end"}
+  - walk_to: {x: 1200, y: 832, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - walk_to: {x: 0, y: 100, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - walk_to: {x: 0, y: -700, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - walk_to: {x: 64, y: -1420, z: 0, radius: 40, timeout_seconds: 20, close_dialogs: true}

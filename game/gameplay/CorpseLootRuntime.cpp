@@ -760,8 +760,8 @@ GameplayUiController::LootSummaryOverlayState lootAllCorpses(IGameplayWorldRunti
                 break;
             }
 
-            summary.takenItems.push_back(inventoryItem);
-            summary.takenItemPlaces.push_back(grantedItemPlace(party, stored->memberIndex, bagCount, bagSizes));
+            summary.items.push_back(
+                {inventoryItem, grantedItemPlace(party, stored->memberIndex, bagCount, bagSizes)});
         }
 
         worldRuntime.closeActiveCorpseView();
@@ -771,7 +771,7 @@ GameplayUiController::LootSummaryOverlayState lootAllCorpses(IGameplayWorldRunti
     {
         creditFoundGold(party, partyGold, GoldReason::LootCorpse, worldRuntime.eventRuntimeState());
     }
-    else if (!summary.takenItems.empty())
+    else if (!summary.items.empty())
     {
         party.requestSound(SoundId::Gold);
     }
@@ -791,12 +791,14 @@ void lootSpottedWorldItems(
     int partyGold = 0;
     bool tookItem = false;
 
+    // Returns the gold found, as the summary counts it.
     const auto addFoundGold = [&](uint32_t amount)
     {
         const FoundGold foundGold = resolveFoundGold(amount, worldRuntime.eventRuntimeState(), &party);
         partyGold += static_cast<int>(foundGold.partyAmount);
         summary.goldAmount += static_cast<int>(foundGold.amount);
         summary.followerGoldShare += static_cast<int>(foundGold.followerShare);
+        return static_cast<int>(foundGold.amount);
     };
 
     // Highest index first: taking an item shifts only the ones after it.
@@ -830,13 +832,26 @@ void lootSpottedWorldItems(
             continue;
         }
 
-        const FilteredLoot filtered = filterDroppedLoot(
-            item, *pDefinition, &party, party.standardItemEnchantTable(), party.specialItemEnchantTable());
+        const auto trace = [&](const char *outcome)
+        {
+            GAMEPLAY_DEBUG_TRACE(
+                std::string("gather_ground_item outcome=") + outcome + " world_item_index=" + std::to_string(index)
+                + " item_id=" + std::to_string(item.objectDescriptionId)
+                + gameplayDebugTraceItemSummary(item.objectDescriptionId, pItemTable)
+                + " dropped_by_player=" + std::to_string(int(state.droppedByPlayer)));
+        };
+
+        // The loot filter decides on drops: an item the party dropped or threw is its own, never sold or left behind.
+        const FilteredLoot filtered = state.droppedByPlayer
+            ? FilteredLoot{}
+            : filterDroppedLoot(
+                item, *pDefinition, &party, party.standardItemEnchantTable(), party.specialItemEnchantTable());
 
         if (filtered.verdict == LootFilterVerdict::Ground)
         {
             worldRuntime.updateWorldItemInspectState(index, item);
             worldRuntime.unspotWorldItem(index);
+            trace("filtered_to_ground");
             continue;
         }
 
@@ -844,8 +859,14 @@ void lootSpottedWorldItems(
         {
             if (worldRuntime.takeWorldItemInspectState(index, taken))
             {
-                addFoundGold(filtered.gold);
+                GameplayUiController::LootedItem sold = {};
+                sold.item = item;
+                sold.sold = true;
+                sold.soldGold = addFoundGold(filtered.gold);
+                summary.items.push_back(sold);
+                ++summary.soldItemCount;
                 ++summary.groundItemCount;
+                trace("sold");
             }
 
             continue;
@@ -857,15 +878,16 @@ void lootSpottedWorldItems(
         if (!stored)
         {
             summary.leftGroundItems.push_back(item);
+            trace("left_no_room");
             continue;
         }
 
         // collectableSpottedWorldItemIndices left out every item the world refuses to give up.
         worldRuntime.takeWorldItemInspectState(index, taken);
+        trace("inventory");
         tookItem = true;
         ++summary.groundItemCount;
-        summary.takenItems.push_back(item);
-        summary.takenItemPlaces.push_back(grantedItemPlace(party, stored->memberIndex, bagCount, bagSizes));
+        summary.items.push_back({item, grantedItemPlace(party, stored->memberIndex, bagCount, bagSizes)});
     }
 
     if (partyGold > 0)

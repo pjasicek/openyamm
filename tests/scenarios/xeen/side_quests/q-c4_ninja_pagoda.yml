@@ -135,7 +135,7 @@ steps:
   - walk_to: {x: 672, y: -1200, z: 1040, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - walk_to: {x: 672, y: -1530, z: 1024, z_tolerance: 60, radius: 48, timeout_seconds: 30, close_dialogs: true}
   - walk_to: {x: 290, y: -1500, z: 1024, radius: 48, timeout_seconds: 30, close_dialogs: true}
-  - walk_to: {x: 290, y: -1240, z: 1024, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 290, y: -1240, z: 1024, radius: 64, timeout_seconds: 30, clear_hostiles: 480, close_dialogs: true}
   - walk_to: {x: -560, y: -1240, z: 1024, radius: 64, timeout_seconds: 30, clear_hostiles: 480, close_dialogs: true}
   - walk_to: {x: -560, y: -1520, z: 1024, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - walk_to: {x: -896, y: -1520, z: 990, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}

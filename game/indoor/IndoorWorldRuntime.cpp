@@ -2544,6 +2544,7 @@ std::optional<IndoorProjectileCollisionCandidate> findProjectileIndoorFaceHit(
         // a standing destructible's invisible hit box takes missiles (MM9 RayHit)
         const bool invisible = (hasFaceAttribute(effectiveAttributes, FaceAttribute::Invisible)
                 || indoorFaceHasInvisibleOverride(faceIndex, pEventRuntimeState))
+            && !face.decorationCollision
             && !indoorDestructibleHitFace(indoorMapData, faceIndex, effectiveAttributes);
 
         if (face.isPortal
@@ -2762,8 +2763,9 @@ bool indoorSegmentBlockedByCombatFace(
 
         if (face.isPortal
             || hasFaceAttribute(effectiveAttributes, FaceAttribute::IsPortal)
-            || hasFaceAttribute(effectiveAttributes, FaceAttribute::Invisible)
-            || indoorFaceHasInvisibleOverride(faceIndex, pEventRuntimeState))
+            || (face.decorationCollision && hasFaceAttribute(effectiveAttributes, FaceAttribute::Untouchable))
+            || (!face.decorationCollision && (hasFaceAttribute(effectiveAttributes, FaceAttribute::Invisible)
+                || indoorFaceHasInvisibleOverride(faceIndex, pEventRuntimeState))))
         {
             continue;
         }
@@ -22588,6 +22590,7 @@ bool IndoorWorldRuntime::worldItemInspectState(size_t worldItemIndex, GameplayWo
     state.item = item;
     state.goldAmount = goldAmount;
     state.isGold = goldAmount > 0;
+    state.droppedByPlayer = (spriteObject.attributes & SpriteAttrDroppedByPlayer) != 0;
     return true;
 }
 

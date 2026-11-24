@@ -43,7 +43,7 @@ steps:
   - select_topic: {match_label: "OK"}
   - advance_runtime: {seconds: 1.5, follow_map_move: true, present_dialogs: true}
   - assert: {map: xeen_dd11a.blv}
-  - assert: {party_position: {x: 96, y: -32, radius: 128}}
+  - assert: {party_position: {x: 80, y: -208, radius: 128}}
   - play_lua: {source: "wait(2); for _ = 1, 3 do if not close() then break end end"}
   # DD-11A: the root tunnel, the bone midden, the bone slope and the boulder to the dead thief's crawl.
   - walk_to: {x: 1100, y: 0, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}

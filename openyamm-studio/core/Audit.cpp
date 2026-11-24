@@ -19,12 +19,14 @@
 #include "game/indoor/IndoorGeometryUtils.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 
+#include <cgltf/cgltf.h>
 #include <yaml-cpp/yaml.h>
 
 #include <algorithm>
 #include <cctype>
 #include <cmath>
 #include <functional>
+#include <memory>
 #include <sstream>
 #include <map>
 #include <numbers>
@@ -578,6 +580,307 @@ static void auditDoorwayDecorations(const Game::IndoorMapData &indoor, const std
     }
 }
 
+// P3 2026-11-24 (XD-14's great hall: the party stopped at x 1381 in its west arch and its two side doors, passing
+// only by jumping; the route planner found no way in): a doorway the party cannot walk out of. For each portal one
+// walks through (upright, at least a party high and wide, at most WidestDoorway) and each of its sides: how far the
+// party's middle gets from the portal, straight out along every line across the opening (each 8 apart, the party's
+// radius inside its sides), before its body (radius 37) meets a face it cannot step over (not a portal, a door's
+// moving leaf, a floor or ceiling or a face let through; standing more than MaximumRise from its foot to its top, its
+// top more than MaximumRise over the sill, its foot under the opening's head and a body's height over the sill). An
+// error when on no line it gets past the opening's reveal (its two jambs' depth on that side, up to DeepestReveal)
+// by its radius, so it cannot turn aside: XD-14's long tables, 64 high and 64 off the wall, across its three doors.
+// Moving leaves are left to the door rules; a face over the opening itself or a clicked panel across it (a plug, a
+// secret door) is the opening's own closing. `strict` (Xeen's maps) makes it an error, else a warning.
+static void auditDoorwayFaces(const Game::IndoorMapData &indoor, const Game::MapDeltaData *pState, bool strict,
+    std::vector<AuditFinding> &findings)
+{
+    constexpr double PartyRadius = 37.0;
+    constexpr double WidestDoorway = 512.0;
+    // The engine's step up (game/indoor/IndoorMovementController.cpp MaximumRise) and a body's height (its
+    // `height`, 160): a face whose foot is higher passes over the party's head.
+    constexpr double MaximumRise = 50.0;
+    constexpr double BodyHeight = 160.0;
+    // A jamb longer than this is a corridor's wall, not a reveal through a wall: the party is in once through.
+    constexpr double DeepestReveal = 256.0;
+    const std::map<uint32_t, uint32_t> doorOf = pState != nullptr ? doorOfFaces(pState)
+        : std::map<uint32_t, uint32_t>();
+    std::set<std::pair<int, int>> said;
+
+    // A face's corners, its normal (unnormalised) and its height range; false when it has a corner out of range.
+    const auto shapeOf = [&indoor](const Game::IndoorFace &face, std::vector<std::array<double, 3>> &points,
+        std::array<double, 3> &normal)
+    {
+        points.clear();
+        normal = {0.0, 0.0, 0.0};
+
+        for (const uint16_t vertexIndex : face.vertexIndices)
+        {
+            if (vertexIndex >= indoor.vertices.size())
+            {
+                return false;
+            }
+
+            const Game::IndoorVertex &vertex = indoor.vertices[vertexIndex];
+            points.push_back({double(vertex.x), double(vertex.y), double(vertex.z)});
+        }
+
+        for (size_t index = 0; index < points.size(); ++index)
+        {
+            const std::array<double, 3> &a = points[index];
+            const std::array<double, 3> &b = points[(index + 1) % points.size()];
+            normal[0] += (a[1] - b[1]) * (a[2] + b[2]);
+            normal[1] += (a[2] - b[2]) * (a[0] + b[0]);
+            normal[2] += (a[0] - b[0]) * (a[1] + b[1]);
+        }
+
+        return points.size() >= 3;
+    };
+    std::vector<std::array<double, 3>> points;
+    std::array<double, 3> normal = {};
+
+    for (size_t faceIndex = 0; faceIndex < indoor.faces.size(); ++faceIndex)
+    {
+        const Game::IndoorFace &face = indoor.faces[faceIndex];
+
+        if ((!face.isPortal && !Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::IsPortal))
+            || !shapeOf(face, points, normal))
+        {
+            continue;
+        }
+
+        const double horizontal = std::hypot(normal[0], normal[1]);
+
+        if (horizontal <= 0.0 || horizontal < 0.7 * std::hypot(horizontal, normal[2]))
+        {
+            continue;
+        }
+
+        std::array<double, 2> middle = {0.0, 0.0};
+
+        for (const std::array<double, 3> &point : points)
+        {
+            middle = {middle[0] + point[0] / double(points.size()), middle[1] + point[1] / double(points.size())};
+        }
+
+        const std::array<double, 2> way = {normal[0] / horizontal, normal[1] / horizontal};
+        const std::array<double, 2> across = {-way[1], way[0]};
+        const auto planOf = [&](const std::array<double, 3> &point)
+        {
+            return std::array<double, 2>{(point[0] - middle[0]) * way[0] + (point[1] - middle[1]) * way[1],
+                (point[0] - middle[0]) * across[0] + (point[1] - middle[1]) * across[1]};
+        };
+        double least = 1.0e18;
+        double most = -1.0e18;
+        double low = 1.0e18;
+        double high = -1.0e18;
+
+        for (const std::array<double, 3> &point : points)
+        {
+            least = std::min(least, planOf(point)[1]);
+            most = std::max(most, planOf(point)[1]);
+            low = std::min(low, point[2]);
+            high = std::max(high, point[2]);
+        }
+
+        if (most - least < 2.0 * PartyRadius || most - least > WidestDoorway || high - low < 128.0)
+        {
+            continue;
+        }
+
+        // The faces a body cannot step over, as footprints (their corners across the opening's plan).
+        std::vector<std::pair<size_t, std::vector<std::array<double, 2>>>> solids;
+        // The jambs: upright faces facing across along the opening's sides; how far they reach out each way, on
+        // its one side and its other (a reveal through a wall has both; a corridor's end wall beside an opening at
+        // its corner is no reveal).
+        std::array<std::array<double, 2>, 2> jambs = {};
+        std::vector<std::array<double, 3>> otherPoints;
+        std::array<double, 3> otherNormal = {};
+
+        for (size_t otherIndex = 0; otherIndex < indoor.faces.size(); ++otherIndex)
+        {
+            const Game::IndoorFace &other = indoor.faces[otherIndex];
+
+            if (other.isPortal || Game::hasFaceAttribute(other.attributes, Game::FaceAttribute::IsPortal)
+                || Game::hasFaceAttribute(other.attributes, Game::FaceAttribute::Untouchable)
+                || doorOf.contains(static_cast<uint32_t>(otherIndex)) || !shapeOf(other, otherPoints, otherNormal))
+            {
+                continue;
+            }
+
+            const double length = std::hypot(otherNormal[0], otherNormal[1], otherNormal[2]);
+            double bottom = 1.0e18;
+            double top = -1.0e18;
+
+            for (const std::array<double, 3> &point : otherPoints)
+            {
+                bottom = std::min(bottom, point[2]);
+                top = std::max(top, point[2]);
+            }
+
+            if (length <= 0.0 || std::fabs(otherNormal[2]) >= 0.7 * length || top - bottom <= MaximumRise
+                || top <= low + MaximumRise || bottom >= std::min(high, low + BodyHeight))
+            {
+                continue;
+            }
+
+            std::vector<std::array<double, 2>> plan;
+            double nearestOut = 1.0e18;
+            double farthestOut = -1.0e18;
+            double leastAcross = 1.0e18;
+            double mostAcross = -1.0e18;
+
+            for (const std::array<double, 3> &point : otherPoints)
+            {
+                plan.push_back(planOf(point));
+                nearestOut = std::min(nearestOut, plan.back()[0]);
+                farthestOut = std::max(farthestOut, plan.back()[0]);
+                leastAcross = std::min(leastAcross, plan.back()[1]);
+                mostAcross = std::max(mostAcross, plan.back()[1]);
+            }
+
+            const double facingAcross = std::fabs(otherNormal[0] * across[0] + otherNormal[1] * across[1]) / length;
+            const double facingWay = std::fabs(otherNormal[0] * way[0] + otherNormal[1] * way[1]) / length;
+
+            if (facingAcross > 0.9 && mostAcross - leastAcross < 4.0
+                && (std::fabs(leastAcross - least) < 4.0 || std::fabs(mostAcross - most) < 4.0))
+            {
+                // A jamb: from the portal's plane out to one side (a corridor's wall is none).
+                const size_t edge = std::fabs(leastAcross - least) < 4.0 ? 0 : 1;
+
+                if (nearestOut > -4.0 && nearestOut < 4.0 && farthestOut <= DeepestReveal)
+                {
+                    jambs[0][edge] = std::max(jambs[0][edge], farthestOut);
+                }
+
+                if (farthestOut > -4.0 && farthestOut < 4.0 && -nearestOut <= DeepestReveal)
+                {
+                    jambs[1][edge] = std::max(jambs[1][edge], -nearestOut);
+                }
+            }
+
+            // A face laid over the opening itself (a plug of masonry, a cabinet's back: seen, not an invisible
+            // wall), or a clicked panel square to the way across the opening's whole width (a secret door its
+            // event opens), is the opening's own closing, not something in its way. A drawn face as high as the
+            // opening is a wall one sees (a shallow cupboard's back: XD-04's), not an invisible one: the rule is
+            // about what stands lower (a table, a chest, a ledge) or is not drawn.
+            if ((facingWay > 0.9 && ((nearestOut > -2.0 && farthestOut < 2.0)
+                    || (Game::hasFaceAttribute(other.attributes, Game::FaceAttribute::Clickable)
+                        && leastAcross <= least + 1.0 && mostAcross >= most - 1.0)))
+                || (top >= high - 32.0 && !Game::hasFaceAttribute(other.attributes, Game::FaceAttribute::Invisible)))
+            {
+                continue;
+            }
+
+            solids.push_back({otherIndex, std::move(plan)});
+        }
+
+        for (const int side : {0, 1})
+        {
+            const double sign = side == 0 ? 1.0 : -1.0;
+            const double needed = std::min(jambs[side][0], jambs[side][1]) + PartyRadius;
+            double best = -1.0e18;
+            size_t stopper = 0;
+
+            for (double line = least + PartyRadius; line <= most - PartyRadius + 1.0e-6 && best < needed; line += 8.0)
+            {
+                // The nearest place out along this line where a solid's footprint comes within the radius.
+                double reach = 1.0e18;
+                size_t first = 0;
+
+                for (const auto &[otherIndex, plan] : solids)
+                {
+                    for (size_t index = 0; index < plan.size(); ++index)
+                    {
+                        std::array<double, 2> a = {plan[index][0] * sign, plan[index][1] - line};
+                        std::array<double, 2> b = {plan[(index + 1) % plan.size()][0] * sign,
+                            plan[(index + 1) % plan.size()][1] - line};
+
+                        // The edge clipped to the body's width round the line and to the side's half.
+                        const double band = PartyRadius - 0.5;
+                        bool kept = true;
+
+                        for (const double edge : {-band, band})
+                        {
+                            const bool aOut = edge < 0.0 ? a[1] < edge : a[1] > edge;
+                            const bool bOut = edge < 0.0 ? b[1] < edge : b[1] > edge;
+
+                            if (aOut && bOut)
+                            {
+                                kept = false;
+                                break;
+                            }
+
+                            if (aOut != bOut)
+                            {
+                                const double share = (edge - a[1]) / (b[1] - a[1]);
+                                const std::array<double, 2> cut = {a[0] + (b[0] - a[0]) * share, edge};
+                                (aOut ? a : b) = cut;
+                            }
+                        }
+
+                        if (!kept || (a[0] < 0.0 && b[0] < 0.0))
+                        {
+                            continue;
+                        }
+
+                        if (a[0] < 0.0 || b[0] < 0.0)
+                        {
+                            const double share = (0.0 - a[0]) / (b[0] - a[0]);
+                            const std::array<double, 2> cut = {0.0, a[1] + (b[1] - a[1]) * share};
+                            (a[0] < 0.0 ? a : b) = cut;
+                        }
+
+                        const double near = std::min(a[0], b[0]);
+
+                        if (near < reach)
+                        {
+                            reach = near;
+                            first = otherIndex;
+                        }
+                    }
+                }
+
+                if (reach - PartyRadius > best)
+                {
+                    best = reach - PartyRadius;
+                    stopper = first;
+                }
+            }
+
+            if (best >= needed || best > 1.0e17 || !said.insert({int(faceIndex), side}).second)
+            {
+                continue;
+            }
+
+            const Game::IndoorFace &other = indoor.faces[stopper];
+            int otherLow = 1 << 30;
+            int otherHigh = -(1 << 30);
+
+            for (const uint16_t vertexIndex : other.vertexIndices)
+            {
+                otherLow = std::min(otherLow, static_cast<int>(indoor.vertices[vertexIndex].z));
+                otherHigh = std::max(otherHigh, static_cast<int>(indoor.vertices[vertexIndex].z));
+            }
+
+            const int into = side == 0 ? face.roomNumber : face.roomBehindNumber;
+            findings.push_back({"face.in_doorway", strict ? "error" : "warning", "the opening of face "
+                    + std::to_string(faceIndex)
+                    + " (sectors " + std::to_string(face.roomNumber) + " and " + std::to_string(face.roomBehindNumber)
+                    + ", " + std::to_string(int(most - least)) + " wide, its middle at ["
+                    + std::to_string(int(std::lround(middle[0]))) + ", " + std::to_string(int(std::lround(middle[1])))
+                    + ", " + std::to_string(int(std::lround(low)))  + "]): walking out of it on the side of sector "
+                    + std::to_string(into) + " the party's middle gets " + std::to_string(int(std::floor(best)))
+                    + " from it at most, short of the " + std::to_string(int(std::ceil(needed)))
+                    + " that clear its jambs: face " + std::to_string(stopper) + " (" + other.textureName + ", "
+                    + std::to_string(otherLow) + " to " + std::to_string(otherHigh) + ") stands across the way, "
+                    "too high to step over (" + std::to_string(int(MaximumRise)) + "): an invisible wall, only a "
+                    "jump passes",
+                "Move what stands there (a table, a platform, a pillar) clear of the opening, at least the party's "
+                "width (74) past its jambs, or make it low enough to step on."});
+        }
+    }
+}
+
 std::vector<AuditFinding> auditLooks(
     const LoadedMap &map, const std::string &decorationTableText, const std::set<int> &hanging)
 {
@@ -727,6 +1030,9 @@ std::vector<AuditFinding> auditLooks(
     }
 
     auditDoorwayDecorations(indoor, decorationTableText, hanging, findings);
+    // An error on the maps built to Xeen's rules (decision D-7.2, as the dressing rules); a warning on the shipped
+    // maps, whose steep cave floors and secret ways it cannot tell from a table (MM6-MM8: 32 on 120 maps).
+    auditDoorwayFaces(indoor, map.state ? &*map.state : nullptr, map.world == "xeen", findings);
     return findings;
 }
 
@@ -909,6 +1215,8 @@ constexpr double RoadMiddle = 64.0;
 struct DressingKind
 {
     double radius = 0.0;
+    // Its height (the prop overlap check: a sprite's body).
+    double height = 0.0;
     bool blocks = false;
     bool container = false;
     bool setPiece = false;
@@ -974,6 +1282,7 @@ DressingKinds readDressingKinds(const std::string &decorationTableText)
         });
         DressingKind kind;
         kind.radius = std::atof(cells[4].c_str());
+        kind.height = std::atof(cells[5].c_str());
         kind.hint = cells[2];
         kind.name = cells[1];
         kind.blocks = kind.radius > 0.0 && cells[11].find("MoveThrough") == std::string::npos
@@ -4490,9 +4799,1033 @@ std::vector<AuditFinding> auditVoid(const LoadedMap &map)
         const double x = 0.5 * (model.minX + model.maxX);
         const double y = 0.5 * (model.minY + model.maxY);
 
-        if (name.find("fall") == std::string::npos && inVoid(x, y))
+        // A decoration's hidden collision (`collision:<structure id>`, core/OutdoorDecorationCollision.h) stands
+        // where its decoration does, which the decorations' rule above judges (the hull over the void is right).
+        if (name.find("fall") == std::string::npos && !name.starts_with("collision:") && inVoid(x, y))
         {
             occupied("the model " + model.name, x, y);
+        }
+    }
+
+    return findings;
+}
+
+// Props inside props or walls, and pick-ups hidden in them (F40, 2026-11-24): tools/xeen/check_prop_overlap.py.
+namespace
+{
+namespace Overlap
+{
+// Overlap or wall depth that still reads as touching; an item's smallest pick half extent (game/items/
+// WorldItemShape.cpp MinPickHalfExtent); an item this far in a wall is hidden; a gap narrower than this between two
+// blockers, open at both ends, traps walkers; a prop whose base is within this of another's top stands on it.
+constexpr double Tolerance = 8.0;
+constexpr double ItemPick = 20.0;
+constexpr double ItemWall = 10.0;
+constexpr double Squeeze = 96.0;
+constexpr double Stack = 12.0;
+constexpr double Step = 24.0;
+constexpr int Directions = 32;
+constexpr double WallNormalZ = 0.7;
+constexpr double Cell = 512.0;
+// The outlines of PropModelShape: whole, lower body, middle.
+constexpr size_t Whole = 0;
+constexpr size_t Lower = 1;
+constexpr size_t Middle = 2;
+constexpr std::array<std::array<double, 2>, 3> Bands = {{{0.0, 1.0}, {0.12, 0.4}, {0.45, 0.75}}};
+}
+
+using PlanPolygon = std::vector<std::array<double, 2>>;
+
+PlanPolygon convexHull(std::vector<std::array<double, 2>> points)
+{
+    std::sort(points.begin(), points.end());
+    points.erase(std::unique(points.begin(), points.end()), points.end());
+
+    if (points.size() <= 2)
+    {
+        return points;
+    }
+
+    const auto cross = [](const std::array<double, 2> &o, const std::array<double, 2> &a,
+                           const std::array<double, 2> &b)
+    {
+        return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+    };
+    PlanPolygon hull;
+
+    for (int pass = 0; pass < 2; ++pass)
+    {
+        const size_t start = hull.size();
+
+        for (size_t index = 0; index < points.size(); ++index)
+        {
+            const std::array<double, 2> &point = pass == 0 ? points[index] : points[points.size() - 1 - index];
+
+            while (hull.size() >= start + 2 && cross(hull[hull.size() - 2], hull.back(), point) <= 0.0)
+            {
+                hull.pop_back();
+            }
+
+            hull.push_back(point);
+        }
+
+        hull.pop_back();
+    }
+
+    return hull;
+}
+
+// game/maps/DecorationModelSet.cpp placementRandom.
+double overlapPlacementRandom(int x, int y, uint32_t salt)
+{
+    uint32_t hash = (static_cast<uint32_t>(x) * 0x9e3779b1u) ^ (static_cast<uint32_t>(y) * 0x85ebca77u)
+        ^ (salt * 0xc2b2ae3du);
+    hash ^= hash >> 15;
+    hash *= 0x2c1b3c6du;
+    hash ^= hash >> 12;
+    hash *= 0x297a2d39u;
+    hash ^= hash >> 15;
+    return static_cast<double>(hash & 0xffffffu) / static_cast<double>(0x1000000u);
+}
+
+PlanPolygon overlapCircle(double x, double y, double radius, int count = 16)
+{
+    PlanPolygon points;
+
+    for (int index = 0; index < count; ++index)
+    {
+        const double angle = 2.0 * std::numbers::pi * index / count;
+        points.push_back({x + radius * std::cos(angle), y + radius * std::sin(angle)});
+    }
+
+    return points;
+}
+
+// How far two convex plan polygons overlap (the least push that parts them); <= 0 when apart.
+double separatingDepth(const PlanPolygon &a, const PlanPolygon &b)
+{
+    double best = 1.0e18;
+
+    for (const PlanPolygon *pPolygon : {&a, &b})
+    {
+        const PlanPolygon &polygon = *pPolygon;
+
+        for (size_t index = 0; index < polygon.size(); ++index)
+        {
+            const std::array<double, 2> &from = polygon[index];
+            const std::array<double, 2> &to = polygon[(index + 1) % polygon.size()];
+            double nx = to[1] - from[1];
+            double ny = from[0] - to[0];
+            const double length = std::hypot(nx, ny);
+
+            if (length < 1.0e-9)
+            {
+                continue;
+            }
+
+            nx /= length;
+            ny /= length;
+            const auto span = [nx, ny](const PlanPolygon &points)
+            {
+                double low = 1.0e18;
+                double high = -1.0e18;
+
+                for (const std::array<double, 2> &point : points)
+                {
+                    low = std::min(low, point[0] * nx + point[1] * ny);
+                    high = std::max(high, point[0] * nx + point[1] * ny);
+                }
+
+                return std::array<double, 2>{low, high};
+            };
+            const std::array<double, 2> spanA = span(a);
+            const std::array<double, 2> spanB = span(b);
+            const double overlap = std::min(spanA[1], spanB[1]) - std::max(spanA[0], spanB[0]);
+
+            if (overlap <= 0.0)
+            {
+                return overlap;
+            }
+
+            best = std::min(best, overlap);
+        }
+    }
+
+    return best;
+}
+
+bool planPointIn(const PlanPolygon &polygon, double x, double y)
+{
+    bool inside = false;
+
+    for (size_t index = 0; index < polygon.size(); ++index)
+    {
+        const std::array<double, 2> &a = polygon[index];
+        const std::array<double, 2> &b = polygon[(index + 1) % polygon.size()];
+
+        if ((a[1] > y) != (b[1] > y) && x < a[0] + (y - a[1]) * (b[0] - a[0]) / (b[1] - a[1]))
+        {
+            inside = !inside;
+        }
+    }
+
+    return inside;
+}
+
+bool planPointOnEdge(const PlanPolygon &polygon, double x, double y, double tolerance)
+{
+    for (size_t index = 0; index < polygon.size(); ++index)
+    {
+        const std::array<double, 2> &a = polygon[index];
+        const std::array<double, 2> &b = polygon[(index + 1) % polygon.size()];
+        const double dx = b[0] - a[0];
+        const double dy = b[1] - a[1];
+        const double length = dx * dx + dy * dy;
+
+        if (length == 0.0)
+        {
+            continue;
+        }
+
+        const double t = std::clamp(((x - a[0]) * dx + (y - a[1]) * dy) / length, 0.0, 1.0);
+
+        if (std::pow(a[0] + t * dx - x, 2.0) + std::pow(a[1] + t * dy - y, 2.0) < tolerance * tolerance)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+// The upright faces a prop may stand in: no portals, floors, ceilings, door leaves or chests' faces.
+struct OverlapWall
+{
+    std::vector<std::array<double, 3>> points;
+    std::array<double, 3> normal = {};
+    double distance = 0.0;
+    std::array<double, 3> low = {};
+    std::array<double, 3> high = {};
+};
+
+struct OverlapWalls
+{
+    std::vector<OverlapWall> walls;
+    std::map<std::pair<int64_t, int64_t>, std::vector<size_t>> grid;
+
+    static int64_t cell(double value)
+    {
+        return static_cast<int64_t>(std::floor(value / Overlap::Cell));
+    }
+
+    std::vector<const OverlapWall *> near(double x, double y, double reach) const
+    {
+        std::set<size_t> seen;
+        std::vector<const OverlapWall *> found;
+
+        for (int64_t gx = cell(x - reach); gx <= cell(x + reach); ++gx)
+        {
+            for (int64_t gy = cell(y - reach); gy <= cell(y + reach); ++gy)
+            {
+                const std::map<std::pair<int64_t, int64_t>, std::vector<size_t>>::const_iterator bucket =
+                    grid.find({gx, gy});
+
+                if (bucket == grid.end())
+                {
+                    continue;
+                }
+
+                for (const size_t index : bucket->second)
+                {
+                    if (seen.insert(index).second)
+                    {
+                        found.push_back(&walls[index]);
+                    }
+                }
+            }
+        }
+
+        return found;
+    }
+};
+
+// Along a level ray from (x, y, z): the distance to the first wall it meets within reach (1e18 when none).
+double overlapRay(const std::vector<const OverlapWall *> &walls, double x, double y, double z, double dx, double dy,
+    double reach)
+{
+    double best = 1.0e18;
+
+    for (const OverlapWall *pWall : walls)
+    {
+        const OverlapWall &wall = *pWall;
+
+        if (z < wall.low[2] || z > wall.high[2])
+        {
+            continue;
+        }
+
+        const double denominator = wall.normal[0] * dx + wall.normal[1] * dy;
+
+        if (std::abs(denominator) < 1.0e-6)
+        {
+            continue;
+        }
+
+        const double t = -(wall.normal[0] * x + wall.normal[1] * y + wall.normal[2] * z + wall.distance) / denominator;
+
+        if (t < -1.0e-3 || t > reach || t >= best)
+        {
+            continue;
+        }
+
+        // Inside the face: seen along its dominant axis.
+        const std::array<double, 3> hit = {x + t * dx, y + t * dy, z};
+        size_t dominant = 0;
+
+        for (size_t axis = 1; axis < 3; ++axis)
+        {
+            dominant = std::abs(wall.normal[axis]) > std::abs(wall.normal[dominant]) ? axis : dominant;
+        }
+
+        const size_t first = dominant == 0 ? 1 : 0;
+        const size_t second = dominant == 2 ? 1 : 2;
+        PlanPolygon polygon;
+
+        for (const std::array<double, 3> &point : wall.points)
+        {
+            polygon.push_back({point[first], point[second]});
+        }
+
+        if (planPointIn(polygon, hit[first], hit[second]) || planPointOnEdge(polygon, hit[first], hit[second], 0.5))
+        {
+            best = std::max(t, 0.0);
+        }
+    }
+
+    return best;
+}
+
+struct ProfileRow
+{
+    double angle = 0.0;
+    double extent = 0.0;
+    double wall = 0.0;
+};
+
+// Per direction: the footprint's extent from its middle and the nearest wall at the worst of the given heights.
+std::vector<ProfileRow> wallProfile(const OverlapWalls &walls, const PlanPolygon &polygon, double cx, double cy,
+    const std::vector<double> &heights, double reachExtra = Overlap::Squeeze + 8.0)
+{
+    double reach = 0.0;
+
+    for (const std::array<double, 2> &point : polygon)
+    {
+        reach = std::max(reach, std::hypot(point[0] - cx, point[1] - cy));
+    }
+
+    reach += reachExtra;
+    const std::vector<const OverlapWall *> near = walls.near(cx, cy, reach);
+    std::vector<ProfileRow> rows;
+
+    for (int direction = 0; direction < Overlap::Directions; ++direction)
+    {
+        const double angle = 2.0 * std::numbers::pi * direction / Overlap::Directions;
+        const double dx = std::cos(angle);
+        const double dy = std::sin(angle);
+        double extent = -1.0e18;
+
+        for (const std::array<double, 2> &point : polygon)
+        {
+            extent = std::max(extent, (point[0] - cx) * dx + (point[1] - cy) * dy);
+        }
+
+        double hit = 1.0e18;
+
+        for (const double z : heights)
+        {
+            hit = std::min(hit, overlapRay(near, cx, cy, z, dx, dy, extent + reachExtra));
+        }
+
+        rows.push_back({angle, extent, hit});
+    }
+
+    return rows;
+}
+
+struct OverlapProp
+{
+    std::string label;
+    double x = 0.0;
+    double y = 0.0;
+    double z = 0.0;
+    double top = 0.0;
+    double radius = 0.0;
+    std::array<PlanPolygon, 3> shapes;
+    // "formation", "loose" or "solid".
+    std::string propClass;
+    bool chest = false;
+};
+}
+
+std::optional<PropModelShape> readPropModelShape(const std::filesystem::path &glbPath)
+{
+    cgltf_options options = {};
+    cgltf_data *pData = nullptr;
+    const std::string path = glbPath.string();
+
+    if (cgltf_parse_file(&options, path.c_str(), &pData) != cgltf_result_success)
+    {
+        return std::nullopt;
+    }
+
+    const std::unique_ptr<cgltf_data, decltype(&cgltf_free)> owned(pData, &cgltf_free);
+
+    if (cgltf_load_buffers(&options, pData, path.c_str()) != cgltf_result_success)
+    {
+        return std::nullopt;
+    }
+
+    static const std::regex lodWords("_lod[0-9]");
+    std::vector<std::array<double, 3>> points;
+
+    for (size_t nodeIndex = 0; nodeIndex < pData->nodes_count; ++nodeIndex)
+    {
+        const cgltf_node &node = pData->nodes[nodeIndex];
+
+        if (node.mesh == nullptr || std::regex_search(trimmedLower(std::string(node.mesh->name ? node.mesh->name : "")
+                + (node.name ? node.name : "")), lodWords))
+        {
+            continue;
+        }
+
+        float matrix[16];
+        cgltf_node_transform_world(&node, matrix);
+
+        for (size_t primitiveIndex = 0; primitiveIndex < node.mesh->primitives_count; ++primitiveIndex)
+        {
+            const cgltf_primitive &primitive = node.mesh->primitives[primitiveIndex];
+
+            for (size_t attributeIndex = 0; attributeIndex < primitive.attributes_count; ++attributeIndex)
+            {
+                const cgltf_attribute &attribute = primitive.attributes[attributeIndex];
+
+                if (attribute.type != cgltf_attribute_type_position || attribute.data == nullptr)
+                {
+                    continue;
+                }
+
+                for (size_t vertex = 0; vertex < attribute.data->count; ++vertex)
+                {
+                    float local[3] = {0.0f, 0.0f, 0.0f};
+                    cgltf_accessor_read_float(attribute.data, vertex, local, 3);
+                    points.push_back({
+                        double(matrix[0] * local[0] + matrix[4] * local[1] + matrix[8] * local[2] + matrix[12]),
+                        double(matrix[1] * local[0] + matrix[5] * local[1] + matrix[9] * local[2] + matrix[13]),
+                        double(matrix[2] * local[0] + matrix[6] * local[1] + matrix[10] * local[2] + matrix[14])});
+                }
+            }
+        }
+    }
+
+    if (points.empty())
+    {
+        return std::nullopt;
+    }
+
+    double low = points.front()[1];
+    double high = low;
+
+    for (const std::array<double, 3> &point : points)
+    {
+        low = std::min(low, point[1]);
+        high = std::max(high, point[1]);
+    }
+
+    PropModelShape shape;
+    shape.height = high - low;
+    const double height = std::max(shape.height, 1.0e-6);
+    const auto rounded = [](double value)
+    {
+        return std::round(value * 100.0) / 100.0;
+    };
+
+    for (size_t band = 0; band < Overlap::Bands.size(); ++band)
+    {
+        std::vector<std::array<double, 2>> chosen;
+        std::vector<std::array<double, 2>> all;
+
+        for (const std::array<double, 3> &point : points)
+        {
+            // glTF -x is OpenYAMM x, glTF z is OpenYAMM y (gltfModelPlacement).
+            const std::array<double, 2> plan = {rounded(-point[0]), rounded(point[2])};
+            const double up = rounded((point[1] - low) / height);
+            all.push_back(plan);
+
+            if (up >= Overlap::Bands[band][0] && up <= Overlap::Bands[band][1])
+            {
+                chosen.push_back(plan);
+            }
+        }
+
+        shape.outlines[band] = convexHull(chosen.size() >= 3 ? chosen : all);
+    }
+
+    return shape;
+}
+
+std::vector<AuditFinding> auditPropOverlap(const LoadedMap &map, const PropOverlapData &data,
+    const std::string &flowJson, const std::set<int> &hanging)
+{
+    std::vector<AuditFinding> findings;
+
+    if (!map.indoor)
+    {
+        return findings;
+    }
+
+    const Game::IndoorMapData &indoor = *map.indoor;
+    const SupportWorld world = supportWorldOf(map);
+    const DressingKinds kinds = readDressingKinds(data.decorationTableText);
+    const std::vector<InteractiveThing> things = listInteractiveThings(map, flowJson, CoplanarNames());
+    std::set<int> chestEvents;
+
+    for (const InteractiveThing &thing : things)
+    {
+        if (thing.kind == "chest")
+        {
+            chestEvents.insert(thing.eventId);
+        }
+    }
+
+    // The walls: upright faces that are no portal, door leaf or chest face.
+    std::set<size_t> doorFaces;
+
+    if (map.state)
+    {
+        for (const Game::MapDeltaDoor &door : map.state->doors)
+        {
+            doorFaces.insert(door.faceIds.begin(), door.faceIds.end());
+        }
+    }
+
+    OverlapWalls walls;
+
+    for (size_t faceIndex = 0; faceIndex < indoor.faces.size(); ++faceIndex)
+    {
+        const Game::IndoorFace &face = indoor.faces[faceIndex];
+
+        if (face.isPortal || doorFaces.contains(faceIndex) || chestEvents.contains(face.cogTriggered)
+            || face.vertexIndices.size() < 3)
+        {
+            continue;
+        }
+
+        OverlapWall wall;
+
+        for (const uint16_t vertexIndex : face.vertexIndices)
+        {
+            if (vertexIndex < indoor.vertices.size())
+            {
+                const Game::IndoorVertex &vertex = indoor.vertices[vertexIndex];
+                wall.points.push_back({double(vertex.x), double(vertex.y), double(vertex.z)});
+            }
+        }
+
+        std::array<double, 3> normal = {0.0, 0.0, 0.0};
+
+        if (face.planeNormal)
+        {
+            normal = {double((*face.planeNormal)[0]), double((*face.planeNormal)[1]), double((*face.planeNormal)[2])};
+        }
+        else
+        {
+            for (size_t index = 0; index < wall.points.size(); ++index)
+            {
+                const std::array<double, 3> &a = wall.points[index];
+                const std::array<double, 3> &b = wall.points[(index + 1) % wall.points.size()];
+                normal[0] += (a[1] - b[1]) * (a[2] + b[2]);
+                normal[1] += (a[2] - b[2]) * (a[0] + b[0]);
+                normal[2] += (a[0] - b[0]) * (a[1] + b[1]);
+            }
+        }
+
+        const double length = std::sqrt(normal[0] * normal[0] + normal[1] * normal[1] + normal[2] * normal[2]);
+
+        if (wall.points.size() < 3 || length <= 0.0 || std::abs(normal[2] / length) >= Overlap::WallNormalZ)
+        {
+            continue;
+        }
+
+        wall.normal = {normal[0] / length, normal[1] / length, normal[2] / length};
+        wall.distance = -(wall.normal[0] * wall.points[0][0] + wall.normal[1] * wall.points[0][1]
+            + wall.normal[2] * wall.points[0][2]);
+        wall.low = wall.points[0];
+        wall.high = wall.points[0];
+
+        for (const std::array<double, 3> &point : wall.points)
+        {
+            for (size_t axis = 0; axis < 3; ++axis)
+            {
+                wall.low[axis] = std::min(wall.low[axis], point[axis]);
+                wall.high[axis] = std::max(wall.high[axis], point[axis]);
+            }
+        }
+
+        const size_t index = walls.walls.size();
+        walls.walls.push_back(std::move(wall));
+        const OverlapWall &added = walls.walls.back();
+
+        for (int64_t gx = OverlapWalls::cell(added.low[0]); gx <= OverlapWalls::cell(added.high[0]); ++gx)
+        {
+            for (int64_t gy = OverlapWalls::cell(added.low[1]); gy <= OverlapWalls::cell(added.high[1]); ++gy)
+            {
+                walls.grid[{gx, gy}].push_back(index);
+            }
+        }
+    }
+
+    // The model bindings of this map: the engine's, then the world's replacing them by name; in each file the last
+    // entry for this map (`maps`) or for every map.
+    const std::string mapFile = trimmedLower(map.fileName);
+    std::map<std::string, YAML::Node> bindings;
+
+    for (const std::string &text : data.bindingTexts)
+    {
+        YAML::Node document;
+
+        try
+        {
+            document = YAML::Load(text);
+        }
+        catch (const YAML::Exception &)
+        {
+            continue;
+        }
+
+        std::map<std::string, YAML::Node> own;
+
+        for (const YAML::Node &entry : document["decorations"])
+        {
+            if (!entry.IsMap() || !entry["name"])
+            {
+                continue;
+            }
+
+            if (const YAML::Node maps = entry["maps"])
+            {
+                bool here = false;
+
+                for (const YAML::Node &mapName : maps)
+                {
+                    here = here || trimmedLower(mapName.Scalar()) == mapFile;
+                }
+
+                if (!here)
+                {
+                    continue;
+                }
+            }
+
+            own[trimmedLower(entry["name"].Scalar())] = entry;
+        }
+
+        for (const std::pair<const std::string, YAML::Node> &entry : own)
+        {
+            bindings[entry.first] = entry.second;
+        }
+    }
+
+    static const std::regex plantWords("tree|plant|bush|flower|fern|shrub|grass|reed|vine|lily|weed|cactus");
+    static const std::regex formationWords("rock|boulder|stalag|stlmite|crystal|crys|geode|mushroom|mushrm");
+    static const std::regex looseWords("heap|pile|bone|skull|skelet|dirt|straw|rubble|guano|muck|nest|ash|corpse"
+        "|carcass|trash|debris|chaff|spoil|sklpl|dec05|dec29");
+    std::map<std::string, std::optional<PropModelShape>> shapes;
+    const auto at = [](double x, double y, double z)
+    {
+        return "[" + roundedUnits(x) + ", " + roundedUnits(y) + ", " + roundedUnits(z) + "]";
+    };
+
+    // The floor props.
+    std::vector<OverlapProp> props;
+
+    for (size_t entityIndex = 0; entityIndex < indoor.entities.size(); ++entityIndex)
+    {
+        const Game::IndoorEntity &entity = indoor.entities[entityIndex];
+
+        if (hanging.contains(static_cast<int>(entityIndex)) || decorationHangs(entity.name))
+        {
+            continue;
+        }
+
+        const std::map<std::string, int>::const_iterator named = kinds.idByName.find(trimmedLower(entity.name));
+        std::map<int, DressingKind>::const_iterator row =
+            kinds.byId.find(named != kinds.idByName.end() ? named->second : entity.decorationListId);
+
+        if (row == kinds.byId.end())
+        {
+            row = kinds.byId.find(entity.decorationListId);
+        }
+
+        if (row == kinds.byId.end() || !row->second.blocks || row->second.height <= 0.0)
+        {
+            continue;
+        }
+
+        const DressingKind &kind = row->second;
+        const std::map<std::string, YAML::Node>::const_iterator bound = bindings.find(trimmedLower(kind.name));
+        const YAML::Node binding = bound != bindings.end() ? bound->second : YAML::Node();
+        std::string model;
+
+        if (binding)
+        {
+            if ((binding["mount"] && binding["mount"].Scalar() == "wall") || binding["swing"])
+            {
+                continue;
+            }
+
+            model = binding["model"] ? binding["model"].Scalar() : std::string();
+        }
+
+        const std::string modelStem = std::filesystem::path(model).stem().string();
+        const std::string words = trimmedLower(kind.name + " " + kind.hint + " " + modelStem);
+
+        if (std::regex_search(words, plantWords))
+        {
+            continue;
+        }
+
+        OverlapProp prop;
+        prop.propClass = std::regex_search(words, formationWords) ? "formation"
+            : std::regex_search(words, looseWords) ? "loose" : "solid";
+        prop.x = entity.x;
+        prop.y = entity.y;
+        prop.z = entity.z;
+        prop.radius = kind.radius;
+        double height = kind.height;
+        const PlanPolygon circle = overlapCircle(prop.x, prop.y, kind.radius);
+        prop.shapes = {circle, circle, circle};
+
+        if (!model.empty() && data.readModel && binding["height"])
+        {
+            if (!shapes.contains(model))
+            {
+                shapes[model] = data.readModel(model);
+            }
+
+            const std::optional<PropModelShape> &shape = shapes[model];
+
+            if (shape && shape->height > 0.0)
+            {
+                const double jitter = 1.0 + (binding["height_jitter"] ? binding["height_jitter"].as<double>() : 0.0)
+                    * (2.0 * overlapPlacementRandom(entity.x, entity.y, 1) - 1.0);
+                const double boundHeight = binding["height"].as<double>();
+                const double scale = boundHeight / shape->height * jitter;
+                const bool randomYaw = !binding["yaw"] || binding["yaw"].Scalar() == "random";
+                const double yaw = (randomYaw ? overlapPlacementRandom(entity.x, entity.y, 2) * 2.0 * std::numbers::pi
+                    : entity.facing * std::numbers::pi / 180.0)
+                    + (binding["yaw_offset"] ? binding["yaw_offset"].as<double>() : 0.0);
+                const double c = std::cos(yaw);
+                const double s = std::sin(yaw);
+
+                for (size_t band = 0; band < 3; ++band)
+                {
+                    if (shape->outlines[band].size() < 3)
+                    {
+                        continue;
+                    }
+
+                    PlanPolygon placed;
+
+                    for (const std::array<double, 2> &point : shape->outlines[band])
+                    {
+                        placed.push_back({prop.x + scale * (point[0] * c - point[1] * s),
+                            prop.y + scale * (point[0] * s + point[1] * c)});
+                    }
+
+                    prop.shapes[band] = placed;
+                }
+
+                height = boundHeight * jitter;
+                prop.z += binding["z_offset"] ? binding["z_offset"].as<double>() : 0.0;
+            }
+        }
+
+        prop.top = prop.z + height;
+        prop.label = "decoration " + std::to_string(entityIndex) + " (" + entity.name + ", " + kind.name
+            + (modelStem.empty() ? std::string() : ", " + modelStem) + ", radius " + roundedUnits(kind.radius) + ")"
+            + " at " + at(entity.x, entity.y, entity.z);
+        props.push_back(std::move(prop));
+    }
+
+    // Chests: the boxes of their clicked faces.
+    for (const InteractiveThing &thing : things)
+    {
+        if (thing.kind != "chest")
+        {
+            continue;
+        }
+
+        std::array<double, 3> low = {1.0e18, 1.0e18, 1.0e18};
+        std::array<double, 3> high = {-1.0e18, -1.0e18, -1.0e18};
+
+        for (const Game::IndoorFace &face : indoor.faces)
+        {
+            if (face.cogTriggered != thing.eventId)
+            {
+                continue;
+            }
+
+            for (const uint16_t vertexIndex : face.vertexIndices)
+            {
+                if (vertexIndex < indoor.vertices.size())
+                {
+                    const Game::IndoorVertex &vertex = indoor.vertices[vertexIndex];
+                    const std::array<double, 3> point = {double(vertex.x), double(vertex.y), double(vertex.z)};
+
+                    for (size_t axis = 0; axis < 3; ++axis)
+                    {
+                        low[axis] = std::min(low[axis], point[axis]);
+                        high[axis] = std::max(high[axis], point[axis]);
+                    }
+                }
+            }
+        }
+
+        if (low[0] > high[0])
+        {
+            continue;
+        }
+
+        OverlapProp chest;
+        const PlanPolygon box = {{low[0], low[1]}, {high[0], low[1]}, {high[0], high[1]}, {low[0], high[1]}};
+        chest.label = "chest event " + std::to_string(thing.eventId) + " \"" + thing.title + "\"";
+        chest.x = (low[0] + high[0]) / 2.0;
+        chest.y = (low[1] + high[1]) / 2.0;
+        chest.z = low[2];
+        chest.top = high[2];
+        chest.radius = 0.5 * std::max(high[0] - low[0], high[1] - low[1]);
+        chest.shapes = {box, box, box};
+        chest.propClass = "solid";
+        chest.chest = true;
+        props.push_back(std::move(chest));
+    }
+
+    // 1. Props inside props, and slots between two.
+    for (size_t first = 0; first < props.size(); ++first)
+    {
+        for (size_t second = first + 1; second < props.size(); ++second)
+        {
+            const OverlapProp &a = props[first];
+            const OverlapProp &b = props[second];
+            const double distance = std::hypot(a.x - b.x, a.y - b.y);
+
+            // Stacked (one stands on the other's top) or a composite (two decorations at one spot drawn as one).
+            if ((a.chest && b.chest) || distance > 1024.0 || b.z >= a.top - Overlap::Stack
+                || a.z >= b.top - Overlap::Stack || distance < 2.0)
+            {
+                continue;
+            }
+
+            const double depth = separatingDepth(a.shapes[Overlap::Lower], b.shapes[Overlap::Lower]);
+
+            if (depth > Overlap::Tolerance)
+            {
+                const double collide = a.radius + b.radius - distance;
+                const bool natural = a.propClass == "formation" && b.propClass == "formation";
+                findings.push_back({"prop.overlap", natural ? "warning" : "error", a.label + " and " + b.label
+                        + ": drawn " + roundedUnits(depth) + " into each other, centres " + roundedUnits(distance)
+                        + " apart" + (collide > 0.0 ? ", collision cylinders " + roundedUnits(collide)
+                            + " into each other" : std::string()),
+                    "Move one of them clear of the other's drawn outline (its 3D model is wider than its radius)."});
+                continue;
+            }
+
+            if (a.chest || b.chest)
+            {
+                continue;
+            }
+
+            const double gap = distance - a.radius - b.radius;
+
+            if (gap < 1.0 || gap >= Overlap::Squeeze)
+            {
+                continue;
+            }
+
+            // Open at both ends: across the gap's middle, sideways, a floor at the same height and no wall or prop.
+            const double mx = a.x + (b.x - a.x) * (a.radius + gap / 2.0) / distance;
+            const double my = a.y + (b.y - a.y) * (a.radius + gap / 2.0) / distance;
+            const double base = std::max(a.z, b.z);
+            const double ux = -(b.y - a.y) / distance;
+            const double uy = (b.x - a.x) / distance;
+            const double reach = std::max(a.radius, b.radius) + 128.0;
+            bool openEnds = true;
+
+            for (const double sign : {1.0, -1.0})
+            {
+                const double ex = mx + sign * ux * reach;
+                const double ey = my + sign * uy * reach;
+                const std::optional<double> ground = supportUnder(world, ex, ey, base);
+                bool blocked = !ground || std::abs(*ground - base) > Overlap::Step
+                    || supportWallBetween(world, {mx, my}, {ex, ey}, base);
+
+                for (size_t other = 0; other < props.size() && !blocked; ++other)
+                {
+                    blocked = other != first && other != second
+                        && planPointIn(props[other].shapes[Overlap::Whole], ex, ey);
+                }
+
+                openEnds = openEnds && !blocked;
+            }
+
+            if (openEnds)
+            {
+                findings.push_back({"prop.squeeze", "warning", a.label + " and " + b.label + " leave a gap of "
+                        + roundedUnits(gap) + " between their collision cylinders, open at both ends",
+                    "Close the gap (stand them together) or open it to 96 or more, so nothing tries a slot it does "
+                    "not fit."});
+            }
+        }
+    }
+
+    // 2. Props in walls.
+    for (const OverlapProp &prop : props)
+    {
+        if (prop.chest)
+        {
+            continue;
+        }
+
+        const std::optional<double> ground = supportUnder(world, prop.x, prop.y, prop.z);
+
+        if (!ground)
+        {
+            findings.push_back({"prop.wall", "error", prop.label + " has no floor under its middle within "
+                    + roundedUnits(Overlap::Step) + " (in the rock or over a hole)",
+                "Move it onto the floor of its room."});
+            continue;
+        }
+
+        const double height = prop.top - prop.z;
+        std::vector<ProfileRow> rows;
+
+        for (const size_t band : {Overlap::Lower, Overlap::Middle})
+        {
+            const double z = prop.z + std::max(8.0, height * (Overlap::Bands[band][0] + Overlap::Bands[band][1]) / 2.0);
+            const std::vector<ProfileRow> bandRows = wallProfile(walls, prop.shapes[band], prop.x, prop.y, {z});
+            rows.insert(rows.end(), bandRows.begin(), bandRows.end());
+        }
+
+        const ProfileRow &worst = *std::max_element(rows.begin(), rows.end(),
+            [](const ProfileRow &one, const ProfileRow &other)
+            {
+                return one.extent - one.wall < other.extent - other.wall;
+            });
+        const double depth = worst.extent - worst.wall;
+
+        if (depth > Overlap::Tolerance)
+        {
+            const bool loose = prop.propClass != "solid" && depth <= 0.5 * worst.extent;
+            findings.push_back({"prop.wall", loose ? "warning" : "error", prop.label + " reaches "
+                    + roundedUnits(depth) + " into a wall (towards " + roundedUnits(worst.angle * 180.0 / std::numbers::pi)
+                    + " degrees; its drawn outline " + roundedUnits(worst.extent) + " from its middle, the wall "
+                    + roundedUnits(worst.wall) + ")",
+                "Move it out from the wall by at least that much (its 3D model is drawn wider than its radius)."});
+        }
+    }
+
+    // 3. Items: the scene's sprite objects that are no missiles, and the treasure spawns.
+    struct GroundItem
+    {
+        std::string what;
+        double x = 0.0;
+        double y = 0.0;
+        double z = 0.0;
+    };
+
+    std::vector<GroundItem> items;
+
+    if (map.state)
+    {
+        for (size_t index = 0; index < map.state->spriteObjects.size(); ++index)
+        {
+            const Game::MapDeltaSpriteObject &object = map.state->spriteObjects[index];
+
+            if (object.spellId != 0 || (object.attributes & 0x4) != 0)
+            {
+                continue;
+            }
+
+            items.push_back({"sprite object " + std::to_string(index) + " (object "
+                    + std::to_string(object.objectDescriptionId) + ")", double(object.x), double(object.y),
+                double(object.z)});
+        }
+    }
+
+    for (size_t index = 0; index < indoor.spawns.size(); ++index)
+    {
+        const Game::IndoorSpawn &spawn = indoor.spawns[index];
+
+        if (spawn.typeId == 2)
+        {
+            items.push_back({"treasure spawn " + std::to_string(index) + " (level " + std::to_string(spawn.index) + ")",
+                double(spawn.x), double(spawn.y), double(spawn.z)});
+        }
+    }
+
+    for (const GroundItem &item : items)
+    {
+        const std::string where = item.what + " at " + at(item.x, item.y, item.z);
+        const std::optional<double> ground = supportUnder(world, item.x, item.y, item.z + 8.0);
+        const double lying = ground.value_or(item.z);
+        bool judged = false;
+
+        for (const OverlapProp &prop : props)
+        {
+            if (lying < prop.z - Overlap::Step || lying >= prop.top - 4.0)
+            {
+                continue;
+            }
+
+            const double distance = std::hypot(item.x - prop.x, item.y - prop.y);
+            const bool inside = planPointIn(prop.shapes[Overlap::Whole], item.x, item.y);
+
+            if (inside || distance < prop.radius + Overlap::ItemPick)
+            {
+                findings.push_back({"item.hidden", inside ? "error" : "warning", where + " lies "
+                        + (inside ? "inside the drawn outline of " : "against the collision cylinder of ") + prop.label
+                        + ": " + roundedUnits(distance) + " from its middle",
+                    "Move the item clear of the prop, where the party sees it and can step up to it."});
+                judged = true;
+                break;
+            }
+        }
+
+        if (judged)
+        {
+            continue;
+        }
+
+        if (!ground)
+        {
+            findings.push_back({"item.hidden", "error", where + " has no floor under it (in the rock)",
+                "Move the item onto the floor of its room."});
+            continue;
+        }
+
+        const std::vector<ProfileRow> rows =
+            wallProfile(walls, overlapCircle(item.x, item.y, Overlap::ItemPick, 8), item.x, item.y, {lying + 12.0}, 16.0);
+        double depth = -1.0e18;
+
+        for (const ProfileRow &row : rows)
+        {
+            depth = std::max(depth, row.extent - row.wall);
+        }
+
+        if (depth > Overlap::ItemWall)
+        {
+            findings.push_back({"item.hidden", "error", where + " lies " + roundedUnits(depth) + " into a wall",
+                "Move the item out of the wall."});
         }
     }
 

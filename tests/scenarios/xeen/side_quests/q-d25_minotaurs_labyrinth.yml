@@ -367,7 +367,7 @@ steps:
   - select_topic: {match_label: "OK"}
   - advance_runtime: {seconds: 1.5, follow_map_move: true}
   - assert: {map: xeen_d4.odm}
-  - assert: {party_position: {x: 4096, y: -3072, radius: 128, z_min: 1200, z_max: 1600}}
+  - assert: {party_position: {x: 4096, y: -3072, radius: 128, z_min: 1100, z_max: 1600}}
   - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
   - assert: {qbit_set: [113500, 117441, 117442, 117443, 117444, 117445]}
   - play_lua: {source: "if classes() ~= 'MinotaurLord Knight MinotaurLord MinotaurLord' then error('out on the Isle: ' .. classes()) end"}

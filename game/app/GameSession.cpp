@@ -410,6 +410,19 @@ void GameSession::setQuestPouchShared(bool shared)
     pLocalParty->sortPouchItems();
 }
 
+void GameSession::setLootPouch(bool enabled)
+{
+    Party *pLoadedParty = m_pActiveWorldRuntime != nullptr ? m_pActiveWorldRuntime->party() : nullptr;
+
+    for (Party *pParty : {pLoadedParty, partyOfPlayer(LocalPlayer), m_partyState ? &*m_partyState : nullptr})
+    {
+        if (pParty != nullptr)
+        {
+            pParty->setLootPouch(enabled);
+        }
+    }
+}
+
 void GameSession::setPartyPouches(bool enabled)
 {
     Party *pLoadedParty = m_pActiveWorldRuntime != nullptr ? m_pActiveWorldRuntime->party() : nullptr;

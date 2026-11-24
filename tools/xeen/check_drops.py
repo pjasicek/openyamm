@@ -11,7 +11,11 @@ floor it stands over (never through a ceiling: another room's floor beyond a wal
 block standing on its face (a parapet round a well; not a shelf or bunk with room under it) is not walked off, and
 the way back is followed on the joins as they are, one way or both (A7 s27, 2026-11-22).
 F14 (the user 2026-11-21, Robbers' Den's race): a pocket needs a way back without spells (ladder, stair, lift, teleport
-or an exit that leads on); a pocket left on purpose another way is recorded in the map's NOTES.md."""
+or an exit that leads on); a pocket left on purpose another way is recorded in the map's NOTES.md.
+F43 (the player's pins 2026-11-24, XD-02's chasm): a mover never excuses a pocket. The chasm under XD-02's trestle was
+kept "reached only by stepping off the moving car", and a player who fell off the car could not get out. A floor a
+party can fall to from a car, a lift, a bridge or a ledge needs its own way out on foot; the lever or car that is
+listed beside a pocket ("things there") is never that way unless it carries the party up from where it stands."""
 import argparse, collections, json, math, os, re, subprocess, sys, tempfile
 import yaml
 

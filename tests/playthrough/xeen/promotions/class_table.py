@@ -127,7 +127,7 @@ SHARLA = ["  - set_pose: {map: xeen_d2.odm, x: -19300, y: -10839, z: 992, yaw: 2
 DREYFUS = ["  - set_pose: {map: xeen_d1.odm, x: 3092, y: 2048, z: 1152, yaw: 0.0, pitch: 0.0}",
            "  - advance_runtime: {seconds: 0.5}", "  - clear_hostiles: {radius: 3000}",
            "  - press_interact: {expect: {kind: event_target}}"]
-NASIR = ["  - set_pose: {map: xeen_d3.odm, x: -13696, y: 20548, z: 1511, yaw: 1.5708, pitch: 0.0}",
+NASIR = ["  - set_pose: {map: xeen_d3.odm, x: -13824, y: 20548, z: 1504, yaw: 1.5708, pitch: 0.0}",
          "  - advance_runtime: {seconds: 0.5}", "  - clear_hostiles: {radius: 3000}",
          "  - press_interact: {expect: {kind: event_target}}", "  - advance_runtime: {seconds: 0.5}"]
 
@@ -145,7 +145,7 @@ LUNA = ["  - set_pose: {map: xeen_d1.odm, x: -16691, y: 717, z: 1190, yaw: 0.0, 
         "  - advance_runtime: {seconds: 0.5}", "  - clear_hostiles: {radius: 3000}",
         "  - interact_actor: {actor_index: 32}"]
 # Kramer's Caravans on D1 (segment 47's door; it opens on Kramer's talk).
-KRAMER = ["  - set_pose: {map: xeen_d1.odm, x: 3844, y: 5376, z: 1152, yaw: 0.0, pitch: 0.0}",
+KRAMER = ["  - set_pose: {map: xeen_d1.odm, x: 3844, y: 5904, z: 1152, yaw: 0.0, pitch: 0.0}",
           "  - advance_runtime: {seconds: 0.5}", "  - clear_hostiles: {radius: 3000}",
           "  - press_interact: {expect: {kind: event_target}}"]
 # Brother Reger's cell outside Castleview's walls (segment 91: the word said, his door opens his cell; D1 event 99).

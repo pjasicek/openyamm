@@ -1,6 +1,7 @@
 # Xeen side quest Q-C21, Phirna Root (X1), from a new game. Myra the Herbalist gives five Cure Poison potions for each
-# Phirna root from Toad Meadow; a plant gives a root only while the party carries none. Asked, dug, delivered twice
-# (the first delivery finishes the quest, the second pays again). Outdoors the party is placed beside each house and
+# Phirna root from Toad Meadow; each plant gives one root, then is dug up until X1 refills (X1 p26, 2026-11-24; the
+# refill: tests/scenarios/xeen/harvest_once.yml). Asked, dug, delivered twice (the first delivery finishes the quest,
+# the second pays again). Outdoors the party is placed beside each house and
 # plant (tests/playthrough/PLAYBOOK.md §2). Quest logic: source/quests/q-c21.yml.
 #   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-c21_phirna_root.yml
 id: xeen.side_quests.q-c21
@@ -30,20 +31,19 @@ steps:
       dialog: {text_contains: "five potions for each Phirna root"}
   - press_action: {action: cancel_dialog}
   - assert: {qbit_set: [112420]}
-  # A plant in Toad Meadow: one root; a second plant refuses while the party has it.
+  # A plant in Toad Meadow: one root; dug again, it is dug up.
   - set_pose: {map: xeen_x1.odm, x: 6144, y: -10296, z: 480, yaw: -1.5708, pitch: 0.0}
   - play_lua:
       source: |
         click(255); wait(1); close()
         if held() ~= 0 then stow() end
         if item_count(12309) ~= 1 then error("the plant gave no root") end
-  - set_pose: {map: xeen_x1.odm, x: 13568, y: -7224, z: 864, yaw: -1.5708, pitch: 0.0}
-  - play_lua: {source: "click(256); wait(1)"}
+  - play_lua: {source: "status(); click(255); wait(1)"}
   - play_lua:
       source: |
         local s = tostring(status())
-        if not string.find(s, [[stubbornly resists]], 1, true) then error("status line: " .. s) end
-  - play_lua: {source: "close(); if item_count(12309) ~= 1 then error('a second plant gave a root while the party had one') end"}
+        if not string.find(s, [[dug up already]], 1, true) then error("status line: " .. s) end
+  - play_lua: {source: "close(); if item_count(12309) ~= 1 then error('a dug plant gave a second root') end"}
   # Myra: the first root (Q-C21 done), five potions.
   - execute_event: {id: 55}
   - select_topic: {action_id: 43551, match_label: "Quest"}
@@ -57,7 +57,7 @@ steps:
         if held() ~= 0 then stow() end
         if has_item(12309) then error("Myra did not take the root") end
         if item_count(226) ~= 5 then error("Myra gave " .. item_count(226) .. " potions, not 5") end
-  # A second root and a second batch.
+  # A second plant's root and a second batch.
   - set_pose: {map: xeen_x1.odm, x: 13568, y: -7224, z: 864, yaw: -1.5708, pitch: 0.0}
   - play_lua:
       source: |

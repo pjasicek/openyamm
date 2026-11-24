@@ -49,7 +49,7 @@ segment starts from a copy of the main chain's checkpoint just before the quest 
   trial 113262, hostile 113263, hobstadt_slain 113264, throne_taken 113265, done 113266. Autonote 4530.
 - Ending chosen: **the tribute** ("Give gold", 2,000). Cheapest: no Troll needed (the sacrifice needs one), no fight
   (the fight needs Hobstadt killed, his kill timer and the court turned hostile), and the party carries about 57,000.
-- D2 holes (party placed at each; `click`): A event 32 at (-2048, -6144, 992) -> DD-11A (96, -32); B event 33 at
+- D2 holes (party placed at each; `click`): A event 32 at (-2048, -6144, 992) -> DD-11A (80, -208); B event 33 at
   (3072, -10240, 960) -> DD-11B; C event 34 at (1536, -17408, 928) -> DD-11C (128, -64).
 - DD-11A (A7's playtest): (1100, 0) -> (2150, 0) -> (2656, 200) -> (2656, 580, 160) boulder `open_door(2, 1)` ->
   (2656, 920, 192) -> (2560, 1020, 192), the dead thief event 10 (letter: started, autonote 4530; again "nothing else

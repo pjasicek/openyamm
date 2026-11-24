@@ -49,7 +49,6 @@ steps:
   - walk_to: {x: 900, y: 2000, z: 192, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
   - clear_hostiles: {radius: 1500}
   - play_lua: {source: "click(13); wait(0.5)"}
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1}
   - play_lua: {source: "close(); wait(6)"}
   # Down and along the run to the cookfire cave.
@@ -83,7 +82,6 @@ steps:
   - clear_hostiles: {radius: 2000}
   - walk_to: {x: -2650, y: 7200, z: -192, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   - play_lua: {source: "click(15); wait(0.5)"}
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1}
   - play_lua: {source: "close()"}
   # The Drum Hall: the Drum-Master on his scaffold, and the great drum (x1-tam.drums).
@@ -98,7 +96,6 @@ steps:
   - assert: {actor_visible: {actor_index: 0, dead: true}}
   - advance_runtime: {seconds: 3.0}
   - play_lua: {source: "click(10); wait(0.5)"}
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1}
   - play_lua: {source: "close()"}
   - advance_runtime: {seconds: 3.0}

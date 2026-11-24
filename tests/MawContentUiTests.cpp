@@ -3,6 +3,7 @@
 #include "game/gameplay/GameMechanics.h"
 #include "game/app/KeyboardBindings.h"
 #include "game/gameplay/GameplayWorldItemPolicy.h"
+#include "game/gameplay/HouseServiceRuntime.h"
 #include "game/items/InventoryBags.h"
 #include "game/items/InventoryItemUseRuntime.h"
 #include "game/items/ItemGenerator.h"
@@ -1241,6 +1242,133 @@ TEST_CASE("MAW's pouches survive a save (saves 192 and 193)")
     CHECK_EQ(restored->party.campaign.questPouch.size(), 3u);
 }
 
+TEST_CASE("the loot pouch takes the party's loot while its setting is on; Sell trash on its tab picks all of it")
+{
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    const OpenYAMM::Tests::RegressionGameData &data = OpenYAMM::Tests::regressionGameData();
+    const ItemTable &itemTable = data.itemTable;
+    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    Party party = mawParty(rules, 2);
+    party.setItemTable(&itemTable);
+    const std::vector<InventoryItem> &loot = party.pouchItems(ItemPouch::Loot);
+    CHECK(party.hasPouch(ItemPouch::Loot));
+
+    // The setting off: a sword picked up goes to a member's bag, as before.
+    std::optional<StoredPickup> stored = storePickedUpItem(party, packItem(1, 1, 3), &itemTable);
+    REQUIRE(stored);
+    CHECK_FALSE(stored->pouch.has_value());
+    CHECK(loot.empty());
+    CHECK_EQ(party.member(0)->inventory.size(), 1u);
+
+    // On: a sword and an unidentified sword go to the loot pouch; a potion and a material still to their own pouches.
+    party.setLootPouch(true);
+    stored = storePickedUpItem(party, packItem(1, 1, 3), &itemTable);
+    REQUIRE(stored);
+    CHECK(stored->pouch == ItemPouch::Loot);
+    InventoryItem unidentified = packItem(2, 1, 3);
+    unidentified.identified = false;
+    stored = storePickedUpItem(party, unidentified, &itemTable);
+    REQUIRE(stored);
+    CHECK(stored->pouch == ItemPouch::Loot);
+    stored = storePickedUpItem(party, packItem(222, 1, 2), &itemTable);
+    REQUIRE(stored);
+    CHECK(stored->pouch == ItemPouch::Alchemy);
+    stored = storePickedUpItem(party, packItem(1041, 1, 1), &itemTable);
+    REQUIRE(stored);
+    CHECK(stored->pouch == ItemPouch::Crafting);
+    REQUIRE_EQ(loot.size(), 2u);
+    CHECK_EQ(party.member(0)->inventory.size(), 1u);
+    CHECK_EQ(party.inventoryItemCount(2), 1);
+
+    // An event's gift is no loot: it goes to the bags.
+    REQUIRE(party.tryGrantItem(3, 1));
+    CHECK_EQ(loot.size(), 2u);
+
+    // Kept: out of the pouch into a member's bag, from whichever member asks.
+    InventoryItem taken;
+    REQUIRE(InventoryBags::takeFromBag(party, 1, InventoryBags::LootPouchBag, 4, loot[0].gridX, loot[0].gridY, taken));
+    CHECK_EQ(taken.objectDescriptionId, 1u);
+    std::optional<InventoryItem> replaced;
+    REQUIRE(InventoryBags::placeInBag(party, 1, 0, 4, taken, 0, 0, replaced));
+    CHECK_EQ(loot.size(), 1u);
+    CHECK_EQ(party.member(1)->inventory.size(), 1u);
+
+    // Back in by hand: the loot pouch takes any item without a pouch of its own; a potion dropped there goes to its
+    // own pouch.
+    REQUIRE(InventoryBags::takeFromBag(party, 1, 0, 4, 0, 0, taken));
+    REQUIRE(InventoryBags::placeInBag(party, 0, InventoryBags::LootPouchBag, 4, taken, 20, 30, replaced));
+    CHECK_EQ(loot.size(), 2u);
+    const InventoryItem *pPlaced = InventoryBags::itemInBagAt(party, 1, InventoryBags::LootPouchBag, 20, 30);
+    REQUIRE(pPlaced != nullptr);
+    CHECK_EQ(pPlaced->objectDescriptionId, 1u);
+    const size_t potionsBefore = party.pouchItems(ItemPouch::Alchemy).size();
+    REQUIRE(InventoryBags::placeInBag(party, 0, InventoryBags::LootPouchBag, 4, packItem(223, 1, 2), 0, 10,
+        replaced));
+    CHECK_EQ(party.pouchItems(ItemPouch::Alchemy).size(), potionsBefore + 1);
+    CHECK_EQ(loot.size(), 2u);
+
+    // Sell trash on the tab: everything there the shop buys, identified or not; the bags' sword stays.
+    const HouseEntry *pShop = data.houseTable.get(1);
+    REQUIRE(pShop != nullptr);
+    REQUIRE(HouseServiceRuntime::offersSellTrash(party, *pShop));
+    const std::vector<BagItemRef> pick = HouseServiceRuntime::findLootPouchTrash(party, itemTable, *pShop);
+    CHECK_EQ(pick.size(), 2u);
+    const int goldBefore = party.gold();
+    std::string status;
+    CHECK_EQ(HouseServiceRuntime::trySellTrash(party, itemTable, data.standardItemEnchantTable,
+                 data.specialItemEnchantTable, *pShop, pick, status), 2u);
+    CHECK(loot.empty());
+    CHECK_GT(party.gold(), goldBefore);
+    CHECK_EQ(party.member(0)->inventory.size(), 2u);
+    CHECK_EQ(party.member(0)->rulesetState.currentBag, 0);
+
+    // Standard has it while the setting is on (user, 2026-11-24), and keeps it while it holds something; the Party
+    // pouches setting's sorting leaves it alone.
+    Party standard = {};
+    standard.seed(PartySeed{{Character{}}});
+    standard.setItemTable(&itemTable);
+    CHECK_FALSE(standard.hasPouch(ItemPouch::Loot));
+    stored = storePickedUpItem(standard, packItem(1, 1, 3), &itemTable);
+    REQUIRE(stored);
+    CHECK_FALSE(stored->pouch.has_value());
+    standard.setLootPouch(true);
+    CHECK(standard.hasPouch(ItemPouch::Loot));
+    stored = storePickedUpItem(standard, packItem(2, 1, 3), &itemTable);
+    REQUIRE(stored);
+    CHECK(stored->pouch == ItemPouch::Loot);
+    CHECK(HouseServiceRuntime::offersSellTrash(standard, *pShop));
+    CHECK_EQ(HouseServiceRuntime::findLootPouchTrash(standard, itemTable, *pShop).size(), 1u);
+    standard.setPartyPouches(true);
+    standard.sortPouchItems();
+    standard.setLootPouch(false);
+    CHECK_EQ(standard.pouchItems(ItemPouch::Loot).size(), 1u);
+    CHECK(standard.hasPouch(ItemPouch::Loot));
+    CHECK_EQ(standard.member(0)->inventory.size(), 1u);
+}
+
+TEST_CASE("MAW's loot pouch survives a save (save 202)")
+{
+    GameSaveData save;
+    save.mapFileName = "oute3.odm";
+    save.saveName = "loot pouch";
+    Character maw;
+    maw.name = "Maw";
+    save.party.members = {maw};
+    InventoryItem sword = packItem(1, 1, 3);
+    sword.gridX = 25;
+    sword.gridY = 120;
+    sword.identified = false;
+    save.party.pouches[size_t(ItemPouch::Loot)] = {sword, packItem(2, 1, 3)};
+    save.party.pouches[size_t(ItemPouch::Alchemy)] = {packItem(222, 1, 2)};
+
+    std::string error;
+    const std::optional<GameSaveData> restored = roundTrip(save, error);
+    REQUIRE_MESSAGE(restored.has_value(), error);
+    REQUIRE_EQ(restored->party.pouches[size_t(ItemPouch::Loot)].size(), 2u);
+    CHECK(restored->party.pouches[size_t(ItemPouch::Loot)][0] == sword);
+    CHECK_EQ(restored->party.pouches[size_t(ItemPouch::Alchemy)].size(), 1u);
+}
+
 TEST_CASE("MAW's quest pouch takes what is worth nothing and is no gear; quests find it there")
 {
     REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
@@ -1292,7 +1420,8 @@ TEST_CASE("MAW's quest pouch takes what is worth nothing and is no gear; quests 
         InventoryBags::placeInBag(party, 0, InventoryBags::QuestPouchBag, 4, packItem(1, 1, 3), 0, 5, replaced));
     REQUIRE(InventoryBags::placeInBag(party, 0, 1, 4, packItem(620, 1, 2), 3, 3, replaced));
     CHECK_EQ(party.pouchItems(ItemPouch::Quest).size(), 2u);
-    CHECK_EQ(InventoryBags::carriedBags(party, 4, true).back(), InventoryBags::QuestPouchBag);
+    const std::vector<uint8_t> carried = InventoryBags::carriedBags(party, 4, true);
+    CHECK(std::find(carried.begin(), carried.end(), InventoryBags::QuestPouchBag) != carried.end());
 }
 
 TEST_CASE("an item with an effect on the whole party while carried works from MAW's quest pouch and any bag")

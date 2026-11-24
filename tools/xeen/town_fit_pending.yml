@@ -1,3 +1,9 @@
 # Town fit sites (tools/xeen/town_fit_check.py) found on 2026-11-23 by the P2 town agent on maps not rebuilt in that run.
 # Each is a warning in `towns.py --strict` until its map's next rebuild fixes it; a fixed entry left here is an error.
 # What each needs: devdocs/xeen/reviews/PLAYER_FEEDBACK_20261123.md, Results, F24-F28 "Sites".
+# 2026-11-24 (final cloud round): `platforms.through`, the land through a platform's top, found when the rule was
+# added; these maps are not rebuilt in that round (D1's and D3's are the final dark round's).
+# 2026-11-24 (final cloud round): `things.overhang`, a mirror's dais, a fountain or a well over a slope, found when the
+# rule was added (X3's Newcastle mirror is fixed in that round; X4's fountain is on the X4 line above).
+# The sites on X4, X6, D5 and D6 were fixed on 2026-11-24 (level pads under them, common/level_pads.py; X6's oasis
+# fountain moved off the pond's bank) and taken out.

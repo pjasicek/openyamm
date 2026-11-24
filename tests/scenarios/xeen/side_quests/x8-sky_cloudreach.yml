@@ -3,7 +3,7 @@
 # her Crystal Key. The Witch Tower's door (X1 event 73); XD-04 walked up as its M4-done playtest: the east and west
 # stairs, the herb loft's stores (the coven's key), the north stair and the face door, the sanctum, the ward that falls
 # for Crusaders, the roof stair, the hatch, the roof and the cloud stair (event 15) into X8's Witch Clouds. Cloudreach
-# walked: the causeway to the spires, the first nest left alone ("No"), then burnt, the second nest burnt (500
+# walked: the causeway to the spires, the first nest burnt at a click, the second nest burnt (500
 # experience each), the explorer's rock and its statue (Super Explorer, award 406, +2 base Speed each; again "The
 # statue is silent."), back to the landing and the witch's perch's nest. Off the landing's east edge (D-6.2): the fall
 # lands on X1 by the Witch Tower with fall damage (immortality off for the fall, Xeen.skyFall). Outdoors the party is
@@ -124,20 +124,11 @@ steps:
   - walk_to: {x: 9158, y: 978, z: 192, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
   - walk_to: {x: 10540, y: 2083, z: 256, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
   - walk_to: {x: 11776, y: 3072, z: 256, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
-  # The first nest: "No" leaves it; "Yes" burns it (nest_1, 500 experience each); the second nest the same.
-  - play_lua: {source: "click(9); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: "Harpy Nest. Destroy?"}}
-  - answer_input: {text: "No"}
-  - advance_runtime: {seconds: 0.5}
+  # The first nest: a click burns it (nest_1, 500 experience each; F47 2026-11-24: no Yes/No); the second the same.
   - play_lua:
       source: |
-        local s = status()
-        for _ = 1, 3 do if not close() then break end end
-        if not string.find(s, "You leave the nest as it is.", 1, true) then error("no leave line: " .. s) end
-        if qbit(115021) then error("nest 1 burnt on No") end
         for i = 0, 3 do remember("x" .. i, experience(i)) end
         click(9); wait(0.5)
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1}
   - play_lua:
       source: |
@@ -152,7 +143,6 @@ steps:
           if d ~= 500 then error("nest 1 paid member " .. i .. " " .. d) end
         end
         click(10); wait(0.5)
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1}
   - play_lua:
       source: |
@@ -233,7 +223,6 @@ steps:
   - walk_to: {x: 10489, y: -9340, z: -128, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
   - walk_to: {x: 10240, y: -10240, z: -128, z_tolerance: 200, radius: 96, timeout_seconds: 60, clear_hostiles: 2500, close_dialogs: true}
   - play_lua: {source: "for i = 0, 3 do remember('x' .. i, experience(i)) end; click(11); wait(0.5)"}
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1}
   - play_lua:
       source: |

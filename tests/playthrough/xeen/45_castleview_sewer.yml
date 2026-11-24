@@ -20,7 +20,7 @@ steps:
   - assert: {qbit_set: [111281, 111320]}
   - assert: {qbit_clear: [111321, 111322, 113100]}
   # The iron hatch in Castleview's square (D1 event 145): the ladder down into the sewer.
-  - set_pose: {map: xeen_d1.odm, x: 1024, y: 3328, z: 1160, yaw: 0.0, pitch: 0.0}
+  - set_pose: {map: xeen_d1.odm, x: 1300, y: 3328, z: 1160, yaw: 0.0, pitch: 0.0}
   - clear_hostiles: {radius: 2000}
   - advance_runtime: {seconds: 0.5}
   - play_lua: {source: "click(145)"}

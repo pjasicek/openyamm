@@ -5,7 +5,10 @@
 #include "core/MapLoad.h"
 
 #include <array>
+#include <filesystem>
+#include <functional>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -143,6 +146,45 @@ std::vector<AuditFinding> auditDressing(const LoadedMap &map, const std::string 
 // cave, a mine) and no container. `flowJson`: exploreEventHandlers' output, for what the things do. `hanging` as
 // auditLooks.
 std::vector<AuditFinding> auditPropSupport(const LoadedMap &map, const std::string &decorationTableText,
+    const std::string &flowJson, const std::set<int> &hanging = {});
+
+// A decoration model's plan outlines as the prop overlap check reads them: the convex hull, seen from above, of its
+// LOD 0 points (OpenYAMM x and y, as engine/models/ModelAsset.cpp gltfModelPlacement maps glTF -x and z, in model
+// units before the placement's scale and yaw) over its whole height, its lower body (12 to 40 % up: a heap's flat skirt
+// left out) and its middle (45 to 75 %), and its height (glTF y).
+struct PropModelShape
+{
+    std::array<std::vector<std::array<double, 2>>, 3> outlines;
+    double height = 0.0;
+};
+
+// Reads a GLB's shape; nothing when it cannot be read or has no points.
+std::optional<PropModelShape> readPropModelShape(const std::filesystem::path &glbPath);
+
+// What the prop overlap check reads: the decoration rows with the world's (decoration_data.txt), the model bindings
+// (engine/models/indoor_decorations.yml, then the world's) and a reader of a bound model's shape by its path (as the
+// binding names it; nothing when absent).
+struct PropOverlapData
+{
+    std::string decorationTableText;
+    std::vector<std::string> bindingTexts;
+    std::function<std::optional<PropModelShape>(const std::string &model)> readModel;
+};
+
+// Props inside props or walls, and pick-ups hidden in them (family F40 of the player feedback, 2026-11-24; the four
+// rules of tools/xeen/check_prop_overlap.py, with its numbers), on indoor maps. Props are the blocking floor
+// decorations (not hanging, not wall-mounted or swinging, no plants or trees), their footprint the drawn outline of their
+// bound 3D model as the game places it (DecorationModelSet::placementFor: scale, height jitter, yaw), else their
+// collision circle; chests (things whose click opens one) take part as their faces' box. "prop.overlap": two props whose
+// lower bodies are drawn more than 8 into each other, sharing a height (one standing on the other's top is none): an
+// error, a warning for two natural formations (rocks, stalagmites, crystals, mushrooms). "prop.wall": a prop whose
+// lower body or middle reaches more than 8 into a wall (an upright face that is no portal, door leaf or chest), or
+// with no floor under its middle: an error, a warning for loose heaps, bones and formations unless more than half of
+// their footprint is in it. "item.hidden": a ground item (a scene sprite object that is no missile, a treasure spawn)
+// inside a prop's drawn footprint, more than 10 in a wall or over no floor: an error; within a prop's collision radius
+// plus 20: a warning. "prop.squeeze", a warning: two props whose collision circles leave a gap of 1 to 96 open at both
+// ends (a slot a monster tries and does not fit). `hanging` as auditLooks.
+std::vector<AuditFinding> auditPropOverlap(const LoadedMap &map, const PropOverlapData &data,
     const std::string &flowJson, const std::set<int> &hanging = {});
 
 // The tables the light check reads: the decoration rows with the world's (decoration_data.txt), the model bindings

@@ -70,6 +70,8 @@ enum class KeyboardAction : uint8_t
     ShowItemRarity,
     // Held: item popups show what crafting would add (the gameplay.craft_preview setting "hold").
     ShowCraftableStats,
+    // Held on the character screen: unidentified items tinted blue (broken ones are red always; user, 2026-11-24).
+    ShowItemStates,
     // MMMerge's four extra quick spells (ExtraQuickSpells.lua): cast the active member's slot, else attack.
     QuickSpell1,
     QuickSpell2,

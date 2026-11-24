@@ -7779,28 +7779,55 @@ TEST_CASE("lua event runtime queues transient world effects and rigid models")
 
 TEST_CASE("lua random jump advances between repeated event activations")
 {
+    // A player's report (2026-11-24): the rings in Xeen's campfires and every other event loot came in one fixed order.
+    // The event rolls were an LCG seeded from the first event and the hour, the same in every game, and its low bits
+    // alternate (a 50/50 jump strictly took turns). Now a fixed seed repeats its sequence (tests), and an unseeded
+    // runtime state seeds itself from the system's random source.
     const std::optional<OpenYAMM::Game::ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
         "evt.map[1] = function()\n"
         "    evt._BeginEvent(1)\n"
-        "    local a = evt._RandomJump(451, 1, {2, 5, 8, 11, 14, 20})\n"
-        "    local b = evt._RandomJump(451, 1, {2, 5, 8, 11, 14, 20})\n"
-        "    local c = evt._RandomJump(451, 1, {2, 5, 8, 11, 14, 20})\n"
-        "    local d = evt._RandomJump(451, 1, {2, 5, 8, 11, 14, 20})\n"
-        "    local e = evt._RandomJump(451, 1, {2, 5, 8, 11, 14, 20})\n"
-        "    evt.StatusText(tostring(a) .. ',' .. tostring(b) .. ',' .. tostring(c) .. ',' .. tostring(d) .. ',' .. tostring(e))\n"
+        "    local rolls = {}\n"
+        "    for i = 1, 24 do\n"
+        "        rolls[#rolls + 1] = tostring(evt._RandomJump(451, 1, {2, 5, 8, 11, 14, 20}))\n"
+        "    end\n"
+        "    local coins = {}\n"
+        "    for i = 1, 24 do\n"
+        "        coins[#coins + 1] = tostring(evt._RandomJump(452, 1, {1, 2}))\n"
+        "    end\n"
+        "    evt.StatusText(table.concat(rolls, ',') .. ';' .. table.concat(coins, ''))\n"
         "    return\n"
         "end\n",
         "@SyntheticRandomJump.lua",
         OpenYAMM::Game::ScriptedEventScope::Map);
     REQUIRE(scriptedProgram.has_value());
 
-    OpenYAMM::Game::EventRuntime eventRuntime = {};
-    OpenYAMM::Game::EventRuntimeState runtimeState = {};
-    runtimeState.eventRandomState = 1;
+    const auto rollOnce = [&](uint64_t seed)
+    {
+        OpenYAMM::Game::EventRuntime eventRuntime = {};
+        OpenYAMM::Game::EventRuntimeState runtimeState = {};
+        runtimeState.eventRandomState = seed;
+        REQUIRE(eventRuntime.executeEventById(scriptedProgram, std::nullopt, 1, runtimeState, nullptr, nullptr));
+        REQUIRE_FALSE(runtimeState.statusMessages.empty());
+        CHECK_NE(runtimeState.eventRandomState, 0u);
+        return runtimeState.statusMessages.back();
+    };
 
-    REQUIRE(eventRuntime.executeEventById(scriptedProgram, std::nullopt, 1, runtimeState, nullptr, nullptr));
-    REQUIRE_FALSE(runtimeState.statusMessages.empty());
-    CHECK_EQ(runtimeState.statusMessages.back(), "2,11,8,5,14");
+    const std::string seeded = rollOnce(1);
+    CHECK_EQ(rollOnce(1), seeded);
+    CHECK_NE(rollOnce(2), seeded);
+
+    // Every target comes up, and the two-way jump does not simply take turns.
+    for (const std::string target : {"2", "5", "8", "11", "14", "20"})
+    {
+        CHECK_NE(("," + seeded + ",").find("," + target + ","), std::string::npos);
+    }
+
+    const std::string coins = seeded.substr(seeded.find(';') + 1);
+    CHECK_NE(coins, "121212121212121212121212");
+    CHECK_NE(coins, "212121212121212121212121");
+
+    // Two unseeded runs (two games, or a reload) roll differently: 6^24 * 2^24 outcomes.
+    CHECK_NE(rollOnce(0), rollOnce(0));
 }
 
 TEST_CASE("history event additions with a zero argument record once per merged continent")
@@ -8086,6 +8113,39 @@ TEST_CASE("fresh map barrel contents use random rolls for indoor and outdoor ent
     const std::array<uint8_t, 125> authoredState = firstVisit;
     initializeMapInteractiveDecorations(outdoorEntities, decorationTable, firstVisit, 789);
     CHECK_EQ(firstVisit, authoredState);
+}
+
+TEST_CASE("fresh map cauldron, bag and bucket contents follow the map's roll, not their spot")
+{
+    // A player's report (2026-11-24): the same spot held the same loot in every game. Cauldrons, bags and buckets took
+    // their contents from their position; now from the map's fresh roll, as barrels already did.
+    using namespace OpenYAMM::Game;
+    DecorationTable decorationTable;
+    REQUIRE(decorationTable.loadRows(loadSourceTabSeparatedRows("assets_dev/engine/data_tables/decoration_data.txt")));
+
+    std::vector<OutdoorEntity> entities(120);
+    const std::array<const char *, 3> names = {"cauld00", "bag01", "Bucket"};
+    for (size_t index = 0; index < entities.size(); ++index)
+    {
+        entities[index].name = names[index % names.size()];
+        entities[index].x = static_cast<int>(index * 100);
+    }
+
+    std::array<uint8_t, 125> firstGame = {};
+    std::array<uint8_t, 125> sameSeed = {};
+    std::array<uint8_t, 125> secondGame = {};
+    initializeMapInteractiveDecorations(entities, decorationTable, firstGame, 123);
+    initializeMapInteractiveDecorations(entities, decorationTable, sameSeed, 123);
+    initializeMapInteractiveDecorations(entities, decorationTable, secondGame, 456);
+    CHECK_EQ(firstGame, sameSeed);
+    CHECK_NE(firstGame, secondGame);
+
+    for (size_t index = 0; index < entities.size(); ++index)
+    {
+        const uint8_t maximum = index % names.size() == 2 ? 3 : 4;
+        CHECK_GE(firstGame[index], 1);
+        CHECK_LE(firstGame[index], maximum);
+    }
 }
 
 TEST_CASE("interactive decoration rules cover MM6 and MM7 indoor loot decorations")

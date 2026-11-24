@@ -2,6 +2,7 @@
 
 #include "game/items/ItemSearch.h"
 
+#include <array>
 #include <cstdint>
 #include <functional>
 #include <optional>
@@ -10,6 +11,7 @@
 namespace OpenYAMM::Game
 {
 class GameplayScreenRuntime;
+class Party;
 struct Character;
 struct InventoryItem;
 enum class ItemPouch : uint8_t;
@@ -170,8 +172,21 @@ public:
         float y,
         float width,
         float height);
-    // A pouch's icon (the hammer of the crafting pouch, the potion of the alchemy pouch) in the square at x, y.
+    // A pouch's icon (the crafting pouch's hammer, the alchemy pouch's potion, the quest pouch's key, the loot pouch's
+    // leather pouch) in the square at x, y.
     static void renderPouchIcon(GameplayScreenRuntime &context, ItemPouch pouch, float x, float y, float size);
+    // The pouch each of the inventory's four pouch slots shows (CharacterInventoryPouch1-4, ChestInventoryPouch1-4),
+    // left to right: new loot, crafting, alchemy, quest (user, 2026-11-24). The pouches the party has fill the last
+    // slots, so a missing one (Standard's crafting pouch) leaves no gap.
+    static std::array<std::optional<ItemPouch>, 4> pouchButtons(const Party &party);
+    // A pouch slot's button: selected while its pouch shows, with the pouch's icon.
+    static void renderPouchButton(
+        GameplayScreenRuntime &context,
+        const std::string &id,
+        int width,
+        int height,
+        ItemPouch pouch,
+        bool selected);
 
     // The on/off switch of a skills page row (MAW's Cover and Mana Shield) and of the Magic heading (an Elementalist's
     // rotation), in logical pixels. A switch row's gem sits at the list's left edge and its name starts

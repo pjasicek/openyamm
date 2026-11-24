@@ -228,7 +228,7 @@ steps:
             evt.StatusText("CAMP until 6AM outside Sandcaster's Guild of Light")
         end
   - play_lua: {source: "local s = status(); if string.find(s, 'CAMP until', 1, true) then log('CAMP: the Guild of Light was shut; rested until 6AM') end"}
-  - set_pose: {map: xeen_d3.odm, x: -13696, y: 20548, z: 1511, yaw: 1.5708, pitch: 0.0}
+  - set_pose: {map: xeen_d3.odm, x: -13824, y: 20548, z: 1504, yaw: 1.5708, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - clear_hostiles: {radius: 3000}
   - press_interact: {expect: {kind: event_target}}

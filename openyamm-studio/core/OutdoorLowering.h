@@ -8,6 +8,7 @@
 
 #include <array>
 #include <cstdint>
+#include <map>
 #include <memory>
 #include <optional>
 #include <string>
@@ -73,6 +74,9 @@ struct LoweredOutdoorMap
     std::vector<OutdoorRoadRun> roads;
     // The buildings to raise, each with its floor's height; the ground under its plot is level at it.
     std::vector<OutdoorBuildingPlan> buildings;
+    OutdoorWallTiles wallTiles;
+    // Bearing points in native XYZ at zero facing, relative to the origin of a placed decoration.
+    std::map<std::string, std::vector<std::array<double, 3>>> decorationFeet;
     // The texture classes' door pictures the build read from its asset root (empty without one): a wing door
     // becomes a pair, a leaf shows its picture at its own width (F2, D-91); doorways read them too.
     OutdoorDoorPictures doorPictures;
@@ -103,6 +107,7 @@ struct LoweredOutdoorMap
     // stood on the land (decorations, actors, spawn points, chests and crates) use it; structures keep
     // `storedHeightAt`.
     double groundHeightAt(double x, double y) const;
+    double decorationGroundAt(const std::string &name, double cellX, double cellY, int facing) const;
 };
 
 // Whether the node (x, y) lies on a line drawn `width` nodes across, in sketch cells (heights.ridges, ground

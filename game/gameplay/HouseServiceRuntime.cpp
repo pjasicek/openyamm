@@ -453,16 +453,20 @@ int itemTreasureWeightForSpecialStock(const ItemDefinition &entry, int tier)
     return 0;
 }
 
+// A restock's rolls: keyed by the playthrough's seed, the house and the restock's number, so a timed restock is the
+// same after a reload; a paid New stock adds a fresh random value (rerollSeed), so each press rolls a new shelf.
 std::mt19937 createStockRng(
     const Party &party,
     const HouseEntry &houseEntry,
-    const CampaignState::HouseStockState &state)
+    const CampaignState::HouseStockState &state,
+    uint32_t rerollSeed)
 {
     const uint32_t houseSeed = houseEntry.id != 0 ? houseEntry.id : 1;
     const uint32_t mixedSeed =
         houseSeed * 1103515245u
         + state.refreshSequence * 12345u
         + party.campaign().houseStockSeed() * 2654435761u
+        + rerollSeed * 2246822519u
         + 0x4f1bbcdc;
     return std::mt19937(mixedSeed);
 }
@@ -1058,7 +1062,8 @@ CampaignState::HouseStockState &ensureHouseStockGenerated(
     const StandardItemEnchantTable &standardItemEnchantTable,
     const SpecialItemEnchantTable &specialItemEnchantTable,
     const HouseEntry &houseEntry,
-    float gameMinutes)
+    float gameMinutes,
+    uint32_t rerollSeed = 0)
 {
     CampaignState::HouseStockState &state = party.campaign().ensureHouseStockState(houseEntry.id);
     const float refreshMinutes = static_cast<float>(std::max(1, houseEntry.stockRefreshDays)) * MinutesPerDay;
@@ -1093,7 +1098,7 @@ CampaignState::HouseStockState &ensureHouseStockGenerated(
         if (fixedStockRules.rollsFixedShopStock())
         {
             // The vendor keeps its items; the rules roll their power and enchantments as shop stock at its tiers.
-            std::mt19937 rng = createStockRng(party, houseEntry, state);
+            std::mt19937 rng = createStockRng(party, houseEntry, state, rerollSeed);
             const ItemRollTables tables{itemTable, standardItemEnchantTable, specialItemEnchantTable};
             const auto roll = [&](std::vector<InventoryItem> &stock, int tier)
             {
@@ -1132,7 +1137,7 @@ CampaignState::HouseStockState &ensureHouseStockGenerated(
         return state;
     }
 
-    std::mt19937 rng = createStockRng(party, houseEntry, state);
+    std::mt19937 rng = createStockRng(party, houseEntry, state, rerollSeed);
     const size_t standardCount = HouseServiceRuntime::slotCountForStockMode(houseEntry, HouseStockMode::ShopStandard);
     const size_t specialCount = HouseServiceRuntime::slotCountForStockMode(houseEntry, HouseStockMode::ShopSpecial);
     const size_t spellbookCount = HouseServiceRuntime::slotCountForStockMode(
@@ -1891,8 +1896,9 @@ bool HouseServiceRuntime::tryRerollStock(
     state.standardStock.clear();
     state.specialStock.clear();
     state.spellbookStock.clear();
+    std::random_device randomDevice;
     ensureHouseStockGenerated(
-        party, itemTable, standardItemEnchantTable, specialItemEnchantTable, houseEntry, gameMinutes);
+        party, itemTable, standardItemEnchantTable, specialItemEnchantTable, houseEntry, gameMinutes, randomDevice());
 
     for (std::vector<InventoryItem> *pStock : {&state.standardStock, &state.specialStock})
     {
@@ -2062,7 +2068,9 @@ bool HouseServiceRuntime::tryStealStockItem(
 
 bool HouseServiceRuntime::offersSellTrash(const Party &party, const HouseEntry &houseEntry)
 {
-    return supportsEquipmentSell(houseEntry) && party.rules().items.lootFilter() != nullptr;
+    // Rulesets with a loot filter (MAW) pick the trash; with the loot pouch (any ruleset) its tab is the trash.
+    return supportsEquipmentSell(houseEntry)
+        && (party.rules().items.lootFilter() != nullptr || party.hasPouch(ItemPouch::Loot));
 }
 
 std::vector<BagItemRef> HouseServiceRuntime::findSellTrash(
@@ -2104,6 +2112,32 @@ std::vector<BagItemRef> HouseServiceRuntime::findSellTrash(
                     result.push_back({memberIndex, uint8_t(bag), item.gridX, item.gridY});
                 }
             }
+        }
+    }
+
+    return result;
+}
+
+std::vector<BagItemRef> HouseServiceRuntime::findLootPouchTrash(
+    const Party &party,
+    const ItemTable &itemTable,
+    const HouseEntry &houseEntry)
+{
+    std::vector<BagItemRef> result;
+
+    if (!offersSellTrash(party, houseEntry) || party.members().empty())
+    {
+        return result;
+    }
+
+    // The pouch is the party's; its items are named as the active member's, as a click on the tab names them.
+    const size_t memberIndex = std::min(party.activeMemberIndex(), party.members().size() - 1);
+
+    for (const InventoryItem &item : party.pouchItems(ItemPouch::Loot))
+    {
+        if (canSellTrashItem(party, itemTable, houseEntry, item))
+        {
+            result.push_back({memberIndex, InventoryBags::LootPouchBag, item.gridX, item.gridY});
         }
     }
 

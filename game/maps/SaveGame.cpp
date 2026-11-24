@@ -26,7 +26,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 201;
+constexpr uint32_t SaveVersion = 202;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -357,6 +357,9 @@ constexpr uint32_t SaveVersionMawXeenBank = 200;
 // A Regenerating boss counts the damage it took (hundredths of a percent of its health) instead of the hits; an older
 // save's hits count 1 % each, which weakens it as much as before.
 constexpr uint32_t SaveVersionRegeneratingDamage = 201;
+// The party's loot pouch (ItemPouch::Loot, the leather pouch tab), after the items that wait for room; older saves have
+// none.
+constexpr uint32_t SaveVersionLootPouch = 202;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -2356,6 +2359,7 @@ void writeValue(BinaryWriter &writer, const Party::Snapshot &value)
     writeValue(writer, value.pouches[size_t(ItemPouch::Alchemy)]);
     writeValue(writer, value.campaign.questPouch);
     writeValue(writer, value.waitingGivenItems);
+    writeValue(writer, value.pouches[size_t(ItemPouch::Loot)]);
 }
 
 bool readValue(BinaryReader &reader, Party::Snapshot &value)
@@ -2414,6 +2418,7 @@ bool readValue(BinaryReader &reader, Party::Snapshot &value)
         && (reader.version() < SaveVersionLastOutdoorMap || readValue(reader, value.lastOutdoorMapFileName))
         && readPouches(reader, value)
         && (reader.version() < SaveVersionWaitingGivenItems || readValue(reader, value.waitingGivenItems))
+        && (reader.version() < SaveVersionLootPouch || readValue(reader, value.pouches[size_t(ItemPouch::Loot)]))
         && migrateMm9HirelingStats(reader, value);
 }
 

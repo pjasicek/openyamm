@@ -377,8 +377,6 @@ steps:
   - clear_hostiles: {radius: 2400}
   - walk_to: {x: -3120, y: 1396, z: 0, radius: 48, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
   - play_lua: {source: "status(); click(47); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: "Water Generator"}}
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1.5}
   - play_lua: {source: "close(); if not qbit(111704) then error('m35.gen_water 111704 not set') end"}
   # The stair hall to the east ward; the gravel vault's Earth Generator.
@@ -392,8 +390,6 @@ steps:
   - clear_hostiles: {radius: 2400}
   - walk_to: {x: 3120, y: 1396, z: 0, radius: 48, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
   - play_lua: {source: "status(); click(41); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: "Earth Generator"}}
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1.5}
   - play_lua: {source: "close(); if not qbit(111703) then error('m35.gen_earth 111703 not set') end"}
   # The east gallery, up the south-east tower to the Air Generator (1280).
@@ -417,8 +413,6 @@ steps:
   - clear_hostiles: {radius: 2400}
   - walk_to: {x: 3760, y: -4276, z: 1280, radius: 48, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
   - play_lua: {source: "status(); click(38); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: "Air Generator"}}
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1.5}
   - play_lua: {source: "close(); if not qbit(111702) then error('m35.gen_air 111702 not set') end"}
   # The upper gallery to the barrier hall: three generators down, the field across the crown stair still stands.
@@ -445,8 +439,6 @@ steps:
   - clear_hostiles: {radius: 2400}
   - walk_to: {x: -3760, y: -4276, z: 1280, radius: 48, timeout_seconds: 40, clear_hostiles: 1600, close_dialogs: true}
   - play_lua: {source: "status(); click(44); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: "Fire Generator"}}
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1.5}
   - play_lua: {source: "close(); if not qbit(111701) then error('m35.gen_fire 111701 not set') end"}
   - advance_runtime: {seconds: 2}

@@ -1,0 +1,81 @@
+# Xeen harvest spots give a fixed amount, whatever the party carries (X1 p26, a player, 2026-11-24: "you can only have
+# one root, but if you throw it on the floor, you can have as many as you want. I got 60 potions with that.").
+# A hook with `harvest: <n>` (source/quests/q-c21.yml phirna_plant: 1) gives n at each calling map event, then shows
+# its else line until the map refills (XeenQuests.hook in events/common/xeen_common.lua: a named map variable per spot,
+# `xeen.harvest.<hook>.<event>`; a refill clears map variables, the MM6-MM8 rule). X1's Phirna plants (events 255 and
+# 256, devdocs/xeen/briefs/x1/L4/ids.lock.yml): dug once, the root thrown away, dug again: nothing; a second plant
+# gives its root while the party carries one; a save and load keeps both plants dug; 673 days later (X1's refill is
+# 672 days, map_stats) the plants have grown back.
+#   build/game/openyamm --headless-run-scenario tests/scenarios/xeen/harvest_once.yml --scenario-no-color
+id: xeen.harvest_once
+title: "Xeen: a Phirna plant gives one root until X1 refills, also after the root is thrown away"
+world: xeen
+mode: faithful
+tags: [xeen]
+steps:
+  - new_game_flow:
+      start_map: xeen_x1.odm
+      party:
+        gold: 100
+        food: 10
+        members:
+          - {name: Brokk, class: Knight, level: 5, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 5, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - play_lua: {source: "wait(2); for _ = 1, 3 do if not close() then break end end"}
+  - assert: {map: xeen_x1.odm}
+  # The first plant: one root.
+  - set_pose: {map: xeen_x1.odm, x: 6144, y: -10296, z: 480, yaw: -1.5708, pitch: 0.0}
+  - play_lua:
+      source: |
+        click(255); wait(1); close()
+        if held() ~= 0 then stow() end
+        if item_count(12309) ~= 1 then error("the plant gave " .. item_count(12309) .. " roots, not 1") end
+        if mapvar("xeen.harvest.q-c21.phirna_plant.255") ~= 1 then error("the plant was not marked dug") end
+  # Thrown away and dug again (the exploit): nothing, and the dug-up line.
+  - play_lua:
+      source: |
+        discard(12309)
+        if item_count(12309) ~= 0 then error("the root was not thrown away") end
+        status()
+        click(255); wait(1)
+        local s = tostring(status())
+        close()
+        if held() ~= 0 then stow() end
+        if item_count(12309) ~= 0 then error("the dug plant gave another root after the first was thrown away") end
+        if not string.find(s, "dug up already", 1, true) then error("status line: " .. s) end
+  # A second plant gives its root while the party carries one (the spot is the limit, not the packs).
+  - set_pose: {map: xeen_x1.odm, x: 13568, y: -7224, z: 864, yaw: -1.5708, pitch: 0.0}
+  - play_lua:
+      source: |
+        click(256); wait(1); close()
+        if held() ~= 0 then stow() end
+        if item_count(12309) ~= 1 then error("the second plant gave " .. item_count(12309) .. " roots, not 1") end
+        click(256); wait(1); close()
+        if held() ~= 0 then stow() end
+        if item_count(12309) ~= 1 then error("the second plant gave a second root") end
+  # A save and load keeps both plants dug.
+  - reload: {}
+  - play_lua:
+      source: |
+        for _ = 1, 3 do if not close() then break end end
+        click(255); wait(1); close()
+        click(256); wait(1); close()
+        if held() ~= 0 then stow() end
+        if item_count(12309) ~= 1 then error("a plant gave a root after a reload: " .. item_count(12309)) end
+  # Out to X2 and 673 days on, back to X1: the plants have grown back.
+  - load_map: {map: xeen_x2.odm}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  - assert: {map: xeen_x2.odm}
+  - console: {line: "time advance 673"}
+  - load_map: {map: xeen_x1.odm, pos: "6144, -10296, 480"}
+  - setup_shortcut: {kind: immortal}
+  - play_lua: {source: "wait(1.5); for _ = 1, 3 do if not close() then break end end"}
+  - assert: {map: xeen_x1.odm}
+  - set_pose: {map: xeen_x1.odm, x: 6144, y: -10296, z: 480, yaw: -1.5708, pitch: 0.0}
+  - play_lua:
+      source: |
+        if mapvar("xeen.harvest.q-c21.phirna_plant.255") ~= 0 then error("the refill kept the plant dug") end
+        click(255); wait(1); close()
+        if held() ~= 0 then stow() end
+        if item_count(12309) ~= 2 then error("the regrown plant gave no root: " .. item_count(12309)) end

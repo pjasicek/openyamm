@@ -371,6 +371,8 @@ public:
     // The Gameplay setting Party pouches (Party::setPartyPouches) for the game's parties; the local party's items move
     // into or out of its pouches now (Party::sortPouchItems).
     void setPartyPouches(bool enabled);
+    // The Gameplay setting New loot pouch (Party::setLootPouch) for the game's parties; nothing moves.
+    void setLootPouch(bool enabled);
     // Every party of a shared game plays in the session's campaign. The loaded map's party does so only once the
     // session has taken its state (GameplayController::synchronizeSessionFromRuntime); this does that now if it has
     // not happened yet, so that another player's party and the local one never have a campaign each.

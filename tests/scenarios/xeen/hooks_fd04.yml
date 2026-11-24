@@ -8,7 +8,7 @@
 # - Q-F2: Sandro's door without his key (the fail line names it), with it (118130, 114040, the key kept), again (the
 #   else line); the descent refused; the twelve clues (a wrong answer "Wrong!" and nothing lit; spelling variants;
 #   a solved plaque's status line); the descent (6,000 each, 118143, once); the four coffins; Sandro's note; the
-#   shrines Minor/Lesser/Great (No leaves one; 1,000/2,000/3,000 each, once: "The shrine lies broken.");
+#   shrines Minor/Lesser/Great (a click each, D-121; 1,000/2,000/3,000 each, once: "The shrine lies broken.");
 #   the gongs, the lever refused, the chest's reset ("The gongs fall silent."), the four gongs and the lever; the
 #   terminal (Goober, SUPER Goober, COMPUTER 2,000 each once, its else line); the machine (10,000 each, 118145, 114041).
 # - A save and load: the potion, the Tome, the egg, the descent, the shrines, the terminal and the machine still
@@ -387,20 +387,12 @@ steps:
   - assert: {dialog: {active: true, text_contains: "Gone to Necropolis, will return soon. Please keep the place clean."}}
   - assert: {dialog: {active: true, text_contains: "Have fun... (signed) Sandro"}}
   - play_lua: {source: "close(); wait(0.3)"}
-  # The Shrines of Lesser Evil: Minor (event 82): No leaves it; Yes, 1,000 each; again: broken.
+  # The Shrines of Lesser Evil: Minor (event 82): a click breaks it (D-121, no question), 1,000 each; again: broken.
   - set_pose: {map: xeen_fd04.blv, x: -1500, y: 7000, z: -1792, yaw: 3.1416, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - play_lua: {source: "log('cleared ' .. clear_hostiles(4000)); for i = 0, 3 do remember('x' .. i, experience(i)) end; click(82); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: "Shrine of Minor Evil.  Destroy?"}}
-  - answer_input: {text: "No"}
-  - advance_runtime: {seconds: 1.0}
-  - play_lua:
-      source: |
-        close(); wait(0.5)
-        if qbit(114043) then error("No broke the Minor shrine") end
-        click(82); wait(0.5)
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1.5, present_dialogs: true}
+  - assert: {dialog: {active: false}}
   - play_lua:
       source: |
         local s = tostring(status())
@@ -418,8 +410,7 @@ steps:
         if not string.find(s, "The shrine lies broken.", 1, true) then error("broken Minor shrine: " .. s) end
         for i = 0, 3 do remember('x' .. i, experience(i)) end
         click(80); wait(0.5)
-  # Lesser (event 80): 2,000 each.
-  - answer_input: {text: "Yes"}
+  # Lesser (event 80): a click, 2,000 each.
   - advance_runtime: {seconds: 1.5, present_dialogs: true}
   - play_lua:
       source: |
@@ -433,12 +424,10 @@ steps:
           local d = experience(i) - recall("x" .. i)
           if d ~= 2000 then error("the Lesser shrine paid member " .. i .. " " .. d) end
         end
-  # The Shrines of Great Evil: Great (event 78), 3,000 each.
+  # The Shrines of Great Evil: Great (event 78), a click, 3,000 each.
   - set_pose: {map: xeen_fd04.blv, x: 1500, y: 7000, z: -1792, yaw: 0.0, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - play_lua: {source: "log('cleared ' .. clear_hostiles(4000)); for i = 0, 3 do remember('x' .. i, experience(i)) end; click(78); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: "Shrine of Great Evil.  Destroy?"}}
-  - answer_input: {text: "Y"}
   - advance_runtime: {seconds: 1.5, present_dialogs: true}
   - play_lua:
       source: |
@@ -517,16 +506,16 @@ steps:
   - assert: {dialog: {active: true, text_contains: "The screen flashes with the response: Code accepted already. Have a nice day."}}
   - play_lua: {source: "close(); wait(0.3)"}
 
-  # ---- The machine hall: the Lord Xeen Machine (event 69), 10,000 each.
+  # ---- The machine hall: the Lord Xeen Machine (event 69), a click (D-121), 10,000 each, its line on the status line.
   - set_pose: {map: xeen_fd04.blv, x: -300, y: 11500, z: -2560, yaw: 1.5708, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "log('cleared ' .. clear_hostiles(6000)); for i = 0, 3 do remember('x' .. i, experience(i)) end; click(69); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: "Lord Xeen Machine. Destroy?"}}
-  - answer_input: {text: "Yes"}
+  - play_lua: {source: "log('cleared ' .. clear_hostiles(6000)); for i = 0, 3 do remember('x' .. i, experience(i)) end; status(); click(69); wait(0.5)"}
   - advance_runtime: {seconds: 2.0, present_dialogs: true}
-  - assert: {dialog: {active: true, text_contains: "(+10,000 experience)"}}
+  - assert: {dialog: {active: false}}
   - play_lua:
       source: |
+        local s = tostring(status())
+        if not string.find(s, "(+10,000 experience)", 1, true) then error("machine line: " .. s) end
         close(); wait(1); close()
         if not qbit(118145) then error("q-f2.machine_broken 118145 not set") end
         if not qbit(114041) then error("q-f2.done 114041 not set") end
@@ -534,9 +523,9 @@ steps:
           local d = experience(i) - recall("x" .. i)
           if d ~= 10000 then error("the machine paid member " .. i .. " " .. d) end
         end
-        click(69); wait(0.5)
-  - assert: {dialog: {active: true, text_contains: "The Lord Xeen Machine is dark and cold. Somebody will have to write a new maintenance schedule."}}
-  - play_lua: {source: "close(); wait(0.3)"}
+        status(); click(69); wait(0.5)
+        local s = tostring(status())
+        if not string.find(s, "The Lord Xeen Machine is dark and cold. Somebody will have to write a new maintenance schedule.", 1, true) then error("broken machine: " .. s) end
 
   # ---- A save and load: every once-only reward still refuses and pays nothing.
   - reload: {}
@@ -546,8 +535,7 @@ steps:
   - assert: {qbit_set: [114020, 114040, 114041, 114043, 114044, 114045, 118130, 118143, 118144, 118145, 118146, 118147, 118149]}
   - assert: {actor_visible: {actor_index: 0, hidden: true}}
   - press_action: {action: select_member, member_index: 0}
-  - play_lua: {source: "click(69); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: "The Lord Xeen Machine is dark and cold."}}
+  - play_lua: {source: "status(); click(69); wait(0.5); local s = tostring(status()); if not string.find(s, 'The Lord Xeen Machine is dark and cold.', 1, true) then error('machine after reload: ' .. s) end"}
   - play_lua: {source: "close(); wait(0.3); click(98); wait(0.5)"}
   - assert: {dialog: {active: true, text_contains: "Code accepted already."}}
   - play_lua: {source: "close(); wait(0.3); click(56); wait(0.5)"}

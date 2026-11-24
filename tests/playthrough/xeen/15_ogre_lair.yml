@@ -19,8 +19,9 @@ steps:
   - assert: {qbit_clear: [112460, 112461]}
   # Down the castle lane to the Royal Stables (house 4155). The coach came in on a Saturday: Ned runs Rivercity today.
   - walk_to: {x: -1024, y: 5120, z: 1312, z_tolerance: 600, radius: 160, timeout_seconds: 60, clear_hostiles: 3000, close_dialogs: true}
-  - walk_to: {x: 772, y: 4096, z: 1312, z_tolerance: 600, radius: 160, timeout_seconds: 120, clear_hostiles: 3000, close_dialogs: true}
-  - set_pose: {map: xeen_x4.odm, x: 772, y: 4096, z: 1312, yaw: 0.0, pitch: 0.0}
+  # the stables' office door (1072, 4386) since the classic kit's stables (2026-11-24): 300 west of it, facing it
+  - walk_to: {x: 772, y: 4386, z: 1312, z_tolerance: 600, radius: 160, timeout_seconds: 120, clear_hostiles: 3000, close_dialogs: true}
+  - set_pose: {map: xeen_x4.odm, x: 772, y: 4386, z: 1312, yaw: 0.0, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - press_interact: {expect: {kind: event_target}}
   - assert:
@@ -150,7 +151,6 @@ steps:
   - walk_to: {x: -1600, y: 3616, z: 32, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   - walk_to: {x: -2752, y: 3740, z: 32, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   - play_lua: {source: "click(14); wait(0.5)"}
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1}
   - play_lua:
       source: |

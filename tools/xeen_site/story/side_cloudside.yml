@@ -505,9 +505,9 @@ quests:
     steps:
       - "Myra's hut is south-east of Vertigo, next to Old Valia's cottage. Ask her about 'Quest'."
       - "Toad Meadow lies south and south-east of her hut, around the Witch Tower's rise. Four Phirna plants grow there. Click one to dig up its root."
-      - "You can carry only one root at a time. A second plant 'stubbornly resists' while you have one."
-      - "Bring the root to Myra and ask about 'Quest'. She takes it and gives you five Cure Poison potions."
-      - "Dig another root and bring it back for five more potions whenever you need them."
+      - "Each plant gives one root, then is dug up until Vertigo Meadows refills. Four plants give four roots."
+      - "Bring a root to Myra and ask about 'Quest'. She takes it and gives you five Cure Poison potions; ask again for each root you carry."
+      - "When the meadow refills, the plants grow back and you can dig four more roots."
     tips:
       - "Giant, Bog and Swamp Toads (levels 5-11) roam the meadow."
       - "Only the first root pays experience."

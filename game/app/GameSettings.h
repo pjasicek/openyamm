@@ -450,6 +450,10 @@ struct GameSettings
     // reagents and its quest items each go to a tab of their own shared by the whole party, in place of the members'
     // bags (Party::partyPouches). Off, they go back into the bags.
     bool partyPouches = true;
+    // What the party picks up or loots and has no pouch of its own goes to the loot pouch, the inventory's leather
+    // pouch tab, to be kept by moving it to a bag or sold there as trash (Party::setLootPouch), under any ruleset.
+    // Off, it goes to the bags.
+    bool lootPouch = true;
     // Obsidian basebar frame behind the gameplay party portraits; fullscreen overlays always draw their own strip.
     bool partyFrame = true;
     // The quick item rings: the round button at each gameplay portrait opening its ring of six quick slots, and the

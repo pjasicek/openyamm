@@ -1,8 +1,8 @@
 # Xeen side quest Q-C26, Shangri-La (X7, XD-16, XD-17), from a new game on X7 with a level-48 party whose Master Archer
 # has Bow at Master. No giver: the Volcano Cave's two skulls. X7: the cave mouth between the idols (event 38, "Enter the
 # Volcano Cave?" Yes) into XD-16. XD-16 walked as its L4 playtest: the ash gallery, the causeway to the fire lake's
-# island, the devil skull (event 15, Yes: devil_skull, 5,000 XP each; again: the splinters line); the fissure, the demon
-# shrine's iron door, the demon skull (event 13, Yes: demon_skull and done, the Shangri-La autonote 4260, 5,000 XP each;
+# island, the devil skull (event 15, a click (D-121): devil_skull, 5,000 XP each; again: the splinters line); the fissure, the demon
+# shrine's iron door, the demon skull (event 13, a click: demon_skull and done, the Shangri-La autonote 4260, 5,000 XP each;
 # the way's rock (door 7) grinds open in the same visit, map qbit 118054); the cinder run and the rough steps; the four
 # lever stones round the black pillar (events 21-24, each slab down, each "The lever is down." again); the gate run, the
 # deep stair, the heart's ledges, the last cave, the cool passage (q-c26.way's line), the way's end (event 33) into
@@ -49,7 +49,7 @@ steps:
   - assert: {map: xeen_xd16.blv}
   - assert: {party_position: {x: 256, y: 0, radius: 96, z_min: -8, z_max: 8}}
   - play_lua: {source: "wait(2); log('arrive: ' .. tostring(status())); for _ = 1, 3 do if not close() then break end end"}
-  # The ash gallery and the causeway to the fire lake's island: the devil skull (event 15), Yes.
+  # The ash gallery and the causeway to the fire lake's island: the devil skull (event 15), a click (D-121).
   - walk_to: {x: 1920, y: 0, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
   - walk_to: {x: 3328, y: 0, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
   - clear_hostiles: {radius: 3500}
@@ -57,8 +57,6 @@ steps:
   - walk_to: {x: 4480, y: 0, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
   - clear_hostiles: {radius: 2000}
   - play_lua: {source: "remember('xp', experience(1)); click(15); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: skull of a devil stares at you}}
-  - answer_input: {text: "yes"}
   - advance_runtime: {seconds: 1, present_dialogs: true}
   - play_lua:
       source: |
@@ -78,7 +76,7 @@ steps:
         local s = tostring(status())
         if not string.find(s, [[Splinters of black bone]], 1, true) then error("status line: " .. s) end
   - play_lua: {source: "close()"}
-  # The fissure north to the demon shrine's iron door (event 17, door 1): the demon skull (event 13), Yes: done.
+  # The fissure north to the demon shrine's iron door (event 17, door 1): the demon skull (event 13), a click: done.
   - walk_to: {x: 3328, y: 0, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
   - walk_to: {x: 3328, y: 1340, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
   - walk_to: {x: 5568, y: 1340, z: 0, radius: 64, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
@@ -90,8 +88,6 @@ steps:
   - clear_hostiles: {radius: 2500}
   - walk_to: {x: 5696, y: 4160, z: 0, radius: 48, clear_hostiles: 1500, timeout_seconds: 40, close_dialogs: true}
   - play_lua: {source: "remember('xp', experience(1)); click(13); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: skull of a demon grins wickedly}}
-  - answer_input: {text: "yes"}
   - advance_runtime: {seconds: 1, present_dialogs: true}
   - play_lua:
       source: |

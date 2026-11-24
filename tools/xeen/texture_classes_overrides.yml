@@ -92,7 +92,9 @@ textures:
   # The classic Vertigo kit (level_generation/xeen_art/kit_textures/vertigo_classic, 2026-11-24): every bay has half a
   # beam at its top and bottom edges, so storeys stacked on it meet in one beam.
   xvwall: {storey_stack: module}
-  xvswall: {storey_stack: module}
+  # The stone kit's wall is a storey module that tiles both ways (its courses at the top and bottom edges meet the next
+  # storey's): a tile, as the tower kit's, not the band its measured stripes made it (textures.trim_tiled, 2026-11-24).
+  xvswall: {class: tile, storey_stack: module}
   xvtwall: {storey_stack: module}
   xvtwin: {storey_stack: module}
   xvswin: {storey_stack: module}

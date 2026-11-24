@@ -1,0 +1,47 @@
+# The world's hull at the rim (Xeen's U-12) is solid: its decorations bind `collision: model`
+# (worlds/xeen/models/decorations.yml), so Map Studio raises a hidden copy of each piece's triangles
+# (openyamm-studio/core/OutdoorDecorationCollision.h) and the party walking into the rim stops at the
+# hull's kerb, on the land, instead of walking over the edge into the void (2026-11-24, the user).
+# Copied from x4_hull_edge.yml for D1's west rim (xeen-fb3-hull).
+id: xeen.d1.hull_edge
+title: 'D1: walking west into the world''s rim, the party stops at the hull'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_d1.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_d1.odm
+      x: -19200
+      y: 10240
+      z: 1096
+      yaw_degrees: 180
+      pitch: 0
+    expect_stop:
+      map: xeen_d1.odm
+      x: -20800
+      y: 10240
+      z: 1096
+      yaw_degrees: 180
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    map: xeen_d1.odm
+- note: 'On the land short of the edge (the land ends at x -20,992, the kerb stands on it)'
+- assert:
+    party_position:
+      x: -20700
+      y: 10240
+      radius: 320

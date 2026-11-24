@@ -35,12 +35,14 @@ struct BagItemRef
 // The party's pouches (ItemPouch, rulesets with ItemRules::hasPouches) are three more bags, the same for every member:
 // the items of pouchBag(pouch) are the party's (Party::pouchItems) whichever member the bag is asked of, on a grid of
 // their own (PouchColumns wide, PouchRows deep, filled row by row). An item with a pouch lies nowhere else, and a
-// pouch takes nothing else (Party::tryPlaceItemInMemberInventoryCell and the grants see to both).
+// pouch takes nothing else (Party::tryPlaceItemInMemberInventoryCell and the grants see to both). The loot pouch is
+// the exception: no item's own pouch, it takes any item without one, and such items leave it for a bag freely.
 namespace InventoryBags
 {
 constexpr uint8_t CraftingPouchBag = 240;
 constexpr uint8_t AlchemyPouchBag = 241;
 constexpr uint8_t QuestPouchBag = 242;
+constexpr uint8_t LootPouchBag = 243;
 // A pouch's grid: as wide as two bags side by side, as the bag overview shows them; the inventory shows
 // PouchVisibleRows of its rows (two bags' worth) and scrolls.
 constexpr int PouchColumns = 28;
@@ -49,7 +51,13 @@ constexpr int PouchRows = 240;
 
 inline bool isPouchBag(uint8_t bag)
 {
-    return bag >= CraftingPouchBag && bag <= QuestPouchBag;
+    return bag >= CraftingPouchBag && bag <= LootPouchBag;
+}
+
+// A pouch of one kind of item (every pouch but the loot pouch): it takes nothing else.
+inline bool isKindPouchBag(uint8_t bag)
+{
+    return isPouchBag(bag) && bag != LootPouchBag;
 }
 
 inline uint8_t pouchBag(ItemPouch pouch)

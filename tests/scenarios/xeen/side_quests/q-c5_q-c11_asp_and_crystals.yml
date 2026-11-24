@@ -153,15 +153,9 @@ steps:
         local s = tostring(status())
         if not string.find(s, [[The crystal housing is shut tight while the machine hums.]], 1, true) then error("status line: " .. s) end
   - play_lua: {source: "close(); if door_state(2) ~= 'closed' then error('the housing opened before the machine died') end"}
-  # The transformer (event 25): the source's question. No keeps it; Yes destroys it (q-c5.transformer: done).
+  # The transformer (event 25): a click destroys it (q-c5.transformer: done; F47 2026-11-24, no question).
   - walk_to: {x: 384, y: -2980, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - play_lua: {source: "click(25); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: "Do you wish to destroy it?"}}
-  - answer_input: {text: "No"}
-  - advance_runtime: {seconds: 1}
-  - play_lua: {source: "close(); if qbit(112102) then error('No destroyed the machine') end"}
-  - play_lua: {source: "click(25); wait(0.5)"}
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1}
   - assert: {dialog: {active: true, text_contains: "The transformer sparks, shudders and dies. Far above, in a cellar in Asp, someone stops hissing in mid-word."}}
   - play_lua: {source: "close()"}

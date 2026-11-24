@@ -1,0 +1,55 @@
+# X2 p8 (a player, 2026-11-24: "With p8 i mean the sprites are always in the air"). The Sprites wore the Will o'
+# Wisp's Light missile (the Medusa Sprite) or their own Air (the others), which made them MM6-MM8's ranged flyers:
+# outdoors such a flyer hovers its radius + 512 above the party and circles it at range (OE AI_Pursue's WantedZ;
+# OutdoorWorldRuntime's flying ranged pursuit height), so a melee party could never reach them. The source's sprites
+# have no ranged attack; MM6-MM8's small winged monsters (harpies, gargoyles, bats) are melee flyers. Since the fix
+# (monsters.yml sprites and dark_sprites `missile: 0`; tools/xeen/gen_monsters.py refuses a flyer with a missile
+# unless it says `ranged_flyer`) they come down to the party, and a sword reaches them.
+# At the pin (X2 [-8688, -2868, 1044]): a Medusa Sprite, a Killer Sprite and a Sprite Queen spawned 700 units off and
+# 400 up close in, stand within reach and take the Knight's sword blows.
+#   build/game/openyamm --headless-run-scenario tests/scenarios/xeen/sprites_come_down.yml --scenario-no-color
+id: xeen.sprites_come_down
+title: "X2 p8: the Sprites come down to the party and a sword reaches them"
+world: xeen
+mode: faithful
+tags: [xeen, actors, combat, regression]
+steps:
+  - new_game_flow:
+      start_map: xeen_x2.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Probe
+            class: Knight
+            level: 40
+            accuracy: 900
+            skills:
+              - {name: Sword, level: 10, mastery: 3}
+            equipment: {}
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - grant_item: {item_id: 1, equip: mainhand}
+  - setup_shortcut: {kind: immortal, value: true}
+  - set_pose: {map: xeen_x2.odm, x: -8688, y: -2868, z: 1044, yaw_degrees: 90, pitch: 0}
+  - clear_hostiles: {radius: 9000}
+  - advance_runtime: {seconds: 0.5}
+  - spawn_actor: {monster_id: 11530, x: -8688, y: -2168, z: 1450}
+  - spawn_actor: {monster_id: 11531, x: -8388, y: -2268, z: 1450}
+  - spawn_actor: {monster_id: 11532, x: -8988, y: -2268, z: 1450}
+  - advance_runtime: {seconds: 6}
+  # All three have closed in to the party (horizontally; they strike it from there).
+  - assert: {actor_visible: {actor_index: last-2, near: {x: -8688, y: -2868, max_distance: 400}}}
+  - assert: {actor_visible: {actor_index: last-1, near: {x: -8688, y: -2868, max_distance: 400}}}
+  - assert: {actor_visible: {actor_index: last, near: {x: -8688, y: -2868, max_distance: 400}}}
+  # The Knight's blows land.
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 1.5}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      actor_count: {monster_id: [11530, 11531, 11532], hurt: true, min: 1}

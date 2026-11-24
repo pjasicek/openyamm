@@ -288,7 +288,8 @@ std::optional<BagItemRef> findCarriedTravelItem(const Party &party, const Invent
     }
 
     for (const uint8_t bag :
-        {InventoryBags::CraftingPouchBag, InventoryBags::AlchemyPouchBag, InventoryBags::QuestPouchBag})
+        {InventoryBags::CraftingPouchBag, InventoryBags::AlchemyPouchBag, InventoryBags::QuestPouchBag,
+            InventoryBags::LootPouchBag})
     {
         for (const InventoryItem &carried : InventoryBags::itemsInBag(party, 0, bag))
         {

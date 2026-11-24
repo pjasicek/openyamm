@@ -25,7 +25,7 @@ steps:
   # Round 1: Hunter RangerLord BountyHunter Ranger -> BountyHunter RangerLord BountyHunter Ranger.
   - lua_event: {source: "if not SetPlayerClass(0, 'Hunter') then error('SetPlayerClass(0, Hunter)') end if not SetPlayerClass(1, 'RangerLord') then error('SetPlayerClass(1, RangerLord)') end if not SetPlayerClass(2, 'BountyHunter') then error('SetPlayerClass(2, BountyHunter)') end if not SetPlayerClass(3, 'Ranger') then error('SetPlayerClass(3, Ranger)') end"}
   - play_lua: {source: 'local c = classes() log("CLASSES bounty round 1 set: " .. c) if c ~= "Hunter RangerLord BountyHunter Ranger" then error("expected Hunter RangerLord BountyHunter Ranger, got " .. c) end'}
-  - set_pose: {map: xeen_d1.odm, x: 3844, y: 5376, z: 1152, yaw: 0.0, pitch: 0.0}
+  - set_pose: {map: xeen_d1.odm, x: 3844, y: 5904, z: 1152, yaw: 0.0, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - clear_hostiles: {radius: 3000}
   - press_interact: {expect: {kind: event_target}}
@@ -40,7 +40,7 @@ steps:
   # Round 2: RangerLord BountyHunter Ranger Peasant, none of them eligible: the promote is not offered.
   - lua_event: {source: "if not SetPlayerClass(0, 'RangerLord') then error('SetPlayerClass(0, RangerLord)') end if not SetPlayerClass(1, 'BountyHunter') then error('SetPlayerClass(1, BountyHunter)') end if not SetPlayerClass(2, 'Ranger') then error('SetPlayerClass(2, Ranger)') end if not SetPlayerClass(3, 'Peasant') then error('SetPlayerClass(3, Peasant)') end"}
   - play_lua: {source: 'local c = classes() log("CLASSES bounty round 2 set: " .. c) if c ~= "RangerLord BountyHunter Ranger Peasant" then error("expected RangerLord BountyHunter Ranger Peasant, got " .. c) end'}
-  - set_pose: {map: xeen_d1.odm, x: 3844, y: 5376, z: 1152, yaw: 0.0, pitch: 0.0}
+  - set_pose: {map: xeen_d1.odm, x: 3844, y: 5904, z: 1152, yaw: 0.0, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - clear_hostiles: {radius: 3000}
   - press_interact: {expect: {kind: event_target}}

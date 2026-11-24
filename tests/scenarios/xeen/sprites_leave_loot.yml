@@ -1,0 +1,20 @@
+# Feedback F54 (2026-11-24): X2's Sprites dropped no loot, not even the Queen. They wore the Will o' Wisp's descriptor,
+# which has no dead sprite, so they left no corpse and the game dropped none of their table loot (gold 10D8 for the
+# Queen). Since the fix (monsters.yml `corpse: dying`, tools/xeen/gen_monsters.py) they leave a body with their loot.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/xeen/sprites_leave_loot.yml --scenario-no-color
+id: xeen.f54.sprites_leave_loot
+title: "F54: a killed Sprite Queen and Medusa Sprite leave a corpse with their gold"
+world: xeen
+mode: faithful
+tags: [xeen, loot, regression]
+steps:
+  - new_game_flow:
+      start_map: xeen_x2.odm
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua: {source: "close() remember('gold', gold())"}
+  - spawn_actor: {monster_id: 11532, near_party: true}
+  - combat_loot: {actor_index: last}
+  - play_lua: {source: "if gold() <= recall('gold') then error('the Sprite Queen left no gold') end remember('gold', gold())"}
+  - spawn_actor: {monster_id: 11530, near_party: true}
+  - combat_loot: {actor_index: last}
+  - play_lua: {source: "if gold() <= recall('gold') then error('the Medusa Sprite left no gold') end"}

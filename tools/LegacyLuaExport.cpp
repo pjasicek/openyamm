@@ -2186,7 +2186,10 @@ LegacyLuaInstruction decodeInstruction(
 
         if (policy && param && count && invisibleAsDead)
         {
-            decoded.arguments = {*policy, *param, *count, *invisibleAsDead};
+            // Our MM7 EVTs are MMerge's MM8-format conversions, which write InvisibleAsDead as 0. Vanilla MM7 has
+            // no such byte and always counts a hidden monster as dead, so MM7 kill checks follow its rule.
+            const uint8_t effectiveInvisibleAsDead = version == LegacyEventVersion::Mm7 ? 1 : *invisibleAsDead;
+            decoded.arguments = {*policy, *param, *count, effectiveInvisibleAsDead};
         }
 
         if (jump)

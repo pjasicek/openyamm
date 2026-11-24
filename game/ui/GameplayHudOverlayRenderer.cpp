@@ -223,25 +223,21 @@ void renderPartyBagButtons(GameplayScreenRuntime &view, int width, int height)
             true);
     }
 
-    // The party's pouches over a shop's or chest's party inventory: a button each, selected while its tab shows.
-    for (const auto &[pId, pouch] : {std::pair("ChestInventoryCraftingPouch", ItemPouch::Crafting),
-             std::pair("ChestInventoryAlchemyPouch", ItemPouch::Alchemy),
-             std::pair("ChestInventoryQuestPouch", ItemPouch::Quest)})
+    // The party's pouches over a shop's or chest's party inventory, in their slots (pouchButtons): selected while
+    // its tab shows.
+    if (pParty != nullptr && view.inventoryNestedOverlay().active)
     {
-        const GameplayScreenRuntime::HudLayoutElement *pLayout = view.findHudLayoutElement(pId);
-        const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> button =
-            pLayout != nullptr && pParty != nullptr && view.inventoryNestedOverlay().active
-                    && pParty->hasPouch(pouch)
-                ? view.resolveHudLayoutElement(pId, width, height, pLayout->width, pLayout->height)
-                : std::nullopt;
+        const std::array<std::optional<ItemPouch>, 4> slots = GameplayHudOverlaySupport::pouchButtons(*pParty);
 
-        if (button)
+        for (size_t slot = 0; slot < slots.size(); ++slot)
         {
-            GameplayUiSkin::renderButton(view, pId, width, height,
-                GameplayHudOverlaySupport::nestedPouchShown(view) == pouch, true);
-            const float size = std::round(16.0f * button->scale);
-            GameplayHudOverlaySupport::renderPouchIcon(view, pouch, button->x + (button->width - size) * 0.5f,
-                button->y + (button->height - size) * 0.5f, size);
+            const std::string id = "ChestInventoryPouch" + std::to_string(slot + 1);
+
+            if (slots[slot] && view.findHudLayoutElement(id) != nullptr)
+            {
+                GameplayHudOverlaySupport::renderPouchButton(view, id, width, height, *slots[slot],
+                    GameplayHudOverlaySupport::nestedPouchShown(view) == slots[slot]);
+            }
         }
     }
 

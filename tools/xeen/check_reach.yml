@@ -1,0 +1,45 @@
+# Findings of tools/xeen/check_reach.py that a decision keeps (D-120 and the like): what the party reaches by an
+# intended means other than walking. `{map, thing: <id glob>, reason}` keeps a reach.thing; `{map, group: <actor
+# group>, reason}` keeps reach.spawn's land rule for one placed group (never its bounds rule). An entry that keeps
+# nothing is an error. Say what would end each.
+kept:
+  - map: xeen_x2
+    group: 80
+    reason: "D-54: Medin's three lake beasts, flying Water Dragons over Lake Darzog, leashed to their homes on the
+      lake; they come to the party at the shore"
+  - map: xeen_d4
+    thing: thing:skerry_strongbox
+    reason: "D-120: an optional find on the lake's skerry, reached by Water Walk or Fly (Act IV has both); Water Walk
+      walks to it in tests/scenarios/xeen/d4_skerry_water_walk.yml"
+  - map: xeen_d4
+    thing: thing:genie_lamp_skerry
+    reason: "D-120: the genie lamp on the east skerry, an optional find reached by Water Walk or Fly (Act IV)"
+  - map: xeen_d6
+    thing: thing:lamp_islet
+    reason: "D-120: the lamp on the islet in the lava, reached by Fly only (Act V has it); D6 is not rebuilt this round"
+  - map: xeen_d4
+    group: 3
+    reason: "D-36 (2): an octopod placed as a swimmer in the lake's west deep basin, leashed 1,500 there (d4/gen.py
+      OCTO); it comes to the party at the shore or the skerries"
+  - map: xeen_d4
+    group: 4
+    reason: "D-36 (2): an octopod swimming in the west basin, as group 3"
+  - map: xeen_d4
+    group: 5
+    reason: "D-36 (2): an octopod (Great Octopod) swimming in the east basin, as group 3"
+  - map: xeen_d4
+    group: 6
+    reason: "D-36 (2): an octopod swimming in the east basin, as group 3"
+  - map: xeen_d4
+    group: 7
+    reason: "D-36 (2): a Great Octopod swimming in the south basin, as group 3"
+  - map: xeen_d6
+    group: 2
+    reason: "fire elementals (rows 11620/11621, flying) over the Forbidden Zone's lava lake, leashed 1,024; they come
+      to the party on the shore (final cloud round, 2026-11-24)"
+  - map: xeen_d6
+    group: 3
+    reason: "fire elementals over the lava lake, as group 2"
+  - map: xeen_d6
+    group: 4
+    reason: "fire elementals over the lava lake, as group 2"

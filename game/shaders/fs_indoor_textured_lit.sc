@@ -363,7 +363,10 @@ void main()
     {
         textureColor.a = 1.0;
     }
-    else if (textureColor.a <= 0.001)
+    // A cut-out's cut (the outdoor BModels' 0.1, outdoor_bmodel_lightmap.sh): BC7 stores the alpha of hole texels
+    // beside the bars a few steps over 0, with whatever colour, so a cut at 0 drew them as specks (XD-08's
+    // portcullis, purple behind its bars; F44, 2026-11-24).
+    else if (textureColor.a <= 0.1)
     {
         discard;
     }

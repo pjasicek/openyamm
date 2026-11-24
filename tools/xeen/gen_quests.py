@@ -633,6 +633,41 @@ def show_lua(hook: dict, text_id: int, text: str) -> str:
     return f'evt.StatusText({call}, {seconds})' if seconds else f'evt.StatusText({call})'
 
 
+def requires_lacking(node, items: set) -> bool:
+    """Whether a condition asks that the party lack one of `items` ({not: {item: x}} anywhere in it)."""
+    if isinstance(node, dict):
+        inner = node.get('not')
+        if isinstance(inner, dict) and inner.get('item') in items:
+            return True
+        return any(requires_lacking(value, items) for value in node.values())
+    if isinstance(node, list):
+        return any(requires_lacking(value, items) for value in node)
+    return False
+
+
+def harvest_refusal(hook: dict) -> str | None:
+    """X1 p26 (2026-11-24): a hook that hands over items (`gives:`) again at every click is an endless source. It says
+    `once: true` (one find) or `harvest: <n>` (n at each calling map event, then used up until the map refills, as
+    MM6-MM8's map variables: XeenQuests.hook). The limit is the spot, never what the party carries: `requires` may not
+    ask that the party lack an item the hook gives (thrown away, it is dug again: one root at a time, 60 potions)."""
+    harvest = hook.get('harvest')
+    gives = {str(item) for item in hook.get('gives') or []}
+    if harvest is not None:
+        if isinstance(harvest, bool) or not isinstance(harvest, int) or harvest < 1:
+            return f'harvest {harvest!r}: a count of 1 or more'
+        if hook.get('once'):
+            return 'harvest and once: a find is one or the other'
+        if not gives:
+            return 'harvest needs gives (what each spot hands over)'
+    elif gives and not hook.get('once'):
+        return ('gives without once or harvest: every click hands it over again; `once: true` (one find) or '
+                '`harvest: <n>` (n at each spot until the map refills)')
+    if gives and requires_lacking(hook.get('requires'), gives):
+        return ('requires asks that the party lack an item the hook gives: thrown away, it is given again; limit the '
+                'spot with `harvest: <n>` instead')
+    return None
+
+
 def hook_lua(emitter: Emitter, name: str, hook: dict) -> list[str]:
     stem = hook['_file']['_stem']
     where = f"{hook['_file']['_path']} hook {hook['_name']}"
@@ -643,6 +678,11 @@ def hook_lua(emitter: Emitter, name: str, hook: dict) -> list[str]:
             emitter.model.problems.append(f'{where}: a once hook needs a qbit it sets')
         else:
             lines.append(f'    once = {sets[0]},')
+    harvest_problem = harvest_refusal(hook)
+    if harvest_problem:
+        emitter.model.problems.append(f'{where}: {harvest_problem}')
+    elif hook.get('harvest') is not None:
+        lines.append(f"    harvest = {hook['harvest']},")
     requires = hook.get('requires')
     needs = [emitter.item(item) for item in hook.get('needs') or []]
     parts = [emitter.cond(requires, stem, where)] if requires is not None else []
@@ -962,6 +1002,9 @@ def build(ctx: xeenlib.BuildContext):
                 entry[key] = hook[key]
         if hook.get('once'):
             entry['once'] = True
+        if hook.get('harvest') is not None:
+            # n at each calling map event, then used up until the map refills (XeenQuests.hook, a map variable)
+            entry['harvest'] = hook['harvest']
         if hook.get('cinematic_event_id'):
             # the map's cinematic (its cinematics.yml id) and the done event the hook passes to evt.PlayCinematic
             entry['cinematic'] = {'id': str(hook['cinematic']['id']), 'done_event': hook['cinematic_event_id'],

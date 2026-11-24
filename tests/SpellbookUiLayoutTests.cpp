@@ -19,6 +19,7 @@ using OpenYAMM::Game::SpellbookSchoolUiDefinition;
 using OpenYAMM::Game::SpellId;
 using OpenYAMM::Game::spellbookSpellLayoutId;
 using OpenYAMM::Game::spellIdValue;
+using OpenYAMM::Game::statusTextReadingSeconds;
 
 TEST_CASE("spellbook ui layout uses canonical school slot mapping")
 {
@@ -88,6 +89,30 @@ TEST_CASE("a character's spellbook page survives a save and load")
     REQUIRE_EQ(restored->party.members.size(), 2u);
     CHECK_EQ(restored->party.members[0].spellbookSchool, int32_t(GameplayUiController::SpellbookSchool::Body));
     CHECK_EQ(restored->party.members[1].spellbookSchool, -1);
+}
+
+TEST_CASE("a long status line stays up long enough to read; a short one keeps the original 2 seconds")
+{
+    // Feedback F53 (2026-11-24): Xeen's event texts vanished before they could be read.
+    GameplayUiController uiController = {};
+    uiController.setStatusBarEvent("You found an item!", 2.0f);
+    CHECK_EQ(uiController.statusBar().eventRemainingSeconds, doctest::Approx(2.0f));
+
+    const std::string riverText =
+        "The river roars in through the grate. The old sluice wall makes a catwalk across the race.";
+    uiController.setStatusBarEvent(riverText, 2.0f);
+    CHECK_EQ(uiController.statusBar().eventRemainingSeconds, doctest::Approx(float(riverText.size()) / 12.0f));
+    // A script's longer time stays.
+    uiController.setStatusBarEvent(riverText, 10.0f);
+    CHECK_EQ(uiController.statusBar().eventRemainingSeconds, doctest::Approx(10.0f));
+    // No time shows nothing, whatever the length.
+    uiController.setStatusBarEvent(riverText, 0.0f);
+    CHECK_FALSE(uiController.statusBarEventActive());
+
+    CHECK_EQ(statusTextReadingSeconds(std::string(400, 'a')), doctest::Approx(12.0f));
+    // Wide characters read slower: six ideographs (three bytes each) count as fifteen letters.
+    CHECK_EQ(statusTextReadingSeconds("\xe4\xbd\xa0\xe5\xa5\xbd\xe4\xbd\xa0\xe5\xa5\xbd\xe4\xbd\xa0\xe5\xa5\xbd"),
+        doctest::Approx(15.0f / 12.0f));
 }
 
 TEST_CASE("status bar hover text does not replace active event text")

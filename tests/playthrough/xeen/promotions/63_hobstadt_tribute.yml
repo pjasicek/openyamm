@@ -39,7 +39,7 @@ steps:
   - select_topic: {match_label: "OK"}
   - advance_runtime: {seconds: 1.5, follow_map_move: true}
   - assert: {map: xeen_dd11a.blv}
-  - assert: {party_position: {x: 96, y: -32, radius: 200}}
+  - assert: {party_position: {x: 80, y: -208, radius: 200}}
   - advance_runtime: {seconds: 1, present_dialogs: true}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end wait(0.3) end; wait(2)"}
   # DD-11A: the root tunnel, the bone midden, up the bone slope; the boulder rolls aside.

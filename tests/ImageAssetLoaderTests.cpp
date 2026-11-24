@@ -1,4 +1,5 @@
 #include "engine/ImageAssetLoader.h"
+#include "engine/render/CookedTextureHeader.h"
 #include "game/app/GameSettings.h"
 #include "game/tables/ItemTable.h"
 
@@ -318,6 +319,17 @@ TEST_CASE("ImageAssetLoader reads dimensions without pixel data and rejects inva
     CHECK_FALSE(readImageDimensions(topDown));
     REQUIRE(readImageDimensions(makeTwoPixelIndexedPcx()));
     CHECK(readImageDimensions(makeTwoPixelIndexedPcx())->width == 2);
+    std::array<uint64_t, CookedTextureHeaderBytes / sizeof(uint64_t)> cooked = {
+        CookedTextureMagic, CookedTextureVersion, 0, 0, 0, 32, 16};
+    const auto header = std::span(reinterpret_cast<const uint8_t *>(cooked.data()), sizeof(cooked));
+    REQUIRE(readImageDimensions(header));
+    CHECK(readImageDimensions(header)->width == 32);
+    cooked[14] = 25 | (uint64_t(11) << 16);
+    REQUIRE(readImageDimensions(header));
+    CHECK(readImageDimensions(header)->width == 25);
+    CHECK(readImageDimensions(header)->height == 11);
+    cooked[14] = 25;
+    CHECK_FALSE(readImageDimensions(header));
 }
 
 TEST_CASE("ImageAssetLoader PNG channel conversion preserves alpha and transparency keys")

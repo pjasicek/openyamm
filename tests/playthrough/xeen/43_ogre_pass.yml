@@ -15,7 +15,7 @@ steps:
   - setup_shortcut: {kind: immortal}
   - assert: {map: xeen_d1.odm}
   # Kramer's Caravans (house 4464): Ogres (Q-D11 started).
-  - set_pose: {map: xeen_d1.odm, x: 3844, y: 5376, z: 1152, yaw: 0.0, pitch: 0.0}
+  - set_pose: {map: xeen_d1.odm, x: 3844, y: 5904, z: 1152, yaw: 0.0, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - press_interact: {expect: {kind: event_target}}
   - assert:
@@ -92,7 +92,7 @@ steps:
   - advance_runtime: {seconds: 1.5, follow_map_move: true}
   - assert: {map: xeen_d1.odm}
   - play_lua: {source: "close()"}
-  - set_pose: {map: xeen_d1.odm, x: 3844, y: 5376, z: 1152, yaw: 0.0, pitch: 0.0}
+  - set_pose: {map: xeen_d1.odm, x: 3844, y: 5904, z: 1152, yaw: 0.0, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - press_interact: {expect: {kind: event_target}}
   - play_lua: {source: "remember('gold', gold())"}

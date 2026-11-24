@@ -1,0 +1,12 @@
+# Findings of tools/xeen/town_fit_check.py that a decision keeps: {map, rule, thing (a glob), reason}. Printed as
+# `kept`, never failed. Say what would end each.
+- map: xeen_d4
+  rule: props.in_wall
+  thing: thing:blackfang_beacon_*
+  reason: "beacon fires on Castle Blackfang's wall walk (96 thick) between its battlements, on purpose: a fire's disc
+    (64) is wider than the walk"
+- map: xeen_d1
+  rule: bridges.step
+  thing: thing:jetty_pier
+  reason: "D-5.3: Lucio's Jetty ends in thin air on purpose, the celestial boats' mooring (the studio has no
+    `ends_in_air` word on a bridge, so it is kept here)"

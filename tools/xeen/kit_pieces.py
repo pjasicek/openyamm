@@ -124,10 +124,12 @@ class SunkenEntrance:
                 'notes': 'D-95: the %s\'s sunken approach, %d under the land; its ramp rises south to row %s.'
                          % (self.name, self.ground - self.floor, self.ramp_to)}
 
-    def backing(self, tag, xm, width, front, facing, thick, depth, top, to_y):
+    def backing(self, tag, xm, width, front, facing, thick, depth, top, to_y, sink=0):
         """The cap and lintel behind a mouth whose front is at row `front` looking `facing` (+1 south, -1 north):
         the lintel over the tunnel's last part (its foot 80 under `top`, over the crown), the cap from 4 behind the
-        dark face to row `to_y`, both topped at `top`."""
+        dark face to row `to_y`, both topped at `top`. With `sink` the cap reaches into the block in front of it (a
+        negative `depth`) and stands `sink` lower and 4 narrower each side, so its front lies inside that block and no
+        two faces share a plane (P3 2026-11-24: the culvert's cap and its frame's back were drawn back to back)."""
         back = front - facing * thick / CELL
         dark = back - facing * depth / CELL
         end = dark - facing * 4.0 / CELL
@@ -135,11 +137,11 @@ class SunkenEntrance:
         out = []
         for part, a, b in (('lintel', back, end), ('cap', end, to_y)):
             mid = (a + b) / 2
-            size = [width, round(abs(b - a) * CELL)]
+            size = [width - (8 if sink and part == 'cap' else 0), round(abs(b - a) * CELL)]
             if part == 'lintel':
                 st = {'height': 16, 'raise': round(top - 16 - self.stored(xm, mid))}
             else:
-                st = {'height': round(top - self.stored(xm, mid))}
+                st = {'height': round(top - sink - self.stored(xm, mid))}
             out.append(dict({'id': 'thing:%s_%s' % (tag, part), 'kind': 'platform', 'at': [xm, round(mid, 4)],
                              'size': size, 'textures': tex, 'title': 'Quay',
                              'notes': 'D-95: the stone behind the %s mouth (%s).' % (tag.replace('_', ' '), part)},
@@ -187,8 +189,9 @@ class SunkenEntrance:
                 rv['raise'] = sink
             out.append(rv)
         if self.back_to is not None:
-            out += [st for st in self.backing(self.name, xm, width - 32, self.face_y, 1, self.THICK, -4, self.top,
-                                              self.back_to) if not st['id'].endswith('_lintel')]
+            # the cap 4 into the end face's block (depth -8), 2 under its top and 4 inside its sides
+            out += [st for st in self.backing(self.name, xm, width - 32, self.face_y, 1, self.THICK, -8, self.top,
+                                              self.back_to, sink=2) if not st['id'].endswith('_lintel')]
         if outfall_y is not None:
             water = self.land(round(xm), math.ceil(outfall_y))
             o = {'id': 'thing:%s_outfall' % self.name, 'kind': 'culvert', 'turn': 180, 'at': [xm, outfall_y],

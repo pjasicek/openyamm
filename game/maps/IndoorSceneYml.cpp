@@ -809,11 +809,11 @@ bool parseIndoorLaddersNode(const YAML::Node &node, std::vector<IndoorLadder> &l
 }
 
 // `opaque_faces`: a sequence of face ids (appended to `faces`).
-bool parseOpaqueFacesNode(const YAML::Node &node, std::vector<uint16_t> &faces, std::string &errorMessage)
+bool parseFaceIndicesNode(const char *name, const YAML::Node &node, std::vector<uint16_t> &faces, std::string &errorMessage)
 {
     if (!node.IsSequence())
     {
-        errorMessage = "opaque_faces must be a sequence";
+        errorMessage = std::string(name) + " must be a sequence";
         return false;
     }
 
@@ -826,7 +826,7 @@ bool parseOpaqueFacesNode(const YAML::Node &node, std::vector<uint16_t> &faces, 
     }
     catch (const std::exception &exception)
     {
-        errorMessage = std::string("could not parse opaque_faces: ") + exception.what();
+        errorMessage = std::string("could not parse ") + name + ": " + exception.what();
         return false;
     }
 
@@ -2944,8 +2944,14 @@ std::optional<IndoorSceneData> IndoorSceneYmlLoader::loadFromText(
         return std::nullopt;
     }
 
+    if (const YAML::Node solid = rootNode["decoration_collision_faces"];
+        solid && !parseFaceIndicesNode("decoration_collision_faces", solid, sceneData.decorationCollisionFaces, errorMessage))
+    {
+        return std::nullopt;
+    }
+
     if (const YAML::Node opaqueFacesNode = rootNode["opaque_faces"];
-        opaqueFacesNode && !parseOpaqueFacesNode(opaqueFacesNode, sceneData.opaqueFaces, errorMessage))
+        opaqueFacesNode && !parseFaceIndicesNode("opaque_faces", opaqueFacesNode, sceneData.opaqueFaces, errorMessage))
     {
         return std::nullopt;
     }
@@ -3604,8 +3610,14 @@ bool IndoorSceneYmlLoader::applyOverlayFromText(
         return false;
     }
 
+    if (const YAML::Node solid = rootNode["decoration_collision_faces"];
+        solid && !parseFaceIndicesNode("decoration_collision_faces", solid, sceneData.decorationCollisionFaces, errorMessage))
+    {
+        return false;
+    }
+
     if (const YAML::Node opaqueFacesNode = rootNode["opaque_faces"];
-        opaqueFacesNode && !parseOpaqueFacesNode(opaqueFacesNode, sceneData.opaqueFaces, errorMessage))
+        opaqueFacesNode && !parseFaceIndicesNode("opaque_faces", opaqueFacesNode, sceneData.opaqueFaces, errorMessage))
     {
         return false;
     }
@@ -4029,6 +4041,19 @@ bool buildIndoorMapStateFromScene(
     indoorMapData.actorProvokeRadius = sceneData.actorProvokeRadius;
     indoorMapData.staticLightsFrontOnly = sceneData.staticLightsFrontOnly;
     indoorMapData.waterVolumes = sceneData.waterVolumes;
+    for (IndoorFace &face : indoorMapData.faces)
+    {
+        face.decorationCollision = false;
+    }
+    for (uint16_t index : sceneData.decorationCollisionFaces)
+    {
+        if (index >= indoorMapData.faces.size())
+        {
+            errorMessage = "decoration_collision_faces index " + std::to_string(index) + " is out of range";
+            return false;
+        }
+        indoorMapData.faces[index].decorationCollision = true;
+    }
     indoorMapData.destructibles = sceneData.destructibles;
     indoorMapData.destructibleFaceMask.clear();
 

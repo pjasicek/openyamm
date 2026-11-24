@@ -1286,6 +1286,11 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
         parseBoolValue(*value, settings.partyPouches);
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "gameplay", "loot_pouch"))
+    {
+        parseBoolValue(*value, settings.lootPouch);
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "gameplay", "mm9_loot_in_older_worlds"))
     {
         bool parsed = settings.mm9LootInOlderWorlds;
@@ -2754,6 +2759,7 @@ std::vector<SettingsEntry> serializeGameSettings(const GameSettings &settings)
     serializer.add("quicksave_slots", std::clamp(settings.quickSaveSlots, 1, 20));
     serializer.add("mm9_loot_in_older_worlds", boolValue(settings.mm9LootInOlderWorlds));
     serializer.add("party_pouches", boolValue(settings.partyPouches));
+    serializer.add("loot_pouch", boolValue(settings.lootPouch));
     serializer.add("party_frame", boolValue(settings.partyFrame));
     serializer.add("quick_item_rings", boolValue(settings.quickItemRings));
     serializer.add("item_buttons", boolValue(settings.basebarItemButtons));

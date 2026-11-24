@@ -54,6 +54,8 @@ struct IndoorFace
     uint8_t facetType = 0;
     std::string textureName;
     bool isPortal = false;
+    // Explicit scene membership in a fixed 3D decoration's physical shell. Its invisible geometry also stops sight and missiles.
+    bool decorationCollision = false;
 };
 
 struct IndoorSector

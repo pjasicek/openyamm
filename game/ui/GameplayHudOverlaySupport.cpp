@@ -23,6 +23,7 @@
 #include "game/ui/GameplayJournalAuras.h"
 #include "game/ui/GameplayMapProgressBar.h"
 #include "game/ui/GameplayPortraitGems.h"
+#include "game/ui/GameplayUiSkin.h"
 #include "game/ui/InventoryBagOverview.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/ui/SpellbookUiLayout.h"
@@ -2484,12 +2485,51 @@ void GameplayHudOverlaySupport::renderPouchIcon(
     const std::optional<GameplayHudTextureHandle> icon = context.gameplayUiRuntime().ensureHudTextureLoaded(
         pouch == ItemPouch::Crafting  ? "obsidian_bag_tag_crafting"
         : pouch == ItemPouch::Alchemy ? "obsidian_bag_tag_alchemy"
-                                      : "obsidian_bag_tag_quest");
+        : pouch == ItemPouch::Quest   ? "obsidian_bag_tag_quest"
+                                      : "obsidian_bag_tag_loot");
 
     if (icon)
     {
         context.submitHudTexturedQuad(*icon, std::round(x), std::round(y), std::round(size), std::round(size));
     }
+}
+
+std::array<std::optional<ItemPouch>, 4> GameplayHudOverlaySupport::pouchButtons(const Party &party)
+{
+    std::array<std::optional<ItemPouch>, 4> slots = {};
+    size_t slot = slots.size();
+
+    for (const ItemPouch pouch : {ItemPouch::Quest, ItemPouch::Alchemy, ItemPouch::Crafting, ItemPouch::Loot})
+    {
+        if (party.hasPouch(pouch))
+        {
+            slots[--slot] = pouch;
+        }
+    }
+
+    return slots;
+}
+
+void GameplayHudOverlaySupport::renderPouchButton(
+    GameplayScreenRuntime &context,
+    const std::string &id,
+    int width,
+    int height,
+    ItemPouch pouch,
+    bool selected)
+{
+    const std::optional<GameplayResolvedHudLayoutElement> rect =
+        context.resolveHudLayoutElement(id, width, height, 0, 0);
+
+    if (!rect)
+    {
+        return;
+    }
+
+    GameplayUiSkin::renderButton(context, id, width, height, selected, true);
+    const float size = std::round(16.0f * rect->scale);
+    renderPouchIcon(
+        context, pouch, rect->x + (rect->width - size) * 0.5f, rect->y + (rect->height - size) * 0.5f, size);
 }
 
 std::optional<GameplayHudOverlaySupport::SkillRotationSwitchRect> GameplayHudOverlaySupport::skillRotationSwitchRect(

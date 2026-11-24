@@ -1315,6 +1315,33 @@ bool auditTarget(const AuditRequest &request, AuditOutcome &outcome, ReadFailure
         const std::vector<AuditFinding> supportFindings = auditPropSupport(
             map, decorationTable, flowRead ? flowJson : std::string(), opened.hangingDecorations);
         findings.insert(findings.end(), supportFindings.begin(), supportFindings.end());
+
+        // Props inside props or walls by their drawn outlines, and items hidden in them (F40).
+        if (map.indoor)
+        {
+            PropOverlapData overlapData;
+            overlapData.decorationTableText = decorationTable;
+
+            for (const std::filesystem::path &folder : {assetRoot / "engine" / "models",
+                     assetRoot / "worlds" / map.world / "models"})
+            {
+                std::string text;
+
+                if (readTextFile(folder / "indoor_decorations.yml", text))
+                {
+                    overlapData.bindingTexts.push_back(text);
+                }
+            }
+
+            overlapData.readModel = [&assetRoot](const std::string &model)
+            {
+                return readPropModelShape(assetRoot / model);
+            };
+            const std::vector<AuditFinding> overlapFindings = auditPropOverlap(
+                map, overlapData, flowRead ? flowJson : std::string(), opened.hangingDecorations);
+            findings.insert(findings.end(), overlapFindings.begin(), overlapFindings.end());
+        }
+
         // How the chests stand and where (D-99).
         const std::vector<AuditFinding> chestFindings = auditChests(map);
         findings.insert(findings.end(), chestFindings.begin(), chestFindings.end());

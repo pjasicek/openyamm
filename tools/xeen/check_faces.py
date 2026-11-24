@@ -13,13 +13,14 @@ culling: game/outdoor/OutdoorRenderer.cpp and game/indoor/IndoorRenderer.cpp set
   `ruin:`) must be a closed shell above the ground: every edge of its faces over the land is shared by another face.
   An open edge is a wall end or a corner seen as a paper-thin sheet (the Ruined watchtower on X1).
 
-Two planes are one when their normals agree within about a twentieth of a degree (opposite for back to back) and they
-lie within one unit of each other; an overlap counts from 8 square units and 1.5 units wide on average (as the studio's
-core/Coplanar.h). Portal and invisible faces are not drawn and not looked at.
+Two planes are one when their normals agree within about a twentieth of a degree (opposite for back to back) and every
+point of each face lies within one unit of the other's plane; an overlap counts from 8 square units and 1.5 units wide
+on average (as the studio's core/Coplanar.h). Portal and invisible faces are not drawn and not looked at.
 
   python3 tools/xeen/check_faces.py                       # every installed Xeen map (assets_dev)
   python3 tools/xeen/check_faces.py --maps xeen_x1,xeen_d1 [--assets ROOT] [--file built.odm] [--json out.json]
   python3 tools/xeen/check_faces.py --check               # exit 1 on any error not listed in check_faces.yml
+  python3 tools/xeen/check_faces.py --self-test           # the plane test on known faces
 
 Each map is exported once with `oymap export` into the cache (`output/xeen_fb/faces_cache/`, refreshed when the map
 is newer). Known findings that a decision keeps are listed in `tools/xeen/check_faces.yml` with the reason.
@@ -199,7 +200,8 @@ def plane_pairs(faces: list[Face]):
                 break
         folded = (n[0] * sign, n[1] * sign, n[2] * sign)
         distance = face.d * sign
-        key = (round(folded[0] * 200), round(folded[1] * 200), round(folded[2] * 200), round(distance / 4.0))
+        # the distance coarse: two faces of one plane tilted by rounding differ in it by more than they lie apart
+        key = (round(folded[0] * 200), round(folded[1] * 200), round(folded[2] * 200), round(distance / 32.0))
         buckets[key].append(face)
     seen = set()
     for key, members in buckets.items():
@@ -217,7 +219,13 @@ def plane_pairs(faces: list[Face]):
                 if abs(dot) < NORMAL_COS:
                     continue
                 same = dot > 0
-                if abs(first.d - (second.d if same else -second.d)) > PLANE_UNITS:
+                # One plane: every point of each face within a unit of the other's plane. Comparing the planes'
+                # constants alone cannot tell faces 8 apart 20,000 units out once integer vertices tilt one of them
+                # by a few hundredths of a degree (a fence rail's two sides on a slope, X5 palisade_1).
+                if (max(abs(sum(first.normal[axis] * p[axis] for axis in range(3)) + first.d) for p in second.points)
+                        > PLANE_UNITS
+                        or max(abs(sum(second.normal[axis] * p[axis] for axis in range(3)) + second.d)
+                               for p in first.points) > PLANE_UNITS):
                     continue
                 if any(max(p[axis] for p in first.points) < min(p[axis] for p in second.points) - 0.5
                        or min(p[axis] for p in first.points) > max(p[axis] for p in second.points) + 0.5
@@ -529,8 +537,31 @@ def kept(finding: dict, exceptions: list[dict]) -> str | None:
     return None
 
 
+def self_test() -> int:
+    """The plane test on faces of a built map: X5's palisade rail, whose two sides 8 apart at x -17,600 the constants'
+    comparison took for one plane (2026-11-24), and a sign laid on a board (one plane)."""
+    def face(index, points, normal):
+        return Face(index, 'test', 't', [tuple(float(c) for c in p) for p in points], unit(normal), 0)
+    near = face(0, [(-17640, 15404, 1161), (-17471, 15419, 1164), (-17471, 15419, 1172), (-17640, 15404, 1169)],
+                (5794, -65279, 0))
+    far = face(1, [(-17471, 15427, 1164), (-17641, 15412, 1161), (-17641, 15412, 1169), (-17471, 15427, 1172)],
+               (-5760, 65282, 0))
+    board = face(2, [(20000, 20000, 0), (20100, 20000, 0), (20100, 20000, 100), (20000, 20000, 100)], (0, -1, 0))
+    sign = face(3, [(20020, 20000, 20), (20080, 20000, 20), (20080, 20000, 80), (20020, 20000, 80)], (0, -1, 0))
+    failures = []
+    if list(plane_pairs([near, far])):
+        failures.append("a rail's two sides 8 apart are one plane")
+    if len(list(plane_pairs([board, sign]))) != 1:
+        failures.append('a sign on its board is not one plane')
+    for failure in failures:
+        print('self-test:', failure)
+    print('self-test: %s' % ('FAIL' if failures else 'ok'))
+    return 1 if failures else 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.split('\n\n')[0])
+    parser.add_argument('--self-test', action='store_true', help='the plane test on known faces, then exit')
     parser.add_argument('--assets', default=str(ROOT / 'assets_dev'))
     parser.add_argument('--maps', help='comma-separated stems (xeen_x1,xeen_dd02); default every Xeen map')
     parser.add_argument('--file', help='a built .odm/.blv (with --maps naming its stem for the project)')
@@ -539,6 +570,8 @@ def main() -> int:
     parser.add_argument('--check', action='store_true', help='exit 1 on an error not kept in check_faces.yml')
     parser.add_argument('--quiet', action='store_true', help='per-map counts only')
     args = parser.parse_args()
+    if args.self_test:
+        return self_test()
     assets = Path(args.assets)
     cache = Path(args.cache)
     maps_dir = assets / 'worlds' / 'xeen' / 'maps'

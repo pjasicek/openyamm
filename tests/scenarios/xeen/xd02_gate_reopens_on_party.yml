@@ -1,0 +1,48 @@
+# XD-02 p5 (the player's pins 2026-11-24, "you get stuck here" at (9273, 4543, -384)): the party stands in the east
+# line's gateway at the Turntable while the east cart's gate (door 5, door:gate_east, slide_down) closes on it. Since
+# the studio's sliding leaves carry `mover: {bodies: reverse}` (request 3 of the dungeon agent, IndoorBuild.cpp), a
+# leaf closing onto the party opens again instead of closing through it. Here: the points set east (the east cart runs),
+# the party set down in the gateway, the Turntable lever (event 19) pulled from there: the gate starts down, meets the
+# party and goes back up; the party is not moved into the leaf and walks on out of the gateway both ways.
+id: xeen.xd02.gate_reopens_on_party
+title: "XD-02: the east cart's gate reopens on a party standing in its gateway (p5, bodies: reverse)"
+world: xeen
+mode: faithful
+tags: [xeen, xd02, doors]
+steps:
+  - new_game_flow:
+      start_map: xeen_xd02.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 6, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 6, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 6, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 6, skills: [], equipment: {}}
+  - assert: {map: xeen_xd02.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(3); for _ = 1, 3 do if not close() then break end end"}
+  - clear_hostiles: {radius: 30000}
+  # The points lever (event 26): east, so the Turntable's levers run the east cart and its gates.
+  - set_pose: {map: xeen_xd02.blv, x: 8960, y: 4870, z: -384, yaw_degrees: 0, pitch: 0}
+  - play_lua: {source: "click(26); wait(2)"}
+  - assert: {state_dump_map_var: {index: 0, value: 1}}
+  # The pin's pose: in the gateway under the east cart's gate, which stands open with the cart waiting behind it.
+  - set_pose: {map: xeen_xd02.blv, x: 9273, y: 4543, z: -384, yaw: 5.567, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "if door_state(5) ~= 'open' then error('the east gate does not stand open: ' .. door_state(5)) end"}
+  - assert: {party_position: {x: 9273, y: 4543, radius: 24, z_min: -400, z_max: -360}}
+  # The Turntable lever from the gateway: the gate starts down onto the party.
+  - play_lua:
+      source: |
+        click(19)
+        log('gate 5 after the lever: ' .. door_state(5))
+  - advance_runtime: {seconds: 1}
+  - play_lua: {source: "log('gate 5 at 1 s: ' .. door_state(5))"}
+  - advance_runtime: {seconds: 3}
+  - play_lua: {source: "local s = door_state(5); log('gate 5 later: ' .. s); if s ~= 'open' and s ~= 'opening' then error('the east gate closed through the party: ' .. s) end"}
+  - assert: {party_position: {x: 9273, y: 4543, radius: 96, z_min: -400, z_max: -360}}
+  # Not wedged: the party walks out of the gateway onto the Turntable and back into it.
+  - walk_to: {x: 9080, y: 4600, z: -384, radius: 48, timeout_seconds: 20}
+  - walk_to: {x: 9273, y: 4543, z: -384, radius: 48, timeout_seconds: 20}

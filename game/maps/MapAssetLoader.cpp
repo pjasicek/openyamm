@@ -2536,6 +2536,7 @@ std::optional<DecorationBillboardSet> buildOutdoorDecorationBillboardSet(
             static_cast<float>(billboard.x),
             static_cast<float>(billboard.y),
             static_cast<float>(billboard.z));
+        billboard.authoredEmitterZ = billboard.z;
         billboard.z = static_cast<int>(std::lround(supportHeight));
     }
 

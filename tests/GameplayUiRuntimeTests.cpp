@@ -12,7 +12,9 @@
 #include "game/party/Party.h"
 #include "game/rules/GameRules.h"
 #include "game/rules/maw/MawRules.h"
+#include "game/events/EventRuntime.h"
 #include "game/ui/GameplayHudCommon.h"
+#include "game/ui/GameplayTransportSchedule.h"
 #include "game/ui/GameplayUiRuntime.h"
 
 #include "tests/RegressionGameData.h"
@@ -471,4 +473,28 @@ TEST_CASE("a shop's shelves and its party inventory hide the house dialogue's bo
     // A chest's transfer screen is no house screen: its message stays.
     nested.mode = GameplayUiController::InventoryNestedOverlayMode::ChestTransfer;
     CHECK_FALSE(GameplayUiController::houseShopCoversDialogueBody(shop, nested));
+}
+
+TEST_CASE("a stable's Schedule shows over its own screen and over its talking proprietor's talk")
+{
+    // Feedback F52 (2026-11-24): Hob in Vertigo Stables (house 4016) talks, so the house opens on his talk (source NPC
+    // 4016, host house 4016); his Schedule opened and closed at once. Another talking stablemaster at house 4130.
+    using OpenYAMM::Game::GameplayTransportSchedule::dialogueIsInHouse;
+    OpenYAMM::Game::EventDialogContent dialog;
+    OpenYAMM::Game::EventRuntimeState eventState;
+    dialog.isActive = true;
+    dialog.isHouseDialog = true;
+    dialog.sourceId = 4016;
+    CHECK(dialogueIsInHouse(dialog, &eventState, 4016));
+    CHECK_FALSE(dialogueIsInHouse(dialog, &eventState, 4001));
+
+    dialog.isHouseDialog = false;
+    dialog.sourceId = 4016;
+    eventState.dialogueState.hostHouseId = 4016;
+    CHECK(dialogueIsInHouse(dialog, &eventState, 4016));
+    dialog.sourceId = 4142;
+    eventState.dialogueState.hostHouseId = 4130;
+    CHECK(dialogueIsInHouse(dialog, &eventState, 4130));
+    CHECK_FALSE(dialogueIsInHouse(dialog, &eventState, 4016));
+    CHECK_FALSE(dialogueIsInHouse(dialog, nullptr, 4130));
 }

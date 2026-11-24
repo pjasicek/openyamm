@@ -2,6 +2,7 @@
 
 #include "core/ChestKinds.h"
 
+#include "core/Coplanar.h"
 #include "core/CoreMath.h"
 #include "core/Json.h"
 #include "core/MapLoad.h"
@@ -328,7 +329,7 @@ public:
             Game::OutdoorBModel model;
             model.name = m_id;
             model.secondaryName = m_id;
-            OutdoorModelBuilder builder(model);
+            OutdoorModelBuilder builder(model, &m_lowered.wallTiles);
             bool known = true;
             m_pModel = &model;
             m_usedFaces.clear();
@@ -616,6 +617,53 @@ private:
         }
 
         return lowest;
+    }
+
+    // A flat bridge footing covers pieces of the native terrain triangles. Their lowest point is at a footprint
+    // corner, a grid vertex inside it, or where its outline crosses a grid edge (including the NW-SE diagonals).
+    double bridgeFootHeight(std::vector<Point2> footprint) const
+    {
+        for (Point2 &point : footprint)
+        {
+            for (double &coordinate : point)
+            {
+                coordinate = std::clamp(std::round(coordinate), -32768.0, 32767.0);
+            }
+        }
+        double lowest = lowestGroundUnder(footprint);
+        Point2 low = footprint.front(), high = low;
+        for (size_t i = 0; i < footprint.size(); ++i)
+        {
+            const Point2 &a = footprint[i], &b = footprint[(i + 1) % footprint.size()];
+            for (size_t axis = 0; axis < 2; ++axis)
+            {
+                low[axis] = std::min(low[axis], a[axis]);
+                high[axis] = std::max(high[axis], a[axis]);
+            }
+            const auto crossGrid = [&](double start, double end)
+            {
+                const double first = (std::floor(std::min(start, end) / OutdoorCellSize) + 1) * OutdoorCellSize;
+                for (double line = first; line < std::max(start, end); line += OutdoorCellSize)
+                {
+                    const double t = (line - start) / (end - start);
+                    lowest = std::min(lowest, nativeGroundAt({a[0] + t * (b[0] - a[0]), a[1] + t * (b[1] - a[1])}));
+                }
+            };
+            crossGrid(a[0], b[0]);
+            crossGrid(a[1], b[1]);
+            crossGrid(a[0] + a[1], b[0] + b[1]);
+        }
+        for (double y = std::ceil(low[1] / OutdoorCellSize) * OutdoorCellSize; y <= high[1]; y += OutdoorCellSize)
+        {
+            for (double x = std::ceil(low[0] / OutdoorCellSize) * OutdoorCellSize; x <= high[0]; x += OutdoorCellSize)
+            {
+                if (pointInOrOnPolygon(footprint, {x, y}))
+                {
+                    lowest = std::min(lowest, nativeGroundAt({x, y}));
+                }
+            }
+        }
+        return lowest - OutdoorWaterBedDepth - 32.0;
     }
 
     // A role's texture: a name, or {texture, liquid: water | lava, flow: up | down | left | right} for a liquid
@@ -1250,10 +1298,11 @@ private:
         decoration.listId = found->second;
         decoration.x = static_cast<int>(std::lround(world[0]));
         decoration.y = static_cast<int>(std::lround(world[1]));
-        // On the game's ground (`raise` over it).
-        decoration.z = static_cast<int>(std::lround(nativeGroundAt(world) + numberOr(node, "raise", 0.0)));
         // `turn`: degrees clockwise seen from above; the ODM keeps degrees counter-clockwise.
         decoration.facing = ((static_cast<int>(std::lround(0.0 - numberOr(node, "turn", 0.0))) % 360) + 360) % 360;
+        const double feet = m_lowered.decorationGroundAt(name, world[0] / OutdoorCellSize + OutdoorNodeCount / 2,
+            OutdoorNodeCount / 2 - world[1] / OutdoorCellSize, decoration.facing);
+        decoration.z = static_cast<int>(std::lround(feet + numberOr(node, "raise", 0.0)));
         m_things.decorations.push_back(decoration);
         m_things.decorationEvents.push_back(m_event);
         m_things.decorationIds.push_back(m_id);
@@ -1647,8 +1696,11 @@ private:
                 {
                     const double a = from + (to - from) * chunk / chunks;
                     const double b = from + (to - from) * (chunk + 1) / chunks;
-                    // A stretch from the foot goes down into the land under it; a lintel's starts at its own low.
-                    const double base = follow && !underside ? std::min(ground(a), ground(b)) - 64.0 : low;
+                    // A stretch from the foot goes down into the land under it; a lintel's starts at its own low (a
+                    // lintel over an arch has no underside of its own, the arch's soffits close it: it is known by
+                    // its low over the foot, else it filled the arched gate from the land up, Burlock's village wall
+                    // on Xeen's X4, Discord 2026-11-24).
+                    const double base = follow && low <= foot + 0.5 ? std::min(ground(a), ground(b)) - 64.0 : low;
                     const auto knee = [&](double along)
                     {
                         return std::min(batter > 0.0 ? ground(along) + batterHeight : topAt(along), topAt(along));
@@ -2096,8 +2148,9 @@ private:
     // S8d: `grating` on a culvert: bars across its mouth before the dark face, carrying its event (Erathia's town
     // outfall MTSewer_N_1: 7t1butts bars 18 wide and 8 deep, two upright and three across, clipped to the round
     // mouth). `{bars: [upright, across], width, back}`: upright bars evenly across the mouth from the water to the
-    // head, bars across evenly up it from side to side (2 behind the upright ones, so no two faces lie in one
-    // plane), `width` thick (16), `back` behind the mouth's front (16); in the `grating` texture role (the wall's).
+    // head (their feet 2 under the water), bars across evenly up it from side to side (2 behind the upright ones, so
+    // no two faces lie in one plane), `width` thick (16), `back` behind the mouth's front (16); in the `grating`
+    // texture role (the wall's).
     void raiseCulvertGrating(const YAML::Node &node, OutdoorModelBuilder &builder, const Point2 &middle, double floor,
         double turn, const std::vector<std::array<double, 2>> &mouth, double waterLevel, double back)
     {
@@ -2159,7 +2212,9 @@ private:
 
             if (top > foot + 8.0)
             {
-                bar(across - width * 0.5, across + width * 0.5, behind, behind + 8.0, foot, top);
+                // From 2 under the water, so the bar's foot does not lie in the water's plane (back to back with
+                // it: X1's outfall, P3 2026-11-24); with no water it is hidden 2 into the tunnel's floor.
+                bar(across - width * 0.5, across + width * 0.5, behind, behind + 8.0, waterLevel - 2.0, top);
             }
         }
 
@@ -2304,49 +2359,67 @@ private:
         return true;
     }
 
+    struct BridgeFooting
+    {
+        double from, to, bottom;
+    };
+
+    std::vector<BridgeFooting> bridgeArchFootings(const BridgeArches &arches, const std::vector<Point2> &left,
+        const std::vector<Point2> &right, double length) const
+    {
+        std::vector<BridgeFooting> footings;
+        const double span = length / arches.count - arches.pierWidth;
+        // Explicit spans leave the rest of the line to the two end abutments in equal shares.
+        double from = 0.0, to = arches.pierWidth * 0.5;
+        if (!arches.spans.empty())
+        {
+            to += (length - std::accumulate(arches.spans.begin(), arches.spans.end(), 0.0)
+                - arches.count * arches.pierWidth) * 0.5;
+        }
+        const auto point = [length](const std::vector<Point2> &edge, double distance) -> Point2
+        {
+            const double share = distance / length;
+            return {std::lerp(edge.front()[0], edge.back()[0], share), std::lerp(edge.front()[1], edge.back()[1], share)};
+        };
+        for (int i = 0; i <= arches.count; ++i)
+        {
+            footings.push_back({from, to, bridgeFootHeight({point(left, from), point(right, from),
+                point(right, to), point(left, to)})});
+            if (i < arches.count)
+            {
+                from = to + (arches.spans.empty() ? span : arches.spans[size_t(i)]);
+                to = i + 1 == arches.count ? length : from + arches.pierWidth;
+            }
+        }
+        return footings;
+    }
+
     // The arches under a deck along a straight line: per arch a soffit of `sides` segments, the spandrels on both
     // sides up to the deck's underside, and the piers between them down to the land.
     void raiseBridgeArches(OutdoorModelBuilder &builder, const std::vector<Point2> &line,
         const std::vector<Point2> &left, const std::vector<Point2> &right, const BridgeArches &arches,
-        double thickness, const std::function<double(double)> &deckZ, const std::string &texture)
+        const std::vector<BridgeFooting> &footings, double thickness, const std::function<double(double)> &deckZ,
+        const std::string &texture)
     {
         const double length = lengthOf(line[0], line[1]);
-        const double period = length / arches.count;
-        const double span = period - arches.pierWidth;
         const Point2 along = {(line[1][0] - line[0][0]) / length, (line[1][1] - line[0][1]) / length};
         const auto side = [&](const std::vector<Point2> &edge, double s, double z)
         {
             return OutdoorModelPoint{edge[0][0] + along[0] * s, edge[0][1] + along[1] * s, z};
-        };
-        const auto footAt = [&](double s)
-        {
-            return groundAt({line[0][0] + along[0] * s, line[0][1] + along[1] * s}) - OutdoorWaterBedDepth - 32.0;
         };
         const auto crown = [&](double s)
         {
             return deckZ(s) - thickness;
         };
         const Point2 rightward = {right[0][0] - left[0][0], right[0][1] - left[0][1]};
-        // The solid stretches (half piers at the ends, whole ones between): their sides from the land to the deck.
-        std::vector<std::array<double, 2>> solids;
-
-        // S8d: openings of their own widths (`spans`) from the first end abutment, which takes half of what is left.
-        double cursor = arches.spans.empty() ? 0.0 : (length - std::accumulate(arches.spans.begin(),
-            arches.spans.end(), 0.0) - arches.count * arches.pierWidth) * 0.5 + arches.pierWidth * 0.5;
-        double lastTo = 0.0;
-
         for (int arch = 0; arch < arches.count; ++arch)
         {
-            const bool own = !arches.spans.empty();
-            const double width = own ? arches.spans[static_cast<size_t>(arch)] : span;
-            const double from = own ? cursor : period * arch + arches.pierWidth * 0.5;
-            const double to = from + width;
+            const BridgeFooting &near = footings[size_t(arch)], &far = footings[size_t(arch + 1)];
+            const double from = near.to, to = far.from;
+            const double width = to - from;
             const double middle = (from + to) * 0.5;
-            const double rise = own && !arches.riseGiven ? width * 0.5 : arches.rise;
+            const double rise = !arches.spans.empty() && !arches.riseGiven ? width * 0.5 : arches.rise;
             const double spring = crown(middle) - rise;
-            solids.push_back({arch == 0 ? 0.0 : own ? lastTo : period * arch - arches.pierWidth * 0.5, from});
-            cursor = to + arches.pierWidth;
-            lastTo = to;
             const std::vector<std::array<double, 2>> head =
                 outdoorArchHead(width, rise, arches.form, arches.sides, rise);
 
@@ -2374,17 +2447,15 @@ private:
                 const double s = atEnd ? to : from;
                 const double sign = atEnd ? -1.0 : 1.0;
                 const double jamb = spring + head.front()[1];
-                addFacing(builder, {side(left, s, footAt(s)), side(right, s, footAt(s)), side(right, s, jamb),
+                const double bottom = atEnd ? far.bottom : near.bottom;
+                addFacing(builder, {side(left, s, bottom), side(right, s, bottom), side(right, s, jamb),
                     side(left, s, jamb)}, {along[0] * sign, along[1] * sign, 0.0}, texture);
             }
         }
 
-        solids.push_back({arches.spans.empty() ? length - arches.pierWidth * 0.5 : lastTo, length});
-
-        for (size_t index = 0; index < solids.size(); ++index)
+        for (const BridgeFooting &footing : footings)
         {
-            const double from = solids[index][0];
-            const double to = solids[index][1];
+            const double from = footing.from, to = footing.to;
 
             if (to - from < 1.0)
             {
@@ -2397,7 +2468,7 @@ private:
                 const std::array<double, 3> out = {onRight ? rightward[0] : -rightward[0],
                     onRight ? rightward[1] : -rightward[1], 0.0};
                 // From the land to the deck's underside; the arch's spring at the side next to an opening.
-                addFacing(builder, {side(edge, from, footAt(from)), side(edge, to, footAt(to)),
+                addFacing(builder, {side(edge, from, footing.bottom), side(edge, to, footing.bottom),
                     side(edge, to, crown(to)), side(edge, from, crown(from))}, out, texture);
             }
         }
@@ -2494,8 +2565,50 @@ private:
         }
 
         const double total = lengths.back();
-        const double startZ = flat ? level : groundAt(line.front()) + lift;
-        const double endZ = flat ? level : groundAt(line.back()) + lift;
+        // An end on the land meets it across the deck's width (P3 2026-11-24, D4's Snow River bridge: the land
+        // falling 30 across its end left a step of 33 and 43 at a kerb): the land is read across the end and 32
+        // beyond it (in the middle, at a quarter and at two fifths of the width each side; not over open water: a
+        // shore cell is walked on) and the end stands `raise` over the lowest of it, or halfway between the lowest
+        // and the highest where the land falls more than twice `raise` across it, so no side meets a step of more
+        // than half the fall. Only the land's middle when all of it is water.
+        const auto landEnd = [&](const Point2 &head, const Point2 &before)
+        {
+            const double length = std::max(lengthOf(before, head), 1.0e-9);
+            const Point2 out = {(head[0] - before[0]) / length, (head[1] - before[1]) / length};
+            double lowest = 1.0e30;
+            double highest = -1.0e30;
+
+            for (const double beyond : {0.0, 32.0})
+            {
+                for (const double share : {0.0, -0.25, 0.25, -0.4, 0.4})
+                {
+                    const Point2 at = {head[0] + out[0] * beyond - out[1] * width * share,
+                        head[1] + out[1] * beyond + out[0] * width * share};
+                    const double column = at[0] / OutdoorCellSize + OutdoorNodeCount / 2.0;
+                    const double row = OutdoorNodeCount / 2.0 - at[1] / OutdoorCellSize;
+
+                    if (column < 0.0 || row < 0.0 || column >= OutdoorNodeCount || row >= OutdoorNodeCount)
+                    {
+                        continue;
+                    }
+
+                    const size_t cell = static_cast<size_t>(row) * OutdoorNodeCount + static_cast<size_t>(column);
+
+                    if (cell < m_lowered.water.size() && m_lowered.water[cell] != 0)
+                    {
+                        continue;
+                    }
+
+                    const double ground = nativeGroundAt(at);
+                    lowest = std::min(lowest, ground);
+                    highest = std::max(highest, ground);
+                }
+            }
+
+            return lowest > highest ? groundAt(head) + lift : std::max(lowest + lift, (lowest + highest) * 0.5);
+        };
+        const double startZ = flat ? level : landEnd(line.front(), line[1]);
+        const double endZ = flat ? level : landEnd(line.back(), line[line.size() - 2]);
         const auto deckZ = [&](double along)
         {
             const double share = along / total;
@@ -2620,10 +2733,10 @@ private:
 
         // The ends, and the piers: square posts under the deck down into the ground or the water's bed. On arches
         // the ends are the abutments, down to the land.
-        const double startLow = arches.count > 0 ? std::min(groundAt(line.front()) - 32.0, startZ - thickness)
-            : startZ - thickness;
-        const double endLow = arches.count > 0 ? std::min(groundAt(line.back()) - 32.0, endZ - thickness)
-            : endZ - thickness;
+        const std::vector<BridgeFooting> footings = arches.count > 0 ? bridgeArchFootings(arches, left, right, total)
+            : std::vector<BridgeFooting>{};
+        const double startLow = footings.empty() ? startZ - thickness : std::min(footings.front().bottom, startZ - thickness);
+        const double endLow = footings.empty() ? endZ - thickness : std::min(footings.back().bottom, endZ - thickness);
         builder.addSurface({{left.front()[0], left.front()[1], startLow},
             {right.front()[0], right.front()[1], startLow}, {right.front()[0], right.front()[1], startZ},
             {left.front()[0], left.front()[1], startZ}}, sideTexture, m_event);
@@ -2633,7 +2746,7 @@ private:
 
         if (arches.count > 0)
         {
-            raiseBridgeArches(builder, line, left, right, arches, thickness, deckZ, pierTexture);
+            raiseBridgeArches(builder, line, left, right, arches, footings, thickness, deckZ, pierTexture);
         }
 
         if (towers[0] > 0.0)
@@ -2680,9 +2793,8 @@ private:
                 const double inward = 32.0 / std::max(lengthOf(edge, middle), 1.0);
                 const Point2 post = {edge[0] + (middle[0] - edge[0]) * inward,
                     edge[1] + (middle[1] - edge[1]) * inward};
-                const double ground = groundAt(post) - OutdoorWaterBedDepth - 32.0;
-                builder.addPrism(turnedBox(post, 48.0, 48.0, 0.0), ground, deckZ(along) - thickness, pierTexture, "",
-                    "", m_event);
+                const std::vector<Point2> footprint = turnedBox(post, 48.0, 48.0, 0.0);
+                builder.addPrism(footprint, bridgeFootHeight(footprint), deckZ(along) - thickness, pierTexture, "", "", m_event);
             }
         }
     }
@@ -4296,6 +4408,29 @@ private:
             return;
         }
 
+        // A named door uses its texture class's width and the native 256-texel door row.
+        // A fitted painting supplies both dimensions in logical texels.
+        std::string doorName = door;
+        std::transform(doorName.begin(), doorName.end(), doorName.begin(),
+            [](unsigned char character) { return static_cast<char>(std::tolower(character)); });
+        const auto known = m_lowered.doorPictures.find(doorName);
+        Point2 picture = {known != m_lowered.doorPictures.end() && known->second.size[0] >= 32
+            ? static_cast<double>(known->second.size[0]) : 128.0, 256.0};
+        const YAML::Node surface = childOf(childOf(node, "textures"), "door");
+        const YAML::Node fit = childOf(surface, "fit");
+        const YAML::Node size = childOf(surface, "size");
+        const bool fitted = fit.IsDefined() && fit.IsScalar() && fit.Scalar() == "true";
+        const bool validSize = fitted ? pointOf(size, picture) && std::min(picture[0], picture[1]) >= 8.0
+            && std::max(picture[0], picture[1]) <= 32767.0 && !childOf(surface, "liquid").IsDefined()
+            && !childOf(surface, "flow").IsDefined() : !size.IsDefined();
+
+        if (!validSize || (fit.IsDefined() && !fitted && (!fit.IsScalar() || fit.Scalar() != "false")))
+        {
+            add(m_path + ".textures.door", "a fitted door picture uses {texture: <name>, fit: true, "
+                "size: [width, height]} with each dimension 8 to 32767 texels");
+            return;
+        }
+
         builder.addPrism(turnedBox(middle, frameWidth, depth, turn, 0.0, depth * 0.5 - 32.0), ground - 64.0,
             ground + frameHeight, stone, top, "", m_event);
 
@@ -4303,15 +4438,17 @@ private:
         {
             // The hood: the frame drawn forward over the way in, open below: a roof at the door's height and a
             // cheek on each side, so the door stands at the back of a mouth (a cave's, a den's) `passage` wide.
+            // Their backs (the box's third side) lie on the frame's front and are left out: drawn back to back with
+            // it they flickered (X1's Witch Tower door, P3 2026-11-24).
             const double cheek = (frameWidth - passage) * 0.5;
             const double forward = -32.0 - hood * 0.5;
             builder.addPrism(turnedBox(middle, frameWidth, hood, turn, 0.0, forward), ground + height,
-                ground + frameHeight, stone, top, stone, m_event);
+                ground + frameHeight, stone, top, stone, m_event, 2);
 
             for (const double sideways : {-(passage + cheek) * 0.5, (passage + cheek) * 0.5})
             {
                 builder.addPrism(turnedBox(middle, cheek, hood, turn, sideways, forward), ground - 64.0,
-                    ground + height, stone, "", "", m_event);
+                    ground + height, stone, "", "", m_event, 2);
             }
         }
         if (textOf(node, "roof") == "gable")
@@ -4365,14 +4502,7 @@ private:
         }
 
         // The part of the outline between `low` and `high` across, its picture stretched over [low, high] once
-        // (mirrored: from `high` back to `low`): 128 texels across, or a door picture's own width when the texture
-        // classes know it (F2: a 256-wide door picture whole, not its left half).
-        std::string doorName = door;
-        std::transform(doorName.begin(), doorName.end(), doorName.begin(),
-            [](unsigned char character) { return static_cast<char>(std::tolower(character)); });
-        const OutdoorDoorPictures::const_iterator known = m_lowered.doorPictures.find(doorName);
-        const double across = known != m_lowered.doorPictures.end() && known->second.size[0] >= 32
-            ? known->second.size[0] : 128.0;
+        // (mirrored from `high` back to `low` for the second leaf).
         const auto leafFace = [&](double low, double high, bool mirrored)
         {
             std::vector<std::array<double, 2>> kept;
@@ -4405,7 +4535,8 @@ private:
                 const Point2 place = turned(middle, corner[0], -34.0, turn);
                 const double share = (corner[0] - low) / (high - low);
                 points.push_back({place[0], place[1], ground + corner[1]});
-                texels.push_back({across * (mirrored ? 1.0 - share : share), 256.0 - corner[1] * 256.0 / height});
+                texels.push_back({picture[0] * (mirrored ? 1.0 - share : share),
+                    picture[1] - corner[1] * picture[1] / height});
             }
 
             builder.addFace(points, door, texels, m_event);
@@ -6160,6 +6291,88 @@ private:
                 model.faces.push_back(face);
             }
         }
+
+        const YAML::Node drop = childOf(node, "drop_overlaps");
+
+        if (drop.IsDefined() && (!drop.IsScalar() || (drop.Scalar() != "true" && drop.Scalar() != "false")))
+        {
+            add(m_path + ".drop_overlaps", "`drop_overlaps: true` drops, of each two faces of the models taken that "
+                "lie in one plane over each other (facing the same way or back to back), the smaller");
+            return;
+        }
+
+        if (drop.IsDefined() && drop.Scalar() == "true")
+        {
+            dropOverlappingFaces(model);
+        }
+    }
+
+    // `drop_overlaps` on a model taken (P3 2026-11-24, Nystor's ship: MM7's Lady Catherine, whose hull boards and
+    // trim lie back to back and two trims on each other in the original): of each two drawn faces in one plane that
+    // overlap, facing the same way (findOutdoorCoplanarFaces) or back to back where that is seen
+    // (findOutdoorBackToBackFaces), the smaller face is dropped (the later one of two alike), so each pair keeps one
+    // face, drawn from both sides as the game draws every outdoor face.
+    void dropOverlappingFaces(Game::OutdoorBModel &model)
+    {
+        const auto areaOf = [&model](const Game::OutdoorBModelFace &face)
+        {
+            std::array<double, 3> sum = {0.0, 0.0, 0.0};
+            const size_t count = face.vertexIndices.size();
+
+            for (size_t index = 0; index < count; ++index)
+            {
+                const Game::OutdoorBModelVertex &a = model.vertices[face.vertexIndices[index]];
+                const Game::OutdoorBModelVertex &b = model.vertices[face.vertexIndices[(index + 1) % count]];
+                sum[0] += static_cast<double>(a.y) * b.z - static_cast<double>(a.z) * b.y;
+                sum[1] += static_cast<double>(a.z) * b.x - static_cast<double>(a.x) * b.z;
+                sum[2] += static_cast<double>(a.x) * b.y - static_cast<double>(a.y) * b.x;
+            }
+
+            return 0.5 * std::sqrt(sum[0] * sum[0] + sum[1] * sum[1] + sum[2] * sum[2]);
+        };
+        std::vector<OutdoorCoplanarPair> pairs = findOutdoorCoplanarFaces({model});
+        const std::vector<OutdoorCoplanarPair> backToBack = findOutdoorBackToBackFaces({model});
+        pairs.insert(pairs.end(), backToBack.begin(), backToBack.end());
+        std::set<size_t> dropped;
+
+        for (const OutdoorCoplanarPair &pair : pairs)
+        {
+            if (dropped.contains(pair.firstFace) || dropped.contains(pair.secondFace))
+            {
+                continue;
+            }
+
+            const double first = areaOf(model.faces[pair.firstFace]);
+            const double second = areaOf(model.faces[pair.secondFace]);
+            dropped.insert(first < second ? pair.firstFace
+                : second < first ? pair.secondFace : std::max(pair.firstFace, pair.secondFace));
+        }
+
+        if (dropped.empty())
+        {
+            return;
+        }
+
+        std::vector<Game::OutdoorBModelFace> kept;
+        std::set<size_t> used;
+
+        for (size_t face = 0; face < model.faces.size(); ++face)
+        {
+            if (dropped.contains(face))
+            {
+                continue;
+            }
+
+            if (m_usedFaces.contains(face))
+            {
+                used.insert(kept.size());
+            }
+
+            kept.push_back(model.faces[face]);
+        }
+
+        model.faces = std::move(kept);
+        m_usedFaces = std::move(used);
     }
 
     // ---- Actors ----

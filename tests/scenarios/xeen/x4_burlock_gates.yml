@@ -1,0 +1,108 @@
+# The two arched gates of Burlock's village wall (X4) were walled up: on a wall whose top follows the land, Map
+# Studio built the lintel over an arched gate from the land up (fixed in OutdoorThings.cpp, 2026-11-24). The party
+# walks from two cells outside each gate to two cells inside and back.
+id: xeen.x4.burlock_gates
+title: 'Burlock''s village gates open: the party walks in and out through each (Discord
+  2026-11-24)'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x4.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- note: 'Burlock''s village wall, the south gate: in from outside, then back out'
+- set_pose:
+    map: xeen_x4.odm
+    x: -768
+    y: 0
+    z: 1192
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- walk_to:
+    x: -768
+    y: 2048
+    z: 1312
+    z_tolerance: 800
+    radius: 200
+    timeout_seconds: 25
+    clear_hostiles: 3000
+    close_dialogs: true
+- assert:
+    party_position:
+      x: -768
+      y: 2048
+      radius: 320
+- set_pose:
+    map: xeen_x4.odm
+    x: -768
+    y: 2048
+    z: 1320
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- walk_to:
+    x: -768
+    y: 0
+    z: 1184
+    z_tolerance: 800
+    radius: 200
+    timeout_seconds: 25
+    clear_hostiles: 3000
+    close_dialogs: true
+- assert:
+    party_position:
+      x: -768
+      y: 0
+      radius: 320
+- note: 'Burlock''s village wall, the east gate: in from outside, then back out'
+- set_pose:
+    map: xeen_x4.odm
+    x: 3584
+    y: 3328
+    z: 1256
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- walk_to:
+    x: 1536
+    y: 3328
+    z: 1312
+    z_tolerance: 800
+    radius: 200
+    timeout_seconds: 25
+    clear_hostiles: 3000
+    close_dialogs: true
+- assert:
+    party_position:
+      x: 1536
+      y: 3328
+      radius: 320
+- set_pose:
+    map: xeen_x4.odm
+    x: 1536
+    y: 3328
+    z: 1320
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 1.0
+- walk_to:
+    x: 3584
+    y: 3328
+    z: 1248
+    z_tolerance: 800
+    radius: 200
+    timeout_seconds: 25
+    clear_hostiles: 3000
+    close_dialogs: true
+- assert:
+    party_position:
+      x: 3584
+      y: 3328
+      radius: 320

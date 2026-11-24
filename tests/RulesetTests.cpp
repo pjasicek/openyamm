@@ -621,8 +621,8 @@ void eraseMonsterHealthPlayers(std::vector<uint8_t> &bytes)
     eraseBytes(bytes, indoorOffset, sizeof(uint8_t));
 }
 
-// Saves before version 192 end the party without its pouches: cuts their empty counts, and the empty count of the
-// waiting given items (version 199) that follows them. Called on the save as written, before anything else is cut.
+// Saves before version 192 end the party without its pouches: cuts the empty counts of the crafting, alchemy and quest
+// pouches, the waiting given items' (version 199) that follows them and the loot pouch's (202) after that. Called on the save as written, before anything else is cut.
 void erasePartyPouches(std::vector<uint8_t> &bytes, const OpenYAMM::Game::GameSaveData &save)
 {
     eraseEmptyCounts(bytes, partyPouchesOffset(save), OpenYAMM::Game::ItemPouchCount + 1);
@@ -1888,9 +1888,9 @@ TEST_CASE("saves of version 192 load their two pouches, with an empty quest pouc
     save.party.pouches[size_t(ItemPouch::Alchemy)] = {potion, potion};
     REQUIRE(OpenYAMM::Game::saveGameDataToPath(path, save, error));
     std::vector<uint8_t> bytes = readBytes(path);
-    // The quest pouch's empty count follows the two pouches' counts and their three items, and the waiting given
-    // items' (version 199) follows it.
-    eraseEmptyCounts(bytes, pouchesOffset + 2 * sizeof(uint64_t) + (bytes.size() - emptySize), 2);
+    // The quest pouch's empty count follows the two pouches' counts and their three items, the waiting given items'
+    // (version 199) follows it and the loot pouch's (202) ends the party.
+    eraseEmptyCounts(bytes, pouchesOffset + 2 * sizeof(uint64_t) + (bytes.size() - emptySize), 3);
     eraseMonsterHealthPlayers(bytes);
     const uint32_t previousVersion = 192;
     std::memcpy(bytes.data() + 8, &previousVersion, sizeof(previousVersion));
@@ -1929,7 +1929,8 @@ TEST_CASE("saves keep the items an event gave that wait for room")
     const std::filesystem::path path = makeTemporaryRoot("waiting_given").replace_extension(".oysav");
     REQUIRE(OpenYAMM::Game::saveGameDataToPath(path, older, error));
     std::vector<uint8_t> bytes = readBytes(path);
-    eraseEmptyCounts(bytes, pouchesOffset + OpenYAMM::Game::ItemPouchCount * sizeof(uint64_t), 1);
+    // The waiting given items' empty count after the crafting, alchemy and quest pouches', and the loot pouch's (202).
+    eraseEmptyCounts(bytes, pouchesOffset + 3 * sizeof(uint64_t), 2);
     const uint32_t previousVersion = 198;
     std::memcpy(bytes.data() + 8, &previousVersion, sizeof(previousVersion));
     writeBytes(path, bytes);

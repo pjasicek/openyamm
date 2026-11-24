@@ -1,9 +1,9 @@
 # Xeen side quest Q-D15, Caleb's Magnifying Glass (D3, D4, DD-23), from a new game on D3 with a level-30 party. Caleb at
 # his Crossroads stall (house 4646, NPC 5245): Magnifying glass (started 113300, autonote 4550), and again. Overland to
 # D4: the cave in the crag on Magic Mountain (D4 event 74: the lair's line, "Enter the cave?" Yes) into DD-23: up
-# through the perch cave, the ramp and the ledge walk to the gallery; a roosting rock (event 19): "Do you wish to
-# destroy the Gargoyle Lair?" No (the nest then refuses: "Every gargoyle ... turns its head"), then Yes (lair_destroyed
-# 113301, the five rocks broken); another rock's "Rock dust."; the nest (event 12: glass_found 113302, Caleb's glass
+# through the perch cave, the ramp and the ledge walk to the gallery; the nest first refuses ("Every gargoyle ... turns
+# its head"); a roosting rock (event 19) clicked (no Yes/No since F47, 2026-11-24: lair_destroyed 113301, the five
+# rocks broken); another rock's "Rock dust."; the nest (event 12: glass_found 113302, Caleb's glass
 # 12352; again its else text) and the hoard; down by the rock steps to the mouth (event 11) and out. Overland to D3:
 # Caleb (done 113303: 5,000 XP per member, 2,000 gold, a T4 item, the glass taken), and again.
 # Routes: devdocs/xeen/briefs/d3/L4/playtest.yml (Caleb's stall), briefs/d4/L4/playtest.yml (the cave mouth),
@@ -79,13 +79,7 @@ steps:
   - walk_to: {x: 800, y: 4672, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
   - clear_hostiles: {radius: 3500}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
-  # A roosting rock: No, then Yes (the lair destroyed); another rock's else line.
   - walk_to: {x: 1000, y: 4920, z: 640, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
-  - play_lua: {source: "click(19); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: "Do you wish to destroy the Gargoyle Lair?"}}
-  - answer_input: {text: "No"}
-  - advance_runtime: {seconds: 1}
-  - play_lua: {source: "local s = status(); close(); if qbit(113301) then error('lair_destroyed set on No') end; if not string.find(s, 'You leave the roosting rocks standing.', 1, true) then error('No said: ' .. s) end"}
   # The nest while the roost stands: its fail line, no glass (q-d15.glass requires lair_destroyed); back to the rocks.
   - walk_to: {x: 1408, y: 5700, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   - walk_to: {x: 1408, y: 6080, z: 640, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
@@ -98,7 +92,6 @@ steps:
   - walk_to: {x: 1408, y: 5700, z: 640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   - walk_to: {x: 1000, y: 4920, z: 640, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   - play_lua: {source: "click(19); wait(0.5)"}
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1}
   - assert: {dialog: {active: true, text_contains: "With great effort, you pound roosting rocks to powder and scatter the dust to the wind."}}
   - play_lua: {source: "close(); if not qbit(113301) then error('lair_destroyed 113301 not set') end"}

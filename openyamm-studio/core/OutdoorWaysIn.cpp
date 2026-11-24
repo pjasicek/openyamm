@@ -369,10 +369,52 @@ std::vector<CaveFace> caveFaces(const OutdoorCavePlan &cave)
     std::vector<double> shares = frontShares;
     shares.insert(shares.end(), edgeShares.begin(), edgeShares.end());
     std::sort(shares.begin(), shares.end());
-    shares.erase(std::unique(shares.begin(), shares.end(), [](double a, double b)
+    // Cuts closer than 8 along the longer line are one, the front's own corner kept (the rim's faces end on it): two
+    // columns a unit apart made sliver faces that folded over their neighbours once shaken.
+    const auto lengthOf = [](const std::vector<Point3> &line)
     {
-        return std::fabs(a - b) < 1.0e-4;
-    }), shares.end());
+        double length = 0.0;
+
+        for (size_t index = 1; index < line.size(); ++index)
+        {
+            length += oy::hypot(line[index][0] - line[index - 1][0], line[index][1] - line[index - 1][1],
+                line[index][2] - line[index - 1][2]);
+        }
+
+        return length;
+    };
+    const double sameShare = std::max(1.0e-4, 8.0 / std::max({lengthOf(front), lengthOf(edge), 1.0}));
+    const auto onFront = [&frontShares](double share)
+    {
+        return std::any_of(frontShares.begin(), frontShares.end(), [share](double corner)
+        {
+            return std::fabs(corner - share) < 1.0e-9;
+        });
+    };
+    std::vector<double> cuts;
+
+    for (const double share : shares)
+    {
+        if (!cuts.empty() && share - cuts.back() < sameShare)
+        {
+            // The two ends stay where they are.
+            if (onFront(share) && !onFront(cuts.back()) && cuts.size() > 1 && share < 1.0 - 1.0e-9)
+            {
+                cuts.back() = share;
+            }
+
+            continue;
+        }
+
+        cuts.push_back(share);
+    }
+
+    if (cuts.back() < 1.0 - 1.0e-9)
+    {
+        cuts.back() = 1.0;
+    }
+
+    shares = cuts;
     const int rings = std::max(0, cave.rings);
     const double outerTop = cave.mouthHeight + cave.rim;
     const double lift = cave.free ? std::max(0.0, cave.crest - outerTop * 0.5) : 48.0;
@@ -412,15 +454,47 @@ std::vector<CaveFace> caveFaces(const OutdoorCavePlan &cave)
                 point[2] = std::max(point[2], hood * oy::cbrt(std::max(0.0, 1.0 - across * across * across)));
             }
 
+            const Point3 calm = point;
+
+            // A column from a point to itself (the front's foot where the rim reaches the footprint's corner) is
+            // left calm: shaken, its rings stood in the rim's recess, on the rim's own faces.
+            const bool column = oy::hypot(to[0] - from[0], to[1] - from[1]) >= 1.0;
+
             if (ring > 0 && ring <= rings && cave.roughness > 0.0)
             {
-                point[0] += randomShare(state) * cave.roughness * 48.0;
-                point[1] += randomShare(state) * cave.roughness * 48.0;
-                point[2] += randomShare(state) * cave.roughness * 64.0;
+                // The randoms are drawn for a calm column too, so the other columns keep their shapes.
+                const double shakeAcross = randomShare(state) * cave.roughness * 48.0;
+                const double shakeAlong = randomShare(state) * cave.roughness * 48.0;
+                const double shakeUp = randomShare(state) * cave.roughness * 64.0;
+                point[0] += column ? shakeAcross : 0.0;
+                point[1] += column ? shakeAlong : 0.0;
+                point[2] += column ? shakeUp : 0.0;
                 point[2] = std::max(point[2], 16.0);
             }
 
-            // Inside the footprint, and (against a hill) never over the crest: the back edge is the top.
+            // Inside the footprint, and (against a hill) never over the crest: the back edge is the top. A point
+            // shaken onto or within 8 of the footprint's side, front or back lies on it at its calm place in that
+            // plane: shaken along it, it could pass its neighbour there and fold the shell onto itself (X5's
+            // xd10_north, whose rim reaches the footprint's sides, so the mound from the jamb to the side lies in
+            // the side's plane).
+            const double near = 8.0;
+            const bool acrossOut = std::fabs(point[0]) > cave.width * 0.5 - near;
+            const bool alongOut = point[1] < near || point[1] > cave.depth - near;
+
+            if (acrossOut)
+            {
+                point[0] = point[0] < 0.0 ? -cave.width * 0.5 : cave.width * 0.5;
+                point[1] = calm[1];
+                point[2] = calm[2];
+            }
+
+            if (alongOut)
+            {
+                point[0] = acrossOut ? point[0] : calm[0];
+                point[1] = point[1] < cave.depth * 0.5 ? 0.0 : cave.depth;
+                point[2] = calm[2];
+            }
+
             point[0] = std::clamp(point[0], -cave.width * 0.5, cave.width * 0.5);
             point[1] = std::clamp(point[1], 0.0, cave.depth);
 

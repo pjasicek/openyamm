@@ -632,20 +632,20 @@ void initializeMapDecorations(
             continue;
         }
 
+        // Every rolled state (a barrel's, cauldron's, bag's or bucket's contents, a contest pedestal's stat) comes from
+        // the map's fresh roll, so the same spot holds different loot in different games, as in MM6-MM8.
         uint8_t state = spec->initialState;
-        const uint32_t seed = makeInteractiveDecorationSeed(
-            entityIndex, entity.decorationListId, entity.x, entity.y, entity.z);
         if (spec->family == InteractiveDecorationFamily::Barrel)
         {
             state = static_cast<uint8_t>(barrelContents(rng));
         }
         else if (spec->useSeededInitialState)
         {
-            state = static_cast<uint8_t>(seed % spec->eventCount);
+            state = static_cast<uint8_t>(rng() % spec->eventCount);
         }
         else if (spec->family != InteractiveDecorationFamily::None)
         {
-            state = initialInteractiveDecorationState(spec->family, seed);
+            state = initialInteractiveDecorationState(spec->family, static_cast<uint32_t>(rng()));
         }
 
         decorVars[decorVarIndex++] = state;

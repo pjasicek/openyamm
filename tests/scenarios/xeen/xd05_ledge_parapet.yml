@@ -1,0 +1,33 @@
+# XD-05 p5 (F42, the player's pins 2026-11-24: "here seems to be an invisible wall"; D-123): the bat chimney's top
+# landing (z 192) has a 64-high parapet on its lip (y 7856-7872). An Orc Archer in the drum hall's doorway at the
+# chimney's foot (1830, 8540, -384), as the engine lane's repro (output/xeen_fb/p3_engine2/f42/xd05_archer.yml):
+# - the party 140 back from the lip, at the pin (2225, 7731): the archer does not see the party over the parapet and
+#   never decides to shoot (on the bare lip its thin sight line cleared the lip while its arrows struck it);
+# - the party at the parapet (2225, 7812): the archer sees it and shoots, and its arrows strike the parapet (visible
+#   cover; the doorway is nearly straight below, so a shot at the party's middle, +96, crosses the lip only about 38
+#   over it while the eye line from 140 back crosses it about 51 over: no parapet of D-123's 64-96 lets both through;
+#   see the dungeon follow-up round's DECIDE in reviews/PLAYER_FEEDBACK_20261124.md).
+# tools/xeen/check_ledge_shots.py lists lips like the old one on every Xeen map.
+id: xeen.xd05.ledge_parapet
+title: "XD-05: the chimney landing's parapet: no shots from 140 back; at the parapet the shots strike it (F42, D-123)"
+world: xeen
+mode: faithful
+tags: [xeen, xd05, f42, ai]
+steps:
+  - new_game_flow:
+      start_map: xeen_xd05.blv
+  - advance_runtime: {seconds: 1, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # 140 back: 12 s and no ranged attack decided.
+  - ai_arena: {path: xd05_ledge_parapet_back.arena.yml}
+  - advance_runtime: {seconds: 12}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_ranged, max_count: 0}
+  # At the parapet: the archer shoots, and its arrows strike the parapet.
+  - ai_arena: {path: xd05_ledge_parapet_lip.arena.yml}
+  - advance_runtime: {seconds: 12}
+  - ai_trace_dump: {decisions_only: true}
+  - assert:
+      ai_trace: {arena_monster: 0, decision: attack_ranged, min_count: 1}
+  - assert: {party_health: {full: true}}

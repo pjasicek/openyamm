@@ -95,6 +95,7 @@ struct DecorationBillboard
     // evt.SetSprite shows it.
     bool startsHidden = false;
     std::string name;
+    std::optional<int> authoredEmitterZ;
 
     uint32_t spriteOverrideKey() const
     {

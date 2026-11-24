@@ -86,11 +86,15 @@ bool indoorMoverFaceApproachesBody(
     std::span<const bx::Vec3> current);
 // Whether that face stops a mover that holds or reverses on bodies. A face that lay wholly beneath the body's feet is
 // the floor it stands on (a lift, a pressure plate rising again): the mechanism support movement carries the body. A
-// face whose back the body is behind moves the solid away from it (faces wind as BLV faces, normals outward).
+// face whose back the body is behind moves the solid away from it (faces wind as BLV faces, normals outward), unless
+// the face slides edge-on (`slideDirection`, a sliding mover's unit direction; zero for a rotating one): then its
+// leading edge comes at the body on either side, as when a thin gate leaf rises or falls through a body standing on
+// its line between its two faces.
 bool indoorMoverFaceBlocksBody(
     const IndoorMoverBody &body,
     std::span<const bx::Vec3> previous,
-    std::span<const bx::Vec3> current);
+    std::span<const bx::Vec3> current,
+    const bx::Vec3 &slideDirection = {0.0f, 0.0f, 0.0f});
 // The move that takes the body clear of the polygon (zero when it does not touch it). `sideHint` points to the side
 // of the polygon the body came from; it decides the direction when the polygon cuts through the body's axis.
 bx::Vec3 indoorBodyPolygonClearance(

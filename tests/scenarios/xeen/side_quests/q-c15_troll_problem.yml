@@ -2,7 +2,7 @@
 # Forest's edge asks for the trolls dead (Q-C15 started); the Troll Warren's mouth on X5's barrow mound (the frozen
 # hides dragged aside) leads into XD-23, walked as in its L4 playtest: the mouth's trolls, the gnawing hall's bark, the
 # sleeping hollows, the rock store, the upper loop, the guard tunnel, the whelping den, the hearth and the Troll Matron
-# (matron_dead), the hoard, the fire pit's "Burn the lair?" (No, then Yes: q-c15.lair, lair_burnt); up the chimney and
+# (matron_dead), the hoard, the fire pit's click (D-121: q-c15.lair, lair_burnt); up the chimney and
 # out on the mound's crown. Thickbark pays (done: the trees' Civilized Ones, 5,000 XP, an item). Outdoors the party is
 # placed (PLAYBOOK.md section 2).
 # Routes: devdocs/xeen/briefs/x5/L4/playtest.yml (Thickbark), xd23/L4/playtest.yml. Quest logic: source/quests/q-c15.yml.
@@ -121,16 +121,12 @@ steps:
   # The hoard.
   - walk_to: {x: 1760, y: -6480, z: -1024, radius: 48, timeout_seconds: 30, close_dialogs: true}
   - play_lua: {source: "loot_chest(4); close()"}
-  # "Destroy the lair?" No leaves it; Yes burns it (A3's q-c15.lair).
+  # A click on the pit burns the lair (D-121: no Yes/No for a quest goal; A3's q-c15.lair, its line on the status line).
   - walk_to: {x: 1960, y: -5824, z: -1024, radius: 48, timeout_seconds: 30, close_dialogs: true}
-  - play_lua: {source: "click(7); wait(0.5)"}
-  - answer_input: {text: "No"}
-  - advance_runtime: {seconds: 1}
-  - play_lua: {source: "close(); if qbit(112301) then error('lair burnt on No') end"}
   - console: {line: destructible 17 state, expect_contains: standing}
   - play_lua: {source: "click(7); wait(0.5)"}
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1}
+  - assert: {dialog: {active: false}}
   - play_lua:
       source: |
         local s = tostring(status())

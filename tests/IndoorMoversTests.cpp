@@ -318,6 +318,50 @@ TEST_CASE("mover bodies: a floor rising under a body carries it, a ceiling or a 
     CHECK_FALSE(indoorMoverFaceBlocksBody(beside, reversed(wallPolygon(20.0f)), reversed(wallPolygon(0.0f))));
 }
 
+TEST_CASE("mover bodies: a thin sliding leaf stops on a body standing on its line, between its faces")
+{
+    // A gate leaf between y -16 and 0 (two faces, normals outward) and a body on its line at y -11: behind both faces.
+    const auto face = [](float y, float bottom, float top, bool facingPlusY)
+    {
+        std::vector<bx::Vec3> polygon = {{-100.0f, y, bottom}, {100.0f, y, bottom}, {100.0f, y, top},
+            {-100.0f, y, top}};
+        return facingPlusY ? std::vector<bx::Vec3>(polygon.rbegin(), polygon.rend()) : polygon;
+    };
+    const IndoorMoverBody onLine = {0.0f, -11.0f, 0.0f, 37.0f, 160.0f};
+    const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
+    const bx::Vec3 down = {0.0f, 0.0f, -1.0f};
+
+    for (const bool facingPlusY : {false, true})
+    {
+        const float y = facingPlusY ? 0.0f : -16.0f;
+        // Rising from its floor slot (XD-02's slide_down gates closing): the side test alone sees the body behind.
+        CHECK_FALSE(indoorMoverFaceBlocksBody(onLine, face(y, -310.0f, 10.0f, facingPlusY),
+            face(y, -308.0f, 12.0f, facingPlusY)));
+        CHECK(indoorMoverFaceBlocksBody(onLine, face(y, -310.0f, 10.0f, facingPlusY),
+            face(y, -308.0f, 12.0f, facingPlusY), up));
+        // Still in the slot under the feet, or sinking back into it: no stop.
+        CHECK_FALSE(indoorMoverFaceBlocksBody(onLine, face(y, -320.0f, 0.0f, facingPlusY),
+            face(y, -318.4f, 1.6f, facingPlusY), up));
+        CHECK_FALSE(indoorMoverFaceBlocksBody(onLine, face(y, -308.0f, 12.0f, facingPlusY),
+            face(y, -310.0f, 10.0f, facingPlusY), up));
+        // Falling from the ceiling onto the head stops; rising away from it does not.
+        CHECK(indoorMoverFaceBlocksBody(onLine, face(y, 150.0f, 470.0f, facingPlusY),
+            face(y, 148.0f, 468.0f, facingPlusY), down));
+        CHECK_FALSE(indoorMoverFaceBlocksBody(onLine, face(y, 148.0f, 468.0f, facingPlusY),
+            face(y, 150.0f, 470.0f, facingPlusY), down));
+    }
+
+    // A face sliding along its normal keeps the side test: the body behind a trailing face does not stop it.
+    const IndoorMoverBody beside = {0.0f, -30.0f, 0.0f, 37.0f, 160.0f};
+    const auto reversed = [](const std::vector<bx::Vec3> &polygon)
+    {
+        return std::vector<bx::Vec3>(polygon.rbegin(), polygon.rend());
+    };
+    CHECK_FALSE(indoorMoverFaceBlocksBody(
+        beside, reversed(wallPolygon(20.0f)), reversed(wallPolygon(0.0f)), {0.0f, -1.0f, 0.0f}));
+    CHECK(indoorMoverFaceBlocksBody(beside, wallPolygon(20.0f), wallPolygon(0.0f), {0.0f, -1.0f, 0.0f}));
+}
+
 TEST_CASE("rotating mover: its faces sample the stored pose's lightmap in any pose")
 {
     IndoorBakedLighting lighting;

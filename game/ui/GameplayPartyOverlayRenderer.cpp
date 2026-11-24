@@ -148,6 +148,8 @@ enum class ItemTintContext
 {
     None,
     CharacterScreen,
+    // The character screen while the Show Unidentified Items key is held: unidentified items blue as well.
+    CharacterScreenStates,
     Held,
     Equipped,
     ShopIdentify,
@@ -195,6 +197,7 @@ uint32_t itemTintColorAbgr(
 
             break;
 
+        case ItemTintContext::CharacterScreenStates:
         case ItemTintContext::Held:
         case ItemTintContext::Equipped:
             if (isBroken)
@@ -230,6 +233,16 @@ uint32_t itemTintColorAbgr(
     }
 
     return 0xffffffffu;
+}
+
+// The character screen's item tint: broken items red, and unidentified ones blue while the Show Unidentified Items key
+// (Shift) is held.
+ItemTintContext characterScreenTintContext(const GameplayScreenRuntime &context)
+{
+    const GameplayInputFrame *pInput = context.currentGameplayInputFrame();
+    return pInput != nullptr && pInput->action(KeyboardAction::ShowItemStates).held
+        ? ItemTintContext::CharacterScreenStates
+        : ItemTintContext::CharacterScreen;
 }
 
 void submitItemTintOverlay(
@@ -9695,7 +9708,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                     const uint32_t tintColor = itemTintColorAbgr(
                         equippedItemState ? &*equippedItemState : nullptr,
                         pItemDefinition,
-                        ItemTintContext::CharacterScreen);
+                        characterScreenTintContext(context));
 
                     if (tintColor != 0xffffffffu)
                     {
@@ -10170,23 +10183,18 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             continue;
         }
 
-        // The pouches' buttons (the party's crafting materials; its potions, bottles and reagents; its quest items):
+        // The pouch slots (new loot, crafting materials, potions and reagents, quest items, as the party has them):
         // selected while the inventory shows that pouch's tab, with the pouch's icon.
-        if (normalizedLayoutId == "characterinventorycraftingtag" || normalizedLayoutId == "characterinventoryalchemytag"
-            || normalizedLayoutId == "characterinventoryquesttag")
+        if (normalizedLayoutId.starts_with("characterinventorypouch"))
         {
-            const ItemPouch pouch = normalizedLayoutId == "characterinventorycraftingtag" ? ItemPouch::Crafting
-                : normalizedLayoutId == "characterinventoryalchemytag"                 ? ItemPouch::Alchemy
-                                                                                        : ItemPouch::Quest;
+            const size_t slot = size_t(normalizedLayoutId.back() - '1');
+            const std::optional<ItemPouch> pouch =
+                slot < 4 ? GameplayHudOverlaySupport::pouchButtons(party)[slot] : std::nullopt;
 
-            if (!context.isAdventurersInnCharacterSourceActive() && pCharacter != nullptr && party.hasPouch(pouch))
+            if (!context.isAdventurersInnCharacterSourceActive() && pCharacter != nullptr && pouch)
             {
-                GameplayUiSkin::renderButton(context, pLayout->id, width, height,
-                    GameplayHudOverlaySupport::inventoryPouchShown(context) == pouch, true);
-                const float size = std::round(16.0f * resolved->scale);
-                GameplayHudOverlaySupport::renderPouchIcon(context, pouch,
-                    resolved->x + (resolved->width - size) * 0.5f, resolved->y + (resolved->height - size) * 0.5f,
-                    size);
+                GameplayHudOverlaySupport::renderPouchButton(context, pLayout->id, width, height, *pouch,
+                    GameplayHudOverlaySupport::inventoryPouchShown(context) == pouch);
             }
 
             continue;
@@ -10601,7 +10609,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                                 itemTintColorAbgr(
                                     equippedItemState ? &*equippedItemState : nullptr,
                                     pItemDefinition,
-                                    ItemTintContext::CharacterScreen));
+                                    characterScreenTintContext(context)));
                         }
 
                         const bool equipmentSlotInteractive =
@@ -10958,7 +10966,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                                 itemRect.width,
                                 itemRect.height,
                                 false,
-                                itemTintColorAbgr(&item, pItemDefinition, ItemTintContext::CharacterScreen));
+                                itemTintColorAbgr(&item, pItemDefinition, characterScreenTintContext(context)));
                         }
 
                         if (inspectedCharacterCanAct)

@@ -785,6 +785,13 @@
                     "platform"
                   ]
                 },
+                "part_of": {
+                  "description": "The `id` of the platform this one is a part of, for a thing built of several blocks that the player uses as one (XD-02's winch: an iron head and bars on its drum). The part runs the platform's click (every face of it, as the platform's own) and changes with it (`hide`, `show`, `texture`). Only on a platform without an `id` of its own. Example: part_of: platform:winch.",
+                  "$ref": "common.schema.json#/$defs/id",
+                  "x-id-kinds": [
+                    "platform"
+                  ]
+                },
                 "at": {
                   "$ref": "common.schema.json#/$defs/point2",
                   "x-geom": {
@@ -932,6 +939,7 @@
                   [
                     "key",
                     "id",
+                    "part_of",
                     "notes"
                   ]
                 ],
@@ -1386,6 +1394,13 @@
               "properties": {
                 "key": {
                   "$ref": "common.schema.json#/$defs/key"
+                },
+                "part_of": {
+                  "description": "The `id` of the platform this bar is a part of (a capstan's bar on XD-02's winch drum): it runs the platform's click and changes with it, as a platform's `part_of`. Example: part_of: platform:winch.",
+                  "$ref": "common.schema.json#/$defs/id",
+                  "x-id-kinds": [
+                    "platform"
+                  ]
                 },
                 "path": {
                   "type": "array",

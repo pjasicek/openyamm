@@ -334,6 +334,10 @@ std::string menuSettingValue(const GameSettings &settings, std::string_view id)
     {
         return settings.partyPouches ? "true" : "false";
     }
+    if (id == "loot_pouch")
+    {
+        return settings.lootPouch ? "true" : "false";
+    }
     if (id == "sound_volume")
     {
         return std::to_string(settings.soundVolume);
@@ -995,6 +999,15 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
             return false;
         }
         settings.partyPouches = value == "true";
+        return true;
+    }
+    if (id == "loot_pouch")
+    {
+        if (value != "true" && value != "false")
+        {
+            return false;
+        }
+        settings.lootPouch = value == "true";
         return true;
     }
     if (id == "sound_volume")

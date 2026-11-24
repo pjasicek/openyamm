@@ -30,4 +30,4 @@ See `D_voweless_oath.md`.
 (Archmage's robes), Kramer (Guild title, bounty only), Brother Reger (Masters), the Master Thief (New members, inner
 circle only). Their talks as the main chain opens them: Sharla's treehouse (D2 (-19300, -10839, 992), resident
 "Sharla", main 49), the Temple of Mok (D1 (3092, 2048, 1152), resident "Dreyfus", main 63), Sandcaster's Guild of Light
-(D3 (-13696, 20548, 1511), resident "Nasir", main 65; the guild keeps hours, the checkpoint is in them).
+(D3 (-13824, 20548, 1504), resident "Nasir", main 65; the guild keeps hours, the checkpoint is in them).

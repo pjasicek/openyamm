@@ -31,6 +31,7 @@ A scenario (YAML):
       - gold: 12000                         # the party earns gold elsewhere (counts in `expect: gold`)
       - hour: 22                            # the time of day (Xeen.isNight, time gates); noon by default
       - map: Castle Blackfang               # the map the party is on, its map_stats name (Xeen.onMap)
+      - event: 255                          # the map event the next hooks run in (CurrentEventId: a harvest's spot)
       - actual: [Might, 70]                 # the clicking member's current statistic (IsAtLeast(ActualMight, n))
       - answer: "Yes"                       # answer the last topic's question (`ask:`: the button Yes or No)
       - player_bit: 11302                   # a player bit of the clicking member (the stub has one clicking member)
@@ -137,6 +138,7 @@ end
 local mapVars = {}
 function evt.GetMapVar(name, default) if mapVars[name] == nil then return default or 0 end return mapVars[name] end
 function evt.SetMapVar(name, v) mapVars[name] = v end
+function CurrentEventId() return Stub.event or 0 end
 function RegisterGlobalEvent(id, title, fn) events[id] = fn end
 function RegisterCanShowTopic(id, fn) canshow[id] = fn end
 function PartyMembers() local list = {} for i = 0, #classes do table.insert(list, i) end return list end
@@ -296,6 +298,8 @@ def scenario_lua(scenario: dict, items: dict, topics: dict) -> str:
             lines.append(f'Stub.minutes = {int(value)} * 60')
         elif kind == 'map':
             lines.append(f'Stub.map = {lua_str(value)}')
+        elif kind == 'event':
+            lines.append(f'Stub.event = {int(value)}')
         elif kind == 'class':
             lines.append(f'Stub.classes[{int(value[0])}] = {lua_str(value[1])}')
         elif kind == 'expect':

@@ -73,7 +73,8 @@ GameplayUiController::LootSummaryOverlayState lootAllCorpses(IGameplayWorldRunti
 
 // Takes the spotted ground items (WorldItemSpotter) into the summary of the same key press, through the loot filter:
 // gold piles whole, kept items into the bags when they fit (else they stay where they lie), items it sells as their
-// gold, and items it leaves on the ground stay there, no longer spotted.
+// gold (in the summary's items, marked sold), and items it leaves on the ground stay there, no longer spotted. An item
+// the party dropped or threw is its own: the filter never takes it.
 void lootSpottedWorldItems(
     IGameplayWorldRuntime &worldRuntime,
     Party &party,

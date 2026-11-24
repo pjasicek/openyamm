@@ -144,7 +144,9 @@ there). `oymap build` makes a classic ODM with its scene and script:
   house. A building's walls say its `title`. Textures the world lacks are refused when the build has an asset root.
 - **Structures** (`core/OutdoorThings`): `structures` are what is no house of the plan: `kind: building` (a plot's
   words on its own ground), `wall` (a line with a walkable level top, `gates`, `battlements`), `bridge` (a deck on
-  the land at its ends, humped by `rise`, or level at `height` on piers: a pier), `well`, `fountain`, `obelisk`,
+  the land at its ends, humped by `rise`, or level at `height` on piers: a pier; an end on the land stands `raise`
+  over the lowest land across it and 32 beyond, or halfway up where the land falls more than twice that across it, so
+  no side meets a step over half the fall: P3 2026-11-24, D4's Snow River bridge), `well`, `fountain`, `obelisk`,
   `chest`, `crate`, `sign`, `platform`, `stairs`, `doorway` (a door in a frame against a slope: the way into a cave)
   and `decoration` (one decoration of the game's table by name). What a click does is said with the structure:
   `title`, `house`, `into`, `chest` (level, random_items, items), `effects` (text, gold, add, subtract, set,
@@ -252,6 +254,9 @@ there). `oymap build` makes a classic ODM with its scene and script:
   structure's words on all their faces: ships, wagons, the crystal, cannons, tents, a crane. The smallest building
   import: heights as in the source map (`raise` moves them). `from.world` takes them from another world's map
   (`from: {world: mm7, map: 7out03.odm, models: [...]}`: Nystor's ship on Xeen's X2); otherwise the project's own.
+  `drop_overlaps: true` drops, of each two faces taken that lie in one plane over each other (the same way, or back to
+  back where that is seen), the smaller (the later of two alike): a shipped model that flickers in its original
+  (MM7's Lady Catherine: hull boards and trim back to back; P3 2026-11-24).
 - **A waterfall** (`kind: waterfall`, `core/OutdoorFalls`, the shipped falls measured at its top: Alvar's on out03,
   2,880 down a sheer cliff, and Emerald Island's chutes on 7out01): `line` gives the lip's middle and the way the
   water falls, `top` the stream's level at the lip, `foot` the pool's; `width` comes from the river at the lip. The
@@ -288,11 +293,18 @@ there). `oymap build` makes a classic ODM with its scene and script:
   across standing back by its depth: HouseR2S); `doors[].sill` (a door standing over its row's foot, a whole door
   high, the rows above over it: the King's Library door); bridge `kerb_width` (it was read only on walkways) and
   `arches.spans` (openings of their own widths: Erathia's viaduct); sign arms `toward` in degrees (the guild sign's
-  three boards); platform `chamfer` (an octagonal deck); culvert `grating` (bars before the dark face); tent
+  three boards); platform `chamfer` (an octagonal deck); culvert `grating` (bars before the dark face, the upright
+  ones from 2 under the water: P3 2026-11-24); tent
   `roof: hip` (a pavilion) and a door on a closed tent's front (`textures.door`, `door_width`, `door_height`); a
   doorway's `facing` (n, e, s, w before `turn`; it was read nowhere) and `textures.roof` for its gable portico (a
-  turf hood). `oymap audit` warns of a solid decoration in a doorway's way (`thing.in_doorway`, indoors: within its
-  radius and the party's 37 of the line through a portal's middle, 0 to 128 to either side: XD-01's stash keg).
+  turf hood); a doorway's `hood` has no back faces on the frame's front (P3 2026-11-24: X1's Witch Tower door). `oymap audit` warns of a solid decoration in a doorway's way (`thing.in_doorway`, indoors: within its
+  radius and the party's 37 of the line through a portal's middle, 0 to 128 to either side: XD-01's stash keg), and
+  of a face the party cannot step over standing across a doorway's way out (`face.in_doorway`, P3 2026-11-24: walking
+  straight out of the opening along every line across it, the party's middle does not get its radius past the
+  jambs; faces over 50 from foot to top, their top over 50 over the sill and their foot under the head and 160 over
+  the sill; not a door's leaf, a face over the opening itself, a clicked panel across it, or a drawn face as high as
+  the opening: XD-14's long tables, 64 high and 64 off the wall across three doors, an invisible wall only a jump
+  passed). An error on Xeen's maps, a warning on others.
 - Not built (the build says so in its warnings): boats and stables as travel (a house's service); the plan's
   containers and landmarks unless the sketch draws them as structures.
 
@@ -594,6 +606,16 @@ natural rocks not judged), `chest.look` (a chest that is none of the shipped one
 of a house door, an exit, a door, a teleport or a cave mouth) and `chest.title` (a warning: a hover title naming a
 place). The ground outdoors is the game's terrain triangles, split north-west to south-east.
 
+Indoors the dressing also checks props inside props or walls by their drawn outlines, the four rules of
+`tools/xeen/check_prop_overlap.py` with its numbers (`core/Audit.h` `auditPropOverlap`, F40, 2026-11-24): a prop's
+footprint is the plan outline of its bound 3D model (engine/models/indoor_decorations.yml and the world's) as the game
+places it (scale, height jitter, yaw), else its collision circle; chests are their faces' box. `prop.overlap` (two props'
+lower bodies drawn more than 8 into each other at a shared height; two natural formations a warning), `prop.wall` (a
+prop more than 8 into a wall, or with no floor under its middle; loose heaps, bones and formations a warning unless
+more than half in it), `item.hidden` (a ground item or a treasure spawn inside a prop's drawn outline, more than 10 in a
+wall or over no floor; within a prop's radius plus 20 a warning) and `prop.squeeze` (a warning: a gap of 1 to 96 between
+two props' collision circles, open at both ends).
+
 ## Editing a project: transactions and history
 
 `oymap edit` applies a list of operations as one transaction: all of them or none. It answers with the semantic diff
@@ -756,6 +778,15 @@ studio writes what they read since S8a, below).
   D-25): a door in an opening between two rooms, with no event, `surface: {texture: ..., translucent: 0.6}`, and a
   destructible `of` it; the opening's portal lets the rooms behind draw, and breaking the leaf opens the way. The
   build warns of translucent faces it cannot find in the compiled map.
+- **Parts of a clicked platform** (rooms.yml `part_of: <platform id>` on a platform without an `id`, or on a beam;
+  2026-11-24, XD-02's winch): a thing built of several blocks that the player uses as one (a capstan's drum, its iron
+  head and its bars) runs the platform's click on every part, and the parts change with the platform (`hide`, `show`,
+  `texture`). `tools/xeen/check_wiring_rules.py` `click.covered` warns of a part standing on a clicked platform
+  without it.
+- **Hinged leaves in both rooms** (2026-11-24, F44): a hinged leaf (not a trapdoor) opens away from whoever opens it,
+  so it swings through its doorway: it is built as a rotating mover (`kind: rotating`, `extra_rooms`) whose faces are
+  listed in the opening's two rooms, and is drawn while either room is seen (XD-05's gate leaves vanished when the yard
+  was seen alone through a window). `tools/xeen/check_door_leaves.py` `leaf.swing_room` checks it.
 - **Touch events** (wiring `touch: true` on a clicked event whose source is a door, wall panel, platform, switch or
   exit): the source's faces also run the event when the party walks into them, once per contact (leaning on it does
   not run it again; `once: true` for one time only). Xeen's mirages (XD-10, D-4): `{preset: door, source:
@@ -1055,8 +1086,29 @@ Unit cases in `tests/OutdoorTests.cpp` ("chests outdoors", "the ground things st
   height, up to about 32 off on uneven cells. Decorations (`kind: decoration` and scattered), actors and spawn points
   now stand on `LoweredOutdoorMap::groundHeightAt`; a chest or a crate stands at the lowest of it under its four
   footprint corners (the higher side sinks into the slope). Structures keep the stored height.
+- **Decorations solid by their 3D model (2026-11-24)**: the game keeps a decoration's native collision, an upright
+  cylinder of decoration_data.txt's radius and height (none at radius 0), which a long or hollow model does not fill
+  (Xeen's world hull was walked through and over the world's edge). A binding in `engine/models/decorations.yml` or
+  the world's `models/decorations.yml` with `collision: model` makes the outdoor build raise, under each
+  `kind: decoration` structure that uses it, a model `collision:<id>` of its 3D model's own triangles (its base mesh),
+  every face hidden (Invisible: not drawn, still solid), placed as the game places the model
+  (`core/OutdoorDecorationCollision.h`). An indoor binding in `models/indoor_decorations.yml` accepts the same
+  option. Studio writes the triangles into the owner room's BLV faces and identifies them in the scene so both
+  sight and projectiles hit the solid parts. Movement, including walking through holes or under arches, follows
+  the native faces on both map types.
+  A binding may specify `collision_model: worlds/<world>/models/<proxy>.gltf` for a simpler physical mesh.
+  `collision_model: lod` takes the visible model's coarsest LOD instead (the last mesh of its `openyamm_lods`, the
+  base mesh when it has none). Mind a tree's coarsest LOD: a 4-triangle impostor card, no solid; and a proxy lower
+  than the party's step (128) is climbed over, not a stop (scratch X4 2026-11-24: 7rock08/09 proxies).
+  Author it in the visible model's coordinates. Studio uses the visible model's height, orientation and offsets
+  to place it. Set the decoration's table radius to zero for a hollow prop whose opening a cylinder would fill.
+  Outdoor scatter keeps its existing cylinder unless the binding also sets `collision_scatter: true`, intended
+  for permanent structural or rock pieces. Ordinary scattered vegetation, wall mounts and initially hidden
+  decorations receive no baked triangles. Bind a changing or destructible prop through its dynamic mechanism.
 - **Scatter keeps to level spots (F6-R3)**: a scattered decoration on walkable ground (not `steep: true`) refuses a
   spot where the game's ground within its radius (decoration_data.txt's Radius) varies by more than 48.
+  Set `support_radius` on the scatter entry to specify its ground footprint in map units. It checks the same
+  candidate positions, so an established stand can keep its layout when its physical cylinder is replaced.
 - **Indoor chests: `facing` is the long axis (F6-R5)**: an indoor chest's `facing` is the direction its width runs;
   its **front** (the lock, the sloping lid's own picture) is the side 90 degrees anticlockwise of it, so `facing: east`
   shows the front to the north.
@@ -1089,6 +1141,8 @@ Unit cases in `tests/OutdoorTests.cpp` ("chests outdoors", "the ground things st
   texture classes, the second leaf mirrored: X6's 256-wide `egydrlgl` and D6's `swdoora` whole on each leaf instead
   of half of it. A 128 wing is laid as before; a picture the classes do not know keeps 128. To fit a picture without
   squeezing it, make each leaf as wide as the picture (a `[door, 512]` bay for a 256 picture).
+  A standalone `doorway` can fit a painting of any supported size to each leaf with
+  `textures: {door: {texture: grate, fit: true, size: [128, 128]}}`. Use the artwork's native texel dimensions.
 - **Cave mouths buried in their hill (F8)**: a `cave_mouth` that is not `free` no longer pulls the land under its
   side edges to the floor: a hill there stays, and the nodes on and one cell beyond its sides and back rise to the
   shell near them, as far as the land in its mouth and tunnel stays within 32 of the floor; only the front stays at
@@ -1136,6 +1190,27 @@ a kind or surface is its style world's chest", "a platform's fitted top is laid 
   `bottom_surface`) lays the picture once over its underside too, as over the top; before, the underside took the
   room's texel size and the audit counted it `textures.feature_repeated` (P1-P4's vents, 1.5 times). `size` is the
   picture's own size in texels (left out: 128), not the face's.
+
+## Xeen pins round P4 (2026-11-24)
+
+Unit cases in `tests/OutdoorTests.cpp`: "P4: a rough cave mouth's shell has no two faces on each other, whatever its
+seed" (960 builds), the plot-floor case ("a plot's floor as the sketch says it") and the road-bed case ("a road lies
+level across its width").
+
+- **Cave mouth shells** (`core/OutdoorWaysIn.cpp` `caveFaces`): a mound point that `roughness` shakes onto or within 8
+  of the footprint's side, front or back lies on it at its unshaken place in that plane (shaken along the plane it
+  could pass its neighbour and fold the shell onto itself: X5's `xd10_north`, whose rim fills its 576 width); a
+  column from a point to itself (the front's foot at the footprint's corner) is not shaken; cuts of the front and the
+  footprint's edge closer than 8 are one (the front's corner kept). The randoms are drawn as before, so other points
+  keep their places.
+- **A building's floor on a platform** (`levelPlots`): a said `floor` on a plot that overlaps a drawn `kind: platform`
+  stands exactly there, and the land under it takes the step of 32 at or under it (hidden by the platform). Off a
+  platform the floor keeps the nearest step with the land flush, as before. X2's stalls at 1040 on a court topped at
+  1040 had the land rounded up to 1056 through the paving.
+- **Road beds by things** (`gradeRoads`): the build warns `roads: the bed of <road> lowers the land N within a cell of
+  <thing>` where a bed lowers a node by more than 64 within a cell of a building's plot or of a portal, fountain,
+  well, obelisk, stone ring, trilithon or arch (X3's Newcastle stair under the mirror's dais). A warning: end the road
+  at the thing's edge or give it `bed`.
 
 ## The hosted page (S5c)
 

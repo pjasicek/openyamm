@@ -170,11 +170,18 @@ public:
         std::string &statusText,
         ShopItemServiceResult *pResult = nullptr,
         int effectiveReputation = 0);
-    // Sell trash, on the sell screen of a ruleset with item rarities (MAW, ItemRules::lootFilterFacts): the rules pick
-    // the trash (isSellTrash), the player adds and removes items, and the pick is sold at once.
+    // Sell trash, on the sell screen of a ruleset with item rarities (MAW, ItemRules::lootFilterFacts) or a party with
+    // the loot pouch: the rules pick the trash (isSellTrash; on the loot pouch's tab, all of it), the player adds and
+    // removes items, and the pick is sold at once.
     static bool offersSellTrash(const Party &party, const HouseEntry &houseEntry);
     // What the rules pick from every member's bags: identified items this shop buys and the rules let go.
     static std::vector<BagItemRef> findSellTrash(
+        const Party &party,
+        const ItemTable &itemTable,
+        const HouseEntry &houseEntry);
+    // The pick on the loot pouch's tab: everything left there is trash, so every item of it this shop buys
+    // and the rules let go, identified or not.
+    static std::vector<BagItemRef> findLootPouchTrash(
         const Party &party,
         const ItemTable &itemTable,
         const HouseEntry &houseEntry);

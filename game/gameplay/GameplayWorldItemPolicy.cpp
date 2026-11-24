@@ -50,13 +50,13 @@ bool worldItemCollectable(const MapWorldItemSource &source, const Party &party)
 
 std::optional<StoredPickup> storePickedUpItem(Party &party, const InventoryItem &item, const ItemTable *)
 {
-    size_t recipient = 0;
+    StoredPickup stored;
 
-    if (!party.tryGrantInventoryItem(item, &recipient))
+    if (!party.tryGrantLootItem(item, &stored.memberIndex, &stored.pouch))
     {
         return std::nullopt;
     }
 
-    return StoredPickup{recipient, party.pouchFor(item)};
+    return stored;
 }
 }

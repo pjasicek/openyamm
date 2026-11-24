@@ -1,0 +1,12 @@
+# AI arena for xd05_ledge_parapet.yml (F42, D-123): the party 140 back from the bat chimney's top landing's lip (the
+# pin, XD-05 p5), an Orc Archer (11031) in the drum hall's doorway at the chimney's foot, 900 away and 576 below.
+name: xeen_xd05_ledge_back
+world: xeen
+map: xeen_xd05.blv
+party:
+  position: [2225, 7731, 192]
+  yaw_degrees: 106
+  invulnerable: true
+trace: true
+monsters:
+  - {monster_id: 11031, position: [1830, 8540, -384], yaw_degrees: 300}

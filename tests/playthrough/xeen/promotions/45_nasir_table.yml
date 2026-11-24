@@ -25,7 +25,7 @@ steps:
   # Round 1: Wizard Lich ArchMage Sorcerer -> ArchMage Lich ArchMage Sorcerer.
   - lua_event: {source: "if not SetPlayerClass(0, 'Wizard') then error('SetPlayerClass(0, Wizard)') end if not SetPlayerClass(1, 'Lich') then error('SetPlayerClass(1, Lich)') end if not SetPlayerClass(2, 'ArchMage') then error('SetPlayerClass(2, ArchMage)') end if not SetPlayerClass(3, 'Sorcerer') then error('SetPlayerClass(3, Sorcerer)') end"}
   - play_lua: {source: 'local c = classes() log("CLASSES jewel round 1 set: " .. c) if c ~= "Wizard Lich ArchMage Sorcerer" then error("expected Wizard Lich ArchMage Sorcerer, got " .. c) end'}
-  - set_pose: {map: xeen_d3.odm, x: -13696, y: 20548, z: 1511, yaw: 1.5708, pitch: 0.0}
+  - set_pose: {map: xeen_d3.odm, x: -13824, y: 20548, z: 1504, yaw: 1.5708, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - clear_hostiles: {radius: 3000}
   - press_interact: {expect: {kind: event_target}}
@@ -41,7 +41,7 @@ steps:
   # Round 2: Lich ArchMage Sorcerer Peasant, none of them eligible: the promote is not offered.
   - lua_event: {source: "if not SetPlayerClass(0, 'Lich') then error('SetPlayerClass(0, Lich)') end if not SetPlayerClass(1, 'ArchMage') then error('SetPlayerClass(1, ArchMage)') end if not SetPlayerClass(2, 'Sorcerer') then error('SetPlayerClass(2, Sorcerer)') end if not SetPlayerClass(3, 'Peasant') then error('SetPlayerClass(3, Peasant)') end"}
   - play_lua: {source: 'local c = classes() log("CLASSES jewel round 2 set: " .. c) if c ~= "Lich ArchMage Sorcerer Peasant" then error("expected Lich ArchMage Sorcerer Peasant, got " .. c) end'}
-  - set_pose: {map: xeen_d3.odm, x: -13696, y: 20548, z: 1511, yaw: 1.5708, pitch: 0.0}
+  - set_pose: {map: xeen_d3.odm, x: -13824, y: 20548, z: 1504, yaw: 1.5708, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - clear_hostiles: {radius: 3000}
   - press_interact: {expect: {kind: event_target}}

@@ -122,6 +122,7 @@ struct IndoorSceneData
     std::vector<IndoorSceneTranslucentFaces> translucentFaces;
     // Scene `opaque_faces`: face ids drawn opaque whatever their texture's alpha (devdocs/INDOOR_TRANSLUCENT_FACES.md).
     std::vector<uint16_t> opaqueFaces;
+    std::vector<uint16_t> decorationCollisionFaces;
     // Scene `ladders` (devdocs/INDOOR_ROTATING_MOVERS_AND_LADDERS.md).
     std::vector<IndoorLadder> ladders;
     // Scene `fog` (devdocs/INDOOR_FOG.md).
