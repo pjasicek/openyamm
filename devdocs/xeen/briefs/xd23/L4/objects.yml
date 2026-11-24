@@ -197,21 +197,21 @@ monsters:
   - id: monster:bone_hall_2
     room: room:bone_hall
     monster: 11070
-    at: [300, -1150]
+    at: [492, -1150]
     facing: 90
     hostile: true
     group: 11
   - id: monster:bone_hall_3
     room: room:bone_hall
     monster: 11070
-    at: [-200, -1800]
+    at: [-328, -1672]
     facing: 90
     hostile: true
     group: 11
   - id: monster:bone_hall_4
     room: room:bone_hall
     monster: 11070
-    at: [250, -1700]
+    at: [570, -1508]
     facing: 90
     hostile: true
     group: 11
@@ -280,16 +280,16 @@ monsters:
     group: 19
     notes: "The Troll Matron 32 (A2's boss row 11074, frenzy below half health), by her fire."
   - id: monster:mouth_1
-    room: room:mouth
+    room: room:larder
     monster: 11070
-    at: [-160, -640]
+    at: [-544, -640]
     facing: 90
     hostile: true
     group: 10
   - id: monster:mouth_2
-    room: room:mouth
+    room: room:bone_hall
     monster: 11070
-    at: [160, -660]
+    at: [-520, -1000]
     facing: 90
     hostile: true
     group: 10
@@ -423,7 +423,7 @@ decorations:
   - id: deco:guard_skulls
     room: room:guard_tunnel
     decoration: sklplrev
-    at: [-2420, -5500]
+    at: [-2350, -5500]
     floor_height: -1024
   - id: deco:hearth_bones_1
     room: room:hearth

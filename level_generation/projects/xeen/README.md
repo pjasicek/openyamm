@@ -107,7 +107,7 @@ playtest writers that read a build (`gen_walk.py`, `gen_daily.py` of X4, `gen_ho
 | dd11a | Troll Holes, first pocket | `dd11a/gen.py` (`../dd11/lib.py`) | yes |
 | dd11b | Troll Holes, second pocket | `dd11b/gen.py` (`../dd11/lib.py`) | yes |
 | dd11c | Troll Holes, third pocket | `dd11c/gen.py` (`../dd11/lib.py`) | yes |
-| dd12 | Dungeon of Lost Souls | `dd12/gen.py` | **no**: two chests moved by hand in L4 objects.yml, see below |
+| dd12 | Dungeon of Lost Souls | `dd12/gen.py` | yes (since 2026-11-24: the two hand-moved chests are in `gen.py`) |
 | dd13 | Ogre Forts | `dd13/gen.py` | yes |
 | dd14 | Castle Blackfang | `dd14/gen.py` (`geo.py`, `dress.py`) | yes |
 | dd15 | Great Pyramid | `dd15/gen.py` (`geo.py`, `dress.py`) | yes |
@@ -173,8 +173,7 @@ The command for every map is `python3 level_generation/projects/xeen/regen.py <m
 
 ### Known differences
 
-- **DD-12**: L4 `objects.yml` has `chest:negative` at (1240, -2752) and `chest:reserve` at (5824, -2888); `gen.py`
-  writes (1200, -2560) and (5504, -2976). **XD-15**: `chest:vault` at (384, 6104) against the generator's (0, 6040).
+- **XD-15**: `chest:vault` at (384, 6104) against the generator's (0, 6040).
   The chests were moved in the project files after the generator's last run (the chest and props fixes of the
   2026-11-21 feedback round). Before regenerating either map, carry the positions into `gen.py`, or the rerun moves
   the chests back.

@@ -677,7 +677,7 @@
 43552	"What, no Phirna root? I can't make you any potions without the root."	q-c21 npc 4042 Quest	Xeen
 43553	"Toad meadow is the only known source of Phirna root, a vital ingredient in antidote potions. The witches of the meadow have been turning everyone they find into toads, so I don't dare go there. I will give you five potions for each Phirna root you bring me."	q-c21 npc 4042 Quest	Xeen
 43554	"You have found a Phirna plant. Ok, you dug it up."	q-c21.phirna_plant text	Xeen
-43555	"Sensing that you already have another Phirna root, the plant stubbornly resists your greedy fingers."	q-c21.phirna_plant fail_text	Xeen
+43555	This Phirna plant has been dug up already. It will grow back in time.	q-c21.phirna_plant else_text	Xeen
 43600	"No zombies down here. Gremlins, cobras, the odd hornet. Celia says it's an improvement."	q-c22 npc 4046 Quest	Xeen
 43601	We are to be married. Somewhere with fewer zombies.	q-c22 npc 4046 Quest	Xeen
 43602	"You have rescued my Celia! I am so grateful to you for reuniting us. As payment for your services, please accept this treasure."	q-c22 npc 4046 Quest	Xeen
@@ -1499,7 +1499,7 @@
 47562	"Medin says beasts eat the fish. I've seen them. They eat the boats too, when the boats are near enough."	x2 npc 4129 The lake	Xeen
 47563	I see that you are pale and weak. Bodybuilding will put some meat on your bones. I teach it; the meat is extra.	x2 npc 4134 Bodybuilding	Xeen
 47564	"Fighting is simple. Hit them before they hit you. The rest is details, and I teach the details."	x2 npc 4135 Fighting	Xeen
-47565	"I'll give you 100 gold for a week of work. Not today, though. Today all the work went to the robbers."	x2 npc 4136 Work	Xeen
+47565	I used to pay 100 gold for a week of work. Then the robbers under the bridge took every job in town and paid themselves. There's nothing left for honest hands.	x2 npc 4136 Work	Xeen
 47566	"Touch the mirror on the square, and any other mirror you've touched will send you there. Faster than my ferry. Everything is faster than my ferry."	x2 npc 4142 Mirrors	Xeen
 47567	"I can teach you how to swim for a mere 100 gold. Or sell you a Water Walk scroll, if you sink."	x2 npc 4150 Swimming	Xeen
 47568	"If you can read this ad, so can your customers."	x2.ad_customers text	Xeen

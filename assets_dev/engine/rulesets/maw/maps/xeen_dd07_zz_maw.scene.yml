@@ -5,13 +5,13 @@ kind: indoor_scene_overlay
 initial_state:
   pack_reserve:
     scene_actors: 30
-    scene_check: "1072fe299fd96f03"
+    scene_check: "d35e082d053c6508"
     max_factor: 2.0
     monsters: 30
     actors:
       - {"from_factor":1.0333,"actor":{"actor_index":34,"name":"","npc_id":0,"attributes":524288,"hp":258,"hostility_type":0,"monster_info_id":11204,"monster_id":1824,"radius":68,"height":168,"move_speed":200,"position":{"x":-847,"y":1368,"z":1281},"initial_yaw_units":1536,"sprite_ids":[0,0,0,0],"sector_id":4,"current_action_animation":0,"carried_item_id":0,"group":17,"ally":0,"unique_name_index":0}}
       - {"from_factor":1.0667,"actor":{"actor_index":53,"name":"","npc_id":0,"attributes":524288,"hp":338,"hostility_type":0,"monster_info_id":11200,"monster_id":2475,"radius":68,"height":168,"move_speed":200,"position":{"x":-2153,"y":630,"z":1921},"initial_yaw_units":0,"sprite_ids":[0,0,0,0],"sector_id":21,"current_action_animation":0,"carried_item_id":0,"group":22,"ally":0,"unique_name_index":0}}
-      - {"from_factor":1.1,"actor":{"actor_index":57,"name":"","npc_id":0,"attributes":524288,"hp":162,"hostility_type":0,"monster_info_id":11203,"monster_id":1064,"radius":68,"height":168,"move_speed":200,"position":{"x":-173,"y":-146,"z":1},"initial_yaw_units":1024,"sprite_ids":[0,0,0,0],"sector_id":23,"current_action_animation":0,"carried_item_id":0,"group":10,"ally":0,"unique_name_index":0}}
+      - {"from_factor":1.1,"actor":{"actor_index":57,"name":"","npc_id":0,"attributes":524288,"hp":162,"hostility_type":0,"monster_info_id":11203,"monster_id":1064,"radius":68,"height":168,"move_speed":200,"position":{"x":-110,"y":-109,"z":1},"initial_yaw_units":1024,"sprite_ids":[0,0,0,0],"sector_id":23,"current_action_animation":0,"carried_item_id":0,"group":10,"ally":0,"unique_name_index":0}}
       - {"from_factor":1.1333,"actor":{"actor_index":30,"name":"","npc_id":0,"attributes":524288,"hp":258,"hostility_type":0,"monster_info_id":11204,"monster_id":1824,"radius":68,"height":168,"move_speed":200,"position":{"x":1441,"y":-219,"z":641},"initial_yaw_units":1024,"sprite_ids":[0,0,0,0],"sector_id":2,"current_action_animation":0,"carried_item_id":0,"group":14,"ally":0,"unique_name_index":0}}
       - {"from_factor":1.1667,"actor":{"actor_index":51,"name":"","npc_id":0,"attributes":524288,"hp":258,"hostility_type":0,"monster_info_id":11204,"monster_id":1824,"radius":68,"height":168,"move_speed":200,"position":{"x":1651,"y":1447,"z":1281},"initial_yaw_units":1536,"sprite_ids":[0,0,0,0],"sector_id":13,"current_action_animation":0,"carried_item_id":0,"group":18,"ally":0,"unique_name_index":0}}
       - {"from_factor":1.2,"actor":{"actor_index":35,"name":"","npc_id":0,"attributes":524288,"hp":162,"hostility_type":0,"monster_info_id":11203,"monster_id":1064,"radius":68,"height":168,"move_speed":200,"position":{"x":-165,"y":1696,"z":1281},"initial_yaw_units":1536,"sprite_ids":[0,0,0,0],"sector_id":4,"current_action_animation":0,"carried_item_id":0,"group":17,"ally":0,"unique_name_index":0}}

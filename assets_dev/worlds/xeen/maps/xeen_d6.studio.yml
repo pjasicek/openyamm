@@ -1,8 +1,8 @@
 # Written by oymap install: the Map Studio project this map was built from. The game's `pin` copies it into
 # every pin made on the map; `oymap pins import` files the pin into that project.
 project: "/home/pjasicek/github/OpenYAMM/devdocs/xeen/briefs/d6/L4"
-revision: "3195f873c84ebfed30e8b9fddf394de6"
-lock_hash: "5f606717cfbbfb36b29bdf16ed91cb45"
+revision: "3cd9424c23dd8da2caa449a6382315f5"
+lock_hash: "59f2a938a34abb467bcf8027ef7cf4f6"
 # Where a party arrives (`into: {map, arrival}` and a neighbour's `arrival: <name>` of other maps).
 arrivals:
   - {name: "start", at: [14336, -6656, 1664], facing: 1536}

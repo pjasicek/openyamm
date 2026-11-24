@@ -445,13 +445,13 @@ spawns:
     group: 51
   - id: spawn:foyer_1
     room: room:foyer
-    at: [-1600, -512]
+    at: [-1920, -704]
     slot: 1
     tier: a
     group: 51
   - id: spawn:foyer_2
     room: room:foyer
-    at: [-640, 512]
+    at: [-576, 320]
     slot: 1
     tier: a
     group: 51
@@ -522,7 +522,7 @@ monsters:
   - id: monster:sorceress_library_1
     room: room:library
     monster: 11180
-    at: [-384, 832]
+    at: [-512, 832]
     facing: 270
     hostile: true
     group: 1

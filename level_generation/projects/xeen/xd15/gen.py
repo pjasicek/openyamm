@@ -531,7 +531,7 @@ def rooms_yml():
 
 # Placed monsters: room -> group, [(row, (x, y), facing)]
 PLACED = [
-    ('paw_hall', 10, [(SAND, (-256, 1440), 270), (SAND, (256, 1440), 270), (SAND, (0, 1824), 270),
+    ('paw_hall', 10, [(SAND, (-960, 1440), 0), (SAND, (960, 1440), 180), (SAND, (-960, 1888), 0),
                       (STONE, (960, 1824), 270)]),
     ('gallery_w', 11, [(MUMMY, (-1792, 1856), 270), (MUMMY, (-1792, 2560), 270), (SAND, (-1664, 1216), 270),
                        (SAND, (-1664, 3072), 270)]),
@@ -597,7 +597,7 @@ def objects_yml():
          'surface': CARVED, 'top_surface': GOLD, 'treasure_level': 4, 'random_items': 3, 'gold': 1500,
          'notes': "The great sarcophagus in the middle of the west gallery: it opens only for a member of Might 40 "
                   "(D-39 Q4)."},
-        {'id': 'chest:vault', 'room': 'room:haunch_vault', 'at': F(0, 6040), 'kind': '7gt002', 'treasure_level': 4, 'random_items': 3, 'gold': 1200,
+        {'id': 'chest:vault', 'room': 'room:haunch_vault', 'at': F(384, 6104), 'kind': '7gt002', 'treasure_level': 4, 'random_items': 3, 'gold': 1200,
          'notes': "The vault's chest: its first opening hands over two Might Boosts of power 10 (D-39 Q4, D-22's "
                   "pattern, map qbit vault_potions 118010); no random Might Boost in it."},
         {'id': 'chest:lappet', 'room': 'room:west_lappet', 'at': F(-384, -2752), 'kind': 'ch1', 'treasure_level': 4, 'random_items': 2, 'gold': 900, 'notes': "A priest's chest in the west lappet."},

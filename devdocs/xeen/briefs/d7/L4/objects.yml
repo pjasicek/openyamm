@@ -31,7 +31,7 @@ sounds:
   - {id: sound:dragon_call_cap, room: room:air, at: [4608, 4768], height: 8150, sound: xeen_dragon_call, radius: 9000, inner_radius: 2500, volume: 0.45, wait: [25, 60], notes: "Cloud dragons calling far off (over the void: height from the safety floor, z 2,150)."}
   - {id: sound:dragon_call_cap_b, room: room:air, at: [13056, -1024], height: 1024, sound: xeen_dragon_call, radius: 9000, inner_radius: 2500, volume: 0.45, wait: [25, 60]}
   - {id: sound:dragon_call_east, room: room:air, at: [-20736, -4864], height: 1024, sound: xeen_dragon_call, radius: 9000, inner_radius: 2500, volume: 0.45, wait: [25, 60]}
-  - {id: sound:megadragon_sleep, room: room:air, at: [-19456, 9216], height: 128, sound: xeen_megadragon_sleep, radius: 3500, inner_radius: 900, volume: 0.6, notes: "The Megadragon asleep on the hatch (Q-D26): off on its kill and on every load after (evt:megadragon_death, evt:megadragon_gone: AmbientSound<key> 2)."}
+  - {id: sound:megadragon_sleep, room: room:air, at: [-19584, 10496], height: 128, sound: xeen_megadragon_sleep, radius: 3500, inner_radius: 900, volume: 0.6, notes: "The Megadragon asleep on the hatch (Q-D26): off on its kill and on every load after (evt:megadragon_death, evt:megadragon_gone: AmbientSound<key> 2)."}
   - {id: sound:sky_bed_1, room: room:air, at: [-21845, 11264], height: 1024, sound: xeen_amb_sky, radius: 16000, inner_radius: 11000, volume: 0.35, pan: false}
   - {id: sound:sky_bed_2, room: room:air, at: [0, 11264], height: 1024, sound: xeen_amb_sky, radius: 16000, inner_radius: 11000, volume: 0.35, pan: false}
   - {id: sound:sky_bed_3, room: room:air, at: [21845, 11264], height: 1024, sound: xeen_amb_sky, radius: 16000, inner_radius: 11000, volume: 0.35, pan: false}
@@ -379,12 +379,12 @@ monsters:
   - id: monster:megadragon
     room: room:air
     monster: 11654
-    at: [-19456, 9216]
+    at: [-19584, 10496]
     facing: 0
     hostile: true
     group: 60
     leash: 1024
-    notes: "Q-D26 (D-58 Q8): the Megadragon (125, uncounted) asleep on Castle Alamar's roof hatch, leashed 1,024 round it (the plan's leash; dungeon monsters take `leash` since merge point 26). Hidden on load once A3's kill qbit is set (D-3)."
+    notes: "Q-D26 (D-58 Q8): the Megadragon (125, uncounted) asleep by the crag over Castle Alamar's roof hatch (D-122: 2,235 from the hatch's landing, was on the hatch), leashed 1,024 round it (the plan's leash; dungeon monsters take `leash` since merge point 26). Hidden on load once A3's kill qbit is set (D-3)."
   - id: monster:mud_road_golems_1
     room: room:air
     monster: 11592

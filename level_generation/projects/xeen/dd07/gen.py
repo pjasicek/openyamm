@@ -551,7 +551,7 @@ def rooms_yml():
 
 # Placed monsters: room -> group, [(row, (x, y), facing)]; 30 (D-9.3, D-39 Q2).
 PLACED = [
-    ('well_foot', 10, [(ADEPT, (-256, 0), 180), (ADEPT, (0, 256), 180), (ADEPT, (0, -256), 180)]),
+    ('well_foot', 10, [(ADEPT, (-256, -192), 180), (ADEPT, (0, 256), 180), (ADEPT, (0, -256), 180)]),
     ('ring1', 11, [(ADEPT, (640, 640), 180), (ADEPT, (640, -640), 180)]),
     ('commons', 12, [(ADEPT, (-384, -1400), 90), (ADEPT, (384, -1400), 90)]),
     ('ring2', 13, [(ADEPT, (0, -736), 180), (ADEPT, (736, 320), 180), (MAGUS, (-640, 704), 0)]),
@@ -707,8 +707,8 @@ def objects_yml():
     # The commons: plates and a goblet on the table; a pair of casks by the wall.
     deco('commons_plates', 'commons', 'dec36', (-160, -1664), floor_height=72)
     deco('commons_goblet', 'commons', '7dec48', (160, -1664), floor_height=72)
-    deco('commons_cask_1', 'commons', '7dec21', (640, -1728))
-    deco('commons_cask_2', 'commons', '7dec21', (544, -1728))
+    deco('commons_cask_1', 'commons', '7dec21', (648, -1728))
+    deco('commons_cask_2', 'commons', '7dec21', (536, -1728))
     # The store room (store: true): barrels, sacks and jars in clumps along the walls.
     for i, (d, at) in enumerate([('bigbarel', (1152, 448)), ('bigbarel', (1248, 448)), ('smlbarel', (1344, 448)),
                                  ('floursac', (1152, -448)), ('bag01', (1248, -448)), ('bag_A', (1344, -448)),

@@ -425,7 +425,7 @@ monsters:
   - id: monster:chapel_shaman_1
     room: room:chapel
     monster: 11041
-    at: [0, 2048]
+    at: [-256, 2048]
     facing: 270
     hostile: true
     group: 1

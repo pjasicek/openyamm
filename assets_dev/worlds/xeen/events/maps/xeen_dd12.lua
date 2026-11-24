@@ -328,12 +328,12 @@ end, nil)
 
 -- evt:exit_left
 RegisterEvent(35, "Doors to the Isle", function()
-    evt.MoveToMap(4096, -3072, 1376, 1536, 0, 0, 0, 0, "xeen_d4.odm")
+    evt.MoveToMap(4096, -3072, 1184, 1536, 0, 0, 0, 0, "xeen_d4.odm")
 end, "Doors to the Isle")
 
 -- evt:exit_right
 RegisterEvent(36, "Doors to the Isle", function()
-    evt.MoveToMap(4096, -3072, 1376, 1536, 0, 0, 0, 0, "xeen_d4.odm")
+    evt.MoveToMap(4096, -3072, 1184, 1536, 0, 0, 0, 0, "xeen_d4.odm")
 end, "Doors to the Isle")
 
 -- evt:gate1

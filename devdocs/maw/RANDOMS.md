@@ -663,7 +663,11 @@ Not modelled (all change the numbers): map affixes (tiers and the Ã—(1 + (P+20)Â
 ### 7.1 Today in OpenYAMM
 
 - `game/gameplay/HouseServiceRuntime.cpp:450` seeds shop stock from `party.houseStockSeed()`, house id and
-  `refreshSequence`: already a keyed stream.
+  `refreshSequence`: already a keyed stream. Since 2026-11-24 a paid New stock also mixes in a fresh `random_device`
+  value, so a reload before it rolls a different shelf (Free); a timed restock stays keyed.
+- Event rolls (`evt.RandomJump`, `RandomBetween`, a random `GiveItem`, `SummonRandomItem`; `EventRuntime.cpp`
+  `nextEventRandom`) are one SplitMix64 stream per map visit, seeded from `random_device` on its first roll and never
+  saved (Free). Until 2026-11-24 an LCG seeded from the first event id and the hour, the same in every game.
 - `game/outdoor/OutdoorWorldRuntime.cpp:5182` creates `m_sessionChestSeed` from `random_device` and time when a map
   is first initialised, then saves it (`game/maps/SaveGame.cpp:1673`): chests are Visit-class, like MAW's.
 - `game/gameplay/CorpseLootRuntime.cpp:266, 355` use a `thread_local std::mt19937(random_device)`: corpse loot is

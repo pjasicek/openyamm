@@ -931,9 +931,9 @@ initial_state:
       height: 500
       move_speed: 300
       position:
-        x: -19456
-        y: 9216
-        z: 1552
+        x: -19584
+        y: 10496
+        z: 1536
       initial_yaw_units: 0
       leash_radius: 1024
       sprite_ids: [0, 0, 0, 0]
@@ -1622,7 +1622,7 @@ ambient_sounds:
     start_on: true
   - key: 14
     sound: xeen_megadragon_sleep
-    position: [-19456, 9216, 1680]
+    position: [-19584, 10496, 1664]
     inner_radius: 900
     outer_radius: 3500
     volume: 0.6

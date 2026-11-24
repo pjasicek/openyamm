@@ -214,11 +214,10 @@ def wiring():
     for k in (1, 2, 3):
         ev.append({
             'id': f'evt:nest_{k}', 'preset': 'script', 'source': f'platform:nest_{k}', 'title': 'Harpy Nest',
-            'question': {'ask': 'Destroy (Yes/No)?', 'answers': ['Yes', 'Y', 'yes', 'y'],
-                         'message': 'Harpy Nest. Destroy?', 'wrong_text': 'You leave the nest as it is.'},
             'effects': [{'hide': f'platform:nest_{k}'}, {'passable': f'platform:nest_{k}'},
                         {'lua': f'XeenQuests.hook("x8-sky.nest_{k}")'}],
-            'notes': f'poi:harpy_nests: the source\'s question (xeen/aaze0025:5); A3\'s hook x8-sky.nest_{k} (500 XP).'})
+            'notes': f'poi:harpy_nests: a click burns the nest (F47, the player\'s pins 2026-11-24: no Yes/No '
+                     f'for a quest goal; the source asked, xeen/aaze0025:5); A3\'s hook x8-sky.nest_{k} (500 XP).'})
     ev.append({'id': 'evt:explorer', 'preset': 'script', 'source': 'deco:explorer_statue', 'title': 'Statue',
                'effects': [{'lua': 'XeenQuests.hook("x8-sky.explorer_statue")'}],
                'notes': ('poi:explorer_statue: A3\'s hook (Super Explorer, +2 Speed; "I dub all who find me Super '

@@ -476,9 +476,12 @@ def rooms_yml():
 
 # Placed monsters: room -> group, [(row, (x, y), facing)]
 PLACED = [
-    ('ash_gallery', 10, [(DEMON, (1664, -128), 180), (DEMON, (2048, 128), 180), (DEMON, (2560, -96), 180)]),
+    # D-130 (2026-11-24): out of sight of the mouth's landing (256, 0), as the Darkside's hide.py found the spots; the
+    # gallery's last two in the vault ante-room's mouth (a fourth item: the room they stand in).
+    ('ash_gallery', 10, [(DEMON, (2016, -288), 180), (DEMON, (2048, -512), 180, 'vault_ante'),
+                         (DEMON, (2304, -480), 180, 'vault_ante')]),
     ('fire_lake', 11, [(DEMON, (3328, 1344), 180), (DEMON, (3328, -1344), 180), (DEVIL, (5920, 1344), 180)]),
-    ('fire_lake', 12, [(DEVIL, (4544, 192), 180), (DEVIL, (4928, 192), 180), (DEVIL, (4928, -192), 180)]),
+    ('fire_lake', 12, [(DEVIL, (4544, 1280), 180), (DEVIL, (5888, 192), 180), (DEVIL, (5888, -192), 180)]),  # D-130
     ('fissure', 13, [(DEMON, (5440, 2368), 270), (DEMON, (5696, 2880), 270)]),
     ('demon_shrine', 14, [(DEMON, (5248, 4096), 270), (DEMON, (6144, 4096), 270), (DEMON, (5696, 3840), 270)]),
     ('cinder_run', 15, [(DEMON, (6464, 1792), 90), (DEMON, (6464, -512), 90)]),
@@ -549,8 +552,8 @@ def objects_yml():
     monsters = []
     for rid, group, ms in PLACED:
         n0 = sum(1 for m in monsters if m['room'] == f'room:{rid}')
-        for n, (mon, at, facing) in enumerate(ms, n0 + 1):
-            monsters.append({'id': f'monster:{rid}_{n}', 'room': f'room:{rid}', 'monster': mon, 'at': F(*at),
+        for n, (mon, at, facing, *room) in enumerate(ms, n0 + 1):
+            monsters.append({'id': f'monster:{rid}_{n}', 'room': f'room:{room[0] if room else rid}', 'monster': mon, 'at': F(*at),
                              'facing': facing, 'hostile': True, 'group': group})
 
     decos = []
@@ -573,7 +576,7 @@ def objects_yml():
     # Bones and rock about the caves (cave rubble, off the walking lines, by the walls)
     for i, (rid, d, at) in enumerate([
             ('mouth', 'dec29', (128, 320)), ('mouth', '7dec18', (640, -320)),
-            ('ash_gallery', '7dec18', (1216, 240)), ('ash_gallery', 'dec29', (2752, -256)),
+            ('ash_gallery', '7dec18', (1245, 198)), ('ash_gallery', 'dec29', (2772, -209)),
             ('fire_lake', 'dec29', (3200, 1440)), ('fire_lake', '7dec18', (6048, -1440)),
             ('fire_lake', 'dec19', (3168, -1440)),
             ('fissure', 'dec29', (5344, 3200)),
@@ -675,10 +678,10 @@ def objects_yml():
     destructibles = [
         {'id': 'destructible:demon_skull', 'of': 'deco:demon_skull', 'hp': 1, 'damage': False, 'trigger_only': True,
          'material': 'stone', 'effect_scale': 0.6,
-         'notes': "Broken only by the altar's question (q-c26.demon_skull); shown broken on every later load."},
+         'notes': "Broken only by the altar's click (q-c26.demon_skull); shown broken on every later load."},
         {'id': 'destructible:devil_skull', 'of': 'deco:devil_skull', 'hp': 1, 'damage': False, 'trigger_only': True,
          'material': 'stone', 'effect_scale': 0.6,
-         'notes': "Broken only by the altar's question (q-c26.devil_skull)."},
+         'notes': "Broken only by the altar's click (q-c26.devil_skull)."},
     ]
     floors = [
         {'id': 'floor:lake', 'of': 'level:lake', 'kind': 'lava'},
@@ -743,10 +746,8 @@ def sound_at(name, x, y, z):
 
 SKULLS = {
     'demon': dict(altar='platform:demon_altar', deco='destructible:demon_skull', bit='demon_skull',
-                  ask="The skull of a demon grins wickedly at you, and you have a sudden desire to smash it.  Destroy?",
                   ref='aaze0046:0', at=(DEMON_ALTAR[0], DEMON_ALTAR[1], 140), title='Demon skull'),
     'devil': dict(altar='platform:devil_altar', deco='destructible:devil_skull', bit='devil_skull',
-                  ask="The skull of a devil stares at you as though daring you to damage it.  Destroy?",
                   ref='aaze0046:1', at=(DEVIL_ALTAR[0], DEVIL_ALTAR[1], 140), title='Devil skull'),
 }
 
@@ -771,14 +772,14 @@ def wiring_yml():
     # Doors
     e(id='evt:door_vault', preset='door', source='door:vault', title='Door')
     e(id='evt:door_shrine', preset='door', source='door:shrine', title='Iron door')
-    # The skulls (D-47; A3's hooks): a real choice, the source's question; Yes calls the hook and breaks the skull
+    # The skulls (D-47; A3's hooks): a click calls the hook and breaks the skull (D-121, 2026-11-24: no Yes/No for a
+    # quest goal; the source's question, aaze0046, was D-47's choice); the hook's line on the status line.
     for k, s in SKULLS.items():
         e(id=f'evt:{k}_skull', preset='script', source=s['altar'], title=s['title'],
           condition={'not': {'qbit': s['bit']}},
-          question={'ask': s['ask'], 'answers': ['yes', 'y']},
           effects=[hook(f'q-c26.{k}_skull'), {'destroy': s['deco']}, sound_at('xeen_fire_ignite', *s['at'])],
           else_effects=[hook(f'q-c26.{k}_skull')],
-          notes=f"{s['ref']}: the source's question (a real choice). Yes: A3's q-c26.{k}_skull (5,000; the second "
+          notes=f"{s['ref']}: a click (D-121; the source asked). A3's q-c26.{k}_skull (5,000; the second "
                 f"skull sets q-c26.done 112522) and the skull breaks; once broken the altar gives the hook's "
                 f"'splinters' line.")
         e(id=f'evt:{k}_skull_load', preset='script', trigger='load', condition={'qbit': s['bit']},
@@ -942,7 +943,7 @@ def plan_yml(level):
     pop = {}
     for rid, group, ms in PLACED:
         sid = ROOMS[rid].get('space', rid)
-        for mon, _, _ in ms:
+        for mon, *_ in ms:
             pop.setdefault(sid, {}).setdefault(mon, 0)
             pop[sid][mon] += 1
     spaces = []

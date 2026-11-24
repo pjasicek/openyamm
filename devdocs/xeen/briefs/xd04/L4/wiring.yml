@@ -344,7 +344,7 @@ events:
   - id: evt:skull_1
     preset: script
     source: deco:skull_1
-    question: {ask: "Toss a gem (Yes/No)?", answers: [Yes, Y], message: "\"Feed me!\" the skull demands, and clacks its jaw. 'A scroll of Mind Blast for it, dearie. One gem. A shiny one. And do something about that face.'", wrong_text: "'Cheapskate,' says the skull."}
+    question: {ask: "Toss a gem (Yes/No)?", answers: [Yes, Y], message: "\"Feed me!\" the skull demands, and clacks its jaw. 'Three scrolls of Mind Blast for it, dearie. One gem. A shiny one. And do something about that face.'", wrong_text: "'Cheapskate,' says the skull."}
     title: Talking skull (Mind)
     effects:
       - lua: |-
@@ -357,7 +357,9 @@ events:
           end
           if paid then
               GiveItem(358)
-              evt.StatusText("The skull spits out a scroll of Mind Blast. 'Pleasure doing business. Your nose is crooked.'")
+              GiveItem(358)
+              GiveItem(358)
+              evt.StatusText("The skull spits out three scrolls of Mind Blast. 'Pleasure doing business. Your nose is crooked.'")
           else
               evt.StatusText("'No gems, no scroll,' clacks the skull. 'Come back richer and prettier.'")
           end
@@ -365,7 +367,7 @@ events:
   - id: evt:skull_2
     preset: script
     source: deco:skull_2
-    question: {ask: "Pay a gem (Yes/No)?", answers: [Yes, Y], message: "The skull clacks its jaw. 'A scroll of Heal, dearie? One gem. A shiny one. And do something about that face.'", wrong_text: "'Cheapskate,' says the skull."}
+    question: {ask: "Pay a gem (Yes/No)?", answers: [Yes, Y], message: "The skull clacks its jaw. 'Three scrolls of Heal, dearie? One gem. A shiny one. And do something about that face.'", wrong_text: "'Cheapskate,' says the skull."}
     title: Talking skull (Body)
     effects:
       - lua: |-
@@ -378,7 +380,9 @@ events:
           end
           if paid then
               GiveItem(367)
-              evt.StatusText("The skull spits out a scroll of Heal. 'Pleasure doing business. Your nose is crooked.'")
+              GiveItem(367)
+              GiveItem(367)
+              evt.StatusText("The skull spits out three scrolls of Heal. 'Pleasure doing business. Your nose is crooked.'")
           else
               evt.StatusText("'No gems, no scroll,' clacks the skull. 'Come back richer and prettier.'")
           end
@@ -386,7 +390,7 @@ events:
   - id: evt:skull_3
     preset: script
     source: deco:skull_3
-    question: {ask: "Pay a gem (Yes/No)?", answers: [Yes, Y], message: "The skull clacks its jaw. 'A scroll of Sparks, dearie? One gem. A shiny one. And do something about that face.'", wrong_text: "'Cheapskate,' says the skull."}
+    question: {ask: "Pay a gem (Yes/No)?", answers: [Yes, Y], message: "The skull clacks its jaw. 'Three scrolls of Sparks, dearie? One gem. A shiny one. And do something about that face.'", wrong_text: "'Cheapskate,' says the skull."}
     title: Talking skull (Air)
     effects:
       - lua: |-
@@ -399,7 +403,9 @@ events:
           end
           if paid then
               GiveItem(314)
-              evt.StatusText("The skull spits out a scroll of Sparks. 'Pleasure doing business. Your nose is crooked.'")
+              GiveItem(314)
+              GiveItem(314)
+              evt.StatusText("The skull spits out three scrolls of Sparks. 'Pleasure doing business. Your nose is crooked.'")
           else
               evt.StatusText("'No gems, no scroll,' clacks the skull. 'Come back richer and prettier.'")
           end

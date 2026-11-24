@@ -141,7 +141,7 @@ hooks:
   shrine_minor:
     map: FD-04
     status: true   # D-90: experience, a find's answer or a death on the status line
-    where: "the Shrine of Minor Evil (a destructible; the map asks \"Shrine of Minor Evil. Destroy?\", dark/aazex122:17; its on_destroyed calls this, once)"
+    where: "the Shrine of Minor Evil (a destructible broken by a click, D-121; the source asked \"Shrine of Minor Evil. Destroy?\", dark/aazex122:17; its on_destroyed calls this, once)"
     sets: [shrine_minor]
     once: true
     do: [{xp: 1000}]
@@ -203,8 +203,9 @@ hooks:
         do: [{lua: "evt.SetMapVar(\"fd04_goober\", 1)"}]
   machine:
     map: FD-04
-    window: "a choice's answer, long (the Lord Xeen Machine, 213 characters)"
-    where: "the Lord Xeen Machine in the machine hall (behind the iron shutter): the map asks \"Lord Xeen Machine. Destroy?\" (dark/aazex124:0); Yes calls this, once; the map shows it dark on every load (machine_broken)"
+    status: true   # D-121 (2026-11-24): a click, no question; the answer on the status line
+    else_status: true   # D-121: the broken machine's line on the status line too
+    where: "the Lord Xeen Machine in the machine hall (behind the iron shutter): a click breaks it (D-121; the source asked \"Lord Xeen Machine. Destroy?\", dark/aazex124:0) and calls this, once; the map shows it dark on every load (machine_broken)"
     sets: [machine_broken, done]
     once: true
     do: [{xp: 10000}]

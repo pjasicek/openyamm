@@ -1,0 +1,33 @@
+format: 1
+counter: 2
+pins:
+  - id: pin:p1
+    text: "the duration of the text here is too short, i have to say, they are everywhere too short"
+    source: game
+    world: xeen
+    map: xeen_xd21.blv
+    pose:
+      position: [412.591, 4767.176, 0]
+      yaw_radians: 3.98
+      pitch_degrees: -17.625
+      heading_yaw_units: 1297
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-23T19:44:58
+    status: open
+    from: 20261123-194458-xeen_xd21.yml
+  - id: pin:p2
+    text: in MAW there is no Boss here in this Dungeon
+    source: game
+    world: xeen
+    map: xeen_xd21.blv
+    pose:
+      position: [3021.628, 3960.657, 256]
+      yaw_radians: 0.005
+      pitch_degrees: -8.498
+      heading_yaw_units: 2
+    picture: .oymap/pins/pictures/p2.png
+    author: user
+    created: 2026-11-23T20:10:09
+    status: open
+    from: 20261123-201009-xeen_xd21.yml

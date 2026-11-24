@@ -557,6 +557,8 @@ initial_state:
       x_offsets: [1920, 2176, 2176, 1920, 1920, 2176, 2176, 1920]
       y_offsets: [-1488, -1488, -1488, -1488, -1456, -1456, -1456, -1456]
       z_offsets: [-1602, -1602, -1282, -1282, -1282, -1282, -1602, -1602]
+      mover:
+        bodies: reverse
     - door_index: 1
       legacy_attributes: 0
       door_id: 2
@@ -574,6 +576,8 @@ initial_state:
       x_offsets: [528, 528, 528, 528, 496, 496, 496, 496]
       y_offsets: [384, 640, 640, 384, 384, 640, 640, 384]
       z_offsets: [-322, -322, -2, -2, -2, -2, -322, -322]
+      mover:
+        bodies: reverse
     - door_index: 2
       legacy_attributes: 0
       door_id: 3
@@ -585,7 +589,7 @@ initial_state:
       state: 2
       vertex_ids: [1022, 1023, 1024, 1025, 1026, 1027, 1028, 1029]
       face_ids: [790, 791, 792, 793, 794]
-      sector_ids: [8]
+      sector_ids: [8, 1]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
       x_offsets: [-968, -968, -968, -968, -952, -952, -952, -952]
@@ -610,7 +614,7 @@ initial_state:
       state: 2
       vertex_ids: [1030, 1031, 1032, 1033, 1034, 1035, 1036, 1037]
       face_ids: [795, 796, 797, 798, 799]
-      sector_ids: [2]
+      sector_ids: [2, 8]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
       x_offsets: [-2376, -2376, -2376, -2376, -2360, -2360, -2360, -2360]
@@ -635,7 +639,7 @@ initial_state:
       state: 2
       vertex_ids: [1038, 1039, 1040, 1041, 1042, 1043, 1044, 1045]
       face_ids: [800, 801, 802, 803, 804]
-      sector_ids: [14]
+      sector_ids: [14, 7]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
       x_offsets: [1076, 1076, 1076, 1076, 1100, 1100, 1100, 1100]
@@ -660,7 +664,7 @@ initial_state:
       state: 2
       vertex_ids: [1046, 1047, 1048, 1049, 1050, 1051, 1052, 1053]
       face_ids: [805, 806, 807, 808, 809]
-      sector_ids: [11]
+      sector_ids: [11, 3]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
       x_offsets: [-1976, -1976, -1976, -1976, -1992, -1992, -1992, -1992]
@@ -685,7 +689,7 @@ initial_state:
       state: 2
       vertex_ids: [1054, 1055, 1056, 1057, 1058, 1059, 1060, 1061]
       face_ids: [810, 811, 812, 813, 814]
-      sector_ids: [3]
+      sector_ids: [3, 12]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
       x_offsets: [-3352, -3352, -3352, -3352, -3368, -3368, -3368, -3368]
@@ -705,7 +709,7 @@ initial_state:
 party_start_points:
   - start_index: 0
     source_name: StartPoint0
-    position: [0, 704, 0]
+    position: [0, 1600, 224]
     direction_degrees: 270
 loot_containers:
   - source_id: xeen:xeen_xd24:feast

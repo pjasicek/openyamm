@@ -417,7 +417,10 @@ GROUPS = [  # placed, hostile at load; space for the census; at: the group's mid
     dict(id='pop:camp_golems', actor=11592, count=3, space='room:skywaymen_camp', at=(-16384, -18176)),
     dict(id='pop:water_road_golems', actor=11592, count=2, space='link:s5', at=(-23040, -18432)),
 ]
-BOSS = dict(id='pop:megadragon', actor=11654, count=1, space='room:roost', at=(-19456, 9216), leash=1024)
+# D-122 (2026-11-24): the open-air arrival rule (check_arrivals.py): nothing that moves or shoots within 2,000 of a
+# landing with a clear line. On the hatch the Megadragon lay 1,086 from DD-17's and FD-01's landing (-18688, 8448); now
+# by the crag's east foot, 2,235 from it, its leash circle still 5,888 or more from every other walkable place (6,019).
+BOSS = dict(id='pop:megadragon', actor=11654, count=1, space='room:roost', at=(-19584, 10496), leash=1024)
 BREATH_MARGIN = 5888          # D-54: Ice Blast's 5,120 + 768, kept from every walkable place but its own road
 BANDITS = [  # placed peaceful at the tolls; hostile on a refusal (question 3); not counted at load
     dict(id='pop:bandits_north', space='room:north_toll', at=(5632, 19200), count=2),

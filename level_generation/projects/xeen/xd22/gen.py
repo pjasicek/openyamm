@@ -593,7 +593,9 @@ objects = {
 NINJA, SHADOW, MASTER_N, CLAN_MASTER, SURVIVOR = 11120, 11121, 11122, 11123, 11124
 PLACED = [
     # room, group, [(monster, at, facing)]
-    ('porch', 10, [(NINJA, [-250, -760], 90), (NINJA, [250, -760], 90)]),
+    # D-130 (2026-11-24): the porch has no spot out of sight of the landing (0, -256): its two wait in the kitchen's
+    # and the shrine's mouths (hide.py's spots; a fourth item: the room they stand in).
+    ('porch', 10, [(NINJA, [-666, -728], 90, 'kitchen'), (NINJA, [410, -1240], 90, 'shrine')]),
     ('kitchen', 11, [(NINJA, [-1200, -500], 0), (NINJA, [-900, -800], 0)]),
     ('shrine', 12, [(NINJA, [-700, -1500], 90), (NINJA, [600, -1500], 90), (NINJA, [-600, -1900], 90)]),
     ('dorm', 13, [(NINJA, [600, -420], 180), (NINJA, [640, -300], 180), (NINJA, [1150, -1500], 180)]),
@@ -608,9 +610,9 @@ PLACED = [
 ]
 GROUP_NOTES = {15: "behind cell 1's paper", 16: "behind cell 2's paper", 13: "two behind the paper wall"}
 for rid, group, ms in PLACED:
-    for n, (mon, at, facing) in enumerate(ms, 1):
+    for n, (mon, at, facing, *room) in enumerate(ms, 1):
         key = f'{rid}_{group}_{n}' if rid == 'screens' else f'{rid}_{n}'
-        m = {'id': f'monster:{key}', 'room': 'room:' + rid, 'monster': mon, 'at': at, 'facing': facing,
+        m = {'id': f'monster:{key}', 'room': 'room:' + (room[0] if room else rid), 'monster': mon, 'at': at, 'facing': facing,
              'hostile': True, 'group': group}
         if group in GROUP_NOTES:
             m['notes'] = GROUP_NOTES[group]

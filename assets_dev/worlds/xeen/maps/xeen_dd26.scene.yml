@@ -505,7 +505,7 @@ initial_state:
       state: 2
       vertex_ids: [568, 569, 570, 571, 572, 573, 574, 575]
       face_ids: [444, 445, 446, 447, 448]
-      sector_ids: [2]
+      sector_ids: [2, 3]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
       x_offsets: [-128, 0, 0, -128, -128, 0, 0, -128]
@@ -530,7 +530,7 @@ initial_state:
       state: 2
       vertex_ids: [576, 577, 578, 579, 580, 581, 582, 583]
       face_ids: [449, 450, 451, 452, 453]
-      sector_ids: [2]
+      sector_ids: [2, 3]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
       x_offsets: [0, 128, 128, 0, 0, 128, 128, 0]
@@ -561,6 +561,8 @@ initial_state:
       x_offsets: [2440, 2440, 2440, 2440, 2456, 2456, 2456, 2456]
       y_offsets: [1216, 960, 960, 1216, 1216, 960, 960, 1216]
       z_offsets: [384, 384, 768, 768, 768, 768, 384, 384]
+      mover:
+        bodies: reverse
     - door_index: 3
       legacy_attributes: 0
       door_id: 4
@@ -578,6 +580,8 @@ initial_state:
       x_offsets: [-2440, -2440, -2440, -2440, -2456, -2456, -2456, -2456]
       y_offsets: [960, 1216, 1216, 960, 960, 1216, 1216, 960]
       z_offsets: [384, 384, 768, 768, 768, 768, 384, 384]
+      mover:
+        bodies: reverse
     - door_index: 4
       legacy_attributes: 0
       door_id: 5
@@ -589,7 +593,7 @@ initial_state:
       state: 2
       vertex_ids: [600, 601, 602, 603, 604, 605, 606, 607, 608, 609, 610, 611]
       face_ids: [458, 459, 460, 461, 462]
-      sector_ids: [8]
+      sector_ids: [8, 9]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
       x_offsets: [3124, 3124, 3124, 3124, 3148, 3148, 3148, 3148, 3148, 3148, 3148, 3148]
@@ -614,7 +618,7 @@ initial_state:
       state: 2
       vertex_ids: [612, 613, 614, 615, 616, 617, 618, 619, 620, 621, 622, 623]
       face_ids: [463, 464, 465, 466, 467]
-      sector_ids: [8]
+      sector_ids: [8, 9]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
       x_offsets: [3124, 3124, 3124, 3124, 3148, 3148, 3148, 3148, 3148, 3148, 3148, 3148]

@@ -313,7 +313,7 @@ monsters:
   - id: monster:hall_golem_1
     room: room:great_hall
     monster: 11580
-    at: [-640, 2304]
+    at: [-960, 2560]
     facing: 270
     hostile: true
     group: 10
@@ -321,7 +321,7 @@ monsters:
   - id: monster:hall_golem_2
     room: room:great_hall
     monster: 11580
-    at: [-320, 2560]
+    at: [-768, 2560]
     facing: 270
     hostile: true
     group: 10
@@ -329,7 +329,7 @@ monsters:
   - id: monster:hall_golem_3
     room: room:great_hall
     monster: 11580
-    at: [320, 2560]
+    at: [704, 2432]
     facing: 270
     hostile: true
     group: 10
@@ -353,7 +353,7 @@ monsters:
   - id: monster:hall_golem_6
     room: room:great_hall
     monster: 11580
-    at: [384, 1600]
+    at: [448, 1600]
     facing: 270
     hostile: true
     group: 10

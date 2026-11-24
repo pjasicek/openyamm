@@ -1,5 +1,5 @@
 format: 1
-counter: 3
+counter: 7
 pins:
   - id: pin:p1
     text: the inside texture are missing
@@ -24,3 +24,63 @@ pins:
         revision: 486cf85b9c6ec4f69cd93e954331761e
         status: resolved
         pictures: [.oymap/pins/pictures/p1-r1.png]
+  - id: pin:p2
+    text: "there is an item but i cannot pick it up, the trash heap is hiding it"
+    source: game
+    world: xeen
+    map: xeen_xd02.blv
+    pose:
+      position: [12895.63, 6658.28, -192]
+      yaw_radians: 2.501
+      pitch_degrees: -20.718
+      heading_yaw_units: 815
+    picture: .oymap/pins/pictures/p2.png
+    author: user
+    created: 2026-11-23T14:55:34
+    status: open
+    from: 20261123-145534-xeen_xd02.yml
+  - id: pin:p3
+    text: "this was hard to activate, also if you leave the dungeon, the monsters will kill you :D"
+    source: game
+    world: xeen
+    map: xeen_xd02.blv
+    pose:
+      position: [3137.528, 5192.54, 256]
+      yaw_radians: 2.711
+      pitch_degrees: -17.47
+      heading_yaw_units: 884
+    picture: .oymap/pins/pictures/p3.png
+    author: user
+    created: 2026-11-23T15:12:54
+    status: open
+    from: 20261123-151254-xeen_xd02.yml
+  - id: pin:p4
+    text: "if you fall down, you can't go out"
+    source: game
+    world: xeen
+    map: xeen_xd02.blv
+    pose:
+      position: [11456.868, 4645, -1792]
+      yaw_radians: 2.678
+      pitch_degrees: 14.321
+      heading_yaw_units: 873
+    picture: .oymap/pins/pictures/p4.png
+    author: user
+    created: 2026-11-23T15:14:28
+    status: open
+    from: 20261123-151428-xeen_xd02.yml
+  - id: pin:p5
+    text: you get stuck here
+    source: game
+    world: xeen
+    map: xeen_xd02.blv
+    pose:
+      position: [9273.092, 4543.415, -384]
+      yaw_radians: 5.567
+      pitch_degrees: -85.328
+      heading_yaw_units: 1815
+    picture: .oymap/pins/pictures/p5.png
+    author: user
+    created: 2026-11-23T15:16:13
+    status: open
+    from: 20261123-151613-xeen_xd02.yml

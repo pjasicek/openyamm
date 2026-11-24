@@ -189,6 +189,9 @@ settlements:
     palette: [{row: 349, race: human}, {row: 364, race: human}, {row: 598, race: human}, {row: 517, race: human}]
     count: 12
     group: 47
+    # the graveyard isle (the ferry's house stands on it, so it was within reach of a door): no villager there; one
+    # stood at (73.62, 70.62) with no walked-on land joined to the start (check_reach.py reach.spawn, 2026-11-24)
+    avoid: [{at: [72.5, 69.5], radius: 2600}]
     neighbours: [Castleview, the treehouse village]
   - name: Necropolis
     map: D6

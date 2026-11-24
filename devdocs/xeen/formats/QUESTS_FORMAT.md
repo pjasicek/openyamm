@@ -443,9 +443,19 @@ beside `evt.CheckMonstersKilled`, or whose `where` says "'s death") says `status
 window. Real containers become chests holding the item (`map_gives`), and a bare item in the open a placed 3D ground
 item; both are the map lanes' (`output/a3_s34/d90_finds.md` sorts the session-34 list).
 
+**A find is once or a harvest (X1 p26, 2026-11-24).** A hook that `gives:` items says `once: true` (one find) or
+`harvest: <n>`: each map event that calls it (each plant, each spot) gives `n` times and then shows `else_text` until
+the map refills. `XeenQuests.hook` keeps a named map variable per spot (`xeen.harvest.<hook>.<event id>`, the event id
+from `CurrentEventId()`), and a map's refill clears its map variables, the MM6–MM8 rule for reagent finds and
+campfires. The limit is the spot, never what the party carries: a `requires` that asks the party to lack an item the
+hook gives is refused (the original's "one Phirna root at a time" let a party throw the root away and dig again, 60
+potions). `gen_quests.py` refuses a `gives:` hook with neither, and the table lists `harvest`. The Phirna plants
+(`q-c21.phirna_plant`, one root a plant) are the one harvest so far.
+
 The map lane either uses the numbers in its studio project (`qbits:`/`items:` tables) or calls `call` from a `lua:`
 effect; when the studio learns a `hook:` word (A1, W5), it reads this table directly. `XeenQuests.hook(name)` returns
-true when it ran, false when its `requires` failed or a `once` hook already ran (it then shows `else_text` if given).
+true when it ran, false when its `requires` failed, a `once` hook already ran or a `harvest` spot is used up (it then
+shows `else_text` if given).
 `XeenQuests.can(name)` tests `requires` without running anything (for doors). A hook that a quest needs but no map
 has wired is listed by `quests.py` as open.
 

@@ -195,27 +195,18 @@ RegisterEvent(24, nil, function()
 end, nil)
 
 -- evt:transformer
-RegisterEvent(25, "Transformer", function(continueStep)
-    if continueStep == 2 then
-        evt.SetDoorState(2, DoorAction.Open)
-        evt.SetDoorState(8, DoorAction.Open)
-        XeenQuests.hook("q-c5.transformer")
-        evt.SetLight(40004, 0)
-        evt.SetLight(40005, 1)
-        evt.SetTexture(1, "xnrustirn")
-        evt.SetMapVar('AmbientSound4', 2)
-        return
-    end
-    if continueStep ~= nil then
-        evt.StatusText("You leave the machine humming. Somewhere above, someone hisses.", 6)
-        return
-    end
+RegisterEvent(25, "Transformer", function()
     if not (not (IsQBitSet(QBit(112102)))) then
         XeenQuests.hook("q-c5.transformer")
         return
     end
-    evt.SetMessage("You have found the transformer!  Do you wish to destroy it?")
-    evt.AskQuestion(25, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    evt.SetDoorState(2, DoorAction.Open)
+    evt.SetDoorState(8, DoorAction.Open)
+    XeenQuests.hook("q-c5.transformer")
+    evt.SetLight(40004, 0)
+    evt.SetLight(40005, 1)
+    evt.SetTexture(1, "xnrustirn")
+    evt.SetMapVar('AmbientSound4', 2)
 end, "Transformer")
 
 -- evt:studio_peaceful_groups

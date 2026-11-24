@@ -305,7 +305,7 @@ objects['monsters'].append({'id': 'monster:hobstadt', 'room': 'room:hall', 'mons
 DECOS = [
     ('pit_bones', 'room:pit', 'dec29', [-300, -330]),
     ('pit_skull', 'room:pit', '7dec20', [330, 320]),
-    ('gate_skulls_n', 'room:hall_gate', 'sklplrev', [720, 320]),
+    ('gate_skulls_n', 'room:hall_gate', 'sklplrev', [720, 240]),
     ('gate_skulls_s', 'room:hall_gate', 'sklplrev', [720, -320]),
     ('hall_skulls_1', 'room:hall', 'sklplrev', [1500, 690]),
     ('hall_skulls_2', 'room:hall', 'sklplrev', [1500, -690]),

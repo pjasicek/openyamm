@@ -151,7 +151,7 @@ end, "Door")
 RegisterEvent(376, nil, function()
     if not IsQBitSet(QBit(534)) then return end -- Kill Wromthrax the Heartless in his cave in Tatalia, then talk to Sir Charles Quixote.
     if IsQBitSet(QBit(535)) then return end -- Killed dragon when on Crusader quest
-    if evt.CheckMonstersKilled(ActorKillCheck.Group, 56, 1, false) then -- actor group 56: Blue Dragon; at least 1 matching actor defeated
+    if evt.CheckMonstersKilled(ActorKillCheck.Group, 56, 1, true) then -- actor group 56: Blue Dragon; at least 1 matching actor defeated
         evt.ForPlayer(Players.All)
         SetQBit(QBit(535)) -- Killed dragon when on Crusader quest
         evt.SetNPCGreeting(356, 0) -- Sir Charles Quixote greeting cleared

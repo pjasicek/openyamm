@@ -716,7 +716,7 @@ monsters:
   - id: monster:well_foot_1
     room: room:well_foot
     monster: 11203
-    at: [-256, 0]
+    at: [-256, -192]
     facing: 180
     hostile: true
     group: 10
@@ -763,11 +763,11 @@ decorations:
   - id: deco:commons_cask_1
     room: room:commons
     decoration: 7dec21
-    at: [640, -1728]
+    at: [648, -1728]
   - id: deco:commons_cask_2
     room: room:commons
     decoration: 7dec21
-    at: [544, -1728]
+    at: [536, -1728]
   - id: deco:commons_goblet
     room: room:commons
     decoration: 7dec48

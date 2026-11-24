@@ -1040,13 +1040,18 @@ for k in SHRINES:
     cond = {'not': {'destroyed': f'destructible:shrine_{k}'}}
     if k == 'ultimate':
         cond = {'all': [cond, {'not': {'qbit': 'ultimate_broken'}}]}
+    # D-121 (2026-11-24): the three lesser shrines break at the click (no Yes/No for a quest goal; the hook's line on
+    # the status line); the Ultimate shrine keeps its question (70 Fire damage and out of the dungeon: a real choice).
+    ask = k == 'ultimate'
     events.append({'id': f'evt:shrine_{k}', 'preset': 'script', 'source': f'platform:shrine_{k}',
                    'title': f'Shrine of {k.title()} Evil', 'condition': cond,
-                   'question': {'message': SHRINE_ASK[k], 'ask': 'Destroy (Yes/No)?', 'answers': ['Yes', 'Y']},
+                   **({'question': {'message': SHRINE_ASK[k], 'ask': 'Destroy (Yes/No)?', 'answers': ['Yes', 'Y']}}
+                      if ask else {}),
                    'effects': [{'destroy': f'destructible:shrine_{k}'}],
                    'else_effects': [{'text': 'The shrine lies broken.'}],
-                   'notes': f"{SHRINE_REF[k]}: a real choice; Yes breaks it (its on_destroyed does the rest); blows "
-                            "and spells too."})
+                   'notes': f"{SHRINE_REF[k]}: " + ("a real choice (D-121 keeps it); Yes breaks it" if ask else
+                                                    "a click breaks it (D-121; the source asked)")
+                            + " (its on_destroyed does the rest); blows and spells too."})
     down = [hook(f'q-f2.shrine_{k}'), snd('6stone door0101', *SHRINES[k][1], ZS + 160)]
     if k == 'ultimate':
         down += [{'shake': {'strength': 2, 'seconds': 3}}, {'leave': 'exit:x7_gate'}]
@@ -1121,9 +1126,9 @@ events += [
               "FD-03's heads' (m41.plaques_l4)."},
     {'id': 'evt:machine', 'preset': 'script', 'source': 'platform:machine', 'title': 'Lord Xeen Machine',
      'condition': {'not': {'destroyed': 'destructible:machine'}},
-     'question': {'message': 'Lord Xeen Machine. Destroy?', 'ask': 'Destroy (Yes/No)?', 'answers': ['Yes', 'Y']},
      'effects': [{'destroy': 'destructible:machine'}], 'else_effects': [hook('q-f2.machine')],
-     'notes': "aazex124:0: a real choice; Yes breaks it (its on_destroyed does the rest); blows and spells too."},
+     'notes': "aazex124:0: a click breaks it (D-121, 2026-11-24: no Yes/No for a quest goal; the source asked); its "
+              "on_destroyed does the rest, q-f2.machine's line on the status line; blows and spells too."},
     {'id': 'evt:machine_down', 'preset': 'script', 'trigger': 'call',
      'effects': [hook('q-f2.machine'), {'shake': {'strength': 1.5, 'seconds': 3}},
                  {'lights_off': [f'light:core_{k}' for k in CORE_AT]},

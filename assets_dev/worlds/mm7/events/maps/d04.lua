@@ -72,7 +72,7 @@ RegisterEvent(1, nil, function()
 end)
 
 RegisterEvent(2, nil, function()
-    if evt.CheckMonstersKilled(ActorKillCheck.ActorIdOe, 34, 1, false) then -- OE actor 34; at least 1 matching actor defeated
+    if evt.CheckMonstersKilled(ActorKillCheck.ActorIdOe, 34, 1, true) then -- OE actor 34; at least 1 matching actor defeated
         SetQBit(QBit(755)) -- Killed High Preist of Baa
     end
 end)

@@ -17,3 +17,6 @@ grep -E "^warning|^built" $C/run/build.log | grep -v "faces in one plane" | cut 
 python3 level_generation/projects/xeen/d2/measure.py $C/build $P || true
 python3 level_generation/projects/xeen/x1/measure.py $C/build $P | grep -E "quiet|hostiles|encounter|chests|open meadow" || true
 python3 level_generation/projects/xeen/x1/dress_check.py $C/build xeen_d2 || true
+# D-85/D-87 and D-15's first fight (D-133): D-136 keeps Q-D11's fort camps (groups 1, 2: melee ogres guarding the
+# DD-13 gates from outside) at the gates' arrivals
+python3 level_generation/projects/xeen/x2/check_d85.py $C/build/xeen_d2.scene.yml --kept-group 1 --kept-group 2 > $C/run/d85.txt || { grep -E '^ERROR' $C/run/d85.txt; echo 'D-85/D-87 check failed'; exit 1; }

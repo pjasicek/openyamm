@@ -248,49 +248,49 @@ districts:
   - space: town:castleview
     polygon: [[50, 47], [53, 44], [73, 44], [76, 47], [76, 61], [73, 64], [54, 64], [50, 60]]
     plots:
-      - {building: building:cv_tavern, at: [59.5, 45.5], facing: e, parts: [{id: body, at: [64, 64], size: [800, 896], porches: [{wall: e, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: e, bay: 0, texture: sgtvrn, size: [64, 64], bottom: 120, out: 48, hang: true}], walls: {e: [[post_left, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [post_right, 128]]}, upper_walls: {e: [[post_left, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [post_right, 128]]}, roof: gable, roof_pitch: 48, ridge_along: ew}], textures: {door: t09a03a, gable: t09c01, post_left: t09c06, post_right: t09c07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09c01, window: t09c04b}, house: 4456, title: The Catapult and Crust, kit: grey, door: {leaves: 2, part: body, wall: e}}
-      - {building: building:cv_inn, at: [59.5, 48], facing: e, parts: [{id: body, at: [464, 48], size: [512, 928], signs: [{wall: e, bay: 0, texture: sginn, size: [64, 64], bottom: 120, out: 48, hang: true}], walls: {e: [[post_left, 128], [window, 128], [wall, 80], [door, 256], [wall, 80], [window, 128], [post_right, 128]]}, upper_walls: {e: [[post_left, 128], [window, 128], [wall, 80], [wall, 64], [window, 128], [wall, 64], [wall, 80], [window, 128], [post_right, 128]]}, roof: gable, roof_pitch: 45, ridge_along: ns}, {id: wing, at: [64, 512], size: [480, 400], roof: gable, roof_pitch: 45, ridge_along: ew}], textures: {door: t09a03a, gable: t09c01, post_left: t09c06, post_right: t09c07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09c01, window: t09c04b}, house: 4465, title: The Adventurer's Inn, kit: grey, door: {leaves: 2, part: body, wall: e}}
-      - {building: building:cv_weapons, at: [65, 45], facing: w, parts: [{id: body, at: [96, 48], size: [608, 634], signs: [{wall: w, bay: 0, texture: sgweap, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: t06a03}, walls: {w: [[window, 128], [wall, 61], [door, 256], [wall, 61], [window, 128]]}, upper_walls: {w: [[window, 128], [wall, 61], [wall, 64], [window, 128], [wall, 64], [wall, 61], [window, 128]]}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: chimney, at: [528, 570], size: [96, 96], wall_height: 512, windows: none, roof: flat}, {id: shed, at: [160, 698], size: [448, 302], posts: 16, wall_height: 176, windows: none, roof: lean_to, roof_height: 64, roof_low: s}, {id: bench, at: [224, 722], size: [256, 96], textures: {roof: 7trimda, wall: t06a10}, wall_height: 96, windows: none, roof: flat}, {id: crate, at: [472, 864], size: [96, 96], textures: {roof: 7trimda, wall: 7trimda}, wall_height: 96, windows: none, roof: flat}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4451, title: The Siege Smithy, kit: grey, door: {leaves: 2, part: body, wall: w}}
-      - {building: building:cv_armour, at: [64.5, 48.5], facing: w, parts: [{id: body, at: [112, 96], size: [576, 832], signs: [{wall: w, bay: 0, texture: sgarm, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: t06a03}, walls: {w: [[post_left, 128], [window, 128], [wall, 32], [door, 256], [wall, 32], [window, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [window, 128], [wall, 32], [wall, 64], [window, 128], [wall, 64], [wall, 32], [window, 128], [post_right, 128]]}, roof: none}, {id: upper, at: [64, 48], size: [656, 928], bottom: 256, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ns}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4452, title: Castleview Mail, kit: grey, door: {leaves: 2, part: body, wall: w}}
-      - {building: building:cv_jail, at: [66.5, 45], facing: s, parts: [{id: body, at: [64, 64], size: [1152, 640], signs: [{wall: s, bay: 0, texture: xljail, size: [128, 64], bottom: 120, out: 48, hang: true}], roof: hip, roof_pitch: 38}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4468, title: Castleview Jail, kit: grey, door: {part: body, wall: s}}
-      - {building: building:cv_houses, index: 11, at: [66.5, 48.5], facing: s, parts: [{id: body, at: [64, 64], size: [896, 384], walls: {s: [[post_left, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [post_right, 128]]}, upper_walls: {s: [[post_left, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [post_right, 128]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4485, title: Wainwright's, kit: grey, door: {leaves: 2, part: body, wall: s}}
-      - {building: building:cv_magic, at: [57, 50.5], facing: e, parts: [{id: tower, shape: round, at: [396, 512], radius: 348, sides: 10, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [546, 225], size: [430, 573], signs: [{wall: e, bay: 0, texture: sgmagic, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: gable, roof_pitch: 48, ridge_along: ew}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4453, title: The Amber Lamp, kit: grey, door: {part: body, wall: e}}
-      - {building: building:cv_alchemist, at: [57, 53.5], facing: e, parts: [{id: body, at: [64, 64], size: [544, 640], porches: [{wall: e, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: e, bay: 0, texture: sgalch, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: t06a03}, walls: {e: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {e: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: gable, roof_pitch: 48, ridge_along: ew}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4454, title: Zelda's Herbs and Remedies, kit: grey, door: {leaves: 2, part: body, wall: e}}
-      - {building: building:cv_town_hall, at: [67.5, 51], facing: w, parts: [{id: body, at: [48, 48], size: [640, 1440], walls: {w: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 80], [door, 256], [wall, 80], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 80], [wall, 64], [window, 128], [wall, 64], [wall, 80], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, roof: gable, roof_pitch: 45, ridge_along: ns}, {id: wing, at: [608, 768], size: [608, 656], roof: gable, roof_pitch: 45, ridge_along: ew}], textures: {door: t09a03a, gable: t09c01, post_left: t09c06, post_right: t09c07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09c01, window: t09c04b}, house: 4466, title: Castleview Town Hall, kit: grey, door: {leaves: 2, part: body, wall: w}}
-      - {building: building:cv_bank, at: [67.5, 54.5], facing: w, parts: [{id: body, at: [64, 64], size: [896, 896], signs: [{wall: w, bay: 0, texture: sgbank, size: [64, 64], bottom: 120, out: 48, hang: true}], walls: {w: [[post_left, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [post_right, 128]]}, roof: hip, roof_pitch: 38}], textures: {door: t09a03a, gable: t09c01, post_left: t09c06, post_right: t09c07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09c01, window: t09c04b}, house: 4457, title: Castleview Strongroom, kit: grey, door: {leaves: 2, part: body, wall: w}}
-      - {building: building:cv_guild_fire, at: [52.5, 58.5], facing: n, parts: [{id: body, at: [48, 48], size: [928, 512], signs: [{wall: n, bay: 0, texture: sgfire, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [512, 480], size: [400, 480], roof: gable, roof_pitch: 45, ridge_along: ns}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4459, title: Castleview Guild of Fire, kit: grey, door: {part: body, wall: n}}
-      - {building: building:cv_guild_air, at: [55, 58.5], facing: n, parts: [{id: tower, shape: round, at: [512, 628], radius: 348, sides: 10, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [225, 48], size: [573, 430], signs: [{wall: n, bay: 0, texture: sgair, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: gable, roof_pitch: 48, ridge_along: ns}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4460, title: Castleview Guild of Air, kit: grey, door: {part: body, wall: n}}
-      - {building: building:cv_guild_water, at: [57.5, 58.5], facing: n, parts: [{id: body, at: [64, 160], size: [896, 800], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: n, bay: 0, texture: sgwater, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: gable, roof_pitch: 48, ridge_along: ns}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4461, title: Castleview Guild of Water, kit: grey, door: {part: body, wall: n}}
-      - {building: building:cv_guild_earth, at: [60, 58.5], facing: n, parts: [{id: body, at: [48, 48], size: [928, 512], signs: [{wall: n, bay: 0, texture: sgearth, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [512, 480], size: [400, 480], roof: gable, roof_pitch: 45, ridge_along: ns}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4462, title: Castleview Guild of Earth, kit: grey, door: {part: body, wall: n}}
-      - {building: building:cv_guild_body, at: [62.5, 58.5], facing: n, parts: [{id: body, at: [64, 64], size: [896, 896], signs: [{wall: n, bay: 0, texture: sgbody, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: hip, roof_pitch: 38}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4463, title: Castleview Guild of Body, kit: grey, door: {part: body, wall: n}}
-      - {building: building:cv_temple, at: [70.5, 58.5], facing: w, parts: [{id: nave, at: [64, 64], size: [1152, 1408], wall_height: 416, roof: gable, roof_pitch: 50, ridge_along: ew}, {id: tower, at: [1184, 624], size: [288, 288], wall_height: 832, windows: none, roof: hip, roof_pitch: 62}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4455, title: Temple of Mok, kit: grey, door: {part: nave, wall: w}}
-      - {building: building:cv_training, at: [72, 48.5], facing: w, parts: [{id: body, at: [48, 48], size: [793, 1184], signs: [{wall: w, bay: 0, texture: sgtrain, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: t06a03}, walls: {w: [[post_left, 128], [wall, 128], [window, 128], [wall, 80], [door, 256], [wall, 80], [window, 128], [wall, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [wall, 128], [window, 128], [wall, 80], [wall, 64], [window, 128], [wall, 64], [wall, 80], [window, 128], [wall, 128], [post_right, 128]]}, roof: gable, roof_pitch: 40, ridge_along: ns}, {id: shed, at: [825, 96], size: [422, 1024], wall_height: 192, windows: none, roof: lean_to}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4458, title: The Barracks Yard, kit: grey, door: {leaves: 2, part: body, wall: w}}
-      - {building: building:cv_stables, at: [72, 52], facing: w, parts: [{id: body, at: [48, 48], size: [793, 1440], signs: [{wall: w, bay: 0, texture: sgstabl, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: t06a03}, walls: {w: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 80], [door, 256], [wall, 80], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 80], [wall, 64], [window, 128], [wall, 64], [wall, 80], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, roof: gable, roof_pitch: 40, ridge_along: ns}, {id: shed, at: [825, 96], size: [422, 1280], wall_height: 192, windows: none, roof: lean_to}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4464, title: Kramer's Caravans, kit: grey, door: {leaves: 2, part: body, wall: w}}
-      - {building: building:cv_houses, index: 17, at: [73, 56], facing: w, parts: [{id: body, at: [64, 64], size: [384, 384], walls: {w: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {w: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4491, title: Saddler's, kit: grey, door: {leaves: 2, part: body, wall: w}}
-      - {building: building:cv_houses, index: 15, at: [69, 49.5], facing: w, parts: [{id: body, at: [64, 64], size: [384, 384], walls: {w: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {w: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4489, title: Bellringer's House, kit: grey, door: {leaves: 2, part: body, wall: w}}
-      - {building: building:cv_houses, index: 6, at: [55, 45], facing: s, parts: [{id: body, at: [64, 64], size: [640, 384], textures: {door: t06a03}, walls: {s: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: hip, roof_pitch: 38}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4480, title: Fletch House, kit: grey, door: {leaves: 2, part: body, wall: s}}
-      - {building: building:cv_houses, index: 8, at: [57, 45], facing: s, parts: [{id: body, at: [64, 64], size: [640, 288], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], roof: gable, roof_pitch: 48, ridge_along: ns}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4482, title: Gatewarden's House, kit: grey, door: {part: body, wall: s}}
-      - {building: building:cv_houses, index: 20, at: [56.5, 47], facing: e, parts: [{id: body, at: [64, 64], size: [384, 640], walls: {e: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {e: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4494, title: Pigeon Loft, kit: grey, door: {leaves: 2, part: body, wall: e}}
-      - {building: building:cv_houses, index: 4, at: [54.5, 47.5], facing: s, parts: [{id: body, at: [64, 64], size: [384, 384], walls: {s: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {s: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4477, title: Lyle's House, kit: grey, door: {leaves: 2, part: body, wall: s}}
-      - {building: building:cv_houses, index: 7, at: [52.5, 48], facing: e, parts: [{id: body, at: [147, 48], size: [317, 1440], textures: {door: t06a03}, walls: {e: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 80], [door, 256], [wall, 80], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, upper_walls: {e: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 80], [wall, 64], [window, 128], [wall, 64], [wall, 80], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, roof: gable, roof_pitch: 40, ridge_along: ns}, {id: shed, at: [33, 96], size: [130, 1280], wall_height: 192, windows: none, roof: lean_to}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4481, title: The Rope Walk, kit: grey, door: {leaves: 2, part: body, wall: e}}
-      - {building: building:cv_houses, index: 1, at: [54.5, 49.5], facing: s, parts: [{id: body, at: [64, 64], size: [640, 288], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: t06a03}, walls: {s: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: gable, roof_pitch: 48, ridge_along: ns}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4469, title: Jethro's Maps, kit: grey, door: {leaves: 2, part: body, wall: s}}
-      - {building: building:cv_houses, index: 2, at: [57.5, 49], facing: s, parts: [{id: body, at: [64, 64], size: [640, 384], walls: {s: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4471, title: Madame Oorla's, kit: grey, door: {leaves: 2, part: body, wall: s}}
-      - {building: building:cv_library, at: [53.5, 51.5], facing: e, parts: [{id: body, at: [464, 48], size: [512, 1184], roof: gable, roof_pitch: 45, ridge_along: ns}, {id: wing, at: [64, 640], size: [480, 528], roof: gable, roof_pitch: 45, ridge_along: ew}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4478, title: Castleview Library, kit: grey, door: {part: body, wall: e}}
-      - {building: building:cv_houses, index: 5, at: [52, 52], facing: e, parts: [{id: body, at: [64, 64], size: [384, 384], walls: {e: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {e: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4479, title: Velana's House, kit: grey, door: {leaves: 2, part: body, wall: e}}
-      - {building: building:cv_houses, index: 14, at: [52, 54], facing: e, parts: [{id: body, at: [64, 64], size: [384, 384], walls: {e: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {e: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4488, title: Widow Grey's, kit: grey, door: {leaves: 2, part: body, wall: e}}
-      - {building: building:cv_houses, index: 3, at: [53.5, 54.5], facing: s, parts: [{id: body, at: [64, 64], size: [640, 288], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: t06a03}, walls: {s: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: gable, roof_pitch: 48, ridge_along: ns}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4472, title: Nadia's House, kit: grey, door: {leaves: 2, part: body, wall: s}}
-      - {building: building:cv_houses, index: 16, at: [55.5, 54.5], facing: s, parts: [{id: body, at: [64, 64], size: [384, 384], walls: {s: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {s: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4490, title: Lamp House, kit: grey, door: {leaves: 2, part: body, wall: s}}
-      - {building: building:cv_houses, index: 19, at: [52.5, 56.5], facing: s, parts: [{id: body, at: [64, 64], size: [640, 384], roof: hip, roof_pitch: 38}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4493, title: The Wall House, kit: grey, door: {part: body, wall: s}}
-      - {building: building:cv_houses, index: 10, at: [54.5, 56.5], facing: s, parts: [{id: body, at: [64, 64], size: [640, 288], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: t06a03}, walls: {s: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: gable, roof_pitch: 48, ridge_along: ns}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4484, title: Pottage House, kit: grey, door: {leaves: 2, part: body, wall: s}}
-      - {building: building:cv_houses, index: 13, at: [56.5, 56.5], facing: s, parts: [{id: body, at: [64, 64], size: [640, 384], walls: {s: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4487, title: Thatcher's, kit: grey, door: {leaves: 2, part: body, wall: s}}
-      - {building: building:cv_drawkcab, index: 1, at: [56.5, 61.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], walls: {n: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {n: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4473, title: Brother Otto's Cell, kit: grey, door: {leaves: 2, part: body, wall: n}}
-      - {building: building:cv_drawkcab, index: 2, at: [57.5, 61.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], walls: {n: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {n: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4474, title: Sister Hannah's Cell, kit: grey, door: {leaves: 2, part: body, wall: n}}
-      - {building: building:cv_drawkcab, index: 3, at: [58.5, 61.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], walls: {n: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {n: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4475, title: Brother Bob's Cell, kit: grey, door: {leaves: 2, part: body, wall: n}}
-      - {building: building:cv_drawkcab, index: 4, at: [59.5, 61.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], walls: {n: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {n: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4476, title: Sister Ada's Cell, kit: grey, door: {leaves: 2, part: body, wall: n}}
-      - {building: building:cv_public_storage, at: [63.5, 61.5], facing: n, parts: [{id: body, at: [64, 64], size: [640, 384], signs: [{wall: n, bay: 0, texture: xlstorage, size: [128, 64], bottom: 120, out: 48, hang: true}], roof: hip, roof_pitch: 38}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4470, title: Public Storage, kit: grey, door: {part: body, wall: n}}
-      - {building: building:cv_houses, index: 9, at: [68, 61.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], walls: {n: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {n: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4483, title: Millhouse Ruin, kit: grey, door: {leaves: 2, part: body, wall: n}}
-      - {building: building:cv_houses, index: 12, at: [69.5, 62], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {door: t06a03}, walls: {n: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {n: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4486, title: Melon House, kit: grey, door: {leaves: 2, part: body, wall: n}}
-      - {building: building:cv_houses, index: 18, at: [71.5, 62], facing: e, parts: [{id: body, at: [64, 64], size: [384, 640], walls: {e: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {e: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: hip, roof_pitch: 38}], textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4492, title: Ditchwater House, kit: grey, door: {leaves: 2, part: body, wall: e}}
+      - {building: building:cv_tavern, at: [59.5, 45.5], facing: e, parts: [{id: body, at: [64, 64], size: [800, 896], porches: [{wall: e, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: e, bay: 0, texture: sgtvrn, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {e: [[post_left, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [post_right, 128]]}, upper_walls: {e: [[post_left, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [post_right, 128]]}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ew}], textures: {base: cwb1, door: t09a03a, gable: t09c01, post_left: t09c06, post_right: t09c07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09c01, window: t09c04b}, house: 4456, title: The Catapult and Crust, kit: grey, door: {leaves: 2, part: body, wall: e}}
+      - {building: building:cv_inn, at: [59.5, 48], facing: e, parts: [{id: body, at: [464, 48], size: [512, 928], signs: [{wall: e, bay: 0, texture: sginn, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {e: [[post_left, 128], [window, 128], [wall, 80], [door, 256], [wall, 80], [window, 128], [post_right, 128]]}, upper_walls: {e: [[post_left, 128], [window, 128], [wall, 80], [wall, 64], [window, 128], [wall, 64], [wall, 80], [window, 128], [post_right, 128]]}, roof: gable, roof_pitch: 45, verge: 40, ridge_along: ns}, {id: wing, at: [64, 512], size: [480, 400], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 45, verge: 40, verge_walls: [w], ridge_along: ew}], textures: {base: cwb1, door: t09a03a, gable: t09c01, post_left: t09c06, post_right: t09c07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09c01, window: t09c04b}, house: 4465, title: The Adventurer's Inn, kit: grey, door: {leaves: 2, part: body, wall: e}}
+      - {building: building:cv_weapons, at: [65, 45], facing: w, parts: [{id: body, at: [96, 48], size: [608, 634], signs: [{wall: w, bay: 0, texture: sgweap, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {w: [[window, 128], [wall, 61], [door, 256], [wall, 61], [window, 128]]}, upper_walls: {w: [[window, 128], [wall, 61], [wall, 64], [window, 128], [wall, 64], [wall, 61], [window, 128]]}, roof: gable, roof_pitch: 45, verge: 40, ridge_along: ew}, {id: chimney, at: [528, 570], size: [96, 96], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 512, windows: none, roof: flat}, {id: shed, at: [160, 698], size: [448, 302], posts: 16, textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 176, windows: none, roof: lean_to, roof_height: 64, roof_low: s}, {id: bench, at: [224, 722], size: [256, 96], textures: {roof: 7trimda, wall: t06a10}, wall_height: 96, windows: none, roof: flat}, {id: crate, at: [472, 864], size: [96, 96], textures: {roof: 7trimda, wall: 7trimda}, wall_height: 96, windows: none, roof: flat}], textures: {base: cwb1, door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4451, title: The Siege Smithy, kit: grey, door: {leaves: 2, part: body, wall: w}}
+      - {building: building:cv_armour, at: [64.5, 48.5], facing: w, parts: [{id: body, at: [112, 96], size: [576, 832], signs: [{wall: w, bay: 0, texture: sgarm, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {w: [[post_left, 128], [window, 128], [wall, 32], [door, 256], [wall, 32], [window, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [window, 128], [wall, 32], [wall, 64], [window, 128], [wall, 64], [wall, 32], [window, 128], [post_right, 128]]}, roof: none}, {id: upper, at: [64, 48], size: [656, 928], bottom: 256, textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 256, roof: gable, roof_pitch: 50, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1, door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4452, title: Castleview Mail, kit: grey, door: {leaves: 2, part: body, wall: w}}
+      - {building: building:cv_jail, at: [67, 45], facing: s, parts: [{id: body, at: [64, 64], size: [1152, 640], signs: [{wall: s, bay: 0, texture: xljail, size: [128, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4468, title: Castleview Jail, kit: grey, door: {part: body, wall: s}}
+      - {building: building:cv_houses, index: 11, at: [66.5, 48.5], facing: s, parts: [{id: body, at: [64, 64], size: [896, 384], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {s: [[post_left, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [post_right, 128]]}, upper_walls: {s: [[post_left, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [post_right, 128]]}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4485, title: Wainwright's, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:cv_magic, at: [57, 50.5], facing: e, parts: [{id: tower, shape: round, at: [396, 512], radius: 348, sides: 10, textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [546, 225], size: [430, 573], signs: [{wall: e, bay: 0, texture: sgmagic, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 48, verge: 40, verge_walls: [e], ridge_along: ew}], textures: {base: cwb1, door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4453, title: The Amber Lamp, kit: grey, door: {part: body, wall: e}}
+      - {building: building:cv_alchemist, at: [57, 53.5], facing: e, parts: [{id: body, at: [64, 64], size: [544, 640], porches: [{wall: e, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: e, bay: 0, texture: sgalch, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {e: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {e: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ew}], textures: {base: cwb1, door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4454, title: Zelda's Herbs and Remedies, kit: grey, door: {leaves: 2, part: body, wall: e}}
+      - {building: building:cv_town_hall, at: [67.5, 51], facing: w, parts: [{id: body, at: [48, 48], size: [640, 1440], textures: {door: xvsdoorw, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, walls: {w: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 80], [door, 256], [wall, 80], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 80], [wall, 64], [window, 128], [wall, 64], [wall, 80], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, roof: gable, roof_pitch: 45, verge: 40, ridge_along: ns}, {id: wing, at: [608, 768], size: [608, 656], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, roof: gable, roof_pitch: 45, verge: 40, verge_walls: [e], ridge_along: ew}], textures: {base: cwb1, door: t09a03a, gable: t09c01, post_left: t09c06, post_right: t09c07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09c01, window: t09c04b}, house: 4466, title: Castleview Town Hall, kit: grey, door: {leaves: 2, part: body, wall: w}}
+      - {building: building:cv_bank, at: [67.5, 54.5], facing: w, parts: [{id: body, at: [64, 64], size: [896, 896], signs: [{wall: w, bay: 0, texture: sgbank, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvsdoorw, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, walls: {w: [[post_left, 128], [window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128], [post_right, 128]]}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t09a03a, gable: t09c01, post_left: t09c06, post_right: t09c07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09c01, window: t09c04b}, house: 4457, title: Castleview Strongroom, kit: grey, door: {leaves: 2, part: body, wall: w}}
+      - {building: building:cv_guild_fire, at: [52.5, 58.5], facing: n, parts: [{id: body, at: [48, 48], size: [928, 512], signs: [{wall: n, bay: 0, texture: sgfire, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, roof: gable, roof_pitch: 45, verge: 40, ridge_along: ew}, {id: wing, at: [512, 480], size: [400, 480], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, roof: gable, roof_pitch: 45, verge: 40, verge_walls: [s], ridge_along: ns}], textures: {base: cwb1, door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4459, title: Castleview Guild of Fire, kit: grey, door: {part: body, wall: n}}
+      - {building: building:cv_guild_air, at: [55, 58.5], facing: n, parts: [{id: tower, shape: round, at: [512, 628], radius: 348, sides: 10, textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [225, 48], size: [573, 430], signs: [{wall: n, bay: 0, texture: sgair, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, roof: gable, roof_pitch: 48, verge: 40, verge_walls: [n], ridge_along: ns}], textures: {base: cwb1, door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4460, title: Castleview Guild of Air, kit: grey, door: {part: body, wall: n}}
+      - {building: building:cv_guild_water, at: [57.5, 58.5], facing: n, parts: [{id: body, at: [64, 160], size: [896, 800], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: n, bay: 0, texture: sgwater, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1, door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4461, title: Castleview Guild of Water, kit: grey, door: {part: body, wall: n}}
+      - {building: building:cv_guild_earth, at: [60, 58.5], facing: n, parts: [{id: body, at: [48, 48], size: [928, 512], signs: [{wall: n, bay: 0, texture: sgearth, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, roof: gable, roof_pitch: 45, verge: 40, ridge_along: ew}, {id: wing, at: [512, 480], size: [400, 480], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, roof: gable, roof_pitch: 45, verge: 40, verge_walls: [s], ridge_along: ns}], textures: {base: cwb1, door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4462, title: Castleview Guild of Earth, kit: grey, door: {part: body, wall: n}}
+      - {building: building:cv_guild_body, at: [62.5, 58.5], facing: n, parts: [{id: body, at: [64, 64], size: [896, 896], signs: [{wall: n, bay: 0, texture: sgbody, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4463, title: Castleview Guild of Body, kit: grey, door: {part: body, wall: n}}
+      - {building: building:cv_temple, at: [70.5, 58.5], facing: w, parts: [{id: nave, at: [64, 64], size: [1152, 1408], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 512, roof: gable, roof_pitch: 50, eaves: 24, verge: 40, verge_walls: [w], ridge_along: ew}, {id: tower, at: [1184, 624], size: [288, 288], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 768, windows: none, roof: hip, roof_pitch: 62}], textures: {base: cwb1, door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4455, title: Temple of Mok, kit: grey, door: {part: nave, wall: w}}
+      - {building: building:cv_training, at: [72, 48.5], facing: w, parts: [{id: body, at: [48, 48], size: [793, 1184], signs: [{wall: w, bay: 0, texture: sgtrain, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {w: [[post_left, 128], [wall, 128], [window, 128], [wall, 80], [door, 256], [wall, 80], [window, 128], [wall, 128], [post_right, 128]]}, upper_walls: {w: [[post_left, 128], [wall, 128], [window, 128], [wall, 80], [wall, 64], [window, 128], [wall, 64], [wall, 80], [window, 128], [wall, 128], [post_right, 128]]}, roof: gable, roof_pitch: 40, verge: 40, ridge_along: ns}, {id: shed, at: [825, 96], size: [422, 1024], textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 192, windows: none, roof: lean_to}], textures: {base: cwb1, door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4458, title: The Barracks Yard, kit: grey, door: {leaves: 2, part: body, wall: w}}
+      - {building: building:cv_stables, at: [72, 52], facing: w, parts: [{id: office, at: [48, 48], size: [512, 512], signs: [{wall: w, bay: 0, texture: sgstabl, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 40, verge: 40}, {id: pen, at: [48, 564], size: [793, 924], posts: 24, post_every: 256, sill: 96, sill_walls: [s, e, w], textures: {door: xvdoor, gable: xvwall, post: xvbeam, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, sill: xvbeam, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 256, windows: none, roof: gable, roof_pitch: 30, ridge_along: ns}, {id: shed, at: [845, 96], size: [402, 1280], posts: 16, post_every: 256, sill: 112, sill_walls: [s, e, n], textures: {door: xvdoor, gable: xvwall, post: xvbeam, post_left: xvwall, post_right: xvwall, ridge: xvridge, sill: xvbeam, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 144, windows: none, roof: none}], textures: {base: cwb1, door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4464, title: Kramer's Caravans, kit: grey, door: {leaves: 2, part: office, wall: w}}
+      - {building: building:cv_houses, index: 17, at: [73, 56], facing: w, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {w: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {w: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4491, title: Saddler's, kit: grey, door: {leaves: 2, part: body, wall: w}}
+      - {building: building:cv_houses, index: 15, at: [69, 49.5], facing: w, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {w: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {w: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4489, title: Bellringer's House, kit: grey, door: {leaves: 2, part: body, wall: w}}
+      - {building: building:cv_houses, index: 6, at: [55, 45], facing: s, parts: [{id: body, at: [64, 64], size: [640, 384], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {s: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4480, title: Fletch House, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:cv_houses, index: 8, at: [57, 45], facing: s, parts: [{id: body, at: [64, 64], size: [640, 288], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1, door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4482, title: Gatewarden's House, kit: grey, door: {part: body, wall: s}}
+      - {building: building:cv_houses, index: 20, at: [56.5, 47], facing: e, parts: [{id: body, at: [64, 64], size: [384, 640], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {e: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {e: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4494, title: Pigeon Loft, kit: grey, door: {leaves: 2, part: body, wall: e}}
+      - {building: building:cv_houses, index: 4, at: [54.5, 47.5], facing: s, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {s: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {s: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4477, title: Lyle's House, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:cv_houses, index: 7, at: [52.5, 48], facing: e, parts: [{id: body, at: [147, 48], size: [317, 1440], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {e: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 80], [door, 256], [wall, 80], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, upper_walls: {e: [[post_left, 128], [window, 128], [wall, 128], [window, 128], [wall, 80], [wall, 64], [window, 128], [wall, 64], [wall, 80], [window, 128], [wall, 128], [window, 128], [post_right, 128]]}, roof: gable, roof_pitch: 40, verge: 40, ridge_along: ns}, {id: shed, at: [33, 96], size: [130, 1280], textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 192, windows: none, roof: lean_to}], textures: {base: cwb1, door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4481, title: The Rope Walk, kit: grey, door: {leaves: 2, part: body, wall: e}}
+      - {building: building:cv_houses, index: 1, at: [54.5, 49.5], facing: s, parts: [{id: body, at: [64, 64], size: [640, 288], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {s: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1, door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4469, title: Jethro's Maps, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:cv_houses, index: 2, at: [57.5, 49], facing: s, parts: [{id: body, at: [64, 64], size: [640, 384], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {s: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4471, title: Madame Oorla's, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:cv_library, at: [53.5, 51.5], facing: e, parts: [{id: body, at: [464, 48], size: [512, 1184], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, roof: gable, roof_pitch: 45, verge: 40, ridge_along: ns}, {id: wing, at: [64, 640], size: [480, 528], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, roof: gable, roof_pitch: 45, verge: 40, verge_walls: [w], ridge_along: ew}], textures: {base: cwb1, door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4478, title: Castleview Library, kit: grey, door: {part: body, wall: e}}
+      - {building: building:cv_houses, index: 5, at: [52, 52], facing: e, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {e: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {e: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4479, title: Velana's House, kit: grey, door: {leaves: 2, part: body, wall: e}}
+      - {building: building:cv_houses, index: 14, at: [52, 54], facing: e, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {e: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {e: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4488, title: Widow Grey's, kit: grey, door: {leaves: 2, part: body, wall: e}}
+      - {building: building:cv_houses, index: 3, at: [53.5, 54.5], facing: s, parts: [{id: body, at: [64, 64], size: [640, 288], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {s: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1, door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4472, title: Nadia's House, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:cv_houses, index: 16, at: [55.5, 54.5], facing: s, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {s: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {s: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4490, title: Lamp House, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:cv_houses, index: 19, at: [52.5, 56.5], facing: s, parts: [{id: body, at: [64, 64], size: [640, 384], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4493, title: The Wall House, kit: grey, door: {part: body, wall: s}}
+      - {building: building:cv_houses, index: 10, at: [54.5, 56.5], facing: s, parts: [{id: body, at: [64, 64], size: [640, 288], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {s: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1, door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4484, title: Pottage House, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:cv_houses, index: 13, at: [56.5, 56.5], facing: s, parts: [{id: body, at: [64, 64], size: [640, 384], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {s: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4487, title: Thatcher's, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:cv_drawkcab, index: 1, at: [56.5, 61.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {n: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {n: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4473, title: Brother Otto's Cell, kit: grey, door: {leaves: 2, part: body, wall: n}}
+      - {building: building:cv_drawkcab, index: 2, at: [57.5, 61.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {n: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {n: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4474, title: Sister Hannah's Cell, kit: grey, door: {leaves: 2, part: body, wall: n}}
+      - {building: building:cv_drawkcab, index: 3, at: [58.5, 61.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {n: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {n: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4475, title: Brother Bob's Cell, kit: grey, door: {leaves: 2, part: body, wall: n}}
+      - {building: building:cv_drawkcab, index: 4, at: [59.5, 61.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {n: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {n: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4476, title: Sister Ada's Cell, kit: grey, door: {leaves: 2, part: body, wall: n}}
+      - {building: building:cv_public_storage, at: [63.5, 61.5], facing: n, parts: [{id: body, at: [64, 64], size: [640, 384], signs: [{wall: n, bay: 0, texture: xlstorage, size: [128, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4470, title: Public Storage, kit: grey, door: {part: body, wall: n}}
+      - {building: building:cv_houses, index: 9, at: [68, 61.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {n: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {n: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4483, title: Millhouse Ruin, kit: grey, door: {leaves: 2, part: body, wall: n}}
+      - {building: building:cv_houses, index: 12, at: [69.5, 62], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {n: [[wall, 64], [door, 256], [wall, 64]]}, upper_walls: {n: [[wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64]]}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4486, title: Melon House, kit: grey, door: {leaves: 2, part: body, wall: n}}
+      - {building: building:cv_houses, index: 18, at: [71.5, 62], facing: e, parts: [{id: body, at: [64, 64], size: [384, 640], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {e: [[window, 128], [wall, 64], [door, 256], [wall, 64], [window, 128]]}, upper_walls: {e: [[window, 128], [wall, 64], [wall, 64], [window, 128], [wall, 64], [wall, 64], [window, 128]]}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}, house: 4492, title: Ditchwater House, kit: grey, door: {leaves: 2, part: body, wall: e}}
   - space: zone:cv_square
     polygon: [[59, 51], [67, 51], [67, 57], [59, 57]]
   - space: zone:cv_coach_yard
@@ -298,7 +298,7 @@ districts:
   - space: zone:cv_wall_top
     polygon: [[47, 52], [52, 52], [52, 56], [47, 56]]
     plots:
-      - {building: building:cv_lucio_jetty, at: [49, 53.5], facing: e, parts: [{id: body, at: [64, 64], size: [384, 384], signs: [{wall: e, bay: 0, texture: sgdock, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: hip, roof_pitch: 38}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4901, title: Lucio's Jetty, kit: grey, door: {part: body, wall: e}, condition: {qbit: lucio_open}, else_effects: [{lua: "evt.SimpleMessage(\"A jetty that ends in thin air. A sign: \\\"Celestial boats. Chosen Ones only.\\\"\")"}], on: thing:jetty_deck}
+      - {building: building:cv_lucio_jetty, at: [49, 53.5], facing: e, parts: [{id: body, at: [64, 64], size: [384, 384], signs: [{wall: e, bay: 0, texture: sgdock, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4901, title: Lucio's Jetty, kit: grey, door: {part: body, wall: e}, condition: {qbit: lucio_open}, else_effects: [{lua: "evt.SimpleMessage(\"A jetty that ends in thin air. A sign: \\\"Celestial boats. Chosen Ones only.\\\"\")"}], on: thing:jetty_deck}
   - space: zone:gate_yard
     polygon: [[55, 39], [71, 39], [71, 44], [55, 44]]
   - space: zone:pyramid_knoll
@@ -314,7 +314,7 @@ districts:
   - space: zone:vespar_knoll
     polygon: [[90, 33], [96, 33], [96, 39], [90, 39]]
     plots:
-      - {building: building:vespar_house, at: [91.5, 34.5], facing: w, parts: [{id: tower, shape: round, at: [628, 512], radius: 348, sides: 10, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [48, 225], size: [430, 573], roof: gable, roof_pitch: 48, ridge_along: ew}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4499, title: Vespar's House, kit: grey, door: {part: body, wall: w}}
+      - {building: building:vespar_house, at: [91.5, 34.5], facing: w, parts: [{id: tower, shape: round, at: [628, 512], radius: 348, sides: 10, textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [48, 225], size: [430, 573], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 48, verge: 40, verge_walls: [w], ridge_along: ew}], textures: {base: cwb1, door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4499, title: Vespar's House, kit: grey, door: {part: body, wall: w}}
   - space: wild:gemstone_foothills
     polygon: [[96, 19], [110, 19], [110, 51], [100, 51], [96, 44]]
   - space: wild:east_road_camp
@@ -332,10 +332,10 @@ districts:
   - space: zone:gemsmiths_row
     polygon: [[30, 19], [48, 19], [48, 27], [30, 27]]
     plots:
-      - {building: building:gemsmith, index: 1, at: [31.5, 23.5], facing: s, parts: [{id: body, at: [48, 64], size: [634, 608], textures: {door: t06a03}, walls: {s: [[window, 128], [wall, 61], [door, 256], [wall, 61], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 61], [wall, 64], [window, 128], [wall, 64], [wall, 61], [window, 128]]}, roof: gable, roof_pitch: 45, ridge_along: ns}, {id: chimney, at: [570, 144], size: [96, 96], wall_height: 512, windows: none, roof: flat}, {id: shed, at: [698, 160], size: [302, 448], posts: 16, wall_height: 176, windows: none, roof: lean_to, roof_height: 64, roof_low: e}, {id: bench, at: [722, 288], size: [96, 256], textures: {roof: 7trimda, wall: t06a10}, wall_height: 96, windows: none, roof: flat}, {id: crate, at: [864, 200], size: [96, 96], textures: {roof: 7trimda, wall: 7trimda}, wall_height: 96, windows: none, roof: flat}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4495, title: Linus's Ruby Works, kit: grey, door: {leaves: 2, part: body, wall: s}}
-      - {building: building:gemsmith, index: 2, at: [34.5, 23.5], facing: s, parts: [{id: body, at: [48, 64], size: [634, 608], textures: {door: t06a03}, walls: {s: [[window, 128], [wall, 61], [door, 256], [wall, 61], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 61], [wall, 64], [window, 128], [wall, 64], [wall, 61], [window, 128]]}, roof: gable, roof_pitch: 45, ridge_along: ns}, {id: chimney, at: [570, 144], size: [96, 96], wall_height: 512, windows: none, roof: flat}, {id: shed, at: [698, 160], size: [302, 448], posts: 16, wall_height: 176, windows: none, roof: lean_to, roof_height: 64, roof_low: e}, {id: bench, at: [722, 288], size: [96, 256], textures: {roof: 7trimda, wall: t06a10}, wall_height: 96, windows: none, roof: flat}, {id: crate, at: [864, 200], size: [96, 96], textures: {roof: 7trimda, wall: 7trimda}, wall_height: 96, windows: none, roof: flat}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4496, title: Simon's Emerald Works, kit: grey, door: {leaves: 2, part: body, wall: s}}
-      - {building: building:gemsmith, index: 3, at: [37.5, 23.5], facing: s, parts: [{id: body, at: [48, 64], size: [634, 608], textures: {door: t06a03}, walls: {s: [[window, 128], [wall, 61], [door, 256], [wall, 61], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 61], [wall, 64], [window, 128], [wall, 64], [wall, 61], [window, 128]]}, roof: gable, roof_pitch: 45, ridge_along: ns}, {id: chimney, at: [570, 144], size: [96, 96], wall_height: 512, windows: none, roof: flat}, {id: shed, at: [698, 160], size: [302, 448], posts: 16, wall_height: 176, windows: none, roof: lean_to, roof_height: 64, roof_low: e}, {id: bench, at: [722, 288], size: [96, 256], textures: {roof: 7trimda, wall: t06a10}, wall_height: 96, windows: none, roof: flat}, {id: crate, at: [864, 200], size: [96, 96], textures: {roof: 7trimda, wall: 7trimda}, wall_height: 96, windows: none, roof: flat}], textures: {door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4497, title: Toby's Sapphire Works, kit: grey, door: {leaves: 2, part: body, wall: s}}
-      - {building: building:gemsmith, index: 4, at: [40.5, 23.5], facing: s, parts: [{id: body, at: [48, 64], size: [634, 608], roof: gable, roof_pitch: 45, ridge_along: ns}, {id: chimney, at: [570, 144], size: [96, 96], wall_height: 512, windows: none, roof: flat}, {id: shed, at: [698, 160], size: [302, 448], posts: 16, wall_height: 176, windows: none, roof: lean_to, roof_height: 64, roof_low: e}, {id: bench, at: [722, 288], size: [96, 256], textures: {roof: 7trimda, wall: t06a10}, wall_height: 96, windows: none, roof: flat}, {id: crate, at: [864, 200], size: [96, 96], textures: {roof: 7trimda, wall: 7trimda}, wall_height: 96, windows: none, roof: flat}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4498, title: Hector's Diamond Works, kit: grey, door: {part: body, wall: s}}
+      - {building: building:gemsmith, index: 1, at: [31.5, 23.5], facing: s, parts: [{id: body, at: [48, 64], size: [634, 608], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {s: [[window, 128], [wall, 61], [door, 256], [wall, 61], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 61], [wall, 64], [window, 128], [wall, 64], [wall, 61], [window, 128]]}, roof: gable, roof_pitch: 45, verge: 40, ridge_along: ns}, {id: chimney, at: [570, 144], size: [96, 96], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 512, windows: none, roof: flat}, {id: shed, at: [698, 160], size: [302, 448], posts: 16, textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 176, windows: none, roof: lean_to, roof_height: 64, roof_low: e}, {id: bench, at: [722, 288], size: [96, 256], textures: {roof: 7trimda, wall: t06a10}, wall_height: 96, windows: none, roof: flat}, {id: crate, at: [864, 200], size: [96, 96], textures: {roof: 7trimda, wall: 7trimda}, wall_height: 96, windows: none, roof: flat}], textures: {base: cwb1, door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4495, title: Linus's Ruby Works, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:gemsmith, index: 2, at: [34.5, 23.5], facing: s, parts: [{id: body, at: [48, 64], size: [634, 608], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {s: [[window, 128], [wall, 61], [door, 256], [wall, 61], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 61], [wall, 64], [window, 128], [wall, 64], [wall, 61], [window, 128]]}, roof: gable, roof_pitch: 45, verge: 40, ridge_along: ns}, {id: chimney, at: [570, 144], size: [96, 96], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 512, windows: none, roof: flat}, {id: shed, at: [698, 160], size: [302, 448], posts: 16, textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 176, windows: none, roof: lean_to, roof_height: 64, roof_low: e}, {id: bench, at: [722, 288], size: [96, 256], textures: {roof: 7trimda, wall: t06a10}, wall_height: 96, windows: none, roof: flat}, {id: crate, at: [864, 200], size: [96, 96], textures: {roof: 7trimda, wall: 7trimda}, wall_height: 96, windows: none, roof: flat}], textures: {base: cwb1, door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4496, title: Simon's Emerald Works, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:gemsmith, index: 3, at: [37.5, 23.5], facing: s, parts: [{id: body, at: [48, 64], size: [634, 608], textures: {door: xvdoorw, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, walls: {s: [[window, 128], [wall, 61], [door, 256], [wall, 61], [window, 128]]}, upper_walls: {s: [[window, 128], [wall, 61], [wall, 64], [window, 128], [wall, 64], [wall, 61], [window, 128]]}, roof: gable, roof_pitch: 45, verge: 40, ridge_along: ns}, {id: chimney, at: [570, 144], size: [96, 96], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 512, windows: none, roof: flat}, {id: shed, at: [698, 160], size: [302, 448], posts: 16, textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 176, windows: none, roof: lean_to, roof_height: 64, roof_low: e}, {id: bench, at: [722, 288], size: [96, 256], textures: {roof: 7trimda, wall: t06a10}, wall_height: 96, windows: none, roof: flat}, {id: crate, at: [864, 200], size: [96, 96], textures: {roof: 7trimda, wall: 7trimda}, wall_height: 96, windows: none, roof: flat}], textures: {base: cwb1, door: t06b03, gable: t06b01, post_left: t06b07, post_right: t06b06, ridge: t06a10, roof: t06a05, trim: t06a10, wall: t06b01, window: t06c04}, house: 4497, title: Toby's Sapphire Works, kit: grey, door: {leaves: 2, part: body, wall: s}}
+      - {building: building:gemsmith, index: 4, at: [40.5, 23.5], facing: s, parts: [{id: body, at: [48, 64], size: [634, 608], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 45, verge: 40, ridge_along: ns}, {id: chimney, at: [570, 144], size: [96, 96], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 512, windows: none, roof: flat}, {id: shed, at: [698, 160], size: [302, 448], posts: 16, textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 176, windows: none, roof: lean_to, roof_height: 64, roof_low: e}, {id: bench, at: [722, 288], size: [96, 256], textures: {roof: 7trimda, wall: t06a10}, wall_height: 96, windows: none, roof: flat}, {id: crate, at: [864, 200], size: [96, 96], textures: {roof: 7trimda, wall: 7trimda}, wall_height: 96, windows: none, roof: flat}], textures: {base: cwb1, door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4498, title: Hector's Diamond Works, kit: grey, door: {part: body, wall: s}}
   - space: zone:kalindra_rise
     polygon: [[34, 63], [46, 62], [50, 68], [47, 78], [40, 80], [34, 77]]
   - space: zone:kalindra_gate
@@ -355,7 +355,7 @@ districts:
   - space: wild:south_bank
     polygon: [[38, 88], [44, 84], [52, 84], [60, 84], [60, 104], [33, 104], [33, 100]]
     plots:
-      - {building: building:reger_cell, at: [57, 95.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], roof: hip, roof_pitch: 38}], textures: {door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4500, title: Brother Reger's Cell, kit: grey, door: {part: body, wall: n}, condition: {lua: "Xeen.isSet(\"q-d3.word_said\")"}, else_effects: [{lua: "if continueStep == 2 then XeenQuests.hook(\"q-d3.reger_word\") return end if continueStep == 1 then XeenQuests.hook(\"q-d3.reger_wrong\") return end if continueStep ~= nil then return end if not XeenQuests.hook(\"q-d3.reger_door\") then return end evt.AskQuestion(eventId, 1, 0, 2, \"What's the word?\", {\"palindrome\", \"palindromes\"})"}]}
+      - {building: building:reger_cell, at: [57, 95.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1, door: t09a03c, gable: t09a01, post_left: t09a06, post_right: t09a07, ridge: t06a10, roof: xlslate, trim: t09b11b, wall: t09a01, window: t09a04b}, house: 4500, title: Brother Reger's Cell, kit: grey, door: {part: body, wall: n}, condition: {lua: "Xeen.isSet(\"q-d3.word_said\")"}, else_effects: [{lua: "if continueStep == 2 then XeenQuests.hook(\"q-d3.reger_word\") return end if continueStep == 1 then XeenQuests.hook(\"q-d3.reger_wrong\") return end if continueStep ~= nil then return end if not XeenQuests.hook(\"q-d3.reger_door\") then return end evt.AskQuestion(eventId, 1, 0, 2, \"What's the word?\", {\"palindrome\", \"palindromes\"})"}]}
   - space: zone:shrine_knoll
     polygon: [[49, 88], [55, 88], [55, 93], [49, 93]]
   - space: wild:north_hills
@@ -372,7 +372,7 @@ points:
   - {id: entrance:kalindra_gate, at: [46, 70], facing: w}
   - {id: entrance:north_gate, at: [64, 43], facing: s}
   - {id: entrance:queens_gate, at: [51, 64], facing: ne}
-  - {id: entrance:dd01_hatch, at: [66, 58], facing: e}
+  - {id: entrance:dd01_hatch, at: [67, 58], facing: e}
   - {id: entrance:dd01_outfall, at: [80, 48], facing: e}
   - {id: entrance:dd02_tower, at: [69, 46], facing: e}
   - {id: entrance:dd03_gate, at: [45, 70], facing: w}
@@ -756,67 +756,67 @@ scatter:
   - id: scatter:dark_grove
     decoration: 7tree04
     count: 1
-    circle: {at: [50.063, 30.866], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree10
-    count: 1
     circle: {at: [53.272, 32.8], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree10
     count: 1
     circle: {at: [40.428, 38.69], r: 0.1}
   - id: scatter:dark_grove
-    decoration: tree60
+    decoration: 7tree10
     count: 1
     circle: {at: [42.784, 35.591], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: tree60
     count: 1
     circle: {at: [39.507, 33.911], r: 0.1}
   - id: scatter:dark_grove
-    decoration: swptree2
+    decoration: 7tree04
     count: 1
     circle: {at: [45.286, 31.013], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: swptree2
     count: 1
     circle: {at: [46.887, 31.056], r: 0.1}
   - id: scatter:dark_grove
-    decoration: tree60
+    decoration: 7tree04
     count: 1
     circle: {at: [55.608, 31.307], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: tree60
     count: 1
     circle: {at: [46.092, 40.211], r: 0.1}
   - id: scatter:dark_grove
-    decoration: tree28
+    decoration: 7tree04
     count: 1
     circle: {at: [45.927, 37.509], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree10
+    decoration: tree28
     count: 1
     circle: {at: [55.627, 29.521], r: 0.1}
   - id: scatter:dark_grove
-    decoration: swptree2
+    decoration: 7tree10
     count: 1
     circle: {at: [46.593, 37.839], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree10
+    decoration: swptree2
     count: 1
     circle: {at: [45.289, 38.713], r: 0.1}
   - id: scatter:dark_grove
-    decoration: swptree4
+    decoration: 7tree10
     count: 1
     circle: {at: [39.972, 37.595], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: swptree4
     count: 1
     circle: {at: [54.042, 34.971], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree10
+    decoration: 7tree04
     count: 1
     circle: {at: [53.197, 34.711], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [41.787, 28.748], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree10
     count: 1
@@ -828,33 +828,45 @@ scatter:
   - id: scatter:dark_grove
     decoration: 7tree10
     count: 1
-    circle: {at: [48.1, 39.668], r: 0.1}
+    circle: {at: [49.145, 32.749], r: 0.1}
   - id: scatter:dark_grove
     decoration: tree28
     count: 1
-    circle: {at: [48.132, 31.237], r: 0.1}
+    circle: {at: [48.1, 39.668], r: 0.1}
   - id: scatter:dark_grove
     decoration: swptree4
+    count: 1
+    circle: {at: [48.132, 31.237], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
     count: 1
     circle: {at: [53.313, 36.161], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree10
+    decoration: 7tree04
     count: 1
     circle: {at: [44.175, 37.22], r: 0.1}
   - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [49.715, 34.059], r: 0.1}
+  - id: scatter:dark_grove
     decoration: 7tree04
     count: 1
-    circle: {at: [45.384, 29.242], r: 0.1}
+    circle: {at: [50.397, 34.093], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree10
+    decoration: swptree4
+    count: 1
+    circle: {at: [53.624, 33.588], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
     count: 1
     circle: {at: [51.258, 37.19], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: tree28
     count: 1
     circle: {at: [52.004, 36.384], r: 0.1}
   - id: scatter:dark_grove
-    decoration: swptree4
+    decoration: 7tree04
     count: 1
     circle: {at: [41.255, 37.46], r: 0.1}
   - id: scatter:dark_grove
@@ -862,23 +874,15 @@ scatter:
     count: 1
     circle: {at: [50.57, 36.455], r: 0.1}
   - id: scatter:dark_grove
-    decoration: tree28
-    count: 1
-    circle: {at: [47.624, 39.024], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree04
-    count: 1
-    circle: {at: [43.292, 36.302], r: 0.1}
-  - id: scatter:dark_grove
     decoration: 7tree04
     count: 1
     circle: {at: [42.95, 28.998], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: tree28
     count: 1
     circle: {at: [49.965, 38.369], r: 0.1}
   - id: scatter:dark_grove
-    decoration: tree28
+    decoration: 7tree04
     count: 1
     circle: {at: [46.856, 38.63], r: 0.1}
   - id: scatter:dark_grove
@@ -890,17 +894,13 @@ scatter:
     count: 1
     circle: {at: [45.274, 38.025], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: swptree2
     count: 1
     circle: {at: [52.505, 37.509], r: 0.1}
   - id: scatter:dark_grove
-    decoration: swptree2
-    count: 1
-    circle: {at: [55.52, 33.705], r: 0.1}
-  - id: scatter:dark_grove
     decoration: 7tree10
     count: 1
-    circle: {at: [41.266, 28.642], r: 0.1}
+    circle: {at: [55.52, 33.705], r: 0.1}
   - id: scatter:dark_grove
     decoration: swptree4
     count: 1
@@ -928,21 +928,33 @@ scatter:
   - id: scatter:dark_grove
     decoration: 7tree10
     count: 1
-    circle: {at: [38.512, 33.725], r: 0.1}
+    circle: {at: [47.649, 39.037], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree04
     count: 1
-    circle: {at: [47.27, 29.639], r: 0.1}
+    circle: {at: [38.512, 33.725], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree10
     count: 1
-    circle: {at: [41.731, 36.509], r: 0.1}
+    circle: {at: [47.27, 29.639], r: 0.1}
   - id: scatter:dark_grove
     decoration: tree28
     count: 1
-    circle: {at: [38.889, 36.798], r: 0.1}
+    circle: {at: [41.731, 36.509], r: 0.1}
   - id: scatter:dark_grove
     decoration: tree60
+    count: 1
+    circle: {at: [44.868, 28.744], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [38.889, 36.798], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [50.495, 33.195], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
     count: 1
     circle: {at: [48.911, 31.052], r: 0.1}
   - id: scatter:dark_grove
@@ -958,15 +970,15 @@ scatter:
     count: 1
     circle: {at: [39.298, 34.6], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: 7tree10
     count: 1
     circle: {at: [40.94, 33.831], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: 7tree10
     count: 1
     circle: {at: [52.593, 34.776], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: 7tree10
     count: 1
     circle: {at: [46.724, 39.574], r: 0.1}
   - id: scatter:dark_grove
@@ -974,27 +986,39 @@ scatter:
     count: 1
     circle: {at: [54.277, 29.32], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree10
+    decoration: tree28
     count: 1
     circle: {at: [53.079, 36.952], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree10
     count: 1
-    circle: {at: [48.286, 38.899], r: 0.1}
+    circle: {at: [46.081, 29.468], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree10
+    decoration: tree60
     count: 1
-    circle: {at: [47.591, 30.576], r: 0.1}
+    circle: {at: [43.625, 36.533], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [40.593, 37.585], r: 0.1}
   - id: scatter:dark_grove
     decoration: tree28
     count: 1
-    circle: {at: [40.072, 33.343], r: 0.1}
+    circle: {at: [48.286, 38.899], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [47.591, 30.576], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree10
     count: 1
+    circle: {at: [40.072, 33.343], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree2
+    count: 1
     circle: {at: [55.803, 32.932], r: 0.1}
   - id: scatter:dark_grove
-    decoration: tree60
+    decoration: 7tree10
     count: 1
     circle: {at: [53.767, 28.669], r: 0.1}
   - id: scatter:dark_grove
@@ -1002,19 +1026,23 @@ scatter:
     count: 1
     circle: {at: [39.085, 37.874], r: 0.1}
   - id: scatter:dark_grove
-    decoration: tree28
+    decoration: swptree2
     count: 1
     circle: {at: [43.983, 31.411], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: 7tree10
     count: 1
     circle: {at: [44.97, 37.307], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree10
+    decoration: tree60
+    count: 1
+    circle: {at: [55.893, 30.298], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
     count: 1
     circle: {at: [38.52, 35.302], r: 0.1}
   - id: scatter:dark_grove
-    decoration: swptree2
+    decoration: tree60
     count: 1
     circle: {at: [54.936, 34.735], r: 0.1}
   - id: scatter:dark_grove
@@ -1024,89 +1052,69 @@ scatter:
   - id: scatter:dark_grove
     decoration: 7tree04
     count: 1
-    circle: {at: [55.817, 30.454], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: swptree2
-    count: 1
-    circle: {at: [46.456, 30.064], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree10
-    count: 1
     circle: {at: [47.437, 28.51], r: 0.1}
   - id: scatter:dark_grove
-    decoration: tree60
-    count: 1
-    circle: {at: [50.446, 34.058], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: 7tree10
     count: 1
     circle: {at: [54.842, 32.712], r: 0.1}
   - id: scatter:dark_grove
-    decoration: tree60
+    decoration: 7tree04
     count: 1
     circle: {at: [51.834, 36.98], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree10
+    decoration: 7tree04
     count: 1
     circle: {at: [45.324, 30.07], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: swptree4
     count: 1
-    circle: {at: [54.41, 33.977], r: 0.1}
+    circle: {at: [48.921, 32.171], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree10
-    count: 1
-    circle: {at: [46.248, 29.459], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: swptree4
     count: 1
     circle: {at: [44.24, 30.361], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree04
     count: 1
-    circle: {at: [44.617, 28.828], r: 0.1}
+    circle: {at: [44.306, 29.441], r: 0.1}
   - id: scatter:dark_grove
-    decoration: swptree4
+    decoration: 7tree04
     count: 1
     circle: {at: [45.581, 28.523], r: 0.1}
   - id: scatter:dark_grove
-    decoration: swptree4
+    decoration: 7tree04
+    count: 1
+    circle: {at: [49.412, 33.33], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree60
     count: 1
     circle: {at: [43.726, 29.279], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: 7tree10
     count: 1
     circle: {at: [44.231, 38.406], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: tree28
     count: 1
     circle: {at: [50.627, 37.37], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
-    count: 1
-    circle: {at: [51.315, 31.529], r: 0.1}
-  - id: scatter:dark_grove
     decoration: tree60
-    count: 1
-    circle: {at: [49.492, 34.115], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree10
     count: 1
     circle: {at: [52.768, 32.023], r: 0.1}
   - id: scatter:dark_grove
-    decoration: tree28
+    decoration: 7tree10
     count: 1
     circle: {at: [56.23, 32.176], r: 0.1}
   - id: scatter:dark_grove
-    decoration: tree60
+    decoration: 7tree04
     count: 1
-    circle: {at: [50.269, 30.265], r: 0.1}
+    circle: {at: [46.814, 30.282], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree10
     count: 1
     circle: {at: [55.473, 28.66], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: swptree4
     count: 1
     circle: {at: [47.98, 38.279], r: 0.1}
   - id: scatter:dark_grove
@@ -1114,23 +1122,23 @@ scatter:
     count: 1
     circle: {at: [55.159, 32.193], r: 0.1}
   - id: scatter:dark_grove
-    decoration: swptree4
+    decoration: 7tree10
     count: 1
     circle: {at: [41.94, 34.934], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree10
+    decoration: swptree2
     count: 1
     circle: {at: [54.783, 28.625], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree10
+    decoration: 7tree04
     count: 1
     circle: {at: [38.587, 28.569], r: 0.1}
   - id: scatter:dark_grove
-    decoration: swptree2
+    decoration: 7tree04
     count: 1
     circle: {at: [50.805, 38.464], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: tree60
     count: 1
     circle: {at: [52.482, 36.763], r: 0.1}
   - id: scatter:dark_grove
@@ -1138,39 +1146,43 @@ scatter:
     count: 1
     circle: {at: [50.898, 35.867], r: 0.1}
   - id: scatter:dark_grove
-    decoration: tree60
-    count: 1
-    circle: {at: [44.366, 29.768], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: tree28
     count: 1
     circle: {at: [46.033, 38.311], r: 0.1}
   - id: scatter:dark_grove
-    decoration: tree28
-    count: 1
-    circle: {at: [41.934, 28.999], r: 0.1}
-  - id: scatter:dark_grove
     decoration: 7tree04
     count: 1
-    circle: {at: [51.938, 35.499], r: 0.1}
+    circle: {at: [45.963, 30.552], r: 0.1}
   - id: scatter:dark_grove
     decoration: tree60
     count: 1
-    circle: {at: [45.991, 30.846], r: 0.1}
+    circle: {at: [42.359, 29.223], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree10
     count: 1
-    circle: {at: [49.431, 38.049], r: 0.1}
+    circle: {at: [51.938, 35.499], r: 0.1}
   - id: scatter:dark_grove
     decoration: swptree4
     count: 1
-    circle: {at: [44.697, 31.355], r: 0.1}
+    circle: {at: [50.251, 30.015], r: 0.1}
   - id: scatter:dark_grove
     decoration: swptree2
     count: 1
-    circle: {at: [38.844, 35.981], r: 0.1}
+    circle: {at: [49.431, 38.049], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree04
+    count: 1
+    circle: {at: [44.697, 31.355], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [38.844, 35.981], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [54.835, 33.594], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree2
     count: 1
     circle: {at: [47.398, 39.691], r: 0.1}
   - id: scatter:dark_grove
@@ -1178,41 +1190,29 @@ scatter:
     count: 1
     circle: {at: [45.55, 40.632], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree10
+    decoration: 7tree04
     count: 1
     circle: {at: [42.631, 37.473], r: 0.1}
   - id: scatter:dark_grove
-    decoration: swptree2
+    decoration: tree28
     count: 1
     circle: {at: [51.573, 38.125], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree04
     count: 1
-    circle: {at: [54.753, 33.415], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree04
-    count: 1
-    circle: {at: [54.222, 35.827], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: tree28
-    count: 1
     circle: {at: [50.093, 36.928], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: tree28
     count: 1
     circle: {at: [48.333, 30.613], r: 0.1}
   - id: scatter:dark_grove
-    decoration: tree28
+    decoration: swptree4
     count: 1
     circle: {at: [38.516, 32.916], r: 0.1}
   - id: scatter:dark_grove
-    decoration: swptree4
-    count: 1
-    circle: {at: [53.432, 33.993], r: 0.1}
-  - id: scatter:dark_grove
     decoration: swptree2
     count: 1
-    circle: {at: [50.64, 31.153], r: 0.1}
+    circle: {at: [44.255, 28.677], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree04
     count: 1
@@ -1236,11 +1236,11 @@ scatter:
   - id: scatter:dark_grove
     decoration: 7tree04
     count: 1
-    circle: {at: [43.355, 37.05], r: 0.1}
+    circle: {at: [47.255, 37.993], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree04
     count: 1
-    circle: {at: [47.255, 37.993], r: 0.1}
+    circle: {at: [54.315, 34.07], r: 0.1}
   - id: scatter:dark_grove
     decoration: tree28
     count: 1
@@ -1791,15 +1791,15 @@ structures:
     textures: {door: hkm1d, roof: xtslatew, wall: hkm1b1, window: hkm1bw}
     facing: w
     parts:
-      - {id: base, shape: round, at: [512, 512], radius: 416, sides: 12, wall_height: 384, windows: alternate, roof: none}
-      - {id: course_1, shape: round, at: [512, 512], radius: 448, sides: 12, bottom: 368, textures: {roof: csbr128, wall: hkm3b}, wall_height: 32, windows: none, roof: flat}
-      - {id: storey_2, shape: round, at: [512, 512], radius: 416, sides: 12, bottom: 384, wall_height: 384, windows: alternate, roof: none}
-      - {id: course_2, shape: round, at: [512, 512], radius: 448, sides: 12, bottom: 752, textures: {roof: csbr128, wall: hkm3b}, wall_height: 32, windows: none, roof: flat}
-      - {id: storey_3, shape: round, at: [512, 512], radius: 416, sides: 12, bottom: 768, wall_height: 384, windows: alternate, roof: none}
-      - {id: course_3, shape: round, at: [512, 512], radius: 448, sides: 12, bottom: 1136, textures: {roof: csbr128, wall: hkm3b}, wall_height: 32, windows: none, roof: flat}
-      - {id: storey_4, shape: round, at: [512, 512], radius: 416, sides: 12, bottom: 1152, wall_height: 384, windows: alternate, roof: none}
-      - {id: course_4, shape: round, at: [512, 512], radius: 448, sides: 12, bottom: 1520, textures: {roof: csbr128, wall: hkm3b}, wall_height: 32, windows: none, roof: flat}
-      - {id: storey_5, shape: round, at: [512, 512], radius: 416, sides: 12, bottom: 1536, wall_height: 384, windows: alternate, roof: cone, roof_pitch: 70}
+      - {id: base, shape: round, at: [512, 512], radius: 416, sides: 12, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 384, windows: alternate, roof: none}
+      - {id: course_1, shape: round, at: [512, 512], radius: 448, sides: 12, bottom: 368, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: csbr128, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 32, windows: none, roof: flat}
+      - {id: storey_2, shape: round, at: [512, 512], radius: 416, sides: 12, bottom: 384, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 384, windows: alternate, roof: none}
+      - {id: course_2, shape: round, at: [512, 512], radius: 448, sides: 12, bottom: 752, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: csbr128, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 32, windows: none, roof: flat}
+      - {id: storey_3, shape: round, at: [512, 512], radius: 416, sides: 12, bottom: 768, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 384, windows: alternate, roof: none}
+      - {id: course_3, shape: round, at: [512, 512], radius: 448, sides: 12, bottom: 1136, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: csbr128, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 32, windows: none, roof: flat}
+      - {id: storey_4, shape: round, at: [512, 512], radius: 416, sides: 12, bottom: 1152, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 384, windows: alternate, roof: none}
+      - {id: course_4, shape: round, at: [512, 512], radius: 448, sides: 12, bottom: 1520, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: csbr128, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 32, windows: none, roof: flat}
+      - {id: storey_5, shape: round, at: [512, 512], radius: 416, sides: 12, bottom: 1536, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 384, windows: alternate, roof: cone, roof_pitch: 70}
     floor: 1150
     door:
       part: base
@@ -1837,7 +1837,7 @@ structures:
     title: Lyle's bench
   - id: thing:dd01_hatch
     kind: hatch
-    at: [66.5, 57.5]
+    at: [67.5, 57.5]
     turn: 90
     height: 96
     title: An iron hatch
@@ -1854,7 +1854,7 @@ structures:
       - lua: "XeenQuests.hook(\"q-d3.drawkcab_sign\")"
   - id: thing:jail_window
     kind: building
-    at: [67.4, 44.95]
+    at: [67.9, 44.95]
     size: [0.5, 0.25]
     kit: grey
     parts:
@@ -2088,8 +2088,9 @@ structures:
     size: [1, 0.75]
     turn: 0
     kit: timber
+    textures: {base: cwb1}
     parts:
-      - {id: stall, at: [64, 64], size: [384, 256], posts: 24, sill: 80, sill_walls: [n, e, w], wall_height: 224, windows: none, roof: hip, roof_pitch: 30}
+      - {id: stall, at: [64, 64], size: [384, 256], posts: 24, sill: 80, sill_walls: [n, e, w], textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 224, windows: none, roof: hip, roof_pitch: 30}
     door: none
     title: Market stall
   - id: thing:joe_sign
@@ -2113,7 +2114,8 @@ structures:
     decoration: cmpfyr00
     title: Campfire
     effects:
-      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end"
+    once: true
   - id: thing:dd04_burrow
     kind: doorway
     at: [68.5, 43.62]
@@ -2164,8 +2166,9 @@ structures:
     at: [77.8, 45.2]
     size: [1.4, 1.6]
     kit: grey
+    textures: {base: cwb1, trim: hhm3b}
     parts:
-      - {id: m, at: [64, 64], size: [589, 692], textures: {wall: t06a01}, wall_height: 384, windows: none, roof: none}
+      - {id: m, at: [64, 64], size: [589, 692], textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 384, windows: none, roof: none}
     floor: 1100
     door: none
     title: Miller Dunn's mill
@@ -2179,8 +2182,9 @@ structures:
     at: [77.8, 45.2]
     size: [1.4, 1.6]
     kit: grey
+    textures: {base: cwb1}
     parts:
-      - {id: m, at: [64, 64], size: [589, 692], textures: {roof: xlslatemos, wall: t06a01, window: t06a04}, wall_height: 448, windows: alternate, roof: gable, roof_pitch: 45}
+      - {id: m, at: [64, 64], size: [589, 692], textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, roof: xlslatemos, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 448, windows: alternate, roof: gable, roof_pitch: 45, eaves: 24, verge: 40}
     floor: 1100
     door: none
     title: Miller Dunn's mill
@@ -2287,7 +2291,8 @@ structures:
     decoration: cmpfyr00
     title: Campfire
     effects:
-      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end"
+    once: true
   - id: thing:sardaj_totem
     kind: decoration
     at: [87, 26.6]
@@ -2297,6 +2302,7 @@ structures:
     at: [95, 62]
     size: [1.5, 1]
     kit: poor
+    textures: {trim: hhp1b}
     parts:
       - {id: frame, at: [64, 64], size: [640, 384], textures: {wall: t06a10}, wall_height: 448, windows: none, roof: none}
     door: none
@@ -2324,8 +2330,9 @@ structures:
     at: [102.4, 57.3]
     size: [1.2, 1.2]
     kit: stone
+    textures: {base: cwb1}
     parts:
-      - {id: s, at: [154, 154], size: [307, 307], posts: 32, textures: {roof: xlslate, wall: t09a01}, wall_height: 288, windows: none, roof: hip, roof_pitch: 50, title: A wayside shrine of Mok}
+      - {id: s, at: [154, 154], size: [307, 307], posts: 32, textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, roof: xlslate, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 288, windows: none, roof: hip, roof_pitch: 50, title: A wayside shrine of Mok}
     door: none
     title: A wayside shrine of Mok
   - id: thing:north_road_end
@@ -2377,9 +2384,9 @@ structures:
     textures: {door: hkm3dr, roof: xtslate, wall: hkm3b, window: hkm3elw}
     facing: s
     parts:
-      - {id: base, shape: round, at: [768, 768], radius: 640, sides: 12, textures: {post_left: cswl128, post_right: cswl128, slit: csaro128, trim: cswl128, wall: cswl128, window: cswl128}, wall_height: 1280, upper_walls: {"6": [[wall, 101.644], [slit, 128], [wall, 101.644]]}, windows: none, roof: none}
-      - {id: mid, shape: round, at: [768, 768], radius: 576, sides: 12, bottom: 1280, textures: {post_left: cswl128, post_right: cswl128, roof: cswl128, slit: csaro128, trim: cswl128, wall: cswl128, window: cswl128}, wall_height: 1024, walls: {"6": [[wall, 85.08], [slit, 128], [wall, 85.08]]}, upper_walls: {"6": [[wall, 85.08], [slit, 128], [wall, 85.08]]}, windows: none, roof: none}
-      - {id: top, shape: round, at: [768, 768], radius: 640, sides: 12, bottom: 2304, textures: {post_left: hkm3b, post_right: hkm3b, trim: cswl128}, wall_height: 256, walls: {"0": [[wall, 101.644], [window, 128], [wall, 101.644]], "1": [wall, wall], "10": [[wall, 101.644], [window, 128], [wall, 101.644]], "11": [wall, wall], "2": [[wall, 101.644], [window, 128], [wall, 101.644]], "3": [wall, wall], "4": [[wall, 101.644], [window, 128], [wall, 101.644]], "5": [wall, wall], "6": [[wall, 101.644], [window, 128], [wall, 101.644]], "7": [wall, wall], "8": [[wall, 101.644], [window, 128], [wall, 101.644]], "9": [wall, wall]}, windows: none, roof: cone, roof_pitch: 68}
+      - {id: base, shape: round, at: [768, 768], radius: 640, sides: 12, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, slit: csaro128, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 1280, upper_walls: {"6": [[wall, 101.644], [slit, 128], [wall, 101.644]]}, windows: none, roof: none}
+      - {id: mid, shape: round, at: [768, 768], radius: 576, sides: 12, bottom: 1280, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: cswl128, slit: csaro128, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 1024, walls: {"6": [[wall, 85.08], [slit, 128], [wall, 85.08]]}, upper_walls: {"6": [[wall, 85.08], [slit, 128], [wall, 85.08]]}, windows: none, roof: none}
+      - {id: top, shape: round, at: [768, 768], radius: 640, sides: 12, bottom: 2304, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 256, walls: {"0": [[wall, 101.644], [window, 128], [wall, 101.644]], "1": [wall, wall], "10": [[wall, 101.644], [window, 128], [wall, 101.644]], "11": [wall, wall], "2": [[wall, 101.644], [window, 128], [wall, 101.644]], "3": [wall, wall], "4": [[wall, 101.644], [window, 128], [wall, 101.644]], "5": [wall, wall], "6": [[wall, 101.644], [window, 128], [wall, 101.644]], "7": [wall, wall], "8": [[wall, 101.644], [window, 128], [wall, 101.644]], "9": [wall, wall]}, windows: none, roof: cone, roof_pitch: 68}
     floor: 1600
     door:
       part: base
@@ -2463,13 +2470,13 @@ structures:
     at: [35, 64]
     size: [8, 12]
     kit: grey
-    textures: {door: xkportc, post_left: hcw1le, post_right: hcw1re, roof: xtslate, trim: cstr128, wall: hcwall, window: hcwindo}
+    textures: {base: cwb1, door: xkportc, post_left: hcw1le, post_right: hcw1re, roof: xtslate, trim: cstr128, wall: hcwall, window: hcwindo}
     parts:
-      - {id: curtain_n, at: [512, 256], size: [3072, 256], wall_height: 640, windows: none, roof: flat, battlements: true}
-      - {id: curtain_s, at: [512, 5632], size: [3072, 256], wall_height: 640, windows: none, roof: flat, battlements: true}
-      - {id: curtain_w, at: [256, 512], size: [256, 5120], wall_height: 640, windows: none, roof: flat, battlements: true}
-      - {id: curtain_e, at: [3584, 512], size: [256, 5120], wall_height: 640, windows: none, roof: flat, battlements: true}
-      - {id: keep_1, at: [1024, 1536], size: [2048, 2560], bottom: 0, wall_height: 384, windows: none, roof: none, battlements: false}
+      - {id: curtain_n, at: [512, 256], size: [3072, 256], textures: {door: xkportc, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 640, windows: none, roof: flat, battlements: true}
+      - {id: curtain_s, at: [512, 5632], size: [3072, 256], textures: {door: xkportc, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 640, windows: none, roof: flat, battlements: true}
+      - {id: curtain_w, at: [256, 512], size: [256, 5120], textures: {door: xkportc, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 640, windows: none, roof: flat, battlements: true}
+      - {id: curtain_e, at: [3584, 512], size: [256, 5120], textures: {door: xkportc, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 640, windows: none, roof: flat, battlements: true}
+      - {id: keep_1, at: [1024, 1536], size: [2048, 2560], bottom: 0, textures: {door: xkportc, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 384, windows: none, roof: none, battlements: false}
     floor: 1750
     door: none
     title: Castle Kalindra
@@ -2495,11 +2502,11 @@ structures:
     at: [35, 64]
     size: [8, 12]
     kit: grey
-    textures: {door: xkportc, post_left: hcw1le, post_right: hcw1re, roof: xtslate, trim: cstr128, wall: hcwall, window: hcwindo}
+    textures: {base: cwb1, door: xkportc, post_left: hcw1le, post_right: hcw1re, roof: xtslate, trim: cstr128, wall: hcwall, window: hcwindo}
     parts:
-      - {id: keep_2, at: [1024, 1536], size: [2048, 2560], bottom: 384, wall_height: 384, walls: {e: [wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall], n: [wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, window, wall, wall], s: [wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, window, wall, wall], w: [wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall]}, upper_walls: {e: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], s: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], w: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall]}, roof: none, battlements: false}
-      - {id: observatory, shape: round, at: [2784, 1824], radius: 224, sides: 10, bottom: 416, wall_height: 736, windows: none, roof: none}
-      - {id: observatory_lantern, shape: round, at: [2784, 1824], radius: 207.11, sides: 10, bottom: 1152, wall_height: 256, walls: {"0": [window], "1": [wall], "2": [window], "3": [wall], "4": [window], "5": [wall], "6": [window], "7": [wall], "8": [window], "9": [wall]}, roof: cone, roof_pitch: 66}
+      - {id: keep_2, at: [1024, 1536], size: [2048, 2560], bottom: 384, textures: {door: xkportc, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 384, walls: {e: [wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall], n: [wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, window, wall, wall], s: [wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, window, wall, wall], w: [wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall]}, upper_walls: {e: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], s: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], w: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall]}, roof: none, battlements: false}
+      - {id: observatory, shape: round, at: [2784, 1824], radius: 224, sides: 10, bottom: 416, textures: {door: xkportc, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 736, windows: none, roof: none}
+      - {id: observatory_lantern, shape: round, at: [2784, 1824], radius: 207.11, sides: 10, bottom: 1152, textures: {door: xkportc, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 256, walls: {"0": [window], "1": [wall], "2": [window], "3": [wall], "4": [window], "5": [wall], "6": [window], "7": [wall], "8": [window], "9": [wall]}, roof: cone, roof_pitch: 66}
     floor: 1750
     door: none
     title: Castle Kalindra
@@ -2526,12 +2533,12 @@ structures:
     at: [35, 64]
     size: [8, 12]
     kit: grey
-    textures: {door: xkportc, post_left: hcw1le, post_right: hcw1re, roof: xtslate, trim: cstr128, wall: hcwall, window: hcwindo}
+    textures: {base: cwb1, door: xkportc, post_left: hcw1le, post_right: hcw1re, roof: xtslate, trim: cstr128, wall: hcwall, window: hcwindo}
     parts:
-      - {id: tower_sw, shape: round, at: [384, 5760], radius: 352, sides: 10, wall_height: 640, windows: none, roof: none}
-      - {id: tower_sw_top, shape: round, at: [384, 5760], radius: 352, sides: 10, bottom: 640, wall_height: 384, walls: {"0": [wall, wall], "1": [[wall, 44.774], [window, 128], [wall, 44.774]], "2": [wall, wall], "3": [[wall, 44.774], [window, 128], [wall, 44.774]], "4": [wall, wall], "5": [wall, wall], "6": [[wall, 44.774], [window, 128], [wall, 44.774]], "7": [wall, wall], "8": [[wall, 44.774], [window, 128], [wall, 44.774]], "9": [wall, wall]}, upper_walls: {"0": [wall, wall], "1": [wall, wall], "2": [wall, wall], "3": [wall, wall], "4": [wall, wall], "5": [wall, wall], "6": [wall, wall], "7": [wall, wall], "8": [wall, wall], "9": [wall, wall]}, roof: cone, roof_pitch: 66}
-      - {id: tower_se, shape: round, at: [3712, 5760], radius: 352, sides: 10, wall_height: 640, windows: none, roof: none}
-      - {id: tower_se_top, shape: round, at: [3712, 5760], radius: 352, sides: 10, bottom: 640, wall_height: 384, walls: {"0": [wall, wall], "1": [[wall, 44.774], [window, 128], [wall, 44.774]], "2": [wall, wall], "3": [[wall, 44.774], [window, 128], [wall, 44.774]], "4": [wall, wall], "5": [wall, wall], "6": [[wall, 44.774], [window, 128], [wall, 44.774]], "7": [wall, wall], "8": [[wall, 44.774], [window, 128], [wall, 44.774]], "9": [wall, wall]}, upper_walls: {"0": [wall, wall], "1": [wall, wall], "2": [wall, wall], "3": [wall, wall], "4": [wall, wall], "5": [wall, wall], "6": [wall, wall], "7": [wall, wall], "8": [wall, wall], "9": [wall, wall]}, roof: cone, roof_pitch: 66}
+      - {id: tower_sw, shape: round, at: [384, 5760], radius: 352, sides: 10, textures: {door: xkportc, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 640, windows: none, roof: none}
+      - {id: tower_sw_top, shape: round, at: [384, 5760], radius: 352, sides: 10, bottom: 640, textures: {door: xkportc, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 384, walls: {"0": [wall, wall], "1": [[wall, 44.774], [window, 128], [wall, 44.774]], "2": [wall, wall], "3": [[wall, 44.774], [window, 128], [wall, 44.774]], "4": [wall, wall], "5": [wall, wall], "6": [[wall, 44.774], [window, 128], [wall, 44.774]], "7": [wall, wall], "8": [[wall, 44.774], [window, 128], [wall, 44.774]], "9": [wall, wall]}, upper_walls: {"0": [wall, wall], "1": [wall, wall], "2": [wall, wall], "3": [wall, wall], "4": [wall, wall], "5": [wall, wall], "6": [wall, wall], "7": [wall, wall], "8": [wall, wall], "9": [wall, wall]}, roof: cone, roof_pitch: 66}
+      - {id: tower_se, shape: round, at: [3712, 5760], radius: 352, sides: 10, textures: {door: xkportc, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 640, windows: none, roof: none}
+      - {id: tower_se_top, shape: round, at: [3712, 5760], radius: 352, sides: 10, bottom: 640, textures: {door: xkportc, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 384, walls: {"0": [wall, wall], "1": [[wall, 44.774], [window, 128], [wall, 44.774]], "2": [wall, wall], "3": [[wall, 44.774], [window, 128], [wall, 44.774]], "4": [wall, wall], "5": [wall, wall], "6": [[wall, 44.774], [window, 128], [wall, 44.774]], "7": [wall, wall], "8": [[wall, 44.774], [window, 128], [wall, 44.774]], "9": [wall, wall]}, upper_walls: {"0": [wall, wall], "1": [wall, wall], "2": [wall, wall], "3": [wall, wall], "4": [wall, wall], "5": [wall, wall], "6": [wall, wall], "7": [wall, wall], "8": [wall, wall], "9": [wall, wall]}, roof: cone, roof_pitch: 66}
     floor: 1750
     door: none
     title: Castle Kalindra
@@ -2562,17 +2569,17 @@ structures:
     at: [35, 64]
     size: [8, 12]
     kit: grey
-    textures: {door: chb1dl, post_left: hcw1le, post_right: hcw1re, roof: xtslate, trim: cstr128, wall: hcwall, window: hcwindo}
+    textures: {base: cwb1, door: chb1dl, post_left: hcw1le, post_right: hcw1re, roof: xtslate, trim: cstr128, wall: hcwall, window: hcwindo}
     parts:
-      - {id: keep_3, at: [1024, 1536], size: [2048, 2560], bottom: 768, wall_height: 384, walls: {e: [wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall], n: [wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, window, wall, wall], s: [wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, window, wall, wall], w: [wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall]}, upper_walls: {e: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], s: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], w: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall]}, roof: flat, battlements: true}
-      - {id: bell_tower, at: [1792, 2560], size: [512, 512], bottom: 1152, wall_height: 512, windows: none, roof: none}
-      - {id: belfry, at: [1792, 2560], size: [512, 512], bottom: 1664, wall_height: 256, walls: {e: [wall, [window, 128], wall], n: [wall, [window, 128], wall], s: [wall, [window, 128], wall], w: [wall, [window, 128], wall]}, roof: hip, roof_pitch: 55}
-      - {id: tower_nw, shape: round, at: [384, 384], radius: 352, sides: 10, wall_height: 640, windows: none, roof: none}
-      - {id: tower_nw_top, shape: round, at: [384, 384], radius: 352, sides: 10, bottom: 640, wall_height: 384, walls: {"0": [wall, wall], "1": [[wall, 44.774], [window, 128], [wall, 44.774]], "2": [wall, wall], "3": [[wall, 44.774], [window, 128], [wall, 44.774]], "4": [wall, wall], "5": [wall, wall], "6": [[wall, 44.774], [window, 128], [wall, 44.774]], "7": [wall, wall], "8": [[wall, 44.774], [window, 128], [wall, 44.774]], "9": [wall, wall]}, upper_walls: {"0": [wall, wall], "1": [wall, wall], "2": [wall, wall], "3": [wall, wall], "4": [wall, wall], "5": [wall, wall], "6": [wall, wall], "7": [wall, wall], "8": [wall, wall], "9": [wall, wall]}, roof: cone, roof_pitch: 66}
-      - {id: tower_ne, shape: round, at: [3712, 384], radius: 352, sides: 10, wall_height: 640, windows: none, roof: none}
-      - {id: tower_ne_top, shape: round, at: [3712, 384], radius: 352, sides: 10, bottom: 640, wall_height: 384, walls: {"0": [wall, wall], "1": [[wall, 44.774], [window, 128], [wall, 44.774]], "2": [wall, wall], "3": [[wall, 44.774], [window, 128], [wall, 44.774]], "4": [wall, wall], "5": [wall, wall], "6": [[wall, 44.774], [window, 128], [wall, 44.774]], "7": [wall, wall], "8": [[wall, 44.774], [window, 128], [wall, 44.774]], "9": [wall, wall]}, upper_walls: {"0": [wall, wall], "1": [wall, wall], "2": [wall, wall], "3": [wall, wall], "4": [wall, wall], "5": [wall, wall], "6": [wall, wall], "7": [wall, wall], "8": [wall, wall], "9": [wall, wall]}, roof: cone, roof_pitch: 66}
-      - {id: stable_gate, at: [2112, 160], size: [640, 448], wall_height: 768, walls: {n: [[wall, 192], [door, 256], [wall, 192]]}, upper_walls: {n: [[wall, 192], [wall, 256], [wall, 192]]}, windows: none, roof: flat, battlements: true}
-      - {id: banner, at: [1664, 1504], size: [128, 32], bottom: 832, wall_height: 256, walls: {n: [xkkalban], s: [wall]}, windows: none, roof: none}
+      - {id: keep_3, at: [1024, 1536], size: [2048, 2560], bottom: 768, textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 384, walls: {e: [wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall], n: [wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, window, wall, wall], s: [wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, window, wall, wall], w: [wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall, wall, window, wall, wall, wall, wall]}, upper_walls: {e: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], s: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall], w: [wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall, wall]}, roof: flat, battlements: true}
+      - {id: bell_tower, at: [1792, 2560], size: [512, 512], bottom: 1152, textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 512, windows: none, roof: none}
+      - {id: belfry, at: [1792, 2560], size: [512, 512], bottom: 1664, textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 256, walls: {e: [wall, [window, 128], wall], n: [wall, [window, 128], wall], s: [wall, [window, 128], wall], w: [wall, [window, 128], wall]}, roof: hip, roof_pitch: 55, eaves: 24}
+      - {id: tower_nw, shape: round, at: [384, 384], radius: 352, sides: 10, textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 640, windows: none, roof: none}
+      - {id: tower_nw_top, shape: round, at: [384, 384], radius: 352, sides: 10, bottom: 640, textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 384, walls: {"0": [wall, wall], "1": [[wall, 44.774], [window, 128], [wall, 44.774]], "2": [wall, wall], "3": [[wall, 44.774], [window, 128], [wall, 44.774]], "4": [wall, wall], "5": [wall, wall], "6": [[wall, 44.774], [window, 128], [wall, 44.774]], "7": [wall, wall], "8": [[wall, 44.774], [window, 128], [wall, 44.774]], "9": [wall, wall]}, upper_walls: {"0": [wall, wall], "1": [wall, wall], "2": [wall, wall], "3": [wall, wall], "4": [wall, wall], "5": [wall, wall], "6": [wall, wall], "7": [wall, wall], "8": [wall, wall], "9": [wall, wall]}, roof: cone, roof_pitch: 66}
+      - {id: tower_ne, shape: round, at: [3712, 384], radius: 352, sides: 10, textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 640, windows: none, roof: none}
+      - {id: tower_ne_top, shape: round, at: [3712, 384], radius: 352, sides: 10, bottom: 640, textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 384, walls: {"0": [wall, wall], "1": [[wall, 44.774], [window, 128], [wall, 44.774]], "2": [wall, wall], "3": [[wall, 44.774], [window, 128], [wall, 44.774]], "4": [wall, wall], "5": [wall, wall], "6": [[wall, 44.774], [window, 128], [wall, 44.774]], "7": [wall, wall], "8": [[wall, 44.774], [window, 128], [wall, 44.774]], "9": [wall, wall]}, upper_walls: {"0": [wall, wall], "1": [wall, wall], "2": [wall, wall], "3": [wall, wall], "4": [wall, wall], "5": [wall, wall], "6": [wall, wall], "7": [wall, wall], "8": [wall, wall], "9": [wall, wall]}, roof: cone, roof_pitch: 66}
+      - {id: stable_gate, at: [2112, 160], size: [640, 448], textures: {door: xvsdoorw, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 768, walls: {n: [[wall, 192], [door, 256], [wall, 192]]}, upper_walls: {n: [[wall, 192], [wall, 256], [wall, 192]]}, windows: none, roof: flat, battlements: true}
+      - {id: banner, at: [1664, 1504], size: [128, 32], bottom: 832, textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 256, walls: {n: [xkkalban], s: [wall]}, windows: none, roof: none}
     floor: 1750
     door:
       leaves: 2
@@ -2608,12 +2615,12 @@ structures:
     at: [42.300000000000004, 69]
     size: [1.4, 2]
     kit: grey
-    textures: {door: xkportc, post_left: hcw1le, post_right: hcw1re, roof: csbr128, trim: cstr128, wall: hcwall, window: hcwindo}
+    textures: {base: cwb1, door: xkportc, post_left: hcw1le, post_right: hcw1re, roof: csbr128, trim: cstr128, wall: hcwall, window: hcwindo}
     facing: e
     parts:
-      - {id: gatehouse, at: [64, 64], size: [589, 896], wall_height: 896, walls: {e: [[wall, 320], [door, 256], [wall, 320]]}, upper_walls: {e: [[wall, 320], [wall, 256], [wall, 320]]}, windows: none, roof: flat, battlements: true}
+      - {id: gatehouse, at: [64, 64], size: [589, 896], textures: {door: xkportc, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 896, walls: {e: [[wall, 320], [door, 256], [wall, 320]]}, upper_walls: {e: [[wall, 320], [wall, 256], [wall, 320]]}, windows: none, roof: flat, battlements: true}
       - {id: crest_frame, at: [653, 432], size: [32, 160], bottom: 304, textures: {roof: cstr128, wall: cstr128}, wall_height: 288, windows: none, roof: flat}
-      - {id: crest, at: [669, 448], size: [48, 128], bottom: 320, wall_height: 256, walls: {e: [xkkalcrst], w: [cstr128]}, windows: none, roof: none}
+      - {id: crest, at: [669, 448], size: [48, 128], bottom: 320, textures: {door: xkportc, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 256, walls: {e: [xkkalcrst], w: [cstr128]}, windows: none, roof: none}
     floor: 1750
     door:
       part: gatehouse
@@ -2663,8 +2670,9 @@ structures:
     at: [51.2, 89.2]
     size: [1.6, 1.6]
     kit: stone
+    textures: {base: cwb1}
     parts:
-      - {id: s, at: [205, 205], size: [410, 410], posts: 40, textures: {roof: xlslate, wall: t09a01}, wall_height: 320, windows: none, roof: cone, roof_pitch: 52, title: The prayer shrine}
+      - {id: s, at: [205, 205], size: [410, 410], posts: 40, textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, roof: xlslate, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 320, windows: none, roof: cone, roof_pitch: 52, title: The prayer shrine}
     door: none
     title: The prayer shrine
   - id: thing:falista_hut
@@ -2672,9 +2680,9 @@ structures:
     at: [45.5, 94.5]
     size: [1.5, 1]
     kit: poor
-    textures: {door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}
+    textures: {base: cwb1, door: t06a03, gable: t06a01, post_left: t06a07, post_right: t06a07, ridge: t06a10, roof: xlslatemos, trim: t06a10, wall: t06a01, window: t06a04}
     parts:
-      - {id: hut, at: [64, 64], size: [640, 384], wall_height: 256, windows: alternate, roof: gable, roof_pitch: 40, title: Falista's hut, effects: [{lua: "evt.SimpleMessage(\"Falista's hut is empty. A note on the table: \\\"Gone to the Clouds. Back when I am restored.\\\"\")"}]}
+      - {id: hut, at: [64, 64], size: [640, 384], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 256, windows: alternate, roof: gable, roof_pitch: 40, eaves: 24, verge: 40, title: Falista's hut, effects: [{lua: "evt.SimpleMessage(\"Falista's hut is empty. A note on the table: \\\"Gone to the Clouds. Back when I am restored.\\\"\")"}]}
     door: none
     title: Falista's hut
   - id: thing:shipwreck
@@ -2683,6 +2691,7 @@ structures:
     size: [2, 1]
     turn: 20
     kit: poor
+    textures: {trim: hhp1b}
     parts:
       - {id: hull, at: [96, 64], size: [832, 384], textures: {wall: 7trimd}, wall_height: 256, windows: none, roof: none}
     floor: 900
@@ -3223,7 +3232,7 @@ actors:
   - {monster: "11020", at: [96, 64.4], count: 4, spread: 1.2, group: 2, hostile: true}
   - {monster: "11022", at: [97.6, 63.6], count: 2, spread: 0.6, group: 2, hostile: true}
   - {monster: "11021", at: [94.6, 61.4], count: 1, spread: 0, group: 2, hostile: true}
-  - {monster: "11361", at: [49.8, 32.6], count: 3, spread: 0.7, group: 3, hostile: true}
+  - {monster: "11361", at: [50.4, 31.6], count: 3, spread: 0.7, group: 3, hostile: true}
   - {monster: "11361", at: [40.5, 35.5], count: 2, spread: 0.7, group: 4, hostile: true}
   - {monster: "11361", at: [43.2, 33.2], count: 2, spread: 0.7, group: 5, hostile: true}
   - {monster: "11100", at: [88, 25], count: 7, spread: 1.4, group: 60, hostile: false}
@@ -3244,10 +3253,10 @@ actors:
   - {monster: "382", at: [52.62, 61.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
   - {monster: "304", at: [52.12, 55.62], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
   - {monster: "359", at: [65.12, 57.62], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
-  - {monster: "353", at: [69.62, 48.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "353", at: [69.88, 47.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
   - {monster: "358", at: [57.12, 60.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
   - {monster: "352", at: [67.12, 61.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
-  - {monster: "382", at: [72.12, 51.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "382", at: [71.62, 51.12], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
   - {monster: "304", at: [51.88, 48.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
   - {monster: "359", at: [69.62, 58.62], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
   - {monster: "353", at: [60.12, 50.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
@@ -3257,12 +3266,12 @@ actors:
   - {monster: "304", at: [63.38, 50.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
   - {monster: "359", at: [51.88, 58.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
   - {monster: "353", at: [54.88, 58.62], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
-  - {monster: "358", at: [62.88, 45.62], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
-  - {monster: "352", at: [48.62, 56.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
-  - {monster: "382", at: [67.12, 48.12], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "358", at: [67.38, 48.12], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "352", at: [62.88, 45.62], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "382", at: [48.62, 56.38], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
   - {monster: "304", at: [72.38, 58.12], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
   - {monster: "359", at: [59.38, 57.88], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
-  - {monster: "353", at: [72.12, 47.88], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
+  - {monster: "353", at: [72.12, 48.12], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
 sounds:
   - {id: sound:bed_darkside_1, at: [27, 25], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}
   - {id: sound:bed_darkside_10, at: [41, 97.5], sound: xeen_amb_darkside, radius: 15000, inner_radius: 6000, volume: 0.45, pan: false}

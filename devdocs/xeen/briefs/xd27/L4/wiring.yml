@@ -131,7 +131,6 @@ events:
   - id: evt:lair
     preset: script
     source: platform:seat
-    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "You have found an Ogre lair.  Destroy?", wrong_text: "You leave the lair as it is, for now."}
     title: Ogre lair
     condition: {kills: {monster: monster:chieftain}}
     locked_text: "The Chieftain's seat of boulders, hung with the trophies of Nystor's boats. Break it now and his band will only pile it up again: the Chieftain throws from the ledge beyond the quarry."
@@ -147,7 +146,7 @@ events:
       - passable: platform:oar_2
       - hide: panel:sail
       - lua: "XeenQuests.hook(\"q-c23.chieftain\")"
-    notes: "goal:lair / set:lair: the source's question (xeen aaze0010:0); A3's hook q-c23.chieftain sets Q-C23's bit (ogre_lair_destroyed) and gives the answer (aaze0010:1). The seat, the oars and the sail come down."
+    notes: "goal:lair / set:lair: the click breaks the lair (F47, the player's pins 2026-11-24: no Yes/No for a quest goal; the source asked aaze0010:0); A3's hook q-c23.chieftain sets Q-C23's bit (ogre_lair_destroyed) and gives the answer (aaze0010:1). The seat, the oars and the sail come down."
   - id: evt:larder_door
     preset: door
     source: door:larder

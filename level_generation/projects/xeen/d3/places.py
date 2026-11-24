@@ -500,7 +500,9 @@ def structures():
                     leaf['condition'] = {'lua': hook_lua('q-d8.sandcaster_gate')}
                 S(leaf)
     # ======== the square: paving, the mirror, Omid's deep well, the original lines (aaze0031) ==================
-    S({'id': 'thing:sc_square', 'kind': 'platform', 'at': [36.5, 30], 'size': [3328, 2816], 'height': 16,
+    # platforms.through (2026-11-24): the quarter terrace's foot rose 54 through the paving's north-east corner (x
+    # 39.5-39.75, y 27.25-27.6); the paving starts half a cell further south, where the land is level
+    S({'id': 'thing:sc_square', 'kind': 'platform', 'at': [36.5, 30.25], 'size': [3328, 2560], 'height': 16,
        'textures': {'top': 't30a05c', 'wall': 't30a05a'}, 'title': "Sandcaster's square"})
     S({'id': 'thing:sc_mirror', 'kind': 'portal', 'at': list(MIRROR), 'radius': 112, 'sides': 12, 'turn': 90,
        'textures': {'membrane': {'texture': 'xmirror'}},
@@ -765,7 +767,9 @@ def structures():
        'effects': [{'text': "A courier from Lakeside took the high path round Wrathtop and never came down."}]})
     S(deco('thing:courier_bones', '7dec18', (98.1, 21.5)))
     # ======== dressing in the towns: barrels in pairs against walls, palms in yards (DRESSING.md) =============
-    for i, (p1, p2) in enumerate([((32.75, 34.6), (32.75, 34.9)), ((39.75, 33.6), (39.75, 33.9)),
+    # F40 (2026-11-24): the first pair stood inside Saffron House (sc_houses#10, x 32.09-32.88, y 33.59-34.91, as
+    # built); now against its south wall, outside
+    for i, (p1, p2) in enumerate([((32.3, 35.03), (32.62, 35.03)), ((39.75, 33.6), (39.75, 33.9)),
                                   ((45.6, 34.85), (45.9, 34.85)), ((27.85, 25.3), (28.15, 25.3)),
                                   ((63.85, 46.6), (63.85, 46.9))]):
         S(deco('thing:barrel_%d' % (i + 1), 'bigbarel', p1))

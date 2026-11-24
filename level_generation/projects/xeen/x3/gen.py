@@ -180,12 +180,17 @@ NS_ROAD = [[94, 42.5], [95.5, 48], [97, 54], [98.5, 59], [99.5, 62], [100.5, 66.
 SQUARE_ST = [[100.5, 70], [100.5, 75]]
 SOUTH_ST = [[100.5, 75], [101, 79], [102.5, 82], [103, 84.5]]
 QUAY_LANE = [[100.5, 78], [97.5, 78], [94, 78], [91, 78.5], [89, 80]]
-NEWCASTLE_STAIR = [[86, 44], [84, 41.5], [82.5, 39.5], [82.5, 37.5]]
+# Final cloud round (pin p3): the stair ends at the terrace's edge. Run on to the gate (37.5), its bed (the studio
+# eases a road's land over five cells) cut a ramp 96-256 deep into the terrace between the mirror and the west gate
+# tower: the mirror's dais hung over it and the tower's plinth showed (town_fit_check `things.overhang`).
+NEWCASTLE_STAIR = [[86, 44], [84, 41.5], [82.5, 39.5]]
 TOMB_PATH = [[35, 58.5], [36, 60.5], [37, 61.5], [37, 67], [36, 68.5], [34.5, 74], [34, 79]]
 TOMB_LANE = [[34, 79], [34, 82.5]]
 GLOOM_PATH = [[34, 79], [42, 84], [50, 88], [58, 90.5], [66, 92], [73, 93.5]]
 SHORE_PATH = [[103, 84.5], [96, 87.5], [88, 89], [80, 91.5], [75, 93.5]]
-CAUSEWAY = [[64.5, 56.5], [64.5, 66.0]]
+# P3 F48 (2026-11-24): on to the islet's first dry node line (67) and resting on the land at both ends (no level
+# `height`: the reed shore stands at 864, the islet at 1,000, so a level deck stepped 70 over the one and under the other)
+CAUSEWAY = [[64.5, 56.5], [64.5, 67.0]]
 COBBLE = [EAST_ROAD, CAMP_ROAD, NS_ROAD, SQUARE_ST]
 DIRT = [NORTH_ROAD, WEST_ROAD, SOUTH_ST, QUAY_LANE, NEWCASTLE_STAIR, TOMB_PATH, TOMB_LANE]
 
@@ -462,7 +467,12 @@ def build():
     frame = copy.deepcopy(l1_sketch['frame'])
     sk['frame'] = frame
     terraces = [
-        {'polygon': [[78, 30], [87, 30], [87, 38], [78, 38]], 'height': NC_H, 'slope': 3,
+        # P3 F50 (2026-11-24): a cell more of level ground south of the ruin (its gate's mirror and towers stood on
+        # the rise's lip). Final cloud round (pin p3 again): the ramp's notch (x 81.5-83.5, y 38-39) is filled; the
+        # mirror's dais (81.0, 37.3) stood at its corner and hung over the ramp's slope, the west gate tower's plinth
+        # showed above it. The ramp now starts at the terrace's edge (y 39), 1.7 cells from the mirror.
+        {'polygon': [[78, 30], [87, 30], [87, 39], [78, 39]],
+         'height': NC_H, 'slope': 3,
          'notes': "Newcastle's rise: the ruin's floor and the gate's apron."},
         {'polygon': [[97, 70], [102, 70], [102, 75], [97, 75]], 'height': 1000, 'slope': 2,
          'notes': "Nightshadow's square."},
@@ -588,7 +598,8 @@ def build():
        'title': "Count Draco's coffin",
        'mouth': {'width': 384, 'height': 896, 'depth': 160},
        # XD-24 installed (A7, 17:41): in to its start at the foot of the coffin stair, facing south (its NOTES)
-       'into': {'map': 'xeen_xd24.blv', 'at': [0, 704, 0], 'facing': 1536},
+       # P3 F45 (dungeon agent, 2026-11-24): in to the coffin stair, clear of the crypt's first vampires
+       'into': {'map': 'xeen_xd24.blv', 'at': [0, 1600, 224], 'facing': 1536},
        'notes': "XD-24, open: the stair down to the crypt's start (A7's point)."})
     S(sign('thing:coffin_plinth', (COFFIN[0], COFFIN[1] + 1.2), 'Plinth', hook('q-c7.sign_night'), height=128,
            width=128))
@@ -665,9 +676,12 @@ def build():
        'open': True, 'house': 4101, 'title': "Ebenezer's Tent",
        'notes': "A4's house 4101 (proposed door building:ebenezer_tent; a tent structure here)."})
     S(deco('thing:camp_fire', 'cmpfyr00', (85.0, 45.3), title='Campfire'))
-    S(deco('thing:rain_barrel', 'bigbarel', (86.2, 41.15), title='Rain Barrel',
+    # P3 F40 (2026-11-24): the pair stood through the tent's north-west corner; now beside its west wall
+    S(deco('thing:rain_barrel', 'bigbarel', (85.95, 41.7), title='Rain Barrel',
            effects=[{'text': 'The barrel is empty.'}]))
-    S(deco('thing:rain_barrel_pair', 'smlbarel', (86.6, 41.15)))
+    # final cloud round: the keg west of the barrel, out of the tent door's way (it stood 308 before the door: oymap
+    # audit `dressing.door` keeps 320 in front and 192 beside)
+    S(deco('thing:rain_barrel_pair', 'smlbarel', (85.6, 41.75)))
     for i, (d, at) in enumerate([('bigbarel', (90.1, 46.3)), ('7dec32', (90.1, 45.9)), ('dec24x', (84.6, 45.75))]):
         S(deco('thing:camp_prop_%d' % (i + 1), d, at))
     # ---- Newcastle: the ruin (stage 0), the walls (stage 1, m9.walls), the keep (stage 2, m11.keep)
@@ -723,7 +737,7 @@ def build():
     S({'id': 'thing:yard_chest', 'kind': 'chest', 'at': [76.9, 38.6], 'title': 'Chest',
        'chest': {'level': 2, 'random_items': 2}, 'notes': "Emerson's work yard: the masons' pay chest."})
     # ---- the Tower of High Magic (XD-11, installed) on its islet, the causeway
-    S({'id': 'thing:causeway', 'kind': 'bridge', 'line': CAUSEWAY, 'width': 640, 'height': 940, 'thickness': 96,
+    S({'id': 'thing:causeway', 'kind': 'bridge', 'line': CAUSEWAY, 'width': 640, 'thickness': 96,
        'kerb': 96, 'arches': {'count': 8, 'rise': 128, 'form': 'segment', 'pier_width': 192},
        'textures': {'deck': 'cwb', 'side': 'cnb', 'pier': 'cnb'}, 'title': 'The causeway',
        'notes': "The stone causeway from the north shore to the Tower's islet (the signature view's line)."})
@@ -751,7 +765,9 @@ def build():
     # ---- the Tomb of a Thousand Terrors (XD-08, A7): the barrow and its door, in with the Stone (m10.tomb_door)
     S({'id': 'thing:tomb', 'kind': 'cave_mouth', 'at': list(TOMB_AT), 'size': [1024, 1024], 'turn': 180,
        'free': True, 'mouth': {'width': 256, 'height': 352, 'depth': 16, 'form': 'door', 'sides': 0, 'rim': 128},
-       'textures': {'shell': '7dirttyl', 'door': '7solid01'}, 'roughness': 0.5, 'seed': 5,
+       # P3 F50 (2026-11-24): a barrow of the dark tower blocks (the classic kit's 'tower', U-14), not a shell of the
+       # ground's dirt standing free on flat land (it read as a plain brown wedge)
+       'textures': {'shell': 'xvtwall', 'door': '7solid01'}, 'roughness': 0.5, 'seed': 5,
        'title': 'Tomb of a Thousand Terrors', 'hint': 'Tomb of a Thousand Terrors',
        'condition': {'lua': 'XeenQuests.hook("m10.tomb_door")'},
        'into': {'map': 'xeen_xd08.blv', 'at': [0, 384, 0], 'facing': 512},
@@ -865,7 +881,8 @@ def build():
     S({'id': 'thing:fen_bridge', 'kind': 'bridge', 'line': [[37, 61.3], [37, 67.2]], 'width': 512, 'rise': 96,
        'kerb': 64, 'textures': {'deck': 'trim11_32'}, 'title': 'Fen bridge'})
     # reeds and posts along the causeway head
-    for i, at in enumerate([(63.85, 56.45), (65.15, 56.45)]):
+    # P3 F40 (2026-11-24): clear of the deck's kerbs, beyond its end (they stood through them)
+    for i, at in enumerate([(63.65, 55.8), (65.35, 55.8)]):
         S(deco('thing:causeway_post_%d' % (i + 1), '7dec12', at))
     sk['structures'] = structures
     # ---------------------------------------------------------------- actors

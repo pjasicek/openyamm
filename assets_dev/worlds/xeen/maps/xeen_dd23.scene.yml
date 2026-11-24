@@ -115,9 +115,9 @@ initial_state:
       height: 244
       move_speed: 320
       position:
-        x: 0
+        x: -224
         y: 3000
-        z: -35
+        z: -58
       initial_yaw_units: 1536
       sprite_ids: [0, 0, 0, 0]
       sector_id: 5
@@ -230,9 +230,9 @@ initial_state:
       height: 244
       move_speed: 300
       position:
-        x: 0
-        y: 1300
-        z: -7
+        x: -240
+        y: 1204
+        z: -12
       initial_yaw_units: 1536
       sprite_ids: [0, 0, 0, 0]
       sector_id: 2
@@ -253,8 +253,8 @@ initial_state:
       height: 244
       move_speed: 300
       position:
-        x: 150
-        y: 1700
+        x: 230
+        y: 1172
         z: 6
       initial_yaw_units: 1536
       sprite_ids: [0, 0, 0, 0]
@@ -276,9 +276,9 @@ initial_state:
       height: 244
       move_speed: 300
       position:
-        x: -150
-        y: 2000
-        z: 3
+        x: -198
+        y: 1008
+        z: -30
       initial_yaw_units: 1536
       sprite_ids: [0, 0, 0, 0]
       sector_id: 2

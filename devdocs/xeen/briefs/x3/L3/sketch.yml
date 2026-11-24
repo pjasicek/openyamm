@@ -28,7 +28,7 @@ heights:
       down: right
       notes: "The world rim (drawn west to east, the low side south): land to the stars at 0, as X2 and X5."
   terraces:
-    - polygon: [[78, 30], [87, 30], [87, 38], [78, 38]]
+    - polygon: [[78, 30], [87, 30], [87, 39], [78, 39]]
       height: 1750
       slope: 3
       notes: "Newcastle's rise: the ruin's floor and the gate's apron."
@@ -134,7 +134,7 @@ roads:
     width: lane
     surface: dirt
   - link: link:newcastle_stair
-    line: [[86, 44], [84, 41.5], [82.5, 39.5], [82.5, 37.5]]
+    line: [[86, 44], [84, 41.5], [82.5, 39.5]]
     width: lane
     surface: dirt
   - link: link:tomb_path
@@ -158,27 +158,27 @@ districts:
   - space: town:nightshadow
     polygon: [[92, 60], [100, 57], [108, 57], [109, 62], [109, 82], [103, 87], [94, 86], [90, 79], [91, 69], [89, 63]]
     plots:
-      - {building: building:moon_guild, at: [95, 65.5], facing: e, parts: [{id: tower, shape: round, at: [396, 512], radius: 348, sides: 10, textures: {roof: hwm2rf}, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [546, 225], size: [430, 573], signs: [{wall: e, bay: 0, texture: sgdark, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hwm2rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], house: 4103, title: The Moon Guild, kit: stone, door: {part: body, wall: e}, condition: {not: {qbit: nightshadow_liberated}}, else_effects: [{lua: evt.EnterHouse(4104)}]}
-      - {building: building:du_monay_manor, at: [102, 66.5], facing: w, parts: [{id: body, at: [48, 48], size: [640, 1184], textures: {roof: hwm2rf}, wall_height: 512, roof: gable, roof_pitch: 45, ridge_along: ns}, {id: wing, at: [608, 640], size: [608, 528], textures: {roof: hwm2rf}, wall_height: 512, roof: gable, roof_pitch: 45, ridge_along: ew}], house: 4105, title: Du Monay Manor, kit: stone, door: {part: body, wall: w}}
-      - {building: building:nightshadow_temple, at: [94, 70.5], facing: e, parts: [{id: body, at: [448, 160], size: [768, 960], porches: [{wall: e, depth: 160, height: 288, posts: 32, floor: 16}], textures: {roof: hwm2rf}, wall_height: 448, roof: gable, roof_pitch: 52, ridge_along: ew}, {id: tower, at: [80, 480], size: [320, 320], textures: {roof: hwm2rf}, wall_height: 1024, windows: none, roof: hip, roof_pitch: 64}], house: 4106, title: Temple of the Dawn, kit: stone, door: {part: body, wall: e}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Boarded up. Someone has written DAWN on the boards, and someone else has crossed it out.\")"}]}
-      - {building: building:nightshadow_tavern, at: [101, 61.5], facing: w, parts: [{id: body, at: [112, 96], size: [576, 832], signs: [{wall: w, bay: 0, texture: 7sgtvrn, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, roof: none}, {id: upper, at: [64, 48], size: [656, 928], bottom: 256, textures: {roof: hhm1rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ns}], house: 4107, title: The Coffin and Candle, kit: timber, door: {part: body, wall: w}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Locked. Through the window: chairs on the tables and a lot of red wine.\")"}]}
-      - {building: building:treasure_trove, at: [102.5, 70.5], facing: w, parts: [{id: body, at: [160, 64], size: [544, 640], porches: [{wall: w, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: w, bay: 0, texture: sgmagi, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], house: 4108, title: Treasure Trove, kit: grey, door: {part: body, wall: w}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Closed. A sign: Open after dark. Well, after the dark.\")"}]}
-      - {building: building:nightshadow_alchemist, at: [102.5, 72.5], facing: w, parts: [{id: body, at: [160, 64], size: [544, 640], porches: [{wall: w, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: w, bay: 0, texture: 7sgalch, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], house: 4109, title: Garlic and Grave Goods, kit: timber, door: {part: body, wall: w}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"The door is bolted and hung with garlic. A great deal of garlic.\")"}]}
-      - {building: building:gnome_home, at: [95.5, 63], facing: e, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4111, title: Gnome Home, kit: poor, door: {part: body, wall: e}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"A very small voice: Go away, we have no blood.\")"}]}
-      - {building: building:nightshadow_houses, index: 1, at: [96, 61], facing: e, parts: [{id: body, at: [64, 64], size: [544, 384], porches: [{wall: e, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhp2rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], house: 4112, title: Agatha's House, kit: poor, door: {part: body, wall: e}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Nobody opens. The curtains are drawn, the doorstep is dusty.\")"}]}
-      - {building: building:nightshadow_houses, index: 2, at: [96, 68], facing: e, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {roof: hhm1rf}, roof: hip, roof_pitch: 38}], house: 4113, title: The Sexton's House, kit: timber, door: {part: body, wall: e}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Nobody opens. The curtains are drawn, the doorstep is dusty.\")"}]}
-      - {building: building:nightshadow_houses, index: 3, at: [101, 64.5], facing: w, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4114, title: Lenore's House, kit: poor, door: {part: body, wall: w}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Nobody opens. The curtains are drawn, the doorstep is dusty.\")"}]}
-      - {building: building:nightshadow_houses, index: 4, at: [97, 76], facing: n, parts: [{id: body, at: [64, 160], size: [384, 544], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm2rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4115, title: Crow House, kit: plaster, door: {part: body, wall: n}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Nobody opens. The curtains are drawn, the doorstep is dusty.\")"}]}
-      - {building: building:nightshadow_houses, index: 5, at: [94.5, 78.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4116, title: Vey Residence, kit: poor, door: {part: body, wall: n}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Nobody opens. The curtains are drawn, the doorstep is dusty.\")"}]}
-      - {building: building:nightshadow_houses, index: 6, at: [96.5, 78.5], facing: n, parts: [{id: body, at: [64, 160], size: [640, 288], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4117, title: Ambrose's Lean-to, kit: timber, door: {part: body, wall: n}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Nobody opens. The curtains are drawn, the doorstep is dusty.\")"}]}
-      - {building: building:nightshadow_houses, index: 7, at: [93, 75.5], facing: s, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4118, title: The Dial Keeper's House, kit: poor, door: {part: body, wall: s}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Nobody opens. The curtains are drawn, the doorstep is dusty.\")"}]}
-      - {building: building:nightshadow_houses, index: 8, at: [103, 76], facing: w, parts: [{id: body, at: [160, 64], size: [544, 384], porches: [{wall: w, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 48, ridge_along: ew}], house: 4119, title: The Lamplighter's, kit: grey, door: {part: body, wall: w}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Nobody opens. The curtains are drawn, the doorstep is dusty.\")"}]}
-      - {building: building:nightshadow_houses, index: 9, at: [103, 78.5], facing: w, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4120, title: Wick House, kit: poor, door: {part: body, wall: w}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Nobody opens. The curtains are drawn, the doorstep is dusty.\")"}]}
+      - {building: building:moon_guild, at: [95, 65.5], facing: e, parts: [{id: tower, shape: round, at: [396, 512], radius: 348, sides: 10, textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, roof: hwm2rf, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [546, 225], size: [430, 573], signs: [{wall: e, bay: 0, texture: sgdark, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, roof: hwm2rf, trim: xvbeam, wall: xvswall, window: xvswin}, roof: gable, roof_pitch: 48, verge: 40, verge_walls: [e], ridge_along: ew}], textures: {base: cwb1}, house: 4103, title: The Moon Guild, kit: stone, door: {part: body, wall: e}, condition: {not: {qbit: nightshadow_liberated}}, else_effects: [{lua: evt.EnterHouse(4104)}]}
+      - {building: building:du_monay_manor, at: [102, 66.5], facing: w, parts: [{id: body, at: [48, 48], size: [640, 1184], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, roof: hwm2rf, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 512, roof: gable, roof_pitch: 45, verge: 40, ridge_along: ns}, {id: wing, at: [608, 640], size: [608, 528], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, roof: hwm2rf, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 512, roof: gable, roof_pitch: 45, verge: 40, verge_walls: [e], ridge_along: ew}], textures: {base: cwb1}, house: 4105, title: Du Monay Manor, kit: stone, door: {part: body, wall: w}}
+      - {building: building:nightshadow_temple, at: [94, 70.5], facing: e, parts: [{id: body, at: [448, 160], size: [768, 960], porches: [{wall: e, depth: 160, height: 288, posts: 32, floor: 16}], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, roof: hwm2rf, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 512, roof: gable, roof_pitch: 52, eaves: 24, verge: 40, ridge_along: ew}, {id: tower, at: [80, 480], size: [320, 320], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, roof: hwm2rf, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 1024, windows: none, roof: hip, roof_pitch: 64, eaves: 24}], textures: {base: cwb1}, house: 4106, title: Temple of the Dawn, kit: stone, door: {part: body, wall: e}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Boarded up. Someone has written DAWN on the boards, and someone else has crossed it out.\")"}]}
+      - {building: building:nightshadow_tavern, at: [101, 61.5], facing: w, parts: [{id: body, at: [112, 96], size: [576, 832], signs: [{wall: w, bay: 0, texture: 7sgtvrn, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: none}, {id: upper, at: [64, 48], size: [656, 928], bottom: 256, textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 256, roof: gable, roof_pitch: 50, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1}, house: 4107, title: The Coffin and Candle, kit: timber, door: {part: body, wall: w}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Locked. Through the window: chairs on the tables and a lot of red wine.\")"}]}
+      - {building: building:treasure_trove, at: [102.5, 70.5], facing: w, parts: [{id: body, at: [160, 64], size: [544, 640], porches: [{wall: w, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: w, bay: 0, texture: sgmagi, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ew}], textures: {base: cwb1}, house: 4108, title: Treasure Trove, kit: grey, door: {part: body, wall: w}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Closed. A sign: Open after dark. Well, after the dark.\")"}]}
+      - {building: building:nightshadow_alchemist, at: [102.5, 72.5], facing: w, parts: [{id: body, at: [160, 64], size: [544, 640], porches: [{wall: w, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: w, bay: 0, texture: 7sgalch, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ew}], textures: {base: cwb1}, house: 4109, title: Garlic and Grave Goods, kit: timber, door: {part: body, wall: w}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"The door is bolted and hung with garlic. A great deal of garlic.\")"}]}
+      - {building: building:gnome_home, at: [95.5, 63], facing: e, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1}, house: 4111, title: Gnome Home, kit: poor, door: {part: body, wall: e}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"A very small voice: Go away, we have no blood.\")"}]}
+      - {building: building:nightshadow_houses, index: 1, at: [96, 61], facing: e, parts: [{id: body, at: [64, 64], size: [544, 384], porches: [{wall: e, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ew}], textures: {base: cwb1}, house: 4112, title: Agatha's House, kit: poor, door: {part: body, wall: e}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Nobody opens. The curtains are drawn, the doorstep is dusty.\")"}]}
+      - {building: building:nightshadow_houses, index: 2, at: [96, 68], facing: e, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1}, house: 4113, title: The Sexton's House, kit: timber, door: {part: body, wall: e}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Nobody opens. The curtains are drawn, the doorstep is dusty.\")"}]}
+      - {building: building:nightshadow_houses, index: 3, at: [101, 64.5], facing: w, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1}, house: 4114, title: Lenore's House, kit: poor, door: {part: body, wall: w}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Nobody opens. The curtains are drawn, the doorstep is dusty.\")"}]}
+      - {building: building:nightshadow_houses, index: 4, at: [97, 76], facing: n, parts: [{id: body, at: [64, 160], size: [384, 544], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1}, house: 4115, title: Crow House, kit: plaster, door: {part: body, wall: n}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Nobody opens. The curtains are drawn, the doorstep is dusty.\")"}]}
+      - {building: building:nightshadow_houses, index: 5, at: [94.5, 78.5], facing: n, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1}, house: 4116, title: Vey Residence, kit: poor, door: {part: body, wall: n}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Nobody opens. The curtains are drawn, the doorstep is dusty.\")"}]}
+      - {building: building:nightshadow_houses, index: 6, at: [96.5, 78.5], facing: n, parts: [{id: body, at: [64, 160], size: [640, 288], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1}, house: 4117, title: Ambrose's Lean-to, kit: timber, door: {part: body, wall: n}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Nobody opens. The curtains are drawn, the doorstep is dusty.\")"}]}
+      - {building: building:nightshadow_houses, index: 7, at: [93, 75.5], facing: s, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1}, house: 4118, title: The Dial Keeper's House, kit: poor, door: {part: body, wall: s}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Nobody opens. The curtains are drawn, the doorstep is dusty.\")"}]}
+      - {building: building:nightshadow_houses, index: 8, at: [103, 76], facing: w, parts: [{id: body, at: [160, 64], size: [544, 384], porches: [{wall: w, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ew}], textures: {base: cwb1}, house: 4119, title: The Lamplighter's, kit: grey, door: {part: body, wall: w}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Nobody opens. The curtains are drawn, the doorstep is dusty.\")"}]}
+      - {building: building:nightshadow_houses, index: 9, at: [103, 78.5], facing: w, parts: [{id: body, at: [64, 64], size: [384, 384], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1}, house: 4120, title: Wick House, kit: poor, door: {part: body, wall: w}, condition: {qbit: nightshadow_liberated}, else_effects: [{lua: "evt.SimpleMessage(\"Nobody opens. The curtains are drawn, the doorstep is dusty.\")"}]}
     notes: "A4's x3.yml: 16 doors (4103/4104-4109, 4111-4120); the mirror 4110 on the square."
   - space: town:ebenezer_camp
     polygon: [[83, 40], [93, 40], [93, 47], [83, 47]]
     plots:
-      - {building: building:camp_shrine, at: [88.5, 45], facing: n, door_to: link:camp_road, parts: [{id: body, at: [64, 160], size: [640, 544], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hwm2rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4102, title: The Camp Shrine, kit: stone, door: {part: body, wall: n}}
+      - {building: building:camp_shrine, at: [88.5, 45], facing: n, door_to: link:camp_road, parts: [{id: body, at: [64, 160], size: [640, 544], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, roof: hwm2rf, trim: xvbeam, wall: xvswall, window: xvswin}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1}, house: 4102, title: The Camp Shrine, kit: stone, door: {part: body, wall: n}}
     notes: "The Camp Shrine 4102; Ebenezer's Tent 4101 is a tent structure (thing:ebenezer_tent)."
   - space: zone:nightshadow_square
     polygon: [[97, 70], [102, 70], [102, 75], [97, 75]]
@@ -815,7 +815,7 @@ structures:
     height: 208
     textures: {door: 7solid01, shell: cnb}
     title: Count Draco's coffin
-    into: {map: xeen_xd24.blv, at: [0, 704, 0], facing: 1536, screen: {text: 5024}}
+    into: {map: xeen_xd24.blv, at: [0, 1600, 224], facing: 1536, screen: {text: 5024}}
     hidden: true
     notes: "XD-24, open: the stair down to the crypt's start (A7's point)."
     mouth: {width: 384, height: 896, depth: 160}
@@ -1047,8 +1047,9 @@ structures:
     size: [1.5, 1]
     turn: 0
     kit: poor
+    textures: {base: cwb1}
     parts:
-      - {id: shed, at: [48, 48], size: [672, 416], wall_height: 256, windows: none, roof: lean_to}
+      - {id: shed, at: [48, 48], size: [672, 416], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 256, windows: none, roof: lean_to}
     door: none
     title: The sexton's shed
   - id: thing:sexton_chest
@@ -1086,27 +1087,32 @@ structures:
     at: [87.3, 42.1]
     size: [1024, 768]
     height: 448
+    textures: {door: xvdoor}
+    wall_height: 192
     title: Ebenezer's Tent
     house: 4101
     notes: "A4's house 4101 (proposed door building:ebenezer_tent; a tent structure here)."
-    open: true
+    door_width: 128
+    door_height: 192
+    open: false
   - id: thing:camp_fire
     kind: decoration
     at: [85, 45.3]
     decoration: cmpfyr00
     title: Campfire
     effects:
-      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end"
+    once: true
   - id: thing:rain_barrel
     kind: decoration
-    at: [86.2, 41.15]
+    at: [85.95, 41.7]
     decoration: bigbarel
     title: Rain Barrel
     effects:
       - text: The barrel is empty.
   - id: thing:rain_barrel_pair
     kind: decoration
-    at: [86.6, 41.15]
+    at: [85.6, 41.75]
     decoration: smlbarel
   - id: thing:camp_prop_1
     kind: decoration
@@ -1125,12 +1131,13 @@ structures:
     at: [78.5, 30.5]
     size: [8, 6]
     kit: castle
+    textures: {base: cwb1, trim: ch1b1}
     parts:
-      - {id: north_range, at: [128, 128], size: [3840, 768], textures: {wall: ch1b1}, wall_height: 704, windows: alternate, roof: none}
-      - {id: west_wall, at: [128, 960], size: [384, 1856], textures: {wall: ch1b1}, wall_height: 512, windows: none, roof: none}
-      - {id: east_wall, at: [3584, 960], size: [384, 1856], textures: {wall: ch1b1}, wall_height: 512, windows: none, roof: none}
-      - {id: gate_w, shape: round, at: [1536, 2816], radius: 288, sides: 10, textures: {wall: ch1b1}, wall_height: 768, windows: none, roof: none}
-      - {id: gate_e, shape: round, at: [2560, 2816], radius: 288, sides: 10, textures: {wall: ch1b1}, wall_height: 768, windows: none, roof: none}
+      - {id: north_range, at: [128, 128], size: [3840, 768], textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 704, windows: none, roof: none}
+      - {id: west_wall, at: [128, 960], size: [384, 1856], textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 512, windows: none, roof: none}
+      - {id: east_wall, at: [3584, 960], size: [384, 1856], textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 512, windows: none, roof: none}
+      - {id: gate_w, shape: round, at: [1536, 2816], radius: 288, sides: 10, textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 768, windows: none, roof: none}
+      - {id: gate_e, shape: round, at: [2560, 2816], radius: 288, sides: 10, textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 768, windows: none, roof: none}
     floor: 1750
     door: none
     title: Ruins of Newcastle
@@ -1190,8 +1197,9 @@ structures:
     at: [79.2, 30.7]
     size: [3, 3]
     kit: castle
+    textures: {base: cwb1}
     parts:
-      - {id: keep, at: [96, 96], size: [1344, 1344], textures: {wall: ch1b1}, wall_height: 1408, windows: alternate, roof: flat, parapet: 96}
+      - {id: keep, at: [96, 96], size: [1344, 1344], textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 1408, windows: alternate, roof: flat, parapet: 96}
     floor: 1750
     door: none
     title: Newcastle Keep
@@ -1262,8 +1270,7 @@ structures:
     notes: "Emerson's work yard: the masons' pay chest."
   - id: thing:causeway
     kind: bridge
-    line: [[64.5, 56.5], [64.5, 66]]
-    height: 940
+    line: [[64.5, 56.5], [64.5, 67]]
     width: 640
     thickness: 96
     kerb: 96
@@ -1278,9 +1285,9 @@ structures:
     kit: castle
     facing: n
     parts:
-      - {id: base, shape: round, at: [1024, 1024], radius: 768, sides: 12, textures: {door: hwm2d, wall: hwm2wall}, wall_height: 1152, windows: none, roof: none}
-      - {id: mid, shape: round, at: [1024, 1024], radius: 640, sides: 12, bottom: 1152, textures: {wall: hwp1bwall, window: hwp1b1w}, wall_height: 1024, windows: alternate, roof: none}
-      - {id: top, shape: round, at: [1024, 1024], radius: 512, sides: 12, bottom: 2176, textures: {roof: hwm2rf, wall: hwp1bwall, window: hwp1b1w}, wall_height: 768, windows: all, roof: cone, roof_pitch: 70}
+      - {id: base, shape: round, at: [1024, 1024], radius: 768, sides: 12, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: xtslate, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 1152, windows: none, roof: none}
+      - {id: mid, shape: round, at: [1024, 1024], radius: 640, sides: 12, bottom: 1152, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: xtslate, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 1024, windows: alternate, roof: none}
+      - {id: top, shape: round, at: [1024, 1024], radius: 512, sides: 12, bottom: 2176, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: hwm2rf, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 768, windows: all, roof: cone, roof_pitch: 70}
     floor: 1000
     door:
       part: base
@@ -1310,7 +1317,7 @@ structures:
     at: [34, 85]
     size: [1024, 1024]
     turn: 180
-    textures: {door: 7solid01, shell: 7dirttyl}
+    textures: {door: 7solid01, shell: xvtwall}
     title: Tomb of a Thousand Terrors
     into: {map: xeen_xd08.blv, at: [0, 384, 0], facing: 512, screen: {text: 5008}}
     condition: {lua: "XeenQuests.hook(\"m10.tomb_door\")"}
@@ -1397,7 +1404,8 @@ structures:
     decoration: cmpfyr00
     title: Campfire
     effects:
-      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end"
+    once: true
   - id: thing:ranger_chest
     kind: chest
     at: [29.3, 33.3]
@@ -1429,8 +1437,9 @@ structures:
     at: [22.6, 64.8]
     size: [1.5, 1.5]
     kit: poor
+    textures: {base: cwb1}
     parts:
-      - {id: hut, at: [96, 96], size: [576, 576], textures: {roof: hhp2rf}, wall_height: 256, roof: hip, roof_pitch: 40}
+      - {id: hut, at: [96, 96], size: [576, 576], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 256, roof: hip, roof_pitch: 40, eaves: 24}
     door: none
     title: Eel-fisher's hut
   - id: thing:eel_chest
@@ -1451,6 +1460,7 @@ structures:
     size: [3, 1.5]
     turn: 20
     kit: timber
+    textures: {trim: hhm1b1}
     parts:
       - {id: hull, at: [96, 128], size: [1344, 512], textures: {wall: hhm1b1}, wall_height: 384, windows: none, roof: none}
     door: none
@@ -1472,6 +1482,7 @@ structures:
     at: [97, 24.5]
     size: [2, 2]
     kit: castle
+    textures: {trim: ch1b1}
     parts:
       - {id: t, shape: round, at: [512, 512], radius: 352, sides: 10, textures: {wall: ch1b1}, wall_height: 896, windows: none, roof: none}
     door: none
@@ -1646,11 +1657,11 @@ structures:
     title: Fen bridge
   - id: thing:causeway_post_1
     kind: decoration
-    at: [63.85, 56.45]
+    at: [63.65, 55.8]
     decoration: 7dec12
   - id: thing:causeway_post_2
     kind: decoration
-    at: [65.15, 56.45]
+    at: [65.35, 55.8]
     decoration: 7dec12
   - id: thing:hull_001
     kind: decoration

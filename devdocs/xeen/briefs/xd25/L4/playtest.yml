@@ -5,7 +5,7 @@
 # below, goes down the brood stair, clears the keeper's cell (the straw bed's line, his hoard), and meets the field of
 # light shut (A3's hook q-c5.field_gate gives its fail text). X4 is not built, so the pedestals' qbit q-c5.pedestals
 # (112101) is set by a setup shortcut, as Asp's well would set it; the field then sinks. In the transformer hall the
-# crystal housing is shut (q-c11.crystals' fail text); the transformer asks the source's question: No leaves it, Yes runs
+# crystal housing is shut (q-c11.crystals' fail text); a click on the transformer runs
 # A3's hook q-c5.transformer (q-c5.done 112102), stops the hum, opens the housing and the cages. The housing gives the
 # Crystals of Piezoelectricity (12313, q-c11.crystals_found 112222) once. Back by the drain: its bolt is reached from
 # below, the grate opens, and in the pens the freed townsfolk say "Thank you for saving us!" (townsfolk_thanked 110840).
@@ -133,14 +133,9 @@ steps:
         local s = tostring(status())
         if not string.find(s, [[shut tight while the machine hums]], 1, true) then error("status line: " .. s) end
   - play_lua: {source: "close(); if door_state(2) ~= 'closed' then error('the housing opened before the machine died') end"}
-  # The transformer: the source's question. No, then Yes.
+  # The transformer: a click destroys it (F47 2026-11-24: no question).
   - walk_to: {x: 384, y: -2980, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - play_lua: {source: "click(25); wait(0.5)"}
-  - answer_input: {text: "No"}
-  - advance_runtime: {seconds: 1}
-  - play_lua: {source: "close(); if qbit(112102) then error('No destroyed the machine') end"}
-  - play_lua: {source: "click(25); wait(0.5)"}
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1}
   - assert: {dialog: {active: true, text_contains: "The transformer sparks, shudders and dies."}}
   - play_lua: {source: "close()"}

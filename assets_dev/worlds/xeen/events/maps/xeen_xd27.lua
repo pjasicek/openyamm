@@ -113,29 +113,20 @@ RegisterEvent(13, "Log gate", function()
 end, "Log gate")
 
 -- evt:lair
-RegisterEvent(14, "Ogre lair", function(continueStep)
-    if continueStep == 2 then
-        AddValue(Experience, 2000)
-        evt.SetFacetBit(1, FaceAttribute.Invisible, 1)
-        evt.SetFacetBit(1, FaceAttribute.Untouchable, 1)
-        evt.SetFacetBit(2, FaceAttribute.Invisible, 1)
-        evt.SetFacetBit(2, FaceAttribute.Untouchable, 1)
-        evt.SetFacetBit(3, FaceAttribute.Invisible, 1)
-        evt.SetFacetBit(3, FaceAttribute.Untouchable, 1)
-        evt.SetFacetBit(4, FaceAttribute.Invisible, 1)
-        XeenQuests.hook("q-c23.chieftain")
-        return
-    end
-    if continueStep ~= nil then
-        evt.StatusText("You leave the lair as it is, for now.", 4)
-        return
-    end
+RegisterEvent(14, "Ogre lair", function()
     if not (evt.CheckMonstersKilled(ActorKillCheck.ActorIdOe, 0, 0, false)) then
         evt.StatusText("The Chieftain's seat of boulders, hung with the trophies of Nystor's boats. Break it now and his band will only pile it up again: the Chieftain throws from the ledge beyond the quarry.", 6)
         return
     end
-    evt.SetMessage("You have found an Ogre lair.  Destroy?")
-    evt.AskQuestion(14, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    AddValue(Experience, 2000)
+    evt.SetFacetBit(1, FaceAttribute.Invisible, 1)
+    evt.SetFacetBit(1, FaceAttribute.Untouchable, 1)
+    evt.SetFacetBit(2, FaceAttribute.Invisible, 1)
+    evt.SetFacetBit(2, FaceAttribute.Untouchable, 1)
+    evt.SetFacetBit(3, FaceAttribute.Invisible, 1)
+    evt.SetFacetBit(3, FaceAttribute.Untouchable, 1)
+    evt.SetFacetBit(4, FaceAttribute.Invisible, 1)
+    XeenQuests.hook("q-c23.chieftain")
 end, "Ogre lair")
 
 -- evt:larder_door

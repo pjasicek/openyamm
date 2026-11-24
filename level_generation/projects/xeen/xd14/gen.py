@@ -197,8 +197,11 @@ room('room:gatehouse', 'Gatehouse', GATEHOUSE, 0, 512, 'theme:castle', ambient=1
      platforms=[block('platform:bench', -640, -1280, -544, -896, 48, PLANKS, PLANKS,
                       "The guards' bench along the west wall.")],
      notes="Inside the gate, 1,280 by 1,024: the arrival (entrance:x6_gate), quiet; the great hall's double doors north with a sconce either side, a guard bench west.")
-HALL_TABLES = [block(f'platform:table_{s}', x0, -128, x1, 896, 64, PLANKS, PLANKS, "A long table against the wall.")
-               for s, (x0, x1) in (('w', (-1344, -1184)), ('e', (1184, 1344)))]
+# The long tables stand clear of the hall's three side doors (the west arch at y 0, the scriptorium's and the kennels'
+# doors at y 832): run across them, 64 high and 64 off the wall, they stopped the party in each doorway like an
+# invisible wall and the route planner found no way in (P3 2026-11-24, studio audit `face.in_doorway`).
+HALL_TABLES = [block(f'platform:table_{s}', x0, y0, x1, y1, 64, PLANKS, PLANKS, "A long table against the wall.")
+               for s, (x0, y0, x1, y1) in (('w', (-1344, 224, -1184, 656)), ('e', (1184, -128, 1344, 656)))]
 room('room:great_hall', 'Great hall', HALL, 0, 960, 'theme:castle', ambient=18,
      bands=[{'height': 64, 'surface': SMALL}],
      platforms=[block('platform:hearth', -320, 1040, 320, 1152, 32, SMALL, FLAGS,
@@ -520,7 +523,7 @@ for n, (x, y) in enumerate([(-640, 384), (640, 384)], 1):
 deco('hearth_fire', 'room:great_hall', 'ckfyr00', [0, 1096], floor_height=32)
 light('hearth', 'room:great_hall', [0, 1080], 96, 1500, [255, 150, 70], floor_height=32,
       pulse={'intensity': [0.8, 1], 'frequency': 0.8}, notes="The hearth's fire.")
-deco('study_fire', 'room:study', 'ckfyr00', [512, 1632], floor_height=1312)
+deco('study_fire', 'room:study', 'ckfyr00', [502, 1606], floor_height=1312)
 light('study_fire', 'room:study', [512, 1620], 96, 1100, [255, 150, 70], floor_height=1312,
       pulse={'intensity': [0.8, 1], 'frequency': 0.8}, notes="The study's fire.")
 deco('den_brazier', 'room:den', 'flamb00', [6240, 1480])
@@ -543,10 +546,10 @@ deco('study_candle', 'room:study', 'dec02', [288, 1152], floor_height=1360)
 D = deco
 D('hall_bones_1', 'room:great_hall', '7dec18', [-560, 1000])
 D('hall_bones_2', 'room:great_hall', 'dec29', [520, 1010])
-D('hall_plates_w1', 'room:great_hall', 'dec37', [-1264, 160], floor_height=64)
+D('hall_plates_w1', 'room:great_hall', 'dec37', [-1264, 320], floor_height=64)
 D('hall_plates_w2', 'room:great_hall', 'dec39', [-1264, 560], floor_height=64)
 D('hall_plates_e1', 'room:great_hall', 'dec36', [1264, 240], floor_height=64)
-D('hall_goblet_e', 'room:great_hall', '7dec46', [1264, 640], floor_height=64)
+D('hall_goblet_e', 'room:great_hall', '7dec46', [1264, 560], floor_height=64)
 D('gate_barrel_1', 'room:gatehouse', 'smlbarel', [520, -1400])
 D('gate_barrel_2', 'room:gatehouse', 'smlbarel', [520, -1280])
 D('kennel_bowl_1', 'room:kennels', 'foodbowl', [2200, 1980])

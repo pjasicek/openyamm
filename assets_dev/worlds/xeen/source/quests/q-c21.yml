@@ -1,4 +1,6 @@
-# Q-C21 Phirna Root (QUESTS 2.1). Repeatable: one root at a time, five Cure Poison potions each. Owner: A3.
+# Q-C21 Phirna Root (QUESTS 2.1). Repeatable: five Cure Poison potions for each root. Owner: A3.
+# Each plant gives one root and is then dug up until X1 refills (X1 p26, 2026-11-24: the original's "one root while the
+# party carries one" let a party throw the root away and dig again, 60 potions; MM6-MM8's map-variable rule instead).
 id: Q-C21
 title: Phirna Root
 act: I
@@ -16,7 +18,7 @@ qbits:
   done: {id: 112421, note: "the first root delivered"}
 
 items:
-  phirna_root: "a Phirna root; dug from the plants of Toad Meadow (X1), one at a time; Myra takes it."
+  phirna_root: "a Phirna root; dug from the plants of Toad Meadow (X1), one per plant until the map refills; Myra takes it."
 
 npcs:
   4042:              # Myra
@@ -39,11 +41,11 @@ npcs:
 hooks:
   phirna_plant:
     map: X1
-    where: "each Phirna plant of Toad Meadow (three or four; every plant calls this hook)"
-    requires: {not: {item: phirna_root}}
+    where: "each Phirna plant of Toad Meadow (four; every plant calls this hook)"
+    harvest: 1         # one root per plant, then dug up until X1 refills (a map variable per plant)
     gives: [phirna_root]
     text: "You have found a Phirna plant. Ok, you dug it up."
-    fail_text: "Sensing that you already have another Phirna root, the plant stubbornly resists your greedy fingers."
+    else_text: "This Phirna plant has been dug up already. It will grow back in time."
 
 rewards: {xp: 250, gold: 0}
 playthrough: "Myra (Phirna root); a plant; Myra (Phirna root): five Cure Poison potions."

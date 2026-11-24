@@ -112,7 +112,7 @@ end, nil)
 
 -- evt:exit
 RegisterEvent(17, "Up to Nightshadow's square", function()
-    evt.MoveToMap(17664, -5120, 992, 1536, 0, 0, 0, 0, "xeen_x3.odm")
+    evt.MoveToMap(17664, -5888, 992, 1536, 0, 0, 0, 0, "xeen_x3.odm")
 end, "Up to Nightshadow's square")
 
 -- evt:iron_door

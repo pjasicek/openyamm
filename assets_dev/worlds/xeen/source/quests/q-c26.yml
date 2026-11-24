@@ -38,7 +38,7 @@ hooks:
   demon_skull:
     map: XD-16
     status: true   # D-90: experience, a find's answer or a death on the status line
-    where: "the demon skull on its altar (clicked, the map asks xeen/aaze0046:0, \"The skull of a demon grins wickedly at you, and you have a sudden desire to smash it. Destroy?\"; Yes calls the hook)"
+    where: "the demon skull on its altar (a click calls the hook, D-121; the source asked xeen/aaze0046:0, \"The skull of a demon grins wickedly at you, and you have a sudden desire to smash it. Destroy?\")"
     states:
       - when: {qbit: demon_skull}
         text: "Splinters of horn and a scorch mark."
@@ -51,7 +51,7 @@ hooks:
   devil_skull:
     map: XD-16
     status: true   # D-90: experience, a find's answer or a death on the status line
-    where: "the devil skull on its altar (clicked, the map asks xeen/aaze0046:1, \"The skull of a devil stares at you as though daring you to damage it. Destroy?\"; Yes calls the hook)"
+    where: "the devil skull on its altar (a click calls the hook, D-121; the source asked xeen/aaze0046:1, \"The skull of a devil stares at you as though daring you to damage it. Destroy?\")"
     states:
       - when: {qbit: devil_skull}
         text: "Splinters of black bone and a smell of sulphur."

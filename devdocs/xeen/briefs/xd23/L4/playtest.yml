@@ -4,7 +4,7 @@
 # the rock store (aaze0008:2's second sentence, the hunter's pack), the cold spring, up the crawlway to the larder and
 # out through its hide flap into the mouth (the upper loop), back down to the spring, the slope to the guard tunnel, the
 # whelping den's curtain and chest, the hearth's curtain, the Troll Matron and her guards. Before her death the fire
-# pit only smoulders; after it (the kill timer, matron_dead) the pit asks "Destroy the lair?": No leaves it, Yes calls
+# pit only smoulders; after it (the kill timer, matron_dead) a click on the pit (D-121, no question) calls
 # A3's q-c15.lair (lair_burnt 112301), breaks every bed, curtain and bark pile and the chimney's plug, sets the smoke
 # (map variable smoke: evt.SetMist(1, 60)), and 4 s later the hearth is charred. A save and load: the burnt stage (every
 # troll hidden, everything still broken, no smoke). Then up the chimney's root ladder to the smoke hole and out to X5
@@ -110,16 +110,12 @@ steps:
   # The hoard.
   - walk_to: {x: 1760, y: -6480, z: -1024, radius: 48, timeout_seconds: 30, close_dialogs: true}
   - play_lua: {source: "loot_chest(4); close()"}
-  # "Destroy the lair?" No leaves it; Yes burns it (A3's q-c15.lair).
+  # A click on the pit burns the lair (D-121: no Yes/No for a quest goal; A3's q-c15.lair, its line on the status line).
   - walk_to: {x: 1960, y: -5824, z: -1024, radius: 48, timeout_seconds: 30, close_dialogs: true}
-  - play_lua: {source: "click(7); wait(0.5)"}
-  - answer_input: {text: "No"}
-  - advance_runtime: {seconds: 1}
-  - play_lua: {source: "close(); if qbit(112301) then error('lair burnt on No') end"}
   - console: {line: destructible 17 state, expect_contains: standing}
   - play_lua: {source: "click(7); wait(0.5)"}
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1}
+  - assert: {dialog: {active: false}}
   - play_lua:
       source: |
         local s = tostring(status())

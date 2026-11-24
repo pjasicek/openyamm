@@ -843,14 +843,13 @@ events:
   - id: evt:machine
     preset: script
     source: platform:machine
-    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y], message: "Lord Xeen Machine. Destroy?"}
     title: Lord Xeen Machine
     condition: {not: {destroyed: destructible:machine}}
     effects:
       - destroy: destructible:machine
     else_effects:
       - lua: "XeenQuests.hook(\"q-f2.machine\")"
-    notes: "aazex124:0: a real choice; Yes breaks it (its on_destroyed does the rest); blows and spells too."
+    notes: "aazex124:0: a click breaks it (D-121, 2026-11-24: no Yes/No for a quest goal; the source asked); its on_destroyed does the rest, q-f2.machine's line on the status line; blows and spells too."
   - id: evt:machine_down
     preset: script
     trigger: call
@@ -941,14 +940,13 @@ events:
   - id: evt:shrine_great
     preset: script
     source: platform:shrine_great
-    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y], message: "Shrine of Great Evil.  Destroy?"}
     title: Shrine of Great Evil
     condition: {not: {destroyed: destructible:shrine_great}}
     effects:
       - destroy: destructible:shrine_great
     else_effects:
       - text: The shrine lies broken.
-    notes: "aazex122:13: a real choice; Yes breaks it (its on_destroyed does the rest); blows and spells too."
+    notes: "aazex122:13: a click breaks it (D-121; the source asked) (its on_destroyed does the rest); blows and spells too."
   - id: evt:shrine_great_down
     preset: script
     trigger: call
@@ -959,14 +957,13 @@ events:
   - id: evt:shrine_lesser
     preset: script
     source: platform:shrine_lesser
-    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y], message: "Shrine of Lesser Evil.  Destroy?"}
     title: Shrine of Lesser Evil
     condition: {not: {destroyed: destructible:shrine_lesser}}
     effects:
       - destroy: destructible:shrine_lesser
     else_effects:
       - text: The shrine lies broken.
-    notes: "aazex122:15: a real choice; Yes breaks it (its on_destroyed does the rest); blows and spells too."
+    notes: "aazex122:15: a click breaks it (D-121; the source asked) (its on_destroyed does the rest); blows and spells too."
   - id: evt:shrine_lesser_down
     preset: script
     trigger: call
@@ -977,14 +974,13 @@ events:
   - id: evt:shrine_minor
     preset: script
     source: platform:shrine_minor
-    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y], message: "Shrine of Minor Evil.  Destroy?"}
     title: Shrine of Minor Evil
     condition: {not: {destroyed: destructible:shrine_minor}}
     effects:
       - destroy: destructible:shrine_minor
     else_effects:
       - text: The shrine lies broken.
-    notes: "aazex122:17: a real choice; Yes breaks it (its on_destroyed does the rest); blows and spells too."
+    notes: "aazex122:17: a click breaks it (D-121; the source asked) (its on_destroyed does the rest); blows and spells too."
   - id: evt:shrine_minor_down
     preset: script
     trigger: call
@@ -1002,7 +998,7 @@ events:
       - destroy: destructible:shrine_ultimate
     else_effects:
       - text: The shrine lies broken.
-    notes: "aazex122:11 with A3's tell (D-57 Q26): a real choice; Yes breaks it (its on_destroyed does the rest); blows and spells too."
+    notes: "aazex122:11 with A3's tell (D-57 Q26): a real choice (D-121 keeps it); Yes breaks it (its on_destroyed does the rest); blows and spells too."
   - id: evt:shrine_ultimate_down
     preset: script
     trigger: call

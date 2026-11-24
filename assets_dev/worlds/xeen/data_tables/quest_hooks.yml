@@ -4368,8 +4368,8 @@ q-c14.lava_rock:
 q-c15.lair:
   quest: Q-C15
   map: XD-23
-  where: 'the Troll Warren''s last hall: the Troll Matron''s death, then her hearth burnt (the map''s question "Destroy the
-    lair?", Yes)'
+  where: 'the Troll Warren''s last hall: the Troll Matron''s death, then her hearth burnt (a click, D-121; the source asked
+    "Destroy the lair?")'
   sets: {lair_burnt: 112301}
   reads: {}
   gives: {}
@@ -4485,13 +4485,14 @@ q-c20.whistle:
 q-c21.phirna_plant:
   quest: Q-C21
   map: X1
-  where: each Phirna plant of Toad Meadow (three or four; every plant calls this hook)
+  where: each Phirna plant of Toad Meadow (four; every plant calls this hook)
   sets: {}
   reads: {}
   gives: {phirna_root: 12309}
   needs: {}
   takes: {}
   call: XeenQuests.hook("q-c21.phirna_plant")
+  harvest: 1
 q-c22.cottage:
   quest: Q-C22
   map: D3
@@ -4700,8 +4701,8 @@ q-c25.volume5:
 q-c26.demon_skull:
   quest: Q-C26
   map: XD-16
-  where: the demon skull on its altar (clicked, the map asks xeen/aaze0046:0, "The skull of a demon grins wickedly at you,
-    and you have a sudden desire to smash it. Destroy?"; Yes calls the hook)
+  where: the demon skull on its altar (a click calls the hook, D-121; the source asked xeen/aaze0046:0, "The skull of a demon
+    grins wickedly at you, and you have a sudden desire to smash it. Destroy?")
   sets: {}
   reads: {}
   gives: {}
@@ -4711,8 +4712,8 @@ q-c26.demon_skull:
 q-c26.devil_skull:
   quest: Q-C26
   map: XD-16
-  where: the devil skull on its altar (clicked, the map asks xeen/aaze0046:1, "The skull of a devil stares at you as though
-    daring you to damage it. Destroy?"; Yes calls the hook)
+  where: the devil skull on its altar (a click calls the hook, D-121; the source asked xeen/aaze0046:1, "The skull of a devil
+    stares at you as though daring you to damage it. Destroy?")
   sets: {}
   reads: {}
   gives: {}
@@ -7978,8 +7979,8 @@ q-f2.gongs_reset:
 q-f2.machine:
   quest: Q-F2
   map: FD-04
-  where: 'the Lord Xeen Machine in the machine hall (behind the iron shutter): the map asks "Lord Xeen Machine. Destroy?"
-    (dark/aazex124:0); Yes calls this, once; the map shows it dark on every load (machine_broken)'
+  where: 'the Lord Xeen Machine in the machine hall (behind the iron shutter): a click breaks it (D-121; the source asked
+    "Lord Xeen Machine. Destroy?", dark/aazex124:0) and calls this, once; the map shows it dark on every load (machine_broken)'
   sets: {machine_broken: 118145, done: 114041}
   reads: {}
   gives: {}
@@ -8022,8 +8023,8 @@ q-f2.shrine_lesser:
 q-f2.shrine_minor:
   quest: Q-F2
   map: FD-04
-  where: the Shrine of Minor Evil (a destructible; the map asks "Shrine of Minor Evil. Destroy?", dark/aazex122:17; its on_destroyed
-    calls this, once)
+  where: the Shrine of Minor Evil (a destructible broken by a click, D-121; the source asked "Shrine of Minor Evil. Destroy?",
+    dark/aazex122:17; its on_destroyed calls this, once)
   sets: {shrine_minor: 114043}
   reads: {}
   gives: {}

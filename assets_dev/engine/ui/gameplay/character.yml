@@ -22,14 +22,15 @@ elements:
     - id: CharacterGoldFoodIcon
       anchor: top_left
       offset_x: 0
-      width: 180
+      width: 144
       height: 29
-      notes: Gold and food background art.
+      notes: Gold and food background art; kept tight so the inventory's bag and pouch buttons have room (user,
+        2026-11-24).
       offset_y: 0
       children:
       - id: CharacterGoldArt
         anchor: top_left
-        offset_x: 18
+        offset_x: 8
         offset_y: 7
         width: 22
         height: 14
@@ -37,7 +38,7 @@ elements:
           default: scorebg_gold
       - id: CharacterFoodArt
         anchor: top_left
-        offset_x: 107
+        offset_x: 86
         offset_y: 7
         width: 22
         height: 14
@@ -45,13 +46,13 @@ elements:
           default: scorebg_food
     - id: CharacterGoldLabel
       anchor: top_left
-      offset_x: 44
-      width: 59
+      offset_x: 33
+      width: 51
       height: 29
       text:
         value: '{gold}'
         font: Lucida
-        align_x: center
+        align_x: left
         align_y: middle
         color: '#e5dcc7'
         scale: 0.6588235294117647
@@ -59,13 +60,13 @@ elements:
       offset_y: 0
     - id: CharacterFoodLabel
       anchor: top_left
-      offset_x: 132
-      width: 40
+      offset_x: 111
+      width: 30
       height: 29
       text:
         value: '{food}'
         font: Lucida
-        align_x: center
+        align_x: left
         align_y: middle
         color: '#e5dcc7'
         scale: 0.6588235294117647
@@ -1431,7 +1432,7 @@ elements:
       notes: 'Above Alchemy in the bottom-right panel (page origin is 0,24); regroups the inventory by item type.'
     - id: CharacterInventoryBagOverview
       anchor: top_left
-      offset_x: 172
+      offset_x: 144
       offset_y: -22
       width: 24
       height: 20
@@ -1446,7 +1447,7 @@ elements:
         selected while it shows. The 1-4 buttons zoom a bag to full size. The two by two icon is drawn by the renderer.'
     - id: CharacterInventoryBag1
       anchor: top_left
-      offset_x: 200
+      offset_x: 172
       offset_y: -22
       width: 24
       height: 20
@@ -1468,7 +1469,7 @@ elements:
         zoomed; again, back to the overview. Shift+1 (a party of one: 1) does the same; Shift on Sort sorts every bag.'
     - id: CharacterInventoryBag2
       anchor: top_left
-      offset_x: 226
+      offset_x: 198
       offset_y: -22
       width: 24
       height: 20
@@ -1490,7 +1491,7 @@ elements:
         zoomed; again, back to the overview. Shift+2 (a party of one: 2) does the same; Shift on Sort sorts every bag.'
     - id: CharacterInventoryBag3
       anchor: top_left
-      offset_x: 252
+      offset_x: 224
       offset_y: -22
       width: 24
       height: 20
@@ -1512,7 +1513,7 @@ elements:
         zoomed; again, back to the overview. Shift+3 (a party of one: 3) does the same; Shift on Sort sorts every bag.'
     - id: CharacterInventoryBag4
       anchor: top_left
-      offset_x: 278
+      offset_x: 250
       offset_y: -22
       width: 24
       height: 20
@@ -1532,9 +1533,9 @@ elements:
         scale: 0.416667
       notes: 'MAW multibag (rulesets with ItemRules::bagCount > 1 only): opens bag 4 at full size, selected while it is
         zoomed; again, back to the overview. Shift+4 (a party of one: 4) does the same; Shift on Sort sorts every bag.'
-    - id: CharacterInventoryCraftingTag
+    - id: CharacterInventoryPouch1
       anchor: top_left
-      offset_x: 310
+      offset_x: 282
       offset_y: -22
       width: 24
       height: 20
@@ -1545,13 +1546,15 @@ elements:
         highlighted: obsidian_button_tab_hover
         pressed: obsidian_button_tab_pressed
         selected: obsidian_button_tab_selected
-      notes: 'Rulesets with pouches (ItemRules::hasPouches, MAW): shows the party''s crafting pouch in the bags'' place,
-        one grid without dividers that scrolls (every Workbench material the party has lies there and nowhere else);
-        again, or a bag button, returns to the bags. Shift+B does the same. Selected while its tab shows; the hammer
-        icon is drawn by the renderer.'
-    - id: CharacterInventoryAlchemyTag
+      notes: 'The party''s pouches (user, 2026-11-17 and 2026-11-24), four slots filled left to right in the order new
+        loot (leather pouch), crafting (hammer, Shift+B), alchemy (potion), quest (key), with the pouches the party has packed
+        against the last slot (Standard has no crafting pouch, and the alchemy and quest pouches only under Party
+        pouches): GameplayHudOverlaySupport::pouchButtons. A slot shows its pouch''s tab in the bags'' place, one
+        grid without dividers that scrolls; again, or a bag button, returns to the bags. Selected while its tab
+        shows; the icons are drawn by the renderer.'
+    - id: CharacterInventoryPouch2
       anchor: top_left
-      offset_x: 336
+      offset_x: 308
       offset_y: -22
       width: 24
       height: 20
@@ -1562,11 +1565,10 @@ elements:
         highlighted: obsidian_button_tab_hover
         pressed: obsidian_button_tab_pressed
         selected: obsidian_button_tab_selected
-      notes: 'The same for the party''s alchemy pouch: its potions, bottles and reagents. Selected while its tab shows;
-        the potion icon is drawn by the renderer.'
-    - id: CharacterInventoryQuestTag
+      notes: 'A pouch slot (see CharacterInventoryPouch1).'
+    - id: CharacterInventoryPouch3
       anchor: top_left
-      offset_x: 362
+      offset_x: 334
       offset_y: -22
       width: 24
       height: 20
@@ -1577,12 +1579,25 @@ elements:
         highlighted: obsidian_button_tab_hover
         pressed: obsidian_button_tab_pressed
         selected: obsidian_button_tab_selected
-      notes: 'The same for the party''s quest pouch (user, 2026-11-17): what is worth nothing and is no gear (keys,
-        letters, message scrolls, trophies). Selected while its tab shows; the key icon is drawn by the renderer. The
-        tab buttons and the item search start after it.'
+      notes: 'A pouch slot (see CharacterInventoryPouch1).'
+    - id: CharacterInventoryPouch4
+      anchor: top_left
+      offset_x: 360
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      notes: 'The last pouch slot (see CharacterInventoryPouch1). The tab buttons and the item search start after it; the
+        gold and food were tightened to make room for four slots.'
     - id: CharacterInventoryTab1
       anchor: top_left
-      offset_x: 394
+      offset_x: 392
       offset_y: -22
       width: 24
       height: 20
@@ -1605,7 +1620,7 @@ elements:
         member keeps the other tabs until alone again; the item search then starts after the tab buttons.'
     - id: CharacterInventoryTab2
       anchor: top_left
-      offset_x: 420
+      offset_x: 418
       offset_y: -22
       width: 24
       height: 20
@@ -1626,7 +1641,7 @@ elements:
       notes: 'As CharacterInventoryTab1, for tab II (Shift+2).'
     - id: CharacterInventoryTab3
       anchor: top_left
-      offset_x: 446
+      offset_x: 444
       offset_y: -22
       width: 24
       height: 20
@@ -1647,7 +1662,7 @@ elements:
       notes: 'As CharacterInventoryTab1, for tab III (Shift+3).'
     - id: CharacterInventoryTab4
       anchor: top_left
-      offset_x: 472
+      offset_x: 470
       offset_y: -22
       width: 24
       height: 20
@@ -1668,7 +1683,7 @@ elements:
       notes: 'As CharacterInventoryTab1, for tab IV (Shift+4).'
     - id: CharacterInventoryTab5
       anchor: top_left
-      offset_x: 498
+      offset_x: 496
       offset_y: -22
       width: 24
       height: 20
@@ -1689,9 +1704,9 @@ elements:
       notes: 'As CharacterInventoryTab1, for tab V (Shift+5).'
     - id: CharacterInventorySearch
       anchor: top_left
-      offset_x: 394
+      offset_x: 392
       offset_y: -22
-      width: 238
+      width: 240
       height: 20
       z_index: 300
       interactive: true

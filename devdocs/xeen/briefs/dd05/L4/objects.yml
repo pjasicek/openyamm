@@ -384,27 +384,27 @@ monsters:
     group: 30
     notes: "The Cult Leader (A2's boss row 11223, level 45, hp x3, his own skin by S) preaching at the altar; his death runs q-d6.cult_leader."
   - id: monster:door_hall_1
-    room: room:door_hall
+    room: room:mirror_hall
     monster: 11222
-    at: [0, -1344]
+    at: [0, -1024]
     facing: 270
     group: 6
   - id: monster:door_hall_2
-    room: room:door_hall
+    room: room:mirror_hall
     monster: 11582
-    at: [-512, -1440]
+    at: [-416, -864]
     facing: 270
     group: 6
   - id: monster:door_hall_3
-    room: room:door_hall
+    room: room:mirror_hall
     monster: 11582
-    at: [512, -1440]
+    at: [384, -992]
     facing: 270
     group: 6
   - id: monster:door_hall_4
-    room: room:door_hall
+    room: room:mirror_hall
     monster: 11582
-    at: [-256, -1312]
+    at: [-256, -992]
     facing: 270
     group: 6
   - id: monster:dorm1_1

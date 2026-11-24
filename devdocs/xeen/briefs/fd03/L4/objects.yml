@@ -49,9 +49,9 @@ doors:
     speed: 96
     edge_surface: {texture: trim9_32, size: [32, 64]}
     pictures:
-      - [{texture: crsmdr1, size: [128, 256]}, {texture: crsmdr1, size: [128, 256]}]
+      - [{texture: crsmdr1, size: [128, 256]}, {texture: crsmdr1, size: [128, 256], mirror: true}]
     back_pictures:
-      - [{texture: crsmdr1, size: [128, 256]}, {texture: crsmdr1, size: [128, 256]}]
+      - [{texture: crsmdr1, size: [128, 256]}, {texture: crsmdr1, size: [128, 256], mirror: true}]
     notes: "The inner gate: two iron-bound leaves (MM8 gkp103a/gkp103b), swinging apart."
   - id: door:library
     opening: open:l2w_lib
@@ -76,9 +76,9 @@ doors:
     speed: 96
     edge_surface: {texture: trim9_32, size: [32, 64]}
     pictures:
-      - [{texture: crsmdr1, size: [128, 256]}, {texture: crsmdr1, size: [128, 256]}]
+      - [{texture: crsmdr1, size: [128, 256]}, {texture: crsmdr1, size: [128, 256], mirror: true}]
     back_pictures:
-      - [{texture: crsmdr1, size: [128, 256]}, {texture: crsmdr1, size: [128, 256]}]
+      - [{texture: crsmdr1, size: [128, 256]}, {texture: crsmdr1, size: [128, 256], mirror: true}]
     notes: The hall of the skull's double doors (gkp103a/gkp103b).
 movers:
   - id: mover:riser3

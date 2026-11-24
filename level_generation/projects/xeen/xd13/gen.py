@@ -176,7 +176,8 @@ room('room:great_hall', 'Great hall', HALL, floor=0, ceiling=768, theme='theme:k
                "Rubble: fallen roof stone in the north-east corner (gone at stage 2)."),
          block('platform:rubble_se', [928, 1184], [320, 384], 40, RUIN, RUIN,
                "Rubble against the east wall south of the court's arch (gone at stage 2)."),
-         block('platform:woodpile', [-896, 2880], [384, 256], 72, BOARDS, BOARDS,
+         # face.in_doorway (2026-11-24): at y 2880 it ran across the pantry door (y 2736-2896); now south of it.
+         block('platform:woodpile', [-896, 2240], [384, 256], 72, BOARDS, BOARDS,
                "The woodpile: the old roof's beams, sawn and stacked against the west wall (gone at stage 2)."),
      ],
      walls=[{'wall': 'north', 'panels': [
@@ -514,7 +515,8 @@ def mon(id, rm, kind, at, facing, group, **kw):
     monsters.append(d)
 
 
-for n, at in enumerate([[-640, 2304], [-320, 2560], [320, 2560], [640, 2176], [-384, 1408], [384, 1600]], 1):
+# D-130 (2026-11-24): 1-3 and 6 out of sight of the gate's landing (0, 320) (hide.py's spots; 1 north of the woodpile).
+for n, at in enumerate([[-960, 2560], [-768, 2560], [704, 2432], [640, 2176], [-384, 1408], [448, 1600]], 1):
     mon(f'monster:hall_golem_{n}', 'room:great_hall', WOOD, at, 270, G_RUIN,
         notes="Stage 0-1: a wood golem grown out of the fallen roof timbers.")
 for n, at in enumerate([[1664, 1216], [1664, 2240], [2688, 2240], [2688, 1600]], 1):

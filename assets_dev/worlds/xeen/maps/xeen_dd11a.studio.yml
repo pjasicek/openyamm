@@ -1,10 +1,10 @@
 # Written by oymap install: the Map Studio project this map was built from. The game's `pin` copies it into
 # every pin made on the map; `oymap pins import` files the pin into that project.
 project: "/home/pjasicek/github/OpenYAMM/devdocs/xeen/briefs/dd11a/L4"
-revision: "e29f5ee77fd0949a212e7f1e83580464"
+revision: "85bf39c268a1ef2cd15b1ae180b23635"
 lock_hash: "2edcdb80d5a0ac8bc8c1eee4c6491f1d"
 # Where a party arrives (`into: {map, arrival}` and a neighbour's `arrival: <name>` of other maps).
 arrivals:
-  - {name: "start", at: [96, -32, 0], facing: 0}
-  - {name: "entrance:d2_hole", at: [96, -32, 0], facing: 0}
+  - {name: "start", at: [80, -208, 0], facing: 0}
+  - {name: "entrance:d2_hole", at: [80, -208, 0], facing: 0}
 identity: {shape: "cave"}

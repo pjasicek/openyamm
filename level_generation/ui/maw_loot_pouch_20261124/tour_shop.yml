@@ -1,0 +1,31 @@
+output_dir: captures
+exit: true
+steps:
+- wait: 3
+- console: actor kill 200000
+- wait: 2.0
+- action: gather_loot
+- wait: 1.5
+- action: gather_loot
+- wait: 0.8
+- console: lua evt.EnterHouse(110)
+- wait: 2.5
+- click: [1237, 490]
+- wait: 1.0
+- click: [1237, 413]
+- wait: 1.0
+- click: [804, 22]
+- wait: 0.6
+- pointer_move: [700, 400]
+- wait: 0.4
+- capture: s03-sell-loot-tab
+- click: [1227, 492]
+- wait: 0.6
+- pointer_move: [700, 400]
+- wait: 0.4
+- capture: s04-sell-trash-picked
+- click: [1227, 414]
+- wait: 0.8
+- pointer_move: [700, 400]
+- wait: 0.4
+- capture: s05-sold

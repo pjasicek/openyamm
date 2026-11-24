@@ -1,0 +1,138 @@
+format: 1
+counter: 9
+pins:
+  - id: pin:p1
+    text: maybe set the spawnpoint further away
+    source: game
+    world: xeen
+    map: xeen_x3.odm
+    pose:
+      position: [17664, -5120, 1009]
+      yaw_radians: 2.648
+      pitch_degrees: -31.799
+      heading_yaw_units: 863
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-23T20:52:06
+    status: open
+    from: 20261123-205206-xeen_x3.yml
+  - id: pin:p2
+    text: z-fighting and the barrel is clipping
+    source: game
+    world: xeen
+    map: xeen_x3.odm
+    pose:
+      position: [11549.264, 11762.903, 1025]
+      yaw_radians: 5.053
+      pitch_degrees: -34.352
+      heading_yaw_units: 1647
+    picture: .oymap/pins/pictures/p2.png
+    author: user
+    created: 2026-11-23T20:54:10
+    status: open
+    from: 20261123-205410-xeen_x3.yml
+  - id: pin:p3
+    text: moce it to a more even ground
+    source: game
+    world: xeen
+    map: xeen_x3.odm
+    pose:
+      position: [9225.804, 13035.591, 1453.173]
+      yaw_radians: 2.228
+      pitch_degrees: 7.804
+      heading_yaw_units: 726
+    picture: .oymap/pins/pictures/p3.png
+    author: user
+    created: 2026-11-23T20:55:49
+    status: open
+    from: 20261123-205549-xeen_x3.yml
+  - id: pin:p4
+    text: textures missing
+    source: game
+    world: xeen
+    map: xeen_x3.odm
+    pose:
+      position: [8847.78, 14751.176, 1761]
+      yaw_radians: 5.372
+      pitch_degrees: -18.031
+      heading_yaw_units: 1751
+    picture: .oymap/pins/pictures/p4.png
+    author: user
+    created: 2026-11-23T20:56:17
+    status: open
+    from: 20261123-205617-xeen_x3.yml
+  - id: pin:p5
+    text: texture missing
+    source: game
+    world: xeen
+    map: xeen_x3.odm
+    pose:
+      position: [9343.135, 14583.923, 1761]
+      yaw_radians: 5.919
+      pitch_degrees: -12.849
+      heading_yaw_units: 1929
+    picture: .oymap/pins/pictures/p5.png
+    author: user
+    created: 2026-11-23T20:56:26
+    status: open
+    from: 20261123-205626-xeen_x3.yml
+  - id: pin:p6
+    text: z-fighting
+    source: game
+    world: xeen
+    map: xeen_x3.odm
+    pose:
+      position: [-17842.527, 15356.825, 1376.603]
+      yaw_radians: 2.01
+      pitch_degrees: 0.456
+      heading_yaw_units: 655
+    picture: .oymap/pins/pictures/p6.png
+    author: user
+    created: 2026-11-23T21:11:29
+    status: open
+    from: 20261123-211129-xeen_x3.yml
+  - id: pin:p7
+    text: i cannot enter the bridge
+    source: game
+    world: xeen
+    map: xeen_x3.odm
+    pose:
+      position: [274.157, 4303.481, 890.935]
+      yaw_radians: 4.723
+      pitch_degrees: -18.464
+      heading_yaw_units: 1540
+    picture: .oymap/pins/pictures/p7.png
+    author: user
+    created: 2026-11-23T21:12:49
+    status: open
+    from: 20261123-211249-xeen_x3.yml
+  - id: pin:p8
+    text: missing texture
+    source: game
+    world: xeen
+    map: xeen_x3.odm
+    pose:
+      position: [-15342.119, -9325.554, 1121.943]
+      yaw_radians: 4.674
+      pitch_degrees: -2.422
+      heading_yaw_units: 1524
+    picture: .oymap/pins/pictures/p8.png
+    author: user
+    created: 2026-11-23T23:58:23
+    status: open
+    from: 20261123-235823-xeen_x3.yml
+  - id: pin:p9
+    text: i accidentially found out that you can click here. If the other tents are also clickable maybe put the trigger point more to the beginning or put a door in front of it
+    source: game
+    world: xeen
+    map: xeen_x3.odm
+    pose:
+      position: [11900.42, 11021.434, 1025]
+      yaw_radians: 1.454
+      pitch_degrees: -10.497
+      heading_yaw_units: 474
+    picture: .oymap/pins/pictures/p9.png
+    author: user
+    created: 2026-11-24T01:04:48
+    status: open
+    from: 20261124-010448-xeen_x3.yml

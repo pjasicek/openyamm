@@ -61,6 +61,7 @@ DEFAULT_KIT = 'plaster'    # MM7's first kit: what a part of a building that nam
 OWN_ROLES = ('wall', 'door', 'window')
 # MM7's double-door wings on a kit house: one wing of the original's double door (the second leaf hangs it mirrored)
 DOOR_WINGS = {'7hhr1d1': 'xvdoorw', '7hhr1d2': 'xvdoorw'}
+STOREY = 256           # a kit bay's height: the studio lays walls in rows of it
 FOOTING = 'cwb1'
 VERGE = 40                 # how far a gable's slopes run past its ends (map units); the barge board is 24 high
 EAVES = 24                 # how far a gable's or hip's roof reaches out over the walls
@@ -231,6 +232,26 @@ def _rule(key, building, is_plot):
     return {'kit': 'stone' if civic else 'house'}
 
 
+def _fit(building, part, own, is_plot, counts):
+    """The kits' bays are one storey (256) high pictures, and the studio lays walls in rows of 256 from the foot, a
+    top row that is lower showing the lower part of its panels (`oymap audit`'s textures.feature_repeated and
+    feature_cut, 2026-11-24): a window or a corner quoin then shows one and a part, the posts end in stubs under the
+    roof. A district house's walls are a whole number of storeys (the nearest, a half storey up); a ruin, a wall lower
+    than a storey and a structure's walls of any other height show the kit's wall in place of its windows and posts."""
+    height = float(part.get('wall_height', building.get('wall_height', STOREY)))
+    ruin = part.get('ruin') or building.get('ruin')
+    if not ruin and height % STOREY == 0:
+        return
+    if not ruin and is_plot and height > STOREY:
+        part['wall_height'] = max(STOREY, int(height / STOREY + 0.5) * STOREY)
+        counts['storeys'] = counts.get('storeys', 0) + 1
+        return
+    for role in ('window', 'post_left', 'post_right'):
+        if role in own:
+            own[role] = own['wall']
+    counts['plain'] = counts.get('plain', 0) + 1
+
+
 def apply(sketch, key=None):
     """Put the classic kits on the sketch's buildings (district plots and building structures), as the rules and
     classic_kit.yml say for map `key`."""
@@ -268,6 +289,12 @@ def apply(sketch, key=None):
                 # A door or window of the part's own stays on the kits' houses (the town hall's double door).
                 if rule['kit'] == 'default' and role in own and role in OWN_ROLES and role != 'wall':
                     continue
+                # A special door (a portcullis over a castle's wide gateway) stays on every kit: the kits' doors are one
+                # 128 bay, tiled over a wider doorway (D1's Kalindra gate, doors.tiled, 2026-11-24)
+                if role == 'door' and (own.get('door') or (building.get('textures') or {}).get('door')) \
+                        in (CONFIG.get('keep_doors') or []):
+                    own['door'] = own.get('door') or building['textures']['door']
+                    continue
                 own[role] = texture
             door = building.get('door') if isinstance(building.get('door'), dict) else {}
             if door.get('leaves') == 2 and door.get('part') == part.get('id'):
@@ -280,6 +307,8 @@ def apply(sketch, key=None):
                     thatch = name == 'house' and (kit == 'poor' or roof == 'hhp2rf')
                     own['roof'] = THATCH if thatch else SHINGLE
                     counts['thatch' if thatch else 'shingle'] += 1
+            if key in (CONFIG.get('fit_maps') or []):
+                _fit(building, part, own, is_plot, counts)
             part['textures'] = own
             counts[name] += 1
             counts['parts'] += 1
@@ -292,5 +321,7 @@ def apply(sketch, key=None):
                 building.setdefault('textures', {}).setdefault('base', FOOTING)
             counts['buildings'] += 1
     return ['classic kit: %(buildings)d buildings, %(parts)d parts (house %(house)d, stone %(stone)d, tower %(tower)d; '
-            '%(shingle)d shingle roofs, %(thatch)d thatch), %(verges)d verges, %(eaves)d eaves, %(stables)d stables'
-            % dict(counts, stables=counts.get('stables', 0))]
+            '%(shingle)d shingle roofs, %(thatch)d thatch), %(verges)d verges, %(eaves)d eaves, %(stables)d stables, '
+            '%(storeys)d heights in whole storeys, %(plain)d parts without windows or posts'
+            % dict(counts, stables=counts.get('stables', 0), storeys=counts.get('storeys', 0),
+                   plain=counts.get('plain', 0))]

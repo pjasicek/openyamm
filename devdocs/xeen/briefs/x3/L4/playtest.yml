@@ -73,7 +73,7 @@ steps:
 - walk_to:
     x: 10240
     y: 11520
-    z: 1040
+    z: 1088
     z_tolerance: 600
     radius: 160
     timeout_seconds: 90
@@ -82,7 +82,7 @@ steps:
 - walk_to:
     x: 9472
     y: 12544
-    z: 1328
+    z: 1288
     z_tolerance: 600
     radius: 160
     timeout_seconds: 90
@@ -91,7 +91,7 @@ steps:
 - walk_to:
     x: 9472
     y: 13414
-    z: 1517
+    z: 1760
     z_tolerance: 600
     radius: 160
     timeout_seconds: 90
@@ -179,7 +179,7 @@ steps:
 - walk_to:
     x: 9472
     y: 13414
-    z: 1517
+    z: 1760
     z_tolerance: 600
     radius: 160
     timeout_seconds: 90
@@ -188,7 +188,7 @@ steps:
 - walk_to:
     x: 9472
     y: 12544
-    z: 1328
+    z: 1288
     z_tolerance: 600
     radius: 160
     timeout_seconds: 90
@@ -197,7 +197,7 @@ steps:
 - walk_to:
     x: 10240
     y: 11520
-    z: 1040
+    z: 1088
     z_tolerance: 600
     radius: 160
     timeout_seconds: 90
@@ -1476,7 +1476,7 @@ steps:
 - note: 'Night falls (game time to after 21:00): the Moon Guild by night'
 - advance_game_time:
     hours: 14
-- note: 'The open coffin''s stair: into XD-24 at its start (0, 704), then back'
+- note: 'The open coffin''s stair: into XD-24 at the coffin stair (0, 1600; P3 F45), then back'
 - execute_event:
     id: 47
 - advance_runtime:
@@ -1496,7 +1496,7 @@ steps:
 - assert:
     party_position:
       x: 0
-      y: 704
+      y: 1600
       radius: 160
 - load_map:
     map: xeen_x3.odm

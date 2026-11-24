@@ -138,7 +138,8 @@ def monsters():
     bx, by = D.BOSS['at']
     out.append({'id': 'monster:megadragon', 'room': 'room:air', 'monster': MEGADRAGON, 'at': [bx, by], 'facing': 0,
                 'hostile': True, 'leash': 1024, 'group': MEGA_GROUP,
-                'notes': ("Q-D26 (D-58 Q8): the Megadragon (125, uncounted) asleep on Castle Alamar's roof hatch, "
+                'notes': ("Q-D26 (D-58 Q8): the Megadragon (125, uncounted) asleep by the crag over Castle Alamar's roof "
+                          "hatch (D-122: 2,235 from the hatch's landing, was on the hatch), "
                           "leashed 1,024 round it (the plan's leash; dungeon monsters take `leash` since merge point "
                           "26). Hidden on load once A3's kill qbit is set (D-3).")})
     for b in D.BANDITS:
@@ -235,7 +236,7 @@ AU_SOUNDS = [
      "The Earth Corner's tip: P3's grinding."),
     ('corner_water', (-30464, -20480), 128, 'xeen_amb_plane_water', 2500, 600, 0.5, {},
      "The Water Corner's tip: P4's surf."),
-    ('megadragon_sleep', (-19456, 9216), 128, 'xeen_megadragon_sleep', 3500, 900, 0.6, {},
+    ('megadragon_sleep', D.BOSS['at'], 128, 'xeen_megadragon_sleep', 3500, 900, 0.6, {},
      "The Megadragon asleep on the hatch (Q-D26): off on its kill and on every load after (evt:megadragon_death, evt:megadragon_gone: AmbientSound<key> 2)."),
     # over the void between Olympus and the cap: the studio stands it on the safety floor (gen.FLOOR), so its height
     # puts it level with the other two calls (about 1,024 over the roads, z 2,150)

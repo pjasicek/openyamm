@@ -192,8 +192,8 @@ rooms:
       - {at: [640, 640], size: [128, 128], surface: {texture: d1smbw, size: [128, 128]}}
     platforms:
       - {id: platform:hearth, rise: 32, surface: {texture: d1smbw, size: [128, 128]}, outline: [[-320, 1040], [320, 1040], [320, 1152], [-320, 1152]], top_surface: {texture: d2flor5, size: [128, 128]}, notes: "The hearth against the north wall; werewolves lie by its fire like dogs."}
-      - {id: platform:table_w, rise: 64, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[-1344, -128], [-1184, -128], [-1184, 896], [-1344, 896]], top_surface: {texture: d1ceil1, size: [256, 256]}, notes: A long table against the wall.}
-      - {id: platform:table_e, rise: 64, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[1184, -128], [1344, -128], [1344, 896], [1184, 896]], top_surface: {texture: d1ceil1, size: [256, 256]}, notes: A long table against the wall.}
+      - {id: platform:table_w, rise: 64, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[-1344, 224], [-1184, 224], [-1184, 656], [-1344, 656]], top_surface: {texture: d1ceil1, size: [256, 256]}, notes: A long table against the wall.}
+      - {id: platform:table_e, rise: 64, surface: {texture: d1ceil1, size: [256, 256]}, outline: [[1184, -128], [1344, -128], [1344, 656], [1184, 656]], top_surface: {texture: d1ceil1, size: [256, 256]}, notes: A long table against the wall.}
     ambient: 18
     notes: "The cult's hall, 2,816 by 1,536 under a beamed ceiling 960 up: four timber posts, long tables against the walls, a hearth north, iron chandeliers; the west tower's arch and the scriptorium's door west, the kennels' door east."
   - id: room:guard_room

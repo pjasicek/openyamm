@@ -73,28 +73,19 @@ RegisterEvent(9, nil, function()
 end, nil)
 
 -- evt:drum_great
-RegisterEvent(10, "Great war drum", function(continueStep)
-    if continueStep == 2 then
-        SetValue(MapVar(4), 1)
-        AddValue(MapVar(5), 1)
-        evt.SetTexture(1, "xoburn")
-        evt.SetLight(40001, 1)
-        evt.PlaySoundName("xeen_fire_ignite", -960, 10304, -168)
-        AddValue(Experience, 250)
-        evt.SetMapVar('AmbientSound1', 2)
-        evt.StatusText("The dry hide catches at once: the great war drum goes up in flames, and its beat drops out of the din.", 6)
-        return
-    end
-    if continueStep ~= nil then
-        evt.StatusText("You leave the drum as it is, for now.", 4)
-        return
-    end
+RegisterEvent(10, "Great war drum", function()
     if not (IsAtLeast(MapVar(4), 0) and not IsAtLeast(MapVar(4), 1)) then
         evt.StatusText("Nothing is left of the great war drum but a charred frame.", 5)
         return
     end
-    evt.SetMessage("You have found a war drum of the Orcs!  Destroy?")
-    evt.AskQuestion(10, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    SetValue(MapVar(4), 1)
+    AddValue(MapVar(5), 1)
+    evt.SetTexture(1, "xoburn")
+    evt.SetLight(40001, 1)
+    evt.PlaySoundName("xeen_fire_ignite", -960, 10304, -168)
+    AddValue(Experience, 250)
+    evt.SetMapVar('AmbientSound1', 2)
+    evt.StatusText("The dry hide catches at once: the great war drum goes up in flames, and its beat drops out of the din.", 6)
 end, "Great war drum")
 
 -- evt:drum_great_out
@@ -124,28 +115,19 @@ RegisterEvent(12, nil, function()
 end, nil)
 
 -- evt:drum_signal
-RegisterEvent(13, "Signal drum", function(continueStep)
-    if continueStep == 2 then
-        SetValue(MapVar(8), 1)
-        AddValue(MapVar(5), 1)
-        evt.SetTexture(2, "xoburn")
-        evt.SetLight(40002, 1)
-        evt.PlaySoundName("xeen_fire_ignite", 1120, 2128, 256)
-        AddValue(Experience, 250)
-        evt.SetMapVar('AmbientSound2', 2)
-        evt.StatusText("The dry hide catches at once: the signal drum goes up in flames, and its beat drops out of the din.", 6)
-        return
-    end
-    if continueStep ~= nil then
-        evt.StatusText("You leave the drum as it is, for now.", 4)
-        return
-    end
+RegisterEvent(13, "Signal drum", function()
     if not (IsAtLeast(MapVar(8), 0) and not IsAtLeast(MapVar(8), 1)) then
         evt.StatusText("Nothing is left of the signal drum but a charred frame.", 5)
         return
     end
-    evt.SetMessage("You have found a war drum of the Orcs!  Destroy?")
-    evt.AskQuestion(13, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    SetValue(MapVar(8), 1)
+    AddValue(MapVar(5), 1)
+    evt.SetTexture(2, "xoburn")
+    evt.SetLight(40002, 1)
+    evt.PlaySoundName("xeen_fire_ignite", 1120, 2128, 256)
+    AddValue(Experience, 250)
+    evt.SetMapVar('AmbientSound2', 2)
+    evt.StatusText("The dry hide catches at once: the signal drum goes up in flames, and its beat drops out of the din.", 6)
 end, "Signal drum")
 
 -- evt:drum_signal_out
@@ -161,28 +143,19 @@ RegisterEvent(14, nil, function()
 end, nil)
 
 -- evt:drum_spirit
-RegisterEvent(15, "Spirit drum", function(continueStep)
-    if continueStep == 2 then
-        SetValue(MapVar(9), 1)
-        AddValue(MapVar(5), 1)
-        evt.SetTexture(3, "xoburn")
-        evt.SetLight(40003, 1)
-        evt.PlaySoundName("xeen_fire_ignite", -2912, 7200, -104)
-        AddValue(Experience, 250)
-        evt.SetMapVar('AmbientSound3', 2)
-        evt.StatusText("The dry hide catches at once: the spirit drum goes up in flames, and its beat drops out of the din.", 6)
-        return
-    end
-    if continueStep ~= nil then
-        evt.StatusText("You leave the drum as it is, for now.", 4)
-        return
-    end
+RegisterEvent(15, "Spirit drum", function()
     if not (IsAtLeast(MapVar(9), 0) and not IsAtLeast(MapVar(9), 1)) then
         evt.StatusText("Nothing is left of the spirit drum but a charred frame.", 5)
         return
     end
-    evt.SetMessage("You have found a war drum of the Orcs!  Destroy?")
-    evt.AskQuestion(15, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    SetValue(MapVar(9), 1)
+    AddValue(MapVar(5), 1)
+    evt.SetTexture(3, "xoburn")
+    evt.SetLight(40003, 1)
+    evt.PlaySoundName("xeen_fire_ignite", -2912, 7200, -104)
+    AddValue(Experience, 250)
+    evt.SetMapVar('AmbientSound3', 2)
+    evt.StatusText("The dry hide catches at once: the spirit drum goes up in flames, and its beat drops out of the din.", 6)
 end, "Spirit drum")
 
 -- evt:drum_spirit_out

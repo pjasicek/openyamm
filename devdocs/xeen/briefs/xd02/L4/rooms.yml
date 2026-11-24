@@ -387,7 +387,7 @@ rooms:
       - {at: [3000, 4976], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
       - {at: [3000, 5392], size: [32, 32], rise: 384, surface: {texture: t3d2abs, size: [32, 256]}}
       - {id: platform:winch, rise: 80, surface: {texture: t3d2abe, size: [256, 32]}, outline: [[2972, 5321], [2941, 5352], [2899, 5352], [2868, 5321], [2868, 5279], [2899, 5248], [2941, 5248], [2972, 5279]], top_surface: {texture: d2ceil2, size: [256, 256]}, notes: "The winch: a capstan drum of dark timber, its rope made fast round the fall's props (clicked)."}
-      - {rise: 28, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[2950, 5312], [2932, 5330], [2908, 5330], [2890, 5312], [2890, 5288], [2908, 5270], [2932, 5270], [2950, 5288]], top_surface: {texture: xnrustirn, size: [64, 64]}, base: 80, notes: The capstan's iron head}
+      - {part_of: platform:winch, rise: 28, surface: {texture: xnrustirn, size: [64, 64]}, outline: [[2950, 5312], [2932, 5330], [2908, 5330], [2890, 5312], [2890, 5288], [2908, 5270], [2932, 5270], [2950, 5288]], top_surface: {texture: xnrustirn, size: [64, 64]}, base: 80, notes: The capstan's iron head}
     beams:
       - path: [[3300, 4960], [3300, 5408]]
         width: 32
@@ -399,13 +399,15 @@ rooms:
         depth: 32
         bottom: 640
         surface: {texture: t3d2abe, size: [256, 32]}
-      - path: [[2830, 5300], [3010, 5300]]
+      - part_of: platform:winch
+        path: [[2830, 5300], [3010, 5300]]
         width: 12
         depth: 12
         bottom: 340
         surface: {texture: t3d2abe, size: [256, 32]}
         notes: Capstan bar
-      - path: [[2920, 5210], [2920, 5390]]
+      - part_of: platform:winch
+        path: [[2920, 5210], [2920, 5390]]
         width: 12
         depth: 12
         bottom: 348

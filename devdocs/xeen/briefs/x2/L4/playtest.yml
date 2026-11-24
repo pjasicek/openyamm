@@ -404,7 +404,7 @@ steps:
 - note: 'Royal Steeds of Rivercity (building:stables): walk to its door and open it'
 - walk_to:
     x: 4
-    y: 12928
+    y: 13328
     z: 1024
     z_tolerance: 600
     radius: 160
@@ -413,7 +413,7 @@ steps:
 - set_pose:
     map: xeen_x2.odm
     x: 4
-    y: 12928
+    y: 13328
     z: 1024
     yaw: 0.0
     pitch: 0.0
@@ -1071,7 +1071,7 @@ steps:
 - walk_to:
     x: -6144
     y: 1536
-    z: 1024
+    z: 960
     z_tolerance: 600
     radius: 160
     timeout_seconds: 90
@@ -1080,7 +1080,7 @@ steps:
 - walk_to:
     x: -7552
     y: 748
-    z: 966
+    z: 879
     z_tolerance: 600
     radius: 160
     timeout_seconds: 120
@@ -1089,7 +1089,7 @@ steps:
     map: xeen_x2.odm
     x: -7552
     y: 748
-    z: 992
+    z: 960
     yaw: -1.5708
     pitch: 0.0
 - advance_runtime:
@@ -1109,7 +1109,7 @@ steps:
 - walk_to:
     x: -7680
     y: 1536
-    z: 928
+    z: 768
     z_tolerance: 600
     radius: 160
     timeout_seconds: 60
@@ -1117,7 +1117,7 @@ steps:
 - walk_to:
     x: -8397
     y: 1536
-    z: 896
+    z: 704
     z_tolerance: 600
     radius: 160
     timeout_seconds: 60
@@ -1155,7 +1155,7 @@ steps:
 - walk_to:
     x: -15731
     y: 3014
-    z: 768
+    z: 757
     z_tolerance: 600
     radius: 160
     timeout_seconds: 90
@@ -1250,7 +1250,7 @@ steps:
 - walk_to:
     x: -7936
     y: 1280
-    z: 912
+    z: 736
     z_tolerance: 600
     radius: 160
     timeout_seconds: 60
@@ -1259,7 +1259,7 @@ steps:
 - walk_to:
     x: -6144
     y: 1536
-    z: 1024
+    z: 960
     z_tolerance: 600
     radius: 160
     timeout_seconds: 90

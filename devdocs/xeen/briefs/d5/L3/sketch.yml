@@ -394,6 +394,14 @@ heights:
       height: 2496
       slope: 2
       notes: The dwarf prospectors' camp.
+    - polygon: [[37, 94], [39, 94], [39, 96], [37, 96]]
+      height: 1696
+      slope: 1
+      notes: level land under thing:munchies_1 (common/level_pads.py)
+    - polygon: [[69, 98], [71, 98], [71, 100], [69, 100]]
+      height: 1632
+      slope: 1
+      notes: level land under thing:munchies_2 (common/level_pads.py)
   grid:
     step: 4
     unit: 32
@@ -631,7 +639,7 @@ areas:
     kind: encounter
     count: 1
     slot: 2
-    circle: {at: [68, 73], r: 1}
+    circle: {at: [66, 96], r: 1}
   - id: pop:doom_birds
     index: 4
     kind: encounter
@@ -1091,7 +1099,8 @@ structures:
     decoration: dec24
     title: The giants' fire
     effects:
-      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end"
+    once: true
   - id: thing:hold_boulders_1
     kind: decoration
     at: [88.9, 47.7]
@@ -1141,11 +1150,11 @@ structures:
     textures: {door: hkm1dl, post_left: hkm1b1, post_right: hkm1b1, roof: hkm1b1, trim: hkm1b1, wall: hkm1b1, window: hkm1elw}
     facing: s
     parts:
-      - {id: storey_1, at: [128, 128], size: [1024, 1024], signs: [{wall: s, bay: 3, texture: xdvowel, size: [256, 64], bottom: 252, out: 8}], textures: {window: hkm1b1}, wall_height: 320, walls: {e: [wall, wall, wall, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, wall, wall, wall], s: [wall, wall, wall, [door, 256], wall, wall, wall], w: [wall, wall, wall, wall, wall, wall, wall, wall]}, roof: flat, door_height: 240}
-      - {id: storey_2, at: [128, 128], size: [1024, 1024], bottom: 320, wall_height: 320, walls: {e: [wall, wall, wall, wall, window, wall, wall, wall], n: [wall, wall, wall, wall, window, wall, wall, wall], s: [wall, wall, wall, wall, window, wall, wall, wall], w: [wall, wall, wall, wall, window, wall, wall, wall]}, roof: flat}
-      - {id: storey_3, at: [128, 128], size: [1024, 1024], bottom: 640, wall_height: 320, walls: {e: [wall, wall, window, wall, wall, wall, wall, wall], n: [wall, wall, window, wall, wall, wall, wall, wall], s: [wall, wall, window, wall, wall, wall, wall, wall], w: [wall, wall, window, wall, wall, wall, wall, wall]}, roof: flat}
-      - {id: storey_4, at: [128, 128], size: [1024, 1024], bottom: 960, wall_height: 320, walls: {e: [wall, wall, wall, wall, window, wall, wall, wall], n: [wall, wall, wall, wall, window, wall, wall, wall], s: [wall, wall, wall, wall, window, wall, wall, wall], w: [wall, wall, wall, wall, window, wall, wall, wall]}, roof: flat}
-      - {id: storey_5, at: [128, 128], size: [1024, 1024], bottom: 1280, wall_height: 320, walls: {e: [wall, wall, window, wall, wall, wall, wall, wall], n: [wall, wall, window, wall, wall, wall, wall, wall], s: [wall, wall, window, wall, wall, wall, wall, wall], w: [wall, wall, window, wall, wall, wall, wall, wall]}, roof: flat, battlements: true}
+      - {id: storey_1, at: [128, 128], size: [1024, 1024], signs: [{wall: s, bay: 3, texture: xdvowel, size: [256, 64], bottom: 252, out: 8}], textures: {door: xvtdoorw, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 320, walls: {e: [wall, wall, wall, wall, wall, wall, wall, wall], n: [wall, wall, wall, wall, wall, wall, wall, wall], s: [wall, wall, wall, [door, 256], wall, wall, wall], w: [wall, wall, wall, wall, wall, wall, wall, wall]}, roof: flat, door_height: 240}
+      - {id: storey_2, at: [128, 128], size: [1024, 1024], bottom: 320, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 320, walls: {e: [wall, wall, wall, wall, window, wall, wall, wall], n: [wall, wall, wall, wall, window, wall, wall, wall], s: [wall, wall, wall, wall, window, wall, wall, wall], w: [wall, wall, wall, wall, window, wall, wall, wall]}, roof: flat}
+      - {id: storey_3, at: [128, 128], size: [1024, 1024], bottom: 640, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 320, walls: {e: [wall, wall, window, wall, wall, wall, wall, wall], n: [wall, wall, window, wall, wall, wall, wall, wall], s: [wall, wall, window, wall, wall, wall, wall, wall], w: [wall, wall, window, wall, wall, wall, wall, wall]}, roof: flat}
+      - {id: storey_4, at: [128, 128], size: [1024, 1024], bottom: 960, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 320, walls: {e: [wall, wall, wall, wall, window, wall, wall, wall], n: [wall, wall, wall, wall, window, wall, wall, wall], s: [wall, wall, wall, wall, window, wall, wall, wall], w: [wall, wall, wall, wall, window, wall, wall, wall]}, roof: flat}
+      - {id: storey_5, at: [128, 128], size: [1024, 1024], bottom: 1280, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 320, walls: {e: [wall, wall, window, wall, wall, wall, wall, wall], n: [wall, wall, window, wall, wall, wall, wall, wall], s: [wall, wall, window, wall, wall, wall, wall, wall], w: [wall, wall, window, wall, wall, wall, wall, wall]}, roof: flat, battlements: true}
     floor: 3008
     door:
       leaves: 2
@@ -1329,8 +1338,9 @@ structures:
     at: [34.300000000000004, 39.3]
     size: [1.8, 1.4]
     kit: poor
+    textures: {base: cwb1}
     parts:
-      - {id: leanto, at: [64, 64], size: [790, 590], posts: 48, textures: {post: t06a10, roof: hhp2rf, trim: t06a10}, wall_height: 320, windows: none, roof: lean_to, title: A Giant's lair, effects: [{lua: "if continueStep == 2 then XeenQuests.hook(\"d5.lair\") return end if continueStep ~= nil then return end evt.AskQuestion(eventId, 1, 0, 2, \"You have found a Giant's lair. Destroy? (Yes/No)\", {\"yes\", \"y\"})"}]}
+      - {id: leanto, at: [64, 64], size: [790, 590], posts: 48, textures: {door: xvdoor, gable: xvwall, post: t06a10, post_left: xvwall, post_right: xvwall, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 320, windows: none, roof: lean_to, title: A Giant's lair, effects: [{lua: "if continueStep == 2 then XeenQuests.hook(\"d5.lair\") return end if continueStep ~= nil then return end evt.AskQuestion(eventId, 1, 0, 2, \"You have found a Giant's lair. Destroy? (Yes/No)\", {\"yes\", \"y\"})"}]}
     door: none
     title: A Giant's lair
   - id: thing:lair_hoard

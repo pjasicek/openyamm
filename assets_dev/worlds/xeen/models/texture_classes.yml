@@ -191,7 +191,7 @@ textures:
   xvsdoor: {border: [117, 64, 26], class: feature, door: single, mirror: 0.77, motif: 1.12, seam: [0.43, 4.24], size: [128, 256], tiles: [true, false]}
   xvsdoorw: {border: [102, 51, 19], class: feature, door: wing, mirror: 0.1, motif: 0.47, override: true, seam: [1.66, 6.3], size: [128, 256], tiles: [true, false], twin: xvsdoorw}
   xvshgl: {border: [116, 60, 24], class: tile, mirror: 0.25, motif: 0.03, seam: [0.75, 1.43], size: [128, 128], tiles: [true, true]}
-  xvswall: {border: [120, 65, 26], class: trim_u, mirror: 0.46, motif: 1.09, override: true, seam: [0.7, 6.3], size: [128, 256], storey_stack: module, tiles: [true, false]}
+  xvswall: {border: [120, 65, 26], class: tile, mirror: 0.46, motif: 1.09, override: true, seam: [0.7, 6.3], size: [128, 256], storey_stack: module, tiles: [true, false]}
   xvswin: {border: [120, 65, 26], class: feature, mirror: 0.6, motif: 0.97, override: true, seam: [0.59, 4.67], size: [128, 256], storey_stack: module, tiles: [true, false]}
   xvtdoor: {border: [41, 41, 41], class: feature, door: single, mirror: 0.61, motif: 0.81, seam: [0.89, 6.19], size: [128, 256], tiles: [true, false]}
   xvtdoorw: {border: [34, 33, 33], class: feature, door: wing, mirror: 0.23, motif: 0.78, override: true, seam: [5.37, 3.38], size: [128, 256], tiles: [false, false], twin: xvtdoorw}

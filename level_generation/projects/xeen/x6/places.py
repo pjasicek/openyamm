@@ -232,7 +232,9 @@ SPHINX = {'wall': 'egybiga', 'window': 'egybiga', 'door': 'egydrsmc', 'post_left
 SPHINX_HEAD = dict(SPHINX, wall='egywalh', window='egywalh', gable='egywalh', roof='egywalhb')
 
 WELL_AT = (61.0, 60.85)            # Old Ibb's well, in the street between the tavern and the stables
-OASIS_FOUNTAIN = (45.7, 61.0)      # on the pond's east shore, beside the oasis track
+# on the pond's east shore, beside the oasis track; 0.9 east of the water's edge since 2026-11-24 (at 45.7 its basin
+# hung 86 over the bank's slope to the pond, whose nodes keep the water's level: town_fit_check things.overhang)
+OASIS_FOUNTAIN = (46.6, 61.2)
 NSPHINX = (82.0, 39.0)
 SPHINX_DOOR = (82.0, 43.98)        # XD-15 (A7): in the breast's face between the paws, facing south
 HOARD = (82.62, 44.7)              # the mound by the east paw, clear of the door's line, within 400 of it

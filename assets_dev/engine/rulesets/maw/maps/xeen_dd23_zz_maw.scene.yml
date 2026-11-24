@@ -5,10 +5,9 @@ kind: indoor_scene_overlay
 initial_state:
   pack_reserve:
     scene_actors: 15
-    scene_check: "5bc611d5c6768a72"
+    scene_check: "ce05f243125e3a70"
     max_factor: 2.0
     monsters: 15
     actors:
-      - {"from_factor":1.0667,"actor":{"actor_index":15,"name":"","npc_id":0,"attributes":524288,"hp":180,"hostility_type":0,"monster_info_id":11550,"monster_id":1200,"radius":103,"height":244,"move_speed":300,"position":{"x":82,"y":2054,"z":7},"initial_yaw_units":1536,"sprite_ids":[0,0,0,0],"sector_id":2,"current_action_animation":0,"carried_item_id":0,"group":10,"ally":0,"unique_name_index":0}}
-      - {"from_factor":1.1333,"actor":{"actor_index":16,"name":"","npc_id":0,"attributes":524288,"hp":180,"hostility_type":0,"monster_info_id":11550,"monster_id":1200,"radius":103,"height":244,"move_speed":300,"position":{"x":375,"y":4531,"z":641},"initial_yaw_units":1536,"sprite_ids":[0,0,0,0],"sector_id":10,"current_action_animation":0,"carried_item_id":0,"group":14,"ally":0,"unique_name_index":0}}
-      - {"from_factor":1.2,"actor":{"actor_index":17,"name":"","npc_id":0,"attributes":524288,"hp":180,"hostility_type":0,"monster_info_id":11550,"monster_id":1200,"radius":103,"height":244,"move_speed":300,"position":{"x":328,"y":4062,"z":641},"initial_yaw_units":1536,"sprite_ids":[0,0,0,0],"sector_id":10,"current_action_animation":0,"carried_item_id":0,"group":14,"ally":0,"unique_name_index":0}}
+      - {"from_factor":1.0667,"actor":{"actor_index":15,"name":"","npc_id":0,"attributes":524288,"hp":180,"hostility_type":0,"monster_info_id":11550,"monster_id":1200,"radius":103,"height":244,"move_speed":300,"position":{"x":375,"y":4531,"z":641},"initial_yaw_units":1536,"sprite_ids":[0,0,0,0],"sector_id":10,"current_action_animation":0,"carried_item_id":0,"group":14,"ally":0,"unique_name_index":0}}
+      - {"from_factor":1.1333,"actor":{"actor_index":16,"name":"","npc_id":0,"attributes":524288,"hp":180,"hostility_type":0,"monster_info_id":11550,"monster_id":1200,"radius":103,"height":244,"move_speed":300,"position":{"x":328,"y":4062,"z":641},"initial_yaw_units":1536,"sprite_ids":[0,0,0,0],"sector_id":10,"current_action_animation":0,"carried_item_id":0,"group":14,"ally":0,"unique_name_index":0}}

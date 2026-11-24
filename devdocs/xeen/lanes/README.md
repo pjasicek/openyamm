@@ -107,6 +107,13 @@ live in `level_generation/projects/xeen/`, see its README). After any map instal
 Outdoor maps with a walled town, castle or yard (F19, D-92): `python3 tools/xeen/wall_check.py <stem>` (closed
 circuits, wall ends in water/cliff/towers, flush joints; `towns.py --strict` runs it) and `tools/xeen/house_signs.py`
 (every service signed by kind); a new walled place goes into `tools/xeen/town_walls.yml`.
+Indoor arrivals and ledges (F45, F42; D-122, D-132, D-133, 2026-11-24): `python3 tools/xeen/check_arrivals.py --maps
+<stem>` (0 errors; BLV spawn markers and scene spawns always count, by any monster row their slot can roll; fix a
+marker or actor by moving it out of sight of the landing inside its room) and `python3 tools/xeen/check_ledge_shots.py
+--maps <stem>` (a thin shot over a lip from a ranged monster's own post is an error: move the shooter first, a 64
+parapet on landings and lookouts, else `KEPT` with a reason; spots it can move to are warnings). Outdoor arrivals:
+`x2/check_d85.py` and `common/d85.py` hold every arrival to D-15's 2,000 first-fight buffer counting spawn markers
+(`first_fight` in `check_arrivals.py`; `--kept-group` for a guard group a decision keeps).
 Indoor maps with sky faces (F21, D-97): `python3 tools/xeen/check_open_sky.py <key>`: every sector under sky is listed
 as deliberately open in `tools/xeen/open_sky.yml` (its kind and the brief's reason), a wall walk or battlements opens
 on a side (a parapet over a courtyard, or its outer wall drawn as sky over a parapet), a skylight stays a hole in a

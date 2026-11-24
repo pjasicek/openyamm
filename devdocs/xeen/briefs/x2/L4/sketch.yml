@@ -43,6 +43,18 @@ heights:
       height: 768
       slope: 2
       notes: "The island's crown, level under the tower."
+    - polygon: [[79.075, 55.781], [79.075, 57.531], [81.325, 57.531], [81.325, 55.781]]
+      height: 664
+      slope: 2
+      notes: "F48: the land meets Captain Nystor's pier's deck at its end (common/wild.py bridge_ends)"
+    - polygon: [[47.781, 61.625], [49.531, 61.625], [49.531, 59.375], [47.781, 59.375]]
+      height: 664
+      slope: 2
+      notes: "F48: the land meets Medin's jetty's deck at its end (common/wild.py bridge_ends)"
+    - polygon: [[34.219, 59.375], [32.469, 59.375], [32.469, 61.625], [34.219, 61.625]]
+      height: 664
+      slope: 2
+      notes: "F48: the land meets Island jetty's deck at its end (common/wild.py bridge_ends)"
   cuts:
     - polygon: [[53, 48.5], [78, 48.5], [78, 51], [53, 51]]
       floor: 640
@@ -188,67 +200,67 @@ districts:
     polygon: [[0, 0], [128, 0], [128, 128], [0, 128]]
     rest: true
     plots:
-      - {building: building:barok_hut, at: [43.5, 36.5], facing: s, turn: 6, parts: [{id: body, shape: round, at: [384, 384], radius: 322, sides: 10, textures: {roof: hhp2rf}, wall_height: 256, roof: cone, tiers: [[48, 128], [80, 96], [96, 64]]}], house: 4095, title: Barok's Hut, kit: poor, door: {part: body}}
-      - {building: building:medin_hut, at: [48.5, 63], facing: n, parts: [{id: body, at: [64, 64], size: [640, 384], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4096, title: Medin's Hut, kit: poor, door: {part: body, wall: n}}
-      - {building: building:tito_chapel, at: [78.5, 74.5], facing: w, parts: [{id: nave, at: [64, 96], size: [896, 832], wall_height: 384, windows: all, roof: gable, roof_pitch: 50, ridge_along: ew}, {id: bell, at: [992, 400], size: [224, 224], textures: {roof: 7hhr1rf}, wall_height: 768, windows: none, roof: hip, roof_pitch: 60}], house: 4097, title: Tito's Chapel, kit: stone, door: {part: nave, wall: w}}
-      - {building: building:farmsteads, index: 1, at: [53, 25.5], facing: s, parts: [{id: body, at: [48, 244], size: [928, 476], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 33], size: [768, 227], textures: {roof: hhm1rf}, wall_height: 192, windows: none, roof: lean_to}], kit: timber, door: {part: body, wall: s}}
-      - {building: building:farmsteads, index: 2, at: [57, 28], facing: n, turn: 4, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], kit: poor, door: {part: body, wall: n}}
-      - {building: building:farmsteads, index: 3, at: [76, 23.5], facing: s, parts: [{id: body, at: [64, 64], size: [640, 544], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], kit: timber, door: {part: body, wall: s}}
-      - {building: building:farmsteads, index: 4, at: [79, 23], facing: s, turn: -5, parts: [{id: body, at: [48, 244], size: [928, 476], textures: {roof: hhp2rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 33], size: [768, 227], textures: {roof: hhp2rf}, wall_height: 192, windows: none, roof: lean_to}], kit: poor, door: {part: body, wall: s}}
-      - {building: building:farmsteads, index: 5, at: [69, 31], facing: w, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], kit: timber, door: {part: body, wall: w}}
+      - {building: building:barok_hut, at: [43.5, 36.5], facing: s, turn: 6, parts: [{id: body, shape: round, at: [384, 384], radius: 322, sides: 10, textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 256, roof: cone, tiers: [[48, 128], [80, 96], [96, 64]]}], textures: {base: cwb1}, house: 4095, title: Barok's Hut, kit: poor, door: {part: body}}
+      - {building: building:medin_hut, at: [48.5, 63], facing: n, parts: [{id: body, at: [64, 64], size: [640, 384], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1}, house: 4096, title: Medin's Hut, kit: poor, door: {part: body, wall: n}}
+      - {building: building:tito_chapel, at: [78.5, 74.5], facing: w, parts: [{id: nave, at: [64, 96], size: [896, 832], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 512, windows: all, roof: gable, roof_pitch: 50, eaves: 24, verge: 40, verge_walls: [w], ridge_along: ew}, {id: bell, at: [992, 400], size: [224, 224], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 768, windows: none, roof: hip, roof_pitch: 60, eaves: 24}], textures: {base: cwb1}, house: 4097, title: Tito's Chapel, kit: stone, door: {part: nave, wall: w}}
+      - {building: building:farmsteads, index: 1, at: [53, 25.5], facing: s, parts: [{id: body, at: [48, 244], size: [928, 476], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 40, verge: 40, ridge_along: ew}, {id: shed, at: [96, 33], size: [768, 227], textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 192, windows: none, roof: lean_to}], textures: {base: cwb1}, kit: timber, door: {part: body, wall: s}}
+      - {building: building:farmsteads, index: 2, at: [57, 28], facing: n, turn: 4, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1}, kit: poor, door: {part: body, wall: n}}
+      - {building: building:farmsteads, index: 3, at: [76, 23.5], facing: s, parts: [{id: body, at: [64, 64], size: [640, 544], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1}, kit: timber, door: {part: body, wall: s}}
+      - {building: building:farmsteads, index: 4, at: [79, 23], facing: s, turn: -5, parts: [{id: body, at: [48, 244], size: [928, 476], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 40, verge: 40, ridge_along: ew}, {id: shed, at: [96, 33], size: [768, 227], textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 192, windows: none, roof: lean_to}], textures: {base: cwb1}, kit: poor, door: {part: body, wall: s}}
+      - {building: building:farmsteads, index: 5, at: [69, 31], facing: w, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1}, kit: timber, door: {part: body, wall: w}}
   - space: town:rivercity
     polygon: [[50, 35], [84, 35], [84, 69], [50, 69]]
   - space: district:north_bank
     polygon: [[52, 35], [80, 35], [80, 49], [52, 49]]
     plots:
-      - {building: building:training, at: [53.5, 39.5], facing: s, door_to: link:main_street, parts: [{id: body, at: [48, 342], size: [928, 634], signs: [{wall: s, bay: 0, texture: 7sgtrain, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 33], size: [768, 325], textures: {roof: hhm1rf}, wall_height: 192, windows: none, roof: lean_to}], house: 4057, title: Street Fightin', kit: timber, door: {part: body, wall: s}}
-      - {building: building:north_houses, index: 1, at: [56, 40], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 544], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4065, title: Barlow House, kit: timber, door: {part: body, wall: s}}
-      - {building: building:magic_shop, at: [58.5, 40.5], facing: s, door_to: link:main_street, parts: [{id: tower, shape: round, at: [512, 396], radius: 348, sides: 10, textures: {roof: hhm3rf}, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [225, 546], size: [573, 430], signs: [{wall: s, bay: 0, texture: sgmagi, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4053, title: Witch's Cauldron, kit: grey, door: {part: body, wall: s}}
-      - {building: building:bank, at: [61, 41], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 640], signs: [{wall: s, bay: 0, texture: 7sgbank, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: 7hhr1rf}, wall_height: 384, roof: hip, roof_pitch: 38}], house: 4055, title: The Bank, kit: stone, door: {part: body, wall: s}}
-      - {building: building:tavern, at: [64.5, 40.5], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [896, 800], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: s, bay: 0, texture: 7sgtvrn, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, wall_height: 512, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4056, title: Bull's Tavern, kit: timber, door: {part: body, wall: s}}
-      - {building: building:north_houses, index: 2, at: [67, 41], facing: s, door_to: link:main_street, parts: [{id: body, at: [96, 80], size: [576, 576], textures: {roof: hhm1rf}, roof: none}, {id: upper, at: [48, 48], size: [672, 656], bottom: 256, textures: {roof: hhm1rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 4066, title: Kettle Residence, kit: timber, door: {part: body, wall: s}}
-      - {building: building:armour_shop, at: [69, 40.5], facing: s, door_to: link:main_street, parts: [{id: body, at: [96, 80], size: [576, 832], signs: [{wall: s, bay: 0, texture: 7sgarm, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, wall_height: 512, roof: none}, {id: upper, at: [48, 48], size: [672, 912], bottom: 256, textures: {roof: hhm1rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 4052, title: Rivercity Armoury, kit: timber, door: {part: body, wall: s}}
-      - {building: building:north_houses, index: 3, at: [71, 40.5], facing: s, door_to: link:main_street, parts: [{id: body, at: [48, 464], size: [672, 512], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [384, 64], size: [272, 480], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 4067, title: Rook House, kit: grey, door: {part: body, wall: s}}
-      - {building: building:weapon_shop, at: [73.5, 39.5], facing: s, door_to: link:main_street, parts: [{id: body, at: [48, 64], size: [716, 864], signs: [{wall: s, bay: 0, texture: sgweapon, size: [64, 64], bottom: 120, out: 48, hang: true}], roof: gable, roof_pitch: 45, ridge_along: ns}, {id: chimney, at: [652, 144], size: [96, 96], wall_height: 512, windows: none, roof: flat}, {id: shed, at: [764, 128], size: [212, 768], posts: 24, wall_height: 256, windows: none, roof: lean_to}], house: 4051, title: Rivercity Smithing, kit: grey, door: {part: body, wall: s}}
-      - {building: building:north_houses, index: 4, at: [76, 40], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4068, title: Sallow Residence, kit: poor, door: {part: body, wall: s}}
-      - {building: building:river_houses, index: 1, at: [53.5, 43], facing: n, door_to: link:main_street, parts: [{id: body, at: [96, 112], size: [576, 576], textures: {roof: hhm1rf}, wall_height: 512, roof: none}, {id: upper, at: [48, 64], size: [672, 656], bottom: 256, textures: {roof: hhm1rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 4069, title: School of Navigation, kit: timber, door: {part: body, wall: n}}
-      - {building: building:river_houses, index: 2, at: [55.5, 43], facing: n, door_to: link:main_street, parts: [{id: body, at: [64, 160], size: [640, 544], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4070, title: Tanner Residence, kit: grey, door: {part: body, wall: n}}
-      - {building: building:river_houses, index: 5, at: [69.5, 44], facing: n, door_to: link:main_street, parts: [{id: body, at: [64, 160], size: [896, 544], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhp2rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4073, title: Ferris House, kit: poor, door: {part: body, wall: n}}
-      - {building: building:river_houses, index: 6, at: [73.5, 43], facing: n, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhm3rf}, roof: hip, roof_pitch: 38}], house: 4074, title: Quill Residence, kit: grey, door: {part: body, wall: n}}
-      - {building: building:river_houses, index: 7, at: [75.5, 43], facing: n, door_to: link:main_street, parts: [{id: body, at: [48, 48], size: [672, 384], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [384, 352], size: [272, 352], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 4075, title: Mudd House, kit: timber, door: {part: body, wall: n}}
-      - {building: building:river_houses, index: 3, at: [53.5, 46], facing: s, door_to: link:main_street, parts: [{id: body, at: [48, 336], size: [672, 384], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [384, 64], size: [272, 352], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 4071, title: Lantern Residence, kit: timber, door: {part: body, wall: s}}
-      - {building: building:river_houses, index: 11, at: [55.5, 46], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4077, title: Gaff House, kit: poor, door: {part: body, wall: s}}
-      - {building: building:river_houses, index: 10, at: [69.5, 46], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [896, 640], textures: {roof: hhm3rf}, roof: hip, roof_pitch: 38}], kit: grey, door: {part: body, wall: s}}
-      - {building: building:river_houses, index: 8, at: [73.5, 46], facing: s, door_to: link:main_street, parts: [{id: body, at: [96, 80], size: [576, 576], textures: {roof: hhm3rf}, wall_height: 512, roof: none}, {id: upper, at: [48, 48], size: [672, 656], bottom: 256, textures: {roof: hhm3rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 4076, title: Ostler Residence, kit: grey, door: {part: body, wall: s}}
-      - {building: building:river_houses, index: 9, at: [75.5, 46], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 544], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], kit: timber, door: {part: body, wall: s}}
-      - {building: building:alchemist, at: [58.5, 44], facing: e, door_to: link:main_street, parts: [{id: body, at: [80, 96], size: [832, 1344], signs: [{wall: e, bay: 0, texture: 7sgalch, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm3rf}, roof: none}, {id: upper, at: [48, 48], size: [912, 1440], bottom: 256, textures: {roof: hhm3rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ns}], house: 4054, title: The Bubbling Flask, kit: grey, door: {part: body, wall: e}}
-      - {building: building:river_houses, index: 4, at: [67.5, 44], facing: w, door_to: link:main_street, parts: [{id: body, at: [112, 96], size: [576, 1344], textures: {roof: hhm1rf}, wall_height: 512, roof: none}, {id: upper, at: [64, 48], size: [656, 1440], bottom: 256, textures: {roof: hhm1rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ns}], house: 4072, title: Captain Yang's House, kit: timber, door: {part: body, wall: w}}
-      - {building: building:stables, at: [64.5, 37.5], facing: w, door_to: link:north_road, parts: [{id: body, at: [48, 48], size: [634, 1184], signs: [{wall: w, bay: 0, texture: 7sgstabl, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 40, ridge_along: ns}, {id: shed, at: [666, 96], size: [325, 1024], textures: {roof: hhm1rf}, wall_height: 192, windows: none, roof: lean_to}], house: 4062, title: Royal Steeds of Rivercity, kit: timber, door: {part: body, wall: w}}
+      - {building: building:training, at: [53.5, 39.5], facing: s, door_to: link:main_street, parts: [{id: body, at: [48, 342], size: [928, 634], signs: [{wall: s, bay: 0, texture: 7sgtrain, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 40, verge: 40, ridge_along: ew}, {id: shed, at: [96, 33], size: [768, 325], textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 192, windows: none, roof: lean_to}], textures: {base: cwb1}, house: 4057, title: Street Fightin', kit: timber, door: {part: body, wall: s}}
+      - {building: building:north_houses, index: 1, at: [56, 40], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 544], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1}, house: 4065, title: Barlow House, kit: timber, door: {part: body, wall: s}}
+      - {building: building:magic_shop, at: [58.5, 40.5], facing: s, door_to: link:main_street, parts: [{id: tower, shape: round, at: [512, 396], radius: 348, sides: 10, textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [225, 546], size: [573, 430], signs: [{wall: s, bay: 0, texture: sgmagi, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 48, verge: 40, verge_walls: [s], ridge_along: ns}], textures: {base: cwb1}, house: 4053, title: Witch's Cauldron, kit: grey, door: {part: body, wall: s}}
+      - {building: building:bank, at: [61, 41], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 640], signs: [{wall: s, bay: 0, texture: 7sgbank, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 512, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1}, house: 4055, title: The Bank, kit: stone, door: {part: body, wall: s}}
+      - {building: building:tavern, at: [64.5, 40.5], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [896, 800], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: s, bay: 0, texture: 7sgtvrn, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 512, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1}, house: 4056, title: Bull's Tavern, kit: timber, door: {part: body, wall: s}}
+      - {building: building:north_houses, index: 2, at: [67, 41], facing: s, door_to: link:main_street, parts: [{id: body, at: [96, 80], size: [576, 576], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: none}, {id: upper, at: [48, 48], size: [672, 656], bottom: 256, textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 256, roof: gable, roof_pitch: 50, eaves: 24, verge: 40, ridge_along: ew}], textures: {base: cwb1}, house: 4066, title: Kettle Residence, kit: timber, door: {part: body, wall: s}}
+      - {building: building:armour_shop, at: [69, 40.5], facing: s, door_to: link:main_street, parts: [{id: body, at: [96, 80], size: [576, 832], signs: [{wall: s, bay: 0, texture: 7sgarm, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 512, roof: none}, {id: upper, at: [48, 48], size: [672, 912], bottom: 256, textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 256, roof: gable, roof_pitch: 50, eaves: 24, verge: 40, ridge_along: ew}], textures: {base: cwb1}, house: 4052, title: Rivercity Armoury, kit: timber, door: {part: body, wall: s}}
+      - {building: building:north_houses, index: 3, at: [71, 40.5], facing: s, door_to: link:main_street, parts: [{id: body, at: [48, 464], size: [672, 512], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 45, verge: 40, ridge_along: ew}, {id: wing, at: [384, 64], size: [272, 480], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 45, verge: 40, verge_walls: [n], ridge_along: ns}], textures: {base: cwb1}, house: 4067, title: Rook House, kit: grey, door: {part: body, wall: s}}
+      - {building: building:weapon_shop, at: [73.5, 39.5], facing: s, door_to: link:main_street, parts: [{id: body, at: [48, 64], size: [716, 864], signs: [{wall: s, bay: 0, texture: sgweapon, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 45, verge: 40, ridge_along: ns}, {id: chimney, at: [652, 144], size: [96, 96], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 512, windows: none, roof: flat}, {id: shed, at: [764, 128], size: [212, 768], posts: 24, textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 256, windows: none, roof: lean_to}], textures: {base: cwb1}, house: 4051, title: Rivercity Smithing, kit: grey, door: {part: body, wall: s}}
+      - {building: building:north_houses, index: 4, at: [76, 40], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1}, house: 4068, title: Sallow Residence, kit: poor, door: {part: body, wall: s}}
+      - {building: building:river_houses, index: 1, at: [53.5, 43], facing: n, door_to: link:main_street, parts: [{id: body, at: [96, 112], size: [576, 576], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 512, roof: none}, {id: upper, at: [48, 64], size: [672, 656], bottom: 256, textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 256, roof: gable, roof_pitch: 50, eaves: 24, verge: 40, ridge_along: ew}], textures: {base: cwb1}, house: 4069, title: School of Navigation, kit: timber, door: {part: body, wall: n}}
+      - {building: building:river_houses, index: 2, at: [55.5, 43], facing: n, door_to: link:main_street, parts: [{id: body, at: [64, 160], size: [640, 544], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1}, house: 4070, title: Tanner Residence, kit: grey, door: {part: body, wall: n}}
+      - {building: building:river_houses, index: 5, at: [69.5, 44], facing: n, door_to: link:main_street, parts: [{id: body, at: [64, 160], size: [896, 544], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1}, house: 4073, title: Ferris House, kit: poor, door: {part: body, wall: n}}
+      - {building: building:river_houses, index: 6, at: [73.5, 43], facing: n, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1}, house: 4074, title: Quill Residence, kit: grey, door: {part: body, wall: n}}
+      - {building: building:river_houses, index: 7, at: [75.5, 43], facing: n, door_to: link:main_street, parts: [{id: body, at: [48, 48], size: [672, 384], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 45, verge: 40, ridge_along: ew}, {id: wing, at: [384, 352], size: [272, 352], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 45, verge: 40, verge_walls: [s], ridge_along: ns}], textures: {base: cwb1}, house: 4075, title: Mudd House, kit: timber, door: {part: body, wall: n}}
+      - {building: building:river_houses, index: 3, at: [53.5, 46], facing: s, door_to: link:main_street, parts: [{id: body, at: [48, 336], size: [672, 384], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 45, verge: 40, ridge_along: ew}, {id: wing, at: [384, 64], size: [272, 352], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 45, verge: 40, verge_walls: [n], ridge_along: ns}], textures: {base: cwb1}, house: 4071, title: Lantern Residence, kit: timber, door: {part: body, wall: s}}
+      - {building: building:river_houses, index: 11, at: [55.5, 46], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1}, house: 4077, title: Gaff House, kit: poor, door: {part: body, wall: s}}
+      - {building: building:river_houses, index: 10, at: [69.5, 46], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [896, 640], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1}, kit: grey, door: {part: body, wall: s}}
+      - {building: building:river_houses, index: 8, at: [73.5, 46], facing: s, door_to: link:main_street, parts: [{id: body, at: [96, 80], size: [576, 576], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 512, roof: none}, {id: upper, at: [48, 48], size: [672, 656], bottom: 256, textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 256, roof: gable, roof_pitch: 50, eaves: 24, verge: 40, ridge_along: ew}], textures: {base: cwb1}, house: 4076, title: Ostler Residence, kit: grey, door: {part: body, wall: s}}
+      - {building: building:river_houses, index: 9, at: [75.5, 46], facing: s, door_to: link:main_street, parts: [{id: body, at: [64, 64], size: [640, 544], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1}, kit: timber, door: {part: body, wall: s}}
+      - {building: building:alchemist, at: [58.5, 44], facing: e, door_to: link:main_street, parts: [{id: body, at: [80, 96], size: [832, 1344], signs: [{wall: e, bay: 0, texture: 7sgalch, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: none}, {id: upper, at: [48, 48], size: [912, 1440], bottom: 256, textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 256, roof: gable, roof_pitch: 50, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1}, house: 4054, title: The Bubbling Flask, kit: grey, door: {part: body, wall: e}}
+      - {building: building:river_houses, index: 4, at: [67.5, 44], facing: w, door_to: link:main_street, parts: [{id: body, at: [112, 96], size: [576, 1344], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 512, roof: none}, {id: upper, at: [64, 48], size: [656, 1440], bottom: 256, textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 256, roof: gable, roof_pitch: 50, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1}, house: 4072, title: Captain Yang's House, kit: timber, door: {part: body, wall: w}}
+      - {building: building:stables, at: [64.5, 37.5], facing: w, door_to: link:north_road, parts: [{id: office, at: [48, 48], size: [512, 512], signs: [{wall: w, bay: 0, texture: 7sgstabl, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 40, verge: 40}, {id: pen, at: [48, 564], size: [634, 668], posts: 24, post_every: 256, sill: 96, sill_walls: [s, e, w], textures: {door: xvdoor, gable: xvwall, post: xvbeam, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, sill: xvbeam, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 256, windows: none, roof: gable, roof_pitch: 30, ridge_along: ns}, {id: shed, at: [686, 96], size: [305, 1024], posts: 16, post_every: 256, sill: 112, sill_walls: [s, e, n], textures: {door: xvdoor, gable: xvwall, post: xvbeam, post_left: xvwall, post_right: xvwall, ridge: xvridge, roof: xvshgl, sill: xvbeam, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 144, windows: none, roof: none}], textures: {base: cwb1}, house: 4062, title: Royal Steeds of Rivercity, kit: timber, door: {part: office, wall: w}}
   - space: district:south_bank
     polygon: [[52, 57], [80, 57], [80, 68], [52, 68]]
     plots:
-      - {building: building:guild_body, at: [53.5, 58.5], facing: s, door_to: link:south_street, parts: [{id: tower, shape: round, at: [512, 396], radius: 348, sides: 10, textures: {roof: 7hhr1rf}, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [225, 546], size: [573, 430], signs: [{wall: s, bay: 0, texture: sgbody, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: 7hhr1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4059, title: Guild of Body, kit: stone, door: {part: body, wall: s}}
-      - {building: building:guild_mind, at: [56, 58.5], facing: s, door_to: link:south_street, parts: [{id: body, at: [48, 464], size: [928, 512], signs: [{wall: s, bay: 0, texture: sgmind, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [512, 64], size: [400, 480], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 4060, title: Guild of Mind, kit: grey, door: {part: body, wall: s}}
-      - {building: building:guild_spirit, at: [58.5, 58.5], facing: s, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [896, 800], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: s, bay: 0, texture: sgspirit, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: 7hhr1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4061, title: Guild of Spirit, kit: stone, door: {part: body, wall: s}}
-      - {building: building:skill_gym, at: [68, 59], facing: s, door_to: link:south_street, parts: [{id: body, at: [48, 244], size: [928, 476], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 33], size: [768, 227], textures: {roof: hhm1rf}, wall_height: 192, windows: none, roof: lean_to}], house: 4079, title: Arnold's Gym, kit: timber, door: {part: body, wall: s}}
-      - {building: building:skill_martial, at: [70.5, 59], facing: s, door_to: link:south_street, parts: [{id: body, at: [96, 80], size: [832, 576], textures: {roof: hhm3rf}, roof: none}, {id: upper, at: [48, 48], size: [928, 656], bottom: 256, textures: {roof: hhm3rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 4080, title: Martial Training, kit: grey, door: {part: body, wall: s}}
-      - {building: building:skill_temps, at: [73, 59], facing: s, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [640, 544], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4081, title: Lindon's Temps, kit: timber, door: {part: body, wall: s}}
-      - {building: building:south_houses, index: 1, at: [53.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [96, 112], size: [576, 832], textures: {roof: hhm1rf}, wall_height: 512, roof: none}, {id: upper, at: [48, 64], size: [672, 912], bottom: 256, textures: {roof: hhm1rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 4082, title: Crane Residence, kit: timber, door: {part: body, wall: n}}
-      - {building: building:south_houses, index: 2, at: [55.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 160], size: [640, 800], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhp2rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4083, title: Wharf House, kit: poor, door: {part: body, wall: n}}
-      - {building: building:south_houses, index: 3, at: [57.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [48, 48], size: [672, 512], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [384, 480], size: [272, 480], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 4084, title: Ladle Residence, kit: grey, door: {part: body, wall: n}}
-      - {building: building:south_houses, index: 9, at: [59.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [640, 896], textures: {roof: hhm3rf}, roof: hip, roof_pitch: 38}], house: 4089, title: Bargeman House, kit: grey, door: {part: body, wall: n}}
-      - {building: building:south_houses, index: 4, at: [67.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [96, 112], size: [576, 832], textures: {roof: hhm3rf}, wall_height: 512, roof: none}, {id: upper, at: [48, 64], size: [672, 912], bottom: 256, textures: {roof: hhm3rf}, wall_height: 256, roof: gable, roof_pitch: 50, ridge_along: ew}], house: 4085, title: Scull Residence, kit: grey, door: {part: body, wall: n}}
-      - {building: building:south_houses, index: 5, at: [69.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 160], size: [640, 800], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4086, title: Ferry House, kit: timber, door: {part: body, wall: n}}
-      - {building: building:south_houses, index: 7, at: [71.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [48, 48], size: [672, 512], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [384, 480], size: [272, 480], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 4087, title: Hawser Residence, kit: timber, door: {part: body, wall: n}}
-      - {building: building:south_houses, index: 8, at: [75, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [640, 896], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4088, title: Brine House, kit: grey, door: {part: body, wall: n}}
-      - {building: building:south_houses, index: 6, at: [77, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [48, 48], size: [928, 476], textures: {roof: hhp2rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 508], size: [768, 227], textures: {roof: hhp2rf}, wall_height: 192, windows: none, roof: lean_to}], kit: poor, door: {part: body, wall: n}}
-      - {building: building:temple, at: [64.5, 61.5], facing: w, door_to: link:south_street, parts: [{id: nave, at: [320, 64], size: [896, 1152], porches: [{wall: w, depth: 160, height: 288, posts: 32, floor: 16}], signs: [{wall: w, bay: 0, texture: sgtempl, size: [64, 64], bottom: 120, out: 48, hang: true}], wall_height: 448, roof: gable, roof_pitch: 52, ridge_along: ew}, {id: spire, shape: round, at: [1040, 640], radius: 200, sides: 8, textures: {roof: 7hhr1rf}, wall_height: 1152, windows: none, roof: cone, roof_pitch: 74}], house: 4058, title: Pray N Pay, kit: stone, door: {part: nave, wall: w}}
-      - {building: building:south_houses, index: 10, at: [53.5, 65], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhm1rf}, roof: hip, roof_pitch: 38}], house: 4090, title: Vatawna the Guildmaster, kit: timber, door: {part: body, wall: n}}
-      - {building: building:south_houses, index: 11, at: [55.5, 65], facing: s, door_to: link:south_street, turn: 180, parts: [{id: body, shape: round, at: [384, 384], radius: 322, sides: 10, textures: {roof: hhp2rf}, wall_height: 256, roof: cone, tiers: [[48, 128], [80, 96], [96, 64]]}], kit: poor, door: {part: body}}
-      - {building: building:south_houses, index: 12, at: [57.5, 65], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 160], size: [640, 544], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhm1rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], house: 4091, title: Mind Guild Steward, kit: timber, door: {part: body, wall: n}}
-      - {building: building:south_houses, index: 13, at: [59.5, 65], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], house: 4092, title: Spirit Guild Steward, kit: grey, door: {part: body, wall: n}}
-      - {building: building:south_houses, index: 14, at: [64.5, 65], facing: n, door_to: link:south_street, parts: [{id: body, at: [48, 48], size: [928, 384], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ew}, {id: wing, at: [512, 352], size: [400, 352], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 45, ridge_along: ns}], house: 4093, title: Reed Residence, kit: grey, door: {part: body, wall: n}}
-      - {building: building:south_houses, index: 15, at: [67, 65], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 160], size: [640, 544], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {roof: hhp2rf}, roof: gable, roof_pitch: 48, ridge_along: ns}], kit: poor, door: {part: body, wall: n}}
+      - {building: building:guild_body, at: [53.5, 58.5], facing: s, door_to: link:south_street, parts: [{id: tower, shape: round, at: [512, 396], radius: 348, sides: 10, textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 512, windows: alternate, roof: cone, roof_pitch: 62}, {id: body, at: [225, 546], size: [573, 430], signs: [{wall: s, bay: 0, texture: sgbody, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswin}, roof: gable, roof_pitch: 48, verge: 40, verge_walls: [s], ridge_along: ns}], textures: {base: cwb1}, house: 4059, title: Guild of Body, kit: stone, door: {part: body, wall: s}}
+      - {building: building:guild_mind, at: [56, 58.5], facing: s, door_to: link:south_street, parts: [{id: body, at: [48, 464], size: [928, 512], signs: [{wall: s, bay: 0, texture: sgmind, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 45, verge: 40, ridge_along: ew}, {id: wing, at: [512, 64], size: [400, 480], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 45, verge: 40, verge_walls: [n], ridge_along: ns}], textures: {base: cwb1}, house: 4060, title: Guild of Mind, kit: grey, door: {part: body, wall: s}}
+      - {building: building:guild_spirit, at: [58.5, 58.5], facing: s, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [896, 800], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], signs: [{wall: s, bay: 0, texture: sgspirit, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswin}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1}, house: 4061, title: Guild of Spirit, kit: stone, door: {part: body, wall: s}}
+      - {building: building:skill_gym, at: [68, 59], facing: s, door_to: link:south_street, parts: [{id: body, at: [48, 244], size: [928, 476], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 40, verge: 40, ridge_along: ew}, {id: shed, at: [96, 33], size: [768, 227], textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 192, windows: none, roof: lean_to}], textures: {base: cwb1}, house: 4079, title: Arnold's Gym, kit: timber, door: {part: body, wall: s}}
+      - {building: building:skill_martial, at: [70.5, 59], facing: s, door_to: link:south_street, parts: [{id: body, at: [96, 80], size: [832, 576], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: none}, {id: upper, at: [48, 48], size: [928, 656], bottom: 256, textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 256, roof: gable, roof_pitch: 50, eaves: 24, verge: 40, ridge_along: ew}], textures: {base: cwb1}, house: 4080, title: Martial Training, kit: grey, door: {part: body, wall: s}}
+      - {building: building:skill_temps, at: [73, 59], facing: s, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [640, 544], porches: [{wall: s, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1}, house: 4081, title: Lindon's Temps, kit: timber, door: {part: body, wall: s}}
+      - {building: building:south_houses, index: 1, at: [53.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [96, 112], size: [576, 832], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 512, roof: none}, {id: upper, at: [48, 64], size: [672, 912], bottom: 256, textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 256, roof: gable, roof_pitch: 50, eaves: 24, verge: 40, ridge_along: ew}], textures: {base: cwb1}, house: 4082, title: Crane Residence, kit: timber, door: {part: body, wall: n}}
+      - {building: building:south_houses, index: 2, at: [55.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 160], size: [640, 800], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1}, house: 4083, title: Wharf House, kit: poor, door: {part: body, wall: n}}
+      - {building: building:south_houses, index: 3, at: [57.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [48, 48], size: [672, 512], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 45, verge: 40, ridge_along: ew}, {id: wing, at: [384, 480], size: [272, 480], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 45, verge: 40, verge_walls: [s], ridge_along: ns}], textures: {base: cwb1}, house: 4084, title: Ladle Residence, kit: grey, door: {part: body, wall: n}}
+      - {building: building:south_houses, index: 9, at: [59.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [640, 896], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1}, house: 4089, title: Bargeman House, kit: grey, door: {part: body, wall: n}}
+      - {building: building:south_houses, index: 4, at: [67.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [96, 112], size: [576, 832], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 512, roof: none}, {id: upper, at: [48, 64], size: [672, 912], bottom: 256, textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 256, roof: gable, roof_pitch: 50, eaves: 24, verge: 40, ridge_along: ew}], textures: {base: cwb1}, house: 4085, title: Scull Residence, kit: grey, door: {part: body, wall: n}}
+      - {building: building:south_houses, index: 5, at: [69.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 160], size: [640, 800], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1}, house: 4086, title: Ferry House, kit: timber, door: {part: body, wall: n}}
+      - {building: building:south_houses, index: 7, at: [71.5, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [48, 48], size: [672, 512], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 45, verge: 40, ridge_along: ew}, {id: wing, at: [384, 480], size: [272, 480], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 45, verge: 40, verge_walls: [s], ridge_along: ns}], textures: {base: cwb1}, house: 4087, title: Hawser Residence, kit: timber, door: {part: body, wall: n}}
+      - {building: building:south_houses, index: 8, at: [75, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [640, 896], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1}, house: 4088, title: Brine House, kit: grey, door: {part: body, wall: n}}
+      - {building: building:south_houses, index: 6, at: [77, 61.5], facing: n, door_to: link:south_street, parts: [{id: body, at: [48, 48], size: [928, 476], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 40, verge: 40, ridge_along: ew}, {id: shed, at: [96, 508], size: [768, 227], textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 192, windows: none, roof: lean_to}], textures: {base: cwb1}, kit: poor, door: {part: body, wall: n}}
+      - {building: building:temple, at: [64.5, 61.5], facing: w, door_to: link:south_street, parts: [{id: nave, at: [320, 64], size: [896, 1152], porches: [{wall: w, depth: 160, height: 288, posts: 32, floor: 16}], signs: [{wall: w, bay: 0, texture: sgtempl, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 512, roof: gable, roof_pitch: 52, eaves: 24, verge: 40, verge_walls: [w], ridge_along: ew}, {id: spire, shape: round, at: [1040, 640], radius: 200, sides: 8, textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 1280, windows: none, roof: cone, roof_pitch: 74}], textures: {base: cwb1}, house: 4058, title: Pray N Pay, kit: stone, door: {part: nave, wall: w}}
+      - {building: building:south_houses, index: 10, at: [53.5, 65], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1}, house: 4090, title: Vatawna the Guildmaster, kit: timber, door: {part: body, wall: n}}
+      - {building: building:south_houses, index: 11, at: [55.5, 65], facing: s, door_to: link:south_street, turn: 180, parts: [{id: body, shape: round, at: [384, 384], radius: 322, sides: 10, textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 256, roof: cone, tiers: [[48, 128], [80, 96], [96, 64]]}], textures: {base: cwb1}, kit: poor, door: {part: body}}
+      - {building: building:south_houses, index: 12, at: [57.5, 65], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 160], size: [640, 544], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1}, house: 4091, title: Mind Guild Steward, kit: timber, door: {part: body, wall: n}}
+      - {building: building:south_houses, index: 13, at: [59.5, 65], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 64], size: [640, 640], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], textures: {base: cwb1}, house: 4092, title: Spirit Guild Steward, kit: grey, door: {part: body, wall: n}}
+      - {building: building:south_houses, index: 14, at: [64.5, 65], facing: n, door_to: link:south_street, parts: [{id: body, at: [48, 48], size: [928, 384], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 45, verge: 40, ridge_along: ew}, {id: wing, at: [512, 352], size: [400, 352], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 45, verge: 40, verge_walls: [s], ridge_along: ns}], textures: {base: cwb1}, house: 4093, title: Reed Residence, kit: grey, door: {part: body, wall: n}}
+      - {building: building:south_houses, index: 15, at: [67, 65], facing: n, door_to: link:south_street, parts: [{id: body, at: [64, 160], size: [640, 544], porches: [{wall: n, depth: 128, height: 224, posts: 24, floor: 16}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 48, eaves: 24, verge: 40, ridge_along: ns}], textures: {base: cwb1}, kit: poor, door: {part: body, wall: n}}
   - space: zone:bridge_square
     polygon: [[61, 44], [67, 44], [67, 48], [61, 48]]
   - space: zone:south_square
@@ -256,12 +268,12 @@ districts:
   - space: zone:quays
     polygon: [[53, 49], [82, 49], [82, 57], [53, 57]]
     plots:
-      - {building: building:quay_houses, index: 1, at: [65.5, 49], facing: s, parts: [{id: body, at: [64, 64], size: [896, 384], textures: {roof: hhm3rf}, roof: hip, roof_pitch: 38}], floor: 640, house: 4078, title: Tackle House, kit: grey, door: {part: body, wall: s}}
-      - {building: building:quay_houses, index: 2, at: [60.5, 55], facing: n, parts: [{id: body, at: [64, 64], size: [640, 384], textures: {roof: hhm1rf}, roof: hip, roof_pitch: 38}], floor: 640, house: 4094, title: Spratt Residence, kit: timber, door: {part: body, wall: n}}
-      - {building: building:quay_houses, index: 3, at: [53.5, 56], facing: n, parts: [{id: body, at: [48, 48], size: [928, 317], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 349], size: [768, 130], textures: {roof: hhm3rf}, wall_height: 192, windows: none, roof: lean_to}], floor: 640, kit: grey, door: {part: body, wall: n}}
-      - {building: building:quay_houses, index: 4, at: [56, 56], facing: n, parts: [{id: body, at: [64, 64], size: [896, 384], textures: {roof: hhm1rf}, roof: hip, roof_pitch: 38}], floor: 640, kit: timber, door: {part: body, wall: n}}
-      - {building: building:quay_houses, index: 5, at: [69, 56], facing: n, parts: [{id: body, at: [64, 64], size: [896, 384], textures: {roof: hhp2rf}, roof: hip, roof_pitch: 38}], floor: 640, house: 4098, title: The Sorceresses' House, kit: poor, door: {part: body, wall: n}}
-      - {building: building:quay_houses, index: 6, at: [74, 56], facing: n, parts: [{id: body, at: [48, 48], size: [928, 317], textures: {roof: hhm3rf}, roof: gable, roof_pitch: 40, ridge_along: ew}, {id: shed, at: [96, 349], size: [768, 130], textures: {roof: hhm3rf}, wall_height: 192, windows: none, roof: lean_to}], floor: 640, kit: grey, door: {part: body, wall: n}}
+      - {building: building:quay_houses, index: 1, at: [65.5, 49], facing: s, parts: [{id: body, at: [64, 64], size: [896, 384], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], floor: 640, textures: {base: cwb1}, house: 4078, title: Tackle House, kit: grey, door: {part: body, wall: s}}
+      - {building: building:quay_houses, index: 2, at: [60.5, 55], facing: n, parts: [{id: body, at: [64, 64], size: [640, 384], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], floor: 640, textures: {base: cwb1}, house: 4094, title: Spratt Residence, kit: timber, door: {part: body, wall: n}}
+      - {building: building:quay_houses, index: 3, at: [53.5, 56], facing: n, parts: [{id: body, at: [48, 48], size: [928, 317], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 40, verge: 40, ridge_along: ew}, {id: shed, at: [96, 349], size: [768, 130], textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 192, windows: none, roof: lean_to}], floor: 640, textures: {base: cwb1}, kit: grey, door: {part: body, wall: n}}
+      - {building: building:quay_houses, index: 4, at: [56, 56], facing: n, parts: [{id: body, at: [64, 64], size: [896, 384], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], floor: 640, textures: {base: cwb1}, kit: timber, door: {part: body, wall: n}}
+      - {building: building:quay_houses, index: 5, at: [69, 56], facing: n, parts: [{id: body, at: [64, 64], size: [896, 384], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwin}, roof: hip, roof_pitch: 38, eaves: 24}], floor: 640, textures: {base: cwb1}, house: 4098, title: The Sorceresses' House, kit: poor, door: {part: body, wall: n}}
+      - {building: building:quay_houses, index: 6, at: [74, 56], facing: n, parts: [{id: body, at: [48, 48], size: [928, 317], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, roof: gable, roof_pitch: 40, verge: 40, ridge_along: ew}, {id: shed, at: [96, 349], size: [768, 130], textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 192, windows: none, roof: lean_to}], floor: 640, textures: {base: cwb1}, kit: grey, door: {part: body, wall: n}}
   - space: zone:farmland
     polygon: [[38, 19], [109, 19], [109, 33], [38, 33]]
   - space: zone:ogre_hills
@@ -434,7 +446,7 @@ areas:
     index: 1
     kind: encounter
     count: 2
-    circle: {at: [44, 19], r: 1.5}
+    circle: {at: [44, 21], r: 1}
   - id: pop:rangers
     index: 2
     kind: encounter
@@ -449,7 +461,7 @@ areas:
     index: 4
     kind: encounter
     count: 1
-    circle: {at: [85, 19], r: 1}
+    circle: {at: [85, 21], r: 1}
   - id: pop:rangers
     index: 5
     kind: encounter
@@ -459,12 +471,12 @@ areas:
     index: 6
     kind: encounter
     count: 1
-    circle: {at: [70, 23], r: 1}
+    circle: {at: [71, 23], r: 1}
   - id: pop:rangers
     index: 7
     kind: encounter
     count: 1
-    circle: {at: [76, 18], r: 1}
+    circle: {at: [76, 21], r: 1}
   - id: pop:rangers
     index: 8
     kind: encounter
@@ -499,7 +511,7 @@ areas:
     index: 5
     kind: encounter
     count: 2
-    circle: {at: [27, 19], r: 1.5}
+    circle: {at: [28, 21], r: 1}
   - id: pop:ogres
     index: 6
     kind: encounter
@@ -1394,7 +1406,7 @@ ground:
 structures:
   - id: thing:great_bridge
     kind: bridge
-    line: [[64, 48.25], [64, 57.75]]
+    line: [[64, 47.96875], [64, 58.03125]]
     height: 1024
     width: 1024
     thickness: 96
@@ -1406,82 +1418,82 @@ structures:
     towers: [160, 160, 448]
   - id: thing:north_wall_1
     kind: wall
-    line: [[53.5, 48.5], [57.55, 48.5]]
+    line: [[53.5, 48.53515625], [57.55, 48.53515625]]
     raise: -192
     height: 432
-    thickness: 512
+    thickness: 548
     textures: {wall: cnb}
     title: Quay wall
     notes: The terrace's stone face over the quay.
   - id: thing:north_wall_2
     kind: wall
-    line: [[58.45, 48.5], [63.03, 48.5]]
+    line: [[58.45, 48.53515625], [63.03, 48.53515625]]
     raise: -192
     height: 432
-    thickness: 512
+    thickness: 548
     textures: {wall: cnb}
     title: Quay wall
     notes: The terrace's stone face over the quay.
   - id: thing:north_wall_3
     kind: wall
-    line: [[64.97, 48.5], [72.55, 48.5]]
+    line: [[64.97, 48.53515625], [72.55, 48.53515625]]
     raise: -192
     height: 432
-    thickness: 512
+    thickness: 548
     textures: {wall: cnb}
     title: Quay wall
     notes: The terrace's stone face over the quay.
   - id: thing:north_wall_4
     kind: wall
-    line: [[73.45, 48.5], [77, 48.5]]
+    line: [[73.45, 48.53515625], [77, 48.53515625]]
     raise: -192
     height: 432
-    thickness: 512
+    thickness: 548
     textures: {wall: cnb}
     title: Quay wall
     notes: The terrace's stone face over the quay.
   - id: thing:south_wall_1
     kind: wall
-    line: [[53.5, 57.5], [59.05, 57.5]]
+    line: [[53.5, 57.46484375], [59.05, 57.46484375]]
     raise: -192
     height: 432
-    thickness: 512
+    thickness: 548
     textures: {wall: cnb}
     title: Quay wall
     notes: The terrace's stone face over the quay.
   - id: thing:south_wall_2
     kind: wall
-    line: [[59.95, 57.5], [63.03, 57.5]]
+    line: [[59.95, 57.46484375], [63.03, 57.46484375]]
     raise: -192
     height: 432
-    thickness: 512
+    thickness: 548
     textures: {wall: cnb}
     title: Quay wall
     notes: The terrace's stone face over the quay.
   - id: thing:south_wall_3
     kind: wall
-    line: [[64.97, 57.5], [66.1, 57.5]]
+    line: [[64.97, 57.46484375], [66.1, 57.46484375]]
     raise: -192
     height: 432
-    thickness: 512
+    thickness: 548
     textures: {wall: cnb}
     title: Quay wall
     notes: The terrace's stone face over the quay.
   - id: thing:south_wall_4
     kind: wall
-    line: [[66.9, 57.5], [72.55, 57.5]]
+    line: [[66.9, 57.46484375], [72.55, 57.46484375]]
     raise: -192
     height: 432
-    thickness: 512
+    thickness: 548
     textures: {wall: cnb}
     title: Quay wall
     notes: The terrace's stone face over the quay.
   - id: thing:south_wall_5
     kind: wall
-    line: [[73.45, 57.5], [81, 57.5]]
+    line: [[73.45, 57.46484375], [81, 57.46484375]]
     raise: -192
     height: 432
-    thickness: 512
+    thickness: 548
     textures: {wall: cnb}
     title: Quay wall
     notes: The terrace's stone face over the quay.
@@ -1531,9 +1543,10 @@ structures:
     at: [77.5, 55]
     size: [2, 1.5]
     kit: timber
+    textures: {base: cwb1}
     facing: n
     parts:
-      - {id: house, at: [48, 48], size: [928, 640], signs: [{wall: w, bay: 0, texture: sgdock, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {roof: hhm1rf}, wall_height: 384, roof: gable, roof_pitch: 38, ridge_along: ew}
+      - {id: house, at: [48, 48], size: [928, 640], signs: [{wall: w, bay: 0, texture: sgdock, size: [64, 64], bottom: 120, out: 48, hang: true}], textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 384, roof: gable, roof_pitch: 38, eaves: 24, verge: 40, ridge_along: ew}
     door:
       part: house
       wall: w
@@ -1541,7 +1554,7 @@ structures:
     house: 4063
   - id: thing:nystor_pier
     kind: bridge
-    line: [[80.2, 55.2], [80.2, 52.7]]
+    line: [[80.2, 56.03125], [80.2, 52.7]]
     height: 672
     width: 384
     kerb: 0
@@ -1685,28 +1698,28 @@ structures:
       - lua: "evt.SimpleMessage(\"Lindon the Taskmaster: \\\"I'll give you 100 gold for a week of work.\\\"\")"
   - id: thing:patron_1
     kind: decoration
-    at: [64.85, 42.45]
+    at: [64.85, 42.6]
     decoration: bigbarel
     title: Tavern patron
     effects:
       - text: "A tavern patron, nose in his mug: \"Get lost. Can't you see I'm drinkin'?\""
   - id: thing:patron_2
     kind: decoration
-    at: [66.15, 42.45]
+    at: [66.15, 42.6]
     decoration: 7dec21
     title: Tavern patron
     effects:
       - text: "A tavern patron: \"If Barok ever got his pendant back, this place might charge me for drinks.\""
   - id: thing:patron_3
     kind: decoration
-    at: [64.55, 42.45]
+    at: [64.55, 42.6]
     decoration: bigbarel
     title: Tavern patron
     effects:
       - text: "A tavern patron: \"The tavern hired the sorceresses to run Barok out of town.\""
   - id: thing:patron_4
     kind: decoration
-    at: [66.45, 42.45]
+    at: [66.45, 42.6]
     decoration: 7dec32
     title: Tavern patron
     effects:
@@ -1717,9 +1730,10 @@ structures:
     size: [1, 0.75]
     turn: -90
     kit: timber
+    textures: {base: cwb1}
     parts:
-      - {id: stall, at: [64, 64], size: [384, 256], posts: 24, sill: 80, sill_walls: [n, e, w], textures: {roof: hhm1rf}, wall_height: 224, windows: none, roof: hip, roof_pitch: 30}
-    floor: 1040
+      - {id: stall, at: [64, 64], size: [384, 256], posts: 24, sill: 80, sill_walls: [n, e, w], textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 224, windows: none, roof: hip, roof_pitch: 30}
+    floor: 1024
     door: none
     title: Market stall
   - id: thing:stall_4
@@ -1728,9 +1742,10 @@ structures:
     size: [1, 0.75]
     turn: -90
     kit: poor
+    textures: {base: cwb1}
     parts:
-      - {id: stall, at: [64, 64], size: [384, 256], posts: 24, sill: 80, sill_walls: [n, e, w], textures: {roof: hhp2rf}, wall_height: 224, windows: none, roof: hip, roof_pitch: 30}
-    floor: 1040
+      - {id: stall, at: [64, 64], size: [384, 256], posts: 24, sill: 80, sill_walls: [n, e, w], textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 224, windows: none, roof: hip, roof_pitch: 30}
+    floor: 1024
     door: none
     title: Market stall
   - id: thing:stall_5
@@ -1739,9 +1754,10 @@ structures:
     size: [1, 0.75]
     turn: -90
     kit: grey
+    textures: {base: cwb1}
     parts:
-      - {id: stall, at: [64, 64], size: [384, 256], posts: 24, sill: 80, sill_walls: [n, e, w], textures: {roof: hhm3rf}, wall_height: 224, windows: none, roof: hip, roof_pitch: 30}
-    floor: 1040
+      - {id: stall, at: [64, 64], size: [384, 256], posts: 24, sill: 80, sill_walls: [n, e, w], textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 224, windows: none, roof: hip, roof_pitch: 30}
+    floor: 1024
     door: none
     title: Market stall
   - id: thing:stall_2
@@ -1750,8 +1766,9 @@ structures:
     size: [1, 0.75]
     turn: 0
     kit: poor
+    textures: {base: cwb1}
     parts:
-      - {id: stall, at: [64, 64], size: [384, 256], posts: 24, sill: 80, sill_walls: [n, e, w], textures: {roof: hhp2rf}, wall_height: 224, windows: none, roof: hip, roof_pitch: 30}
+      - {id: stall, at: [64, 64], size: [384, 256], posts: 24, sill: 80, sill_walls: [n, e, w], textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, roof: xvthat, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 224, windows: none, roof: hip, roof_pitch: 30}
     door: none
     title: Market stall
   - id: thing:stall_3
@@ -1760,8 +1777,9 @@ structures:
     size: [1, 0.75]
     turn: 90
     kit: timber
+    textures: {base: cwb1}
     parts:
-      - {id: stall, at: [64, 64], size: [384, 256], posts: 24, sill: 80, sill_walls: [n, e, w], textures: {roof: hhm3rf}, wall_height: 224, windows: none, roof: hip, roof_pitch: 30}
+      - {id: stall, at: [64, 64], size: [384, 256], posts: 24, sill: 80, sill_walls: [n, e, w], textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 224, windows: none, roof: hip, roof_pitch: 30}
     door: none
     title: Market stall
   - id: thing:well_north
@@ -1788,11 +1806,11 @@ structures:
     decoration: 7dec21
   - id: thing:prop_3
     kind: decoration
-    at: [80.6, 55.9]
+    at: [81, 55.9]
     decoration: 7dec32
   - id: thing:prop_3_pair
     kind: decoration
-    at: [80.95, 55.9]
+    at: [81.35, 55.9]
     decoration: smlbarel
   - id: thing:prop_4
     kind: decoration
@@ -1856,11 +1874,11 @@ structures:
     decoration: smlbarel
   - id: thing:prop_15
     kind: decoration
-    at: [67.35, 47.45]
+    at: [67.7, 47.75]
     decoration: bigbarel
   - id: thing:prop_15_pair
     kind: decoration
-    at: [67.35, 47.8]
+    at: [67.7, 48.1]
     decoration: smlbarel
   - id: thing:ogre_lair
     kind: cave_mouth
@@ -1881,7 +1899,8 @@ structures:
     decoration: cmpfyr00
     title: Campfire
     effects:
-      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end"
+    once: true
   - id: thing:lair_dress_2
     kind: decoration
     at: [21.6, 30.9]
@@ -1936,9 +1955,6 @@ structures:
     kind: decoration
     at: [27.6, 29.6]
     decoration: rock12
-    title: Boulders
-    effects:
-      - text: "Boulders thrown into the river by the ogres: no boat gets past."
   - id: thing:river_boulder_4
     kind: decoration
     at: [28.9, 31.9]
@@ -1953,9 +1969,9 @@ structures:
     kit: castle
     facing: e
     parts:
-      - {id: base, shape: round, at: [1280, 1280], radius: 896, sides: 12, textures: {door: 7solid01, wall: cwb1}, wall_height: 1024, windows: none, roof: none}
-      - {id: mid, shape: round, at: [1280, 1280], radius: 704, sides: 12, bottom: 1024, textures: {wall: cwb1}, wall_height: 1024, windows: alternate, roof: none}
-      - {id: top, shape: round, at: [1280, 1280], radius: 576, sides: 12, bottom: 2048, textures: {roof: 7hhr1rf, wall: cwb1}, wall_height: 768, windows: all, roof: cone, roof_pitch: 72}
+      - {id: base, shape: round, at: [1280, 1280], radius: 896, sides: 12, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: xtslate, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 1024, windows: none, roof: none}
+      - {id: mid, shape: round, at: [1280, 1280], radius: 704, sides: 12, bottom: 1024, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: xtslate, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 1024, windows: alternate, roof: none}
+      - {id: top, shape: round, at: [1280, 1280], radius: 576, sides: 12, bottom: 2048, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: xtslate, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 768, windows: all, roof: cone, roof_pitch: 72}
     floor: 768
     door:
       part: base
@@ -1973,9 +1989,9 @@ structures:
     kit: stone
     facing: n
     parts:
-      - {id: front, at: [448, 320], size: [1152, 896], porches: [{wall: n, depth: 288, height: 576, posts: 64, floor: 48}], textures: {door: 7solid01, roof: cwb1, wall: cnb}, wall_height: 704, windows: none, roof: gable, roof_pitch: 34, ridge_along: ns}
-      - {id: tower_w, at: [96, 384], size: [320, 320], textures: {roof: cwb1, wall: cnb}, wall_height: 1088, windows: none, roof: hip, roof_pitch: 62}
-      - {id: tower_e, at: [1632, 384], size: [320, 320], textures: {roof: cwb1, wall: cnb}, wall_height: 1088, windows: none, roof: hip, roof_pitch: 62}
+      - {id: front, at: [448, 320], size: [1152, 896], porches: [{wall: n, depth: 288, height: 576, posts: 64, floor: 48}], textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: cwb1, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 704, windows: none, roof: gable, roof_pitch: 34, eaves: 24, verge: 40, ridge_along: ns}
+      - {id: tower_w, at: [96, 384], size: [320, 320], textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: cwb1, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 1088, windows: none, roof: hip, roof_pitch: 62, eaves: 24}
+      - {id: tower_e, at: [1632, 384], size: [320, 320], textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: cwb1, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 1088, windows: none, roof: hip, roof_pitch: 62, eaves: 24}
     floor: 1088
     door:
       part: front
@@ -2010,7 +2026,7 @@ structures:
     decoration: 7dec18
   - id: thing:medin_jetty
     kind: bridge
-    line: [[47.6, 60.5], [44.6, 60.5]]
+    line: [[48.03125, 60.5], [44.6, 60.5]]
     height: 672
     width: 384
     textures: {deck: trim11_32}
@@ -2031,7 +2047,7 @@ structures:
           direction: 180
   - id: thing:island_jetty
     kind: bridge
-    line: [[36, 60.5], [39, 60.5]]
+    line: [[33.96875, 60.5], [39, 60.5]]
     height: 672
     width: 384
     textures: {deck: trim11_32}
@@ -2194,7 +2210,8 @@ structures:
     decoration: cmpfyr00
     title: Campfire
     effects:
-      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end"
+    once: true
   - id: thing:camp_ne_chest
     kind: chest
     at: [89.6, 23.6]
@@ -2217,7 +2234,8 @@ structures:
     decoration: cmpfyr00
     title: Campfire
     effects:
-      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end"
+    once: true
   - id: thing:camp_nw_chest
     kind: chest
     at: [47.6, 21.6]
@@ -2248,6 +2266,7 @@ structures:
     at: [99, 35]
     size: [2, 2]
     kit: castle
+    textures: {trim: ch1b1}
     parts:
       - {id: t, shape: round, at: [512, 512], radius: 352, sides: 10, textures: {wall: cnb}, wall_height: 768, windows: none, roof: none}
     door: none
@@ -2267,8 +2286,9 @@ structures:
     at: [33, 76.5]
     size: [2, 1.5]
     kit: stone
+    textures: {trim: chb1}
     parts:
-      - {id: r, at: [64, 64], size: [896, 640], wall_height: 320, windows: alternate, roof: none}
+      - {id: r, at: [64, 64], size: [896, 640], wall_height: 320, windows: none, roof: none}
     door: none
     title: Ruined cottage
     ruin:
@@ -2353,6 +2373,7 @@ structures:
     turn: 90
     raise: 560
     from: {map: 7out03.odm, world: mm7, models: [Boat 201_S, Boat 201_S_1, Boat 201_S_2, Boat 201_S_3, Boat 201_S_4, Boat 2f01 Mastprt1_SBoat 2f01 M, Boat 2g01 Mastprt2_SBoat 2g01 M, Boat 2h01 FrntMast_SBoat 2h01 F]}
+    drop_overlaps: true
     title: Captain Nystor's ship
     house: 4063
   - id: thing:rim_boulder_1
@@ -2604,8 +2625,8 @@ actors:
   - {monster: "608", at: [55.59, 60.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
   - {monster: "596", at: [67.09, 61.25], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
   - {monster: "607", at: [58.09, 47.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
-  - {monster: "595", at: [74.59, 49.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
-  - {monster: "598", at: [62.84, 43.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "595", at: [62.84, 43.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "598", at: [74.84, 49.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
   - {monster: "577", at: [61.34, 61], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
   - {monster: "608", at: [57.84, 42], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
   - {monster: "596", at: [72.59, 64], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
@@ -2621,10 +2642,10 @@ actors:
   - {monster: "11131", at: [89.2, 25], count: 2, spread: 0.8, group: 60, hostile: true}
   - {monster: "11130", at: [46, 23.6], count: 3, spread: 1, group: 61, hostile: true}
   - {monster: "11131", at: [47.2, 23], count: 2, spread: 0.8, group: 61, hostile: true}
-  - {monster: "11061", at: [23.2, 31.4], count: 1, spread: 0, group: 62, hostile: true}
-  - {monster: "11061", at: [23.6, 32.2], count: 2, spread: 0.8, group: 62, hostile: true}
-  - {monster: "11531", at: [61, 96.4], count: 3, spread: 1, group: 63, hostile: true}
-  - {monster: "11531", at: [66.6, 100.6], count: 2, spread: 0.8, group: 63, hostile: true}
+  - {monster: "11061", at: [21.45, 34.4], count: 1, spread: 0, group: 62, hostile: true}
+  - {monster: "11061", at: [23.1, 35.45], count: 2, spread: 0.8, group: 62, hostile: true}
+  - {monster: "11531", at: [57.5, 95.65], count: 3, spread: 1, group: 63, hostile: true}
+  - {monster: "11531", at: [66.6, 101.6], count: 2, spread: 0.8, group: 63, hostile: true}
   - {monster: "11640", at: [23, 48], count: 1, spread: 0, group: 80, hostile: true, leash: 1024, notes: One of Medin's three lake beasts.}
   - {monster: "11640", at: [19.5, 58], count: 1, spread: 0, group: 80, hostile: true, leash: 768, notes: One of Medin's three lake beasts.}
   - {monster: "11640", at: [28, 71], count: 1, spread: 0, group: 80, hostile: true, leash: 1024, notes: One of Medin's three lake beasts.}
@@ -2636,18 +2657,18 @@ actors:
   - {monster: "270", at: [27, 102], spread: 0, group: 55, npc: 4155}
   - {monster: "11184", at: [72.3, 56], spread: 0, group: 54, hostile: true, hidden: true, notes: "Q-C2: the sorceresses' apprentice, shown by the strongbox."}
   - {monster: "11184", at: [72.7, 55.5], spread: 0, group: 54, hostile: true, hidden: true, notes: "Q-C2: the sorceresses' apprentice, shown by the strongbox."}
-  - {monster: "607", at: [73.59, 45], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "607", at: [73.84, 45], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
   - {monster: "595", at: [72.09, 58.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
   - {monster: "598", at: [45.84, 40.25], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
   - {monster: "577", at: [63.84, 64.25], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
   - {monster: "608", at: [51.34, 61.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
-  - {monster: "596", at: [75.84, 74.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
-  - {monster: "607", at: [73.09, 39.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "596", at: [73.09, 39.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "607", at: [75.84, 74.75], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
   - {monster: "595", at: [66.09, 43.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
   - {monster: "598", at: [64.09, 40.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
   - {monster: "577", at: [75.34, 42], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
   - {monster: "608", at: [74.34, 61.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
-  - {monster: "596", at: [68.09, 50.25], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
+  - {monster: "596", at: [68.09, 50.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
 items:
   - {id: item:ligono_skull, item: 12311, at: [96.6, 102.8]}
 sounds:

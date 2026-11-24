@@ -694,7 +694,7 @@ spawns:
     notes: "Goblin Lords, the coven's guard."
   - id: spawn:steam
     room: room:cauldron_chamber
-    at: [550, 550]
+    at: [678, 550]
     slot: 3
     tier: b
     notes: Familiars in the steam.
@@ -821,7 +821,7 @@ monsters:
     hostile: true
     group: 2
     name: Goblin Warden
-    immobile: true
+    leash: 600
     notes: "The Goblin Warden (a Gremlin Guard, 11012, level 10) at his table; the ring of keys that opens every cage is in his strongbox beside the table (the lead, after the user's walk: neither on his corpse nor as a small item on the table)."
 items:
   - id: item:alacorn

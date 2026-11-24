@@ -507,7 +507,7 @@ def objects_yml():
                           ('deep_2', 'deep_crypt', (128, 9728))]:
         sp(name, rid, at, 1, 'c')
     # Slot 2 Xeen Spirit (Polter-Fool 18 a, Tomb Guard 26 b)
-    for name, rid, at in [('welcome', 'welcome', (256, 1664)), ('gallery_spirits', 'gallery', (2048, 1856)),
+    for name, rid, at in [('welcome', 'welcome', (512, 1472)), ('gallery_spirits', 'gallery', (2048, 1856)),
                           ('embalming', 'embalming', (-896, 5248))]:
         sp(name, rid, at, 2, 'a')
     for name, rid, at in [('eastm_1', 'east_mourning', (5120, 1408)), ('eastm_2', 'east_mourning', (5120, 2176)),
@@ -564,9 +564,9 @@ def objects_yml():
     deco('chain_skeleton_1', 'chain_room', 'dec05', (784, 3232))
     deco('chain_skeleton_2', 'chain_room', 'dec05', (1264, 3232))
     deco('candelabra_welcome', 'welcome', 'cndlab0', (-640, 2112))
-    # Stocks: a skeleton in each pair
+    # Stocks: a skeleton at the foot of each pair (F40 2026-11-24: in the board it was drawn through the timber)
     for i, y in enumerate((2848, 3232, 3616)):
-        deco(f'stocks_skeleton_{i + 1}', 'stocks', 'dec05', (-2560, y + 16))
+        deco(f'stocks_skeleton_{i + 1}', 'stocks', 'dec05', (-2560, y - 130))  # F40: fallen at the foot of its stocks, clear of the board
     # West mourning: urns between the coffins
     deco('candle_w1', 'west_mourning', 'cndlab0', (-1088, 3712))
     deco('candle_w2', 'west_mourning', 'cndlab0', (-320, 3712))

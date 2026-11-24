@@ -215,7 +215,7 @@ RegisterEvent(195, "Chest", function()
 end, "Chest")
 
 RegisterEvent(196, "Bookcase", function()
-    if evt.CheckMonstersKilled(ActorKillCheck.ActorIdOe, 0, 0, false) then return end -- OE actor 0; all matching actors defeated
+    if evt.CheckMonstersKilled(ActorKillCheck.ActorIdOe, 0, 0, true) then return end -- OE actor 0; all matching actors defeated
     if not IsQBitSet(QBit(657)) then return end -- Membership to the School of Sorcery Scroll Shop
     if not IsAtLeast(MapVar(4), 3) then
         local randomStep = PickRandomOption(196, 5, {5, 5, 5, 7, 18, 21})

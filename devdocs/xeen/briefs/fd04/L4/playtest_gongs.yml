@@ -151,15 +151,15 @@ steps:
     radius: 6000
 - play_lua:
     source: click(69); wait(0.5)
-- answer_input:
-    text: 'Yes'
 - advance_runtime:
-    seconds: 2.0
+    seconds: 1.0
     present_dialogs: true
 - assert:
     dialog:
-      active: true
-      text_contains: Lord Xeen Machine
+      active: false
+- play_lua:
+    source: 'local s = tostring(status()); if not string.find(s, [[four cores out of the Lord Xeen Machine]], 1, true) then
+      error(''status line: '' .. s) end'
 - play_lua:
     source: close(); wait(1); close(); if not qbit(118145) then error('machine_broken 118145 not set') end; if not qbit(114041)
       then error('Q-F2 done 114041 not set') end

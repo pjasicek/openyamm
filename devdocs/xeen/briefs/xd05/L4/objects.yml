@@ -357,8 +357,8 @@ spawns:
     tier: a
     group: 51
   - id: spawn:gate
-    room: room:palisade_gate
-    at: [0, 2400]
+    room: room:palisade_yard
+    at: [0, 3300]
     slot: 1
     tier: a
     group: 51
@@ -379,7 +379,7 @@ spawns:
     notes: On the south terraces.
   - id: spawn:hall_w
     room: room:drum_hall
-    at: [-1000, 9344]
+    at: [-936, 9088]
     slot: 1
     tier: b
     group: 51
@@ -412,7 +412,7 @@ spawns:
     notes: "Bats at the bend (tier b: the map's band is 4-10)."
   - id: spawn:step_e
     room: room:firing_step_e
-    at: [760, 2048]
+    at: [888, 1984]
     slot: 1
     tier: a
     group: 51
@@ -433,25 +433,25 @@ monsters:
     facing: 270
     hostile: true
     group: 2
-    immobile: true
+    leash: 600
     notes: "The Drum-Master on his scaffold: his own boss row (11033, level 12)."
   - id: monster:guard_e
-    room: room:back_gate
+    room: room:back_tunnel
     monster: 11032
-    at: [2450, 13200]
-    facing: 270
+    at: [1664, 11672]
+    facing: 0
     hostile: true
     group: 4
-    immobile: true
+    leash: 600
   - id: monster:guard_w
-    room: room:back_gate
+    room: room:back_tunnel
     monster: 11032
-    at: [1900, 13200]
-    facing: 270
+    at: [1440, 11666]
+    facing: 0
     hostile: true
     group: 4
-    immobile: true
-    notes: "Gate guard (Orc Guard 11032, level 10)."
+    leash: 600
+    notes: "Gate guard (Orc Guard 11032, level 10). D-124 (2026-11-24): both guards keep their post in the tunnel's long climb east, out of sight of X7's landing in the guardroom (they stood 274 from it), leashed 600 round it."
   - id: monster:shaman
     room: room:shaman_den
     monster: 11032
@@ -493,11 +493,11 @@ decorations:
   - id: deco:cache_barrel
     room: room:loot_cache
     decoration: dec03
-    at: [-4160, 5705]
+    at: [-4140, 5700]
   - id: deco:cache_cask
     room: room:loot_cache
     decoration: 7dec21
-    at: [-4230, 5730]
+    at: [-4255, 5757]
   - id: deco:cache_heap
     room: room:loot_cache
     decoration: trasheap
@@ -509,7 +509,7 @@ decorations:
   - id: deco:chimney_guano
     room: room:bat_chimney
     decoration: trasheap
-    at: [2500, 8100]
+    at: [3040, 7710]
   - id: deco:chimney_stalagmite_1
     room: room:bat_chimney
     decoration: stlmite1
@@ -635,7 +635,7 @@ decorations:
   - id: deco:hall_skulls_w
     room: room:drum_hall
     decoration: sklplrev
-    at: [-560, 9800]
+    at: [-498, 9758]
   - id: deco:hall_stalagmite_1
     room: room:drum_hall
     decoration: stlmite2
@@ -692,11 +692,11 @@ decorations:
   - id: deco:mouth_skulls_e
     room: room:cave_mouth
     decoration: sklplrev
-    at: [420, 700]
+    at: [290, 800]
   - id: deco:mouth_skulls_w
     room: room:cave_mouth
     decoration: sklplrev
-    at: [-430, 780]
+    at: [-300, 850]
   - id: deco:mouth_skulltorch_e
     room: room:cave_mouth
     decoration: torskul0

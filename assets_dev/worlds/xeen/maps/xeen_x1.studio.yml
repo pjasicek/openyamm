@@ -1,8 +1,8 @@
 # Written by oymap install: the Map Studio project this map was built from. The game's `pin` copies it into
 # every pin made on the map; `oymap pins import` files the pin into that project.
 project: "/home/pjasicek/github/OpenYAMM/devdocs/xeen/briefs/x1/L4"
-revision: "e6cf38dbb10cd0f0c065730544253746"
-lock_hash: "3088f1d14114f1d469b309a3e3726143"
+revision: "508eb8d6650a0a68f5dde24c7c333e92"
+lock_hash: "1f9e0413359107d2d22ce5e5722aff7e"
 # Where a party arrives (`into: {map, arrival}` and a neighbour's `arrival: <name>` of other maps).
 arrivals:
   - {name: "start", at: [-5120, 8192, 640], facing: 512}
@@ -10,7 +10,7 @@ arrivals:
   - {name: "entrance:party_start", at: [-5120, 8192, 640], facing: 512}
   - {name: "entrance:stable_yard", at: [512, 9728, 640], facing: 1024}
   - {name: "entrance:west_road", at: [-22016, 9216, 992], facing: 0}
-  - {name: "entrance:xd01_culvert", at: [-1536, 5120, 608], facing: 0}
+  - {name: "entrance:xd01_culvert", at: [-1536, 5120, 606], facing: 0}
   - {name: "entrance:xd01_warehouse", at: [-1536, 3072, 640], facing: 0}
   - {name: "entrance:xd02_portal", at: [-10240, 15872, 1184], facing: 1536}
   - {name: "entrance:xd03_shaft", at: [-1024, 17920, 1472], facing: 0}

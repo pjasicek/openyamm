@@ -1,0 +1,63 @@
+format: 1
+counter: 4
+pins:
+  - id: pin:p1
+    text: he is not coming to me
+    source: game
+    world: xeen
+    map: xeen_xd04.blv
+    pose:
+      position: [-1401.694, -1264.71, 0]
+      yaw_radians: 3.35
+      pitch_degrees: -6.332
+      heading_yaw_units: 1092
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-23T16:16:49
+    status: open
+    from: 20261123-161649-xeen_xd04.yml
+  - id: pin:p2
+    text: "you only get a scroll, in exchange for a gem, that has more value"
+    source: game
+    world: xeen
+    map: xeen_xd04.blv
+    pose:
+      position: [1952.9, 529.574, 640]
+      yaw_radians: 0.099
+      pitch_degrees: -9.116
+      heading_yaw_units: 32
+    picture: .oymap/pins/pictures/p2.png
+    author: user
+    created: 2026-11-23T16:20:56
+    status: open
+    from: 20261123-162056-xeen_xd04.yml
+  - id: pin:p3
+    text: she cast a spell but there is an invisible wall
+    source: game
+    world: xeen
+    map: xeen_xd04.blv
+    pose:
+      position: [3139.443, 742.068, 700]
+      yaw_radians: 1.331
+      pitch_degrees: -10.122
+      heading_yaw_units: 434
+    picture: .oymap/pins/pictures/p3.png
+    author: user
+    created: 2026-11-23T16:22:06
+    status: open
+    from: 20261123-162206-xeen_xd04.yml
+  - id: pin:p4
+    text: "xp from them are, i think, small"
+    source: game
+    world: xeen
+    map: xeen_xd04.blv
+    pose:
+      position: [-2666.134, 2435.248, 1280]
+      yaw_radians: 3.236
+      pitch_degrees: -8.033
+      heading_yaw_units: 1055
+    picture: .oymap/pins/pictures/p4.png
+    author: user
+    created: 2026-11-23T16:55:14
+    status: open
+    from: 20261123-165514-xeen_xd04.yml

@@ -906,3 +906,31 @@ Meshy lane total: 330 (session 7: armadillo 10 more (20 in all), guard 15, octop
   `worlds/xeen/models/decoration_data.txt`, sprites 27065-27068, bindings in `decorations.yml` (heights 2,850 and
   2,700). Placed by `level_generation/projects/xeen/common/rim.py` (X6, X7, D6). Review: in game,
   `output/xeen_rimmap_b/{x6,x7,d6}/cap_extra/`.
+
+## Log: 2026-11-24, creature agent `xeen-toad-repair` (D-118, F57 the Giant Toad)
+
+- `level_generation/creatures/xeen_toad_claude/`: repaired without Meshy. `scripts/repair_toad.py` (new): hind-leg
+  weights (the lobes were Foot/Toes-weighted and flew over the back), the lip crease on its own `Mouth` material and a
+  `Jaw` bone for the lower lip (not Throat: its puff would move the lip); `scripts/anim_toad.py`: a lower Attack rear
+  with the jaw opening around the strike, stable hind-leg IK pole, 18-degree heel lift and earlier toe-off in the
+  hops, tongue kept in when dying (the belly peg). `scripts/repair_gates.py`: all eight clips pass (the old ones fail).
+  Far LODs from `lod_repair_claude` (r25_12), winding 0, installed with `tools/install_model.py --world xeen`. Seen in
+  game on X1 at the pin. Results: `devdocs/xeen/reviews/PLAYER_FEEDBACK_20261124.md` "F57, the Giant Toad (D-118)";
+  before/after `output/xeen_fb/p3_toad/before_after.jpg`. Waiting for the user's look.
+
+## Log: 2026-11-24, creature agent `xeen-toad-tongue` (D-126, the toad's tongue)
+
+- `level_generation/creatures/xeen_toad_claude/`: the tongue repainted, no Meshy. The flat disc was the UV layout as
+  much as the paint: the old cylinder unwrap gave the tip's end cap one texel row. `scripts/tongue_uv.py` (new): tube
+  plus an end-cap disc around the tip on a 512 x 1024 map; `scripts/paint_tongue.py` (new): procedural from the native
+  `013.att` ramp (mid turquoise, darker mottling and veins, pale wet streaks, a darker saturated tip), class 7, roughness
+  0.35, specular 0.5; one tongue for all tiers, no ramps. Far LODs rerun (r25_12, `verify_far_only` OK), winding 0,
+  installed with `tools/install_model.py --world xeen`, Android textures cooked. Results:
+  `devdocs/xeen/reviews/PLAYER_FEEDBACK_20261124.md` "F57, the Giant Toad: the tongue (D-126)"; before/after
+  `output/xeen_fb/p3_toad/tongue_before_after.jpg`.
+
+## Log: 2026-11-24, studio round 4 (agent `xeen-fb3-studio4`)
+
+- New decoration row 4069 `xeen_fairycap` (`worlds/xeen/models/decoration_data.txt`, sprite stub 27069,
+  `models/decorations.yml`: `engine/models/mm6_deco_mushrm05.glb` at height 200 ±15 %, light 384 pale green) for D2's
+  fairy ring (L1: "tall glowing mushrooms"). A glowing cap texture would show by day; today only the light.

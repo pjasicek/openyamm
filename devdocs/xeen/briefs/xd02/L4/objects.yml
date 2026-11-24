@@ -218,6 +218,8 @@ floors:
   - {id: floor:east_line, of: room:east_line, kind: water}
   - {id: floor:flooded, of: room:flooded_working, kind: water}
   - {id: floor:green_pool, of: platform:green_pool, kind: water}
+ladders:
+  - {id: ladder:chasm_north, room: room:chasm, at: [10912, 5616], facing: n, height: 1600, floor_height: -1792, exit: [10912, 5904], grab_at_top: true, surface: {texture: t3d2abs, size: [32, 256], uneven: true}, notes: "F43 (the player's pins 2026-11-24): a timber ladder up the chasm's north wall from its floor to the foot drift's gap, so a party that falls off the trestle car climbs out on foot."}
 sounds:
   - {id: sound:sorting_mine, room: room:sorting_floor, at: [12864, 6304], sound: xeen_amb_mine, radius: 2400, inner_radius: 700, volume: 0.45, notes: "The mine's bed (AU) by the sorting floor, heard centred (D-48).", pan: false}
   - {id: sound:stope_mine, room: room:stope_floor, at: [6208, 2880], sound: xeen_amb_mine, radius: 2800, inner_radius: 900, volume: 0.5, notes: "The mine's bed (AU): drips and knocks in the great stope, heard centred (D-48).", pan: false}
@@ -785,13 +787,13 @@ spawns:
     treasure_level: 1
   - id: spawn:deep_station
     room: room:deep_station
-    at: [4300, 4700]
+    at: [4620, 3932]
     slot: 1
     tier: a
     notes: Guards of the line.
   - id: spawn:deep_station_bay
     room: room:deep_station
-    at: [4150, 3550]
+    at: [4534, 3678]
     slot: 2
     tier: a
     notes: Spiders in the dark bay.
@@ -824,7 +826,7 @@ spawns:
     notes: The first clan dwarves.
   - id: spawn:ledge_sse
     room: room:stope_floor
-    at: [6575, 1993]
+    at: [6447, 1929]
     slot: 3
     tier: a
     notes: Spiders lurking at the landing.
@@ -846,7 +848,7 @@ spawns:
     tier: a
   - id: spawn:ore_heap_item
     room: room:sorting_floor
-    at: [12700, 6800]
+    at: [12830, 6800]
     kind: item
     treasure_level: 1
   - id: spawn:repair_niche
@@ -1349,7 +1351,7 @@ decorations:
   - id: deco:spider_galleries_102
     room: room:spider_galleries
     decoration: dec05
-    at: [3440, 1340]
+    at: [3490, 1370]
   - id: deco:spider_galleries_103
     room: room:spider_galleries
     decoration: dec29
@@ -1548,7 +1550,7 @@ decorations:
   - id: deco:west_line_76
     room: room:west_line
     decoration: 6rock01
-    at: [6500, 5060]
+    at: [6500, 5110]
   - id: deco:west_line_landing_72
     room: room:west_line_landing
     decoration: torch02
@@ -1560,10 +1562,6 @@ decorations:
     decoration: nwtrchnf
     at: [4700, 5068]
     height: 200
-  - id: deco:west_line_upper_78
-    room: room:west_line_upper
-    decoration: 7dec11
-    at: [4200, 5308]
 exits:
   - id: exit:deep
     room: room:deep_mouth

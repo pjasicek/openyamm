@@ -145,16 +145,12 @@ steps:
     z_tolerance: 200
 - play_lua:
     source: click(9); wait(0.5)
-- answer_input:
-    text: 'Yes'
 - advance_runtime:
     seconds: 1
 - play_lua:
     source: 'close(); if not qbit(115021) then error(''nest 1: its bit is not set'') end'
 - play_lua:
     source: click(10); wait(0.5)
-- answer_input:
-    text: 'Yes'
 - advance_runtime:
     seconds: 1
 - play_lua:
@@ -246,12 +242,9 @@ steps:
     z_tolerance: 200
 - play_lua:
     source: click(6); wait(0.5)
-- assert:
-    dialog:
-      active: true
-      text_contains: Super Explorer
 - play_lua:
-    source: if not close() then error('evt:explorer showed no window') end
+    source: 'local s = tostring(status()); close(); if not string.find(s, [[Super Explorer]], 1, true) then error(''evt:explorer:
+      status line: '' .. s) end'
 - play_lua:
     source: if not qbit(115020) then error('the explorer\'s bit is not set') end
 - walk_to:
@@ -962,8 +955,6 @@ steps:
     z_tolerance: 200
 - play_lua:
     source: click(11); wait(0.5)
-- answer_input:
-    text: 'Yes'
 - advance_runtime:
     seconds: 1
 - play_lua:

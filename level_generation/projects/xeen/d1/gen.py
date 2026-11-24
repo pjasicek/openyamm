@@ -287,7 +287,8 @@ PLOTS = [
     ('building:cv_inn', None, (59.5, 48.0), 'e', [2, 2], 'service', 'L', {'sign': 'sginn'}),
     ('building:cv_weapons', None, (65.0, 45.0), 'w', [2, 1.5], 'middle', 'forge', {'sign': 'sgweap'}),
     ('building:cv_armour', None, (64.5, 48.5), 'w', [2, 1.5], 'middle', 'jetty', {'sign': 'sgarm'}),
-    ('building:cv_jail', None, (66.5, 45.0), 's', [2.5, 1.5], 'rich', 'cottage', {'sign': 'xljail'}),
+    # P3 F49 (2026-11-24): half a cell east, off the smithy's back wall (88 between them, a slot with two casks in it)
+    ('building:cv_jail', None, (67.0, 45.0), 's', [2.5, 1.5], 'rich', 'cottage', {'sign': 'xljail'}),
     ('building:cv_houses', 11, (66.5, 48.5), 's', [2, 1], 'poor', 'cottage', {}),
     # the square
     ('building:cv_magic', None, (57.0, 50.5), 'e', [2, 2], 'rich', 'tower_house', {'sign': 'sgmagic'}),
@@ -594,7 +595,10 @@ def check_gate_lanes(structures, scatter):
 PYRAMID_C = (60.0, 36.0)
 PYRAMID_ARRIVAL = (61.6, 38.4)
 ELLINGER_C = (71.2, 45.9)          # Ellinger's round tower in the north-east quarter, its door to the west
-DD01_AT = (66.5, 57.5)             # the iron hatch by the square's south-east corner
+# the iron hatch by the square's south-east corner; a cell east of the paving's corner since 2026-11-24 (its wedge's
+# raised land rose 79 through the paving at (66.5, 57.5): town_fit_check platforms.through); DD-01's hatch arrival
+# (1024, 3072) stays clear of it
+DD01_AT = (67.5, 57.5)
 DD04_AT = (68.5, 43.62)            # the gremlins' burrow under the north wall, east of the gate (outside)
 KAL_GATE = (43.2, 70.0)            # Castle Kalindra's gate in its east front (DD-03)
 KAL_HILL = (-12800, -3072, KAL_H + 800)   # the castle's middle (cells 39, 70), its keep's height: phase sound
@@ -622,7 +626,10 @@ GREAT_CROWN_TURN = 11.25
 # the electrapedes' three clearings round the great tree, clear of the trunk and of D7's return point (A6 fix: they
 # stood in the new trunk; the nearest pack is now about 1,350 from the rope's foot, was 512)
 # D-85 (A6 s30): the second pack moved to the tree's west side, off Justine's camp (was (50.4, 37.4): 3,745)
-ELECTRAPEDES = [(49.8, 32.6), (40.5, 35.5), (43.2, 33.2)]
+# D-15/D-133 (2026-11-24, xeen-fb3-studio4): the first pack (group 3, three with spread 0.7) north-east of the tree, its
+# members 2,000 or more from D7's rope landing, the step in from it and the rope's foot (was (49.8, 32.6): actor 12 at
+# 1,734 from entrance:d7_rope); the nearest flat place of the grove floor that far, 4.8 cells from the trunk
+ELECTRAPEDES = [(50.4, 31.6), (40.5, 35.5), (43.2, 33.2)]
 GROVE_ROPE_ARRIVAL = (48.0, 36.0)  # D7's return point (-8192, 14336, 1088), facing the tree (768)
 _ga = math.atan2(GROVE_ROPE_ARRIVAL[1] - GREAT_C[1], GROVE_ROPE_ARRIVAL[0] - GREAT_C[0])
 ROPE_AT = (round(GREAT_C[0] + math.cos(_ga) * 1000 / 512.0, 3), round(GREAT_C[1] + math.sin(_ga) * 1000 / 512.0, 3))
@@ -1036,7 +1043,7 @@ def build():
               'poi:besiegers_camp': (96, 63), 'poi:heretic_pack': (31.5, 31), 'poi:webbed_pack': (43, 38),
               'poi:wayside_shrine': (103, 58), 'poi:edge_stone': (26, 46), 'poi:west_well': (46.4, 47.8),
               'poi:bottle': (53, 83), 'poi:falls': (31, 104), 'poi:mirror': (63, 53.6), 'poi:lyle_bench': (63.7, 54.3),
-              'poi:drawkcab_sign': (55.9, 61.35), 'poi:jail_window': (67.6, 45), 'poi:storage_numbers': (62, 63.5),
+              'poi:drawkcab_sign': (55.9, 61.35), 'poi:jail_window': (68.1, 45), 'poi:storage_numbers': (62, 63.5),
               'poi:storage_letters': (66.5, 63.5), 'poi:runaway_chest': (54, 62.6)}
     for k, at in POI_AT.items():
         points.append({'id': k, 'at': list(at)})
@@ -1259,7 +1266,7 @@ def build():
     S(hatch)
     # the Drawkcab sign, the jail's back window, Public Storage's chest yards, the runaway chest
     S(sign('thing:drawkcab_sign', (55.9, 61.35), 'Sign', effects=hook('q-d3.drawkcab_sign')))
-    S({'id': 'thing:jail_window', 'kind': 'building', 'at': [67.4, 44.95], 'size': [0.5, 0.25], 'kit': 'grey',
+    S({'id': 'thing:jail_window', 'kind': 'building', 'at': [67.9, 44.95], 'size': [0.5, 0.25], 'kit': 'grey',
        'door': 'none', 'title': 'A barred window', 'floor': TOWN_H,
        'parts': [{'id': 'bars', 'at': [64, 40], 'size': [128, 32], 'bottom': 96, 'wall_height': 128, 'roof': 'flat',
                   'windows': 'none', 'textures': {'wall': 't09a04a', 'roof': 't09b11b'},

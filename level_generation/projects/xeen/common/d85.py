@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """D-85 / D-87 check (A6 s31): talking givers and every arrival point of A6's maps against hostile spawn markers and
-placed actors, with D-87's ranged-disabler kind filter.
+placed actors (the hostile ones, as check_arrivals.hostiles reads them), with D-87's ranged-disabler kind filter.
 
 Usage: d85.py [maps_dir] [stems...]
 
@@ -12,6 +12,11 @@ its attack bonus on an attack with a missile (attack 1's missile column), or a P
 marker counts if any monster its slot can roll qualifies: slots 1-3 roll the family's tiers A-C (map_stats Dif; every
 tier counts, MAW rolls all three), slots 4-12 a fixed tier. A ranged disabler within 5,888 fails; any other kind keeps
 D-85's 5,120 / 5,888 report (melee kinds are warnings only, D-87.4).
+
+D-15's first-fight buffer, counting spawn markers (D-133, 2026-11-24): an arrival with a hostile that moves or shoots
+(a placed hostile, or a scene spawn marker whose slot can roll such a row) within 2,000 (2D, less the marker's radius)
+is flagged `FF` (tools/xeen/check_arrivals.py `first_fight`, the rule x2/check_d85.py fails a build on). The open-air
+BLVs (X8, D7) keep their BLV markers outside the scene: check_arrivals.py holds those maps.
 """
 import pathlib  # noqa: E402
 _REPO_ROOT = str(pathlib.Path(__file__).resolve().parents[4])  # the repository root
@@ -21,6 +26,9 @@ import sys
 from pathlib import Path
 
 import yaml
+
+sys.path.insert(0, _REPO_ROOT + '/tools/xeen')
+import check_arrivals  # noqa: E402
 
 ROOT = Path(_REPO_ROOT + '/assets_dev')
 XT = ROOT / 'worlds/xeen/data_tables'
@@ -128,7 +136,8 @@ def d2(a, b):
     return math.hypot(a[0] - b[0], a[1] - b[1])
 
 
-totals = {'DIS': 0, 'FAIL': 0, 'WARN': 0}
+totals = {'DIS': 0, 'FAIL': 0, 'WARN': 0, 'FF': 0}
+WORLD = check_arrivals.World(str(ROOT))
 for stem in STEMS:
     scp = MAPS / f'{stem}.scene.yml'
     if not scp.exists():
@@ -140,7 +149,10 @@ for stem in STEMS:
     actors = sc['initial_state'].get('actors') or []
     spawns = [s for s in (sc.get('spawns') or []) if s.get('type_id') == 3]
     talk = [a for a in actors if a.get('npc_id')]
-    others = [a for a in actors if not a.get('npc_id')]
+    # the hostiles only (2026-11-24): a placed actor counts as check_arrivals counts it (an aggressor, or a row not
+    # friendly to the party); the towns' villagers (D1's peasants and monks of group 47) are no threat to a giver
+    hostile_ids = {h['id'] for h in check_arrivals.hostiles(WORLD, sc, fname)}
+    others = [a for a in actors if not a.get('npc_id') and 'actor %d' % a['actor_index'] in hostile_ids]
     print(f'== {stem} ({fname}): {len(actors)} actors ({len(talk)} talking), {len(spawns)} monster markers; '
           f'slots {STATS.get(fname, (0, []))[1]}')
     things = []
@@ -189,4 +201,8 @@ for stem in STEMS:
                p, a['group'])
     for n, at in arrivals(stem, fname, st):
         report(f"arrival {n} at {tuple(at[:2])}", at)
+        for h in check_arrivals.first_fight(WORLD, sc, fname, at):
+            totals['FF'] += 1
+            print(f"  FF   first fight (D-15, D-133): {h['id']} {h['name']} group {h['group']} at "
+                  f"({h['at'][0]}, {h['at'][1]}) {h['distance']} (2D) from arrival {n}")
 print('totals', totals)

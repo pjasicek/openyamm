@@ -1,8 +1,9 @@
 """Reduce, triangulate and unwrap the toad (TEXTURE_QUALITY_PASS.md section 0): collapse decimation after weighting
 with the head, hands and toes protected (weights and groups kept), triangulate, claude_shared/uv_atlas.unwrap with the
-2026-11-12 defaults (PartUV charts, seam pass, sparrow), head and throat 1.6x denser. The tongue gets a cylindrical
-unwrap on its own material. Saves work/anim_base.blend (the UV master the clips are keyed on), work/uv_report.json and
-the static Meshy upload texturing/toad_upload.glb (body only, rest pose). Refuses to overwrite an existing layout."""
+2026-11-12 defaults (PartUV charts, seam pass, sparrow), head and throat 1.6x denser. The tongue gets its own tube and
+end-cap layout (scripts/tongue_uv.py, D-126). Saves work/anim_base.blend (the UV master the clips are keyed on),
+work/uv_report.json and the static Meshy upload texturing/toad_upload.glb (body only, rest pose). Refuses to overwrite
+an existing layout."""
 import bpy, os, sys, json, math
 import numpy as np
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -36,15 +37,10 @@ print('REDUCED tris', tris0, '->', len(mesh.data.polygons))
 report = uv_atlas.unwrap(mesh, head_groups=('Head', 'Throat'), head_factor=1.6)
 json.dump(report, open(os.path.join(HERE, 'work', 'uv_report.json'), 'w'), indent=1, default=str)
 print('UV_REPORT', {k: report.get(k) for k in ('charts_used', 'packer_used', 'fallbacks', 'utilization', 'atlas')})
-# tongue: cylinder unwrap (u around, v along)
-me = tongue.data
-layer = me.uv_layers.new(name='UVMap') if not me.uv_layers else me.uv_layers[0]
-ys = [v.co.y for v in me.vertices]; y0, y1 = min(ys), max(ys)
-for p in me.polygons:
-    for li in p.loop_indices:
-        v = me.vertices[me.loops[li].vertex_index].co
-        a = (math.atan2(v.z - 0.59, v.x) / (2 * math.pi)) % 1.0
-        layer.data[li].uv = (a, (v.y - y0) / (y1 - y0))
+# tongue: tube plus an end-cap disc on its own 512 x 1024 map (D-126, scripts/tongue_uv.py)
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import tongue_uv
+tongue_uv.unwrap(tongue)
 rig.data.pose_position = 'POSE'
 bpy.ops.wm.save_as_mainfile(filepath=os.path.join(HERE, 'work', 'anim_base.blend'))
 # static upload: body only, bind pose, no materials

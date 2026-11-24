@@ -301,7 +301,7 @@ initial_state:
         y: 4380
         z: -512
       initial_yaw_units: 1536
-      immobile: true
+      leash_radius: 600
       sprite_ids: [0, 0, 0, 0]
       sector_id: 17
       current_action_animation: 0
@@ -325,7 +325,7 @@ initial_state:
         y: 4380
         z: -512
       initial_yaw_units: 1536
-      immobile: true
+      leash_radius: 600
       sprite_ids: [0, 0, 0, 0]
       sector_id: 17
       current_action_animation: 0
@@ -561,6 +561,8 @@ initial_state:
       x_offsets: [5464, 5464, 5480, 5480]
       y_offsets: [4604, 4604, 4604, 4604]
       z_offsets: [-480, -224, -224, -480]
+      mover:
+        bodies: reverse
     - door_index: 1
       legacy_attributes: 0
       door_id: 15
@@ -578,6 +580,8 @@ initial_state:
       x_offsets: [5464, 5464, 5480, 5480]
       y_offsets: [4356, 4356, 4356, 4356]
       z_offsets: [-480, -224, -224, -480]
+      mover:
+        bodies: reverse
     - door_index: 2
       legacy_attributes: 0
       door_id: 2
@@ -589,9 +593,9 @@ initial_state:
       state: 2
       vertex_ids: [2672, 2673, 2674, 2675, 2676, 2677, 2678, 2679]
       face_ids: [2253, 2254, 2255, 2256, 2257]
-      sector_ids: [2]
-      delta_us: [-5248, 5376, 0, 0, 0]
-      delta_vs: [32, 32, 0, 0, 0]
+      sector_ids: [2, 4]
+      delta_us: [0, 0, 0, 0, 0]
+      delta_vs: [0, 0, 0, 0, 0]
       x_offsets: [5248, 5376, 5376, 5248, 5248, 5376, 5376, 5248]
       y_offsets: [3800, 3800, 3800, 3800, 3816, 3816, 3816, 3816]
       z_offsets: [-480, -480, -224, -224, -224, -224, -480, -480]
@@ -614,8 +618,8 @@ initial_state:
       state: 2
       vertex_ids: [2680, 2681, 2682, 2683, 2684, 2685, 2686, 2687]
       face_ids: [2258, 2259, 2260, 2261, 2262]
-      sector_ids: [8]
-      delta_us: [-4360, 4488, 0, 0, 0]
+      sector_ids: [8, 4]
+      delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
       x_offsets: [4360, 4488, 4488, 4360, 4360, 4488, 4488, 4360]
       y_offsets: [3800, 3800, 3800, 3800, 3816, 3816, 3816, 3816]
@@ -639,8 +643,8 @@ initial_state:
       state: 2
       vertex_ids: [2688, 2689, 2690, 2691, 2692, 2693, 2694, 2695]
       face_ids: [2263, 2264, 2265, 2266, 2267]
-      sector_ids: [8]
-      delta_us: [-4200, 4328, 0, 0, 0]
+      sector_ids: [8, 4]
+      delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
       x_offsets: [4200, 4328, 4328, 4200, 4200, 4328, 4328, 4200]
       y_offsets: [3800, 3800, 3800, 3800, 3816, 3816, 3816, 3816]
@@ -670,6 +674,8 @@ initial_state:
       x_offsets: [104, 104, 104, 104, 88, 88, 88, 88]
       y_offsets: [256, 512, 512, 256, 256, 512, 512, 256]
       z_offsets: [-1024, -1024, -768, -768, -768, -768, -1024, -1024]
+      mover:
+        bodies: reverse
     - door_index: 6
       legacy_attributes: 0
       door_id: 6
@@ -681,8 +687,8 @@ initial_state:
       state: 2
       vertex_ids: [2704, 2705, 2706, 2707, 2708, 2709, 2710, 2711]
       face_ids: [2270, 2271, 2272, 2273, 2274]
-      sector_ids: [17]
-      delta_us: [-3232, 3488, 0, 0, 0]
+      sector_ids: [17, 15]
+      delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
       x_offsets: [3232, 3488, 3488, 3232, 3232, 3488, 3488, 3232]
       y_offsets: [4632, 4632, 4632, 4632, 4648, 4648, 4648, 4648]
@@ -706,8 +712,8 @@ initial_state:
       state: 2
       vertex_ids: [2712, 2713, 2714, 2715, 2716, 2717, 2718, 2719]
       face_ids: [2275, 2276, 2277, 2278, 2279]
-      sector_ids: [17]
-      delta_us: [-2912, 3168, 0, 0, 0]
+      sector_ids: [17, 15]
+      delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
       x_offsets: [2912, 3168, 3168, 2912, 2912, 3168, 3168, 2912]
       y_offsets: [4632, 4632, 4632, 4632, 4648, 4648, 4648, 4648]
@@ -731,9 +737,9 @@ initial_state:
       state: 2
       vertex_ids: [2720, 2721, 2722, 2723, 2724, 2725, 2726, 2727]
       face_ids: [2280, 2281, 2282, 2283, 2284]
-      sector_ids: [15]
-      delta_us: [-3136, 3264, 0, 0, 0]
-      delta_vs: [192, 192, 0, 0, 0]
+      sector_ids: [15, 16]
+      delta_us: [0, 0, 0, 0, 0]
+      delta_vs: [0, 0, 0, 0, 0]
       x_offsets: [3136, 3264, 3264, 3136, 3136, 3264, 3264, 3136]
       y_offsets: [6488, 6488, 6488, 6488, 6504, 6504, 6504, 6504]
       z_offsets: [-320, -320, -64, -64, -64, -64, -320, -320]
@@ -762,6 +768,8 @@ initial_state:
       x_offsets: [5160, 5160, 5144, 5144]
       y_offsets: [2628, 2628, 2628, 2628]
       z_offsets: [-128, 128, 128, -128]
+      mover:
+        bodies: reverse
     - door_index: 10
       legacy_attributes: 0
       door_id: 16
@@ -779,6 +787,8 @@ initial_state:
       x_offsets: [5160, 5160, 5144, 5144]
       y_offsets: [2876, 2876, 2876, 2876]
       z_offsets: [-128, 128, 128, -128]
+      mover:
+        bodies: reverse
     - door_index: 11
       legacy_attributes: 0
       door_id: 10
@@ -796,6 +806,8 @@ initial_state:
       x_offsets: [2088, 2088, 2072, 2072]
       y_offsets: [3204, 3204, 3204, 3204]
       z_offsets: [-256, 0, 0, -256]
+      mover:
+        bodies: reverse
     - door_index: 12
       legacy_attributes: 0
       door_id: 17
@@ -813,6 +825,8 @@ initial_state:
       x_offsets: [2088, 2088, 2072, 2072]
       y_offsets: [3452, 3452, 3452, 3452]
       z_offsets: [-256, 0, 0, -256]
+      mover:
+        bodies: reverse
     - door_index: 13
       legacy_attributes: 0
       door_id: 11

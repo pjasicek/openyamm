@@ -18,7 +18,11 @@ any monster its slot can roll qualifies (slots 1-3: tier A at Dif 0, A-C otherwi
 points: the build's named arrivals and edge starts (build.json beside the scene, else the installed studio.yml),
 coaches and docks (transport_locations), mirrors, Town Portal points, edge_spans' `at`, every installed map's Lua
 MoveToMap into this map, the own built Lua's moves within the map, and Xeen.SkyFalls / Xeen.skyFall landings.
-Other kinds near an arrival are listed for information (D-15's band is measured elsewhere). Exit 1 on any ERROR.
+Other kinds near an arrival are listed for information.
+D-15's first-fight buffer, counting spawn markers (D-133, 2026-11-24): no hostile that moves or shoots (a placed
+hostile, or a scene spawn marker whose slot can roll such a row) within 2,000 (2D, less the marker's radius) of an
+arrival point (tools/xeen/check_arrivals.py `first_fight`; the 2,000-6,000 band's upper end and D-11.2's town buffer
+stay with each map's own measure). --kept-group keeps its placed actors here too. Exit 1 on any ERROR.
 """
 import json
 import math
@@ -29,6 +33,8 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parents[4]
+sys.path.insert(0, str(ROOT / 'tools/xeen'))
+import check_arrivals  # noqa: E402
 XEEN = ROOT / 'assets_dev/worlds/xeen'
 TABLES = XEEN / 'data_tables'
 RANGE = 5888.0
@@ -225,7 +231,15 @@ def main():
         print('%s npc %d actor %d at (%d, %d): nearest %s %.0f; within %d: %s; nearest disabler %s' % (
             'ERROR' if err else 'ok', g['npc_id'], g['actor_index'], gp[0], gp[1], name, d, limit,
             [n for dd, n, _ in ds if dd < limit], '%s %.0f' % (dis[0][1], dis[0][0]) if dis else '-'))
+    world = check_arrivals.World(str(ROOT / 'assets_dev'))
     for names, p in arrival_points(scene, scene_path, stem, map_file, map_id):
+        close = check_arrivals.first_fight(world, scene, map_file, p, kept_groups)
+        for h in close:
+            err = not h['kept']
+            bad += err
+            print('%s first fight (D-15, D-133) at arrival (%d, %d) [%s]: %s %s group %s at (%d, %d) %d (2D)' % (
+                'ERROR' if err else 'KEPT', p[0], p[1], ', '.join(names), h['id'], h['name'], h['group'],
+                h['at'][0], h['at'][1], h['distance']))
         ds = near(p, hostile)
         waived = [x for x in ds if x[2] and x[1].endswith(' kept') and x[0] < RANGE]
         dis = [x for x in ds if x[2] and not x[1].endswith(' kept')]

@@ -43,7 +43,7 @@ hooks:
   lair:
     map: XD-23
     status: true   # D-90: experience, a find's answer or a death on the status line
-    where: "the Troll Warren's last hall: the Troll Matron's death, then her hearth burnt (the map's question \"Destroy the lair?\", Yes)"
+    where: "the Troll Warren's last hall: the Troll Matron's death, then her hearth burnt (a click, D-121; the source asked \"Destroy the lair?\")"
     sets: [lair_burnt]
     once: true
     text: "You burn everything you can, and what you cannot burn you throw outside. The warren fills with smoke, and the trolls that are left will not come back to it."

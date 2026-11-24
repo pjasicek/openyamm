@@ -125,7 +125,6 @@ events:
   - id: evt:demon_skull
     preset: script
     source: platform:demon_altar
-    question: {ask: "The skull of a demon grins wickedly at you, and you have a sudden desire to smash it.  Destroy?", answers: [yes, y]}
     title: Demon skull
     condition: {not: {qbit: demon_skull}}
     effects:
@@ -134,7 +133,7 @@ events:
       - lua: "evt.PlaySoundName(\"xeen_fire_ignite\", 5696, 4480, 140)"
     else_effects:
       - lua: "XeenQuests.hook(\"q-c26.demon_skull\")"
-    notes: "aaze0046:0: the source's question (a real choice). Yes: A3's q-c26.demon_skull (5,000; the second skull sets q-c26.done 112522) and the skull breaks; once broken the altar gives the hook's 'splinters' line."
+    notes: "aaze0046:0: a click (D-121; the source asked). A3's q-c26.demon_skull (5,000; the second skull sets q-c26.done 112522) and the skull breaks; once broken the altar gives the hook's 'splinters' line."
   - id: evt:demon_skull_load
     preset: script
     trigger: load
@@ -145,7 +144,6 @@ events:
   - id: evt:devil_skull
     preset: script
     source: platform:devil_altar
-    question: {ask: "The skull of a devil stares at you as though daring you to damage it.  Destroy?", answers: [yes, y]}
     title: Devil skull
     condition: {not: {qbit: devil_skull}}
     effects:
@@ -154,7 +152,7 @@ events:
       - lua: "evt.PlaySoundName(\"xeen_fire_ignite\", 4736, 0, 140)"
     else_effects:
       - lua: "XeenQuests.hook(\"q-c26.devil_skull\")"
-    notes: "aaze0046:1: the source's question (a real choice). Yes: A3's q-c26.devil_skull (5,000; the second skull sets q-c26.done 112522) and the skull breaks; once broken the altar gives the hook's 'splinters' line."
+    notes: "aaze0046:1: a click (D-121; the source asked). A3's q-c26.devil_skull (5,000; the second skull sets q-c26.done 112522) and the skull breaks; once broken the altar gives the hook's 'splinters' line."
   - id: evt:devil_skull_load
     preset: script
     trigger: load

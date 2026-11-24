@@ -41,118 +41,73 @@ RegisterEvent(5, nil, function()
 end, nil)
 
 -- evt:heap_east
-RegisterEvent(6, "Roosting rock", function(continueStep)
-    if continueStep == 2 then
-        XeenQuests.hook("q-d15.roost")
-        evt.DestroyDestructible(1)
-        evt.DestroyDestructible(2)
-        evt.DestroyDestructible(3)
-        evt.DestroyDestructible(4)
-        evt.DestroyDestructible(5)
-        return
-    end
-    if continueStep ~= nil then
-        evt.StatusText("You leave the roosting rocks standing.", 4)
-        return
-    end
+RegisterEvent(6, "Roosting rock", function()
     if not (not (IsQBitSet(QBit(113301)))) then
         XeenQuests.hook("q-d15.roost")
         return
     end
-    evt.SetMessage("Do you wish to destroy the Gargoyle Lair?")
-    evt.AskQuestion(6, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    XeenQuests.hook("q-d15.roost")
+    evt.DestroyDestructible(1)
+    evt.DestroyDestructible(2)
+    evt.DestroyDestructible(3)
+    evt.DestroyDestructible(4)
+    evt.DestroyDestructible(5)
 end, "Roosting rock")
 
 -- evt:heap_high
-RegisterEvent(7, "Roosting rock", function(continueStep)
-    if continueStep == 2 then
-        XeenQuests.hook("q-d15.roost")
-        evt.DestroyDestructible(1)
-        evt.DestroyDestructible(2)
-        evt.DestroyDestructible(3)
-        evt.DestroyDestructible(4)
-        evt.DestroyDestructible(5)
-        return
-    end
-    if continueStep ~= nil then
-        evt.StatusText("You leave the roosting rocks standing.", 4)
-        return
-    end
+RegisterEvent(7, "Roosting rock", function()
     if not (not (IsQBitSet(QBit(113301)))) then
         XeenQuests.hook("q-d15.roost")
         return
     end
-    evt.SetMessage("Do you wish to destroy the Gargoyle Lair?")
-    evt.AskQuestion(7, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    XeenQuests.hook("q-d15.roost")
+    evt.DestroyDestructible(1)
+    evt.DestroyDestructible(2)
+    evt.DestroyDestructible(3)
+    evt.DestroyDestructible(4)
+    evt.DestroyDestructible(5)
 end, "Roosting rock")
 
 -- evt:heap_north
-RegisterEvent(8, "Roosting rock", function(continueStep)
-    if continueStep == 2 then
-        XeenQuests.hook("q-d15.roost")
-        evt.DestroyDestructible(1)
-        evt.DestroyDestructible(2)
-        evt.DestroyDestructible(3)
-        evt.DestroyDestructible(4)
-        evt.DestroyDestructible(5)
-        return
-    end
-    if continueStep ~= nil then
-        evt.StatusText("You leave the roosting rocks standing.", 4)
-        return
-    end
+RegisterEvent(8, "Roosting rock", function()
     if not (not (IsQBitSet(QBit(113301)))) then
         XeenQuests.hook("q-d15.roost")
         return
     end
-    evt.SetMessage("Do you wish to destroy the Gargoyle Lair?")
-    evt.AskQuestion(8, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    XeenQuests.hook("q-d15.roost")
+    evt.DestroyDestructible(1)
+    evt.DestroyDestructible(2)
+    evt.DestroyDestructible(3)
+    evt.DestroyDestructible(4)
+    evt.DestroyDestructible(5)
 end, "Roosting rock")
 
 -- evt:heap_south
-RegisterEvent(9, "Roosting rock", function(continueStep)
-    if continueStep == 2 then
-        XeenQuests.hook("q-d15.roost")
-        evt.DestroyDestructible(1)
-        evt.DestroyDestructible(2)
-        evt.DestroyDestructible(3)
-        evt.DestroyDestructible(4)
-        evt.DestroyDestructible(5)
-        return
-    end
-    if continueStep ~= nil then
-        evt.StatusText("You leave the roosting rocks standing.", 4)
-        return
-    end
+RegisterEvent(9, "Roosting rock", function()
     if not (not (IsQBitSet(QBit(113301)))) then
         XeenQuests.hook("q-d15.roost")
         return
     end
-    evt.SetMessage("Do you wish to destroy the Gargoyle Lair?")
-    evt.AskQuestion(9, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    XeenQuests.hook("q-d15.roost")
+    evt.DestroyDestructible(1)
+    evt.DestroyDestructible(2)
+    evt.DestroyDestructible(3)
+    evt.DestroyDestructible(4)
+    evt.DestroyDestructible(5)
 end, "Roosting rock")
 
 -- evt:heap_west
-RegisterEvent(10, "Roosting rock", function(continueStep)
-    if continueStep == 2 then
-        XeenQuests.hook("q-d15.roost")
-        evt.DestroyDestructible(1)
-        evt.DestroyDestructible(2)
-        evt.DestroyDestructible(3)
-        evt.DestroyDestructible(4)
-        evt.DestroyDestructible(5)
-        return
-    end
-    if continueStep ~= nil then
-        evt.StatusText("You leave the roosting rocks standing.", 4)
-        return
-    end
+RegisterEvent(10, "Roosting rock", function()
     if not (not (IsQBitSet(QBit(113301)))) then
         XeenQuests.hook("q-d15.roost")
         return
     end
-    evt.SetMessage("Do you wish to destroy the Gargoyle Lair?")
-    evt.AskQuestion(10, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    XeenQuests.hook("q-d15.roost")
+    evt.DestroyDestructible(1)
+    evt.DestroyDestructible(2)
+    evt.DestroyDestructible(3)
+    evt.DestroyDestructible(4)
+    evt.DestroyDestructible(5)
 end, "Roosting rock")
 
 -- evt:mouth
@@ -184,118 +139,73 @@ RegisterEvent(14, nil, function()
 end, nil)
 
 -- evt:rock_east
-RegisterEvent(15, "Roosting rock", function(continueStep)
-    if continueStep == 2 then
-        XeenQuests.hook("q-d15.roost")
-        evt.DestroyDestructible(1)
-        evt.DestroyDestructible(2)
-        evt.DestroyDestructible(3)
-        evt.DestroyDestructible(4)
-        evt.DestroyDestructible(5)
-        return
-    end
-    if continueStep ~= nil then
-        evt.StatusText("You leave the roosting rocks standing.", 4)
-        return
-    end
+RegisterEvent(15, "Roosting rock", function()
     if not (not (IsQBitSet(QBit(113301)))) then
         XeenQuests.hook("q-d15.roost")
         return
     end
-    evt.SetMessage("Do you wish to destroy the Gargoyle Lair?")
-    evt.AskQuestion(15, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    XeenQuests.hook("q-d15.roost")
+    evt.DestroyDestructible(1)
+    evt.DestroyDestructible(2)
+    evt.DestroyDestructible(3)
+    evt.DestroyDestructible(4)
+    evt.DestroyDestructible(5)
 end, "Roosting rock")
 
 -- evt:rock_high
-RegisterEvent(16, "Roosting rock", function(continueStep)
-    if continueStep == 2 then
-        XeenQuests.hook("q-d15.roost")
-        evt.DestroyDestructible(1)
-        evt.DestroyDestructible(2)
-        evt.DestroyDestructible(3)
-        evt.DestroyDestructible(4)
-        evt.DestroyDestructible(5)
-        return
-    end
-    if continueStep ~= nil then
-        evt.StatusText("You leave the roosting rocks standing.", 4)
-        return
-    end
+RegisterEvent(16, "Roosting rock", function()
     if not (not (IsQBitSet(QBit(113301)))) then
         XeenQuests.hook("q-d15.roost")
         return
     end
-    evt.SetMessage("Do you wish to destroy the Gargoyle Lair?")
-    evt.AskQuestion(16, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    XeenQuests.hook("q-d15.roost")
+    evt.DestroyDestructible(1)
+    evt.DestroyDestructible(2)
+    evt.DestroyDestructible(3)
+    evt.DestroyDestructible(4)
+    evt.DestroyDestructible(5)
 end, "Roosting rock")
 
 -- evt:rock_north
-RegisterEvent(17, "Roosting rock", function(continueStep)
-    if continueStep == 2 then
-        XeenQuests.hook("q-d15.roost")
-        evt.DestroyDestructible(1)
-        evt.DestroyDestructible(2)
-        evt.DestroyDestructible(3)
-        evt.DestroyDestructible(4)
-        evt.DestroyDestructible(5)
-        return
-    end
-    if continueStep ~= nil then
-        evt.StatusText("You leave the roosting rocks standing.", 4)
-        return
-    end
+RegisterEvent(17, "Roosting rock", function()
     if not (not (IsQBitSet(QBit(113301)))) then
         XeenQuests.hook("q-d15.roost")
         return
     end
-    evt.SetMessage("Do you wish to destroy the Gargoyle Lair?")
-    evt.AskQuestion(17, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    XeenQuests.hook("q-d15.roost")
+    evt.DestroyDestructible(1)
+    evt.DestroyDestructible(2)
+    evt.DestroyDestructible(3)
+    evt.DestroyDestructible(4)
+    evt.DestroyDestructible(5)
 end, "Roosting rock")
 
 -- evt:rock_south
-RegisterEvent(18, "Roosting rock", function(continueStep)
-    if continueStep == 2 then
-        XeenQuests.hook("q-d15.roost")
-        evt.DestroyDestructible(1)
-        evt.DestroyDestructible(2)
-        evt.DestroyDestructible(3)
-        evt.DestroyDestructible(4)
-        evt.DestroyDestructible(5)
-        return
-    end
-    if continueStep ~= nil then
-        evt.StatusText("You leave the roosting rocks standing.", 4)
-        return
-    end
+RegisterEvent(18, "Roosting rock", function()
     if not (not (IsQBitSet(QBit(113301)))) then
         XeenQuests.hook("q-d15.roost")
         return
     end
-    evt.SetMessage("Do you wish to destroy the Gargoyle Lair?")
-    evt.AskQuestion(18, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    XeenQuests.hook("q-d15.roost")
+    evt.DestroyDestructible(1)
+    evt.DestroyDestructible(2)
+    evt.DestroyDestructible(3)
+    evt.DestroyDestructible(4)
+    evt.DestroyDestructible(5)
 end, "Roosting rock")
 
 -- evt:rock_west
-RegisterEvent(19, "Roosting rock", function(continueStep)
-    if continueStep == 2 then
-        XeenQuests.hook("q-d15.roost")
-        evt.DestroyDestructible(1)
-        evt.DestroyDestructible(2)
-        evt.DestroyDestructible(3)
-        evt.DestroyDestructible(4)
-        evt.DestroyDestructible(5)
-        return
-    end
-    if continueStep ~= nil then
-        evt.StatusText("You leave the roosting rocks standing.", 4)
-        return
-    end
+RegisterEvent(19, "Roosting rock", function()
     if not (not (IsQBitSet(QBit(113301)))) then
         XeenQuests.hook("q-d15.roost")
         return
     end
-    evt.SetMessage("Do you wish to destroy the Gargoyle Lair?")
-    evt.AskQuestion(19, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    XeenQuests.hook("q-d15.roost")
+    evt.DestroyDestructible(1)
+    evt.DestroyDestructible(2)
+    evt.DestroyDestructible(3)
+    evt.DestroyDestructible(4)
+    evt.DestroyDestructible(5)
 end, "Roosting rock")
 
 -- evt:roost_seen

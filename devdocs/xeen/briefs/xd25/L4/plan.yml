@@ -215,7 +215,7 @@ set_pieces:
   - id: set:transformer
     kind: scripted
     spaces: [room:machine_hall, room:pens, room:crystal_niche]
-    rule: "Yes to the source's question: the machine dies (q-c5.done), the crystal housing and the cages open; the freed townsfolk thank the party in the pens and are gone on the next entry."
+    rule: "A click (F47: no question): the machine dies (q-c5.done), the crystal housing and the cages open; the freed townsfolk thank the party in the pens and are gone on the next entry."
 diagram: {file: diagram.txt}
 sketch: {file: rooms.yml, grid: 512}
 totals:

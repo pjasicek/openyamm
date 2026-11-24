@@ -1,5 +1,5 @@
-"""Export the toad master (body material Toad_A on the graded shared skin, tongue material Tongue, every clip at 30 fps)
-to export/xeen_toad_lod0.glb. Args: -- [out.glb]"""
+"""Export the toad master (body material Toad_A on the graded shared skin, the mouth cavity Mouth, tongue material
+Tongue, every clip at 30 fps) to export/xeen_toad_lod0.glb. Args: -- [out.glb]"""
 import bpy, os, sys
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 T = os.path.join(HERE, 'textures')
@@ -29,11 +29,27 @@ def material(name, color, normal=None, mr=None, rough=None):
     return mat
 
 
-mesh.data.materials.clear()
-mesh.data.materials.append(material('Toad_A', os.path.join(T, 'toad_basecolor_graded.png'),
-                                    os.path.join(T, 'toad_normal_1k.png'), os.path.join(T, 'toad_mr_1k.png')))
+# D-118: the lip crease faces sit on slot 1 (scripts/repair_toad.py), the mouth cavity: a small gradient, no tiers.
+# Replace the slots in place (clearing them would reset the faces' slot indices) and drop the repair's placeholder
+# materials first, so the exported names carry no numeric suffix.
+mouth = len(mesh.data.materials) > 1 and any(p.material_index == 1 for p in mesh.data.polygons)
+for name in ('Toad_A', 'Mouth'):
+    old = bpy.data.materials.get(name)
+    if old:
+        old.name = name + '_placeholder'
+body_mat = material('Toad_A', os.path.join(T, 'toad_basecolor_graded.png'), os.path.join(T, 'toad_normal_1k.png'),
+                    os.path.join(T, 'toad_mr_1k.png'))
+if len(mesh.data.materials):
+    mesh.data.materials[0] = body_mat
+else:
+    mesh.data.materials.append(body_mat)
+if mouth:
+    mesh.data.materials[1] = material('Mouth', os.path.join(T, 'toad_mouth.png'), rough=0.45)
+print('MATERIALS', [m.name for m in mesh.data.materials])
 tongue.data.materials.clear()
-tongue.data.materials.append(material('Tongue', os.path.join(T, 'toad_tongue.png'), rough=0.3))
+# D-126: the tongue's own map (scripts/tongue_uv.py layout, scripts/paint_tongue.py paint), material class 7 (mouth
+# interior, textures/toad_tongue_material_classes.png): wet, roughness 0.35; one colour for every tier, no ramps.
+tongue.data.materials.append(material('Tongue', os.path.join(T, 'toad_tongue.png'), rough=0.35))
 sc = bpy.context.scene
 sc.render.fps = 30; sc.render.fps_base = 1
 rig.animation_data.action = bpy.data.actions['Standing']

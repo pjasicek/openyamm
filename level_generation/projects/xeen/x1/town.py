@@ -180,7 +180,8 @@ CORE = [
     ('building:bank', 'Bank of Vertigo', 286, 57.0, 42, 's', [1.5, 1.5], 'stone', 'cottage', 0,
      {'sign': '7sgbank', 'big': True, 'floor': 640}),
     # homes behind (doors onto the lanes, up on the terrace)
-    ('building:core_houses', None, None, 42.5, 39, 'e', [1, 1], 'plaster', 'cottage', 0, {'index': 3, 'roof': THATCH}),
+    # P3 F49 (2026-11-24): half a cell east, off the west gate's tower (100 from it; a lane wants 128)
+    ('building:core_houses', None, None, 43.0, 39, 'e', [1, 1], 'plaster', 'cottage', 0, {'index': 3, 'roof': THATCH}),
     ('building:core_houses', None, None, 45.5, 39, 'w', [1, 1], 'poor', 'round_hut', 0, {'index': 4}),
     ('building:core_houses', None, None, 55, 39, 'e', [1, 1], 'plaster', 'gable_porch', 0, {'index': 5}),
     ('building:core_houses', None, None, 57.5, 39, 'w', [1, 1.5], 'plaster', 'L', 0, {'index': 6}),
@@ -209,7 +210,8 @@ SOUTH = [
      {'sign': 'sgwater'}),
     ('building:guild_earth', 'Earth Guild of Vertigo', 146, 55.5, 56, 'n', [2, 2], 'plaster', 'gable_porch', 0,
      {'sign': 'sgearth'}),
-    ('building:joes_shop', "Joe the Exterminator", None, 60, 55.5, 'w', [1.5, 1.5], 'poor', 'barn', 0, {}),
+    # P3 F49 (2026-11-24): a cell west of where it stood against the warehouse's front and the culvert's revetment
+    ('building:joes_shop', "Joe the Exterminator", None, 58.5, 55.5, 'n', [1.5, 1.5], 'poor', 'barn', 0, {}),
     ('building:bank_houses', None, None, 48, 56, 'n', [1, 1], 'poor', 'round_hut', 0, {'index': 1}),
     ('building:bank_houses', None, None, 49, 58, 'e', [1, 1], 'plaster', 'cottage', 0,
      {'index': 2, 'roof': THATCH}),
@@ -523,14 +525,20 @@ RETAIN_TEX = 'chb1'
 # 64 into the street and its top 48 over the terrace (town_fit_check `walls.hollow`, `walls.buried`).
 RETAIN_STREET = 640
 RETAIN_MID = (UPPER_H + RETAIN_STREET) // 2
+# P3 F49 (X1 p21, 2026-11-24): the shops' back walls stood 53-64 in front of the wall's face (their walls are inset
+# in their plots), a slot behind each (town_fit_check `houses.jammed`): the face comes 48 forward to meet them, its
+# back staying on the terrace's edge (row 41)
+RETAIN_FILL = 48
 
 def retaining_walls():
     out = []
     xs = [UPPER[0][0]] + [v for g in RETAIN_GAPS for v in g] + [UPPER[1][0]]
+    y = RETAIN_Y + RETAIN_FILL / 2.0 / 512
     for k in range(0, len(xs), 2):
         out.append({'id': 'thing:terrace_wall_%d' % (k // 2 + 1), 'kind': 'wall',
-                    'line': [[xs[k], RETAIN_Y], [xs[k + 1], RETAIN_Y]], 'raise': RETAIN_STREET - RETAIN_MID,
-                    'height': UPPER_H + 48 - RETAIN_STREET, 'thickness': 512,
+                    'line': [[xs[k], y], [xs[k + 1], y]],
+                    'raise': RETAIN_STREET - RETAIN_MID,
+                    'height': UPPER_H + 48 - RETAIN_STREET, 'thickness': 512 + RETAIN_FILL,
                     'textures': {'wall': RETAIN_TEX}, 'title': 'Terrace wall',
                     'notes': "Pass four: the upper town's retaining wall (Harmondale's fieldstone, chb1)."})
     return out

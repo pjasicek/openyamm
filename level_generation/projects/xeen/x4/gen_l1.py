@@ -435,7 +435,10 @@ SIGNPOSTS = ['junction:burlock_cross', 'junction:east_fork', 'junction:landing_f
 # ---------------------------------------------------------------- monsters
 # Encounter areas: (id, slot, markers, polygon, family note)
 AREAS = [
-    ('pop:range_west', 3, 9, [[20, 34], [56, 34], [56, 41], [48, 44], [38, 47], [28, 49], [20, 50]],
+    # D-15/D-133 (2026-11-24, check_d85 first fight): markers came out 1,888 from XD-26's set-down on the Sky Crack
+    # ledge (49.5, 35.5) and 373 from the eyrie mouth's arrival (46, 43): the area ends at x 41, 2,560 clear of the
+    # mouth and 4,352 of the ledge (it ran to x 56)
+    ('pop:range_west', 3, 9, [[20, 34], [41, 34], [41, 46], [38, 47], [28, 49], [20, 50]],
      'Gargoyles (16/22/28) along the range foot and round the eyrie path; none within 6 cells of the castle.'),
     ('pop:range_east', 3, 9, [[74, 32], [109, 32], [109, 56], [102, 56], [96, 48], [88, 48], [82, 50], [76, 48],
                               [74, 44]],

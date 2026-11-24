@@ -533,7 +533,7 @@ RegisterEvent(501, "Leave the Walls of Mist", function()
 end, "Leave the Walls of Mist")
 
 RegisterEvent(502, "Leave the Walls of Mist", function()
-    if not evt.CheckMonstersKilled(ActorKillCheck.Group, 52, 1, false) then -- actor group 52; at least 1 matching actor defeated
+    if not evt.CheckMonstersKilled(ActorKillCheck.Group, 52, 1, true) then -- actor group 52; at least 1 matching actor defeated
         evt.ForPlayer(Players.All)
         SetQBit(QBit(614)) -- Completed Proving Grounds without killing a single creature
         evt.MoveToMap(1728, 3648, 97, 1024, 0, 0, 0, 8, "7d25.blv") -- Celeste

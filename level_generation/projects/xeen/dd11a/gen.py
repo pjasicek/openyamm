@@ -225,8 +225,8 @@ DIAGRAM = """DD-11A Troll Holes, first pocket (not to scale; plan, north up)
 # ================================================================================================ objects.yml
 objects = {
     'format': 0,
-    'start': {'room': 'room:pit', 'at': [96, -32], 'facing': 'e',
-              'notes': "Where D2's first troll hole drops the party: the pit's bottom beside the bone mound, facing the root tunnel (east)."},
+    'start': {'room': 'room:pit', 'at': [80, -208], 'facing': 'e',
+              'notes': "Where D2's first troll hole drops the party: the pit's bottom beside the bone mound, facing the root tunnel (east); out of the tunnel trolls' sight (F45, 2026-11-24; was [96, -32])."},
     'doors': [
         {'id': 'door:boulder', 'opening': 'open:midden_crawl', 'kind': 'slide_left', 'thickness': 32, 'speed': 96,
          'surface': ROCK, 'tile': True,
@@ -296,7 +296,7 @@ DECOS = [
     ('expired', 'room:midden', 'dec05', [3110, 0]),
     ('pit_bones', 'room:pit', 'dec29', [-250, -230]),
     ('pit_skull', 'room:pit', '7dec20', [230, 250]),
-    ('midden_skulls', 'room:midden', 'sklplrev', [2010, -560]),
+    ('midden_skulls', 'room:midden', 'sklplrev', [2080, -490]),
     ('midden_bones', 'room:midden', '7dec18', [2010, -330]),
     ('midden_skull', 'room:midden', '7dec20', [3110, -250]),
     ('crawl_bones', 'room:crawl', 'dec29', [2450, 830]),

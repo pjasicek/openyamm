@@ -41,7 +41,7 @@ rooms:
     walls:
       - wall: south
         panels:
-          - {id: panel:sail, offset: 256, length: 448, bottom: 96, height: 288, surface: {texture: t68a13a, size: [64, 64], scale: 2}, notes: "The torn sail of a sunk boat, hung as a trophy."}
+          - {id: panel:sail, offset: 256, length: 448, bottom: 96, height: 288, surface: {texture: t68a13a, size: [64, 64], scale: 2}, cover: true, notes: "The torn sail of a sunk boat, hung as a trophy: a covering panel (F46), so taking it down leaves the cave wall."}
     platforms:
       - {id: platform:dais, at: [-2752, 3968], size: [448, 320], rise: 32, surface: {texture: gcav1wal, size: [256, 256]}, top_surface: {texture: gcav1flr, size: [256, 256]}, notes: The rock dais of the Chieftain's seat.}
       - {id: platform:seat, rise: 112, surface: {texture: gcav1wal, size: [256, 256]}, outline: [[-2896, 4032], [-2608, 4032], [-2640, 4112], [-2864, 4112]], top_surface: {texture: gcav1wal, size: [256, 256]}, base: 32, notes: "The Chieftain's seat of piled boulders (the lair's heart: click to break it)."}

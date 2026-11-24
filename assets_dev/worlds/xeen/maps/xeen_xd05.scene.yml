@@ -47,7 +47,7 @@ initial_state:
         y: 10000
         z: -256
       initial_yaw_units: 1536
-      immobile: true
+      leash_radius: 600
       sprite_ids: [0, 0, 0, 0]
       sector_id: 6
       current_action_animation: 0
@@ -67,13 +67,13 @@ initial_state:
       height: 170
       move_speed: 180
       position:
-        x: 2450
-        y: 13200
-        z: 320
-      initial_yaw_units: 1536
-      immobile: true
+        x: 1664
+        y: 11672
+        z: -191
+      initial_yaw_units: 0
+      leash_radius: 600
       sprite_ids: [0, 0, 0, 0]
-      sector_id: 1
+      sector_id: 2
       current_action_animation: 0
       carried_item_id: 0
       group: 4
@@ -91,13 +91,13 @@ initial_state:
       height: 170
       move_speed: 180
       position:
-        x: 1900
-        y: 13200
-        z: 320
-      initial_yaw_units: 1536
-      immobile: true
+        x: 1440
+        y: 11666
+        z: -269
+      initial_yaw_units: 0
+      leash_radius: 600
       sprite_ids: [0, 0, 0, 0]
-      sector_id: 1
+      sector_id: 2
       current_action_animation: 0
       carried_item_id: 0
       group: 4
@@ -162,14 +162,16 @@ initial_state:
       open_speed: 128
       close_speed: 128
       state: 2
-      vertex_ids: [3455, 3456, 3457, 3458, 3459, 3460, 3461, 3462]
-      face_ids: [2880, 2881]
+      vertex_ids: [3461, 3462, 3463, 3464, 3465, 3466, 3467, 3468]
+      face_ids: [2886, 2887]
       sector_ids: [19]
       delta_us: [-5856, 6112]
       delta_vs: [-224, -224]
       x_offsets: [-3784, -3784, -3784, -3784, -3832, -3832, -3832, -3832]
       y_offsets: [5856, 6112, 6112, 5856, 5856, 6112, 6112, 5856]
       z_offsets: [-480, -480, -224, -224, -224, -224, -480, -480]
+      mover:
+        bodies: reverse
     - door_index: 1
       legacy_attributes: 0
       door_id: 2
@@ -179,14 +181,16 @@ initial_state:
       open_speed: 128
       close_speed: 128
       state: 2
-      vertex_ids: [3463, 3464, 3469, 3470]
-      face_ids: [2882, 2883, 2884]
+      vertex_ids: [3469, 3470, 3475, 3476]
+      face_ids: [2888, 2889, 2890]
       sector_ids: [19]
       delta_us: [-2272, 2528, 2528]
       delta_vs: [284, 284, 5736]
       x_offsets: [-2272, -2528, -2528, -2272]
       y_offsets: [5736, 5736, 5720, 5720]
       z_offsets: [28, 28, 28, 28]
+      mover:
+        bodies: reverse
     - door_index: 2
       legacy_attributes: 0
       door_id: 3
@@ -196,9 +200,9 @@ initial_state:
       open_speed: 700
       close_speed: 700
       state: 2
-      vertex_ids: [3471, 3472, 3473, 3474, 3475, 3476, 3477, 3478]
-      face_ids: [2885, 2886, 2887, 2888, 2889]
-      sector_ids: [11]
+      vertex_ids: [3477, 3478, 3479, 3480, 3481, 3482, 3483, 3484]
+      face_ids: [2891, 2892, 2893, 2894, 2895]
+      sector_ids: [11, 12]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
       x_offsets: [8, 200, 200, 8, 8, 200, 200, 8]
@@ -221,9 +225,9 @@ initial_state:
       open_speed: 700
       close_speed: 700
       state: 2
-      vertex_ids: [3479, 3480, 3481, 3482, 3483, 3484, 3485, 3486]
-      face_ids: [2890, 2891, 2892, 2893, 2894]
-      sector_ids: [11]
+      vertex_ids: [3485, 3486, 3487, 3488, 3489, 3490, 3491, 3492]
+      face_ids: [2896, 2897, 2898, 2899, 2900]
+      sector_ids: [11, 12]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
       x_offsets: [-200, -8, -8, -200, -200, -8, -8, -200]
@@ -246,8 +250,8 @@ initial_state:
       open_speed: 64
       close_speed: 64
       state: 2
-      vertex_ids: [3487, 3488, 3489, 3490, 3491, 3492, 3493, 3494]
-      face_ids: [2895, 2896, 2897, 2898, 2899, 2900]
+      vertex_ids: [3493, 3494, 3495, 3496, 3497, 3498, 3499, 3500]
+      face_ids: [2901, 2902, 2903, 2904, 2905, 2906]
       sector_ids: [1]
       delta_us: [-2016, -13400, 2336, 13432, -2016, -2016]
       delta_vs: [656, 656, 656, 656, 13440, 13440]
@@ -449,7 +453,7 @@ ambient_sounds:
     loop: true
     start_on: true
 translucent_faces:
-  - faces: [2882, 2883]
+  - faces: [2888, 2889]
     opacity: 1
     tint: [1, 1, 1]
     two_sided: false

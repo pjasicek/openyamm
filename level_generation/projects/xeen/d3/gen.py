@@ -185,6 +185,42 @@ def clear_givers(pid, chosen, cand):
     return chosen
 
 
+# D-138 (2026-11-24): no marker within D-15's first-fight buffer (2,000, the circle's edge) of a dungeon door's arrival,
+# and the moved one out of the arrival's sight over the land (party eye 150, monster 100 over LD's heights): the
+# markers of the sampling nearer move to the nearest free candidate past it; the others keep their places. Spawn 18
+# (pop:wrath_hills 8) stood 898 from DD-07's door on the knoll.
+DOOR_ARRIVALS = {'entrance:dd07_door': (94, 46), 'entrance:d7_fall': (34, 41)}
+FIRST_FIGHT = 2000
+
+
+def land_sees(a, q, r=1, eye=150, top=100, cover=64):
+    """A line from the arrival's eye to the circle's middle or one of four points 0.7 r out passes no land standing
+    `cover` over it (the studio smooths LD's heights: a margin)."""
+    def one(p):
+        z0, z1 = LD.raw_height(*a) + eye, LD.raw_height(*p) + top
+        n = int(math.hypot(p[0] - a[0], p[1] - a[1]) * 8) + 2
+        return all(LD.raw_height(a[0] + (p[0] - a[0]) * k / n, a[1] + (p[1] - a[1]) * k / n)
+                   < z0 + (z1 - z0) * k / n + cover for k in range(1, n))
+    return any(one((q[0] + dx, q[1] + dy)) for dx, dy in ((0, 0), (.7 * r, 0), (-.7 * r, 0), (0, .7 * r), (0, -.7 * r)))
+
+
+def clear_arrivals(pid, chosen, cand, r=1):
+    near = lambda q: min((math.hypot(q[0] - a[0], q[1] - a[1]) - r) * 512 for a in DOOR_ARRIVALS.values())
+    for i, q in enumerate(chosen):
+        if near(q) >= FIRST_FIGHT:
+            continue
+        others = chosen[:i] + chosen[i + 1:]
+        ok = [c for c in cand if c not in chosen and near(c) >= FIRST_FIGHT
+              and min(math.hypot(c[0] - o[0], c[1] - o[1]) for o in others) >= 2.0
+              and not any(land_sees(a, c) for a in DOOR_ARRIVALS.values()
+                          if math.hypot(c[0] - a[0], c[1] - a[1]) * 512 < 5120)]
+        if not ok:
+            raise SystemExit('%s: no place for marker %d past %d of a door arrival' % (pid, i + 1, FIRST_FIGHT))
+        chosen[i] = min(ok, key=lambda c: (math.hypot(c[0] - q[0], c[1] - q[1]), c))
+        print('D-138: %s marker %d %s -> %s' % (pid, i + 1, q, chosen[i]))
+    return chosen
+
+
 # F10 (A5 s30): areas whose markers stand at fixed cells (gen_l1.AREAS pop:outside_walls, pop:forest_edge)
 FIXED_SPOTS = {'pop:outside_walls': [(21, 24), (46, 49)], 'pop:forest_edge': [(70, 63)]}
 
@@ -245,6 +281,7 @@ def markers():
         while len(chosen) < count:
             chosen.append(max(cand, key=lambda q: min(math.hypot(q[0] - c[0], q[1] - c[1]) for c in chosen)))
         chosen = clear_givers(pid, chosen, cand)
+        chosen = clear_arrivals(pid, chosen, cand)
         for k, (x, y) in enumerate(chosen, 1):
             out.append({'id': pid, 'index': k, 'count': 1, 'slot': slot, 'circle': {'at': [int(x), int(y)], 'r': 1},
                         'notes': note if k == 1 else 'walkable ground (D-28)'})

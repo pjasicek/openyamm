@@ -457,7 +457,7 @@ RegisterEvent(219, "Button", function()
 end, "Button")
 
 RegisterEvent(220, nil, function()
-    if evt.CheckMonstersKilled(ActorKillCheck.Group, 71, 0, false) then -- actor group 71; all matching actors defeated
+    if evt.CheckMonstersKilled(ActorKillCheck.Group, 71, 0, true) then -- actor group 71; all matching actors defeated
         evt.SummonMonsters(1, 1, 10, -336, 14512, 0, 71, 0) -- encounter slot 1 "Dragonfly" tier A, count 10, pos=(-336, 14512, 0), actor group 71, no unique actor name
         evt.SummonMonsters(1, 2, 5, 16, 16352, 90, 71, 0) -- encounter slot 1 "Dragonfly" tier B, count 5, pos=(16, 16352, 90), actor group 71, no unique actor name
         evt.SummonMonsters(1, 1, 10, 480, 18288, 6, 71, 0) -- encounter slot 1 "Dragonfly" tier A, count 10, pos=(480, 18288, 6), actor group 71, no unique actor name

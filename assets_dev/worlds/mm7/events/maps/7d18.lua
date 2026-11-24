@@ -70,7 +70,7 @@ RegisterEvent(1, nil, function()
 end)
 
 RegisterEvent(2, nil, function()
-    if evt.CheckMonstersKilled(ActorKillCheck.Group, 56, 1, false) then -- actor group 56: Initiate of the Sword, spawn Fighter Plate A, spawn Swordsman A; at least 1 matching actor defeated
+    if evt.CheckMonstersKilled(ActorKillCheck.Group, 56, 1, true) then -- actor group 56: Initiate of the Sword, spawn Fighter Plate A, spawn Swordsman A; at least 1 matching actor defeated
         SetValue(MapVar(6), 2)
     end
 end)

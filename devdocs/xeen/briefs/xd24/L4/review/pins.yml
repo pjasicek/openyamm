@@ -1,0 +1,63 @@
+format: 1
+counter: 4
+pins:
+  - id: pin:p1
+    text: the spawnpoint is too far in to the dungeon.
+    source: game
+    world: xeen
+    map: xeen_xd24.blv
+    pose:
+      position: [0, 704, 0]
+      yaw_radians: 1.555
+      pitch_degrees: -4.476
+      heading_yaw_units: 507
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-23T20:51:22
+    status: open
+    from: 20261123-205122-xeen_xd24.yml
+  - id: pin:p2
+    text: the texture on the door should be flipped
+    source: game
+    world: xeen
+    map: xeen_xd24.blv
+    pose:
+      position: [-2173.433, 658.491, 0]
+      yaw_radians: 5.772
+      pitch_degrees: -5.868
+      heading_yaw_units: 1882
+    picture: .oymap/pins/pictures/p2.png
+    author: user
+    created: 2026-11-24T00:42:24
+    status: open
+    from: 20261124-004224-xeen_xd24.yml
+  - id: pin:p3
+    text: flip the texture on the door
+    source: game
+    world: xeen
+    map: xeen_xd24.blv
+    pose:
+      position: [-614.52, -3459.84, -640]
+      yaw_radians: 2.552
+      pitch_degrees: -8.807
+      heading_yaw_units: 832
+    picture: .oymap/pins/pictures/p3.png
+    author: user
+    created: 2026-11-24T00:46:46
+    status: open
+    from: 20261124-004646-xeen_xd24.yml
+  - id: pin:p4
+    text: flip the texture on the door
+    source: game
+    world: xeen
+    map: xeen_xd24.blv
+    pose:
+      position: [-2142.363, -3377.204, -640]
+      yaw_radians: 2.553
+      pitch_degrees: -6.332
+      heading_yaw_units: 832
+    picture: .oymap/pins/pictures/p4.png
+    author: user
+    created: 2026-11-24T00:47:25
+    status: open
+    from: 20261124-004725-xeen_xd24.yml

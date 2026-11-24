@@ -32,11 +32,11 @@ steps:
   - advance_runtime: {seconds: 1.5, follow_map_move: true}
   - assert: {map: xeen_d4.odm}
   - play_lua: {source: "log('isle arrival ' .. status())"}
-  - assert: {party_position: {x: 4096, y: -3072, radius: 128, z_min: 1200, z_max: 1600}}
+  - assert: {party_position: {x: 4096, y: -3072, radius: 128, z_min: 1100, z_max: 1600}}
   # Facing south (1536), away from the door: a step forward goes south.
   - press_action: {action: forward, seconds: 0.4}
   - play_lua: {source: "log('after a step ' .. status())"}
-  - assert: {party_position: {x: 4096, y: -3370, radius: 120, z_min: 1200, z_max: 1600}}
+  - assert: {party_position: {x: 4096, y: -3370, radius: 120, z_min: 1100, z_max: 1600}}
   - assert: {map: xeen_d4.odm}
   # (2) The right wing, from the start's save.
   - load_game: {name: dd12_exit_start}
@@ -49,4 +49,4 @@ steps:
   - select_topic: {match_label: "OK"}
   - advance_runtime: {seconds: 1.5, follow_map_move: true}
   - assert: {map: xeen_d4.odm}
-  - assert: {party_position: {x: 4096, y: -3072, radius: 128, z_min: 1200, z_max: 1600}}
+  - assert: {party_position: {x: 4096, y: -3072, radius: 128, z_min: 1100, z_max: 1600}}

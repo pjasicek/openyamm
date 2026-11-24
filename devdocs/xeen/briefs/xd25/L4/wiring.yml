@@ -178,7 +178,6 @@ events:
   - id: evt:transformer
     preset: script
     source: platform:transformer
-    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "You have found the transformer!  Do you wish to destroy it?", wrong_text: "You leave the machine humming. Somewhere above, someone hisses."}
     title: Transformer
     condition: {not: {qbit: q_c5_done}}
     opens: [door:crystal, mover:cage_gates]
@@ -192,7 +191,7 @@ events:
       - lua: "evt.SetMapVar('AmbientSound4', 2)"
     else_effects:
       - lua: "XeenQuests.hook(\"q-c5.transformer\")"
-    notes: "goal:transformer. The source's question (aaze0031:4); Yes runs A3's hook q-c5.transformer (q-c5.done 112102, its text), stops the hum, darkens the crown, opens the crystal housing and the cages upstairs. Later clicks: the hook's else text."
+    notes: "goal:transformer. A click destroys it (F47 2026-11-24: no Yes/No; the source asked, aaze0031:4): A3's hook q-c5.transformer (q-c5.done 112102, its text), stops the hum, darkens the crown, opens the crystal housing and the cages upstairs. Later clicks: the hook's else text."
   - id: evt:visit_end
     preset: script
     trigger: leave

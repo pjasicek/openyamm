@@ -1,8 +1,8 @@
 # Written by oymap install: the Map Studio project this map was built from. The game's `pin` copies it into
 # every pin made on the map; `oymap pins import` files the pin into that project.
 project: "/home/pjasicek/github/OpenYAMM/devdocs/xeen/briefs/d1/L4"
-revision: "ef41ea625c28d08104f70a5a764c43ac"
-lock_hash: "a30aa6f64fdea90007dd4f4499e01b82"
+revision: "fdac681b89ed04d61648276b578c69dd"
+lock_hash: "72f1e7ac48f4431726f794354ee5b565"
 # Where a party arrives (`into: {map, arrival}` and a neighbour's `arrival: <name>` of other maps).
 arrivals:
   - {name: "start", at: [-512, 4096, 1152], facing: 512}
@@ -12,7 +12,7 @@ arrivals:
   - {name: "entrance:castleview_temple", at: [2560, 2048, 1152], facing: 0}
   - {name: "entrance:d7_fall", at: [-6656, 6144, 1152], facing: 1536}
   - {name: "entrance:d7_rope", at: [-8192, 14336, 1088], facing: 768}
-  - {name: "entrance:dd01_hatch", at: [1024, 3072, 1152], facing: 0}
+  - {name: "entrance:dd01_hatch", at: [1536, 3072, 1152], facing: 0}
   - {name: "entrance:dd01_outfall", at: [8192, 8192, 832], facing: 0}
   - {name: "entrance:dd02_tower", at: [2560, 9216, 1152], facing: 0}
   - {name: "entrance:dd03_gate", at: [-9728, -3072, 1664], facing: 1024}

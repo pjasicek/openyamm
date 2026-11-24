@@ -633,7 +633,9 @@ end, "Barbarian tent")
 
 -- evt:thing:barbarian_fire
 RegisterEvent(106, "Campfire", function()
-    local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") else evt.StatusText("You find food by the fire (+" .. food .. ").") end evt.ChangeEvent(0)
+    if IsAtLeast(MapVar(15), 1) then return end
+    SetValue(MapVar(15), 1)
+    local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") else evt.StatusText("You find food by the fire (+" .. food .. ").") end
 end, "Campfire")
 
 -- evt:thing:barbarian_chest
@@ -665,7 +667,9 @@ end, "Torn pavilion")
 
 -- evt:thing:knight_fire
 RegisterEvent(110, "Campfire", function()
-    local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") else evt.StatusText("You find food by the fire (+" .. food .. ").") end evt.ChangeEvent(0)
+    if IsAtLeast(MapVar(16), 1) then return end
+    SetValue(MapVar(16), 1)
+    local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") else evt.StatusText("You find food by the fire (+" .. food .. ").") end
 end, "Campfire")
 
 -- evt:thing:knights_chest

@@ -152,7 +152,7 @@ DECOS = [
     ('green_liquid', 'dec35', 'shaft_temple', [5632, 160], 128, 'Green Liquid'),
     ('guard_bones', 'dec05', 'shaft_north', [1920, 1984], None, 'Bones'),
     ('shiny_heap', 'trasheap', 'rat_nest', [3904, -2880], None, 'Heap of shiny things'),
-    ('rubble_1', '7dec10', 'rat_runs', [384, -3392], None, 'Rubble'),
+    ('rubble_1', '7dec10', 'rat_runs', [452, -3460], None, 'Rubble'),
     ('rubble_2', '7dec01', 'rat_runs', [2304, -4256], None, 'Rubble'),
     ('barrel_1', 'bigbarel', 'cellar', [5792, -288], None, 'Barrel'),
 ]

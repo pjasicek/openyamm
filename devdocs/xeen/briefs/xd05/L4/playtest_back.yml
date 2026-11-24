@@ -1,7 +1,7 @@
 # Second walk of the Orc Caves (XD-05, L4): the back way. A level-8 party goes in by the palisade gate and the run,
 # straight down to the Drum Hall, turns into the bat chimney's foot and down the wet slope to the snake pool (the chest
 # in the water), comes back over the east top terrace and down the east terraces to the floor, takes the back tunnel up
-# to the guardroom, kills the two Orc Guards, finds the back gate barred (its status line), lifts the bar and leaves
+# past the two Orc Guards' post (killed) to the guardroom, finds the back gate barred (its status line), lifts the bar and leaves
 # by the gate for X7's south-east slopes (A5's entrance:xd05_gate).
 id: xeen.xd05.l4.back
 title: Orc Caves (XD-05 L4), the snake pool and the back gate to X7
@@ -51,8 +51,9 @@ steps:
   - walk_to: {x: 500, y: 9024, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
   - clear_hostiles: {radius: 2500}
   - walk_to: {x: 960, y: 10500, z: -640, radius: 64, timeout_seconds: 30, close_dialogs: true}
-  - walk_to: {x: 960, y: 11648, z: -384, radius: 64, timeout_seconds: 40, close_dialogs: true}
-  - walk_to: {x: 2176, y: 11648, z: -128, radius: 64, timeout_seconds: 40, close_dialogs: true}
+  # D-124: the two Orc Guards keep their post in the tunnel's long climb east (out of sight of X7's landing).
+  - walk_to: {x: 960, y: 11648, z: -384, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 2176, y: 11648, z: -128, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
   - walk_to: {x: 2176, y: 12800, z: 320, radius: 64, timeout_seconds: 40, clear_hostiles: 1500, close_dialogs: true}
   - clear_hostiles: {radius: 2000}
   - assert: {actor_visible: {actor_index: 1, dead: true}}

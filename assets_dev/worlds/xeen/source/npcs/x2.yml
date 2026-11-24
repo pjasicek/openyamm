@@ -56,7 +56,8 @@ npcs:
       - {n: 15, label: Fighting, text: "Fighting is simple. Hit them before they hit you. The rest is details, and I teach the details."}
   4136:              # Lindon the Taskmaster
     topics:
-      - {n: 16, label: Work, text: "I'll give you 100 gold for a week of work. Not today, though. Today all the work went to the robbers."}
+      # F52 (2026-11-24, a decider after D-107): the offer never worked; the line now says why there is no work.
+      - {n: 16, label: Work, text: "I used to pay 100 gold for a week of work. Then the robbers under the bridge took every job in town and paid themselves. There's nothing left for honest hands."}
   4142:              # Ott the ferryman
     topics:
       - {n: 17, label: Mirrors, text: "Touch the mirror on the square, and any other mirror you've touched will send you there. Faster than my ferry. Everything is faster than my ferry."}

@@ -370,16 +370,16 @@ monsters:
     hostile: true
     group: 20
   - id: monster:porch_1
-    room: room:porch
+    room: room:kitchen
     monster: 11120
-    at: [-250, -760]
+    at: [-666, -728]
     facing: 90
     hostile: true
     group: 10
   - id: monster:porch_2
-    room: room:porch
+    room: room:shrine
     monster: 11120
-    at: [250, -760]
+    at: [410, -1240]
     facing: 90
     hostile: true
     group: 10

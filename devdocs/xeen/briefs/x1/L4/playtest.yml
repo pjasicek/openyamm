@@ -401,18 +401,9 @@ steps:
     radius: 160
     timeout_seconds: 90
     clear_hostiles: 3000
-- note: 'Gunther House (building:core_houses#3): along the street to its path'
-- walk_to:
-    x: -9984
-    y: 12544
-    z: 1152
-    z_tolerance: 600
-    radius: 160
-    timeout_seconds: 90
-    clear_hostiles: 3000
 - note: 'Gunther House (building:core_houses#3): walk to its door and open it'
 - walk_to:
-    x: -10260
+    x: -10004
     y: 12544
     z: 1152
     z_tolerance: 600
@@ -421,7 +412,7 @@ steps:
     clear_hostiles: 3000
 - set_pose:
     map: xeen_x1.odm
-    x: -10260
+    x: -10004
     y: 12544
     z: 1152
     yaw: 3.1416
@@ -783,8 +774,8 @@ steps:
     timeout_seconds: 60
     clear_hostiles: 3000
 - walk_to:
-    x: -2406
-    y: 3994
+    x: -1920
+    y: 3942
     z: 640
     z_tolerance: 600
     radius: 160
@@ -832,8 +823,8 @@ steps:
     timeout_seconds: 60
     clear_hostiles: 3000
 - walk_to:
-    x: -2406
-    y: 3994
+    x: -1920
+    y: 3942
     z: 640
     z_tolerance: 600
     radius: 160
@@ -971,8 +962,8 @@ steps:
     clear_hostiles: 3000
 - note: 'Vertigo Stables (building:stables): along the street to its path'
 - walk_to:
-    x: 254
-    y: 9726
+    x: 54
+    y: 9526
     z: 640
     z_tolerance: 600
     radius: 160
@@ -980,7 +971,7 @@ steps:
     clear_hostiles: 3000
 - note: 'Vertigo Stables (building:stables): walk to its door and open it'
 - walk_to:
-    x: 768
+    x: 368
     y: 9212
     z: 640
     z_tolerance: 600
@@ -989,7 +980,7 @@ steps:
     clear_hostiles: 3000
 - set_pose:
     map: xeen_x1.odm
-    x: 768
+    x: 368
     y: 9212
     z: 640
     yaw: -1.5708

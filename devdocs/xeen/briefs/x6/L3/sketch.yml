@@ -190,6 +190,10 @@ heights:
     - polygon: [[34, 81], [40.5, 81], [40.5, 87.5], [34, 87.5]]
       height: 1536
       slope: 0
+    - polygon: [[45, 60], [48, 60], [48, 63], [45, 63]]
+      height: 1216
+      slope: 1
+      notes: level land under The oasis fountain (common/level_pads.py)
   rough:
     - {polygon: [[88, 86], [128, 86], [128, 128], [86, 128], [86, 100]], amount: 1.6, notes: "The Barbaric Mountains: broken red-brown peaks"}
     - {polygon: [[24, 24], [58, 24], [58, 33], [46, 37], [36, 37], [24, 41]], amount: 0.5, notes: "the Basenji heights: weathered rock"}
@@ -266,15 +270,15 @@ districts:
   - space: town:sphinx_wells
     polygon: [[57, 57], [66, 57], [66, 65], [57, 65]]
     plots:
-      - {building: building:x6_tavern, at: [58, 58], facing: s, door_to: town:sphinx_wells, parts: [{id: body, at: [48, 48], size: [1184, 800], porches: [{wall: s, depth: 144, height: 288, posts: 24, floor: 16}], signs: [{wall: s, bay: 0, texture: xstavern, size: [128, 64], bottom: 176, out: 48, hang: true}], wall_height: 448, roof: flat, parapet: 64}, {id: wing, at: [640, 17], size: [512, 444], wall_height: 320, windows: none, roof: flat, parapet: 48}], textures: {door: hcsmdr, gable: t07a01, parapet: t07a01, post_left: t07c07, post_right: t07c07, ridge: t07a11b, roof: desrf2a, trim: t07a11b, wall: t07a01b, window: t07c04c}, house: 4301, title: The Last Waterskin, kit: plaster, door: {part: body, wall: s}}
-      - {building: building:x6_stables, at: [61.5, 58], facing: s, door_to: town:sphinx_wells, parts: [{id: body, at: [48, 326], size: [1184, 634], signs: [{wall: s, bay: 0, texture: xscaravan, size: [128, 64], bottom: 176, out: 48, hang: true}], wall_height: 448, upper_walls: {e: [t07a01, t07a01, t07a01, t07a01, t07a01], n: [t07a01, t07a01, t07a01, t07a01, t07a01, t07a01, t07a01, t07a01, t07a01], s: [t07a01, t07a01, t07a01, t07a01, t07a01, t07a01, t07a01, t07a01, t07a01], w: [t07a01, t07a01, t07a01, t07a01, t07a01]}, roof: flat, parapet: 64}, {id: shed, at: [96, 65], size: [1088, 309], posts: 24, wall_height: 320, windows: none, roof: lean_to}], textures: {door: hcsmdr, gable: t07a01, parapet: t07a01, post_left: t07b07, post_right: t07b06, ridge: t07a11a, roof: t07b02, trim: t07a11a, wall: t07b01, window: t07b04a}, house: 4302, title: Sphinx Wells Caravans, kit: plaster, door: {part: body, wall: s}}
-      - {building: building:x6_houses, index: 1, at: [58.5, 62.5], facing: n, parts: [{id: body, at: [48, 64], size: [672, 400], wall_height: 384, roof: flat, parapet: 64}], textures: {door: hcsmdr, gable: t07a01, post_left: t07a10a, post_right: t07a10a, ridge: t07b01, roof: t07a05, trim: t07a11a, wall: t07a01, window: t07a02c}, house: 4303, title: The Well Keeper's House, kit: plaster, door: {part: body, wall: n}}
-      - {building: building:x6_houses, index: 2, at: [61.5, 62.5], facing: n, parts: [{id: body, at: [48, 64], size: [416, 400], wall_height: 384, upper_walls: {e: [t07a01, t07a01, t07a01], n: [t07a01, t07a01, t07a01], s: [t07a01, t07a01, t07a01], w: [t07a01, t07a01, t07a01]}, roof: flat, parapet: 64}], textures: {door: hcsmdr, gable: t07a01, parapet: t07a01, post_left: t07b07, post_right: t07b06, ridge: t07a11a, roof: t07b02, trim: t07a11a, wall: t07b01, window: t07b04a}, house: 4304, title: The Saddle Loft, kit: plaster, door: {part: body, wall: n}}
+      - {building: building:x6_tavern, at: [58, 58], facing: s, door_to: town:sphinx_wells, parts: [{id: body, at: [48, 48], size: [1184, 800], porches: [{wall: s, depth: 144, height: 288, posts: 24, floor: 16}], signs: [{wall: s, bay: 0, texture: xstavern, size: [128, 64], bottom: 176, out: 48, hang: true}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 512, roof: flat, parapet: 64}, {id: wing, at: [640, 17], size: [512, 444], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 256, windows: none, roof: flat, parapet: 48}], textures: {base: cwb1, door: hcsmdr, gable: t07a01, parapet: t07a01, post_left: t07c07, post_right: t07c07, ridge: t07a11b, roof: desrf2a, trim: t07a11b, wall: t07a01b, window: t07c04c}, house: 4301, title: The Last Waterskin, kit: plaster, door: {part: body, wall: s}}
+      - {building: building:x6_stables, at: [61.5, 58], facing: s, door_to: town:sphinx_wells, parts: [{id: office, at: [48, 448], size: [512, 512], signs: [{wall: s, bay: 0, texture: xscaravan, size: [128, 64], bottom: 176, out: 48, hang: true}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 512, roof: flat, parapet: 64}, {id: pen, at: [564, 326], size: [668, 634], posts: 24, post_every: 256, sill: 96, sill_walls: [s, e, n], textures: {door: xvdoor, gable: xvwall, post: xvbeam, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, sill: xvbeam, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 256, windows: none, roof: gable, roof_pitch: 30, ridge_along: ew}, {id: shed, at: [96, 65], size: [1088, 257], posts: 16, post_every: 256, sill: 112, sill_walls: [e, n, w], textures: {door: xvdoor, gable: xvwall, post: xvbeam, post_left: xvwall, post_right: xvwall, ridge: xvridge, sill: xvbeam, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 144, windows: none, roof: none}], textures: {base: cwb1, door: hcsmdr, gable: t07a01, parapet: t07a01, post_left: t07b07, post_right: t07b06, ridge: t07a11a, roof: t07b02, trim: t07a11a, wall: t07b01, window: t07b04a}, house: 4302, title: Sphinx Wells Caravans, kit: plaster, door: {part: office, wall: s}}
+      - {building: building:x6_houses, index: 1, at: [58.5, 62.5], facing: n, parts: [{id: body, at: [48, 64], size: [672, 400], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 512, roof: flat, parapet: 64}], textures: {base: cwb1, door: hcsmdr, gable: t07a01, post_left: t07a10a, post_right: t07a10a, ridge: t07b01, roof: t07a05, trim: t07a11a, wall: t07a01, window: t07a02c}, house: 4303, title: The Well Keeper's House, kit: plaster, door: {part: body, wall: n}}
+      - {building: building:x6_houses, index: 2, at: [61.5, 62.5], facing: n, parts: [{id: body, at: [48, 64], size: [416, 400], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 512, upper_walls: {e: [t07a01, t07a01, t07a01], n: [t07a01, t07a01, t07a01], s: [t07a01, t07a01, t07a01], w: [t07a01, t07a01, t07a01]}, roof: flat, parapet: 64}], textures: {base: cwb1, door: hcsmdr, gable: t07a01, parapet: t07a01, post_left: t07b07, post_right: t07b06, ridge: t07a11a, roof: t07b02, trim: t07a11a, wall: t07b01, window: t07b04a}, house: 4304, title: The Saddle Loft, kit: plaster, door: {part: body, wall: n}}
     notes: "A4's x6.yml: the caravan stop at the desert's wells (WORLD_DESIGN 5.1 hamlet): the tavern and the caravans' stables facing the road, two homes across it, Old Ibb's well between, a camel pen behind the stables, palms (9 x 8 cells)."
   - space: zone:coach_yard
     polygon: [[83, 92], [89, 92], [89, 98], [83, 98]]
     plots:
-      - {building: building:warzone_coach, at: [84, 92.5], facing: s, door_to: zone:coach_yard, parts: [{id: body, at: [48, 48], size: [1184, 656], signs: [{wall: s, bay: 0, texture: xscaravan, size: [128, 64], bottom: 176, out: 48, hang: true}], wall_height: 448, roof: flat, parapet: 64}], textures: {door: hhm1d, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chbw}, house: 4305, title: The Warzone Coach, kit: plaster, door: {part: body, wall: s}}
+      - {building: building:warzone_coach, at: [84, 92.5], facing: s, door_to: zone:coach_yard, parts: [{id: office, at: [48, 192], size: [512, 512], signs: [{wall: s, bay: 0, texture: xscaravan, size: [128, 64], bottom: 176, out: 48, hang: true}], textures: {door: xvdoor, gable: xvwall, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 512, roof: flat, parapet: 64}, {id: pen, at: [564, 48], size: [668, 656], posts: 24, post_every: 256, sill: 96, sill_walls: [s, e, n], textures: {door: xvdoor, gable: xvwall, post: xvbeam, post_left: xvcornl, post_right: xvcornr, ridge: xvridge, roof: xvshgl, sill: xvbeam, trim: xvbeam, wall: xvwall, window: xvwin}, wall_height: 256, windows: none, roof: gable, roof_pitch: 30, ridge_along: ew}], textures: {base: cwb1, door: hhm1d, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chbw}, house: 4305, title: The Warzone Coach, kit: plaster, door: {part: office, wall: s}}
     notes: "D-8.1: a walled pocket (6 x 6 cells) against the Barbaric cliffs holding only the arena gate (XD-20, in the cliff) and Gorm's coach house (4305); its desert gate in the west wall is barred from inside until opened from the desert side."
   - space: zone:basenji_crag
     polygon: [[33, 27], [44, 27], [44, 37], [33, 37]]
@@ -484,7 +488,7 @@ areas:
     index: 1
     count: 1
     slot: 2
-    circle: {at: [42, 35], r: 1}
+    circle: {at: [43, 31], r: 1}
     notes: "Werewolves (Wolfman 20, Werewolf 30, Greater Werewolf 40) of the Basenji cult on the heights round the castle, the Waters of Great Power and the Air Reflector, and down the west slope; at least 2,000 from Arie's camp."
   - id: pop:basenji_heights
     index: 2
@@ -508,7 +512,7 @@ areas:
     index: 5
     count: 1
     slot: 2
-    circle: {at: [53, 36], r: 1}
+    circle: {at: [53, 35], r: 1}
     notes: walkable ground
   - id: pop:basenji_heights
     index: 6
@@ -526,7 +530,7 @@ areas:
     index: 8
     count: 1
     slot: 2
-    circle: {at: [47, 28], r: 1}
+    circle: {at: [46, 27], r: 1}
     notes: walkable ground
   - id: pop:basenji_heights
     index: 9
@@ -538,13 +542,13 @@ areas:
     index: 10
     count: 1
     slot: 2
-    circle: {at: [33, 28], r: 1}
+    circle: {at: [51, 30], r: 1}
     notes: walkable ground
   - id: pop:basenji_heights
     index: 11
     count: 1
     slot: 2
-    circle: {at: [44, 33], r: 1}
+    circle: {at: [45, 32], r: 1}
     notes: walkable ground
   - id: pop:basenji_heights
     index: 12
@@ -562,7 +566,7 @@ areas:
     index: 14
     count: 1
     slot: 2
-    circle: {at: [51, 36], r: 1}
+    circle: {at: [51, 33], r: 1}
     notes: walkable ground
   - id: pop:basenji_heights
     index: 15
@@ -1538,8 +1542,9 @@ structures:
     size: [1, 0.75]
     turn: 0
     kit: timber
+    textures: {base: cwb1}
     parts:
-      - {id: stall, at: [64, 64], size: [384, 256], posts: 24, sill: 80, sill_walls: [n, e, w], textures: {roof: hhm2rf}, wall_height: 224, windows: none, roof: hip, roof_pitch: 30}
+      - {id: stall, at: [64, 64], size: [384, 256], posts: 24, sill: 80, sill_walls: [n, e, w], textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 224, windows: none, roof: hip, roof_pitch: 30}
     door: none
     title: Market stall
   - id: thing:yard_wall
@@ -1620,10 +1625,10 @@ structures:
     at: [88.5, 94]
     size: [0.5, 2]
     kit: plaster
-    textures: {door: chb1dl, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chbw}
+    textures: {base: cwb1, door: chb1dl, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chbw}
     facing: w
     parts:
-      - {id: portal, at: [96, 0], size: [672, 1024], wall_height: 640, walls: {w: [wall, wall, [door, 384], wall, wall]}, windows: none, roof: flat}
+      - {id: portal, at: [96, 0], size: [672, 1024], textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 640, walls: {w: [wall, wall, [door, 384], wall, wall]}, windows: none, roof: flat}
     floor: 1504
     door: none
     doors:
@@ -1656,11 +1661,11 @@ structures:
     decoration: haybale2
   - id: thing:yard_prop_3
     kind: decoration
-    at: [86.85, 92.35]
+    at: [86.85, 92.2]
     decoration: bigbarel
   - id: thing:yard_prop_4
     kind: decoration
-    at: [87.15, 92.35]
+    at: [87.15, 92.2]
     decoration: smlbarel
   - id: thing:yard_trough
     kind: platform
@@ -1754,16 +1759,16 @@ structures:
     at: [35, 27.4]
     size: [6, 6]
     kit: plaster
-    textures: {door: chb1dl, gable: hwm2b, post_left: hwm2el, post_right: hwm2er, ridge: trim11_32, roof: hwm2rf, trim: hwm2bs1, wall: hwm2wall, window: hwm2bw}
+    textures: {base: cwb1, door: chb1dl, gable: hwm2b, post_left: hwm2el, post_right: hwm2er, ridge: trim11_32, roof: hwm2rf, trim: hwm2bs1, wall: hwm2wall, window: hwm2bw}
     facing: s
     parts:
-      - {id: hall, at: [192, 1600], size: [2688, 1408], wall_height: 896, windows: none, roof: flat, battlements: true}
-      - {id: gatehouse, at: [1152, 2880], size: [768, 352], wall_height: 352, walls: {s: [wall, [door, 384], wall]}, windows: none, roof: gable, roof_pitch: 52, ridge_along: ns}
-      - {id: keep, at: [704, 320], size: [1664, 1408], wall_height: 1664, windows: none, roof: flat, battlements: true}
-      - {id: tower_sw, shape: round, at: [256, 2880], radius: 352, sides: 10, wall_height: 1280, windows: none, roof: cone, roof_pitch: 60}
-      - {id: tower_se, shape: round, at: [2816, 2880], radius: 352, sides: 10, wall_height: 1280, windows: none, roof: cone, roof_pitch: 60}
-      - {id: tower_nw, shape: round, at: [512, 448], radius: 320, sides: 10, wall_height: 2048, windows: alternate, roof: cone, roof_pitch: 64}
-      - {id: tower_ne, shape: round, at: [2560, 448], radius: 384, sides: 10, wall_height: 1792, windows: alternate, roof: cone, roof_pitch: 62}
+      - {id: hall, at: [192, 1600], size: [2688, 1408], textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 896, windows: none, roof: flat, battlements: true}
+      - {id: gatehouse, at: [1152, 2880], size: [768, 352], textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 352, walls: {s: [wall, [door, 384], wall]}, windows: none, roof: gable, roof_pitch: 52, verge: 40, verge_walls: [s], ridge_along: ns}
+      - {id: keep, at: [704, 320], size: [1664, 1408], textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 1664, windows: none, roof: flat, battlements: true}
+      - {id: tower_sw, shape: round, at: [256, 2880], radius: 352, sides: 10, textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 1280, windows: none, roof: cone, roof_pitch: 60}
+      - {id: tower_se, shape: round, at: [2816, 2880], radius: 352, sides: 10, textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 1280, windows: none, roof: cone, roof_pitch: 60}
+      - {id: tower_nw, shape: round, at: [512, 448], radius: 320, sides: 10, textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 2048, windows: alternate, roof: cone, roof_pitch: 64}
+      - {id: tower_ne, shape: round, at: [2560, 448], radius: 384, sides: 10, textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 1792, windows: alternate, roof: cone, roof_pitch: 62}
     floor: 2592
     door: none
     doors:
@@ -1796,7 +1801,8 @@ structures:
     decoration: 7dec02
     title: Campfire
     effects:
-      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end"
+    once: true
   - id: thing:arie_pot
     kind: decoration
     at: [46.4, 45.9]
@@ -1806,10 +1812,10 @@ structures:
     at: [28.5, 68.8]
     size: [2, 1.5]
     kit: plaster
-    textures: {door: hcsmdr, gable: t07a01, post_left: t07a10a, post_right: t07a10a, ridge: t07b01, roof: hhm2rf, trim: t07a11a, wall: t07a01, window: t07a02c}
+    textures: {base: cwb1, door: hcsmdr, gable: t07a01, post_left: t07a10a, post_right: t07a10a, ridge: t07b01, roof: hhm2rf, trim: t07a11a, wall: t07a01, window: t07a02c}
     facing: e
     parts:
-      - {id: hut, at: [64, 64], size: [768, 640], porches: [{wall: e, depth: 192, height: 224, posts: 24, floor: 16}], wall_height: 288, windows: alternate, roof: flat, parapet: 48}
+      - {id: hut, at: [64, 64], size: [768, 640], porches: [{wall: e, depth: 192, height: 224, posts: 24, floor: 16}], textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 288, windows: alternate, roof: flat, parapet: 48}
     door: none
     title: Saul's hermitage
   - id: thing:saul_urn
@@ -1850,7 +1856,7 @@ structures:
     notes: Cloudside's sixth obelisk (A3's obelisks.x6) on its red knoll.
   - id: thing:oasis_fountain
     kind: fountain
-    at: [45.7, 61]
+    at: [46.6, 61.2]
     radius: 224
     sides: 10
     textures: {wall: chb1}
@@ -1903,9 +1909,9 @@ structures:
     at: [27.2, 53.2]
     size: [1.6, 1.6]
     kit: plaster
-    textures: {door: hhm1d, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chbw}
+    textures: {base: cwb1, door: hhm1d, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chbw}
     parts:
-      - {id: s, at: [96, 96], size: [627, 627], posts: 32, wall_height: 352, windows: none, roof: hip, roof_pitch: 38}
+      - {id: s, at: [96, 96], size: [627, 627], posts: 32, textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 352, windows: none, roof: hip, roof_pitch: 38}
     door: none
     title: The Shrine of Energy
   - id: thing:shrine_energy
@@ -1996,6 +2002,7 @@ structures:
     kind: cave_mouth
     at: [52, 30]
     size: [1024, 1024]
+    textures: {shell: cwb1}
     title: "The werewolves' den: gnawed bones and the stink of wet fur"
     effects:
       - text: Fallen earth and stones fill the den's mouth. The pack sleeps out in the open now.
@@ -2041,9 +2048,9 @@ structures:
     at: [76.4, 74.4]
     size: [3.6, 3.6]
     kit: plaster
-    textures: {door: hhm1d, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chbw}
+    textures: {base: cwb1, door: hhm1d, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chbw}
     parts:
-      - {id: r, at: [96, 96], size: [1650, 1650], wall_height: 416, windows: alternate, roof: none}
+      - {id: r, at: [96, 96], size: [1650, 1650], textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 416, windows: none, roof: none}
     door: none
     title: The ruined caravanserai
     ruin:

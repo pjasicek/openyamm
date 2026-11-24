@@ -81,7 +81,7 @@ def chests():
 
 L_, M_ = LICH, MUMMY
 PLACED = {
-    'crypt_hall': [(LICH, [-192, -1152]), (LICH, [192, -1664])],
+    'crypt_hall': [(LICH, [-432, -576]), (LICH, [432, -560])],
     'main_west': [(ROACH, [-2432, -1500]), (ROACH, [-2944, -1560]), (ROACH, [-3328, -1500])],
     'main_east': [(ROACH, [256, -1500]), (ROACH, [960, -1450])],
     'east_culvert': [(ROACH, [288, -2176]), (ROACH, [0, -2848])],

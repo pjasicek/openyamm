@@ -1,7 +1,7 @@
 # Playtest of the Gargoyle Lair (DD-23, L4): the critical path and the loop. A level-35 party arrives in the cave mouth
 # (entrance:d4_mouth, the map's start), walks up the guano slope (the bone ledge and the climber's pack off it), through
 # the perch hall and up the rock ramp to the upper perches, along the ledge walk into the roost; at a roosting rock it
-# answers the source's question No (nothing breaks) and then Yes (A3's q-d15.roost: lair_destroyed 113301, all five
+# clicks a roosting rock (no question since F47, 2026-11-24: A3's q-d15.roost: lair_destroyed 113301, all five
 # rocks broken), clicks a rock's foot (A3's else text), takes Caleb's glass from the nest (A3's q-d15.glass: 12352 once,
 # glass_found 113302; then its else text) and the nest's hoard, saves and loads (the rocks stay broken), and goes back
 # down by the rock steps, the still gallery and the perch hall to the mouth. Numbers are ids.lock.yml's: events (click),
@@ -68,14 +68,9 @@ steps:
   - clear_hostiles: {radius: 3500}
   - assert: {state_dump_map_var: {index: 5, value: 1}}
   - play_lua: {source: "close()"}
-  # The roosting rocks: the source's question. No leaves them; Yes pounds all five to powder (A3's q-d15.roost).
+  # The roosting rocks: a click pounds all five to powder (A3's q-d15.roost; no Yes/No since F47).
   - walk_to: {x: 1000, y: 4920, z: 640, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   - play_lua: {source: "click(19); wait(0.5)"}
-  - answer_input: {text: "No"}
-  - advance_runtime: {seconds: 1}
-  - play_lua: {source: "close(); if qbit(113301) then error('lair_destroyed set on No') end"}
-  - play_lua: {source: "click(19); wait(0.5)"}
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1}
   - assert: {dialog: {active: true, text_contains: "pound roosting rocks to powder"}}
   - play_lua: {source: "close(); if not qbit(113301) then error('lair_destroyed 113301 not set') end"}

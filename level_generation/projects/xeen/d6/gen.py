@@ -668,15 +668,19 @@ def build():
                                  (92, 36), (100, 37), (70, 53), (91, 46), (95, 44), (103, 46), (80, 54), (88, 50),
                                  (99, 52)], 1)
     # E4a / E4b: griffins and rocs on the southern peaks (slot 2); the pass, the adit and the D1 road clear
-    # D-85 (A6 s30): the seventh west pair moved off Ambrose's camp (was (55, 101): 4,433)
-    markers('pop:west_griffins', [(28, 94), (34, 93.5), (40, 92.5), (30, 100), (37, 101), (52, 92.5), (47, 102),
+    # D-85 (A6 s30): the seventh west pair moved off Ambrose's camp (was (55, 101): 4,433); the sixth (was (52, 92.5),
+    # its marker 5,201 from him, waived) to (49, 91), 6,476 (check_d85 errors on it since 2026-11-24)
+    markers('pop:west_griffins', [(28, 94), (34, 93.5), (40, 92.5), (30, 100), (37, 101), (49, 91), (47, 102),
                                   (28, 106)], 2)
     markers('pop:east_griffins', [(73, 92), (79, 92), (85, 94), (92, 95), (99, 96), (75, 101), (95, 103),
                                   (104, 100)], 2)
     town_doors = [d[2] for d in doors_out]
     clear = {'the adit': (ADIT_ARRIVAL, SPAWN_CLEAR), 'the pyramid': (PYRAMID_ARRIVAL, SPAWN_CLEAR),
              'the D1 arrival': (SOUTH_START, SPAWN_CLEAR), 'the D5 arrival': (EAST_START, SPAWN_CLEAR),
-             'Ambrose': (AMBROSE, SPAWN_CLEAR)}
+             'Ambrose': (AMBROSE, SPAWN_CLEAR),
+             # D-138/D-136 (2026-11-24): DD-17's gate and FD-01's stair set the party down at (51, 55): 2,000 and
+             # the robots' spread (0.6) and a margin
+             'the DD-17 gate': ((51.0, 55.0), 2400)}
     for a in areas:
         c = a['circle']['at']
         if min(math.hypot(c[0] - d[0], c[1] - d[1]) for d in town_doors) * 512 < 2500:
@@ -747,8 +751,9 @@ def build():
     place(ROW['archer_chief'], (ARCHER_CAMP[0] + 0.6, ARCHER_CAMP[1] - 0.2), 3, 0.8, G_ARCHERS, hostile=True)
     # the robots (D-49 change 7, D-36's coven pattern): placed in nine groups on the mesa and the approach, hidden on
     # load after m33.done; MM7's Dif 1 odds give 16 Patrols and 2 Annihilators at load (the slot's mean of 18)
+    # the last two (were (47, 55), (55, 55.5): 1,894 and 1,903 from DD-17's gate) out of its sight (D-136)
     ROBOT_SPOTS = [(44.0, 40.0), (51.0, 38.5), (58.0, 40.0), (59.0, 47.0), (58.5, 53.5), (43.0, 47.0), (43.5, 53.5),
-                   (47.0, 55.0), (55.0, 55.5)]
+                   (43.5, 57.0), (57.0, 57.0)]
     for i, (at, g) in enumerate(zip(ROBOT_SPOTS, G_ROBOTS)):
         row = ROW['annihilator'] if i == 4 else ROW['patrol']
         for k, (u, r) in clear.items():
@@ -889,6 +894,10 @@ def build():
     # The classic kits (2026-11-24): Clouds of Xeen's own walls on the map's buildings (classic_kit.yml)
     import classic_kit as CK
     for _note in CK.apply(sketch, 'd6'):
+        print(_note)
+    # Level pads under things on slopes (2026-11-24, town_fit_check platforms.through / things.overhang)
+    import level_pads as LP
+    for _note in LP.apply(sketch, 'd6'):
         print(_note)
     import entrance_screens as ES     # F16/D-90 (s32): each dungeon door's trans.txt row in its entrance window
     print('entrance screens:', ES.apply_sketch(sketch, 'xeen_d6'))

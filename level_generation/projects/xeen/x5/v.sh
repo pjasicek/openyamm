@@ -16,6 +16,10 @@ $O build $P --assets assets_dev --out $C/build > $C/run/build.log 2>&1 || { tail
 grep -E "^warning|^built" $C/run/build.log | grep -v "faces in one plane" | cut -c1-300
 python3 level_generation/projects/xeen/x1/measure.py $C/build $P | grep -v "^ \|per central cell" || true
 python3 level_generation/projects/xeen/x1/dress_check.py $C/build xeen_x5 || true
+# D-85/D-87 and D-15's first fight (D-133): givers at 5,120 (D-87 (4)); D-136 keeps group 40 (Q-C6's first wave by the
+# square, D-13, D-87) at the arrivals; Mayor Randon (NPC 4502) stands among it by D-87.1: his giver line is that rule's
+python3 level_generation/projects/xeen/x2/check_d85.py $C/build/xeen_x5.scene.yml 5120 --kept-group 40 > $C/run/d85.txt || true
+if grep -E '^ERROR' $C/run/d85.txt | grep -v '^ERROR npc 4502 '; then echo 'D-85/D-87 check failed'; exit 1; fi
 if [ "$1" = "--install" ]; then
   $O install $P --build $C/build --root assets_dev
   python3 tools/terrain_materials.py weights --world xeen --map xeen_x5.odm

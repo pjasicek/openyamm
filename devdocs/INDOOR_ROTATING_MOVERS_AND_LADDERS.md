@@ -158,7 +158,8 @@ initial_state:
 - **Rooms.** A mover's faces belong to the room its closed pose stands in (`roomNumber`). A mover whose swing
   crosses a portal (an `open_away` door, a leaf swinging through its doorway) also names the other room as
   `roomBehindNumber` and is listed in that room's face lists; the renderer, collision and picking already accept a
-  face in either of its two rooms. The converter computes the rooms from poses sampled along the swing.
+  face in either of its two rooms. The converter computes the rooms from poses sampled along the swing; Map Studio
+  lists every hinged leaf but a trapdoor in its opening's two rooms (2026-11-24).
 - **Runtime form.** The loader collects the blocks into `IndoorMapData::moverDefinitions` (`IndoorMoverDefinition`,
   sorted by door id, empty on every map without them), map data like `translucentFaces`: never saved, so a save
   cannot carry a stale pivot. Lookups are by door id (`findIndoorMoverDefinition`), null for every MM6–MM8 door.
@@ -201,7 +202,10 @@ tipping away from under one, stops nothing:
 - `hold` (levers): a step that would put a face into a body is withheld (the mechanism's `timeSinceTriggeredMs` and
   distance go back to the previous step; it stays opening or closing) and retried next step.
 - `reverse` (MM9 `ReopenOnContact`: the doors and hatches): a closing door that meets a body opens again (and its
-  auto-close starts over); an opening door holds. A door never passes through the party or a monster.
+  auto-close starts over); an opening door holds. A door never passes through the party or a monster. A sliding
+  leaf's face that moves within 60° of its own plane (a gate rising from its floor slot or falling from the ceiling)
+  leads with its edge, so it counts on either side: a body standing on the leaf's line, between its two faces, stops
+  it too (`indoorMoverFaceBlocksBody` with the slide direction; rotating movers keep the side test alone).
 - `push` (pivot traps): a face moving into a body moves the body clear of it, away along the shortest way out, and
   the body is no longer supported (`indoorBodyPolygonClearance`, `IndoorPartyRuntime::pushPartyPosition`,
   `IndoorWorldRuntime::displaceActorByMover`). The move is not swept against the world, so `push` suits movers with

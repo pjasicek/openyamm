@@ -463,7 +463,7 @@ chest('chest:smelter', 'room:smelter', [2944, 2048], kind='7gt002', treasure_lev
 spawn('spawn:smelter', 'room:smelter', [2112, 2880], 1, 'b')
 
 # D-7 (2026-11-20): the third heap from (-2880, 2240), 86 from the line window -> south door, into the south-west corner
-for i, (x, y) in enumerate([(-2880, 2880), (-2240, 2944), (-3000, 1990), (-2048, 2816)]):
+for i, (x, y) in enumerate([(-2880, 2880), (-2240, 2944), (-2913, 1990), (-2048, 2816)]):
     deco(f'deco:scrap_{i}', 'room:scrap_hall', ['trasheap', '7dec01', '7dec10', 'trasheap'][i], [x, y])
 torch('deco:torch_scrap', 'room:scrap_hall', 'e', 0.5)
 spawn('spawn:scrap', 'room:scrap_hall', [-2304, 2560], 1, 'b')

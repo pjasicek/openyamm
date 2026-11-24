@@ -679,8 +679,9 @@ PLACED = [
     ('throne', 61, [(GUARD, (x, y), 270) for y in (2880, 2496, 2112) for x in (-480, 480)], True),
     ('aviary_n', 62, [(PET, (0, -1280), 270)], False),
     # F0 (27 + 7)
-    ('nave', 10, [(DEMON, (-480, -1760), 270), (DEMON, (480, -1760), 270), (DEMON, (0, -1280), 270),
-                  (DEVIL, (0, -2240), 90), (DEVIL, (0, -1760), 270)], False),
+    # D-130 (2026-11-24): out of sight of the gate's landing (0, -4064) (hide.py's spots, the same nave).
+    ('nave', 10, [(DEMON, (-608, -1760), 270), (DEMON, (544, -1824), 270), (DEMON, (-704, -1280), 270),
+                  (DEVIL, (-448, -2240), 90), (DEVIL, (-512, -1952), 270)], False),
     ('aisle_w', 70, [(DEMON, at_in('aisle_w', 0.5, 0.3), 0), (DEMON, at_in('aisle_w', 0.5, 0.7), 0)], False),
     ('aisle_e', 71, [(DEMON, at_in('aisle_e', 0.5, 0.3), 180), (DEMON, at_in('aisle_e', 0.5, 0.7), 180)], False),
     ('ward_w', 11, [(DEMON, at_in('ward_w', 0.3, 0.5), 0), (DEMON, at_in('ward_w', 0.6, 0.5), 0)], False),
@@ -1044,14 +1045,13 @@ def wiring_yml():
                        ('quarters', 'Door'), ('walk', 'Door'), ('walk_threshold', 'Door'),
                        ('hall_north', 'Great doors'), ('throne', 'Throne doors')):
         e(id=f'evt:door_{did}', preset='door', source=f'door:{did}', title=title)
-    # --- The four generators (D-47 Q8): the question breaks the core; its on_destroyed is the rest.
+    # --- The four generators (D-47 Q8): a click breaks the core (F47: no question); its on_destroyed is the rest.
     for g, d in GENS.items():
         e(id=f'evt:gen_{g}', preset='script', source=f'platform:gen_{g}', title=d['title'],
           condition={'not': {'destroyed': f'destructible:gen_{g}'}},
-          question={'message': d['line'], 'ask': 'Destroy (Yes/No)?', 'answers': YES},
           effects=[{'destroy': f'destructible:gen_{g}'}],
           else_effects=[hook(f'm35.gen_{g}')],
-          notes=f"The {d['title']} ({d['ref']}): a real choice. Yes breaks the core (its on_destroyed, "
+          notes=f"The {d['title']} ({d['ref']}): a click breaks the core (F47 2026-11-24: no Yes/No; its on_destroyed, "
                 f"evt:gen_{g}_down, does the rest); blows and spells break it too. Broken: A3's else line.")
         e(id=f'evt:gen_{g}_down', preset='script', trigger='call',
           effects=[hook(f'm35.gen_{g}'), amb(f'gen_{g}', 2), {'lights_off': [f'light:core_{g}', f'light:pylon_{g}']},
@@ -1084,10 +1084,9 @@ def wiring_yml():
     for s in ('w', 'e'):
         e(id=f'evt:machine_{s}', preset='script', source=f'platform:machine_{s}', title='Guard Making Machine',
           condition={'not': {'destroyed': f'destructible:machine_{s}'}},
-          question={'message': 'Guard Making Machine.  Destroy?', 'ask': 'Destroy (Yes/No)?', 'answers': YES},
           effects=[{'destroy': f'destructible:machine_{s}'}],
           else_effects=[{'text': "A broken press. Nothing comes out of it any more."}],
-          notes="aaze0075:0: a real choice; Yes breaks it (blows and spells too); no experience (D-47 Q15).")
+          notes="aaze0075:0: a click breaks it (F47 2026-11-24: no Yes/No; blows and spells too); no experience (D-47 Q15).")
         e(id=f'evt:machine_{s}_down', preset='script', trigger='call',
           effects=[{'qbit': QBITS[f'machine_{s}_down']}, amb(f'machine_{s}', 2),
                    {'text': "The machine shudders, jams, and stops stamping."}],

@@ -133,7 +133,7 @@ RegisterEvent(32, "Troll Hole", function()
     if not ((XeenQuests.hook("q-d13.troll_holes"))) then
         return
     end
-    evt.MoveToMap(96, -32, 0, 0, 0, 0, 5041, 1, "xeen_dd11a.blv")
+    evt.MoveToMap(80, -208, 0, 0, 0, 0, 5041, 1, "xeen_dd11a.blv")
 end, "Troll Hole")
 
 -- evt:thing:dd11b_hole
@@ -141,7 +141,7 @@ RegisterEvent(33, "Troll Hole", function()
     if not ((XeenQuests.hook("q-d13.troll_holes"))) then
         return
     end
-    evt.MoveToMap(96, -32, 0, 0, 0, 0, 5042, 1, "xeen_dd11b.blv")
+    evt.MoveToMap(144, -208, 0, 0, 0, 0, 5042, 1, "xeen_dd11b.blv")
 end, "Troll Hole")
 
 -- evt:thing:dd11c_hole

@@ -150,7 +150,9 @@ room('room:chief_den', "Chieftain's den",
           'notes': 'A second oar.'},
      ],
      walls=[{'wall': 'south', 'panels': [{'offset': 256, 'length': 448, 'bottom': 96, 'height': 288, 'surface': CANVAS,
-                                          'id': 'panel:sail', 'notes': "The torn sail of a sunk boat, hung as a trophy."}]}],
+                                          'id': 'panel:sail', 'cover': True,
+                                          'notes': "The torn sail of a sunk boat, hung as a trophy: a covering panel "
+                                                   "(F46), so taking it down leaves the cave wall."}]}],
      notes="A cave about 1,750 by 1,100 one step up from the feast cave: the Chieftain's seat of boulders on a dais by the west wall, oars and a torn sail of Captain Nystor's boats as trophies, the larder's plank door in the west wall.")
 room('room:larder', "Chieftain's larder",
      outline=[[-4096, 3584], [-3168, 3584], [-3168, 4224], [-3392, 4352], [-3968, 4352], [-4160, 4096], [-4160, 3776]],

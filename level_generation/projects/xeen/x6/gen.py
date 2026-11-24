@@ -159,7 +159,12 @@ def walkable(x, y):
 # D-85 (s26): no hostile marker within 5,888 (missile range 5,120 + 768) of an outdoor talking quest giver. The markers
 # of these areas that the sampling puts nearer than 12.5 cells (5,888 + the circle's 512) move to the nearest free
 # candidate beyond it; the area's other markers and every other area keep their places.
-GIVER_CLEAR = {'pop:west_dunes': [(31.1, 70.6)]}   # Saul (4602)
+GIVER_CLEAR = {'pop:west_dunes': [(31.1, 70.6)],   # Saul (4602)
+               'pop:basenji_heights': [(45.4, 45.0)]}   # NPC 4608 (check_d85, 2026-11-24: spawns 20 and 33 at 5,258)
+# D-138 (2026-11-24): no spawn marker within 2,000 of a door's arrival or its move-in: the circle (512) and a margin on
+# top, 5 cells (XD-14's gate, its spawn 20 stood 1,921)
+ARRIVAL_CLEAR = [(38.0, 34.0), (38.0, 34.5)]
+ARRIVAL_CELLS = 5.0
 GIVER_CELLS = 12.5
 
 
@@ -208,6 +213,7 @@ def markers():
                         and not any(K.inside(p, c) for c in clear)
                         and min(math.hypot(x - d[0], y - d[1]) for d in door_pts) > 5.2
                         and all(math.hypot(x - a[0], y - a[1]) > 4.4 for a in EDGE_ARRIVALS.values())
+                        and all(math.hypot(x - a[0], y - a[1]) >= ARRIVAL_CELLS for a in ARRIVAL_CLEAR)
                         and min(LD.dist_to_line(x, y, r) for r in roads) > 0.8):
                     cand.append(p)
                 x += 1
@@ -339,6 +345,10 @@ def main():
     # The classic Clouds kit (2026-11-24): Clouds of Xeen's own half-timbered walls on the map's houses
     import classic_kit as CK
     for _note in CK.apply(sk, 'x6'):
+        print(_note)
+    # Level pads under things on slopes (2026-11-24, town_fit_check platforms.through / things.overhang)
+    import level_pads as LP
+    for _note in LP.apply(sk, 'x6'):
         print(_note)
     atmos = {'format': 0, 'sky': 'plansky2', 'weather': {},
              'notes': "D-31: the shipped clear preset (plansky2 is the clear preset's alias) in every weather, no rain; "

@@ -156,6 +156,10 @@ def main():
     import classic_kit as CK
     for _note in CK.apply(sk, 'x4'):
         print(_note)
+    # Level pads under things on slopes (2026-11-24, town_fit_check platforms.through / things.overhang)
+    import level_pads as LP
+    for _note in LP.apply(sk, 'x4'):
+        print(_note)
     # Texture fit (merge point 16): the base course (foundation 128) falls back to the wall; the plaster kit's
     # half-timber panel hhm2b2 then shows 1.5 times up a one-storey wall. A dark seamless stone footing instead.
     for district in sk['districts']:

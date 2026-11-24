@@ -90,3 +90,8 @@ MAW-only pedestal; the Seers Zephyra (X4) and Madame Oorla (D1); three new scena
   12 s), `mm8/skeleton_archers_keep_range.yml` (ranged only: shoot and circle, never melee; unchanged). Unit tests:
   `MawGapTests` (the six, X1, Bootcamp, Isle of Ashes exempt; out05/X2 not; indoors not), two
   `GameplayActorAiSystemTests` cases. Built and tested in `build-mx` (not build/build-xeen).
+
+- 2026-11-24, P3 feedback agent `xeen-fb3-engine` (F56, XD-21 p2 "no boss in MAW"): no change. MAW names bosses only
+  on maps with more than 30 monsters (`ceil((n - 30) / 150)`, C-tier); Xeen's authored boss rows never become MAW
+  bosses (§3). A decider kept MAW's rule (option a); if more players ask, option b (Xeen's unscripted authored bosses
+  as MAW bosses) is this lane's.

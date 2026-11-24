@@ -41,14 +41,8 @@ steps:
   - walk_to: {x: 1056, y: 2400, z: 192, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
   - walk_to: {x: 900, y: 2000, z: 192, radius: 64, timeout_seconds: 30, clear_hostiles: 1200, close_dialogs: true}
   - clear_hostiles: {radius: 1500}
-  # The drum asks the orc outposts' question (aaze0019): No leaves it beating, Yes burns it.
+  # The drum burns at a click (F47, 2026-11-24: no Yes/No for a quest goal).
   - play_lua: {source: "click(13); wait(0.5)"}
-  - answer_input: {text: "No"}
-  - advance_runtime: {seconds: 1}
-  - play_lua: {source: "close()"}
-  - assert: {state_dump_map_var: {index: 8, value: 0}}
-  - play_lua: {source: "click(13); wait(0.5)"}
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1}
   - play_lua:
       source: |
@@ -111,7 +105,6 @@ steps:
   - assert: {actor_visible: {actor_index: 3, dead: true}}
   - walk_to: {x: -2650, y: 7200, z: -192, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   - play_lua: {source: "click(15); wait(0.5)"}
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1}
   - play_lua:
       source: |
@@ -135,7 +128,6 @@ steps:
       source: |
         if mapvar("AmbientSound1") ~= 2 then error("the great drum's beat did not stop with him") end
         click(10); wait(0.5)
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1}
   - play_lua: {source: "close()"}
   - assert: {state_dump_map_var: {index: 7, value: 1}}

@@ -363,7 +363,8 @@ ROOMS = [
                  panel_xy(B['mirror'], 'north', -448, 192, FRAME, 64, 32),
                  panel_xy(B['mirror'], 'north', -448, 192, FRAME, 384, 32)]}]),
     box_room('door_hall', 'Hall of the warded door', 'door_hall', FL[0], 'theme:tower', 16,
-             "Inside the front door: a Heretic Lord keeps it with three of Mok's iron guardians."),
+             "Inside the front door; its Heretic Lord and three of Mok's iron guardians wait behind the mirror hall's "
+             "door (F45: not in sight of the landing)."),
     box_room('guardians', "Guardians' gallery", 'guardians', FL[0], 'theme:tower', 14,
              "Mok's stone guardians, three of them awake; the old temple's offering chest at the east end."),
 ]
@@ -443,13 +444,16 @@ POP = [
     ('stair_hall1', 3, [(HERETIC, 1184, -256), (HERETIC, 1500, -896)]),
     ('alcoves', 4, [(HERETIC, -512, -320), (HERETIC, 512, -320)]),
     ('dorm1', 5, [(HERETIC, -1300, -1300), (HERETIC, -1184, -320)]),
-    ('door_hall', 6, [(LORD, 0, -1344), (IRON, -512, -1440), (IRON, 512, -1440), (IRON, -256, -1312)]),
+    # F45 (the player's pins 2026-11-24, arrivals in the thick of it): the front door's keepers wait behind the mirror
+    # hall's door, out of sight of D1's front-door landing (tools/xeen/check_arrivals.py); ids kept.
+    ('door_hall', 6, [(LORD, 0, -1024), (IRON, -416, -864), (IRON, 384, -992), (IRON, -256, -992)]),
     ('guardians', 7, [(STONE, 1216, -1600), (STONE, 1472, -1600), (STONE, 1568, -1296)]),
 ]
 MONSTERS = []
 for room, group, entries in POP:
     for n, (row, x, y) in enumerate(entries):
-        MONSTERS.append({'id': 'monster:%s_%d' % (room, n + 1), 'room': 'room:' + room, 'monster': row,
+        MONSTERS.append({'id': 'monster:%s_%d' % (room, n + 1),
+                         'room': 'room:' + ('mirror_hall' if room == 'door_hall' else room), 'monster': row,
                          'at': F(x, y), 'facing': 270, 'group': group})
 # A3 35th (2026-11-22): he preaches north of the altar walk, so his body no longer falls between the walk's end
 # and the key on the altar and takes its click (was (-1216, 1216), on the walk).

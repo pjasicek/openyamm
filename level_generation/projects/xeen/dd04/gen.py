@@ -317,8 +317,8 @@ DECORATIONS = [
     deco('court_goblet', 'court', '7dec46', (-208, 5672), floor_height=144, notes="A goblet on the spare chair."),
     deco('cellar_barrel_1', 'cellar', 'bigbarel', (1840, 2392)),
     deco('cellar_barrel_2', 'cellar', 'bigbarel', (1840, 2504)),
-    deco('cellar_cask_1', 'cellar', '7dec21', (1600, 3712)),
-    deco('cellar_cask_2', 'cellar', '7dec21', (1600, 3808)),
+    deco('cellar_cask_1', 'cellar', '7dec21', (1600, 3700)),
+    deco('cellar_cask_2', 'cellar', '7dec21', (1600, 3820)),
     deco('cellar_sack_1', 'cellar', 'floursac', (1848, 3488)),
     deco('cellar_sack_2', 'cellar', 'floursac', (1752, 3512)),
     deco('cellar_sconce', 'cellar', 'scon100', (1920, 2944), wall='east'),
@@ -330,7 +330,7 @@ DECORATIONS = [
     deco('barracks_straw_1', 'barracks', '7dec01', (1664, 1280), notes="Straw bedding."),
     deco('barracks_straw_2', 'barracks', '7dec01', (2944, 1344)),
     deco('barracks_bones', 'barracks', 'dec29', (2880, 1856)),
-    deco('sap_dirt_1', 'sap', '7dec11', (2848, 5568)),
+    deco('sap_dirt_1', 'sap', 'rock03', (2836, 5568)),
     ]
 
 # ------------------------------------------------------------------------------------------------ D-89 identity

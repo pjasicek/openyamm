@@ -765,19 +765,19 @@ monsters:
   - id: monster:atrium_ne_guard_1
     room: room:atrium_ne
     monster: 11271
-    at: [640, 1792]
+    at: [384, 1792]
     facing: 270
     group: 1
   - id: monster:atrium_nw_tomb_1
     room: room:atrium_nw
     monster: 11270
-    at: [-640, 1792]
+    at: [-384, 1792]
     facing: 270
     group: 1
   - id: monster:atrium_se_tomb_1
     room: room:atrium_se
     monster: 11270
-    at: [768, 128]
+    at: [640, 128]
     facing: 270
     group: 1
   - id: monster:atrium_sw_guard_1

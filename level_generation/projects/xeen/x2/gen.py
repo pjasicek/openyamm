@@ -1125,10 +1125,14 @@ def build():
     # (65, 92) -> (69, 85) (between the (69, 81) marker and the (72, 88) pair, about 2,200 from each, not on top of
     # the pair as (69, 88) would be).
     camps('pop:dark_sprites', [(49, 99, 1, 0.25), (74, 97, 1, 0.25), (69, 85, 1, 0.25)])
-    camps('pop:rangers', [(44, 19, 2, 1.5), (50, 20, 1, 1), (92, 21, 2, 1.5), (85, 19, 1, 1), (58, 20, 2, 1.5), (70, 23, 1, 1),
-                          (76, 18, 1, 1), (101, 27, 2, 1.5)])
+    # Final cloud round (2026-11-24, check_reach reach.spawn): markers whose circles crossed the north bound (cell
+    # 18.9, +-23,106) put spawns where no party walks: (44, 19) r 1.5, (85, 19), (76, 18) -> (44, 21) r 1, (85, 21),
+    # (76, 21); the ogres' (27, 19) r 1.5 -> (28, 21) r 1. D-133 (2026-11-24): (70, 23) -> (71, 23), its spawn stood
+    # 1,997 from the north road's arrival (66, 21)
+    camps('pop:rangers', [(44, 21, 2, 1), (50, 20, 1, 1), (92, 21, 2, 1.5), (85, 21, 1, 1), (58, 20, 2, 1.5), (71, 23, 1, 1),
+                          (76, 21, 1, 1), (101, 27, 2, 1.5)])
     camps('pop:road_rangers', [(97, 44, 2, 1.5)])
-    camps('pop:ogres', [(32, 42, 2, 1.5), (25, 42, 1, 1), (29, 32, 2, 1.5), (24, 35, 1, 1), (27, 19, 2, 1.5), (35, 29, 1, 1)])
+    camps('pop:ogres', [(32, 42, 2, 1.5), (25, 42, 1, 1), (29, 32, 2, 1.5), (24, 35, 1, 1), (28, 21, 2, 1), (35, 29, 1, 1)])
     # F10 (A5 s29): the south-west rim corner (tile [20, 103]) lay 12,998 from every monster; the shore's pair moves
     # south from (22, 76) to (22, 88): 6,656 from the corner, 7,800 from Ligono (27, 103); counts unchanged
     camps('pop:west_shore', [(22, 88, 2, 1.5), (31, 78, 1, 1)])
@@ -1173,13 +1177,18 @@ def build():
     # land 832) that left a hollow 128 over the quay under the face and the terrace 74-144 over its top. Now the slab
     # is the step: `raise` takes its foot 64 into the quay and its top 48 over the terrace.
     step_mid = (PLATEAU + BANK) // 2
-    def retaining(tag, y, gaps, x1=77):
+    # P3 F49 (pins p2, p5; 2026-11-24): the quay houses' back walls stood 33-64 in front of the walls' faces (their
+    # walls are inset in their plots), a slot behind each (town_fit_check `houses.jammed`): each face comes 36 forward
+    # over the quay (`toward` +1 south for the north wall, -1 north for the south wall), its back on the terrace's edge
+    FILL = 36
+    def retaining(tag, y, gaps, x1=77, toward=1):
         xs = [53.5] + [v for g in gaps for v in g] + [x1]
+        y = y + toward * FILL / 2.0 / 512
         for k in range(0, len(xs), 2):
             if xs[k + 1] - xs[k] < 0.2:
                 continue
             S({'id': 'thing:%s_wall_%d' % (tag, k // 2 + 1), 'kind': 'wall', 'line': [[xs[k], y], [xs[k + 1], y]],
-               'raise': BANK - step_mid, 'height': PLATEAU + 48 - BANK, 'thickness': 512,
+               'raise': BANK - step_mid, 'height': PLATEAU + 48 - BANK, 'thickness': 512 + FILL,
                'textures': {'wall': 'cnb'}, 'title': 'Quay wall',
                'notes': 'The terrace\'s stone face over the quay.'})
     STAIRS_N = [58, 73]
@@ -1190,7 +1199,8 @@ def build():
     retaining('north', N_EDGE, [(STAIRS_N[0] - 0.45, STAIRS_N[0] + 0.45), BRIDGE_GAP,
                                 (STAIRS_N[1] - 0.45, STAIRS_N[1] + 0.45)])
     retaining('south', S_EDGE, [(STAIRS_S[0] - 0.45, STAIRS_S[0] + 0.45), BRIDGE_GAP,
-                                (DEN_X - 0.4, DEN_X + 0.4), (STAIRS_S[1] - 0.45, STAIRS_S[1] + 0.45)], x1=81)
+                                (DEN_X - 0.4, DEN_X + 0.4), (STAIRS_S[1] - 0.45, STAIRS_S[1] + 0.45)], x1=81,
+              toward=-1)
     for i, x in enumerate(STAIRS_N):
         S({'id': 'thing:quay_steps_n%d' % (i + 1), 'kind': 'stairs', 'line': [[x, 51.0], [x, N_EDGE - 0.15]],
            'width': 384, 'rise': PLATEAU - BANK, 'textures': {'wall': 'cnb'}, 'notes': 'Down to the north quay.'})
@@ -1287,29 +1297,36 @@ def build():
     # the tavern's patrons (aaze0030:16-23), on the casks outside Bull's Tavern
     for i, (d, at, line) in enumerate([
             # 2026-11-20 (DRESSING.md): two pairs against the tavern's front either side of its door (65.5), not
-            # out on the square
-            ('bigbarel', (64.85, 42.45), "A tavern patron, nose in his mug: \"Get lost. Can't you see I'm drinkin'?\""),
-            ('7dec21', (66.15, 42.45), 'A tavern patron: "If Barok ever got his pendant back, this place might charge me '
+            # out on the square. P3 F40 (2026-11-24): at 42.6, clear of its front (42.44; at 42.45 the casks stood
+            # through it, town_fit_check `props.in_wall`)
+            ('bigbarel', (64.85, 42.6), "A tavern patron, nose in his mug: \"Get lost. Can't you see I'm drinkin'?\""),
+            ('7dec21', (66.15, 42.6), 'A tavern patron: "If Barok ever got his pendant back, this place might charge me '
                                      'for drinks."'),
-            ('bigbarel', (64.55, 42.45), 'A tavern patron: "The tavern hired the sorceresses to run Barok out of town."'),
-            ('7dec32', (66.45, 42.45), 'A tavern patron: "Now THIS is a wild town."')]):
+            ('bigbarel', (64.55, 42.6), 'A tavern patron: "The tavern hired the sorceresses to run Barok out of town."'),
+            ('7dec32', (66.45, 42.6), 'A tavern patron: "Now THIS is a wild town."')]):
         S(deco('thing:patron_%d' % (i + 1), d, at, title='Tavern patron', effects=[{'text': line}]))
     # stalls and props
     for sid, at, kit, roof in (('thing:stall_1', (66.45, 44.75), 'timber', 'hhm1rf'),
                                ('thing:stall_4', (66.45, 45.75), 'poor', 'hhp2rf'),
                                ('thing:stall_5', (66.45, 46.75), 'grey', 'hhm3rf')):
         S(K.stall(sid, at, -90, kit=kit, roof_tex=roof))
-        structures[-1]['floor'] = PLATEAU + 16
+        # Final cloud round (X2 p6, the "cut path strip"): the floor was PLATEAU + 16 (the court's top), which the
+        # studio's land, in steps of 32, rounded up to PLATEAU + 32 under each stall: the ground rose through the
+        # court round the stalls, leaving a strip of paving at its east edge (town_fit_check `platforms.through`).
+        # On the plateau the stalls' floor lies 16 under the court's top, which covers it.
+        structures[-1]['floor'] = PLATEAU
     S(K.stall('thing:stall_2', (65.6, 58.9), 0, kit='poor', roof_tex='hhp2rf'))
     S(K.stall('thing:stall_3', (61.4, 58.9), 90, roof_tex='hhm3rf'))
     S(K.well('thing:well_north', (62.4, 39.6)))
     S(K.well('thing:well_south', (61.8, 64.0), roofed=True))
-    for i, (d, at) in enumerate([('bigbarel', (76.6, 56.4)), ('7dec21', (77.0, 56.75)), ('7dec32', (80.6, 55.9)),
+    # P3 (2026-11-24): prop 3 off Nystor's pier, whose foot now reaches the node line (80.6 stood in its side)
+    for i, (d, at) in enumerate([('bigbarel', (76.6, 56.4)), ('7dec21', (77.0, 56.75)), ('7dec32', (81.0, 55.9)),
                                  ('7dec21', (55.0, 50.3)), ('bigbarel', (54.5, 50)), ('haybale2', (67.0, 38.2)),
                                  ('haybale2', (67.1, 38.9)), ('7dec21', (60.6, 50)), ('7dec32', (70.0, 50.2)),
                                  ('7dec21', (72.2, 56.4)), ('bigbarel', (58.15, 56.4)), ('7dec12', (53.2, 40)),
                                  ('7dec21', (63.4, 61.75)), ('7dec32', (60.68, 60.0)),
-                                 ('bigbarel', (67.35, 47.45)), ('7dec21', (67.3, 44.3)), ('7dec21', (60.5, 44.45))]):
+                                 # P3 F49 (p6): the pair off stall 5's corner (it stood 23 from its side)
+                                 ('bigbarel', (67.7, 47.75)), ('7dec21', (67.3, 44.3)), ('7dec21', (60.5, 44.45))]):
         if IN_WORLD and i + 1 in DROPPED_PROPS:
             continue
         S(deco('thing:prop_%d' % (i + 1), d, at, **({'raise': 16} if K.inside(at, BRIDGE_SQ) else {})))
@@ -1330,8 +1347,11 @@ def build():
         S(deco('thing:lair_dress_%d' % (i + 1), d, at))
     # the ogres' boulders in the river below the lair (Q-C23: they block the boats)
     for i, at in enumerate([(28.0, 31.2), (28.6, 30.4), (27.6, 29.6), (28.9, 31.9)]):
-        S(deco('thing:river_boulder_%d' % (i + 1), 'rock26' if i % 2 else 'rock12', at,
-               title='Boulders', effects=[{'text': "Boulders thrown into the river by the ogres: no boat gets past."}]))
+        # P3 F51 (2026-11-24): the third, out in mid-stream past the party's reach, is a plain boulder (no click:
+        # tools/xeen/check_reach.py); the other three carry the text
+        words = {} if i == 2 else {'title': 'Boulders', 'effects': [
+            {'text': "Boulders thrown into the river by the ogres: no boat gets past."}]}
+        S(deco('thing:river_boulder_%d' % (i + 1), 'rock26' if i % 2 else 'rock12', at, **words))
     # Darzog's Tower: a tall dark round tower in three set-back storeys on the island; its door looks east
     S({'id': 'thing:darzog_tower', 'kind': 'building', 'at': [TOWER_C[0] - 2.5, TOWER_C[1] - 2.5], 'size': [5, 5],
        'kit': 'castle', 'floor': ISLE_H, 'title': "Darzog's Tower", 'facing': 'e',
@@ -1535,6 +1555,8 @@ def build():
                                                          'Boat 2g01 Mastprt2_SBoat 2g01 M',
                                                          'Boat 2h01 FrntMast_SBoat 2h01 F']},
                'at': list(SHIP_AT), 'turn': 90, 'raise': 560,   # Erathia's keel at its sea (0); the river is 576
+               # MM7's hull boards and trim lie back to back, two trims on each other: one face kept of each (P3)
+               'drop_overlaps': True,
                'title': "Captain Nystor's ship", 'house': HOUSE_XEEN[486][0]})
     # ---------------------------------------------------------------- actors
     actors = []
@@ -1549,10 +1571,15 @@ def build():
                        'hostile': True})
         actors.append({'monster': W_('203'), 'at': [x + 1.2, y + 1.0], 'count': 2, 'spread': 0.8, 'group': 60 + i,
                        'hostile': True})
-    actors.append({'monster': W_('594'), 'at': [23.2, 31.4], 'count': 1, 'spread': 0, 'group': 62, 'hostile': True})
-    actors.append({'monster': W_('593'), 'at': [23.6, 32.2], 'count': 2, 'spread': 0.8, 'group': 62, 'hostile': True})
-    actors.append({'monster': W_('98'), 'at': [61.0, 96.4], 'count': 3, 'spread': 1.0, 'group': 63, 'hostile': True})
-    actors.append({'monster': W_('98'), 'at': [66.6, 100.6], 'count': 2, 'spread': 0.8, 'group': 63, 'hostile': True})
+    # D-15/D-133 (2026-11-24, check_d85 first fight): the lair's ogres and the temple's Killer Sprites stood 475-1,780
+    # from the XD-27 and XD-06 arrivals and their move-ins; each group now stands at the nearest spot 2,000 plus its
+    # spread from both, with the land (or the temple) between: the ogres on the rise south of the lair's camp, on its
+    # approach; three sprites behind the temple's north-west corner (and 5,888 plus spread from NPC 4154, D-85), two
+    # round its south-east corner
+    actors.append({'monster': W_('594'), 'at': [21.45, 34.4], 'count': 1, 'spread': 0, 'group': 62, 'hostile': True})
+    actors.append({'monster': W_('593'), 'at': [23.1, 35.45], 'count': 2, 'spread': 0.8, 'group': 62, 'hostile': True})
+    actors.append({'monster': W_('98'), 'at': [57.5, 95.65], 'count': 3, 'spread': 1.0, 'group': 63, 'hostile': True})
+    actors.append({'monster': W_('98'), 'at': [66.6, 101.6], 'count': 2, 'spread': 0.8, 'group': 63, 'hostile': True})
     # D-54: the lake dragons further out on the lake, each held to its home by a leash; every leash circle's nearest
     # point is at least 5,888 (Ice Blast's 5,120 + 768) from X9's and X8's fall landings and Darzog's door
     for i, (at, leash) in enumerate(LAKE_DRAGONS):

@@ -505,7 +505,7 @@ initial_state:
       state: 2
       vertex_ids: [1184, 1185, 1186, 1187, 1188, 1189, 1190, 1191]
       face_ids: [962, 963, 964, 965, 966]
-      sector_ids: [1]
+      sector_ids: [1, 9]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
       x_offsets: [-112, 112, 112, -112, -112, 112, 112, -112]
@@ -530,7 +530,7 @@ initial_state:
       state: 2
       vertex_ids: [1192, 1193, 1194, 1195, 1196, 1197, 1198, 1199]
       face_ids: [967, 968, 969, 970, 971]
-      sector_ids: [5]
+      sector_ids: [5, 3]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
       x_offsets: [2264, 2264, 2264, 2264, 2280, 2280, 2280, 2280]
@@ -555,7 +555,7 @@ initial_state:
       state: 2
       vertex_ids: [1200, 1201, 1202, 1203, 1204, 1205, 1206, 1207]
       face_ids: [972, 973, 974, 975, 976]
-      sector_ids: [6]
+      sector_ids: [6, 8]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
       x_offsets: [3896, 3896, 3896, 3896, 3912, 3912, 3912, 3912]

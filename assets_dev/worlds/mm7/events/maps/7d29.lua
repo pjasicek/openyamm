@@ -163,7 +163,7 @@ end)
 
 RegisterEvent(2, nil, function()
     if IsQBitSet(QBit(647)) then return end -- Player castle goblins are all dead
-    if evt.CheckMonstersKilled(ActorKillCheck.Group, 56, 0, false) then -- actor group 56: spawn Bat A, spawn Goblin A, spawn Rat A; all matching actors defeated
+    if evt.CheckMonstersKilled(ActorKillCheck.Group, 56, 0, true) then -- actor group 56: spawn Bat A, spawn Goblin A, spawn Rat A; all matching actors defeated
         evt.ForPlayer(Players.All)
         SetQBit(QBit(647)) -- Player castle goblins are all dead
     end
@@ -488,7 +488,7 @@ end)
 RegisterEvent(378, nil, function()
     if not IsQBitSet(QBit(695)) then return end -- Failed either goto or do guild quest
     if IsQBitSet(QBit(696)) then return end -- Killed all castle monsters
-    if not evt.CheckMonstersKilled(ActorKillCheck.Group, 60, 0, false) then return end -- actor group 60: Adventurer, Goblin, Goblin Lord, Guard, +1 more; all matching actors defeated
+    if not evt.CheckMonstersKilled(ActorKillCheck.Group, 60, 0, true) then return end -- actor group 60: Adventurer, Goblin, Goblin Lord, Guard, +1 more; all matching actors defeated
     evt.ForPlayer(Players.All)
     SetQBit(QBit(696)) -- Killed all castle monsters
     if IsQBitSet(QBit(697)) then -- Killed all outdoor monsters

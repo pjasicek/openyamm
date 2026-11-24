@@ -11,6 +11,10 @@
 #   lod_pixels: projected sizes below which LOD 1..3 take over (default 500, 200, 80)
 #   z_offset: world units added to the placement height; still: see indoor_decorations.yml
 #   maps: optional list limiting the binding to those maps
+#   collision: model: the decoration is solid by the model's own triangles (its base mesh): a map built by Map Studio
+#     raises a hidden copy of them under each of the sketch's structure decorations that uses it
+#     (openyamm-studio/core/OutdoorDecorationCollision.h); otherwise a decoration keeps its native cylinder
+#     (decoration_data.txt radius and height; none at radius 0), which a long or hollow model does not fill
 # Projects: level_generation/decorations/ (mm6_new_sorpigal_3d, mm7_3d, mm8_3d).
 decorations:
   # --- MM6 decorations ---

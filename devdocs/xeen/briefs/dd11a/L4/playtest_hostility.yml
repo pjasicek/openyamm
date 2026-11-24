@@ -47,6 +47,8 @@ steps:
   - assert: {actor_count: {monster_id: 11690, hostile: true, min: 14}}
   - note: 'A Troll and a Troll Guard side by side in the root tunnel, nearer each other than the party: they must not
       take each other on, and they go for the party.'
+  - walk_to: {x: 96, y: -32, z: 0, radius: 48, timeout_seconds: 15, close_dialogs: true}
+    # the old landing in sight of the root tunnel (the start moved out of the trolls' sight, F45)
   - console: {line: arena trace on}
   - spawn_actor: {monster_id: 11690, x: 700, y: 60, z: 0}
   - spawn_actor: {monster_id: 11691, x: 800, y: -60, z: 0}

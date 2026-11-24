@@ -1,0 +1,33 @@
+format: 1
+counter: 2
+pins:
+  - id: pin:p1
+    text: clipping
+    source: game
+    world: xeen
+    map: xeen_xd27.blv
+    pose:
+      position: [1361.6, 3421.678, 0]
+      yaw_radians: 1.016
+      pitch_degrees: -32.476
+      heading_yaw_units: 331
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-23T19:11:18
+    status: open
+    from: 20261123-191118-xeen_xd27.yml
+  - id: pin:p2
+    text: "after i destroed the layer, you can look through here"
+    source: game
+    world: xeen
+    map: xeen_xd27.blv
+    pose:
+      position: [-2421.804, 3450.433, 32]
+      yaw_radians: 5.555
+      pitch_degrees: 1.403
+      heading_yaw_units: 1811
+    picture: .oymap/pins/pictures/p2.png
+    author: user
+    created: 2026-11-23T19:38:38
+    status: open
+    from: 20261123-193838-xeen_xd27.yml

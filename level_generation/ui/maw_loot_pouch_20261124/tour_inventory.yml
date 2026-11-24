@@ -1,0 +1,23 @@
+output_dir: captures
+exit: true
+steps:
+- wait: 3
+- console: actor kill 200000
+- wait: 2.0
+- action: gather_loot
+- wait: 1.5
+- capture: 00-loot-summary
+- action: gather_loot
+- wait: 0.8
+- action: quest
+- wait: 0.8
+- pointer_move: [640, 330]
+- capture: 01-bags
+- click: [751, 22]
+- wait: 0.5
+- pointer_move: [640, 330]
+- wait: 0.3
+- capture: 02-loot-tab
+- pointer_move: [751, 22]
+- wait: 0.5
+- capture: 03-loot-tab-hover

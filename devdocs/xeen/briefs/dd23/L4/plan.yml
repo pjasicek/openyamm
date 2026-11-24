@@ -1,7 +1,7 @@
 format: 0
 level: L3
 pitch: "A cave in Magic Mountain's eastern crags, its mouth white with droppings. It climbs from the guano slope through the perch hall, where the young gargoyles sit on ledges, to the roost under a crack of sky: a ring of roosting rocks worn smooth, snow on the droppings, the Overlord on the highest rock. Behind it, the gargoyles' nest of shiny things holds Caleb's magnifying glass."
-purpose: "Q-D15 Caleb's Magnifying Glass (Caleb, D3): destroy the roost (q-d15.roost, the source's question) and take the glass from the nest (q-d15.glass). Party 35 to 39, D4's gargoyles 30/38/45 (15 placed, D-39), treasure level 4."
+purpose: "Q-D15 Caleb's Magnifying Glass (Caleb, D3): destroy the roost (q-d15.roost, a click; the source asked) and take the glass from the nest (q-d15.glass). Party 35 to 39, D4's gargoyles 30/38/45 (15 placed, D-39), treasure level 4."
 mood: "Wind at the mouth and down the crack, claws on rock, droppings and bones; the Darkside's grey day falling through the crack onto snow."
 datum: arrival
 spaces:
@@ -63,7 +63,7 @@ spaces:
     kind: room
     size: L
     floor: 640
-    purpose: "A tall cave under a crack of sky, snow on the droppings below it, a ring of roosting rocks worn smooth (the map's question breaks them); the Overlord on the highest."
+    purpose: "A tall cave under a crack of sky, snow on the droppings below it, a ring of roosting rocks worn smooth (a click breaks them); the Overlord on the highest."
     population:
       - {slot: 1, groups: 1, per_marker: [1, 1], levels: [45, 45], notes: 1 Gargoyle Overlord 45 (placed).}
       - {slot: 1, groups: 1, per_marker: [1, 1], levels: [38, 38], notes: 1 Gargoyle Sentinel 38 (placed).}
@@ -156,7 +156,7 @@ set_pieces:
   - id: set:roost
     kind: scripted
     spaces: [room:roost]
-    rule: "The roosting rocks stand in a ring under the crack of sky; the map's question breaks all five (destructibles, kept broken by the map); their worn feet stay as dust."
+    rule: "The roosting rocks stand in a ring under the crack of sky; a click on any of them breaks all five (destructibles, kept broken by the map); their worn feet stay as dust."
 diagram: {file: diagram.txt}
 sketch: {file: rooms.yml, grid: 512}
 totals:

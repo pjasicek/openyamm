@@ -1,0 +1,13 @@
+output_dir: captures
+exit: true
+steps:
+- wait: 3
+- action: quest
+- wait: 0.8
+- pointer_move: [640, 330]
+- capture: std01-bags
+- click: [800, 22]
+- wait: 0.5
+- pointer_move: [640, 330]
+- wait: 0.3
+- capture: std02-loot-tab

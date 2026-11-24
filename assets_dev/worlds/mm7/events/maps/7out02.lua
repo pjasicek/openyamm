@@ -520,7 +520,7 @@ end)
 RegisterEvent(51, nil, function()
     if not IsQBitSet(QBit(695)) then return end -- Failed either goto or do guild quest
     if IsQBitSet(QBit(697)) then return end -- Killed all outdoor monsters
-    if not evt.CheckMonstersKilled(ActorKillCheck.Group, 60, 0, false) then return end -- actor group 60: Adventurer, Goblin, Goblin Lord, Guard, +1 more; all matching actors defeated
+    if not evt.CheckMonstersKilled(ActorKillCheck.Group, 60, 0, true) then return end -- actor group 60: Adventurer, Goblin, Goblin Lord, Guard, +1 more; all matching actors defeated
     evt.ForPlayer(Players.All)
     SetQBit(QBit(697)) -- Killed all outdoor monsters
     if IsQBitSet(QBit(696)) then -- Killed all castle monsters

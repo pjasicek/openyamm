@@ -65,51 +65,24 @@ RegisterEvent(8, nil, function()
 end, nil)
 
 -- evt:nest_1
-RegisterEvent(9, "Harpy Nest", function(continueStep)
-    if continueStep == 2 then
-        evt.SetFacetBit(1, FaceAttribute.Invisible, 1)
-        evt.SetFacetBit(1, FaceAttribute.Untouchable, 1)
-        XeenQuests.hook("x8-sky.nest_1")
-        return
-    end
-    if continueStep ~= nil then
-        evt.StatusText("You leave the nest as it is.")
-        return
-    end
-    evt.SetMessage("Harpy Nest. Destroy?")
-    evt.AskQuestion(9, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+RegisterEvent(9, "Harpy Nest", function()
+    evt.SetFacetBit(1, FaceAttribute.Invisible, 1)
+    evt.SetFacetBit(1, FaceAttribute.Untouchable, 1)
+    XeenQuests.hook("x8-sky.nest_1")
 end, "Harpy Nest")
 
 -- evt:nest_2
-RegisterEvent(10, "Harpy Nest", function(continueStep)
-    if continueStep == 2 then
-        evt.SetFacetBit(2, FaceAttribute.Invisible, 1)
-        evt.SetFacetBit(2, FaceAttribute.Untouchable, 1)
-        XeenQuests.hook("x8-sky.nest_2")
-        return
-    end
-    if continueStep ~= nil then
-        evt.StatusText("You leave the nest as it is.")
-        return
-    end
-    evt.SetMessage("Harpy Nest. Destroy?")
-    evt.AskQuestion(10, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+RegisterEvent(10, "Harpy Nest", function()
+    evt.SetFacetBit(2, FaceAttribute.Invisible, 1)
+    evt.SetFacetBit(2, FaceAttribute.Untouchable, 1)
+    XeenQuests.hook("x8-sky.nest_2")
 end, "Harpy Nest")
 
 -- evt:nest_3
-RegisterEvent(11, "Harpy Nest", function(continueStep)
-    if continueStep == 2 then
-        evt.SetFacetBit(3, FaceAttribute.Invisible, 1)
-        evt.SetFacetBit(3, FaceAttribute.Untouchable, 1)
-        XeenQuests.hook("x8-sky.nest_3")
-        return
-    end
-    if continueStep ~= nil then
-        evt.StatusText("You leave the nest as it is.")
-        return
-    end
-    evt.SetMessage("Harpy Nest. Destroy?")
-    evt.AskQuestion(11, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+RegisterEvent(11, "Harpy Nest", function()
+    evt.SetFacetBit(3, FaceAttribute.Invisible, 1)
+    evt.SetFacetBit(3, FaceAttribute.Untouchable, 1)
+    XeenQuests.hook("x8-sky.nest_3")
 end, "Harpy Nest")
 
 -- evt:offering_1

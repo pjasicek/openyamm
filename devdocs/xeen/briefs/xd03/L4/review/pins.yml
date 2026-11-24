@@ -1,0 +1,33 @@
+format: 1
+counter: 2
+pins:
+  - id: pin:p1
+    text: i guess this is intended
+    source: game
+    world: xeen
+    map: xeen_xd03.blv
+    pose:
+      position: [3144.302, 3423.614, -512]
+      yaw_radians: 1.492
+      pitch_degrees: -2.387
+      heading_yaw_units: 486
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-23T15:21:36
+    status: open
+    from: 20261123-152136-xeen_xd03.yml
+  - id: pin:p2
+    text: monster gets stuck between crystal an stalagmite
+    source: game
+    world: xeen
+    map: xeen_xd03.blv
+    pose:
+      position: [1532.073, 1626.947, -604.55]
+      yaw_radians: 3.045
+      pitch_degrees: -16.232
+      heading_yaw_units: 992
+    picture: .oymap/pins/pictures/p2.png
+    author: user
+    created: 2026-11-23T15:23:17
+    status: open
+    from: 20261123-152317-xeen_xd03.yml

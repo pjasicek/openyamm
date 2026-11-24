@@ -114,21 +114,14 @@ RegisterEvent(12, nil, function()
 end, nil)
 
 -- evt:demon_skull
-RegisterEvent(13, "Demon skull", function(continueStep)
-    if continueStep == 2 then
-        XeenQuests.hook("q-c26.demon_skull")
-        evt.DestroyDestructible(1)
-        evt.PlaySoundName("xeen_fire_ignite", 5696, 4480, 140)
-        return
-    end
-    if continueStep ~= nil then
-        return
-    end
+RegisterEvent(13, "Demon skull", function()
     if not (not (IsQBitSet(QBit(112520)))) then
         XeenQuests.hook("q-c26.demon_skull")
         return
     end
-    evt.AskQuestion(13, 1, 0, 2, "The skull of a demon grins wickedly at you, and you have a sudden desire to smash it.  Destroy?", {"yes", "y"})
+    XeenQuests.hook("q-c26.demon_skull")
+    evt.DestroyDestructible(1)
+    evt.PlaySoundName("xeen_fire_ignite", 5696, 4480, 140)
 end, "Demon skull")
 
 -- evt:demon_skull_load
@@ -140,21 +133,14 @@ RegisterEvent(14, nil, function()
 end, nil)
 
 -- evt:devil_skull
-RegisterEvent(15, "Devil skull", function(continueStep)
-    if continueStep == 2 then
-        XeenQuests.hook("q-c26.devil_skull")
-        evt.DestroyDestructible(2)
-        evt.PlaySoundName("xeen_fire_ignite", 4736, 0, 140)
-        return
-    end
-    if continueStep ~= nil then
-        return
-    end
+RegisterEvent(15, "Devil skull", function()
     if not (not (IsQBitSet(QBit(112521)))) then
         XeenQuests.hook("q-c26.devil_skull")
         return
     end
-    evt.AskQuestion(15, 1, 0, 2, "The skull of a devil stares at you as though daring you to damage it.  Destroy?", {"yes", "y"})
+    XeenQuests.hook("q-c26.devil_skull")
+    evt.DestroyDestructible(2)
+    evt.PlaySoundName("xeen_fire_ignite", 4736, 0, 140)
 end, "Devil skull")
 
 -- evt:devil_skull_load

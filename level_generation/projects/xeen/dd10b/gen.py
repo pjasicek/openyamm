@@ -266,8 +266,8 @@ DECORATIONS = [
     deco('ramp_skull', 'ramp', '7dec20', (800, 1200)),
     deco('flood_torch', 'flooded', 'torch02', (2944, -224), wall=0),
     deco('flood_bones', 'flooded', 'dec29', (3600, -100), notes="What the roaches left."),
-    deco('god_crystal_n', 'god', 'crclstr', (5000, 600), notes="Crystal grows round the God."),
-    deco('god_crystal_s', 'god', 'crclstr', (5000, 100)),
+    deco('god_crystal_n', 'god', 'crclstr', (4950, 634), notes="Crystal grows round the God."),
+    deco('god_crystal_s', 'god', 'crclstr', (5028, 72)),
     deco('god_crystal_c', 'god', 'crys6', (4180, 820)),
 ]
 

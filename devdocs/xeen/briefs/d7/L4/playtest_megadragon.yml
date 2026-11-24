@@ -43,8 +43,8 @@ steps:
     actor_count:
       monster_id: 11654
       near:
-      - -19456
-      - 9216
+      - -19584
+      - 10496
       - 256
       min: 1
       max: 1
@@ -54,7 +54,7 @@ steps:
     x: -21926
     y: 7762
     z: 1506.4888595145417
-    yaw_degrees: 30
+    yaw_degrees: 49
     pitch: 0
 - advance_runtime:
     seconds: 10.0
@@ -62,8 +62,8 @@ steps:
     actor_count:
       monster_id: 11654
       near:
-      - -19456
-      - 9216
+      - -19584
+      - 10496
       - 1280
       min: 1
       max: 1
@@ -73,8 +73,8 @@ steps:
     actor_count:
       monster_id: 11654
       near:
-      - -19456
-      - 9216
+      - -19584
+      - 10496
       - 1280
       min: 1
       max: 1

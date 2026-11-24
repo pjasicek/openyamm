@@ -781,7 +781,7 @@ decorations:
   - id: deco:hall_sacks_4
     room: room:grain_hall
     decoration: floursac
-    at: [433, 1831]
+    at: [424, 1819]
   - id: deco:honeymoon_bones
     room: room:mated_pair_pen
     decoration: dec29
@@ -911,10 +911,6 @@ decorations:
     wall: north
     along: 0.35
     height: 256
-  - id: deco:outfall_junk
-    room: room:culvert_outfall
-    decoration: 7dec10
-    at: [4316, 4132]
   - id: deco:outfall_trash
     room: room:culvert_outfall
     decoration: trasheap
@@ -938,7 +934,7 @@ decorations:
   - id: deco:pen_3_bowl
     room: room:pen_3
     decoration: foodbowl
-    at: [1283, 5161]
+    at: [1276, 5174]
   - id: deco:pen_3_muck
     room: room:pen_3
     decoration: 7dec11
@@ -1005,11 +1001,6 @@ decorations:
     room: room:culvert_shaft
     decoration: dec29
     at: [3846, 5462]
-  - id: deco:shaft_nest
-    room: room:culvert_shaft
-    decoration: 7dec11
-    at: [3852, 5542]
-    notes: The rats' nest on the dry ledge.
   - id: deco:shaft_trash
     room: room:culvert_shaft
     decoration: trasheap

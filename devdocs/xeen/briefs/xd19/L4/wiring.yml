@@ -211,14 +211,13 @@ events:
   - id: evt:gen_air
     preset: script
     source: platform:gen_air
-    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Air Generator.  Destroy?"}
     title: Air Generator
     condition: {not: {destroyed: destructible:gen_air}}
     effects:
       - destroy: destructible:gen_air
     else_effects:
       - lua: "XeenQuests.hook(\"m35.gen_air\")"
-    notes: "The Air Generator (aaze0075:2 (Electricity)): a real choice. Yes breaks the core (its on_destroyed, evt:gen_air_down, does the rest); blows and spells break it too. Broken: A3's else line."
+    notes: "The Air Generator (aaze0075:2 (Electricity)): a click breaks the core (F47 2026-11-24: no Yes/No; its on_destroyed, evt:gen_air_down, does the rest); blows and spells break it too. Broken: A3's else line."
   - id: evt:gen_air_down
     preset: script
     trigger: call
@@ -244,14 +243,13 @@ events:
   - id: evt:gen_earth
     preset: script
     source: platform:gen_earth
-    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Earth Generator.  Destroy?"}
     title: Earth Generator
     condition: {not: {destroyed: destructible:gen_earth}}
     effects:
       - destroy: destructible:gen_earth
     else_effects:
       - lua: "XeenQuests.hook(\"m35.gen_earth\")"
-    notes: "The Earth Generator (aaze0075:4 (Poison)): a real choice. Yes breaks the core (its on_destroyed, evt:gen_earth_down, does the rest); blows and spells break it too. Broken: A3's else line."
+    notes: "The Earth Generator (aaze0075:4 (Poison)): a click breaks the core (F47 2026-11-24: no Yes/No; its on_destroyed, evt:gen_earth_down, does the rest); blows and spells break it too. Broken: A3's else line."
   - id: evt:gen_earth_down
     preset: script
     trigger: call
@@ -277,14 +275,13 @@ events:
   - id: evt:gen_fire
     preset: script
     source: platform:gen_fire
-    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Fire Generator.  Destroy?"}
     title: Fire Generator
     condition: {not: {destroyed: destructible:gen_fire}}
     effects:
       - destroy: destructible:gen_fire
     else_effects:
       - lua: "XeenQuests.hook(\"m35.gen_fire\")"
-    notes: "The Fire Generator (aaze0075:1): a real choice. Yes breaks the core (its on_destroyed, evt:gen_fire_down, does the rest); blows and spells break it too. Broken: A3's else line."
+    notes: "The Fire Generator (aaze0075:1): a click breaks the core (F47 2026-11-24: no Yes/No; its on_destroyed, evt:gen_fire_down, does the rest); blows and spells break it too. Broken: A3's else line."
   - id: evt:gen_fire_down
     preset: script
     trigger: call
@@ -310,14 +307,13 @@ events:
   - id: evt:gen_water
     preset: script
     source: platform:gen_water
-    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Water Generator.  Destroy?"}
     title: Water Generator
     condition: {not: {destroyed: destructible:gen_water}}
     effects:
       - destroy: destructible:gen_water
     else_effects:
       - lua: "XeenQuests.hook(\"m35.gen_water\")"
-    notes: "The Water Generator (aaze0075:3 (Cold)): a real choice. Yes breaks the core (its on_destroyed, evt:gen_water_down, does the rest); blows and spells break it too. Broken: A3's else line."
+    notes: "The Water Generator (aaze0075:3 (Cold)): a click breaks the core (F47 2026-11-24: no Yes/No; its on_destroyed, evt:gen_water_down, does the rest); blows and spells break it too. Broken: A3's else line."
   - id: evt:gen_water_down
     preset: script
     trigger: call
@@ -379,14 +375,13 @@ events:
   - id: evt:machine_e
     preset: script
     source: platform:machine_e
-    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Guard Making Machine.  Destroy?"}
     title: Guard Making Machine
     condition: {not: {destroyed: destructible:machine_e}}
     effects:
       - destroy: destructible:machine_e
     else_effects:
       - text: A broken press. Nothing comes out of it any more.
-    notes: "aaze0075:0: a real choice; Yes breaks it (blows and spells too); no experience (D-47 Q15)."
+    notes: "aaze0075:0: a click breaks it (F47 2026-11-24: no Yes/No; blows and spells too); no experience (D-47 Q15)."
   - id: evt:machine_e_down
     preset: script
     trigger: call
@@ -405,14 +400,13 @@ events:
   - id: evt:machine_w
     preset: script
     source: platform:machine_w
-    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Guard Making Machine.  Destroy?"}
     title: Guard Making Machine
     condition: {not: {destroyed: destructible:machine_w}}
     effects:
       - destroy: destructible:machine_w
     else_effects:
       - text: A broken press. Nothing comes out of it any more.
-    notes: "aaze0075:0: a real choice; Yes breaks it (blows and spells too); no experience (D-47 Q15)."
+    notes: "aaze0075:0: a click breaks it (F47 2026-11-24: no Yes/No; blows and spells too); no experience (D-47 Q15)."
   - id: evt:machine_w_down
     preset: script
     trigger: call

@@ -23,7 +23,7 @@ steps:
           - {name: Sefa, class: Sorcerer, level: 23, skills: [], equipment: {}}
   - assert: {map: xeen_dd11a.blv}
   - setup_shortcut: {kind: immortal, value: true}
-  - assert: {party_position: {x: 96, y: -32, radius: 64, z_min: -8, z_max: 32}}
+  - assert: {party_position: {x: 80, y: -208, radius: 64, z_min: -8, z_max: 32}}
   - play_lua: {source: "wait(3); local s = status(); log('arrive: ' .. s); if not string.find(s, 'too sheer to climb', 1, true) then error('no landing line: ' .. s) end; close()"}
   - assert: {actor_count: {monster_id: 11690, hostile: true, min: 14}}
   - assert: {actor_count: {monster_id: 11691, hostile: true, min: 6}}

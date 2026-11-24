@@ -722,20 +722,12 @@ RegisterEvent(68, "Lever", function()
 end, "Lever")
 
 -- evt:machine
-RegisterEvent(69, "Lord Xeen Machine", function(continueStep)
-    if continueStep == 2 then
-        evt.DestroyDestructible(1)
-        return
-    end
-    if continueStep ~= nil then
-        return
-    end
+RegisterEvent(69, "Lord Xeen Machine", function()
     if not (not (evt.IsDestructibleDestroyed(1))) then
         XeenQuests.hook("q-f2.machine")
         return
     end
-    evt.SetMessage("Lord Xeen Machine. Destroy?")
-    evt.AskQuestion(69, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y"})
+    evt.DestroyDestructible(1)
 end, "Lord Xeen Machine")
 
 -- evt:machine_down
@@ -808,20 +800,12 @@ RegisterEvent(77, nil, function()
 end, nil)
 
 -- evt:shrine_great
-RegisterEvent(78, "Shrine of Great Evil", function(continueStep)
-    if continueStep == 2 then
-        evt.DestroyDestructible(2)
-        return
-    end
-    if continueStep ~= nil then
-        return
-    end
+RegisterEvent(78, "Shrine of Great Evil", function()
     if not (not (evt.IsDestructibleDestroyed(2))) then
         evt.StatusText("The shrine lies broken.")
         return
     end
-    evt.SetMessage("Shrine of Great Evil.  Destroy?")
-    evt.AskQuestion(78, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y"})
+    evt.DestroyDestructible(2)
 end, "Shrine of Great Evil")
 
 -- evt:shrine_great_down
@@ -831,20 +815,12 @@ RegisterEvent(79, nil, function()
 end, nil)
 
 -- evt:shrine_lesser
-RegisterEvent(80, "Shrine of Lesser Evil", function(continueStep)
-    if continueStep == 2 then
-        evt.DestroyDestructible(3)
-        return
-    end
-    if continueStep ~= nil then
-        return
-    end
+RegisterEvent(80, "Shrine of Lesser Evil", function()
     if not (not (evt.IsDestructibleDestroyed(3))) then
         evt.StatusText("The shrine lies broken.")
         return
     end
-    evt.SetMessage("Shrine of Lesser Evil.  Destroy?")
-    evt.AskQuestion(80, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y"})
+    evt.DestroyDestructible(3)
 end, "Shrine of Lesser Evil")
 
 -- evt:shrine_lesser_down
@@ -854,20 +830,12 @@ RegisterEvent(81, nil, function()
 end, nil)
 
 -- evt:shrine_minor
-RegisterEvent(82, "Shrine of Minor Evil", function(continueStep)
-    if continueStep == 2 then
-        evt.DestroyDestructible(4)
-        return
-    end
-    if continueStep ~= nil then
-        return
-    end
+RegisterEvent(82, "Shrine of Minor Evil", function()
     if not (not (evt.IsDestructibleDestroyed(4))) then
         evt.StatusText("The shrine lies broken.")
         return
     end
-    evt.SetMessage("Shrine of Minor Evil.  Destroy?")
-    evt.AskQuestion(82, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y"})
+    evt.DestroyDestructible(4)
 end, "Shrine of Minor Evil")
 
 -- evt:shrine_minor_down

@@ -581,22 +581,22 @@ monsters:
   - id: monster:paw_hall_1
     room: room:paw_hall
     monster: 11590
-    at: [-256, 1440]
-    facing: 270
+    at: [-960, 1440]
+    facing: 0
     hostile: true
     group: 10
   - id: monster:paw_hall_2
     room: room:paw_hall
     monster: 11590
-    at: [256, 1440]
-    facing: 270
+    at: [960, 1440]
+    facing: 180
     hostile: true
     group: 10
   - id: monster:paw_hall_3
     room: room:paw_hall
     monster: 11590
-    at: [0, 1824]
-    facing: 270
+    at: [-960, 1888]
+    facing: 0
     hostile: true
     group: 10
   - id: monster:paw_hall_4

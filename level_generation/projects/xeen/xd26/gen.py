@@ -418,7 +418,7 @@ objects['chests'] = [
 objects['spawns'] = [
     {'id': 'spawn:shaft_w', 'room': 'room:shaft_floor', 'at': [700, 1100], 'slot': 1, 'tier': 'a',
      'notes': "They dive from above."},
-    {'id': 'spawn:shaft_e', 'room': 'room:shaft_floor', 'at': [1500, 300], 'slot': 1, 'tier': 'a'},
+    {'id': 'spawn:shaft_e', 'room': 'room:shaft_floor', 'at': [1756, 172], 'slot': 1, 'tier': 'a'},
     {'id': 'spawn:ledge_low', 'room': 'room:ledge_low', 'at': [-600, 600], 'slot': 1, 'tier': 'a'},
     {'id': 'spawn:low_nests', 'room': 'room:low_nests', 'at': [-1600, 450], 'slot': 1, 'tier': 'a'},
     {'id': 'spawn:ledge_w', 'room': 'room:ledge_w', 'at': [-600, 1300], 'slot': 1, 'tier': 'a'},
@@ -450,7 +450,7 @@ objects['lifts'] = [
 ]
 objects['decorations'] = [
     deco('deco:mouth_bones', 'room:mouth', 'dec29', [1150, -700]),
-    deco('deco:mouth_rock', 'room:mouth', '6rock02', [1580, -400]),
+    deco('deco:mouth_rock', 'room:mouth', '6rock02', [1506, -386]),
     deco('deco:shaft_bones_1', 'room:shaft_floor', '7dec18', [300, 1800], floor_height=0),
     deco('deco:shaft_bones_2', 'room:shaft_floor', 'dec29', [1850, 1200], floor_height=0),
     deco('deco:shaft_corpse', 'room:shaft_floor', 'Corpse03', [1000, 1150], floor_height=0,
@@ -458,7 +458,7 @@ objects['decorations'] = [
     deco('deco:shaft_mite_1', 'room:shaft_floor', 'stlmite2', [1900, 150], floor_height=0),
     deco('deco:shaft_mite_2', 'room:shaft_floor', 'stlmite1', [150, 1900], floor_height=0),
     deco('deco:ledge_low_bones', 'room:ledge_low', 'dec29', [-900, 800], floor_height=512),
-    deco('deco:low_nests_skulls', 'room:low_nests', 'sklplrev', [-2000, 850], floor_height=512),
+    deco('deco:low_nests_skulls', 'room:low_nests', 'sklplrev', [-1907, 762], floor_height=512),
     deco('deco:ledge_w_bones', 'room:ledge_w', '7dec18', [-950, 1950], floor_height=1024),
     deco('deco:ledge_e_skull', 'room:ledge_e', '7dec20', [3000, 1100], floor_height=1024),
     deco('deco:fence_sack_1', 'room:fence_cache', 'bag01', [3640, 1260], floor_height=1024),
@@ -468,7 +468,7 @@ objects['decorations'] = [
     deco('deco:high_bones', 'room:high_ledge', 'dec29', [2200, 2500], floor_height=1536),
     deco('deco:hidden_corpse', 'room:hidden_ledge', 'Corpse05', [-500, 3080], floor_height=1536,
          notes="The climber, long dead."),
-    deco('deco:roost_skulls', 'room:roost', 'sklplrev', [600, 3650], floor_height=2048),
+    deco('deco:roost_skulls', 'room:roost', 'sklplrev', [585, 3573], floor_height=2048),
     deco('deco:roost_bones', 'room:roost', '7dec18', [1950, 2800], floor_height=2048),
 ]
 objects['sounds'] = [

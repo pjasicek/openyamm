@@ -130,7 +130,7 @@ monsters:
   - id: monster:perch_sentinel
     room: room:perch_hall
     monster: 11551
-    at: [0, 3000]
+    at: [-224, 3000]
     facing: 270
     hostile: true
     group: 12
@@ -169,21 +169,21 @@ monsters:
   - id: monster:slope_1
     room: room:guano_slope
     monster: 11550
-    at: [0, 1300]
+    at: [-240, 1204]
     facing: 270
     hostile: true
     group: 10
   - id: monster:slope_2
     room: room:guano_slope
     monster: 11550
-    at: [150, 1700]
+    at: [230, 1172]
     facing: 270
     hostile: true
     group: 10
   - id: monster:slope_3
     room: room:guano_slope
     monster: 11550
-    at: [-150, 2000]
+    at: [-198, 1008]
     facing: 270
     hostile: true
     group: 10
@@ -258,7 +258,7 @@ decorations:
   - id: deco:roost_skulls
     room: room:roost
     decoration: sklplrev
-    at: [740, 5790]
+    at: [792, 5738]
     floor_height: 640
   - id: deco:slope_bones
     room: room:guano_slope
@@ -278,8 +278,8 @@ exits:
     to: exit:d4_mouth
     notes: The cave mouth onto D4's crags (the Darkside's day).
 destructibles:
-  - {id: destructible:rock_east, of: platform:rock_east, hp: 500, trigger_only: true, material: stone, sound: xeen/xeen_sphinx_stir.wav, notes: "The east roosting rock: pounded to powder by the map's question (the world's stone grinding; MM9's stonecrumble is not Xeen's)."}
-  - {id: destructible:rock_high, of: platform:rock_high, hp: 500, trigger_only: true, material: stone, sound: xeen/xeen_sphinx_stir.wav, notes: "The high roosting rock: pounded to powder by the map's question (the world's stone grinding; MM9's stonecrumble is not Xeen's)."}
-  - {id: destructible:rock_north, of: platform:rock_north, hp: 500, trigger_only: true, material: stone, sound: xeen/xeen_sphinx_stir.wav, notes: "The north roosting rock: pounded to powder by the map's question (the world's stone grinding; MM9's stonecrumble is not Xeen's)."}
-  - {id: destructible:rock_south, of: platform:rock_south, hp: 500, trigger_only: true, material: stone, sound: xeen/xeen_sphinx_stir.wav, notes: "The south roosting rock: pounded to powder by the map's question (the world's stone grinding; MM9's stonecrumble is not Xeen's)."}
-  - {id: destructible:rock_west, of: platform:rock_west, hp: 500, trigger_only: true, material: stone, sound: xeen/xeen_sphinx_stir.wav, notes: "The west roosting rock: pounded to powder by the map's question (the world's stone grinding; MM9's stonecrumble is not Xeen's)."}
+  - {id: destructible:rock_east, of: platform:rock_east, hp: 500, trigger_only: true, material: stone, sound: xeen/xeen_sphinx_stir.wav, notes: "The east roosting rock: pounded to powder by a click (the world's stone grinding; MM9's stonecrumble is not Xeen's)."}
+  - {id: destructible:rock_high, of: platform:rock_high, hp: 500, trigger_only: true, material: stone, sound: xeen/xeen_sphinx_stir.wav, notes: "The high roosting rock: pounded to powder by a click (the world's stone grinding; MM9's stonecrumble is not Xeen's)."}
+  - {id: destructible:rock_north, of: platform:rock_north, hp: 500, trigger_only: true, material: stone, sound: xeen/xeen_sphinx_stir.wav, notes: "The north roosting rock: pounded to powder by a click (the world's stone grinding; MM9's stonecrumble is not Xeen's)."}
+  - {id: destructible:rock_south, of: platform:rock_south, hp: 500, trigger_only: true, material: stone, sound: xeen/xeen_sphinx_stir.wav, notes: "The south roosting rock: pounded to powder by a click (the world's stone grinding; MM9's stonecrumble is not Xeen's)."}
+  - {id: destructible:rock_west, of: platform:rock_west, hp: 500, trigger_only: true, material: stone, sound: xeen/xeen_sphinx_stir.wav, notes: "The west roosting rock: pounded to powder by a click (the world's stone grinding; MM9's stonecrumble is not Xeen's)."}

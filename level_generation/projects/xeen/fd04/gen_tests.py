@@ -150,12 +150,14 @@ steps = start() + [IMMORTAL, lua("wait(2); close()")] + tp(0, 9100, -2560) + [
     lua(f"click({E['evt:chest_gongs']}); wait(0.5); close(); wait(2.5); local s = tostring(status()); "
         "if string.find(s, 'fall silent', 1, true) then error('reset after the shutter') end"),
     light('light:gong_1', True),
-    # Through the shutter, maintenance, the machine: the question breaks it, the cores go dark.
+    # Through the shutter, maintenance, the machine: a click breaks it (D-121), its line on the status line, the cores
+    # go dark.
     walk(0, 9800, -2560), walk(0, 10432, -2560), walk(0, 11000, -2560), walk(-300, 11500, -2560),
     {'clear_hostiles': {'radius': 6000}},
-    lua(f"click({E['evt:machine']}); wait(0.5)"), {'answer_input': {'text': 'Yes'}},
-    {'advance_runtime': {'seconds': 2.0, 'present_dialogs': True}},
-    {'assert': {'dialog': {'active': True, 'text_contains': 'Lord Xeen Machine'}}},
+    lua(f"click({E['evt:machine']}); wait(0.5)"),
+    {'advance_runtime': {'seconds': 1.0, 'present_dialogs': True}},
+    {'assert': {'dialog': {'active': False}}},
+    status('four cores out of the Lord Xeen Machine'),
     lua("close(); wait(1); close(); if not qbit(118145) then error('machine_broken 118145 not set') end; "
         "if not qbit(114041) then error('Q-F2 done 114041 not set') end"),
     light('light:core_fire', False), light('light:core_air', False),
@@ -298,8 +300,9 @@ steps = start() + [lua("wait(2); close()")] + tp(1500, 7000, -1792) + [
         "if not string.find(s, 'Ahh, refreshing', 1, true) then error('fountain line: ' .. s) end"),
     {'assert': {'member_points': {'member_index': 1, 'health_min': 150}}},
     {'setup_shortcut': {'kind': 'immortal', 'value': False}},
-    lua(f"click({E['evt:shrine_minor']}); wait(0.5)"), {'answer_input': {'text': 'Yes'}},
+    lua(f"click({E['evt:shrine_minor']}); wait(0.5)"),
     {'advance_runtime': {'seconds': 1.5, 'present_dialogs': True}},
+    {'assert': {'dialog': {'active': False}}},
     status('Shrine of Minor Evil cracks'),
     lua("close(); wait(0.5); close(); if not qbit(114043) then error('shrine_minor 114043 not set') end"),
     # The Ultimate: the tell in its question; No leaves it; Yes throws the party out to X7, alive.
@@ -322,8 +325,8 @@ steps = start() + [lua("wait(2); close()")] + tp(1500, 7000, -1792) + [
 ]
 scenario('playtest_shrine.yml', 'xeen.fd04.l4.shrine', "Dragon Tower (FD-04 L4): the Shrines of Minor and Ultimate "
          "Evil", steps,
-         "# The shrines (D-57 Q26; written by output/studio_cal/fd04/tools/gen_tests.py): Minor Evil broken by its\n"
-         "# question (its experience once); the Ultimate's question carries the tell; No leaves it; Yes: A3's Fire\n"
+         "# The shrines (D-57 Q26; written by output/studio_cal/fd04/tools/gen_tests.py): Minor Evil broken by a\n"
+         "# click (D-121; its experience once); the Ultimate's question carries the tell; No leaves it; Yes: A3's Fire\n"
          "# damage and line, the shake, 118148, and the throw (leave, no window: D-63 13) out to X7's entrance:fd04_door, the\n"
          "# party alive.\n")
 

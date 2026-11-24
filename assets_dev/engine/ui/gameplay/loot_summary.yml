@@ -35,9 +35,9 @@ elements:
         scale: 0.5
     - id: LootSummaryOverview
       anchor: top_left
-      offset_x: 126
+      offset_x: 114
       offset_y: 78
-      width: 388
+      width: 412
       height: 13
       z_index: 20
       text:
@@ -82,6 +82,21 @@ elements:
         font: Lucida
         color: '#e5dcc7'
         align_x: left
+        align_y: middle
+        scale: 0.75
+    - id: LootSummaryRowPrice
+      anchor: top_left
+      offset_x: 0
+      offset_y: 0
+      width: 60
+      height: 13
+      z_index: 20
+      notes: 'The gold the loot filter sold a listed item for, after the gold icon (scorebg_gold) at the end of its row.'
+      text:
+        value: '{gold}'
+        font: Lucida
+        color: '#e8c35a'
+        align_x: right
         align_y: middle
         scale: 0.75
     - id: LootSummaryRowHeader

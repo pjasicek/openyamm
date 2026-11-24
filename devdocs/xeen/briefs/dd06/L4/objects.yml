@@ -629,7 +629,7 @@ monsters:
   - id: monster:kennel_4
     room: room:kennel
     monster: 11411
-    at: [700, -1750]
+    at: [716, -1606]
     facing: 90
     hostile: true
     group: 13
@@ -729,21 +729,21 @@ monsters:
   - id: monster:tapestry_1
     room: room:tapestry
     monster: 11110
-    at: [300, 600]
+    at: [60, 680]
     facing: 90
     hostile: true
     group: 12
   - id: monster:tapestry_2
     room: room:tapestry
     monster: 11110
-    at: [700, -300]
+    at: [1068, -380]
     facing: 90
     hostile: true
     group: 12
   - id: monster:tapestry_3
     room: room:tapestry
     monster: 11111
-    at: [300, -700]
+    at: [988, 20]
     facing: 90
     hostile: true
     group: 12
@@ -788,7 +788,7 @@ decorations:
   - id: deco:bunks_trash
     room: room:bunks
     decoration: trasheap
-    at: [-1220, -960]
+    at: [-1140, -880]
   - id: deco:count_candle_1
     room: room:counting
     decoration: cndlab0
@@ -800,11 +800,11 @@ decorations:
   - id: deco:count_cask_1
     room: room:counting
     decoration: 7dec21
-    at: [-1220, 840]
+    at: [-1212, 836]
   - id: deco:count_cask_2
     room: room:counting
     decoration: 7dec21
-    at: [-1220, 750]
+    at: [-1220, 725]
   - id: deco:count_chandelier
     room: room:counting
     decoration: dec27
@@ -921,11 +921,11 @@ decorations:
   - id: deco:mess_cask_1
     room: room:mess
     decoration: 7dec21
-    at: [450, -1990]
+    at: [445, -2000]
   - id: deco:mess_cask_2
     room: room:mess
     decoration: 7dec21
-    at: [360, -1990]
+    at: [448, -1888]
   - id: deco:mess_goblet
     room: room:mess
     decoration: 7dec48

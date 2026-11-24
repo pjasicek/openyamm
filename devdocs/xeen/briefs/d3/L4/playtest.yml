@@ -177,9 +177,9 @@ steps:
 - note: 'Sandcaster Guild of Light (building:sc_guild_light, house 4610): before its door, open it'
 - set_pose:
     map: xeen_d3.odm
-    x: -13696
+    x: -13824
     y: 20548
-    z: 1511
+    z: 1504
     yaw: 1.5708
     pitch: 0.0
 - advance_runtime:
@@ -1208,7 +1208,7 @@ steps:
 - set_pose:
     map: xeen_d3.odm
     x: -12284
-    y: 11648
+    y: 12048
     z: 1312
     yaw: 0.0
     pitch: 0.0

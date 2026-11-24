@@ -335,21 +335,21 @@ monsters:
   - id: monster:frost_cavern_ff_1
     room: room:frost_cavern
     monster: 11600
-    at: [0, 3584]
+    at: [-512, 3392]
     facing: 270
     hostile: true
     group: 1
   - id: monster:frost_cavern_ff_2
     room: room:frost_cavern
     monster: 11600
-    at: [640, 3584]
+    at: [704, 3584]
     facing: 270
     hostile: true
     group: 1
   - id: monster:frost_cavern_guardian_1
     room: room:frost_cavern
     monster: 11601
-    at: [256, 2816]
+    at: [448, 2752]
     facing: 270
     hostile: true
     group: 1
@@ -391,49 +391,49 @@ monsters:
   - id: monster:icicle_hall_ff_1
     room: room:icicle_hall
     monster: 11600
-    at: [0, 7360]
+    at: [-640, 7616]
     facing: 270
     hostile: true
     group: 1
   - id: monster:icicle_hall_ff_2
     room: room:icicle_hall
     monster: 11600
-    at: [384, 7232]
+    at: [704, 7424]
     facing: 270
     hostile: true
     group: 1
   - id: monster:icicle_hall_ff_3
     room: room:icicle_hall
     monster: 11600
-    at: [0, 8256]
+    at: [-384, 8448]
     facing: 270
     hostile: true
     group: 1
   - id: monster:icicle_hall_ff_4
     room: room:icicle_hall
     monster: 11600
-    at: [320, 8064]
+    at: [512, 8064]
     facing: 270
     hostile: true
     group: 1
   - id: monster:mirage_hall_ff_1
     room: room:mirage_hall
     monster: 11600
-    at: [0, 5888]
+    at: [-384, 5760]
     facing: 270
     hostile: true
     group: 1
   - id: monster:mirage_hall_ff_2
     room: room:mirage_hall
     monster: 11600
-    at: [640, 6080]
+    at: [896, 5952]
     facing: 270
     hostile: true
     group: 1
   - id: monster:mirage_hall_ff_3
     room: room:mirage_hall
     monster: 11600
-    at: [-256, 4864]
+    at: [-448, 4864]
     facing: 270
     hostile: true
     group: 1
@@ -447,7 +447,7 @@ monsters:
   - id: monster:mirage_hall_guardian_2
     room: room:mirage_hall
     monster: 11601
-    at: [256, 4736]
+    at: [-384, 4448]
     facing: 270
     hostile: true
     group: 1
@@ -487,16 +487,16 @@ monsters:
     hostile: true
     group: 1
   - id: monster:north_mouth_ff_1
-    room: room:north_mouth
+    room: room:icicle_hall
     monster: 11600
-    at: [-256, 9280]
+    at: [-288, 8736]
     facing: 270
     hostile: true
     group: 1
   - id: monster:north_mouth_ff_2
-    room: room:north_mouth
+    room: room:icicle_hall
     monster: 11600
-    at: [256, 9216]
+    at: [288, 8736]
     facing: 270
     hostile: true
     group: 1
@@ -597,16 +597,16 @@ monsters:
     hostile: true
     group: 1
   - id: monster:south_mouth_ff_1
-    room: room:south_mouth
+    room: room:frost_cavern
     monster: 11600
-    at: [-128, 1600]
+    at: [-224, 2400]
     facing: 270
     hostile: true
     group: 1
   - id: monster:south_mouth_ff_2
-    room: room:south_mouth
+    room: room:frost_cavern
     monster: 11600
-    at: [320, 1536]
+    at: [352, 2400]
     facing: 270
     hostile: true
     group: 1
@@ -677,7 +677,7 @@ decorations:
   - id: deco:guard_post_1
     room: room:guard_post
     decoration: stlmite1
-    at: [-1120, 4992]
+    at: [-1097, 5026]
   - id: deco:icicle_hall_1
     room: room:icicle_hall
     decoration: stlmite3

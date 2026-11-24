@@ -237,20 +237,12 @@ RegisterEvent(37, "Tray", function()
 end, "Tray")
 
 -- evt:gen_air
-RegisterEvent(38, "Air Generator", function(continueStep)
-    if continueStep == 2 then
-        evt.DestroyDestructible(1)
-        return
-    end
-    if continueStep ~= nil then
-        return
-    end
+RegisterEvent(38, "Air Generator", function()
     if not (not (evt.IsDestructibleDestroyed(1))) then
         XeenQuests.hook("m35.gen_air")
         return
     end
-    evt.SetMessage("Air Generator.  Destroy?")
-    evt.AskQuestion(38, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    evt.DestroyDestructible(1)
 end, "Air Generator")
 
 -- evt:gen_air_down
@@ -274,20 +266,12 @@ RegisterEvent(40, nil, function()
 end, nil)
 
 -- evt:gen_earth
-RegisterEvent(41, "Earth Generator", function(continueStep)
-    if continueStep == 2 then
-        evt.DestroyDestructible(2)
-        return
-    end
-    if continueStep ~= nil then
-        return
-    end
+RegisterEvent(41, "Earth Generator", function()
     if not (not (evt.IsDestructibleDestroyed(2))) then
         XeenQuests.hook("m35.gen_earth")
         return
     end
-    evt.SetMessage("Earth Generator.  Destroy?")
-    evt.AskQuestion(41, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    evt.DestroyDestructible(2)
 end, "Earth Generator")
 
 -- evt:gen_earth_down
@@ -311,20 +295,12 @@ RegisterEvent(43, nil, function()
 end, nil)
 
 -- evt:gen_fire
-RegisterEvent(44, "Fire Generator", function(continueStep)
-    if continueStep == 2 then
-        evt.DestroyDestructible(3)
-        return
-    end
-    if continueStep ~= nil then
-        return
-    end
+RegisterEvent(44, "Fire Generator", function()
     if not (not (evt.IsDestructibleDestroyed(3))) then
         XeenQuests.hook("m35.gen_fire")
         return
     end
-    evt.SetMessage("Fire Generator.  Destroy?")
-    evt.AskQuestion(44, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    evt.DestroyDestructible(3)
 end, "Fire Generator")
 
 -- evt:gen_fire_down
@@ -348,20 +324,12 @@ RegisterEvent(46, nil, function()
 end, nil)
 
 -- evt:gen_water
-RegisterEvent(47, "Water Generator", function(continueStep)
-    if continueStep == 2 then
-        evt.DestroyDestructible(4)
-        return
-    end
-    if continueStep ~= nil then
-        return
-    end
+RegisterEvent(47, "Water Generator", function()
     if not (not (evt.IsDestructibleDestroyed(4))) then
         XeenQuests.hook("m35.gen_water")
         return
     end
-    evt.SetMessage("Water Generator.  Destroy?")
-    evt.AskQuestion(47, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    evt.DestroyDestructible(4)
 end, "Water Generator")
 
 -- evt:gen_water_down
@@ -398,20 +366,12 @@ RegisterEvent(50, nil, function()
 end, nil)
 
 -- evt:machine_e
-RegisterEvent(52, "Guard Making Machine", function(continueStep)
-    if continueStep == 2 then
-        evt.DestroyDestructible(5)
-        return
-    end
-    if continueStep ~= nil then
-        return
-    end
+RegisterEvent(52, "Guard Making Machine", function()
     if not (not (evt.IsDestructibleDestroyed(5))) then
         evt.StatusText("A broken press. Nothing comes out of it any more.", 5)
         return
     end
-    evt.SetMessage("Guard Making Machine.  Destroy?")
-    evt.AskQuestion(52, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    evt.DestroyDestructible(5)
 end, "Guard Making Machine")
 
 -- evt:machine_e_down
@@ -430,20 +390,12 @@ RegisterEvent(54, nil, function()
 end, nil)
 
 -- evt:machine_w
-RegisterEvent(55, "Guard Making Machine", function(continueStep)
-    if continueStep == 2 then
-        evt.DestroyDestructible(6)
-        return
-    end
-    if continueStep ~= nil then
-        return
-    end
+RegisterEvent(55, "Guard Making Machine", function()
     if not (not (evt.IsDestructibleDestroyed(6))) then
         evt.StatusText("A broken press. Nothing comes out of it any more.", 5)
         return
     end
-    evt.SetMessage("Guard Making Machine.  Destroy?")
-    evt.AskQuestion(55, 1, 0, 2, "Destroy (Yes/No)?", {"Yes", "Y", "yes", "y"})
+    evt.DestroyDestructible(6)
 end, "Guard Making Machine")
 
 -- evt:machine_w_down

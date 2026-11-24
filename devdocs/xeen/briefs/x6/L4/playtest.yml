@@ -46,7 +46,7 @@ steps:
 - note: 'Sphinx Wells Caravans (building:x6_stables, house 4302): before its door, open it'
 - set_pose:
     map: xeen_x6.odm
-    x: -640
+    x: -1040
     y: 1812
     z: 1248
     yaw: 1.5708
@@ -116,7 +116,7 @@ steps:
     map: xeen_x6.odm
     x: -9011
     y: 1126
-    z: 1254
+    z: 1233
     yaw: 0.0
     pitch: 0.0
 - advance_runtime:
@@ -810,7 +810,7 @@ steps:
 - note: 'The Warzone Coach (building:warzone_coach, house 4305): before its door, open it'
 - set_pose:
     map: xeen_x6.odm
-    x: 10880
+    x: 10480
     y: -15596
     z: 1504
     yaw: 1.5708

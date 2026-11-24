@@ -9,6 +9,9 @@ the key button after the potion.
 Standard games have the Alchemy and Quest tabs too since 2026-11-22 (a player's request on Discord), under the
 Gameplay setting **Party pouches**, on by default; see [Standard games](#standard-games-the-party-pouches-setting).
 
+A fourth pouch, the "?" tab for new loot that the player keeps from or sells as trash, followed on 2026-11-24: see
+[the new loot pouch](../maw_loot_pouch_20261124/README.md).
+
 ## What the player sees
 
 | View | Capture |
@@ -39,8 +42,8 @@ Gameplay setting **Party pouches**, on by default; see [Standard games](#standar
   pouch; dropped on a bag (or on the other tab) it goes to its own pouch, with a status line; a tab refuses any other
   item ("Only potions, bottles and reagents go here").
 - The tab's button again, the overview button or a bag button returns to the bags.
-- Shops and chests have the same three buttons over the party's inventory (`ChestInventoryCraftingPouch`,
-  `ChestInventoryAlchemyPouch`, `ChestInventoryQuestPouch`); a shop keeps the tab while it goes from Display to Sell
+- Shops and chests have the same three buttons over the party's inventory (since 2026-11-24 the pouch slots
+  `ChestInventoryPouch1-4` and `CharacterInventoryPouch1-4`, see the loot pouch's README); a shop keeps the tab while it goes from Display to Sell
   or Identify.
 
 ## How it works

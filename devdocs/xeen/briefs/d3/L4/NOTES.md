@@ -403,3 +403,28 @@ The review of the seventh session's tour (`tour/sheet2_*.jpg`) asked for five ch
 - Tests: walk x2 and hostility (root and assets_dev); story 55-69 pass; side quests obelisks_darkside, q-c22, q-d8,
   q-d14, q-d15, q-d18, q-d19, q-d20 pass.
 - Generated twice (the rescue's return points from the first build's land, `XEEN_WILD_MAPS`), built, villagers placed, recorded (`agent:xeen-rimmap-c`), checked in a private hard-link root, installed with its bake, terrain weights, the minimap re-rendered and its void painted (`tools/xeen/void_minimap.py`). Scripts `output/xeen_rimmap_c/build.sh`, `install.sh`, `tests.sh`, `tours.py`; logs `output/xeen_rimmap_c/run_<key>/`; captures `output/xeen_rimmap_c/cap/<key>_after/` (day and night, against `output/xeen_rim/before/<key>/`).
+
+## Final outdoor round (2026-11-24, `xeen-fb3-final-dark`)
+
+- The Guild of Light two cells wide (`gen_l1.py`, [2, 2.5]): it stood 56 from Astra's House (`houses.jammed`); plots
+  keep to half cells between the Guild of Spirit and Astra's House. Its door is now (-13824, 20848): the tests' Nasir
+  pose is (-13824, 20548, 1504) (Q-D18, story 65, promotions 45, `class_table.py`).
+- The first barrel pair stood inside Saffron House (sc_houses#10): now against its south wall (32.3/32.62, 35.03).
+- The square's paving starts half a cell further south (y 27.75): the quarter terrace's foot rose 54 through its
+  north-east corner (`platforms.through`).
+- Classic kit stables (Sandcaster Caravans; office door (-11984, 12048)), `fit_maps`, the ruin rules (Vespar's ruin
+  without windows), `wrath_bridge` ends from the studio.
+- Checks: town_fit 0, check_reach 0, door 0, wall 0, check_wild 0, D-85 0. check_faces 5 (unchanged: south gate
+  back-to-back, spring fall coplanar). Audit: 8 `textures.feature_repeated` xvwin on classic-kit houses (lucio jetty,
+  alchemist, training, armour, sc_houses#10, #11, #14, #23): c7's kit. Playtests: walk 706, hostility 44 pass.
+
+## Hull collision rebuild, D-138 (2026-11-24, `xeen-fb3-hull`)
+
+- The world's hull is solid now (`collision: model`; oymap `oymap_1944` pinned by the orchestrator).
+- D-138: `pop:wrath_hills` marker 8 (spawn 18) stood 898 from DD-07's door arrival on the knoll. `gen.py`
+  `clear_arrivals()` (beside `clear_givers()`): a marker whose circle comes within 2,000 of a door arrival
+  (`DOOR_ARRIVALS`: `entrance:dd07_door`, `entrance:d7_fall`) moves to the nearest free candidate past it that the
+  land hides from the arrival (party eye 150, monster 100, 64 of cover over LD's heights, the circle's middle and four
+  edge points); the others keep their places. Marker 8: (93, 45) to (90, 41), on the knoll's north-west foot, 3,278
+  from the door (circle edge 2,766). Built spawn 18 at (13184, 12096), 3,610 from the door, hidden by the built land
+  (51 of cover).

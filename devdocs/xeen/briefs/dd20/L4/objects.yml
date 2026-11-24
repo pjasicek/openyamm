@@ -490,13 +490,13 @@ monsters:
   - id: monster:coven_hall_witch_1
     room: room:coven_hall
     monster: 11170
-    at: [0, 1408]
+    at: [448, 1408]
     facing: 270
     group: 1
   - id: monster:coven_hall_witch_2
     room: room:coven_hall
     monster: 11170
-    at: [-1152, 1280]
+    at: [320, 1216]
     facing: 270
     group: 1
   - id: monster:cross_stalker_1
@@ -538,13 +538,13 @@ monsters:
   - id: monster:east_drain_stalker_1
     room: room:east_drain
     monster: 11401
-    at: [11264, -1024]
+    at: [13184, -832]
     facing: 270
     group: 2
   - id: monster:east_drain_stalker_2
     room: room:east_drain
     monster: 11401
-    at: [12672, -1024]
+    at: [12992, -768]
     facing: 270
     group: 2
   - id: monster:gaol_witch_1
@@ -620,13 +620,13 @@ monsters:
   - id: monster:outfall_stalker_2
     room: room:outfall
     monster: 11401
-    at: [13568, 2048]
+    at: [13376, 2048]
     facing: 270
     group: 2
   - id: monster:outfall_stalker_3
     room: room:outfall
     monster: 11401
-    at: [14592, 768]
+    at: [14720, 768]
     facing: 270
     group: 2
   - id: monster:outfall_stalker_4

@@ -1133,3 +1133,11 @@ are down where the car stands, so nobody falls on foot) and four slivers of the 
 The build's `chest.front` warning (merge point 41: an indoor chest's `facing` is its long axis, its front 90 degrees
 anticlockwise of it): the chest(s) it named turned 180 degrees in place, back to the wall, front to the room.
 Installed with the bake; build warnings and audit as before.
+
+## F43 (2026-11-24, agent xeen-fb3-dungeon): the chasm has a way out
+
+The player fell off the trestle car into the chasm (z -1792) and could not get out: the F14 note above kept the chasm
+"by design" because only the car reaches it, but a car is no way out. `ladder:chasm_north` (objects.yml) climbs the
+chasm's north wall from its floor at (10912, 5616) to the foot drift (exit (10912, 5904), floor -192) through the gap
+over the trestle. `check_drops.py`: 0 pockets (was 5). Still open: the east cart's gate and deck close through a party
+standing in the gateway (sliding movers ignore bodies; studio request), and the winch's head and bars are not clicked.

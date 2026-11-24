@@ -296,7 +296,7 @@ def plan_doc(level):
     ]
     doc = {
         'format': 0, 'level': level if level != 'L4' else 'L3',
-        'pitch': "Tunnels dug under X5's barrow mound, three levels down to the Troll Matron's hearth. Gnawed bark and bones in the halls under the mound, straw beds and hung hides in the sleeping hollows, a cold spring, and at the bottom the Matron by her fire pit under a chimney stuffed with hides. Kill her, and her hearth asks the source's question: destroy the lair? Yes burns it from inside: the beds, the curtains and the bark go up, smoke fills the tunnels, and the burnt-out plug opens the chimney's root ladder to the mound's crown.",
+        'pitch': "Tunnels dug under X5's barrow mound, three levels down to the Troll Matron's hearth. Gnawed bark and bones in the halls under the mound, straw beds and hung hides in the sleeping hollows, a cold spring, and at the bottom the Matron by her fire pit under a chimney stuffed with hides. Kill her, and a click on her hearth burns the lair from inside: the beds, the curtains and the bark go up, smoke fills the tunnels, and the burnt-out plug opens the chimney's root ladder to the mound's crown.",
         'purpose': "Q-C15 Troll Problem (Thickbark, X5): A3's hook q-c15.lair at the hearth sets q-c15.lair_burnt (112301). Party 25 to 29, Trolls 18 and Troll Guards 28 (Ice Troll left out), the Troll Matron 32, 28 monsters, treasure level 3 with the hearth's hoard at 4.",
         'mood': "A cave of beaten dirt that stinks of trolls; dim light from the trolls' fires, daylight and snow at the mouth; after the burn, grey smoke and charred hides.",
         'datum': 'arrival',
@@ -456,9 +456,11 @@ objects = {
 TROLL, GUARD, MATRON = 11070, 11071, 11074
 PLACED = [
     # room, group, [(monster, at, facing)]
-    ('room:mouth', 10, [(TROLL, [-160, -640], 90), (TROLL, [160, -660], 90)]),
-    ('room:bone_hall', 11, [(TROLL, [-300, -1100], 90), (TROLL, [300, -1150], 90), (TROLL, [-200, -1800], 90),
-                             (TROLL, [250, -1700], 90)]),
+    # D-130 (2026-11-24): out of sight of the mouth's landing (0, -256) (hide.py's spots); the mouth has none, so its two
+    # wait round the corners, in the larder's mouth and the bone hall's (a fourth item: the room they stand in).
+    ('room:mouth', 10, [(TROLL, [-544, -640], 90, 'room:larder'), (TROLL, [-520, -1000], 90, 'room:bone_hall')]),
+    ('room:bone_hall', 11, [(TROLL, [-300, -1100], 90), (TROLL, [492, -1150], 90), (TROLL, [-328, -1672], 90),
+                             (TROLL, [570, -1508], 90)]),
     ('room:larder', 12, [(TROLL, [-1400, -200], 0), (TROLL, [-1100, -550], 0), (TROLL, [-800, -250], 0)]),
     ('room:spring', 13, [(TROLL, [-1100, -2400], 90), (TROLL, [-1600, -3050], 90), (GUARD, [-1000, -3000], 90)]),
     ('room:sleeping', 14, [(TROLL, [-800, -4300], 90), (TROLL, [-300, -4500], 90), (TROLL, [200, -4200], 90),
@@ -471,8 +473,8 @@ PLACED = [
 ]
 for room_id, group, ms in PLACED:
     key = room_id.split(':')[1]
-    for n, (mon, at, facing) in enumerate(ms, 1):
-        objects['monsters'].append({'id': f'monster:{key}_{n}', 'room': room_id, 'monster': mon, 'at': at,
+    for n, (mon, at, facing, *room) in enumerate(ms, 1):
+        objects['monsters'].append({'id': f'monster:{key}_{n}', 'room': room[0] if room else room_id, 'monster': mon, 'at': at,
                                     'facing': facing, 'hostile': True, 'group': group})
 objects['monsters'].append({'id': 'monster:matron', 'room': 'room:hearth', 'monster': MATRON, 'at': [1150, -5900],
                             'facing': 180, 'hostile': True, 'group': 19,
@@ -505,7 +507,7 @@ DECOS = [
     ('nursery_bones', 'room:nursery', 'dec29', [-1710, -6020]),
     ('nursery_skull', 'room:nursery', '7dec20', [-850, -6030]),
     ('guard_bones', 'room:guard_tunnel', '7dec18', [-2420, -4000]),
-    ('guard_skulls', 'room:guard_tunnel', 'sklplrev', [-2420, -5500]),
+    ('guard_skulls', 'room:guard_tunnel', 'sklplrev', [-2350, -5500]),
     ('hearth_bones_1', 'room:hearth', '7dec18', [210, -5330]),
     ('hearth_skulls', 'room:hearth', 'sklplrev', [1840, -5330]),
     ('hearth_bones_2', 'room:hearth', 'dec29', [1500, -6580]),
@@ -546,8 +548,6 @@ def panel_ids(*firsts):
 HIDE_PANELS = panel_ids('panel:hides_sleep_s', 'panel:hides_sleep_w', 'panel:larder_hides')
 HEARTH_PANELS = panel_ids('panel:hides_hearth_n', 'panel:hides_hearth_s')
 assert len(HIDE_PANELS) == 8 and len(HEARTH_PANELS) == 5
-QUESTION = ("The stench of this cave tells you that Trolls have been living in it. It is filled with things that "
-            "Trolls find valuable:  Bones, straw beds, fist-sized rocks and hides.  Destroy the lair?")
 burn_effects = [{'lua': 'XeenQuests.hook("q-c15.lair")'}]
 burn_effects += [{'damage_destructible': {'of': d['id'], 'amount': 1000}} for d in BURNABLE]
 burn_effects += [{'destroy': 'destructible:plug'}]
@@ -609,14 +609,12 @@ events = [
      'condition': {'kills': {'monster': 'monster:matron'}}, 'once': True,
      'effects': [{'set': {'var': {'map_var': 'matron_dead'}, 'value': 1}}, {'qbit': 'matron_dead'}],
      'text': "The Troll Matron falls. Her fire still burns in its pit under the chimney.", 'seconds': 6,
-     'notes': "state:matron (a kill timer, XD-05's drums): her death makes the fire pit ask its question. Sets the map qbit matron_dead (110930) too."},
+     'notes': "state:matron (a kill timer, XD-05's drums): her death lets the fire pit burn the lair. Sets the map qbit matron_dead (110930) too."},
     {'id': 'evt:fire_pit', 'preset': 'script', 'source': 'platform:fire_pit', 'title': 'Fire pit',
      'condition': {'all': [{'map_var': 'matron_dead'}, {'not': {'qbit': 'lair_burnt'}}]},
-     'question': {'message': QUESTION, 'ask': 'Destroy (Yes/No)?', 'answers': ['Yes', 'Y', 'yes', 'y'],
-                  'wrong_text': 'You leave the lair as it is, for now.'},
      'effects': burn_effects,
      'else_effects': [{'lua': "if IsQBitSet(QBit(112301)) then evt.StatusText('Ash and charred bones fill the fire pit.', 4) else evt.StatusText(\"The trolls' fire burns in its pit. The Matron is near.\", 4) end"}],
-     'notes': "goal:burn / state:burn: after the Matron, the source's question (aaze0008:2) is a real choice (D-25). Yes: A3's hook q-c15.lair (sets lair_burnt 112301, its one message), every bed, curtain and bark pile broken (evt.DamageDestructible), the chimney's plug destroyed, the hearth's hides and pit ablaze (4 s later charred, evt:burn_out), the other hides smoked black (xosoot, D-33), the grey smoke drawn in over 60 s (evt.SetMist(1, 60))."},
+     'notes': "goal:burn / state:burn: after the Matron, a click burns the lair (D-121, 2026-11-24: no Yes/No for a quest goal; the source asked aaze0008:2, D-25's choice overridden); the hook's line on the status line. The click runs A3's hook q-c15.lair (sets lair_burnt 112301, its one message), every bed, curtain and bark pile broken (evt.DamageDestructible), the chimney's plug destroyed, the hearth's hides and pit ablaze (4 s later charred, evt:burn_out), the other hides smoked black (xosoot, D-33), the grey smoke drawn in over 60 s (evt.SetMist(1, 60))."},
     {'id': 'evt:burn_out', 'preset': 'script', 'trigger': 'timer', 'every': 4,
      'condition': {'map_var': {'name': 'burning', 'equals': 1}},
      'effects': [{'set': {'var': {'map_var': 'burning'}, 'value': 2}}]
@@ -660,7 +658,7 @@ project = {
          'notes': "One way out (the smoke hole)."},
     ],
     'qbits': QBITS,
-    'notes': "Xeen design brief, level L4: XD-23 Troll Warren under X5's barrow mound in the Troll Forest (Q-C15 Troll Problem). Monsters: A2's Trolls, all placed (20 Troll 11070 18, 7 Troll Guard 11071 28; Ice Troll left out) in groups 10-18 by room, and the Troll Matron 11074 (32, boss row, group 19). Slot 1 Xeen Troll for the map card (no rest encounters: encounter 0, the burnt warren stays empty). Map qbits 110930-110939 (used: matron_dead 110930); A3's q-c15.lair_burnt 112301 named. Hook q-c15.lair called from the fire pit's question. Music 8. Neighbours on X5 (installed): the mouth (exit:mouth → exit:x5_mouth, in front of thing:warren) and the one-way smoke hole (exit:smoke_hole → exit:x5_crown, A6's point); the map's start is the arrival from X5's thing:warren.",
+    'notes': "Xeen design brief, level L4: XD-23 Troll Warren under X5's barrow mound in the Troll Forest (Q-C15 Troll Problem). Monsters: A2's Trolls, all placed (20 Troll 11070 18, 7 Troll Guard 11071 28; Ice Troll left out) in groups 10-18 by room, and the Troll Matron 11074 (32, boss row, group 19). Slot 1 Xeen Troll for the map card (no rest encounters: encounter 0, the burnt warren stays empty). Map qbits 110930-110939 (used: matron_dead 110930); A3's q-c15.lair_burnt 112301 named. Hook q-c15.lair called from the fire pit's click (D-121). Music 8. Neighbours on X5 (installed): the mouth (exit:mouth → exit:x5_mouth, in front of thing:warren) and the one-way smoke hole (exit:smoke_hole → exit:x5_crown, A6's point); the map's start is the arrival from X5's thing:warren.",
 }
 
 
@@ -703,7 +701,7 @@ write(BRIEF / 'L4', [('rooms.yml', rooms_doc), ('objects.yml', objects), ('wirin
 CAVES = {  # D-89 cave shape (A7 s29, tools/xeen/cave_shape.py): floors that rise and fall, broken corners where no
     # hide hangs (rooms with hung hides keep their walls), vaulted roofs where none is drawn; the tunnels (paths with
     # slopes), the chimney (plug, root ladder) and the smoke hole (exit) stay as they are
-    'room:mouth': {'floor': 32, 'roof': 96, 'keep': ('ne', 'nw')},
+    'room:mouth': {'floor': 32, 'roof': 96, 'keep': ('ne', 'nw', 'se')},  # se: D-130 took the trolls that held it
     'room:bone_hall': {'floor': 64},
     'room:larder': {'floor': 48, 'roof': 96},
     'room:spring': {'floor': 48, 'keep': ('se',)},  # its south wall's opening into the hollows takes 384 of 512

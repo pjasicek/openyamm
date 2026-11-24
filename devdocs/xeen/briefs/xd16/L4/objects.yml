@@ -486,21 +486,21 @@ monsters:
   - id: monster:ash_gallery_1
     room: room:ash_gallery
     monster: 11630
-    at: [1664, -128]
+    at: [2016, -288]
     facing: 180
     hostile: true
     group: 10
   - id: monster:ash_gallery_2
-    room: room:ash_gallery
+    room: room:vault_ante
     monster: 11630
-    at: [2048, 128]
+    at: [2048, -512]
     facing: 180
     hostile: true
     group: 10
   - id: monster:ash_gallery_3
-    room: room:ash_gallery
+    room: room:vault_ante
     monster: 11630
-    at: [2560, -96]
+    at: [2304, -480]
     facing: 180
     hostile: true
     group: 10
@@ -591,21 +591,21 @@ monsters:
   - id: monster:fire_lake_4
     room: room:fire_lake
     monster: 11631
-    at: [4544, 192]
+    at: [4544, 1280]
     facing: 180
     hostile: true
     group: 12
   - id: monster:fire_lake_5
     room: room:fire_lake
     monster: 11631
-    at: [4928, 192]
+    at: [5888, 192]
     facing: 180
     hostile: true
     group: 12
   - id: monster:fire_lake_6
     room: room:fire_lake
     monster: 11631
-    at: [4928, -192]
+    at: [5888, -192]
     facing: 180
     hostile: true
     group: 12
@@ -749,14 +749,14 @@ monsters:
     facing: 90
     hostile: true
     group: 21
-  - id: monster:vault_ante_1
+  - id: monster:vault_ante_3
     room: room:vault_ante
     monster: 11631
     at: [2048, -960]
     facing: 90
     hostile: true
     group: 16
-  - id: monster:vault_ante_2
+  - id: monster:vault_ante_4
     room: room:vault_ante
     monster: 11631
     at: [2368, -1152]
@@ -803,11 +803,11 @@ decorations:
   - id: deco:rubble_03
     room: room:ash_gallery
     decoration: 7dec18
-    at: [1216, 240]
+    at: [1245, 198]
   - id: deco:rubble_04
     room: room:ash_gallery
     decoration: dec29
-    at: [2752, -256]
+    at: [2772, -209]
   - id: deco:rubble_05
     room: room:fire_lake
     decoration: dec29
@@ -978,5 +978,5 @@ exits:
     notes: "The passage's end: fallen stones with cool air between them, the way to XD-17."
 relations: []
 destructibles:
-  - {id: destructible:demon_skull, of: deco:demon_skull, hp: 1, damage: false, trigger_only: true, material: stone, effect_scale: 0.6, notes: "Broken only by the altar's question (q-c26.demon_skull); shown broken on every later load."}
-  - {id: destructible:devil_skull, of: deco:devil_skull, hp: 1, damage: false, trigger_only: true, material: stone, effect_scale: 0.6, notes: Broken only by the altar's question (q-c26.devil_skull).}
+  - {id: destructible:demon_skull, of: deco:demon_skull, hp: 1, damage: false, trigger_only: true, material: stone, effect_scale: 0.6, notes: "Broken only by the altar's click (q-c26.demon_skull); shown broken on every later load."}
+  - {id: destructible:devil_skull, of: deco:devil_skull, hp: 1, damage: false, trigger_only: true, material: stone, effect_scale: 0.6, notes: Broken only by the altar's click (q-c26.devil_skull).}

@@ -164,7 +164,7 @@ steps:
     seconds: 0.3
 - note: 'The Frozen Flagon (building:winterkill_tavern): closed until the town is free'
 - walk_to:
-    x: -15104
+    x: -15360
     y: 13428
     z: 992
     z_tolerance: 700
@@ -173,7 +173,7 @@ steps:
     clear_hostiles: 3000
 - set_pose:
     map: xeen_x5.odm
-    x: -15104
+    x: -15360
     y: 13428
     z: 992
     yaw: 1.5708
@@ -260,7 +260,7 @@ steps:
     seconds: 0.3
 - note: 'Snow House (building:winterkill_houses#12): closed until the town is free'
 - walk_to:
-    x: -16128
+    x: -16384
     y: 13332
     z: 992
     z_tolerance: 700
@@ -269,7 +269,7 @@ steps:
     clear_hostiles: 3000
 - set_pose:
     map: xeen_x5.odm
-    x: -16128
+    x: -16384
     y: 13332
     z: 992
     yaw: 1.5708
@@ -453,7 +453,7 @@ steps:
 - note: 'Sven''s House (building:winterkill_houses#3): closed until the town is free'
 - walk_to:
     x: -15476
-    y: 9856
+    y: 9600
     z: 992
     z_tolerance: 700
     radius: 192
@@ -462,7 +462,7 @@ steps:
 - set_pose:
     map: xeen_x5.odm
     x: -15476
-    y: 9856
+    y: 9600
     z: 992
     yaw: 3.1416
     pitch: 0.0
@@ -516,7 +516,7 @@ steps:
     seconds: 0.3
 - note: 'Ragnhild''s Farm (building:winterkill_houses#8): closed until the town is free'
 - walk_to:
-    x: -12288
+    x: -12032
     y: 9708
     z: 992
     z_tolerance: 700
@@ -525,7 +525,7 @@ steps:
     clear_hostiles: 3000
 - set_pose:
     map: xeen_x5.odm
-    x: -12288
+    x: -12032
     y: 9708
     z: 992
     yaw: -1.5708
@@ -2048,7 +2048,7 @@ steps:
     seconds: 0.3
 - note: 'The Frozen Flagon (building:winterkill_tavern): open now'
 - walk_to:
-    x: -15104
+    x: -15360
     y: 13428
     z: 992
     z_tolerance: 700
@@ -2057,7 +2057,7 @@ steps:
     clear_hostiles: 3000
 - set_pose:
     map: xeen_x5.odm
-    x: -15104
+    x: -15360
     y: 13428
     z: 992
     yaw: 1.5708
@@ -2138,7 +2138,7 @@ steps:
     seconds: 0.3
 - note: 'Snow House (building:winterkill_houses#12): open now'
 - walk_to:
-    x: -16128
+    x: -16384
     y: 13332
     z: 992
     z_tolerance: 700
@@ -2147,7 +2147,7 @@ steps:
     clear_hostiles: 3000
 - set_pose:
     map: xeen_x5.odm
-    x: -16128
+    x: -16384
     y: 13332
     z: 992
     yaw: 1.5708
@@ -2323,7 +2323,7 @@ steps:
 - note: 'Sven''s House (building:winterkill_houses#3): open now'
 - walk_to:
     x: -15476
-    y: 9856
+    y: 9600
     z: 992
     z_tolerance: 700
     radius: 192
@@ -2332,7 +2332,7 @@ steps:
 - set_pose:
     map: xeen_x5.odm
     x: -15476
-    y: 9856
+    y: 9600
     z: 992
     yaw: 3.1416
     pitch: 0.0
@@ -2384,7 +2384,7 @@ steps:
     seconds: 0.3
 - note: 'Ragnhild''s Farm (building:winterkill_houses#8): open now'
 - walk_to:
-    x: -12288
+    x: -12032
     y: 9708
     z: 992
     z_tolerance: 700
@@ -2393,7 +2393,7 @@ steps:
     clear_hostiles: 3000
 - set_pose:
     map: xeen_x5.odm
-    x: -12288
+    x: -12032
     y: 9708
     z: 992
     yaw: -1.5708

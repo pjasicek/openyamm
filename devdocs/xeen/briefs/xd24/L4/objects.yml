@@ -1,9 +1,9 @@
 format: 0
 start:
-  room: room:stair_foot
-  at: [0, 704]
+  room: room:coffin_stair
+  at: [0, 1600]
   facing: 270
-  notes: "At the foot of the coffin stair, facing into the crypt (south): where X3's open coffin (thing:coffin_open) arrives (A5's `into`: 0, 704, 0 facing south, 1536)."
+  notes: "F45 (2026-11-24): on the coffin stair, facing down into the crypt (south), out of the Gnome Vampires' sight and 380 from the exit: where X3's open coffin (thing:coffin_open) arrives (X3's `into`: 0, 1600, 224 facing south, 1536)."
 doors:
   - id: door:count_base
     opening: open:vault_count

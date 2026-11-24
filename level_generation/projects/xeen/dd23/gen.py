@@ -186,7 +186,7 @@ PLAN_SPACES = [
     ('room:still_gallery', 'Still gallery', 'room', 'M', "Weathered rock pillars like statues, three of the still shapes gargoyles; the rock steps climb from its end.", [('Mountain Gargoyle', 30, 3)]),
     ('room:rock_steps', 'Rock steps', 'corridor', 'S', "Rock steps climbing 640 north from the still gallery to the roost.", []),
     ('room:upper_perches', 'Upper perches', 'corridor', 'M', "The top of the ramp: a ledge walk over the perch hall to the roost.", [('Mountain Gargoyle', 30, 1)]),
-    ('room:roost', 'The roost', 'room', 'L', "A tall cave under a crack of sky, snow on the droppings below it, a ring of roosting rocks worn smooth (the map's question breaks them); the Overlord on the highest.", [('Gargoyle Overlord', 45, 1), ('Gargoyle Sentinel', 38, 1), ('Mountain Gargoyle', 30, 2)]),
+    ('room:roost', 'The roost', 'room', 'L', "A tall cave under a crack of sky, snow on the droppings below it, a ring of roosting rocks worn smooth (a click breaks them); the Overlord on the highest.", [('Gargoyle Overlord', 45, 1), ('Gargoyle Sentinel', 38, 1), ('Mountain Gargoyle', 30, 2)]),
     ('room:nest', 'Nest of shiny things', 'room', 'S', "A hollow behind the roost lined with straw: spoons, buckles, broken mirrors (the chest), and Caleb's glass in the middle (q-d15.glass).", []),
 ]
 
@@ -218,7 +218,7 @@ def plan_doc(level):
     doc = {
         'format': 0, 'level': level if level != 'L4' else 'L3',
         'pitch': "A cave in Magic Mountain's eastern crags, its mouth white with droppings. It climbs from the guano slope through the perch hall, where the young gargoyles sit on ledges, to the roost under a crack of sky: a ring of roosting rocks worn smooth, snow on the droppings, the Overlord on the highest rock. Behind it, the gargoyles' nest of shiny things holds Caleb's magnifying glass.",
-        'purpose': "Q-D15 Caleb's Magnifying Glass (Caleb, D3): destroy the roost (q-d15.roost, the source's question) and take the glass from the nest (q-d15.glass). Party 35 to 39, D4's gargoyles 30/38/45 (15 placed, D-39), treasure level 4.",
+        'purpose': "Q-D15 Caleb's Magnifying Glass (Caleb, D3): destroy the roost (q-d15.roost, a click; the source asked) and take the glass from the nest (q-d15.glass). Party 35 to 39, D4's gargoyles 30/38/45 (15 placed, D-39), treasure level 4.",
         'mood': "Wind at the mouth and down the crack, claws on rock, droppings and bones; the Darkside's grey day falling through the crack onto snow.",
         'datum': 'arrival',
         'spaces': spaces, 'links': links,
@@ -241,7 +241,7 @@ def plan_doc(level):
         ],
         'set_pieces': [
             {'id': 'set:roost', 'kind': 'scripted', 'spaces': ['room:roost'],
-             'rule': "The roosting rocks stand in a ring under the crack of sky; the map's question breaks all five (destructibles, kept broken by the map); their worn feet stay as dust."},
+             'rule': "The roosting rocks stand in a ring under the crack of sky; a click on any of them breaks all five (destructibles, kept broken by the map); their worn feet stay as dust."},
         ],
         'diagram': {'file': 'diagram.txt'},
         'totals': {'rooms': 10, 'sectors': 10, 'monsters_about': 15, 'chests': 2, 'doors': 0, 'loops': 1,
@@ -319,7 +319,7 @@ objects['chests'] = [
 objects['destructibles'] = [
     {'id': f'destructible:rock_{k}', 'of': f'platform:rock_{k}', 'hp': 500, 'trigger_only': True,
      'material': 'stone', 'sound': 'xeen/xeen_sphinx_stir.wav',
-     'notes': f"The {k} roosting rock: pounded to powder by the map's question (the world's stone grinding; MM9's stonecrumble is not Xeen's)."}
+     'notes': f"The {k} roosting rock: pounded to powder by a click (the world's stone grinding; MM9's stonecrumble is not Xeen's)."}
     for k, _, _ in ROCKS]
 
 # D4's gargoyles (A2's Gargoyles (Magic Mountain), block 11550): Mountain Gargoyle 30 (11550) x 12, Gargoyle Sentinel
@@ -334,15 +334,15 @@ def mon(id, rm, kind, at, group, facing=270, **kw):
     objects['monsters'].append(d)
 
 
-mon('monster:slope_1', 'room:guano_slope', MG, [0, 1300], 10)
-mon('monster:slope_2', 'room:guano_slope', MG, [150, 1700], 10)
-mon('monster:slope_3', 'room:guano_slope', MG, [-150, 2000], 10)
+mon('monster:slope_1', 'room:guano_slope', MG, [-240, 1204], 10)
+mon('monster:slope_2', 'room:guano_slope', MG, [230, 1172], 10)
+mon('monster:slope_3', 'room:guano_slope', MG, [-198, 1008], 10)
 mon('monster:bones', 'room:bone_ledge', MG, [-640, 1600], 11, facing=0)
 mon('monster:perch_w', 'room:perch_hall', MG, [-672, 3136], 12, facing=0, floor_height=352,
     notes="On the west wall's perch.")
 mon('monster:perch_se', 'room:perch_hall', MG, [448, 2400], 12, facing=90, floor_height=320,
     notes="On the south wall's perch.")
-mon('monster:perch_sentinel', 'room:perch_hall', GS, [0, 3000], 12, notes="A Gargoyle Sentinel (38).")
+mon('monster:perch_sentinel', 'room:perch_hall', GS, [-224, 3000], 12, notes="A Gargoyle Sentinel (38).")
 mon('monster:still_1', 'room:still_gallery', MG, [1250, 2450], 13, facing=180)
 mon('monster:still_2', 'room:still_gallery', MG, [1750, 2700], 13, facing=180)
 mon('monster:still_3', 'room:still_gallery', MG, [1300, 2950], 13, facing=180)
@@ -366,15 +366,12 @@ objects['decorations'] = [
     {'id': 'deco:upper_bones', 'room': 'room:upper_perches', 'decoration': 'dec29', 'at': [-620, 3880],
      'floor_height': UP},
     {'id': 'deco:roost_bones', 'room': 'room:roost', 'decoration': '7dec18', 'at': [2080, 4580], 'floor_height': UP},
-    {'id': 'deco:roost_skulls', 'room': 'room:roost', 'decoration': 'sklplrev', 'at': [740, 5790],
+    {'id': 'deco:roost_skulls', 'room': 'room:roost', 'decoration': 'sklplrev', 'at': [792, 5738],
      'floor_height': UP},
     {'id': 'deco:nest_skull', 'room': 'room:nest', 'decoration': '7dec20', 'at': [1200, 6420], 'floor_height': UP},
 ]
 
 # ================================================================================================ wiring
-ROOST_Q = {'ask': "Destroy (Yes/No)?", 'answers': ['Yes', 'Y', 'yes', 'y'],
-           'message': "Do you wish to destroy the Gargoyle Lair?",
-           'wrong_text': "You leave the roosting rocks standing."}
 roost_effects = [{'lua': 'XeenQuests.hook("q-d15.roost")'}] + [
     {'destroy': f'destructible:rock_{k}'} for k, _, _ in ROCKS]
 events = [
@@ -407,11 +404,11 @@ for k, _, _ in ROCKS:
     for part in ('rock', 'heap'):
         events.append({
             'id': f'evt:{part}_{k}', 'preset': 'script', 'source': f'platform:{part}_{k}', 'title': 'Roosting rock',
-            'question': dict(ROOST_Q), 'condition': {'not': {'qbit': 'lair_destroyed'}},
+            'condition': {'not': {'qbit': 'lair_destroyed'}},
             'effects': list(roost_effects),
             'else_effects': [{'lua': 'XeenQuests.hook("q-d15.roost")'}],
-            'notes': ("goal:roost: the source's question (dark/aaze0021:6); Yes calls A3's q-d15.roost (aaze0021:7, lair_destroyed 113301) and pounds all five rocks to powder (they stay broken). "
-                      if part == 'rock' else "The rock's worn foot: the same question while the rock stands; after, A3's else text \"Rock dust. The gargoyles will have to sit somewhere else.\"")})
+            'notes': ("goal:roost: a click calls A3's q-d15.roost (aaze0021:7, lair_destroyed 113301) and pounds all five rocks to powder (they stay broken); F47, the player's pins 2026-11-24: no Yes/No for a quest goal (the source asked \"Do you wish to destroy the Gargoyle Lair?\", dark/aaze0021:6). "
+                      if part == 'rock' else "The rock's worn foot: the same click while the rock stands; after, A3's else text \"Rock dust. The gargoyles will have to sit somewhere else.\"")})
 wiring = {'format': 0, 'events': events}
 
 atmosphere = {'format': 0, 'open_sky': {'mode': 'open', 'preset': 'xeen_darkside_day'},
@@ -437,7 +434,7 @@ project = {
          'notes': "D4 Lakeside and Blackfang (A6, installed): its door:dd23 (thing:dd23_lair) leads in to entrance:d4_mouth."},
     ],
     'qbits': QBITS,
-    'notes': "Xeen design brief, level L4: DD-23 Gargoyle Lair in Magic Mountain's eastern crags on D4 (Q-D15 Caleb's Magnifying Glass). Monsters: A2's Gargoyles (Magic Mountain), all placed (D-39): 12 Mountain Gargoyle 11550 (30), 2 Gargoyle Sentinel 11551 (38), 1 Gargoyle Overlord 11552 (45) on the highest rock; slot 1 Xeen Mountain Gargoyle for the 10 % rest encounters (D-39, D-33/D-34). Hooks q-d15.roost (the roosting rocks' question) and q-d15.glass (the nest); A3's player bits lair_destroyed 113301 and glass_found 113302 named; map qbits 118040-118049: none used. Music 31. No doors (D-39 (4)). The way out is live to D4's entrance:dd23_lair; D4's door:dd23 arrives at entrance:d4_mouth (the map's start).",
+    'notes': "Xeen design brief, level L4: DD-23 Gargoyle Lair in Magic Mountain's eastern crags on D4 (Q-D15 Caleb's Magnifying Glass). Monsters: A2's Gargoyles (Magic Mountain), all placed (D-39): 12 Mountain Gargoyle 11550 (30), 2 Gargoyle Sentinel 11551 (38), 1 Gargoyle Overlord 11552 (45) on the highest rock; slot 1 Xeen Mountain Gargoyle for the 10 % rest encounters (D-39, D-33/D-34). Hooks q-d15.roost (a click on the roosting rocks) and q-d15.glass (the nest); A3's player bits lair_destroyed 113301 and glass_found 113302 named; map qbits 118040-118049: none used. Music 31. No doors (D-39 (4)). The way out is live to D4's entrance:dd23_lair; D4's door:dd23 arrives at entrance:d4_mouth (the map's start).",
 }
 
 

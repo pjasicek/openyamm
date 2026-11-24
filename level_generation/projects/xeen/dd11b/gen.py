@@ -212,7 +212,7 @@ DIAGRAM = """DD-11B Troll Holes, second pocket (not to scale; plan, north up)
 # ================================================================================================ objects.yml
 objects = {
     'format': 0,
-    'start': {'room': 'room:pit', 'at': [96, -32], 'facing': 'e',
+    'start': {'room': 'room:pit', 'at': [144, -208], 'facing': 'e',
               'notes': "Where D2's second troll hole drops the party: the pit's bottom beside the heap of packs, facing the gallery (east)."},
     'doors': [
         {'id': 'door:root', 'opening': 'open:gallery_adv', 'kind': 'hinged', 'hinge': 'left', 'swing': 90,
@@ -275,7 +275,7 @@ for room_id, group, ms in PLACED:
         objects['monsters'].append({'id': f'monster:{key}_{n}', 'room': room_id, 'monster': mon, 'at': at,
                                     'facing': facing, 'group': group})
 
-SKELETONS = [('skeleton_1', [1110, 380]), ('skeleton_2', [1110, 640]), ('skeleton_3', [1450, 950]),
+SKELETONS = [('skeleton_1', [1110, 380]), ('skeleton_2', [1110, 640]), ('skeleton_3', [1450, 867]),
              ('skeleton_4', [1700, 450])]
 DECOS = [(k, 'room:adventurers', 'dec05', at) for k, at in SKELETONS] + [
     ('pit_bones', 'room:pit', 'dec29', [-250, -230]),

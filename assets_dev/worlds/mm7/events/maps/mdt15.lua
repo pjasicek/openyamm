@@ -67,8 +67,8 @@ RegisterEvent(1, nil, function()
 end)
 
 RegisterEvent(2, nil, function()
-    if not evt.CheckMonstersKilled(ActorKillCheck.ActorIdOe, 0, 0, false) then -- OE actor 0; all matching actors defeated
-        if evt.CheckMonstersKilled(ActorKillCheck.ActorIdOe, 1, 0, false) then -- OE actor 1; all matching actors defeated
+    if not evt.CheckMonstersKilled(ActorKillCheck.ActorIdOe, 0, 0, true) then -- OE actor 0; all matching actors defeated
+        if evt.CheckMonstersKilled(ActorKillCheck.ActorIdOe, 1, 0, true) then -- OE actor 1; all matching actors defeated
             SetQBit(QBit(631)) -- Killed Evil MM3 Person
         end
         SetQBit(QBit(746)) -- Control Cube - I lost it

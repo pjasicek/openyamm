@@ -1,5 +1,5 @@
-# The shrines (D-57 Q26; written by output/studio_cal/fd04/tools/gen_tests.py): Minor Evil broken by its
-# question (its experience once); the Ultimate's question carries the tell; No leaves it; Yes: A3's Fire
+# The shrines (D-57 Q26; written by output/studio_cal/fd04/tools/gen_tests.py): Minor Evil broken by a
+# click (D-121; its experience once); the Ultimate's question carries the tell; No leaves it; Yes: A3's Fire
 # damage and line, the shake, 118148, and the throw (leave, no window: D-63 13) out to X7's entrance:fd04_door, the
 # party alive.
 id: xeen.fd04.l4.shrine
@@ -60,11 +60,12 @@ steps:
     value: false
 - play_lua:
     source: click(82); wait(0.5)
-- answer_input:
-    text: 'Yes'
 - advance_runtime:
     seconds: 1.5
     present_dialogs: true
+- assert:
+    dialog:
+      active: false
 - play_lua:
     source: 'local s = tostring(status()); if not string.find(s, [[Shrine of Minor Evil cracks]], 1, true) then error(''status
       line: '' .. s) end'

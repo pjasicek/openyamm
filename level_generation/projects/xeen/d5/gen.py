@@ -269,7 +269,10 @@ LAMP_DUNE = (85.0, 96.0)
 EYRIE = (50.0, 54.0)
 # F10 (s32): three of the ten (28, 74), (31, 96), (22, 104) moved north (the north birds in the areas below) and
 # (24, 84) to the open sand north of the pyramid (68, 73)
-DOOM_BIRDS = [(24, 72), (33, 80), (68, 73), (37, 87), (26, 92), (40, 92), (44, 98)]
+# The third pair stood at (68, 73), 1,024 from D7's fall landing (entrance:d7_fall, 66, 73) and in its sight: the Rocs
+# took a party just down from the Skyroads (D7's playtest_fall_cd12, 2026-11-24; D-15's 2,000 band, D-133 counts
+# spawns). Now behind the Great Pyramid from the landing, 11,776 away.
+DOOM_BIRDS = [(24, 72), (33, 80), (66, 96), (37, 87), (26, 92), (40, 92), (44, 98)]
 # D-49 change 1: two chained rings; each boulder within 400 (0.78 cells) of the next. East: the sign and 3-6.
 EAST_RING_C = (85.6, 81.2)
 WEST_RING_C = (37.2, 70.6)
@@ -914,6 +917,10 @@ def build():
     # The classic kits (2026-11-24): Clouds of Xeen's own walls on the map's buildings (classic_kit.yml)
     import classic_kit as CK
     for _note in CK.apply(sketch, 'd5'):
+        print(_note)
+    # Level pads under things on slopes (2026-11-24, town_fit_check platforms.through / things.overhang)
+    import level_pads as LP
+    for _note in LP.apply(sketch, 'd5'):
         print(_note)
     print('entrance screens:', ES.apply_sketch(sketch, 'xeen_d5'))
     for lv in ('L4', 'L3'):

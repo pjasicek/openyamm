@@ -341,3 +341,10 @@ lock); minimap re-rendered with `present/ice_minimap.py` as `redo_minimap.sh` do
 - Captures `output/xeen_rimmap_a/x5/cap_install/` (baked: south and west rim low/along/high/mid day and night, Edge
   Watch day/night and from the void, the south-west corner from the land and the void day/night, the south rim's
   east end, the far void), root `cap_after/`; before `output/xeen_rim/before/x5/`.
+
+## Hull collision rebuild, D-136 (2026-11-24, `xeen-fb3-hull`)
+
+- The world's hull is solid now (`collision: model`; oymap `oymap_1944` pinned by the orchestrator).
+- D-136 (kept): group 40, Q-C6's first wave of Spirit Bones round Winterkill's square (D-13, D-87), stays 597-1,988
+  from the start/mirror/portal arrival. `v.sh` runs `x2/check_d85.py ... 5120 --kept-group 40` and fails on every
+  ERROR but Mayor Randon's giver line (NPC 4502 among the wave by D-87.1).

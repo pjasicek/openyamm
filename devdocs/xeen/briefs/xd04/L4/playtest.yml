@@ -6,7 +6,7 @@
 # the dormitory, finds the loose panel and loots the goblin's hoard, goes through the mistress's door into the
 # schoolroom (the caged girl calls out), kills the schoolmistress, reads the slate (a message window), frees child 2,
 # Rosebud (her message names the herb loft's stores, where the coven's key to the face door is), leaves by the double
-# door; refuses the Mind skull's "Feed me!" and buys a scroll of Heal from the Body skull for a gem; climbs the west
+# door; refuses the Mind skull's "Feed me!" and buys three scrolls of Heal from the Body skull for a gem; climbs the west
 # stair to the vat hall, walks up to the herb loft (the recipe card; the witches' stores give the coven's key), drinks
 # from the good vat (once only), hears the crying at the bookcase, opens it and frees child 3 (the boy wants to go
 # home); crosses the broken balcony, climbs the north stair, opens the face door with the coven's key (no password
@@ -154,7 +154,7 @@ steps:
         if not qbit(110041) or not qbit(110044) then error("child 2 was not freed or did not tell of the key") end
         if door_state(27) ~= "open" then error("cage 2 was not hoisted: " .. door_state(27)) end
   - assert: {actor_visible: {actor_index: 1, hidden: true}}
-  # Out by the double door onto the balcony; the talking skull of the Body sells a scroll of Heal for a gem.
+  # Out by the double door onto the balcony; the talking skull of the Body sells three scrolls of Heal for a gem.
   - walk_to: {x: 1720, y: 1312, z: 640, radius: 48, timeout_seconds: 30, clear_hostiles: 1000}
   - play_lua:
       source: |
@@ -171,13 +171,14 @@ steps:
   - answer_input: {text: "No"}
   - advance_runtime: {seconds: 1}
   - play_lua: {source: "close(); wait(0.5)"}
-  - play_lua: {source: "remember('gems', tostring(item_count(177) + item_count(178) + item_count(180))); click(36); wait(0.5)"}
+  - play_lua: {source: "remember('gems', tostring(item_count(177) + item_count(178) + item_count(180))); remember('heal', tostring(item_count(367))); click(36); wait(0.5)"}
   - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1}
   - play_lua:
       source: |
-        if held() ~= 0 then stow() end
-        if not has_item(367) then error("the skull did not sell its scroll of Heal") end
+        for _ = 1, 3 do if held() ~= 0 then stow() end end
+        local heal = item_count(367) - tonumber(recall('heal'))
+        if heal ~= 3 then error("the skull did not sell three scrolls of Heal: " .. heal) end
         local gems = item_count(177) + item_count(178) + item_count(180)
         if gems ~= tonumber(recall('gems')) - 1 then error("the skull did not take one gem: " .. recall('gems') .. " -> " .. gems) end
   # The west stair to the third-floor landing and the vat hall.

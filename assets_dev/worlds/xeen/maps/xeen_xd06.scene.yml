@@ -143,6 +143,8 @@ initial_state:
       x_offsets: [-3864, -3864, -3864, -3864, -3880, -3880, -3880, -3880]
       y_offsets: [2976, 3232, 3232, 2976, 2976, 3232, 3232, 2976]
       z_offsets: [-320, -320, 0, 0, 0, 0, -320, -320]
+      mover:
+        bodies: reverse
     - door_index: 1
       legacy_attributes: 0
       door_id: 5
@@ -160,6 +162,8 @@ initial_state:
       x_offsets: [1752, 1752, 1752, 1752, 1768, 1768, 1768, 1768]
       y_offsets: [12576, 12384, 12384, 12576, 12576, 12384, 12384, 12576]
       z_offsets: [-384, -384, 0, 0, 0, 0, -384, -384]
+      mover:
+        bodies: reverse
     - door_index: 2
       legacy_attributes: 0
       door_id: 6
@@ -177,6 +181,8 @@ initial_state:
       x_offsets: [2624, 2944, 2624, 2944, 2944, 2624]
       y_offsets: [5272, 5272, 5288, 5288, 5288, 5288]
       z_offsets: [380, 380, 380, 380, 380, 380]
+      mover:
+        bodies: reverse
     - door_index: 3
       legacy_attributes: 0
       door_id: 7
@@ -194,6 +200,8 @@ initial_state:
       x_offsets: [1304, 1304, 1304, 1304, 1320, 1320, 1320, 1320]
       y_offsets: [1696, 1504, 1504, 1696, 1696, 1504, 1504, 1696]
       z_offsets: [384, 384, 768, 768, 768, 768, 384, 384]
+      mover:
+        bodies: reverse
     - door_index: 4
       legacy_attributes: 0
       door_id: 8
@@ -211,6 +219,8 @@ initial_state:
       x_offsets: [-1304, -1304, -1304, -1304, -1320, -1320, -1320, -1320]
       y_offsets: [1504, 1696, 1696, 1504, 1504, 1696, 1696, 1504]
       z_offsets: [384, 384, 768, 768, 768, 768, 384, 384]
+      mover:
+        bodies: reverse
     - door_index: 5
       legacy_attributes: 0
       door_id: 9
@@ -228,6 +238,8 @@ initial_state:
       x_offsets: [384, 640, 640, 384]
       y_offsets: [13720, 13720, 13736, 13736]
       z_offsets: [-388, -388, -388, -388]
+      mover:
+        bodies: reverse
     - door_index: 6
       legacy_attributes: 0
       door_id: 10
@@ -245,6 +257,8 @@ initial_state:
       x_offsets: [400, 624, 624, 400, 400, 624, 624, 400]
       y_offsets: [11224, 11224, 11224, 11224, 11240, 11240, 11240, 11240]
       z_offsets: [-320, -320, 128, 128, 128, 128, -320, -320]
+      mover:
+        bodies: reverse
     - door_index: 7
       legacy_attributes: 0
       door_id: 12
@@ -262,6 +276,8 @@ initial_state:
       x_offsets: [-816, -592, -592, -816, -816, -592, -592, -816]
       y_offsets: [5656, 5656, 5656, 5656, 5672, 5672, 5672, 5672]
       z_offsets: [448, 448, 896, 896, 896, 896, 448, 448]
+      mover:
+        bodies: reverse
     - door_index: 8
       legacy_attributes: 0
       door_id: 13
@@ -279,6 +295,8 @@ initial_state:
       x_offsets: [-128, 128, 128, -128, -128, 128, 128, -128]
       y_offsets: [1176, 1176, 1176, 1176, 1192, 1192, 1192, 1192]
       z_offsets: [512, 512, 1024, 1024, 1024, 1024, 512, 512]
+      mover:
+        bodies: reverse
     - door_index: 9
       legacy_attributes: 0
       door_id: 1

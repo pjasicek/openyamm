@@ -75,9 +75,15 @@ def click_dialog(event, contains):
             {'play_lua': {'source': f"if not close() then error('{event} showed no window') end"}}]
 
 
+def click_status(event, contains):
+    # F13: a touch effect answers on the status line, not in a window.
+    return [{'play_lua': {'source': f'click({EV[event]}); wait(0.5)'}},
+            {'play_lua': {'source': f"local s = tostring(status()); close(); if not string.find(s, [[{contains}]], 1, true) "
+                                    f"then error('{event}: status line: ' .. s) end"}}]
+
+
 def nest(k):
     return [{'play_lua': {'source': f'click({EV[f"evt:nest_{k}"]}); wait(0.5)'}},
-            {'answer_input': {'text': 'Yes'}},
             {'advance_runtime': {'seconds': 1}},
             {'play_lua': {'source': f"close(); if not qbit({115020 + k}) then error('nest {k}: its bit is not set') end"}}]
 
@@ -110,7 +116,7 @@ def main_walk():
           loot('hoard')]
     s += cross('explorer_bridge')
     s += [at('explorers_rock', 0, -300)]
-    s += click_dialog('evt:explorer', 'Super Explorer')
+    s += click_status('evt:explorer', 'Super Explorer')
     s += [{'play_lua': {'source': "if not qbit(115020) then error('the explorer\\'s bit is not set') end"}}]
     s += cross('explorer_bridge', True) + [at('queens_eyrie', 0, -600)]
     s += cross('eyrie_ramp', True) + [at('nest_spires', 0, 0)]

@@ -38,7 +38,7 @@ neighbours:
 qbits:
   lair_burnt: 112301
   matron_dead: 110930
-notes: "Xeen design brief, level L4: XD-23 Troll Warren under X5's barrow mound in the Troll Forest (Q-C15 Troll Problem). Monsters: A2's Trolls, all placed (20 Troll 11070 18, 7 Troll Guard 11071 28; Ice Troll left out) in groups 10-18 by room, and the Troll Matron 11074 (32, boss row, group 19). Slot 1 Xeen Troll for the map card (no rest encounters: encounter 0, the burnt warren stays empty). Map qbits 110930-110939 (used: matron_dead 110930); A3's q-c15.lair_burnt 112301 named. Hook q-c15.lair called from the fire pit's question. Music 8. Neighbours on X5 (installed): the mouth (exit:mouth → exit:x5_mouth, in front of thing:warren) and the one-way smoke hole (exit:smoke_hole → exit:x5_crown, A6's point); the map's start is the arrival from X5's thing:warren."
+notes: "Xeen design brief, level L4: XD-23 Troll Warren under X5's barrow mound in the Troll Forest (Q-C15 Troll Problem). Monsters: A2's Trolls, all placed (20 Troll 11070 18, 7 Troll Guard 11071 28; Ice Troll left out) in groups 10-18 by room, and the Troll Matron 11074 (32, boss row, group 19). Slot 1 Xeen Troll for the map card (no rest encounters: encounter 0, the burnt warren stays empty). Map qbits 110930-110939 (used: matron_dead 110930); A3's q-c15.lair_burnt 112301 named. Hook q-c15.lair called from the fire pit's click (D-121). Music 8. Neighbours on X5 (installed): the mouth (exit:mouth → exit:x5_mouth, in front of thing:warren) and the one-way smoke hole (exit:smoke_hole → exit:x5_crown, A6's point); the map's start is the arrival from X5's thing:warren."
 identity:
   shape: cave
   family: d13

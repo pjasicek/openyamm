@@ -60,33 +60,30 @@ events:
   - id: evt:nest_1
     preset: script
     source: platform:nest_1
-    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Harpy Nest. Destroy?", wrong_text: You leave the nest as it is.}
     title: Harpy Nest
     effects:
       - hide: platform:nest_1
       - passable: platform:nest_1
       - lua: "XeenQuests.hook(\"x8-sky.nest_1\")"
-    notes: "poi:harpy_nests: the source's question (xeen/aaze0025:5); A3's hook x8-sky.nest_1 (500 XP)."
+    notes: "poi:harpy_nests: a click burns the nest (F47, the player's pins 2026-11-24: no Yes/No for a quest goal; the source asked, xeen/aaze0025:5); A3's hook x8-sky.nest_1 (500 XP)."
   - id: evt:nest_2
     preset: script
     source: platform:nest_2
-    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Harpy Nest. Destroy?", wrong_text: You leave the nest as it is.}
     title: Harpy Nest
     effects:
       - hide: platform:nest_2
       - passable: platform:nest_2
       - lua: "XeenQuests.hook(\"x8-sky.nest_2\")"
-    notes: "poi:harpy_nests: the source's question (xeen/aaze0025:5); A3's hook x8-sky.nest_2 (500 XP)."
+    notes: "poi:harpy_nests: a click burns the nest (F47, the player's pins 2026-11-24: no Yes/No for a quest goal; the source asked, xeen/aaze0025:5); A3's hook x8-sky.nest_2 (500 XP)."
   - id: evt:nest_3
     preset: script
     source: platform:nest_3
-    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "Harpy Nest. Destroy?", wrong_text: You leave the nest as it is.}
     title: Harpy Nest
     effects:
       - hide: platform:nest_3
       - passable: platform:nest_3
       - lua: "XeenQuests.hook(\"x8-sky.nest_3\")"
-    notes: "poi:harpy_nests: the source's question (xeen/aaze0025:5); A3's hook x8-sky.nest_3 (500 XP)."
+    notes: "poi:harpy_nests: a click burns the nest (F47, the player's pins 2026-11-24: no Yes/No for a quest goal; the source asked, xeen/aaze0025:5); A3's hook x8-sky.nest_3 (500 XP)."
   - id: evt:offering_1
     preset: script
     source: deco:offering_1

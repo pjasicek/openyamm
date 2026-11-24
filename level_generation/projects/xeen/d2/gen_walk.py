@@ -314,7 +314,7 @@ for key in ('dd11a', 'dd11b', 'dd11c'):
         add({'select_topic': {'match_label': 'OK'}})
         add({'advance_runtime': {'seconds': 1.5, 'follow_map_move': True}})
         add({'assert': {'map': 'xeen_%s.blv' % key}})
-        ins = {'dd11a': (96, -32), 'dd11b': (96, -32), 'dd11c': (128, -64)}[key]
+        ins = {'dd11a': (80, -208), 'dd11b': (144, -208), 'dd11c': (128, -64)}[key]
         add({'assert': {'party_position': {'x': ins[0], 'y': ins[1], 'radius': 200}}})
         out_again(key, "DD-11%s's sod hatch" % key[-1].upper())
     else:
@@ -326,7 +326,7 @@ walkc(59, 93, 'Down the brink path', timeout=120)
 walkc(60, 97, timeout=120)
 walkc(61, 101, timeout=120)
 event('evt:thing:brink_bench', "The sprites' lookout over Sprite Falls")
-jump(16, 89.5, 'The fairy ring', yaw=math.pi / 2)
+jump(21.5, 98.0, 'The fairy ring', yaw=math.pi / 2)
 event('evt:thing:fairy_ring', 'The fairy ring heals', dialog=False)
 # ---------------------------------------------------------------- the foothills and the pass
 jump(36, 53, 'The obelisk on its knoll', yaw=math.pi / 2)

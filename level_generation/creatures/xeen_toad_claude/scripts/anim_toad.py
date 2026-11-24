@@ -16,7 +16,11 @@ clip's travel speed), the body launches, flies an arc and lands; `stride_length`
   Death     1.4 s        convulsive leap, flips onto its back, legs twitch and sag
   Dead      held last Death pose
   Fidget    2.0 s        throat puffs, head turns, a short tongue flick
-Reads work/anim_base.blend (UV-mapped master) or work/rig_v1.blend, writes work/anim_v1.blend and work/anim_info.json.
+Reads work/anim_repair.blend (the D-118 repair of the UV master, scripts/repair_toad.py), else work/anim_base.blend
+(UV-mapped master) or work/rig_v1.blend; writes work/anim_v1.blend and work/anim_info.json.
+D-118 (F57, 2026-11-24): Attack rears less (the head no longer fills the front view) and opens the Jaw onto the mouth
+cavity for the tongue; the hops lift the heel 18 degrees, not 55 (the foot bone spans the whole folded leg, so 55
+degrees threw the lobe over the back); Death keeps the tongue in and the throat unpuffed (the belly peg).
 """
 import bpy, os, sys, math, json
 import numpy as np
@@ -27,8 +31,9 @@ import posing as P
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WORK = os.path.join(HERE, 'work')
-src = os.path.join(WORK, 'anim_base.blend')
-bpy.ops.wm.open_mainfile(filepath=src if os.path.exists(src) else os.path.join(WORK, 'rig_v1.blend'))
+src = next((os.path.join(WORK, f) for f in ('anim_repair.blend', 'anim_base.blend')
+            if os.path.exists(os.path.join(WORK, f))), os.path.join(WORK, 'rig_v1.blend'))
+bpy.ops.wm.open_mainfile(filepath=src)
 rig = bpy.data.objects['Toad_Rig']; mesh = bpy.data.objects['Toad']
 X, Y, Z = Vector((1, 0, 0)), Vector((0, 1, 0)), Vector((0, 0, 1))
 FPS = 30
@@ -46,6 +51,7 @@ WRIST = {s: pbn[f'Hand_{s}'].head.copy() for s in SIDES}
 ELBOW = {s: pbn[f'ForeArm_{s}'].head.copy() for s in SIDES}
 ANKLE = {s: pbn[f'Foot_{s}'].head.copy() for s in SIDES}
 KNEE = {s: pbn[f'Shin_{s}'].head.copy() for s in SIDES}
+HIP = {s: pbn[f'Thigh_{s}'].head.copy() for s in SIDES}
 TOEB = {s: pbn[f'Toes_{s}'].head.copy() for s in SIDES}
 FOOT_LEN = {s: pbn[f'Foot_{s}'].length for s in SIDES}
 
@@ -123,6 +129,12 @@ def throat(s):
     b.scale = Vector((1 + 0.6 * s, 1 + 0.3 * s, 1 + 0.9 * s)); bpy.context.view_layer.update()
 
 
+def jaw(deg):
+    """Open the lower jaw (D-118 Jaw bone, hinge at the mouth corners) by deg degrees."""
+    if deg and 'Jaw' in pbn:
+        P.rotate_world(rig, 'Jaw', X, deg)
+
+
 def tongue(extend, pitch=0.0, curl=0.0, yaw=0.0):
     """extend 0..1 grows the tongue out of the mouth (scale of the whole chain), pitch > 0 aims it up, curl > 0
     bends the tip up."""
@@ -174,7 +186,10 @@ def hind_leg(s, toeb, heel_lift=0.0, toes_flat=True, toe_pitch=0.0):
     flat = Vector((rest_dir.x, rest_dir.y, 0)).normalized()
     a = math.radians(heel_lift + math.degrees(math.asin(max(-1, min(1, rest_dir.z)))))
     ankle = toeb + (flat * math.cos(a) + Z * math.sin(a)) * FOOT_LEN[s]
-    pole = carried(KNEE[s] + Vector((SIDES[s] * 0.55, -0.30, 0.06)), 'Body', REST['Body'])
+    # D-118: the pole in the leg's rest plane (the rest knee pushed out from the hip-ankle midpoint), carried by the
+    # Body; the old offset pole let the nearly closed fold spin, swinging the lobe up over the back
+    mid = (HIP[s] + ANKLE[s]) / 2
+    pole = carried(mid + (KNEE[s] - mid) * 4.0, 'Body', REST['Body'])
     P.two_bone_ik(rig, f'Thigh_{s}', f'Shin_{s}', ankle, pole)
     P.aim_bone(rig, f'Foot_{s}', toeb)
     if toes_flat:
@@ -199,6 +214,10 @@ def standing(t, T=2.0):
     tongue(0)
     for s in SIDES:
         front_leg(s, WRIST[s]); hind_leg(s, TOEB[s])
+
+
+HOP_HEEL = 18.0     # was 55 (D-118)
+HIND_OFF = 0.42     # hind toes leave the ground (was 0.52, D-118)
 
 
 def hop(t, T, D, H, launch=12.0):
@@ -226,18 +245,23 @@ def hop(t, T, D, H, launch=12.0):
             a = WRIST[s] + Vector((0, D * 0.45, 0)); b = WRIST[s] + Vector((0, -D * 0.15, 0))
             w = a.lerp(b, k) + Vector((0, -0.10 * bump(u, 0.45, 0.85), 0.10 * bump(u, 0.45, 0.85) + H * 0.2 * bump(u, 0.5, 0.8)))
             front_leg(s, w, hand_pitch=25 * bump(u, 0.45, 0.85))
-        # hind: toes planted until 0.52 (heel peels from 0.30), airborne, land at 0.93
-        if u < 0.52:
+        # hind: toes planted until HIND_OFF (heel peels from 0.26), airborne, land at 0.93. D-118: the toes leave at
+        # 0.42, not 0.52, so the leg trails the launched body by 9 cm (walk) / 17 cm (run) instead of 35 / 65 cm,
+        # which stretched the sole away from the lobe
+        ho = HIND_OFF
+        if u < ho:
             tb = TOEB[s] + Vector((0, D * u, 0))
-            hind_leg(s, tb, heel_lift=55 * ss((u - 0.28) / 0.24))
+            hind_leg(s, tb, heel_lift=HOP_HEEL * ss((u - 0.26) / (ho - 0.26)))
         elif u >= 0.93:
             tb = TOEB[s] + Vector((0, -D * (1 - u), 0))
             hind_leg(s, tb)
         else:
-            k = ss((u - 0.52) / 0.41)
-            a = TOEB[s] + Vector((0, D * 0.52, 0)); b = TOEB[s] + Vector((0, -D * 0.07, 0))
-            tb = a.lerp(b, k) + Vector((0, 0.10 * bump(u, 0.52, 0.75), 0.03 + 0.25 * H * bump(u, 0.52, 0.93)))
-            hind_leg(s, tb, heel_lift=55 * (1 - ss((u - 0.55) / 0.30)), toe_pitch=-30 * bump(u, 0.52, 0.80))
+            # in flight the foot's trail behind the body shrinks smoothly from its liftoff value to 0 at landing
+            # (the old clip-space lerp let the legs trail up to 40 cm behind the accelerating body)
+            k = ss((u - ho) / (0.93 - ho))
+            trail = D * ss((ho - 0.33) / 0.55) * (1 - k)
+            tb = TOEB[s] + Vector((0, D * u - p + trail + 0.10 * bump(u, ho, 0.75), (0.03 + 0.25 * H) * bump(u, ho, 0.93)))
+            hind_leg(s, tb, heel_lift=HOP_HEEL * (1 - ss((u - ho - 0.03) / 0.30)), toe_pitch=-30 * bump(u, ho, 0.80))
 
 
 def keyed(keys, t):
@@ -261,21 +285,27 @@ def generic(k):
          yaw=k.get('yaw', 0))
     spine(chest=k.get('chest', 0), head=k.get('head', 0), head_yaw=k.get('head_yaw', 0))
     throat(k.get('throat', 0))
+    jaw(k.get('jaw', 0))
     tongue(k.get('tongue', 0), pitch=k.get('tpitch', 0), curl=k.get('tcurl', 0))
     for s in SIDES:
         sg = SIDES[s]
         lift = k.get('hands_up', 0)
         w = WRIST[s] + Vector((sg * k.get('hands_out', 0), -k.get('hands_fwd', 0), lift))
         front_leg(s, w, hand_pitch=k.get('hand_pitch', 0))
-        hind_leg(s, TOEB[s] + Vector((0, -k.get('feet_fwd', 0), 0)), heel_lift=k.get('heel', 0))
+        # D-118: the hind toes shift with 60 % of the body's lunge or jolt; planted toes under a 10 cm lunge swung
+        # the nearly closed leg fold through 20 cm
+        hind_leg(s, TOEB[s] + Vector((0, -k.get('feet_fwd', 0) - 0.6 * k.get('fwd', 0), 0)), heel_lift=k.get('heel', 0))
 
 
-ATTACK = [(0.0, {}), (0.22, {'pitch': 6, 'head': 10, 'throat': 0.9, 'fwd': -0.04, 'heel': 8}),
-          (0.36, {'pitch': 8, 'head': 12, 'throat': 1.0, 'fwd': -0.05, 'tongue': 0.05, 'heel': 10}),
-          (0.42, {'pitch': 2, 'head': 2, 'throat': 0.2, 'fwd': 0.10, 'tongue': 1.0, 'tpitch': 6, 'heel': 20}),
+# D-118: a low rear (pitch 3-4, head 4-5 instead of 6-8 / 10-12) and a smaller throat puff, the Jaw opening onto
+# the mouth cavity around the strike
+ATTACK = [(0.0, {}), (0.22, {'pitch': 3, 'head': 4, 'throat': 0.5, 'fwd': -0.04, 'heel': 3, 'jaw': 2}),
+          (0.36, {'pitch': 4, 'head': 5, 'throat': 0.6, 'fwd': -0.05, 'tongue': 0.05, 'heel': 4, 'jaw': 7}),
+          (0.42, {'pitch': 1, 'head': 1, 'throat': 0.15, 'fwd': 0.10, 'tongue': 1.0, 'tpitch': 6, 'heel': 6,
+                  'jaw': 9}),
           (0.52, {'pitch': 1, 'head': 0, 'throat': 0.1, 'fwd': 0.10, 'tongue': 0.95, 'tpitch': 2, 'tcurl': 25,
-                  'heel': 16}),
-          (0.68, {'pitch': 2, 'head': 3, 'fwd': 0.03, 'tongue': 0.0, 'tcurl': 10}),
+                  'heel': 5, 'jaw': 8}),
+          (0.68, {'pitch': 1, 'head': 1, 'fwd': 0.03, 'tongue': 0.0, 'tcurl': 10, 'jaw': 2}),
           (1.0, {})]
 HIT = [(0.0, {}), (0.08, {'fwd': -0.10, 'lift': -0.03, 'pitch': -4, 'head': -12, 'throat': -0.3, 'roll': 4,
                           'hands_out': 0.05}),
@@ -297,8 +327,8 @@ def death(t):
     P.rotate_world(rig, 'Body', X, 18 * bump(t, 0.0, 0.5), c)
     P.rotate_world(rig, 'Body', Y, -roll_deg, c)
     spine(chest=-8 * k, head=-15 * ss((t - 0.5) / 0.5))
-    throat(-0.2 * k + 0.5 * bump(t, 0.9, 1.3))
-    tongue(0.35 * ss((t - 0.7) / 0.4), pitch=-20, curl=-20)
+    throat(-0.2 * k)                                    # D-118: no puff, the tongue stays in (the belly peg)
+    tongue(0)
     tw = math.sin(2 * math.pi * 7 * t) * bump(t, 0.75, 1.3)
     sag = ss((t - 0.9) / 0.5)
     for s in SIDES:
@@ -307,7 +337,7 @@ def death(t):
         P.rotate_world(rig, f'UpperArm_{s}', Y, -sg * (45 * k - 20 * sag + 8 * tw))
         P.rotate_world(rig, f'ForeArm_{s}', Y, -sg * (25 * k))
         P.rotate_world(rig, f'Thigh_{s}', X, 25 * k + 10 * tw)
-        P.rotate_world(rig, f'Shin_{s}', X, -(30 * k - 25 * sag))
+        P.rotate_world(rig, f'Shin_{s}', X, -(15 * k - 12 * sag))   # D-118: 30/25, the lobe tore between Thigh and Shin
         P.rotate_world(rig, f'Thigh_{s}', Z, -sg * 20 * sag)
     return {}
 

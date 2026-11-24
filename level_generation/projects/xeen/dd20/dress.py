@@ -102,7 +102,7 @@ def chests():
 
 # (row, at, group, hidden)
 PLACED = {
-    'coven_hall': [(WITCH, [0, 1408]), (WITCH, [-1152, 1280])],
+    'coven_hall': [(WITCH, [448, 1408]), (WITCH, [320, 1216])],
     'witches_walk': [(WITCH, [-1920, 2368]), (WITCH, [-1152, 2432]), (COVEN_WITCH, [-2560, 2368])],
     'antechamber': [(COVEN_WITCH, [-3072, 3136]), (COVEN_WITCH, [-2688, 3136])],
     'brewery': [(WITCH, [-1024, 3456]), (WITCH, [-256, 3328]), (WITCH, [256, 3584])],
@@ -114,8 +114,8 @@ PLACED = {
     'cistern': [(STALKER, [1280, -2304]), (STALKER, [2816, -1408])],
     'warren': [(STALKER, [10880, 1024]), (STALKER, [11520, 1280]), (STALKER, [11648, 640]), (STALKER, [11008, 448]),
                (MATRIARCH, [11392, 896])],
-    'east_drain': [(STALKER, [11264, -1024]), (STALKER, [12672, -1024])],
-    'outfall': [(STALKER, [12672, 1920]), (STALKER, [13568, 2048]), (STALKER, [14592, 768]), (STALKER, [12544, -128]),
+    'east_drain': [(STALKER, [13184, -832]), (STALKER, [12992, -768])],
+    'outfall': [(STALKER, [12672, 1920]), (STALKER, [13376, 2048]), (STALKER, [14720, 768]), (STALKER, [12544, -128]),
                 (MATRIARCH, [13824, -256])],
 }
 # D-18 (D-42 (7)): five of the cross's eight climb out of the side drains on the first step.

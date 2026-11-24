@@ -655,8 +655,8 @@ DECORATIONS = [
     deco('store_c_hay', 'store_c', '7dec11', (832, 384), notes="Fodder straw."),
     deco('store_c_sack', 'store_c', 'bag01', (1120, -48)),
     deco('store_d_bones', 'store_d', '7dec18', (1648, 416), notes="A heap of bones ('Bones', a find)."),
-    deco('store_d_barrel_1', 'store_d', 'smlbarel', (1912, 448)),
-    deco('store_d_barrel_2', 'store_d', 'smlbarel', (1968, 448)),
+    deco('store_d_barrel_1', 'store_d', 'smlbarel', (1902, 448)),
+    deco('store_d_barrel_2', 'store_d', 'smlbarel', (1978, 448)),
     # L2
     deco('statue2', 'statue_hall2', '7dec55', (2592, -2048), floor_height=FL[1] + 64,
          notes="The speaking statue on its plinth."),
@@ -881,8 +881,8 @@ for _k in ('side3a', 'side3b', 'side3c'):
     _x0, _y0, _x1, _y1 = B[_k]
     light(_k, ((_x0 + _x1) // 2, (_y0 + _y1) // 2), 240, 600, DIM)
 # fallen masonry in the maze's dead ends
-for _n, (_l, _c, _r, _dx, _dy) in enumerate((('maze_h', 0, 0, 0, -64), ('maze_h', 2, 4, 0, 64), ('maze_e', 2, 0, 64, 0),
-                                              ('maze_m', 0, 0, 0, -64), ('maze_m', 2, 0, 0, -64)), 1):
+for _n, (_l, _c, _r, _dx, _dy) in enumerate((('maze_h', 0, 0, 0, -64), ('maze_h', 2, 4, 0, 64), ('maze_e', 2, 0, -8, 0),
+                                              ('maze_m', 0, 0, 0, 8), ('maze_m', 2, 0, 0, -64)), 1):
     _x, _y = cell(_l, _c, _r)
     DECORATIONS.append(deco('maze_rubble_%d' % _n, _l, 'trasheap', (_x + _dx, _y + _dy),
                             notes="Fallen masonry from the maze's broken walls."))
@@ -990,9 +990,9 @@ CHESTS = [
      'random_items': 2, 'gold': 1500, 'notes': "The minotaurs' strongbox behind the hourglass panel."},
     {'id': 'chest:cell3', 'room': 'room:cell3', 'at': F(1728, -2992), 'treasure_level': 4,
      'random_items': 2, 'gold': 900, 'notes': "Taken from the last ones who answered No."},
-    {'id': 'chest:negative', 'room': 'room:negative3', 'at': F(1200, -2560), 'treasure_level': 4,
+    {'id': 'chest:negative', 'room': 'room:negative3', 'at': F(1240, -2752), 'treasure_level': 4,
      'random_items': 2, 'gold': 1200, 'notes': "By the black waters."},
-    {'id': 'chest:reserve', 'room': 'room:reserve4', 'at': F(5504, -2976), 'treasure_level': 5,
+    {'id': 'chest:reserve', 'room': 'room:reserve4', 'at': F(5824, -2888), 'treasure_level': 5,
      'random_items': 3, 'gold': 3000, 'notes': "The Minotaur's hoard (T5)."},
     {'id': 'chest:dead', 'room': 'room:maze_dead', 'at': F(4944, 1344), 'treasure_level': 4,
      'random_items': 2, 'gold': 1000, 'notes': "The lost adventurer's chest."},

@@ -60,7 +60,6 @@ events:
   - id: evt:drum_great
     preset: script
     source: platform:drum_great
-    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "You have found a war drum of the Orcs!  Destroy?", wrong_text: "You leave the drum as it is, for now."}
     title: Great war drum
     condition: {map_var: {name: drum_great, equals: 0}}
     effects:
@@ -84,7 +83,7 @@ events:
     else_effects:
       - text: Nothing is left of the great war drum but a charred frame.
     text: "The dry hide catches at once: the great war drum goes up in flames, and its beat drops out of the din."
-    notes: "poi:drums / set:drums_fade: a click asks the orc outposts' question (aaze0019, 'observation post' made 'war drum'); Yes sets the drum alight; its looping beat stops; the third one burnt sets the quest bit (evt:drums_all)."
+    notes: "poi:drums / set:drums_fade: a click sets the drum alight (F47, the player's pins 2026-11-24: no Yes/No for a quest goal; the source asked the orc outposts' question, aaze0019); its looping beat stops; the third one burnt sets the quest bit (evt:drums_all)."
   - id: evt:drum_great_out
     preset: script
     trigger: timer
@@ -119,7 +118,6 @@ events:
   - id: evt:drum_signal
     preset: script
     source: platform:drum_signal
-    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "You have found a war drum of the Orcs!  Destroy?", wrong_text: "You leave the drum as it is, for now."}
     title: Signal drum
     condition: {map_var: {name: drum_signal, equals: 0}}
     effects:
@@ -143,7 +141,7 @@ events:
     else_effects:
       - text: Nothing is left of the signal drum but a charred frame.
     text: "The dry hide catches at once: the signal drum goes up in flames, and its beat drops out of the din."
-    notes: "poi:drums / set:drums_fade: a click asks the orc outposts' question (aaze0019, 'observation post' made 'war drum'); Yes sets the drum alight; its looping beat stops; the third one burnt sets the quest bit (evt:drums_all)."
+    notes: "poi:drums / set:drums_fade: a click sets the drum alight (F47, the player's pins 2026-11-24: no Yes/No for a quest goal; the source asked the orc outposts' question, aaze0019); its looping beat stops; the third one burnt sets the quest bit (evt:drums_all)."
   - id: evt:drum_signal_out
     preset: script
     trigger: timer
@@ -164,7 +162,6 @@ events:
   - id: evt:drum_spirit
     preset: script
     source: platform:drum_spirit
-    question: {ask: "Destroy (Yes/No)?", answers: [Yes, Y, yes, y], message: "You have found a war drum of the Orcs!  Destroy?", wrong_text: "You leave the drum as it is, for now."}
     title: Spirit drum
     condition: {map_var: {name: drum_spirit, equals: 0}}
     effects:
@@ -188,7 +185,7 @@ events:
     else_effects:
       - text: Nothing is left of the spirit drum but a charred frame.
     text: "The dry hide catches at once: the spirit drum goes up in flames, and its beat drops out of the din."
-    notes: "poi:drums / set:drums_fade: a click asks the orc outposts' question (aaze0019, 'observation post' made 'war drum'); Yes sets the drum alight; its looping beat stops; the third one burnt sets the quest bit (evt:drums_all)."
+    notes: "poi:drums / set:drums_fade: a click sets the drum alight (F47, the player's pins 2026-11-24: no Yes/No for a quest goal; the source asked the orc outposts' question, aaze0019); its looping beat stops; the third one burnt sets the quest bit (evt:drums_all)."
   - id: evt:drum_spirit_out
     preset: script
     trigger: timer

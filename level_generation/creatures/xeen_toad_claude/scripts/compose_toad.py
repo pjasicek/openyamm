@@ -8,8 +8,7 @@ Writes into textures/:
   toad_normal_1k.png          Meshy normal (+y down; tools/prepare_actor_glb.py converts it)
   toad_mr_1k.png              ORM: R baked AO, G Meshy roughness, B 0
   toad_region_mask.png        1K RGBA: R = hide (everything but the eye domes), soft edge, padded into the gutters
-  toad_material_classes.png   1K labels: 1 skin, 6 eye
-  toad_tongue.png             256 px tongue colour (own material): glossy turquoise, darker at the root
+  toad_material_classes.png   1K labels: 1 skin, 6 eye (the tongue's own map: scripts/paint_tongue.py)
 Eyes: the two eye-dome pieces (small pieces above 0.6 m at the front) keep Meshy's paint and no ramp."""
 import sys
 from pathlib import Path
@@ -86,11 +85,5 @@ classes[valid] = 1
 classes[eye] = 6
 Image.fromarray(classes, 'L').resize((1024, 1024), Image.NEAREST).save(OUT / 'toad_material_classes.png')
 
-# tongue: v along the tongue (0 root .. 1 tip), u around
-v = np.linspace(0, 1, 256)[:, None]
-u = np.linspace(0, 1, 256)[None, :]
-root = np.array([0.30, 0.55, 0.58]); tip = np.array([0.42, 0.86, 0.84])
-col = root + (tip - root) * v[..., None]
-col = col * (0.88 + 0.12 * np.cos(2 * np.pi * u[..., None] * 3)) * (0.9 + 0.1 * np.cos(2 * np.pi * u[..., None]))
-save(col[::-1], OUT / 'toad_tongue.png')
+# the tongue (textures/toad_tongue.png) is painted by scripts/paint_tongue.py since D-126
 print('COMPOSED skin texels', int((padded > 0.5).sum()), 'eye texels', int(eye.sum()))

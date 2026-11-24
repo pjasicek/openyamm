@@ -235,7 +235,7 @@ spawns:
     tier: c
   - id: spawn:shaft_e
     room: room:shaft_floor
-    at: [1500, 300]
+    at: [1756, 172]
     slot: 1
     tier: a
   - id: spawn:shaft_w
@@ -312,7 +312,7 @@ decorations:
   - id: deco:low_nests_skulls
     room: room:low_nests
     decoration: sklplrev
-    at: [-2000, 850]
+    at: [-1907, 762]
     floor_height: 512
   - id: deco:mouth_bones
     room: room:mouth
@@ -321,7 +321,7 @@ decorations:
   - id: deco:mouth_rock
     room: room:mouth
     decoration: 6rock02
-    at: [1580, -400]
+    at: [1506, -386]
   - id: deco:roost_bones
     room: room:roost
     decoration: 7dec18
@@ -330,7 +330,7 @@ decorations:
   - id: deco:roost_skulls
     room: room:roost
     decoration: sklplrev
-    at: [600, 3650]
+    at: [585, 3573]
     floor_height: 2048
   - id: deco:shaft_bones_1
     room: room:shaft_floor

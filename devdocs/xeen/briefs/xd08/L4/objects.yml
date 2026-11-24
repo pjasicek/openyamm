@@ -465,7 +465,7 @@ spawns:
     group: 51
   - id: spawn:welcome
     room: room:welcome
-    at: [256, 1664]
+    at: [512, 1472]
     slot: 2
     tier: a
     group: 51
@@ -754,15 +754,15 @@ decorations:
   - id: deco:stocks_skeleton_1
     room: room:stocks
     decoration: dec05
-    at: [-2560, 2864]
+    at: [-2560, 2718]
   - id: deco:stocks_skeleton_2
     room: room:stocks
     decoration: dec05
-    at: [-2560, 3248]
+    at: [-2560, 3102]
   - id: deco:stocks_skeleton_3
     room: room:stocks
     decoration: dec05
-    at: [-2560, 3632]
+    at: [-2560, 3486]
   - id: deco:throne_pile_e
     room: room:terror_hall
     decoration: sklplrev

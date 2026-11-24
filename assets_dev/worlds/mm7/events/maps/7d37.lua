@@ -77,7 +77,7 @@ RegisterEvent(1, nil, function()
 end)
 
 RegisterEvent(2, nil, function()
-    if evt.CheckMonstersKilled(ActorKillCheck.Any, 51, 0, false) then -- any actor; all matching actors defeated
+    if evt.CheckMonstersKilled(ActorKillCheck.Any, 51, 0, true) then -- any actor; all matching actors defeated
         evt.ForPlayer(Players.All)
         SetQBit(QBit(652)) -- Cleaned out the haunted mansion (Cavalier promo)
     end

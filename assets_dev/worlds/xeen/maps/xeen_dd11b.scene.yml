@@ -514,6 +514,8 @@ initial_state:
       x_offsets: [5172, 5172, 5172, 5172, 5196, 5196, 5196, 5196, 5172, 5196, 5196, 5172]
       y_offsets: [-224, -416, -416, -224, -224, -416, -416, -224, -226, -226, -226, -226]
       z_offsets: [-448, -448, -192, -192, -192, -192, -448, -448, -192, -192, -448, -448]
+      mover:
+        bodies: reverse
     - door_index: 1
       legacy_attributes: 0
       door_id: 2
@@ -531,6 +533,8 @@ initial_state:
       x_offsets: [456, 456, 440, 440]
       y_offsets: [-1216, -1088, -1088, -1216]
       z_offsets: [252, 252, 252, 252]
+      mover:
+        bodies: reverse
     - door_index: 2
       legacy_attributes: 0
       door_id: 3
@@ -542,7 +546,7 @@ initial_state:
       state: 2
       vertex_ids: [965, 966, 967, 968, 969, 970, 971, 972]
       face_ids: [780, 781, 782, 783, 784]
-      sector_ids: [5]
+      sector_ids: [5, 1]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
       x_offsets: [1312, 1504, 1504, 1312, 1312, 1504, 1504, 1312]
@@ -562,7 +566,7 @@ initial_state:
 party_start_points:
   - start_index: 0
     source_name: StartPoint0
-    position: [96, -32, 0]
+    position: [144, -208, 0]
     direction_degrees: 0
 loot_containers:
   - source_id: xeen:xeen_dd11b:brewers

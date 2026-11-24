@@ -625,7 +625,7 @@ spawns:
     notes: Among the crystals of the lower terrace.
   - id: spawn:item_spoil
     room: room:furnace_hall
-    at: [4560, 1700]
+    at: [4640, 1640]
     kind: item
     treasure_level: 1
     notes: Something in the spoil by the smelter.
@@ -756,7 +756,7 @@ monsters:
     facing: 270
     hostile: true
     group: 6
-    immobile: true
+    leash: 600
   - id: monster:gate_guard_2
     room: room:kings_antechamber
     monster: 11050
@@ -764,7 +764,7 @@ monsters:
     facing: 270
     hostile: true
     group: 6
-    immobile: true
+    leash: 600
   - id: monster:gong_sentry
     room: room:furnace_hall
     monster: 11051
@@ -967,7 +967,7 @@ decorations:
   - id: deco:geode_cluster_2
     room: room:geode_grotto
     decoration: crys5
-    at: [1180, 2100]
+    at: [1110, 2075]
   - id: deco:geode_cluster_3
     room: room:geode_grotto
     decoration: crys6
@@ -1181,7 +1181,7 @@ decorations:
   - id: deco:prospector
     room: room:mole_warren
     decoration: dec05
-    at: [4720, 560]
+    at: [4738, 606]
   - id: deco:prospector_bones
     room: room:mole_warren
     decoration: 7dec18
@@ -1226,7 +1226,7 @@ decorations:
   - id: deco:stalagmite_3
     room: room:geode_grotto
     decoration: stlmite3
-    at: [1150, 1700]
+    at: [1190, 1760]
   - id: deco:statue_e
     room: room:kings_antechamber
     decoration: 7dec54
@@ -1270,7 +1270,7 @@ decorations:
   - id: deco:warren_rock_2
     room: room:mole_warren
     decoration: 6rock02
-    at: [3200, 620]
+    at: [3290, 637]
   - id: deco:warren_skull
     room: room:mole_warren
     decoration: 7dec20

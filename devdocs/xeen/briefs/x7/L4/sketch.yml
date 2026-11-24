@@ -1720,7 +1720,7 @@ areas:
     index: 5
     count: 1
     slot: 2
-    circle: {at: [53, 33], r: 1}
+    circle: {at: [53, 35], r: 1}
     notes: walkable ground
   - id: pop:ash_flats
     index: 6
@@ -2183,9 +2183,9 @@ structures:
     at: [68.2, 80]
     size: [2, 2]
     kit: plaster
-    textures: {door: hhm1d, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chb1}
+    textures: {base: cwb1, door: hhm1d, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chb1}
     parts:
-      - {id: t, shape: round, at: [512, 512], radius: 352, sides: 10, wall_height: 1280, windows: none, roof: cone, roof_pitch: 58}
+      - {id: t, shape: round, at: [512, 512], radius: 352, sides: 10, textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 1280, windows: none, roof: cone, roof_pitch: 58}
     floor: 2100
     door: none
     title: The watch's signal tower
@@ -2195,9 +2195,9 @@ structures:
     at: [65, 83]
     size: [2.4, 2]
     kit: plaster
-    textures: {door: hhm1d, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chb1}
+    textures: {base: cwb1, door: hhm1d, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chb1}
     parts:
-      - {id: r, at: [64, 64], size: [1100, 896], wall_height: 352, windows: none, roof: none}
+      - {id: r, at: [64, 64], size: [1100, 896], textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 352, windows: none, roof: none}
     floor: 2100
     door: none
     title: "The watch's barracks, roofless"
@@ -2232,9 +2232,9 @@ structures:
     at: [75, 75.4]
     size: [2, 1.4]
     kit: plaster
-    textures: {door: hhm1d, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chb1}
+    textures: {base: cwb1, door: hhm1d, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chb1}
     parts:
-      - {id: s, at: [48, 48], size: [928, 620], wall_height: 256, windows: none, roof: none}
+      - {id: s, at: [48, 48], size: [928, 620], textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 256, windows: none, roof: none}
     door: none
     title: "The watch's pony shed, its roof fallen in"
     ruin:
@@ -2260,7 +2260,8 @@ structures:
     decoration: 7dec02
     title: A small fire
     effects:
-      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end"
+    once: true
   - id: thing:sable_pot
     kind: decoration
     at: [76.22, 89.6]
@@ -2328,9 +2329,9 @@ structures:
     at: [51.4, 97.4]
     size: [1.6, 1.6]
     kit: plaster
-    textures: {door: hhm1d, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chb1}
+    textures: {base: cwb1, door: hhm1d, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chb1}
     parts:
-      - {id: s, at: [96, 96], size: [627, 627], posts: 32, wall_height: 352, windows: none, roof: hip, roof_pitch: 38}
+      - {id: s, at: [96, 96], size: [627, 627], posts: 32, textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 352, windows: none, roof: hip, roof_pitch: 38}
     floor: 2080
     door: none
     title: The Shrine of Fire
@@ -2460,9 +2461,9 @@ structures:
     at: [83, 69]
     size: [2, 2]
     kit: plaster
-    textures: {door: hhm1d, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chb1}
+    textures: {base: cwb1, door: hhm1d, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chb1}
     parts:
-      - {id: h, at: [96, 96], size: [832, 832], wall_height: 384, windows: none, roof: none}
+      - {id: h, at: [96, 96], size: [832, 832], textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 384, windows: none, roof: none}
     door: none
     title: The dwarves' east lookout
     ruin:
@@ -2701,7 +2702,8 @@ structures:
     decoration: 7dec02
     title: The pickets' fire
     effects:
-      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end evt.ChangeEvent(0)"
+      - lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end"
+    once: true
   - id: thing:den_hides
     kind: decoration
     at: [83.75, 102.75]

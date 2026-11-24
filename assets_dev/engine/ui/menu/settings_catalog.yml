@@ -110,6 +110,12 @@ settings:
   type: toggle
   desc: Potions, bottles, reagents and quest items each go to a tab of their own, shared by the whole party, in place of the members' bags.
   ruleset_desc: Standard games only; this game's ruleset always keeps its pouches.
+- id: loot_pouch
+  section: gameplay
+  group: Inventory
+  name: New loot pouch
+  type: toggle
+  desc: What the party picks up or loots goes to the leather pouch tab, unless it has a pouch of its own. Move what you want to keep into a bag; Sell trash in a shop picks the rest.
 - id: workbench_keep_mixed_potions
   section: gameplay
   group: Alchemy
@@ -913,6 +919,10 @@ bindings:
 - id: quest
   name: Inventory
   group: Party & books
+- id: show_item_states
+  name: Show unidentified items (hold, inventory)
+  group: Party & books
+  context: inventory
 - id: quest_book
   name: Quest book
   group: Party & books

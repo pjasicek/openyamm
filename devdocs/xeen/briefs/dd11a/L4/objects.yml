@@ -1,9 +1,9 @@
 format: 0
 start:
   room: room:pit
-  at: [96, -32]
+  at: [80, -208]
   facing: e
-  notes: "Where D2's first troll hole drops the party: the pit's bottom beside the bone mound, facing the root tunnel (east)."
+  notes: "Where D2's first troll hole drops the party: the pit's bottom beside the bone mound, facing the root tunnel (east); out of the tunnel trolls' sight (F45, 2026-11-24; was [96, -32])."
 doors:
   - id: door:boulder
     opening: open:midden_crawl
@@ -299,7 +299,7 @@ decorations:
   - id: deco:midden_skulls
     room: room:midden
     decoration: sklplrev
-    at: [2010, -560]
+    at: [2080, -490]
     floor_height: 0
   - id: deco:pit_bones
     room: room:pit

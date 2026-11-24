@@ -82,13 +82,15 @@ def chests():
     ]
 
 
+# D-130 (2026-11-24): out of sight of both mouths' landings (0, 9664) and (64, 1408) (hide.py's spots); the mouths
+# have none, so their pairs wait in the next hall (a third item: the room they stand in; their ids keep the mouth's).
 PLACED = {
-    'north_mouth': [(FF, [-256, 9280]), (FF, [256, 9216])],
-    'icicle_hall': [(FF, [0, 7360]), (FF, [384, 7232]), (FF, [0, 8256]), (FF, [320, 8064])],
+    'north_mouth': [(FF, [-288, 8736], 'icicle_hall'), (FF, [288, 8736], 'icicle_hall')],
+    'icicle_hall': [(FF, [-640, 7616]), (FF, [704, 7424]), (FF, [-384, 8448]), (FF, [512, 8064])],
     'false_passage': [(FF, [-1472, 8064]), (FF, [-1280, 7680])],
-    'mirage_hall': [(FF, [0, 5888]), (FF, [640, 6080]), (FF, [-256, 4864]), (G, [768, 5120]), (G, [256, 4736])],
-    'frost_cavern': [(FF, [0, 3584]), (FF, [640, 3584]), (G, [256, 2816]), (G, [768, 2944])],
-    'south_mouth': [(FF, [-128, 1600]), (FF, [320, 1536])],
+    'mirage_hall': [(FF, [-384, 5760]), (FF, [896, 5952]), (FF, [-448, 4864]), (G, [768, 5120]), (G, [-384, 4448])],
+    'frost_cavern': [(FF, [-512, 3392]), (FF, [704, 3584]), (G, [448, 2752]), (G, [768, 2944])],
+    'south_mouth': [(FF, [-224, 2400], 'frost_cavern'), (FF, [352, 2400], 'frost_cavern')],
     'sluice': [(G, [1664, 3456]), (G, [2432, 3456]), (G, [1664, 2624])],
     'drowned': [(WG, [704, 4672]), (WG, [1408, 3840]), (WG, [416, 3776])],
     'mirror_maze': [(FF, [960, 5120]), (FF, [1472, 5632]), (FF, [768, 5696]), (FF, [1440, 6080]), (G, [1024, 5440])],
@@ -107,9 +109,10 @@ def monsters():
     out = []
     for room, lst in PLACED.items():
         n = {}
-        for row, at in lst:
+        for row, at, *inside in lst:
             n[row] = n.get(row, 0) + 1
-            d = {'id': f'monster:{room}_{NAME[row]}_{n[row]}', 'room': R(room), 'monster': row, 'at': at,
+            d = {'id': f'monster:{room}_{NAME[row]}_{n[row]}', 'room': R(inside[0] if inside else room), 'monster': row,
+                 'at': at,
                  'facing': 270, 'hostile': True, 'group': 1}
             if room == 'reservoir':
                 d['group'] = HIDDEN_GROUP
@@ -141,7 +144,7 @@ def decorations():
         ('mirage_hall', 'stlmite1', [-832, 4672]),         ('mirage_hall', 'stlmite3', [-832, 6400]), ('icicle_hall', 'stlmite3', [-576, 8576]),
         ('icicle_hall', 'stlmite1', [832, 7104]), ('frost_cavern', 'stlmite3', [-576, 2560]),
         ('frost_cavern', 'stlmite3', [1088, 2560]), ('echo_cave', 'stlmite3', [-960, 4416]),
-        ('guard_post', 'stlmite1', [-1120, 4992]), ('sump', 'stlmite3', [-64, 960]),
+        ('guard_post', 'stlmite1', [-1097, 5026]), ('sump', 'stlmite3', [-64, 960]),
         ('drowned', '6rock02', [1472, 4640]), ('drowned', '6rock03', [384, 4544]),
         ('wreck', '7dec21', [1312, 1216]), ('wreck', '7dec21', [1440, 1136]), ('sump', '6rock05', [704, 896]),
     ]

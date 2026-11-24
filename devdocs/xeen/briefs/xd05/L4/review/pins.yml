@@ -1,0 +1,138 @@
+format: 1
+counter: 9
+pins:
+  - id: pin:p1
+    text: "is this intended, that you can't go back?"
+    source: game
+    world: xeen
+    map: xeen_xd05.blv
+    pose:
+      position: [-90.682, 205.192, 0]
+      yaw_radians: 1.401
+      pitch_degrees: -5.329
+      heading_yaw_units: 457
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-23T13:41:54
+    status: open
+    from: 20261123-134154-xeen_xd05.yml
+  - id: pin:p2
+    text: a bit too much
+    source: game
+    world: xeen
+    map: xeen_xd05.blv
+    pose:
+      position: [63.105, 1312.168, 0]
+      yaw_radians: 1.395
+      pitch_degrees: -7.494
+      heading_yaw_units: 455
+    picture: .oymap/pins/pictures/p2.png
+    author: user
+    created: 2026-11-23T13:42:32
+    status: open
+    from: 20261123-134232-xeen_xd05.yml
+  - id: pin:p3
+    text: from this angle the door disappers
+    source: game
+    world: xeen
+    map: xeen_xd05.blv
+    pose:
+      position: [657.159, 1996.169, 192]
+      yaw_radians: 3.162
+      pitch_degrees: -5.947
+      heading_yaw_units: 1031
+    picture: .oymap/pins/pictures/p3.png
+    author: user
+    created: 2026-11-23T13:44:03
+    status: open
+    from: 20261123-134403-xeen_xd05.yml
+  - id: pin:p4
+    text: you can pull the mobs to easily
+    source: game
+    world: xeen
+    map: xeen_xd05.blv
+    pose:
+      position: [1846.568, 2471.575, 192]
+      yaw_radians: 4.124
+      pitch_degrees: -11.207
+      heading_yaw_units: 1344
+    picture: .oymap/pins/pictures/p4.png
+    author: user
+    created: 2026-11-23T13:44:59
+    status: open
+    from: 20261123-134459-xeen_xd05.yml
+  - id: pin:p5
+    text: here seems to be an invisible wall
+    source: game
+    world: xeen
+    map: xeen_xd05.blv
+    pose:
+      position: [2225.254, 7731.565, 192]
+      yaw_radians: 1.858
+      pitch_degrees: -31.55
+      heading_yaw_units: 606
+    picture: .oymap/pins/pictures/p5.png
+    author: user
+    created: 2026-11-23T13:46:54
+    status: open
+    from: 20261123-134654-xeen_xd05.yml
+  - id: pin:p6
+    text: z-fighting
+    source: game
+    world: xeen
+    map: xeen_xd05.blv
+    pose:
+      position: [2477.832, 7919.645, -384]
+      yaw_radians: 1.028
+      pitch_degrees: -34.257
+      heading_yaw_units: 335
+    picture: .oymap/pins/pictures/p6.png
+    author: user
+    created: 2026-11-23T13:51:30
+    status: open
+    from: 20261123-135130-xeen_xd05.yml
+  - id: pin:p7
+    text: they don't want attack me
+    source: game
+    world: xeen
+    map: xeen_xd05.blv
+    pose:
+      position: [2218.064, 12589.42, 320]
+      yaw_radians: 1.487
+      pitch_degrees: -5.87
+      heading_yaw_units: 485
+    picture: .oymap/pins/pictures/p7.png
+    author: user
+    created: 2026-11-23T13:52:34
+    status: open
+    from: 20261123-135234-xeen_xd05.yml
+  - id: pin:p8
+    text: they attack when i am near
+    source: game
+    world: xeen
+    map: xeen_xd05.blv
+    pose:
+      position: [2180.788, 12513.854, 298.287]
+      yaw_radians: 1.49
+      pitch_degrees: -4.555
+      heading_yaw_units: 486
+    picture: .oymap/pins/pictures/p8.png
+    author: user
+    created: 2026-11-23T13:53:04
+    status: open
+    from: 20261123-135304-xeen_xd05.yml
+  - id: pin:p9
+    text: "i know you could decide in vanilla xeen, but do we really need this here?"
+    source: game
+    world: xeen
+    map: xeen_xd05.blv
+    pose:
+      position: [-2623.432, 7153.392, -192]
+      yaw_radians: 2.97
+      pitch_degrees: -14.378
+      heading_yaw_units: 968
+    picture: .oymap/pins/pictures/p9.png
+    author: user
+    created: 2026-11-23T13:54:47
+    status: open
+    from: 20261123-135447-xeen_xd05.yml

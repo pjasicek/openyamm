@@ -1,5 +1,5 @@
 format: 1
-counter: 71
+counter: 79
 pins:
   - id: pin:p1
     text: npc stuck
@@ -470,3 +470,123 @@ pins:
         revision: 18c9d530166f88bfa9ff6431d0fabacb
         status: resolved
         pictures: [.oymap/pins/pictures/p19-r1.png, .oymap/pins/pictures/p19-r1-2.png]
+  - id: pin:p20
+    text: not working
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [-7963.249, 4266.245, 641]
+      yaw_radians: 4.841
+      pitch_degrees: -11.92
+      heading_yaw_units: 1578
+    picture: .oymap/pins/pictures/p20.png
+    author: user
+    created: 2026-11-23T12:59:35
+    status: open
+    from: 20261123-125935-xeen_x1.yml
+  - id: pin:p21
+    text: "i don really know, there a many like this, and cannot find out what it might be"
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [-1497.225, 4853.338, 609]
+      yaw_radians: 4.649
+      pitch_degrees: 1.77
+      heading_yaw_units: 1515
+    picture: .oymap/pins/pictures/p21.png
+    author: user
+    created: 2026-11-23T13:01:32
+    status: open
+    from: 20261123-130132-xeen_x1.yml
+  - id: pin:p22
+    text: this looks strange
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [-4934.532, -1925.018, 609]
+      yaw_radians: 5.977
+      pitch_degrees: -30.979
+      heading_yaw_units: 1948
+    picture: .oymap/pins/pictures/p22.png
+    author: user
+    created: 2026-11-23T13:19:42
+    status: open
+    from: 20261123-131942-xeen_x1.yml
+  - id: pin:p23
+    text: "is this intended, that these barrels are not reachable?"
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [-23106, 8745.757, 956.875]
+      yaw_radians: 2.52
+      pitch_degrees: 4.601
+      heading_yaw_units: 821
+    picture: .oymap/pins/pictures/p23.png
+    author: user
+    created: 2026-11-23T13:24:02
+    status: open
+    from: 20261123-132402-xeen_x1.yml
+  - id: pin:p24
+    text: z fighting
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [13559.155, 11625.886, 809.277]
+      yaw_radians: 2.182
+      pitch_degrees: -12.678
+      heading_yaw_units: 711
+    picture: .oymap/pins/pictures/p24.png
+    author: user
+    created: 2026-11-23T13:39:03
+    status: open
+    from: 20261123-133903-xeen_x1.yml
+  - id: pin:p25
+    text: "if roll for a new stock, it is like the trash heap, always the same, usually everything is mixed up"
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [-10665.352, 10257.245, 641]
+      yaw_radians: 1.696
+      pitch_degrees: -7.898
+      heading_yaw_units: 553
+    picture: .oymap/pins/pictures/p25.png
+    author: user
+    created: 2026-11-23T17:41:14
+    status: open
+    from: 20261123-174114-xeen_x1.yml
+  - id: pin:p26
+    text: maybe you have a maximum here
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [6481.16, -10500.865, 538.841]
+      yaw_radians: 2.53
+      pitch_degrees: -22.056
+      heading_yaw_units: 825
+    picture: .oymap/pins/pictures/p26.png
+    author: user
+    created: 2026-11-23T17:53:56
+    status: open
+    from: 20261123-175356-xeen_x1.yml
+  - id: pin:p27
+    text: "schedule is not working, like in the other world"
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [766.541, 8977.945, 641]
+      yaw_radians: 5.169
+      pitch_degrees: -11.07
+      heading_yaw_units: 1685
+    picture: .oymap/pins/pictures/p27.png
+    author: user
+    created: 2026-11-24T01:12:58
+    status: open
+    from: 20261124-011258-xeen_x1.yml

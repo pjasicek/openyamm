@@ -54,8 +54,12 @@ FULLER = IN_WORLD and os.environ.get('X1_FULLER', '1') != '0'
 _X7_MAP = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../../../assets_dev/worlds/xeen/maps/xeen_x7.odm')
 X7_LIVE = IN_WORLD and (os.environ.get('X1_X7') == '1' or (os.environ.get('X1_X7') != '0' and os.path.exists(_X7_MAP)))
 ROAD_CAMPS = {   # pop: [(x, y, markers, radius)], beside the wild roads (within 1,500 of one where the buffers allow)
-    'pop:hill_orcs': [(8, 49, 2, 1), (3, 43, 1, 0.5), (46, 24, 2, 1)],                    # west road, mine lane
-    'pop:road_orcs': [(66, 5, 2, 1), (73, 3, 1, 0.5), (65, 17, 1, 0.5), (71, 27, 2, 1),
+    # P3 F45 (2026-11-24): the mine lane's pair (46, 24) -> (52, 20), 4,500 -> 7,800 from XD-02's exit at (44, 33)
+    # Final cloud round (2026-11-24, reach.spawn): the west and north road camps' markers stood at the camps' old
+    # spots past the map's bounds (cells 18.9-109.1): (8, 49), (3, 43) -> (27, 34), (22, 38); (66, 5), (73, 3),
+    # (65, 17) -> (59, 20), (85, 21), (90, 21)
+    'pop:hill_orcs': [(27, 34, 2, 1), (22, 38, 1, 0.5), (52, 20, 2, 1)],                # west road, mine lane
+    'pop:road_orcs': [(59, 20, 2, 1), (85, 21, 1, 0.5), (90, 21, 1, 0.5), (71, 27, 2, 1),
                       (77, 27, 1, 0.5)],                                                   # north road, orc lane
     # D-85 (A5, 2026-11-21): 5,888 from every talking NPC: the toad lane's (68, 72) -> (70, 76) (Orothin 4,650 ->
     # about 6,400), the forest path's (45, 80) pair -> (37, 91) (Derek 1,976 and Celia 1,268 -> over 6,000)
@@ -138,7 +142,11 @@ RIVER_LINE = [[0, 51], [30, 51], [40, 52], [46, 52], [58, 52], [64, 52], [67, 55
 # pass four (REVIEW_PASS3 2): the outflow meanders to the rim (was four straight runs, a ruler-straight canal)
 OUTFLOW = [[73, 65], [76, 63], [79, 64], [81, 64], [84, 62], [87, 63], [90, 61], [93, 62], [95, 61], [97, 59],
            [100, 61], [103, 60]]
-LAKE = [[63, 62], [68, 61], [73, 63], [74, 67], [69, 71], [64, 70], [61, 67]]
+# P3 F51 (2026-11-24): Orothin's two isles (heights points (65, 67) and (70, 66)) lay inside the pond, which the
+# studio levels to its water: the statues of Q-C20 stood in open water. Each isle is now the head of a spit of land
+# two cells wide from the south shore, so the party walks to them (tools/xeen/check_reach.py).
+LAKE = [[63, 62], [68, 61], [73, 63], [74, 67], [71, 69], [71, 65], [69, 65], [69, 71], [66, 70], [66, 66],
+        [64, 66], [64, 70], [61, 67]]
 ISLES = [(65, 67), (70, 66)]
 
 def dist_to_line(px, py, line):
@@ -973,9 +981,11 @@ def build():
     # 403-2,433, spacing variation 0.46-2.08).
     # F10 (A5 s29): the Spring Druid's west meadows (tile [31, 58]) lay 12,731 from every monster; the lone hill-orc
     # marker moves from (17, 38) to (44, 66) (output/studio_cal/a5/s29/x1_spot.py: deepest 10,700 after), 8,700 from the druid, 6,000 from Derek (move only)
-    camps('pop:hill_orcs', [(12, 43, 2, 1.5), (44, 66, 1, 0.25), (25, 26, 1, 1), (27, 23, 1, 1), (36, 25, 1, 1),
-                            (40, 28, 1, 0.5)])
-    camps('pop:road_orcs', [(72, 10, 2, 1.5), (67, 13, 1, 1), (77, 19, 1, 1), (79, 23, 1, 1), (62, 24, 1, 0.5),
+    # Final cloud round (reach.spawn): the west road camp's pair (12, 43) -> (25, 41) beside its fire (22.5, 42.6),
+    # the north road camp's (72, 10), (67, 13), (77, 19) -> (76, 21), (64, 20), (81, 20) beside (72.8, 21.5)
+    camps('pop:hill_orcs', [(25, 41, 2, 1), (44, 66, 1, 0.25), (25, 26, 1, 1), (27, 23, 1, 1), (36, 25, 1, 1),
+                            (34, 25, 1, 0.5)])   # P3 F45: was (40, 28), 3,500 from XD-02's exit
+    camps('pop:road_orcs', [(76, 21, 2, 1), (64, 20, 1, 0.5), (81, 20, 1, 0.75), (79, 23, 1, 1), (62, 24, 1, 0.5),
                             (86, 25, 1, 1), (94, 25, 1, 1), (100, 26, 1, 0.5)])
     camps('pop:toads', [(95, 78, 1, 1), (98, 82, 1, 1), (84, 90, 1, 1), (80, 93, 1, 1), (71, 86, 1, 1),
                         (70, 82, 1, 1), (92, 97, 1, 1), (96, 95, 1, 0.5)])
@@ -1441,7 +1451,9 @@ def build():
                        'chest': {'level': 1, 'random_items': 2}})
     structures.append({'id': 'thing:west_camp_bones', 'kind': 'decoration', 'decoration': 'dec05', 'at': [22.8, 63.4]})
     # pass six: the road camps (west road, north road)
-    for cid, (x, y) in (('west_road', (11.5, 41.8)), ('north_road', (72.8, 9.2))):
+    # P3 F51 (2026-11-24): inside the map's bounds (+-23,143, cells 18.8-109.2), beside their roads; they stood on
+    # the edge hills past them, where no party walks (tools/xeen/check_reach.py)
+    for cid, (x, y) in (('west_road', (22.5, 42.6)), ('north_road', (72.8, 21.5))):
         structures.append({'id': 'thing:%s_fire' % cid, 'kind': 'decoration', 'decoration': 'dec24', 'at': [x, y],
                            'title': 'Orc campfire'})
         structures.append({'id': 'thing:%s_crate' % cid, 'kind': 'decoration', 'decoration': 'bigbarel',
@@ -1514,7 +1526,7 @@ def build():
                        'chest': {'level': 1, 'random_items': 2}})
     # Wells (CHANGES X1-7 asks 4 more; TOWN_FEEL's wells and fountains on the map are 3-8 and the town has 5 and the
     # land 3: one more, the shepherd's spring in the hills, making 9 with the square's fountain; town_feel counts 8)
-    structures.append(T.well('thing:well_spring', (66.0, 16.0)))
+    structures.append(T.well('thing:well_spring', (66.0, 21.5)))    # P3 F51: was (66, 16), past the bounds
     structures[-1]['title'] = "Shepherd's spring"
     structures[-1]['effects'] = [{'add': {'var': 'SP', 'value': 10}}, {'text': '+10 Spell points'}]
     # Camps with a fire (CHANGES X1-7: 4): the hunters' (above), travellers by the orchard road, woodcutters in the
@@ -1631,10 +1643,11 @@ def build():
         actors.append({'monster': PLACED['orcs'], 'at': [x, y], 'count': 4, 'spread': 1.2, 'group': 60 + i,
                        'hostile': True})
     # Placed groups of the families the three slots cannot carry (rebase): snakes in the marsh, zombies round the
-    # ruined shrine; and two lone wanderers (an orc scout on the hill path, a skeleton among the dead trees).
+    # ruined shrine; and two lone wanderers (an orc scout on the hill path, a skeleton among the dead trees). The scout
+    # (47, 17) stood past the map's bounds: (47, 21) (final cloud round, reach.spawn).
     for i, (fam, (x, y), n, spread) in enumerate([('snakes', (97, 68), 3, 1.0), ('snakes', (76, 101), 2, 0.8),
                                                    ('zombies', (40, 99), 3, 1.0), ('zombies', (21, 95), 2, 0.8),
-                                                   ('orcs', (47, 17), 1, 0), ('skeletons', (35, 89), 1, 0)]):
+                                                   ('orcs', (47, 21), 1, 0), ('skeletons', (35, 89), 1, 0)]):
         actors.append({'monster': PLACED[fam], 'at': [x, y], 'count': n, 'spread': spread, 'group': 70 + i,
                        'hostile': True})
     for i, (row, (x, y), n, spread) in enumerate(ROAD_PESTS):

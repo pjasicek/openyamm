@@ -334,7 +334,9 @@ RegisterEvent(35, "Talking skull (Mind)", function(continueStep)
         end
         if paid then
             GiveItem(358)
-            evt.StatusText("The skull spits out a scroll of Mind Blast. 'Pleasure doing business. Your nose is crooked.'")
+            GiveItem(358)
+            GiveItem(358)
+            evt.StatusText("The skull spits out three scrolls of Mind Blast. 'Pleasure doing business. Your nose is crooked.'")
         else
             evt.StatusText("'No gems, no scroll,' clacks the skull. 'Come back richer and prettier.'")
         end
@@ -344,7 +346,7 @@ RegisterEvent(35, "Talking skull (Mind)", function(continueStep)
         evt.StatusText("'Cheapskate,' says the skull.")
         return
     end
-    evt.SetMessage("\"Feed me!\" the skull demands, and clacks its jaw. 'A scroll of Mind Blast for it, dearie. One gem. A shiny one. And do something about that face.'")
+    evt.SetMessage("\"Feed me!\" the skull demands, and clacks its jaw. 'Three scrolls of Mind Blast for it, dearie. One gem. A shiny one. And do something about that face.'")
     evt.AskQuestion(35, 1, 0, 2, "Toss a gem (Yes/No)?", {"Yes", "Y"})
 end, "Talking skull (Mind)")
 
@@ -360,7 +362,9 @@ RegisterEvent(36, "Talking skull (Body)", function(continueStep)
         end
         if paid then
             GiveItem(367)
-            evt.StatusText("The skull spits out a scroll of Heal. 'Pleasure doing business. Your nose is crooked.'")
+            GiveItem(367)
+            GiveItem(367)
+            evt.StatusText("The skull spits out three scrolls of Heal. 'Pleasure doing business. Your nose is crooked.'")
         else
             evt.StatusText("'No gems, no scroll,' clacks the skull. 'Come back richer and prettier.'")
         end
@@ -370,7 +374,7 @@ RegisterEvent(36, "Talking skull (Body)", function(continueStep)
         evt.StatusText("'Cheapskate,' says the skull.")
         return
     end
-    evt.SetMessage("The skull clacks its jaw. 'A scroll of Heal, dearie? One gem. A shiny one. And do something about that face.'")
+    evt.SetMessage("The skull clacks its jaw. 'Three scrolls of Heal, dearie? One gem. A shiny one. And do something about that face.'")
     evt.AskQuestion(36, 1, 0, 2, "Pay a gem (Yes/No)?", {"Yes", "Y"})
 end, "Talking skull (Body)")
 
@@ -386,7 +390,9 @@ RegisterEvent(37, "Talking skull (Air)", function(continueStep)
         end
         if paid then
             GiveItem(314)
-            evt.StatusText("The skull spits out a scroll of Sparks. 'Pleasure doing business. Your nose is crooked.'")
+            GiveItem(314)
+            GiveItem(314)
+            evt.StatusText("The skull spits out three scrolls of Sparks. 'Pleasure doing business. Your nose is crooked.'")
         else
             evt.StatusText("'No gems, no scroll,' clacks the skull. 'Come back richer and prettier.'")
         end
@@ -396,7 +402,7 @@ RegisterEvent(37, "Talking skull (Air)", function(continueStep)
         evt.StatusText("'Cheapskate,' says the skull.")
         return
     end
-    evt.SetMessage("The skull clacks its jaw. 'A scroll of Sparks, dearie? One gem. A shiny one. And do something about that face.'")
+    evt.SetMessage("The skull clacks its jaw. 'Three scrolls of Sparks, dearie? One gem. A shiny one. And do something about that face.'")
     evt.AskQuestion(37, 1, 0, 2, "Pay a gem (Yes/No)?", {"Yes", "Y"})
 end, "Talking skull (Air)")
 

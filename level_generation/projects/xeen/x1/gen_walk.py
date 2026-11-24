@@ -237,7 +237,8 @@ add({'play_lua': {'source': 'close(); click(%d); wait(0.5); if held() ~= %d then
 # D-95: the grate is at the foot of a ditch cut into the bank (its end face at row 55, x 61.5): down the ramp from the
 # lane north of the warehouse, the arch to the north
 walk(*W(59.2, 57.6), timeout=60)
-walk(*W(59.3, 56.2), timeout=60)       # west of the warehouse's door marks (7dec21 blocks the corner)
+# Joe's shop (58.5-60, 55.6-56.9 since P3 F49) stands west of the lane: up between it and 7dec21 (60.6, 57.15)
+walk(*W(60.25, 56.3), timeout=60)
 walk(*W(61.5, 56.2), timeout=60)
 gx, gy = W(61.5, 55.3)
 walk(gx, gy, 'The culvert grate at the foot of its ditch: barred from inside')
@@ -246,7 +247,7 @@ add({'press_interact': {'expect': {'kind': 'event_target'}}})
 add({'advance_runtime': {'seconds': 0.5}})
 add({'assert': {'map': M}})
 walk(*W(61.5, 56.2), timeout=60)
-walk(*W(59.3, 56.2), timeout=60)
+walk(*W(60.25, 56.3), timeout=60)
 walk(*W(59.2, 57.6), timeout=60)
 # XD-01: the warehouse door (turned 90: it looks west; the party stands west of it, looking east)
 enter((61.08, 58.3), 'xeen_xd01.blv', "XD-01 Joe's Warehouse: in by its loading doors", stand=W(60.45, 58.3), yaw=0.0, thing='thing:warehouse_door')

@@ -52,16 +52,16 @@ steps:
     expect_contains: Lua ran.
 - play_lua:
     source: 'local s = string.match(status(), "stats ([%d/ ]+)") if s == nil then error("no stats line") end remember("s0_0", s) log("s0_0: " .. s)'
-- note: 'A wayside shrine of Mok (event 115): every member +10'
+- note: 'A wayside shrine of Mok (event 267): every member +10'
 - execute_event:
-    id: 115
+    id: 267
 - advance_runtime:
     seconds: 0.5
 - play_lua:
     source: 'local s = status() if not string.find(s, "Mok bless your road. +10 Luck until you rest.", 1, true) then error("want Mok bless your road. +10 Luck until you rest., status: " .. s) end'
 - note: 'A wayside shrine of Mok again the same day: the refusal line only'
 - execute_event:
-    id: 115
+    id: 267
 - advance_runtime:
     seconds: 0.5
 - play_lua:
@@ -81,14 +81,14 @@ steps:
     hours: 24
 - note: 'A wayside shrine of Mok the next day: the gain again'
 - execute_event:
-    id: 115
+    id: 267
 - advance_runtime:
     seconds: 0.5
 - play_lua:
     source: 'local s = status() if not string.find(s, "Mok bless your road. +10 Luck until you rest.", 1, true) then error("want Mok bless your road. +10 Luck until you rest., status: " .. s) end'
 - note: 'A wayside shrine of Mok again that day: refused'
 - execute_event:
-    id: 115
+    id: 267
 - advance_runtime:
     seconds: 0.5
 - play_lua:
@@ -110,16 +110,16 @@ steps:
     expect_contains: Lua ran.
 - play_lua:
     source: 'local s = string.match(status(), "stats ([%d/ ]+)") if s == nil then error("no stats line") end remember("s1_0", s) log("s1_0: " .. s)'
-- note: 'The prayer shrine (event 126): every member +10'
+- note: 'The prayer shrine (event 268): every member +10'
 - execute_event:
-    id: 126
+    id: 268
 - advance_runtime:
     seconds: 0.5
 - play_lua:
     source: 'local s = status() if not string.find(s, "You pray. +10 to every stat until you rest.", 1, true) then error("want You pray. +10 to every stat until you rest., status: " .. s) end'
 - note: 'The prayer shrine again the same day: the refusal line only'
 - execute_event:
-    id: 126
+    id: 268
 - advance_runtime:
     seconds: 0.5
 - play_lua:
@@ -140,14 +140,14 @@ steps:
     hours: 24
 - note: 'The prayer shrine the next day: the gain again'
 - execute_event:
-    id: 126
+    id: 268
 - advance_runtime:
     seconds: 0.5
 - play_lua:
     source: 'local s = status() if not string.find(s, "You pray. +10 to every stat until you rest.", 1, true) then error("want You pray. +10 to every stat until you rest., status: " .. s) end'
 - note: 'The prayer shrine again that day: refused'
 - execute_event:
-    id: 126
+    id: 268
 - advance_runtime:
     seconds: 0.5
 - play_lua:

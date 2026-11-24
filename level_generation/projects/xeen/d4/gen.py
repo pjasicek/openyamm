@@ -112,6 +112,9 @@ def hcall(name):
 
 
 # A2's rows (data_tables/monster_data.txt)
+# things.overhang (2026-11-24): the well stood at (88.6, 97.4) on the brow's slope (the land fell 43 under its foot);
+# now on the level ground west of Well Fork, off its three roads
+WARDING_WELL = (84.75, 95.5)
 ROW = {'witch': 11170, 'coven_witch': 11171, 'coven_mother': 11172, 'octopod': 11470, 'great_octopod': 11471,
        'treant': 453, 'peasant_m': 361, 'peasant_f': 377, 'mage': 611}
 SLOT = {'gargoyles': 'Xeen Mountain Gargoyle', 'rocs': 'Xeen Roc', 'coven': 'Xeen Coven'}
@@ -806,7 +809,7 @@ def build():
               {'id': 'junction:well_fork', 'at': [86, 95]}, {'id': 'junction:ector_fork', 'at': [36, 81]},
               {'id': 'junction:snow_bridge', 'at': list(JUNCTION)}]
     points.append({'id': 'entrance:d7_fall', 'at': [75, 90], 'facing': 'w'})   # D-58 Q10 (A6 s16)
-    POI_AT = {'poi:obelisk': OBELISK, 'poi:fountain_magic': (29, 49), 'poi:warding_well': (88.6, 97.4),
+    POI_AT = {'poi:obelisk': OBELISK, 'poi:fountain_magic': (29, 49), 'poi:warding_well': WARDING_WELL,
               'poi:fountain_resilience': (100, 38), 'poi:woodpile': WOODPILE, 'poi:cairn': (91.6, 84.0),
               'poi:mirabeth': (95, 76), 'poi:genie_seat': (36, 43.6), 'poi:genie_skerry': (89, 70.1),
               'poi:witches_circle': (50, 90), 'poi:reed_cauldron': (51.4, 68.8), 'poi:beached_boat': BEACHED_BOAT,
@@ -1055,6 +1058,7 @@ def build():
     # beacon fires on the curtain's walk (floor fixtures on the walk), seen from Lakeside at night
     for i, (u, v) in enumerate(((x0 + 1.3, y1), (x0 + 2.9, y1), (x1 - 2.9, y1), (x1 - 1.3, y1), (x0, y0 + 2.2),
                                 (x1, y0 + 2.2))):
+        # on the walk between the battlements on purpose: kept in tools/xeen/town_fit_kept.yml (P3 2026-11-24)
         S(deco('thing:blackfang_beacon_%d' % (i + 1), 'dec60', (u, v), **{'raise': 512}))
     # Lakeside's yard trees (town_feel: a shipped town has a few; behind or beside houses, never before a door)
     for i, (d, at) in enumerate(TOWN_TREES):
@@ -1221,7 +1225,7 @@ def build():
     S({'id': 'thing:gibbet_purse', 'kind': 'chest', 'at': [74.3, 104.4], 'title': "A dead thief's purse",
        'chest': {'level': 3, 'random_items': 1}})
     # ---------------------------------------------------------------- the east shore, the falls
-    S({'id': 'thing:warding_well', 'kind': 'well', 'at': [88.6, 97.4], 'title': 'Fountain of Magic Resistance',
+    S({'id': 'thing:warding_well', 'kind': 'well', 'at': list(WARDING_WELL), 'title': 'Fountain of Magic Resistance',
        'frame': {'height': 224, 'roof': 'gable', 'roof_height': 64},
        'condition': {'not': {'player_bit': 11340}},
        'effects': [{'player_bit': 11340}, {'add': {'var': 'MindResistance', 'value': 5}},

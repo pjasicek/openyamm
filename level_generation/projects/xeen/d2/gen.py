@@ -198,7 +198,7 @@ CONTROL = [
 
 CALM = [(21, 60, 5), (106, 44, 5), (29, 89, 9), (42, 76, 6), (79, 36.5, 3.5), (72, 33.6, 3.2), (87, 44.8, 3.2),
         (95, 81, 4), (104, 94, 3), (58, 90, 3), (61, 102, 2.5), (36, 51, 2.5), (34, 31, 3), (60, 76, 2), (70, 84, 2),
-        (67, 98, 2), (32, 60, 2), (90, 58, 2), (42, 70, 2), (59, 46, 2), (100, 30, 2), (16, 88, 2.5)]
+        (67, 98, 2), (32, 60, 2), (90, 58, 2), (42, 70, 2), (59, 46, 2), (100, 30, 2), (16, 88, 2.5), (21.5, 96.5, 2.5)]
 
 def roll(x, y):
     w = 1.0
@@ -308,11 +308,13 @@ DOOR = 'tavsmdr'            # MM6's arched plank door with its iron knocker (the
 DECK = 't68a13mm'           # MM8's dark planks: decks, rope walks
 SLATE = 'xtslate'
 # (building, index, centre, radius, trunk height, deck bottom, crown, title)
+# the four decks the rope walks join stand at one height (2026-11-24, F48: the guild's at 720 and house 1's at 680 left
+# a walk's end 34-40 under the deck it ran onto, town_fit_check bridges.step)
 TREES = [
     ('building:sharla_tree', None, (25.5, 84.0), 440, 1150, 640, 'tree69'),
-    ('building:sprite_guild_light', None, (34.5, 83.5), 400, 1050, 720, 'tree69'),
+    ('building:sprite_guild_light', None, (34.5, 83.5), 400, 1050, 700, 'tree69'),
     ('building:sprite_potions', None, (23.0, 89.5), 380, 980, 700, 'tree62a'),
-    ('building:sprite_houses', 1, (34.5, 89.5), 360, 940, 680, 'tree12'),
+    ('building:sprite_houses', 1, (34.5, 89.5), 360, 940, 700, 'tree12'),
     ('building:sprite_houses', 2, (29.0, 94.5), 360, 960, 700, 'tree10'),
 ]
 FOOT_H = 320
@@ -462,10 +464,14 @@ HOLES = {'dd11a': ((61.0, 76.0), (60, 76), 'w'), 'dd11b': ((71.0, 84.0), (70, 84
          'dd11c': ((68.0, 98.0), (67, 98), 'w')}   # pit, its return arrival (about 300-600 beside), facing
 # A7's inside points of the Troll Holes (a coordinate in each pocket's BLV), facing east (0); the holes open when the
 # BLV and A2's map_stats row both exist (DUNGEON above)
-HOLE_INSIDE = {'dd11a': (96, -32, 0), 'dd11b': (96, -32, 0), 'dd11c': (128, -64, 0)}
+# A7's DD-11A/B starts moved 176/182 into the pit's corner (2026-11-24: the tunnel trolls saw the old landing)
+HOLE_INSIDE = {'dd11a': (80, -208, 0), 'dd11b': (144, -208, 0), 'dd11c': (128, -64, 0)}
 # A8's DD-09 start (its NOTES.md): at the foot of the temple's first stair inside the trunk door, facing north (512)
 DD09_INSIDE = (0, -1920, 0)
 PARLEY = (79.0, 36.4)
+# D-120 (2026-11-24): the fairy ring stood at (16, 88), past the map's bounds (cell 18.9): no party reached it. Now in
+# the village's empty south-west corner, its caps (1.1 cells round) east of cell 20
+FAIRY = (21.5, 96.5)
 # D-25 (b): DD-13's east gate enters at A7's explicit inside point (a coordinate in xeen_dd13.blv) until A1's
 # second-arrival word lands; None until A7 gives it (the door is sealed while DD-13 is not installed)
 DD13_EAST_INSIDE = (7552, 32, 0)    # A7 (session 8): the east gate's inside point, facing south (1536); the west
@@ -807,7 +813,7 @@ def build():
     POI_AT = {'poi:obelisk': (36, 51), 'poi:shrine_elements': (104, 93.8), 'poi:forbidden_fruit': (58, 90),
               'poi:genie_lamp': (100, 30), 'poi:pot_of_gold': (106, 101), 'poi:graalg': PARLEY,
               'poi:treehouse_chest': (25.5, 84), 'poi:kramer_wagon': (59, 46.2), 'poi:crystal_seam': (48, 28),
-              'poi:fairy_ring': (16, 88), 'poi:dead_adventurer': (71, 84.6), 'poi:thieves_drop': (98.4, 83.4),
+              'poi:fairy_ring': FAIRY, 'poi:dead_adventurer': (71, 84.6), 'poi:thieves_drop': (98.4, 83.4),
               'poi:brink_bench': (61, 103)}
     for k, at in POI_AT.items():
         points.append({'id': k, 'at': list(at)})
@@ -821,7 +827,7 @@ def build():
             areas.append({'id': pop, 'index': k, 'kind': 'encounter', 'count': n, 'slot': slot,
                           'circle': {'at': [cx, cy], 'r': r}})
     # E1: the foothills (wolves); none within 3 cells of the adit
-    markers('pop:foothill_wolves', [(22, 26, 2, 1.5), (16, 38, 1, 1), (29, 41, 2, 1.5), (41, 24, 2, 1.5),
+    markers('pop:foothill_wolves', [(22, 26, 2, 1.5), (22, 36, 1, 1), (29, 41, 2, 1.5), (41, 24, 2, 1.5),
                                     (46, 40, 2, 1.5), (56, 23, 2, 1.5), (62, 33, 1, 1), (28, 101, 1, 1)], 1)
     # F10 (s32): the lone wolf at the west rim (12, 30) moved to the empty south-west corner (28, 101); the woods'
     # lone wolf beyond the east rim (120, 70) to the empty north-east corner (104, 24)
@@ -832,12 +838,17 @@ def build():
     markers('pop:west_sprites', [(22, 72, 1, 1), (27, 73, 2, 1.5), (20, 76, 1, 1)], 3)
     markers('pop:glade_sprites', [(46.5, 56, 2, 1.2), (58, 52, 2, 1.5), (64, 56, 1, 1), (55, 59, 1, 1)], 3)
     # E3: troll country (trolls), by the holes and lanes
-    markers('pop:trolls', [(58, 79, 2, 1.5), (66, 80, 2, 1.5), (72, 89, 2, 1.5), (63, 96, 2, 1.5), (76, 98, 2, 1.5),
-                           (78, 78, 1, 1), (51, 93, 1, 1), (70, 76, 1, 1), (73, 94, 1, 1)], 2)
+    # D-138 (2026-11-24): no troll circle within 2,000 of a hole's return spot (D-15's first-fight buffer, counting
+    # markers, D-133): (58, 79) 1,717 from DD-11A's and (63, 96) 1,824 from DD-11C's moved out to the nearest spots
+    # past it on the same plain, (72, 89) half a cell south (its circle's edge 1,989 from DD-11B's)
+    markers('pop:trolls', [(56, 80.5, 2, 1.5), (66, 80, 2, 1.5), (72, 89.5, 2, 1.5), (61.5, 95.5, 2, 1.5),
+                           (76, 98, 2, 1.5), (78, 78, 1, 1), (51, 93, 1, 1), (70, 76, 1, 1), (73, 94, 1, 1)], 2)
     # E5: the Southern Woods (wolves); the first fight from D3 (D-85, A6 s30: moved from (101, 52), 4,438; the
     # nearest built marker 6,027 from the arrival, at D-15's 6,000)
+    # bounds (2026-11-24): (16, 38), (112, 80) and (118, 95) stood past the map's bounds (cells 18.9-109.1): their
+    # wolves spawned where no party walks; moved in (check_reach.py reach.spawn)
     markers('pop:woods_wolves', [(100, 54, 2, 1.5), (90, 66, 2, 1.5), (105, 64, 2, 1.5), (86, 91, 2, 1.5),
-                                 (112, 80, 2, 1.5), (118, 95, 1, 1), (97, 100, 1, 1), (104, 24, 1, 1),
+                                 (106, 78, 2, 1.5), (107.5, 86, 1, 1), (97, 100, 1, 1), (104, 24, 1, 1),
                                  (94, 94, 1, 1)], 1)
     village_doors = [d[2] for d in doors_out if d[0] != 'building:nibbler_hollow']
     for a in areas:
@@ -845,11 +856,11 @@ def build():
         near = min(math.hypot(c[0] - d[0], c[1] - d[1]) for d in village_doors)
         if near * 512 < 2500:
             raise SystemExit('monsters within 2,500 of a village door: %s %s' % (a['id'], c))
-        if a['id'] == 'pop:trolls':
-            for key, (pit, arr, fac) in HOLES.items():
-                dd = (math.hypot(c[0] - arr[0], c[1] - arr[1]) - a['circle']['r']) * 512
-                if dd < 512:
-                    raise SystemExit('D-25: a troll circle within 512 of the %s return spot: %s' % (key, c))
+        # D-25, D-138: no marker's circle within 2,000 of a hole's return spot (was 512 for the trolls)
+        for key, (pit, arr, fac) in HOLES.items():
+            dd = (math.hypot(c[0] - arr[0], c[1] - arr[1]) - a['circle']['r']) * 512
+            if dd < 2000:
+                raise SystemExit('D-138: a marker circle within 2,000 of the %s return spot: %s %s' % (key, a['id'], c))
         # D-85: no marker within missile range (5,120) of an edge arrival
         for edge in (WEST_START, EAST_START):
             if math.hypot(c[0] - edge[0], c[1] - edge[1]) * 512 < 5120 + a['circle']['r'] * 512:
@@ -1119,12 +1130,13 @@ def build():
         structures[-1]['raise'] = 80
     S(sign('thing:fruit_sign', (counter[0] + 0.5, wall_s + 0.12), 'A label',
            'Inside the hut you find a basket labeled "Forbidden Fruit".', height=192, width=128))
-    # the fairy ring: tall glowing caps in a ring; inside, healing
+    # the fairy ring: tall glowing caps in a ring; inside, healing. 2026-11-24: Xeen's own xeen_fairycap (MM6's cap
+    # about 200 high, lit pale green); the 64-high mushrm04/06/07 sprites were lost in the grass from 1.8 cells
     for i in range(9):
         a = 2 * math.pi * i / 9
-        S(deco('thing:fairy_cap_%d' % (i + 1), ['mushrm07', 'mushrm06', 'mushrm04'][i % 3],
-               (16 + 1.1 * math.cos(a), 88 + 1.1 * math.sin(a))))
-    S(deco('thing:fairy_ring', 'mushrm05', (16.0, 88.0), title='The fairy ring',
+        S(deco('thing:fairy_cap_%d' % (i + 1), 'xeen_fairycap',
+               (FAIRY[0] + 1.1 * math.cos(a), FAIRY[1] + 1.1 * math.sin(a))))
+    S(deco('thing:fairy_ring', 'mushrm05', FAIRY, title='The fairy ring',
            effects=[{'add': {'var': 'HP', 'value': 200}}, {'set': {'var': 'PoisonedGreen', 'value': 0}},
                     {'text': 'The caps glow brighter as you step into the ring. +200 Hit points; poison cured.'}]))
     # texture fit (the user, 2026-11-20): hkm3b is a one-storey panel (a skull frieze over a bone band) that tiled up

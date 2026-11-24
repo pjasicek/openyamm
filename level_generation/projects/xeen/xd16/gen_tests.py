@@ -108,9 +108,9 @@ SLABS = [dr(f'slab_{n}') for n in range(1, 5)]
 main = f"""# Playtest of the Volcano Cave (XD-16, L4; lane A7, agent:xeen-a7-xd16; written by
 # output/studio_cal/xd16/tools/gen_tests.py from ids.lock.yml): the critical path (D-47's XD-16 playtests). A level-48
 # party (immortal) starts in the mouth (entrance:x7_mouth): the arrival line, the way out's window (cancelled); the ash
-# gallery and the fire lake; over the causeway to the island: the devil skull's question, Yes (A3's
+# gallery and the fire lake; over the causeway to the island: the devil skull's click (D-121; A3's
 # q-c26.devil_skull); the rock at the bottom still shut (q-c26.done unset, door closed, its click gives q-c26.way's
-# fail line); round the north shore and up the fissure, the shrine's iron door, the demon skull: Yes (q-c26.done) and
+# fail line); round the north shore and up the fissure, the shrine's iron door, the demon skull's click (q-c26.done) and
 # within two seconds the way's rock open (same visit); a second click on a broken altar gives the splinters line; the
 # cinder run to the stair head, down the rough steps; the four lever stones (each slab down, a second click "The lever
 # is down."); the gate run, the deep stair, the glass caves, the heart's west ledge, the last cave; through the rock,
@@ -138,8 +138,6 @@ steps:
 {walk(4480, 0, r=48)}
   - clear_hostiles: {{radius: 2000}}
   - play_lua: {{source: "click({ev('devil_skull')}); wait(0.5)"}}
-{dialog("skull of a devil stares at you")}
-  - answer_input: {{text: "yes"}}
   - advance_runtime: {{seconds: 1, present_dialogs: true}}
 {status("cracks in two")}
   - play_lua:
@@ -168,8 +166,6 @@ steps:
   - clear_hostiles: {{radius: 2500}}
 {walk(5696, 4160, r=48)}
   - play_lua: {{source: "click({ev('demon_skull')}); wait(0.5)"}}
-{dialog("skull of a demon grins wickedly")}
-  - answer_input: {{text: "yes"}}
   - advance_runtime: {{seconds: 1, present_dialogs: true}}
 {status("rock grinds on rock")}
   - play_lua:

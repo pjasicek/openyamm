@@ -252,7 +252,7 @@ end)
 
 RegisterEvent(378, nil, function()
     if not IsAtLeast(MapVar(2), 1) then return end
-    if evt.CheckMonstersKilled(ActorKillCheck.Group, 52, 0, false) then -- actor group 52; all matching actors defeated
+    if evt.CheckMonstersKilled(ActorKillCheck.Group, 52, 0, true) then -- actor group 52; all matching actors defeated
         SetQBit(QBit(725)) -- Dagger - I lost it
     end
 end)

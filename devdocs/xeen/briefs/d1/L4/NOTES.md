@@ -434,3 +434,19 @@ Rebuilt on merge point 41 (chests as chest kinds, ground heights, scatter), inst
   `gates.road_off` on `east_bridge` (y 60, a cell line; not in town_fit_pending).
 - Tests: walk x2 (after `gen_walk.py` GX) and hostility pass.
 - Generated twice (the rescue's return points from the first build's land, `XEEN_WILD_MAPS`), built, villagers placed, recorded (`agent:xeen-rimmap-c`), checked in a private hard-link root, installed with its bake, terrain weights, the minimap re-rendered and its void painted (`tools/xeen/void_minimap.py`). Scripts `output/xeen_rimmap_c/build.sh`, `install.sh`, `tests.sh`, `tours.py`; logs `output/xeen_rimmap_c/run_<key>/`; captures `output/xeen_rimmap_c/cap/<key>_after/` (day and night, against `output/xeen_rim/before/<key>/`).
+
+## Final outdoor round (2026-11-24, `xeen-fb3-final-dark`)
+
+- Regenerated with the classic kit and `classic_kit.yml fit_maps` (whole storeys; ruins and low walls plain), the studio
+  round's hoods (`dd10a_adit`) and bridge ends (`east_bridge`, `rope_bridge`). Kramer's Caravans' door is the classic
+  stables office's (4144, 5904): the tests' Kramer pose is (3844, 5904) (Q-D11, Q-D2, story 43, promotions 47, 49,
+  `class_table.py`); the jail's door pose is (2176, 8724).
+- DD-01's iron hatch a cell east, `DD01_AT` (67.5, 57.5): its wedge's raised land rose 79 through the square's paving
+  (`town_fit_check platforms.through`); DD-01's arrival (1024, 3072) is unchanged; the hatch's test pose is (1300, 3328)
+  (story 45, Q-D5).
+- Villagers re-placed (`villagers.py --place D1`): villager 47 stood 493 from a house door.
+- Checks: town_fit 0 (kept: `jetty_pier`), check_reach 0, door 0, wall 0, check_wild 0, villagers 0 on D1, stale bakes
+  0. check_faces 28 (unchanged: the F31 list, gatehouse, Kalindra's ghost houses, wall NE, jetty, street grate,
+  mill). Audit errors: `doors.tiled` on `kalindra_gate_restored` (xvsdoor 2 across) and `textures.feature_repeated`
+  xvswin (model 15): the classic kit's, for c7. D-85: NPCs 4951, 4953, 4956 at 5,527-5,803 (as before this run).
+  Playtests: walk 908, hostility 50 pass.

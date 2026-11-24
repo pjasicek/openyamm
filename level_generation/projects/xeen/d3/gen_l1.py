@@ -289,8 +289,10 @@ SANDCASTER = [
      'stone'),
     ('building:sc_guild_spirit', 'Sandcaster Guild of Spirit', 4609, [2.5, 2.5], [33, 21], 's',
      'zone:sc_north_street', 'stone'),
-    ('building:sc_guild_light', 'Sandcaster Guild of Light', 4610, [2.5, 2.5], [36, 21], 's', 'zone:sc_north_street',
-     'stone'),
+    # F49 (2026-11-24): two cells wide, not 2.5: it stood 56 from Astra's House (houses.jammed), and plots keep to
+    # half cells between the Guild of Spirit and Astra's House (the quarter's wall behind it)
+    ('building:sc_guild_light', 'Sandcaster Guild of Light', 4610, [2, 2.5], [36, 21], 's',
+     'zone:sc_north_street', 'stone'),
     ('building:sc_magic', "Aladdin's Lamps", 4603, [2, 2], [33, 25], 's', 'zone:sc_square', 'rich'),
     ('building:sc_alchemist', 'Vulture Repellant and Other Remedies', 4604, [1.5, 2], [37.5, 25], 's',
      'zone:sc_square', 'plaster'),

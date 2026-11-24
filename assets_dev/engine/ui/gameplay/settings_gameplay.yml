@@ -475,7 +475,7 @@ elements:
     - id: SettingsGameplayGroup3
       anchor: top_left
       offset_x: 0.0
-      offset_y: 369.977
+      offset_y: 381.4938
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -492,7 +492,7 @@ elements:
     - id: SettingsGameplayGroup4
       anchor: top_left
       offset_x: 0.0
-      offset_y: 525.2773
+      offset_y: 536.7941
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -509,7 +509,7 @@ elements:
     - id: SettingsGameplayGroup5
       anchor: top_left
       offset_x: 0.0
-      offset_y: 605.5861
+      offset_y: 617.1029
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -526,7 +526,7 @@ elements:
     - id: SettingsGameplayGroup6
       anchor: top_left
       offset_x: 0.0
-      offset_y: 685.8949
+      offset_y: 747.8538
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -543,7 +543,7 @@ elements:
     - id: SettingsGameplayGroup7
       anchor: top_left
       offset_x: 0.0
-      offset_y: 839.6794
+      offset_y: 901.6383
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -560,7 +560,7 @@ elements:
     - id: SettingsGameplayGroup8
       anchor: top_left
       offset_x: 0.0
-      offset_y: 908.4714
+      offset_y: 970.4303
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -853,12 +853,13 @@ elements:
       offset_x: 1.6
       offset_y: 342.9935
       width: 522.1333
-      height: 11.5168
+      height: 23.0336
       z_index: 10
       visible: true
       interactive: false
       text:
-        value: The game speed while fast mode is on. Its key (F2 unless rebound) turns fast mode on and off.
+        value: The game speed while fast mode is on. Its key (F2 unless rebound) turns fast mode on and off; the Cycle
+          game speed key (unbound unless set) steps through 1x and these speeds and sets this one.
         font: menu_lucida
         color: '#aeb5a5'
         align_x: left
@@ -868,7 +869,7 @@ elements:
     - id: SettingsGameplayTurnBasedMonsterSpeedLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 395.577
+      offset_y: 407.0938
       width: 216.7083
       height: 18.1333
       z_index: 10
@@ -885,7 +886,7 @@ elements:
     - id: SettingsGameplayTurnBasedMonsterSpeedValue
       anchor: top_left
       offset_x: 1.6
-      offset_y: 395.577
+      offset_y: 407.0938
       width: 522.1333
       height: 18.1333
       z_index: 10
@@ -902,7 +903,7 @@ elements:
     - id: SettingsGameplayTurnBasedMonsterSpeedControl
       anchor: top_left
       offset_x: 5.6
-      offset_y: 416.077
+      offset_y: 427.5938
       width: 514.1333
       height: 16.0
       z_index: 10
@@ -911,7 +912,7 @@ elements:
     - id: SettingsGameplayTurnBasedMonsterSpeedDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 435.577
+      offset_y: 447.0938
       width: 522.1333
       height: 11.5168
       z_index: 10
@@ -928,7 +929,7 @@ elements:
     - id: SettingsGameplayTurnBasedPartySpeedLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 458.2938
+      offset_y: 469.8106
       width: 216.7083
       height: 18.1333
       z_index: 10
@@ -945,7 +946,7 @@ elements:
     - id: SettingsGameplayTurnBasedPartySpeedValue
       anchor: top_left
       offset_x: 1.6
-      offset_y: 458.2938
+      offset_y: 469.8106
       width: 522.1333
       height: 18.1333
       z_index: 10
@@ -962,7 +963,7 @@ elements:
     - id: SettingsGameplayTurnBasedPartySpeedControl
       anchor: top_left
       offset_x: 5.6
-      offset_y: 478.7938
+      offset_y: 490.3106
       width: 514.1333
       height: 16.0
       z_index: 10
@@ -971,7 +972,7 @@ elements:
     - id: SettingsGameplayTurnBasedPartySpeedDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 498.2938
+      offset_y: 509.8106
       width: 522.1333
       height: 11.5168
       z_index: 10
@@ -988,7 +989,7 @@ elements:
     - id: SettingsGameplayMm9LootInOlderWorldsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 550.8773
+      offset_y: 562.3941
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1005,7 +1006,7 @@ elements:
     - id: SettingsGameplayMm9LootInOlderWorldsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 567.0858
+      offset_y: 578.6026
       width: 435.7333
       height: 23.0336
       z_index: 10
@@ -1022,7 +1023,7 @@ elements:
     - id: SettingsGameplayMm9LootInOlderWorldsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 554.4194
+      offset_y: 565.9362
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1034,7 +1035,7 @@ elements:
     - id: SettingsGameplayPartyPouchesLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 631.1861
+      offset_y: 642.7029
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1051,7 +1052,7 @@ elements:
     - id: SettingsGameplayPartyPouchesDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 647.3946
+      offset_y: 658.9114
       width: 435.7333
       height: 23.0336
       z_index: 10
@@ -1069,7 +1070,54 @@ elements:
     - id: SettingsGameplayPartyPouchesControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 634.7282
+      offset_y: 646.245
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsGameplayLootPouchLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 693.145
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: New loot pouch
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameplayLootPouchDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 709.3535
+      width: 435.7333
+      height: 23.0336
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: What the party picks up or loots goes to the leather pouch tab, unless it has a pouch of its own. Move
+          what you want to keep into a bag; Sell trash in a shop picks the rest.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameplayLootPouchControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 696.6871
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1081,7 +1129,7 @@ elements:
     - id: SettingsGameplayWorkbenchKeepMixedPotionsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 711.4949
+      offset_y: 773.4538
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1098,7 +1146,7 @@ elements:
     - id: SettingsGameplayWorkbenchKeepMixedPotionsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 727.7034
+      offset_y: 789.6623
       width: 435.7333
       height: 34.5504
       z_index: 10
@@ -1116,7 +1164,7 @@ elements:
     - id: SettingsGameplayWorkbenchKeepMixedPotionsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 720.7954
+      offset_y: 782.7543
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1128,7 +1176,7 @@ elements:
     - id: SettingsGameplayUpkeepAutoBrewLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 773.4538
+      offset_y: 835.4127
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1145,7 +1193,7 @@ elements:
     - id: SettingsGameplayUpkeepAutoBrewDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 789.6623
+      offset_y: 851.6212
       width: 435.7333
       height: 34.5504
       z_index: 10
@@ -1164,7 +1212,7 @@ elements:
     - id: SettingsGameplayUpkeepAutoBrewControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 782.7543
+      offset_y: 844.7132
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1176,7 +1224,7 @@ elements:
     - id: SettingsGameplaySkipEventCutscenesLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 865.2794
+      offset_y: 927.2383
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1193,7 +1241,7 @@ elements:
     - id: SettingsGameplaySkipEventCutscenesDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 881.4879
+      offset_y: 943.4468
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -1210,7 +1258,7 @@ elements:
     - id: SettingsGameplaySkipEventCutscenesControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 863.0631
+      offset_y: 925.022
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1222,7 +1270,7 @@ elements:
     - id: SettingsGameplayQuicksaveSlotsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 934.0714
+      offset_y: 996.0303
       width: 382.9333
       height: 14.0752
       z_index: 10
@@ -1239,7 +1287,7 @@ elements:
     - id: SettingsGameplayQuicksaveSlotsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 950.2799
+      offset_y: 1012.2388
       width: 382.9333
       height: 23.0336
       z_index: 10
@@ -1256,7 +1304,7 @@ elements:
     - id: SettingsGameplayQuicksaveSlotsControl
       anchor: top_left
       offset_x: 400.5333
-      offset_y: 945.6925
+      offset_y: 1007.6514
       width: 88.5333
       height: 16.0
       z_index: 10
@@ -1265,7 +1313,7 @@ elements:
     - id: SettingsGameplayQuicksaveSlotsValue
       anchor: top_left
       offset_x: 497.0666
-      offset_y: 947.8258
+      offset_y: 1009.7847
       width: 26.6667
       height: 11.7333
       z_index: 10

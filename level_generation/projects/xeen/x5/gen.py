@@ -270,10 +270,14 @@ TOWN_POLY = [[28, 33], [48, 33], [48.5, 40], [46, 48.5], [37, 50], [29.5, 48.5],
 WINTERKILL_ROAD = [[50, 35], [48.5, 37.5], [48.5, 41.5], [40, 41.5]]
 SOUTH_TRACK = [[37, 45], [37, 50], [36, 55], [35.5, 60], [37, 66], [40, 72], [42, 77]]
 RIM_WALK = [[34, 41.5], [30, 41.5], [27.4, 41.3]]
+# Final cloud round (2026-11-24, town_fit_check `houses.jammed`, F49): three pairs stood 72-104 apart, under the
+# 128 a lane needs (and over the 32 of a flush pair). Plots keep the half-cell grid: house #12 and the tavern half a
+# cell west (the tavern from the temple's side), house #3 half a cell south (from #2), house #8 half a cell east (from
+# #7).
 PLOTS = [
     # north side, facing south onto the square
-    ('building:winterkill_houses', None, 12, (32.0, 36.5), 's', [1, 1], 'poor', 'cottage', {}),
-    ('building:winterkill_tavern', 'The Frozen Flagon', None, (33.5, 36.0), 's', [2, 1.5], 'timber', 'gable_porch',
+    ('building:winterkill_houses', None, 12, (31.5, 36.5), 's', [1, 1], 'poor', 'cottage', {}),
+    ('building:winterkill_tavern', 'The Frozen Flagon', None, (33.0, 36.0), 's', [2, 1.5], 'timber', 'gable_porch',
      {'sign': '7sgtvrn'}),
     ('building:winterkill_temple', 'Temple of the Thaw', None, (35.5, 35.0), 's', [2.5, 2.5], 'stone', 'temple', {}),
     ('building:winterkill_houses', None, 1, (38.5, 36.0), 's', [1, 1.5], 'plaster', 'gable_porch', {}),
@@ -283,12 +287,12 @@ PLOTS = [
     # west side, facing east onto the square
     ('building:mindmeld_guild', 'The Mindmeld Guild', None, (31.5, 38.5), 'e', [2, 2], 'stone', 'tower_house', {'sign': 'sgmind'}),   # D-92
     ('building:winterkill_houses', None, 2, (32.5, 42.5), 'e', [1.5, 1], 'plaster', 'cottage', {}),
-    ('building:winterkill_houses', None, 3, (32.0, 44.0), 'e', [1.5, 1.5], 'timber', 'gable_porch', {}),
+    ('building:winterkill_houses', None, 3, (32.0, 44.5), 'e', [1.5, 1.5], 'timber', 'gable_porch', {}),
     # south side, facing north onto the square
     ('building:winterkill_houses', None, 5, (34.0, 45.5), 'n', [1, 1], 'grey', 'cottage', {}),
     ('building:winterkill_houses', None, 6, (35.0, 45.5), 'n', [1, 1], 'poor', 'cottage', {}),
     ('building:winterkill_houses', None, 7, (38.0, 45.5), 'n', [1.5, 1.5], 'plaster', 'L', {}),
-    ('building:winterkill_houses', None, 8, (39.5, 45.5), 'n', [1, 1], 'poor', 'cottage', {}),
+    ('building:winterkill_houses', None, 8, (40.0, 45.5), 'n', [1, 1], 'poor', 'cottage', {}),
     # east side, facing west onto the square, south of the road
     ('building:winterkill_guild_dark', 'The Guild of Shadows', None, (40.5, 42.5), 'w', [2, 2], 'stone', 'L',
      {'sign': 'sgdark'}),   # D-92: every guild hangs its school's sign
@@ -973,7 +977,8 @@ def build():
                               [[34.2, 49.6], [30.5, 48.7]], [[28.4, 47], [28.3, 43.2]], [[28.4, 39.8], [28.6, 35.5]]]):
         S(K.fence('thing:palisade_%d' % (i + 1), line))
     # dressing (DRESSING.md): pairs against walls, none before a door; snowed-up woodpiles and casks
-    for i, (d, at) in enumerate([('bigbarel', (33.3, 36.15)), ('bigbarel', (33.3, 36.5)),     # the tavern's west wall
+    # final cloud round: the tavern's pair half a cell west with the tavern (33.3 -> 32.8)
+    for i, (d, at) in enumerate([('bigbarel', (32.8, 36.15)), ('bigbarel', (32.8, 36.5)),     # the tavern's west wall
                                  ('7dec32', (41.7, 36.6)), ('7dec32', (41.7, 36.95)),         # the furrier's east wall (MM7's barrel; 7dec24 is a campfire)
                                  ('haybale2', (47.2, 36.2)), ('haybale2', (47.2, 36.55)),    # the woodcutter's barn
                                  ('7dec32', (31.3, 39.0)), ('7dec32', (31.3, 39.35))]):     # the guild's back wall
@@ -1220,7 +1225,8 @@ def build():
         S(deco('thing:outpost_char_%d' % (i + 1), d, at, hidden=True))
     S({'id': 'thing:outpost_chest', 'kind': 'chest', 'at': [46.0, 92.1], 'title': "The cyclopes' hoard",
        'chest': {'level': 4, 'random_items': 3}})
-    for i, at in enumerate([(41.6, 91.4), (43.4, 94.8), (46.2, 94.6)]):
+    # final cloud round (town_fit_check `props.in_wall`): the first bones stood through the tent's west wall (41.6)
+    for i, at in enumerate([(40.8, 91.4), (43.4, 94.8), (46.2, 94.6)]):
         S(deco('thing:outpost_bones_%d' % (i + 1), '7dec18', at))
     S({'id': 'thing:giants_cairn', 'kind': 'chest', 'at': [51.2, 88.05], 'title': "A giant's grave goods",
        'chest': {'level': 3, 'random_items': 3}})

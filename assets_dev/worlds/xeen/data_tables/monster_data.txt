@@ -232,15 +232,15 @@ Default Monster Data					Stats								Movement and Combat					Attack 1			Attack 
 11520	Harpy	Xeen Harpy A	14	62	14	336	5%11D4+L2	1	Y	Long	Aggress	4	250	90	0	Drunk	Phys	2D6+6	0	0	0	0	0	0	0	0	0	5	5	5	5	20	20	5	5	5	0	0
 11521	Harpy Hag	Xeen Harpy B	18	86	15	504	8%10D8+L2	1	Y	Long	Aggress	4	300	90	0	Curse	Phys	2D9+6	0	0	0	0	0	0	0	0	0	5	5	5	5	20	20	5	5	5	0	0
 11522	Harpy Queen	Xeen Harpy C	24	130	19	816	7%15D8+L3	1	Y	Long	Suicidal	4	350	80	0	Weak	Phys	3D7+9	0	0	0	0	0	0	0	0	0	5	5	5	5	20	20	5	5	5	0	0
-11530	Medusa Sprite	Xeen Sprite A	10	40	8	200	5%9D4+L1	0	Y	Free	Normal	4	240	90	0	Stone	Light	1D10+4	Light	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
-11531	Killer Sprite	Xeen Sprite B	14	62	11	336	5%11D4+L2	0	Y	Free	Normal	4	260	90	0	Curse	Air	2D6+6	Air	0	0	0	0	0	0	0	0	5	5	5	5	5	5	5	5	5	0	0
-11532	Sprite Queen	Xeen Sprite C	18	86	12	504	8%10D8+L2	0	Y	Free	Normal	4	280	90	0	0	Air	2D9+6	Air	0	0	0	0	25	"Sparks,E,4"	0	0	5	5	5	5	5	5	5	5	5	0	0
-11537	Medusa Sprite	Xeen Sprite D	10	40	8	200	5%9D4+L1	0	Y	Free	Normal	4	240	90	0	Stone	Light	1D10+4	Light	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
-11538	Killer Sprite	Xeen Sprite E	14	62	11	336	5%11D4+L2	0	Y	Free	Normal	4	260	90	0	Curse	Air	2D6+6	Air	0	0	0	0	0	0	0	0	5	5	5	5	5	5	5	5	5	0	0
-11533	Sharla	Xeen Sharla	30	540	20	1200	54D10+L4	0	Y	Free	Normal	4	280	80	0	0	Air	4D7+10	Air	0	0	0	0	30	"Lightning Bolt,M,8"	0	0	15	15	15	15	15	15	15	15	15	0	0
-11534	Gorgon Sprite	Xeen Dark Sprite A	16	74	12	416	6%15D4+L2	0	Y	Free	Normal	4	240	90	0	Stone	Air	2D8+6	Air	0	0	0	0	0	0	0	0	5	5	5	5	5	5	5	5	5	0	0
-11535	Elder Gorgon Sprite	Xeen Dark Sprite B	22	114	14	704	6%13D8+L2	0	Y	Free	Normal	4	260	80	0	Curse	Air	3D7+8	Air	0	0	0	0	0	0	0	0	5	5	5	5	5	5	5	5	5	0	0
-11536	Sprite Queen	Xeen Dark Sprite C	18	86	12	504	8%10D8+L2	0	Y	Free	Normal	4	280	90	0	0	Air	2D9+6	Air	0	0	0	0	25	"Sparks,E,4"	0	0	5	5	5	5	5	5	5	5	5	0	0
+11530	Medusa Sprite	Xeen Sprite A	10	40	8	200	5%9D4+L1	0	Y	Free	Normal	4	240	90	0	Weak	Phys	1D10+4	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+11531	Killer Sprite	Xeen Sprite B	14	62	11	336	5%11D4+L2	0	Y	Free	Normal	4	260	90	0	Curse	Air	2D6+6	0	0	0	0	0	0	0	0	0	5	5	5	5	5	5	5	5	5	0	0
+11532	Sprite Queen	Xeen Sprite C	18	86	12	504	8%10D8+L2	0	Y	Free	Normal	4	280	90	0	0	Air	2D9+6	0	0	0	0	0	25	"Sparks,E,4"	0	0	5	5	5	5	5	5	5	5	5	0	0
+11537	Medusa Sprite	Xeen Sprite D	10	40	8	200	5%9D4+L1	0	Y	Free	Normal	4	240	90	0	Weak	Phys	1D10+4	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+11538	Killer Sprite	Xeen Sprite E	14	62	11	336	5%11D4+L2	0	Y	Free	Normal	4	260	90	0	Curse	Air	2D6+6	0	0	0	0	0	0	0	0	0	5	5	5	5	5	5	5	5	5	0	0
+11533	Sharla	Xeen Sharla	30	540	20	1200	54D10+L4	0	Y	Free	Normal	4	280	80	0	0	Air	4D7+10	0	0	0	0	0	30	"Lightning Bolt,M,8"	0	0	15	15	15	15	15	15	15	15	15	0	0
+11534	Gorgon Sprite	Xeen Dark Sprite A	16	74	12	416	6%15D4+L2	0	Y	Free	Normal	4	240	90	0	Weak	Air	2D8+6	0	0	0	0	0	0	0	0	0	5	5	5	5	5	5	5	5	5	0	0
+11535	Elder Gorgon Sprite	Xeen Dark Sprite B	22	114	14	704	6%13D8+L2	0	Y	Free	Normal	4	260	80	0	Curse	Air	3D7+8	0	0	0	0	0	0	0	0	0	5	5	5	5	5	5	5	5	5	0	0
+11536	Sprite Queen	Xeen Dark Sprite C	18	86	12	504	8%10D8+L2	0	Y	Free	Normal	4	280	90	0	0	Air	2D9+6	0	0	0	0	0	25	"Sparks,E,4"	0	0	5	5	5	5	5	5	5	5	5	0	0
 11540	Gargoyle	Xeen Gargoyle A	16	74	15	416	6%15D4+L2	0	Y	Long	Aggress	4	300	90	0	0	Phys	2D8+6	0	0	0	0	0	0	0	0	0	5	5	20	Imm	5	5	5	5	5	0	0
 11541	Gargoyle Lord	Xeen Gargoyle B	22	114	18	704	6%13D8+L2	0	Y	Long	Aggress	4	320	70	0	Paralyze	Phys	3D7+8	0	0	0	0	0	0	0	0	0	5	5	20	Imm	5	5	5	5	5	0	0
 11542	Obsidian Gargoyle	Xeen Gargoyle C	28	162	30	1064	9%19D8+L3	0	Y	Med	Suicidal	4	350	80	0	0	Phys	4D6+11	0	0	0	0	0	0	0	0	0	15	15	20	Imm	15	15	15	15	15	0	0
@@ -266,7 +266,7 @@ Default Monster Data					Stats								Movement and Combat					Attack 1			Attack 
 11593	Lava Golem	Xeen Elemental Golem D	55	468	48	3575	20%49D10+L5	0	N	Short	Suicidal	1	180	70	0	Brkweapon	Fire	6D8+16	0	0	0	0	0	0	0	0	0	Imm	18	18	18	Imm	Imm	Imm	18	18	0	0
 11594	Sky Golem	Xeen Elemental Golem E	75	788	70	6375	33%144D10+L6	0	N	Short	Suicidal	1	180	70	0	0	Air	8D7+23	0	0	0	0	0	0	0	0	0	30	Imm	30	30	Imm	Imm	Imm	30	30	0	0
 11600	Flying Feet	Xeen Construct A	18	86	15	504	8%10D8+L2	1	Y	Med	Suicidal	2	200	90	0	Asleep	Phys	2D9+6	0	0	0	0	0	0	0	0	0	5	5	5	5	20	20	Imm	5	5	0	0
-11601	Guardian	Xeen Construct B	24	130	29	816	7%15D8+L3	1	Y	Short	Suicidal	2	200	80	0	DrainSP	Ener	3D7+9	Ener	0	0	0	0	0	0	0	0	5	5	5	5	20	20	Imm	5	5	0	0
+11601	Guardian	Xeen Construct B	24	130	29	816	7%15D8+L3	1	Y	Short	Suicidal	2	200	80	0	DrainSP	Ener	3D7+9	0	0	0	0	0	0	0	0	0	5	5	5	5	20	20	Imm	5	5	0	0
 11602	Carnage Hand	Xeen Construct C	35	228	30	1575	8%28D8+L4	1	Y	Short	Suicidal	2	200	80	0	BrkArmor	Phys	4D8+12	0	0	0	0	0	0	0	0	0	15	15	15	15	20	20	Imm	15	15	0	0
 11603	Xeen's Guard	Xeen Construct D	60	540	70	4200	22%95D10+L5	1	N	Short	Suicidal	2	200	70	0	0	Ener	6D8+18	0	0	0	0	0	0	0	0	0	30	30	30	30	20	20	Imm	30	30	0	0
 11610	Patrol	Xeen Robot A	50	400	47	3000	16%41D10+L5	0	Y	Med	Aggress	4	200	70	0	0	Ener	6D7+16	Ener	0	0	0	0	0	0	0	0	18	18	20	20	Imm	Imm	Imm	18	18	0	0

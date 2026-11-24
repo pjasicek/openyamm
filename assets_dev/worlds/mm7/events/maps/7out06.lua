@@ -114,9 +114,9 @@ RegisterEvent(1, "Chest ", nil, "Chest ")
 
 RegisterEvent(2, nil, function()
     if IsQBitSet(QBit(701)) then return end -- Killed all Bracada Desert Griffins
-    if not evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 279, 0, false) then return end -- monster 279 "Griffin"; all matching actors defeated
-    if not evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 280, 0, false) then return end -- monster 280 "Hunting Griffin"; all matching actors defeated
-    if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 281, 0, false) then -- monster 281 "Royal Griffin"; all matching actors defeated
+    if not evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 279, 0, true) then return end -- monster 279 "Griffin"; all matching actors defeated
+    if not evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 280, 0, true) then return end -- monster 280 "Hunting Griffin"; all matching actors defeated
+    if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 281, 0, true) then -- monster 281 "Royal Griffin"; all matching actors defeated
         evt.ForPlayer(Players.All)
         SetQBit(QBit(701)) -- Killed all Bracada Desert Griffins
     end

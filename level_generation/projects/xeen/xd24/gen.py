@@ -27,9 +27,9 @@ R = Path(_REPO_ROOT)
 BRIEF = R / 'devdocs/xeen/briefs/xd24'
 
 # X3 (installed, lane A5, briefs/x3/DOORS.md): thing:coffin_open on Nightshadow's square (click face 17664, -4608, 992)
-# leads in to this map's start; the coffin stair's top leads out to (17664, -5120, 992) facing south (1536).
+# leads in to this map's start; the coffin stair's top leads out to (17664, -5888, 992) facing south (1536).
 X3_STEM = 'xeen_x3.odm'
-X3_ARRIVAL = [17664, -5120, 992]
+X3_ARRIVAL = [17664, -5888, 992]  # F45 (2026-11-24): 0.75 cell south of the coffin's foot and its plinth
 
 # New textures (output/studio_cal/xd24/tex, xtex.py): the Count's portrait and the chapel's painted moon window.
 # Until they are installed in the scratch root the shipped stand-ins are used (NEW=0).
@@ -444,9 +444,10 @@ DIAGRAM = """XD-24 Nightshadow Crypt (not to scale; north up).
 
 # ================================================================================================ objects
 objects = {'format': 0}
-objects['start'] = {'room': 'room:stair_foot', 'at': [0, 704], 'facing': 270,
-                    'notes': "At the foot of the coffin stair, facing into the crypt (south): where X3's open coffin "
-                             "(thing:coffin_open) arrives (A5's `into`: 0, 704, 0 facing south, 1536)."}
+objects['start'] = {'room': 'room:coffin_stair', 'at': [0, 1600], 'facing': 270,
+                    'notes': "F45 (2026-11-24): on the coffin stair, facing down into the crypt (south), out of the "
+                             "Gnome Vampires' sight and 380 from the exit: where X3's open coffin (thing:coffin_open) "
+                             "arrives (X3's `into`: 0, 1600, 224 facing south, 1536)."}
 objects['exits'] = [
     {'id': 'exit:coffin', 'room': 'room:coffin_stair', 'wall': 'north', 'size': [256, 352],
      'surface': S('7solid01', 128, 256, fit=True), 'to': 'exit:x3_coffin',
@@ -639,7 +640,7 @@ events = [
                              "Somewhere below, the Count waits in his vault."}],
      'notes': "Say why the party is here (a one-shot timer: a load event's window is not shown; XD-07's method)."},
     {'id': 'evt:exit', 'preset': 'exit', 'source': 'exit:coffin', 'title': "Up to Nightshadow's square",
-     'notes': "D-24: the exit preset (the game's own leave window), live to X3 at (17664, -5120, 992) facing south."},
+     'notes': "D-24: the exit preset (the game's own leave window), live to X3 at (17664, -5888, 992) facing south."},
     {'id': 'evt:door_ossuary', 'preset': 'door', 'source': 'door:ossuary', 'title': 'Door', 'action': 'open'},
     {'id': 'evt:door_sexton', 'preset': 'door', 'source': 'door:sexton', 'title': 'Door', 'action': 'open'},
     {'id': 'evt:door_feast_w', 'preset': 'door', 'source': 'door:feast_w', 'title': 'Door', 'action': 'open'},
@@ -705,7 +706,7 @@ project = {
         {'id': 'exit:x3_coffin', 'to': X3_STEM, 'kind': 'door', 'arrival': X3_ARRIVAL,
          'arrival_hint': "On Nightshadow's square, 512 south of Draco's coffin (thing:coffin_open), facing away from it.",
          'direction': 270,
-         'notes': "A5's points (briefs/x3/DOORS.md). X3's open coffin leads in to this map's start (0, 704, 0) facing "
+         'notes': "A5's points (briefs/x3/DOORS.md). X3's open coffin leads in to this map's start (0, 1600, 224) facing "
                   "south (1536)."}],
     'qbits': QBITS,
     'notes': "Xeen design brief, level L4: XD-24 Nightshadow Crypt, under Nightshadow's square on X3, Act III, class S "

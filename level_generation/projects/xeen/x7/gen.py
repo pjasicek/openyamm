@@ -174,6 +174,12 @@ def walkable(x, y):
     return max(hs) - min(hs) <= 300                 # the engine slides over 512 a tile: keep a margin
 
 
+# D-138 (2026-11-24): no spawn marker within 2,000 of a door's arrival: the circle (512) and a margin on top, 5 cells
+# (XD-18's mouth, (56, 31): ash_flats' marker 5 stood 1,843 from it; the door fronts' 4.0 is not enough)
+ARRIVAL_CLEAR = [(56.0, 31.0)]
+ARRIVAL_CELLS = 5.0
+
+
 def dline(x, y, line):
     return LD.dist_to_line(x, y, line) if len(line) > 1 else math.hypot(x - line[0][0], y - line[0][1])
 
@@ -201,6 +207,7 @@ def markers():
                       and min(math.hypot(x - d[0], y - d[1]) for d in DOOR_FRONTS.values()) > 4.0
                       and math.hypot(x - CLEFT_AT[0], y - CLEFT_AT[1]) > 4.8          # D-40: 2,000 from the cleft
                       and all(math.hypot(x - a[0], y - a[1]) > 4.4 for a in EDGE_ARRIVALS.values())
+                      and all(math.hypot(x - a[0], y - a[1]) >= ARRIVAL_CELLS for a in ARRIVAL_CLEAR)
                       and min(LD.dist_to_line(x, y, r) for r in roads) > 0.8)
                 if ok and slot == 3:   # D-40: dragons 4,000 from the cleft, 6,000 from the tax track and the caves
                     ok = (math.hypot(x - CLEFT_AT[0], y - CLEFT_AT[1]) > 7.9

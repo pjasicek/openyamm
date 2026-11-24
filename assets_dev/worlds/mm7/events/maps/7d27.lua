@@ -81,7 +81,7 @@ SetMapMetadata({
 })
 
 RegisterEvent(2, nil, function()
-    if not evt.CheckMonstersKilled(ActorKillCheck.ActorIdOe, 0, 0, false) then return end -- OE actor 0; all matching actors defeated
+    if not evt.CheckMonstersKilled(ActorKillCheck.ActorIdOe, 0, 0, true) then return end -- OE actor 0; all matching actors defeated
     if IsQBitSet(QBit(617)) then return end -- Slayed Xenofex
     SetQBit(QBit(617)) -- Slayed Xenofex
     evt.ShowMovie("\"family reunion\"", true)

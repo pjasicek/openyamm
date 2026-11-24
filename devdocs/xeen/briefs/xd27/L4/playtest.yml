@@ -141,7 +141,6 @@ steps:
   - clear_hostiles: {radius: 2000}
   - walk_to: {x: -2752, y: 3740, z: 32, radius: 48, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   - play_lua: {source: "click(14); wait(0.5)"}
-  - answer_input: {text: "Yes"}
   - advance_runtime: {seconds: 1}
   # A3's hook q-c23.chieftain: the quest bit and the source's answer.
   - play_lua:

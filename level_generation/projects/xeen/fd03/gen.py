@@ -79,7 +79,7 @@ FIELD = S('xafield', 128, 256, translucent=0.5)
 SEAL_ALPHA = 0.3
 SEAL = S('xdseal', 128, 256, fit=True, translucent=SEAL_ALPHA)
 WING_L = S('crsmdr1', 128, 256)
-WING_R = S('crsmdr1', 128, 256)
+WING_R = S('crsmdr1', 128, 256, mirror=True)   # the right wing is the left one mirrored (F44: no hinge edge at the free edge)
 TRIM = S('trim9_32', 32, 64)
 SKY = S('gston1fl', 128, 128, sky=True)
 PIT = S('gcav1flr', 256, 256)

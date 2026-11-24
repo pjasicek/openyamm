@@ -25,7 +25,7 @@ steps:
           - {name: Sefa, class: Sorcerer, level: 25, skills: [], equipment: {}}
   - assert: {map: xeen_xd24.blv}
   - setup_shortcut: {kind: immortal, value: true}
-  - assert: {party_position: {x: 0, y: 704, radius: 64, z_min: -8, z_max: 8}}
+  - assert: {party_position: {x: 0, y: 1600, radius: 64, z_min: 190, z_max: 260}}
   # The arrival line (a one-shot timer, map variable 0).
   # (the headless runner opens no window from a timer: the step asserts that the event ran)
   - play_lua: {source: "wait(3)"}

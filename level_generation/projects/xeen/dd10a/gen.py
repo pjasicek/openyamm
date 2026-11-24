@@ -191,14 +191,14 @@ DECORATIONS = [
     deco('ruby_rocks', 'ruby', '6rock01', (2240, 3240), notes="Spoil by the north wall."),
     deco('ruby_rocks_2', 'ruby', '6rock02', (3330, 2700)),
     deco('cobweb_bones', 'cobweb', 'dec29', (4480, 3160), notes="What the queens left."),
-    deco('cobweb_skull', 'cobweb', '7dec20', (4880, 2400)),
+    deco('cobweb_skull', 'cobweb', '7dec20', (4834, 2400)),
     deco('sump_torch', 'sump', 'torch02', (4600, 1920), wall=3),
     deco('emerald_torch', 'emerald', 'torch02', (2304, 1408), wall=4),
     deco('emerald_rocks', 'emerald', '6rock01', (3360, 1040)),
     deco('bones_heap_a', 'bones', '7dec18', (760, 1340), notes="A heap of bones: they crumble."),
     deco('bones_heap_b', 'bones', 'dec19', (1060, 980), notes="A heap of bones: they crumble."),
     deco('bones_heap_c', 'bones', '7dec18', (880, 1120), notes="The heap that explodes (once)."),
-    deco('bones_skeleton', 'bones', 'dec05', (740, 1720), notes="A miner who did not get out."),
+    deco('bones_skeleton', 'bones', 'dec05', (791, 1686), notes="A miner who did not get out."),
     deco('bones_skull', 'bones', '7dec20', (1600, 900)),
 ]
 

@@ -465,7 +465,7 @@ steps:
     seconds: 0.3
 - note: 'The Travel Pit (building:asp_travel_pit, house 4170): walk to its door and open it'
 - walk_to:
-    x: -7424
+    x: -7714
     y: -10236
     z: 1056
     z_tolerance: 600
@@ -475,7 +475,7 @@ steps:
     close_dialogs: true
 - set_pose:
     map: xeen_x4.odm
-    x: -7424
+    x: -7714
     y: -10236
     z: 1056
     yaw: 1.5708
@@ -916,7 +916,7 @@ steps:
 - note: 'Royal Stables of Burlock (building:burlock_stables, house 4155): walk to its door and open it'
 - walk_to:
     x: 772
-    y: 4096
+    y: 4386
     z: 1312
     z_tolerance: 600
     radius: 160
@@ -926,7 +926,7 @@ steps:
 - set_pose:
     map: xeen_x4.odm
     x: 772
-    y: 4096
+    y: 4386
     z: 1312
     yaw: 0.0
     pitch: 0.0
@@ -1013,7 +1013,7 @@ steps:
     map: xeen_x4.odm
     x: 5427
     y: 7680
-    z: 1088
+    z: 960
     yaw: 0.0
     pitch: 0.0
 - advance_runtime:

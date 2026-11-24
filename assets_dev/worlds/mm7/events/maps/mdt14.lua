@@ -61,7 +61,7 @@ RegisterEvent(1, nil, function()
 end)
 
 RegisterEvent(2, nil, function()
-    if evt.CheckMonstersKilled(ActorKillCheck.Any, 0, 0, false) then -- any actor; all matching actors defeated
+    if evt.CheckMonstersKilled(ActorKillCheck.Any, 0, 0, true) then -- any actor; all matching actors defeated
         SetQBit(QBit(655)) -- Killed all monsters in Bandit cave
     end
 end)

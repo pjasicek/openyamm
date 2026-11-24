@@ -162,8 +162,6 @@ steps:
     close_dialogs: true
 - play_lua:
     source: click(47); wait(0.5)
-- answer_input:
-    text: 'Yes'
 - advance_runtime:
     seconds: 1.5
 - play_lua:
@@ -225,8 +223,6 @@ steps:
     close_dialogs: true
 - play_lua:
     source: click(41); wait(0.5)
-- answer_input:
-    text: 'Yes'
 - advance_runtime:
     seconds: 1.5
 - play_lua:
@@ -376,8 +372,6 @@ steps:
     close_dialogs: true
 - play_lua:
     source: click(38); wait(0.5)
-- answer_input:
-    text: 'Yes'
 - advance_runtime:
     seconds: 1.5
 - play_lua:
@@ -524,8 +518,6 @@ steps:
     close_dialogs: true
 - play_lua:
     source: click(44); wait(0.5)
-- answer_input:
-    text: 'Yes'
 - advance_runtime:
     seconds: 1.5
 - play_lua:

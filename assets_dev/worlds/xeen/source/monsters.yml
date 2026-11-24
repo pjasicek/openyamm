@@ -511,6 +511,7 @@ families:
 
   floating_mages:
     block: 11200
+    ranged_flyer: "the source's mages are ranged (R): casters hover and cast"   # X2 p8 (gen_monsters)
     name: Floating mages
     picture: Xeen Floating Mage
     sounds: xeen_mage   # AU batch 2 (devdocs/xeen/AUDIO.md)
@@ -716,7 +717,8 @@ families:
     tiers:
       A: {name: Bat Queen, level: 10, skin: xbat_d, bonus: Weak}
       B: {name: Vampire Bat, level: 14, skin: xbat_e, bonus: DrainSP}
-      C: {name: Beholder Bat, level: 20, skin: xbat_f, type: Fire, missile: Fire, resist: {fire: imm}}
+      C: {name: Beholder Bat, level: 20, skin: xbat_f, type: Fire, missile: Fire, resist: {fire: imm},
+          ranged_flyer: "the source's Beholder Bat breathes on the whole party (A)"}
 
   spiders:
     block: 11320
@@ -962,6 +964,7 @@ families:
 
   octopods:
     block: 11470
+    ranged_flyer: "the source's Octopod hits the whole party (A): its ink as a missile from the water"   # X2 p8 (gen_monsters)
     name: Octopods
     picture: Xeen Octopod
     sounds: xeen_octopod   # AU batch 2 (devdocs/xeen/AUDIO.md)
@@ -1066,21 +1069,32 @@ families:
     sounds: xeen_sprite   # AU batch 1 (devdocs/xeen/AUDIO.md table (a))
     sprites: Will ' O Wisp
     model: worlds/xeen/models/xeen_sprite.glb  # new small winged fey
+    # F54 (2026-11-24): fey with a body, not wisps of light: they fall and leave their loot (the borrowed
+    # Will o' Wisp descriptor leaves no corpse), and blows strike flesh.
+    corpse: dying
+    hit_material: Flesh
+    # X2 p8 (2026-11-24, a player: "the sprites are always in the air"): melee flyers, as the source's sprites (no
+    # ranged attack) and MM6-MM8's small winged monsters (harpies, gargoyles, bats). With the Will o' Wisp's Light
+    # missile (tier A) and their own Air they were ranged flyers, which hover the radius + 512 above the party and
+    # circle it out of reach. The Queens and Sharla keep their spells. tests/scenarios/xeen/sprites_come_down.yml.
+    missile: 0
     where: X2 south woods, D2
     ac_x: 0.8
     tiers:
-      A: {name: Medusa Sprite, level: 10, skin: sprite_a, fly: Y, bonus: Stone,
-          note: the gaze; a rare stone at level 10 is the source's trick}
-      B: {name: Killer Sprite, level: 14, skin: sprite_b, fly: Y, type: Air, missile: Air, bonus: Curse}
-      C: {sounds: xeen_sprite_queen, name: Sprite Queen, level: 18, skin: sprite_c, fly: Y, type: Air, missile: Air, spell: [Sparks, E, 4, 25]}
+      # F54 (2026-11-24, a decider): Weak, not Stone: a level-10 touch petrifies 10 % of hits (level x attack level),
+      # which ends a solo run; nothing in MM6-MM8 petrifies below level 27 (the Basilisk).
+      A: {name: Medusa Sprite, level: 10, skin: sprite_a, fly: Y, type: Phys, bonus: Weak,
+          note: the gaze weakens; the source's stone is left to the Gorgon Sprites}
+      B: {name: Killer Sprite, level: 14, skin: sprite_b, fly: Y, type: Air, bonus: Curse}
+      C: {sounds: xeen_sprite_queen, name: Sprite Queen, level: 18, skin: sprite_c, fly: Y, type: Air, spell: [Sparks, E, 4, 25]}
       # D2's treehouse village (D-23: the Sprites' tiers): peaceful until q-d10 robbery (relation_rules); rows of their
       # own, so X2's and D2's wild sprites stay hostile. Placed only.
-      D: {id: 11537, name: Medusa Sprite, level: 10, look: A, skin: sprite_a, fly: Y, bonus: Stone, faction: village,
+      D: {id: 11537, name: Medusa Sprite, level: 10, look: A, skin: sprite_a, fly: Y, type: Phys, bonus: Weak, faction: village,
           party: friendly, note: D2's treehouse village}
-      E: {id: 11538, name: Killer Sprite, level: 14, look: B, skin: sprite_b, fly: Y, type: Air, missile: Air,
+      E: {id: 11538, name: Killer Sprite, level: 14, look: B, skin: sprite_b, fly: Y, type: Air,
           bonus: Curse, faction: village, note: D2's treehouse village}
     bosses:
-      - {sounds: xeen_sprite_queen, key: sharla, id: 11533, name: Sharla, level: 30, skin: sprite_c, fly: Y, look: C, type: Air, missile: Air,
+      - {sounds: xeen_sprite_queen, key: sharla, id: 11533, name: Sharla, level: 30, skin: sprite_c, fly: Y, look: C, type: Air,
          spell: [Lightning Bolt, M, 8, 30], modifiers: [{blink: {on_hit_chance: 0.3}}], note: D2}
 
   dark_sprites:
@@ -1090,12 +1104,17 @@ families:
     sounds: xeen_sprite   # AU batch 1 (devdocs/xeen/AUDIO.md table (a))
     stand_in: Will ' O Wisp
     model: "xeen_sprite.glb with two Darkside colour tiers (S; after the source's Darkside Medusa Sprite, image 53: orange skin, snake locks)"
+    corpse: dying   # F54, as the Sprites
+    hit_material: Flesh
+    missile: 0      # X2 p8, as the Sprites: melee flyers
     where: D2's wild sprites (the eight village sprites stay on the Sprites' rows)
     ac_x: 0.8
     tiers:
-      A: {id: 11534, name: Gorgon Sprite, level: 16, fly: Y, type: Air, missile: Air, bonus: Stone}
-      B: {id: 11535, name: Elder Gorgon Sprite, level: 22, fly: Y, type: Air, missile: Air, bonus: Curse}
-      C: {sounds: xeen_sprite_queen, id: 11536, name: Sprite Queen, level: 18, fly: Y, type: Air, missile: Air, spell: [Sparks, E, 4, 25],
+      # D-119 (2026-11-24, a decider): Weak, not Stone, as the Medusa Sprite: nothing in MM6-MM8 petrifies, kills or
+      # eradicates below level 27 (gen_monsters refuses it).
+      A: {id: 11534, name: Gorgon Sprite, level: 16, fly: Y, type: Air, bonus: Weak}
+      B: {id: 11535, name: Elder Gorgon Sprite, level: 22, fly: Y, type: Air, bonus: Curse}
+      C: {sounds: xeen_sprite_queen, id: 11536, name: Sprite Queen, level: 18, fly: Y, type: Air, spell: [Sparks, E, 4, 25],
           look: C, note: "the rare third of D2's slot (D-23), the Sprites' Queen 11532 again under this family's picture"}
 
   gargoyles:
@@ -1139,6 +1158,7 @@ families:
 
   eyes:
     block: 11570
+    ranged_flyer: "MM6-MM8's eyes (beholders) are ranged flyers; the gazers shoot"   # X2 p8 (gen_monsters)
     name: Eyes
     picture: Xeen Eye
     stand_in: BBeholder
@@ -1206,7 +1226,9 @@ families:
     tiers:
       # A-C hover (S, 2026-11-20); Xeen's Guard walks (D-19).
       A: {sounds: xeen_feet, name: Flying Feet, level: 18, bonus: Asleep, fly: Y}
-      B: {sounds: xeen_guardian, name: Guardian, level: 24, type: Ener, missile: Ener, bonus: DrainSP, ac_x: 1.5, fly: Y}
+      # D-127 (2026-11-24, a decider): a melee flyer like its family and the source (flag F, no R): the Energy touch
+      # and its DrainSP stay; `missile: 0` (not left out: the stand-in's own missile would come back).
+      B: {sounds: xeen_guardian, name: Guardian, level: 24, type: Ener, missile: 0, bonus: DrainSP, ac_x: 1.5, fly: Y}
       C: {sounds: xeen_hand, name: Carnage Hand, level: 35, bonus: BrkArmor, fly: Y}
       # `look: B` only picks the stand-in descriptor (mm8_m592 m592_b) until S installs its own model xeen_guard
       # before phase 5 (D-19); the source's attack is Energy.
@@ -1216,10 +1238,12 @@ families:
 
   robots:
     block: 11610
+    ranged_flyer: "a robot family: the source's Annihilator shoots (R); one model, one behaviour (Patrol and Autobot with it, D-127)"   # X2 p8 (gen_monsters)
     name: Robots
     picture: Xeen Robot
     stand_in: BRobot
     model: reuse mm6_rob1
+    corpse: none   # F54: the MM6 robot vanishes in its blast, as in MM6 (its table loot is lost)
     where: Castle Alamar, D6, the Dungeon of Death (FD-04's machine floor, D-57), the Alamar Depths (FD-01,
       Annihilator 11611 x 28 and Autobot 11612 x 6, D-69)
     ac_x: 1.3
@@ -1232,10 +1256,12 @@ families:
 
   elementals:
     block: 11620
+    ranged_flyer: "the source's elementals hit the whole party (A); MM6-MM8's elementals are ranged flyers"   # X2 p8 (gen_monsters)
     name: Elementals
     picture: Xeen Elemental
     kind: Elemental
     sprites: ElemFire
+    corpse: none   # F54: MM's elementals leave no body (their table loot is lost)
     model: worlds/xeen/models/xeen_fie1.glb  # mm6_fie1; E-G on the element families' models (S session 12)
     where: the planes, D6, Castle Alamar (DD-17, two each of 11620 and 11624-11626 by the Lava Heads, D-61), Olympus Sewer
       (DD-26, sixteen Lesser Water Elementals 11625, D-65)
@@ -1271,10 +1297,12 @@ families:
   # placed only, hidden until the test (P-1, C3).
   air_elementals:
     block: 11700
+    ranged_flyer: "the source's Whirlwind hits the whole party (A); MM6-MM8's elementals are ranged flyers"   # X2 p8 (gen_monsters)
     name: Air elementals
     picture: Xeen Air Elemental
     kind: Elemental
     sprites: ElemAir
+    corpse: none   # F54, as the fire elementals
     model: worlds/xeen/models/xeen_aie1.glb  # mm6_aie1 with Xeen tiers (S sessions 12-13)
     height: 150  # F4: the model's top (148); ElemAir C's 240 launched B and C's bolts above them
     where: P2
@@ -1343,6 +1371,7 @@ families:
 
   cloud_dragons:
     block: 11640
+    ranged_flyer: "the source's dragons breathe (R, A)"   # X2 p8 (gen_monsters)
     name: Dragons (Cloudside)
     picture: Xeen Dragon
     kind: Dragon
@@ -1366,6 +1395,7 @@ families:
 
   dark_dragons:
     block: 11650
+    ranged_flyer: "the source's dragons breathe (R, A)"   # X2 p8 (gen_monsters)
     name: Dragons (Darkside)
     picture: Xeen Dark Dragon
     kind: Dragon
@@ -1405,6 +1435,7 @@ families:
 
   undead_dragons:
     block: 11670
+    ranged_flyer: "MM6-MM8's bone dragons breathe; with the living dragons"   # X2 p8 (gen_monsters)
     name: Undead dragons
     picture: Xeen Bone Dragon
     kind: [Undead, Dragon]

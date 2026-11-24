@@ -140,7 +140,7 @@ def qbit_is(q, on=True, label=''):
 
 
 def gen_question(g):
-    return [lua(f"click({ev('gen_' + g)}); wait(0.5)"), {'answer_input': {'text': 'Yes'}},
+    return [lua(f"click({ev('gen_' + g)}); wait(0.5)"),
             {'advance_runtime': {'seconds': 1.5}}, {'play_lua': {'source': 'close()'}},
             qbit_is(Q['gen_' + g], label=f'gen_{g}'),
             {'console': {'line': f"destructible {DES[f'destructible:gen_{g}']} state", 'expect_contains': 'broken'}}]
@@ -304,14 +304,14 @@ def playtest_pool():
           W(*G.MACHINES['w']['at'][:1], G.MACHINES['w']['at'][1] - 520, G.Z[1], radius=64)]
     mx_, my_ = G.MACHINES['w']['at']
     s[-1] = W(mx_ + 400, my_ - 200, G.Z[1], radius=64)
-    s += [lua(f"click({ev('machine_w')}); wait(0.5)"), {'answer_input': {'text': 'Yes'}},
+    s += [lua(f"click({ev('machine_w')}); wait(0.5)"),
           {'advance_runtime': {'seconds': 1.5}}, lua('close()'),
           qbit_is(Q['machine_w_down'], label='machine_w_down'),
           lua(f"if door_state({door('bays')}) ~= 'closed' then error('bays open after one machine') end"),
           W(mx_ + 400, 3000, G.Z[1]), W(0, 3000, G.Z[1])]
     ex, ey = G.MACHINES['e']['at']
     s += [W(ex - 400, ey - 200, G.Z[1], radius=64),
-          lua(f"click({ev('machine_e')}); wait(0.5)"), {'answer_input': {'text': 'Yes'}},
+          lua(f"click({ev('machine_e')}); wait(0.5)"),
           {'advance_runtime': {'seconds': 2.5}}, lua('close()'),
           qbit_is(Q['machine_e_down'], label='machine_e_down'),
           qbit_is(Q['bays_open'], label='bays_open'),

@@ -66,7 +66,7 @@ RegisterEvent(1, nil, function()
 end)
 
 RegisterEvent(2, nil, function()
-    if evt.CheckMonstersKilled(ActorKillCheck.ActorIdOe, 0, 0, false) then -- OE actor 0; all matching actors defeated
+    if evt.CheckMonstersKilled(ActorKillCheck.ActorIdOe, 0, 0, true) then -- OE actor 0; all matching actors defeated
         SetQBit(QBit(619)) -- Slayed the vampire
     end
 end)

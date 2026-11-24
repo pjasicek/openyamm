@@ -4219,7 +4219,7 @@ RegisterGlobalEvent(47565, "Fighting", function()
 end)
 
 RegisterGlobalEvent(47566, "Work", function()
-    evt.SetMessage(NPCText(47565, "I'll give you 100 gold for a week of work. Not today, though. Today all the work went to the robbers."))
+    evt.SetMessage(NPCText(47565, "I used to pay 100 gold for a week of work. Then the robbers under the bridge took every job in town and paid themselves. There's nothing left for honest hands."))
 end)
 
 RegisterGlobalEvent(47567, "Mirrors", function()
@@ -8292,8 +8292,8 @@ XeenQuests.hooks["q-c20.whistle"] = {
 }
 
 XeenQuests.hooks["q-c21.phirna_plant"] = {
-    requires = function() return not (HasItem(12309)) end,
-    failText = function() return NPCText(43555, "Sensing that you already have another Phirna root, the plant stubbornly resists your greedy fingers.") end,
+    harvest = 1,
+    elseText = function() return NPCText(43555, "This Phirna plant has been dug up already. It will grow back in time.") end,
     failStatus = true,
     elseStatus = true,
     run = function()
@@ -11168,12 +11168,13 @@ XeenQuests.hooks["q-f2.gongs_reset"] = {
 XeenQuests.hooks["q-f2.machine"] = {
     once = 118145,
     elseText = function() return NPCText(45630, "The Lord Xeen Machine is dark and cold. Somebody will have to write a new maintenance schedule.") end,
+    elseStatus = true,
     run = function()
         SetQBit(QBit(118145))
         SetQBit(QBit(114041))
         evt.ForPlayer(Players.All)
         AddValue(Experience, 10000)
-        evt.SimpleMessage(NPCText(45629, "You pull the four cores out of the Lord Xeen Machine one by one. It shudders, sparks and stops. Somewhere a great many lights go out, and nothing else happens, which is how you know it worked. (+10,000 experience)"))
+        evt.StatusText(NPCText(45629, "You pull the four cores out of the Lord Xeen Machine one by one. It shudders, sparks and stops. Somewhere a great many lights go out, and nothing else happens, which is how you know it worked. (+10,000 experience)"), 6)
     end,
 }
 

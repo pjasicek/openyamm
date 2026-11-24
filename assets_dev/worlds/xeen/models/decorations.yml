@@ -115,32 +115,39 @@ decorations:
   # edge (the land runs level to it, D-109), facing so glTF +Z points over the void (facing 0 north, 90 west, 180 south,
   # 270 east; a corner the diagonal between its runs). Profile: a kerb 150 over the grass with pulsing running lights
   # on its inland face, a deck flaring out 1,800 and down 1,000 (29 degrees) with girder ribs and running lights near
-  # its lip, the lip, and the underside back in under the land to -2,700. Static, opaque, no collision (radius 0). Placed by
+  # its lip, the lip, and the underside back in under the land to -2,700. Static, opaque; solid by its own triangles
+  # (`collision: model`: the map build raises a hidden copy of them under each piece; its radius stays 0). Placed by
   # level_generation/projects/xeen/common/rim.py; level_generation/decorations/xeen_hull_claude/README.md.
   - name: xeen_hull4
     model: worlds/xeen/models/xeen_deco_hull4.glb
     height: 2850
     yaw: facing
+    collision: model
   - name: xeen_hull1
     model: worlds/xeen/models/xeen_deco_hull1.glb
     height: 2850
     yaw: facing
+    collision: model
   - name: xeen_hull4bn
     model: worlds/xeen/models/xeen_deco_hull4bn.glb
     height: 2850
     yaw: facing
+    collision: model
   - name: xeen_hull1bn
     model: worlds/xeen/models/xeen_deco_hull1bn.glb
     height: 2850
     yaw: facing
+    collision: model
   - name: xeen_hullc
     model: worlds/xeen/models/xeen_deco_hullc.glb
     height: 2710
     yaw: facing
+    collision: model
   - name: xeen_hullcbn
     model: worlds/xeen/models/xeen_deco_hullcbn.glb
     height: 2710
     yaw: facing
+    collision: model
   # Deckless hull pieces (D-109, D-114; agent xeen-rimmap-b 2026-11-23). hull4n/hull1n: the kerb and its face straight
   # down (no deck), for the short walls of a notch in the rim (X7's lava cove), whose decks would close the notch.
   # hullf (hullfbn burnt, D6): no kerb, no deck, a plain face from the land's edge down, set 16 behind it, under a sand
@@ -149,15 +156,26 @@ decorations:
     model: worlds/xeen/models/xeen_deco_hull4n.glb
     height: 2850
     yaw: facing
+    collision: model
   - name: xeen_hull1n
     model: worlds/xeen/models/xeen_deco_hull1n.glb
     height: 2850
     yaw: facing
+    collision: model
   - name: xeen_hullf
     model: worlds/xeen/models/xeen_deco_hullf.glb
     height: 2700
     yaw: facing
+    collision: model
   - name: xeen_hullfbn
     model: worlds/xeen/models/xeen_deco_hullfbn.glb
     height: 2700
     yaw: facing
+    collision: model
+  # D2's fairy ring (D-120, L1 plan: "a ring of tall glowing mushrooms"): MM6's cap scaled to about 200 high (the grass
+  # hid the 64-88 caps), its row lit pale green (radius 384). 2026-11-24, agent xeen-fb3-studio4.
+  - name: xeen_fairycap
+    model: engine/models/mm6_deco_mushrm05.glb
+    height: 200
+    height_jitter: 0.15
+    yaw: random
