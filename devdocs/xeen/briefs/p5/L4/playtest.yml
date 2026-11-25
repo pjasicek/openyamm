@@ -128,7 +128,7 @@ steps:
     radius: 160
     timeout_seconds: 90
     close_dialogs: true
-    z: 40
+    z: 32
     z_tolerance: 200
 - walk_to:
     x: 3584
@@ -144,7 +144,7 @@ steps:
     radius: 192
     timeout_seconds: 90
     close_dialogs: true
-    z: 34
+    z: 32
     z_tolerance: 200
 - play_lua:
     source: 'status(); click(5); wait(0.5); local s = status() or ''''; if not string.find(s, "King''s Bounty", 1, true) then
@@ -188,7 +188,7 @@ steps:
     radius: 160
     timeout_seconds: 90
     close_dialogs: true
-    z: 104
+    z: 103
     z_tolerance: 200
 - walk_to:
     x: 3584
@@ -248,7 +248,7 @@ steps:
     radius: 160
     timeout_seconds: 90
     close_dialogs: true
-    z: 168
+    z: 136
     z_tolerance: 200
 - walk_to:
     x: 917
@@ -264,7 +264,7 @@ steps:
     radius: 192
     timeout_seconds: 90
     close_dialogs: true
-    z: 161
+    z: 136
     z_tolerance: 200
 - play_lua:
     source: 'status(); click(15); wait(0.5); local s = status() or ''''; if not string.find(s, "Spaceward Ho!", 1, true) then
@@ -306,7 +306,7 @@ steps:
     radius: 160
     timeout_seconds: 90
     close_dialogs: true
-    z: 232
+    z: 264
     z_tolerance: 200
 - walk_to:
     x: -3170
@@ -322,7 +322,7 @@ steps:
     radius: 192
     timeout_seconds: 90
     close_dialogs: true
-    z: 241
+    z: 264
     z_tolerance: 200
 - play_lua:
     source: 'status(); click(13); wait(0.5); local s = status() or ''''; if not string.find(s, "Planets Edge", 1, true) then
@@ -366,7 +366,7 @@ steps:
     radius: 160
     timeout_seconds: 90
     close_dialogs: true
-    z: 296
+    z: 297
     z_tolerance: 200
 - walk_to:
     x: -3584
@@ -412,7 +412,7 @@ steps:
     radius: 160
     timeout_seconds: 90
     close_dialogs: true
-    z: 360
+    z: 359
     z_tolerance: 200
 - walk_to:
     x: -3584
@@ -458,7 +458,7 @@ steps:
     radius: 160
     timeout_seconds: 90
     close_dialogs: true
-    z: 424
+    z: 392
     z_tolerance: 200
 - walk_to:
     x: -731
@@ -474,7 +474,7 @@ steps:
     radius: 192
     timeout_seconds: 90
     close_dialogs: true
-    z: 413
+    z: 392
     z_tolerance: 200
 - play_lua:
     source: 'status(); click(9); wait(0.5); local s = status() or ''''; if not string.find(s, "Nuclear War", 1, true) then
@@ -518,7 +518,7 @@ steps:
     radius: 160
     timeout_seconds: 90
     close_dialogs: true
-    z: 488
+    z: 507
     z_tolerance: 200
 - walk_to:
     x: 0
@@ -534,7 +534,7 @@ steps:
     radius: 160
     timeout_seconds: 90
     close_dialogs: true
-    z: 517
+    z: 520
     z_tolerance: 200
 - walk_to:
     x: -192
@@ -542,7 +542,7 @@ steps:
     radius: 192
     timeout_seconds: 90
     close_dialogs: true
-    z: 514
+    z: 520
     z_tolerance: 200
 - play_lua:
     source: 'status(); click(7); wait(0.5); local s = status() or ''''; if not string.find(s, "Might and Magic", 1, true)

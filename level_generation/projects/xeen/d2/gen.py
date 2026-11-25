@@ -146,8 +146,9 @@ BROOK = [[52, 21], [52, 26], [52, 32], [52, 40], [51, 48], [49, 56], [48, 64], [
          [53, 88], [55, 94], [57, 100], [58, 104]]
 FALLS_X = 58
 CASTLEVIEW_ROAD = [[0, 60], [10, 60], [21, 60], [27, 60], [32, 60]]
-CARAVAN_WEST = [[32, 60], [37, 57], [42, 54], [47, 51], [51, 48], [56, 45.5], [61, 43], [66, 41], [71, 39.5],
-                [75, 37.5], [79, 37]]
+LOG_BRIDGE = [[48.5, 48], [53, 48]]     # D-170: square across the brook (thing:log_bridge)
+CARAVAN_WEST = [[32, 60], [37, 57], [42, 54], [47, 51], LOG_BRIDGE[0], LOG_BRIDGE[1], [56, 45.5], [61, 43], [66, 41],
+                [71, 39.5], [75, 37.5], [79, 37]]
 CARAVAN_EAST = [[79, 37], [83, 38], [87, 40.5], [92, 41.5], [97, 42.5], [102, 43.5], [106, 44], [116, 44], [128, 44]]
 FOREST_TRACK = [[32, 60], [35, 64], [38, 67], [42, 70]]
 GLADE_TRACK = [[42, 70], [46, 70], [48.5, 70], [51, 70], [54, 69], [60, 67], [66, 66], [72, 66.5], [78, 67.5],
@@ -507,6 +508,37 @@ def dungeon_way(key, title, hint_name, hook_name=None, sealed=None, inside=None,
                              % (hook_name, lua_str(text))}]}
     return {'effects': [msg(text)]}
 
+# build()'s keep_clear areas (the arrivals, the village, the great tree, the mine mouth, the parley, the clearings)
+KEEP_CLEAR = [[[17, 54], [30, 54], [30, 65], [17, 65]], [[17, 78], [41, 78], [41, 100], [17, 100]],
+              [[34, 67], [48, 67], [48, 82], [34, 82]], [[30, 28], [38, 28], [38, 35], [30, 35]],
+              [[75, 32], [84, 32], [84, 41], [75, 41]], [[100, 38], [112, 38], [112, 49], [100, 49]],
+              [[55, 87], [61, 87], [61, 93], [55, 93]], [[89, 75], [101, 75], [101, 86], [89, 86]],
+              [[101, 90], [107, 90], [107, 97], [101, 97]], [[56, 99], [65, 99], [65, 104], [56, 104]]]
+
+def d142_enforce(areas, village_doors):
+    """D-142 / D-157 (2026-11-25, F64) for the encounter circles (common/d142.py): the edge arrivals and the dungeon
+    exits (the troll holes, DD-13's gates, DD-06/09/10B's mouths; D2 in check_arrivals.D142_EXITS) 4,096 from a
+    marker's edge (5,888 for a slot that shoots or casts); every road, lane and path 1,024 from its centre. A failing
+    circle moves to the nearest spot off the water, the keep-clear areas and steep land that keeps build()'s own rules
+    (2,500 from the village doors, D-85's 5,120 from the edge arrivals, 1,500 from the parley fire, 3 cells from the
+    adit)."""
+    sys.path.insert(0, _REPO_ROOT + '/level_generation/projects/xeen/common')
+    import d142
+    sys.path.pop(0)
+    d142.CA.D142_EXITS.add(STEM)   # the floors this build is held to (the checker's set takes D2 at its install)
+    l4 = os.path.join(OUT, 'sketch.yml')
+    base = d142.standard_ok(l4, land, keep_off=KEEP_CLEAR)
+
+    def ok(x, y, r):
+        return (base(x, y, r)
+                and min(math.hypot(x - d[0], y - d[1]) for d in village_doors) * 512 >= 2600
+                and all(math.hypot(x - e[0], y - e[1]) * 512 >= 5220 + r * 512 for e in (WEST_START, EAST_START))
+                and math.hypot(x - PARLEY[0], y - PARLEY[1]) * 512 >= 1600
+                and math.hypot(x - MINE_LANE[-1][0], y - MINE_LANE[-1][1]) - r >= 3)
+    # F63 (2026-11-25, check_spawn_clear `spawn.at_hull`): a circle whose markers can stand within 768 of the bounds
+    # moves too (the west glade's (20, 76), the woods' (107.5, 86))
+    d142.enforce(STEM, areas, d142.road_cells(l4), {}, ok, also=d142.hull_reason(l4))
+
 def build():
     os.makedirs(OUT, exist_ok=True)
     # ================================ project.yml
@@ -851,6 +883,7 @@ def build():
                                  (106, 78, 2, 1.5), (107.5, 86, 1, 1), (97, 100, 1, 1), (104, 24, 1, 1),
                                  (94, 94, 1, 1)], 1)
     village_doors = [d[2] for d in doors_out if d[0] != 'building:nibbler_hollow']
+    d142_enforce(areas, village_doors)
     for a in areas:
         c = a['circle']['at']
         near = min(math.hypot(c[0] - d[0], c[1] - d[1]) for d in village_doors)
@@ -1070,10 +1103,17 @@ def build():
        **daily('d2_glimmer_pool', [{'add': {'var': 'LuckBonus', 'value': 20}}, {'text': '+20 Luck until you rest.'}],
                'The water is cool and refreshing.')})
     for i, at in enumerate([(72, 21.5), (80, 21), (88, 22.5), (77, 54), (76.5, 61.5), (75.5, 49.5), (108, 22)]):
-        S(deco('thing:landmark_crystals_%d' % (i + 1), 'crclstr', at))
+        # F59 (2026-11-25, town_fit_check decorations.slope): the fourth cluster stood 26 over its rim on the pass's
+        # south slope; sunk into the slope as level_pads.py sinks a rock (a crystal is not one of its natural words)
+        S(deco('thing:landmark_crystals_%d' % (i + 1), 'crclstr', at, **({'raise': -32} if i == 3 else {})))
     S({'id': 'thing:footbridge', 'kind': 'bridge', 'line': [[46.5, 70], [50.5, 70]], 'width': 256, 'rise': 32,
        'kerb': 32, 'textures': {'deck': DECK}, 'title': 'Footbridge'})
-    S({'id': 'thing:log_bridge', 'kind': 'bridge', 'line': [[49.2, 49.4], [52.8, 46.6]], 'width': 448, 'rise': 32,
+    # D-170 (2026-11-25): square across the Glimmerbrook on y 48, the road with it (LOG_BRIDGE). The studio lays the
+    # brook two cells wide and its water falls 64 a cell north to south here: the old deck crossed it on the slant,
+    # its east end ran on beside the brook's higher water (1,312 at y 46) and lay on it, wherever that end was put.
+    # The east end stands on the node line x 53 (the caravan road grades the nodes past it, (54, 47) to 1,344, after
+    # the end's pad), 24 over the pad (`raise`; at 16 its north corner lay on the road's grade)
+    S({'id': 'thing:log_bridge', 'kind': 'bridge', 'line': LOG_BRIDGE, 'width': 448, 'rise': 32, 'raise': 24,
        'kerb': 48, 'textures': {'deck': DECK}, 'title': 'Log bridge'})
     # the troll holes (q-d13.troll_holes): pits in the forest floor, one into each pocket of DD-11
     for key, (pit, arr, fac) in HOLES.items():
@@ -1295,10 +1335,17 @@ def build():
     place(ROW['ogre'], (EAST_FORT[0], ey), 5, 1.0, G_EAST)
     place(ROW['ogre_brute'], (EAST_FORT[0] - 1.2, ey - 0.2), 2, 0.5, G_EAST)
     place(ROW['ogre_chief'], (EAST_FORT[0] + 1.2, ey - 0.2), 1, 0, G_EAST)
-    place(ROW['ogre'], (65.5, 40.0), 2, 0.6, G_ROAD_W)
-    place(ROW['ogre_brute'], (66.4, 39.4), 1, 0, G_ROAD_W)
-    place(ROW['ogre'], (93.5, 40.6), 2, 0.6, G_ROAD_E)
-    place(ROW['ogre_brute'], (94.4, 40.2), 1, 0, G_ROAD_E)
+    # D-142 (2026-11-25, F64): the road groups 4,096 from DD-13's gate exits (were 3,119 and 3,132), 3 cells down
+    # the road on each side (from (65.5, 40.0) and (93.5, 40.6))
+    place(ROW['ogre'], (62.5, 42.5), 2, 0.6, G_ROAD_W)
+    place(ROW['ogre_brute'], (63.4, 41.9), 1, 0, G_ROAD_W)
+    place(ROW['ogre'], (96.5, 42.2), 2, 0.6, G_ROAD_E)
+    place(ROW['ogre_brute'], (97.4, 41.8), 1, 0, G_ROAD_E)
+    for a in actors:
+        if a['group'] in (G_ROAD_W, G_ROAD_E):
+            for gate in ((72, 37), (87, 41), WEST_START, EAST_START):   # entrance:dd13_west/east, the edges
+                if (math.hypot(a['at'][0] - gate[0], a['at'][1] - gate[1]) - a['spread']) * 512 < 4096 + 64:
+                    raise SystemExit('D-142: a road ogre group within 4,096 of %s: %s' % (gate, a))
     # Graalg and his two Brutes: their own faction, peaceful at the parley fire
     actors.append({'monster': str(ROW['graalg']), 'npc': 5108, 'at': [PARLEY[0], PARLEY[1]], 'spread': 0,
                    'group': G_GRAALG})

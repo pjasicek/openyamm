@@ -39,11 +39,11 @@ houses:
   - {id: 4364, door: door:martok, kind: residence, name: "Martok's Lodge", residents: [4717]}
 
 npcs:
-  - {id: 4701, name: Wilbur, title: Snackmaster, profession: Cook, greet: ["Try peanut butter and honey on your morning toast. Or anything on anything. It's Shangri-La.", "Snack?"], source: "xeen/aaze0049:22"}
+  - {id: 4701, name: Wilbur, sex: male, title: Snackmaster, profession: Cook, greet: ["Try peanut butter and honey on your morning toast. Or anything on anything. It's Shangri-La.", "Snack?"], source: "xeen/aaze0049:22"}
   - {id: 4702, name: Kublai Khan, title: Bouncer, profession: Guard, greet: ["Shangri-La welcomes you!", "Still welcome. Behave."], source: "xeen/aaze0049:29"}
-  - {id: 4703, name: Tolliver, title: Smith of Arm and Hammer, profession: Smith, greet: ["Arm and Hammer: arms through this door, armour through the other. The hammers are also arms.", "What'll it be?"]}
-  - {id: 4704, name: Mother Terra, profession: Healer, greet: ["The earth heals all things, slowly. I do it faster, for a fee.", "Rest a while."]}
-  - {id: 4705, name: Brunhilde, title: Guildmistress, profession: Spell Master, greet: ["You folks look like you want membership in the Shangri-La Wizard's Guild. I'll put your name on the list. Membership is free here.", "Welcome back, members."], source: "xeen/aaze0049:0 (close)"}
+  - {id: 4703, name: Tolliver, sex: male, title: Smith of Arm and Hammer, profession: Smith, greet: ["Arm and Hammer: arms through this door, armour through the other. The hammers are also arms.", "What'll it be?"]}
+  - {id: 4704, name: Mother Terra, sex: female, profession: Healer, greet: ["The earth heals all things, slowly. I do it faster, for a fee.", "Rest a while."]}
+  - {id: 4705, name: Brunhilde, sex: female, title: Guildmistress, profession: Spell Master, greet: ["You folks look like you want membership in the Shangri-La Wizard's Guild. I'll put your name on the list. Membership is free here.", "Welcome back, members."], source: "xeen/aaze0049:0 (close)"}
   - {id: 4706, name: Jack Alltrades, title: Master of Everything, profession: Teacher, teaches: [{skill: Learning, mastery: grandmaster}], greet: ["I will teach you everything. Well, learning. Learning is everything, if you think about it.", "Learned anything?"], source: "xeen/aaze0049:3 (close)"}
   - {id: 4707, name: Librarian Wen, title: Keeper of the Public Library, profession: Scholar, teaches: [{skill: Meditation, mastery: grandmaster}], greet: ["Silence is the first lesson. You've already failed it. Sit.", "Shh."]}
   - {id: 4708, name: Scholar Ilse, title: Reader in Fire, profession: Spell Master, teaches: [{skill: Fire Magic, mastery: grandmaster}], greet: ["Fire in a library. Yes, I know. That's why I'm very, very good at it.", "Mind the scrolls."]}

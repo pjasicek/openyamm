@@ -68,7 +68,7 @@ ROAD_CAMPS = {   # pop: [(x, y, markers, radius)], beside the wild roads (within
 } if FULLER else {}
 ROAD_PESTS = [   # (row, (x, y), count, spread): M1's pests and the bats, level 2-4 (A2's rows), placed, never refill
     (11340, (53, 72), 3, 1.0),    # doom bugs on the south road below the warehouse yard (D-85: were (56, 69), 4,245 from Orothin)
-    (11380, (80, 50), 2, 0.8),    # slimes in the orchard's ditch (the orchard road)
+    (11380, (86, 55), 2, 0.8),    # slimes in the orchard's ditch (D-142: (80, 50) stood 2,345 from the sky fall (81, 45.5))
     (11340, (92, 44), 2, 0.8),    # doom bugs at the pyramid knoll's foot (the rim path)
     (11390, (62, 79), 3, 1.0),    # rats by the toad lane
     (11300, (30, 88), 3, 1.0),    # giant bats in the dead wood by the forest path
@@ -122,6 +122,11 @@ HOUSE_XEEN = {
     ('building:oslo_hut', None): 4036, ('building:celia_hut', None): 4037, ('building:myra_hut', None): 4038,
     ('building:hamlet_houses', 1): 4039, ('building:valia_cottage', None): 4040, ('building:joes_shop', None): 4041,
 }
+# D-150 (2026-11-25): Nystor's Landing, the boats house back to Rivercity, entered at the mooring post on the creek's
+# jetty (thing:nystor_post); its id from A4's town file by door, as D4's isle ferry
+NYSTOR_POST_HOUSE = next((h['id'] for h in yaml.safe_load(open(os.path.join(XEEN_SOURCE, 'towns/x1.yml')))['houses']
+                          if h.get('door') == 'thing:nystor_post'), None)
+CREEK_WHISTLE = (37.0, 50.15)       # D-167: Orothin's bone whistle, a ground item at the edge of the creek's shallows
 HOUSE_MIRROR = 4017                 # thing:mirror
 CELIA_GROUP = 53                    # actor group celia_at_fire (q-c22.derek_camp)
 DEREK_GROUP = 54                    # Derek alone (q-c22.on_darkside hides him once he lives on Darkside)
@@ -129,7 +134,9 @@ TEMPLE_AFTER_M2 = 4010              # the temple's door after M2 (hook m2.temple
 # NPCs without a house that the map places (A4): Derek at his camp, Orothin by his statues, the Spring Druid at his
 # stone, four Plague Cult members in the streets (with IN_WORLD; their topics are A3's).
 NPC_ACTORS = [(4046, (41.2, 77.6)), (4047, (62.35, 62.85)), (4048, (27.2, 60.8)), (4049, (53.6, 44.6)),
-              (4050, (57.4, 44.4)), (4051, (49.0, 45.4)), (4052, (58.6, 47.6))]
+              (4050, (57.4, 44.4)), (4051, (49.0, 45.4)), (4052, (60.4, 46.4))]
+# F63 (2026-11-25, check_spawn_clear spawn.in_model): 4052 stood inside the temple's nave at (58.6, 47.6): on the
+# street east of its porch
 
 # ---------------------------------------------------------------------------------------------------------------
 # Land
@@ -188,6 +195,28 @@ def roll(x, y):
     v = max(v, -420.0)        # hollows, never below the creek's banks
     return w * v
 
+def d142_enforce(areas):
+    """D-142's moves for the encounter circles (common/d142.py), keeping build()'s town checks."""
+    root = os.path.realpath(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..'))
+    sys.path.insert(0, os.path.join(root, 'level_generation', 'projects', 'xeen', 'common'))
+    import d142
+    sys.path.pop(0)
+    l4 = os.path.join(root, 'devdocs', 'xeen', 'briefs', 'x1', 'L4', 'sketch.yml')
+    # hull 3 cells: the studio spreads a small circle's marker up to about 2 cells (spawns 34, 35 at the north bound)
+    base = d142.standard_ok(l4, height, keep_off=[[[28, 33], [74, 33], [74, 66], [28, 66]]], hull=3.0)
+    vdoors = [d[2] for d in doors_out if not d[0].startswith(('building:myra', 'building:valia', 'building:hamlet',
+                                                              'building:oslo', 'building:celia'))]
+
+    def ok(x, y, r):
+        return base(x, y, r) and (min(math.hypot(x - p[0], y - p[1]) for p in vdoors) - r) * 512 >= 4500
+    # F63 (2026-11-25): hull_reason() moves a circle whose markers come within 3 cells of the bounds or the void (the
+    # hill orcs' ninth at (52, 20): spawns 34, 35 stood 162 and 386 from the north bound); `ok` alone only held the
+    # new spots to it
+    d142.enforce('xeen_x1', areas, d142.road_cells(l4),
+                 {'pop:hill_orcs': 1, 'pop:road_orcs': 1, 'pop:toads': 2, 'pop:dead': 3}, ok,
+                 also=d142.hull_reason(l4, hull=3.0))
+
+
 def height(x, y):
     h = MEADOW
     # The northern hills: up from y 40 to about 2,300 on the crests at y 20; the mines and the orc caves in them.
@@ -242,9 +271,12 @@ import kit_pieces as KIT   # D-94/D-95 (town.py puts tools/xeen on the path)
 # culvert's tunnel ran under the bank, whose land climbed into it as grass under the dark face, and its water lay on
 # the dry floor as a flat blue strip); the quay runs on to the outfall with wings either side of it; the outfall's
 # sides are closed.
+# D-170 (2026-11-25, `faces.on_land`): the bank nodes beside the ditch (60, 55) and (63, 55) at the creek bank's 576
+# (were 640 and 576), 16 under the revetments' tops (592), and the revetments end at 55.15 (were 55.4) where the land
+# rising to the lane at row 56 is still 6 under them: their tops, the end face's and the cap's lay in the bank.
 CULVERT = KIT.SunkenEntrance('culvert', 61, 62, face_y=55, floor_to=55, ramp_to=56, ground=576, top=608,
-                             depth=224, back_to=53.37, revet_to=55.4, texture=T.RUN_TEX,
-                             land=lambda i, j: 576 if j <= 54 else 640)
+                             depth=224, back_to=53.37, revet_to=55.15, texture=T.RUN_TEX,
+                             land=lambda i, j: 576 if j <= 54 else 640, bank=576)
 sys.path.insert(0, _REPO_ROOT + '/tools/xeen')
 import house_doors as HD   # F2: double doors from wing pictures
 DOOR_NOTES = []
@@ -993,6 +1025,11 @@ def build():
                        (38, 96, 1, 1)])
     for _pop, _spots in ROAD_CAMPS.items():
         camps(_pop, _spots)
+    # D-142 (2026-11-25, F64): 4,096 from the edge arrivals, the start and (X1 rebuilt under the rule) the dungeon
+    # exits, 5,888 for the orcs' slot (its Orc Archers shoot), the circle's edge; centres 1,024 from the roads and
+    # lanes. A failing circle moves to the nearest passing spot that keeps the checks below (common/d142.py; the moves
+    # print as `D-142:`)
+    d142_enforce(areas)
     # The arrivals (edges, the dungeons' exits onto X1): no group within 2,000 (MAPS: the first fight 2,000-6,000
     # from each arrival; the town's start is held 4,500 clear by the town rule below).
     ARRIVALS = {'west road': (21, 46), 'north road': (69, 21), 'xd02 exit': (44, 32.5), 'xd03 exit': (62, 29.7),
@@ -1217,6 +1254,17 @@ def build():
     structures.append({'id': 'thing:town_bridge', 'kind': 'bridge', 'line': [[52.5, 50.3], [52.5, 54.6]],
                        'width': 512, 'rise': 48, 'kerb': 48, 'title': 'Vertigo Bridge',
                        'notes': 'The stone bridge from the south gate over Pitchfork Creek.'})
+    # D-150 (2026-11-25): a short jetty into Pitchfork Creek west of the bridge, where Nystor's boat lands
+    # (vertigo_creek, cell 50, 55.2), and the mooring post on it: the door of Nystor's Landing (the boat back to
+    # Rivercity). The beach (rows 53-54) lies at the creek's 576, the water rows 51-52; the head stays over the water
+    if IN_WORLD and NYSTOR_POST_HOUSE:
+        structures.append({'id': 'thing:nystor_jetty', 'kind': 'bridge', 'line': [[49.3, 54.4], [49.3, 52.3]],
+                           # 616: its end's pad (deck less 8) is the land's step 608; a deck at 608 took a pad that
+                           # rounded back up to the deck and lay on it (check_faces faces.on_land)
+                           'width': 384, 'height': 616, 'kerb': 0, 'textures': {'deck': 'trim11_32'},
+                           'head': 'last', 'title': "Nystor's jetty"})
+        structures.append({'id': 'thing:nystor_post', 'kind': 'sign', 'at': [49.65, 52.6], 'height': 256,
+                           'width': 128, 'title': "Nystor's Landing", 'house': NYSTOR_POST_HOUSE})
     structures.append({'id': 'thing:fountain_square', 'kind': 'fountain', 'at': [54.5, 46.2],
                        'title': 'Fountain',
                        'effects': [{'text': 'Refreshing!'}]})
@@ -1259,8 +1307,11 @@ def build():
                                  'textures': {'shell': 'cwb1', 'door': '7solid01'}, 'hint': 'Orc Caves',
                                  'roughness': 0.7, 'seed': 5},
         'thing:shaft_head': {'kind': 'hatch', 'form': 'wedge', 'at': [62, 28], 'size': [1024, 1024], 'floor': 1472,
-                             'mouth': {'width': 384, 'height': 192, 'depth': 45},
+                             'mouth': {'width': 384, 'height': 192, 'depth': 45}, 'height': 256,
                              'textures': {'shell': 'cnb', 'door': '7solid01'}, 'hint': "The Clan King's shaft"},
+        # D-170 (2026-11-25): `height` 256 over the mouth's 192, so the lid rises from the arch's crown to its back
+        # (at the default 192 the crown met the crest and the lid's ridge was a level triangle at 1664 crossing the
+        # hill's slope at y 28.56: `faces.on_land`); the click face and XD-03's exit in front of it stay
         # pass four (REVIEW_PASS3 3): lower and wider, in the town wall's stone, set into a quay wall along the bank
         # F19 (the user 2026-11-22, "slits/steps"): one headwall the quay's whole length (58.5 to 63.5) instead of a
         # 960 headwall between two separate quay walls proud of it; 112 thick + depth 16 keeps the dark face 128
@@ -1313,7 +1364,9 @@ def build():
         ('dec06', 44.85, 32.12), ('rock10', 42.5, 31.2), ('rock12', 45.5, 31.0), ('7rock04', 42.8, 30.3),
         ('rock26', 45.2, 30.2), ('7rock09', 44.1, 29.6), ('7rock05', 41.8, 31.6), ('rock10', 46.3, 31.3),
         # the orc caves (front y 31, mouth x 82)
-        ('fla3__01', 81.05, 31.3), ('fla3__01', 82.95, 31.3), ('sklplrev', 80.6, 31.6), ('sklplrev', 83.5, 31.7),
+        # 2026-11-25 (xeen-fb4-outdoor2, town_fit decorations.slope): the east skull pile on the mouth's terrace (x <= 83,
+        # 1344), not across its edge to the campfire's 1152 (83.5: 34 over its rim; the level pad loses to the terrace)
+        ('fla3__01', 81.05, 31.3), ('fla3__01', 82.95, 31.3), ('sklplrev', 80.6, 31.6), ('sklplrev', 82.75, 31.75),
         ('dec19', 81.5, 32.0), ('dec21', 82.7, 32.3), ('dec05', 83.4, 32.2), ('dec29', 80.8, 32.4),
         ('cmpfyr00', 84.4, 32.6), ('dec22', 84.9, 32.0), ('corpse04', 80.2, 32.8), ('7rock08', 80.4, 30.1),
         ('rock12', 83.6, 30.2), ('7rock04', 82.2, 29.0), ('rock26', 79.8, 30.9),
@@ -1410,15 +1463,10 @@ def build():
                        'else_effects': [{'text': 'The shrine is silent.'}]}]})
     structures.append({'id': 'thing:water_reflector', 'kind': 'obelisk', 'at': [102, 96], 'height': 384,
                        'sides': 8, 'title': 'Water Reflector',
-                       # A3's M37 hook (2026-11-20, seventh session): the source's prompt, Yes calls the hook; before
-                       # M36 (111720) the hook answers with its own fail text ("cold and silent"), after it once
-                       # One Yes/No prompt with buttons, the look and the question joined (D-65 B1, D-66 item 6).
-                       **({'effects': [
-                           {'lua': 'if continueStep == 1 then XeenQuests.hook("m37.reflector_water") return end'},
-                           {'lua': 'if continueStep ~= nil then return end'},
-                           {'lua': 'AskChoiceWithAnswerSteps(eventId, 3, "A disc of dark crystal on a stone stem, '
-                                   'turned toward the stars below the rim. Reflector. Activate?", {{Answer = "Yes", '
-                                   'Step = 1}, {Answer = "No", Step = 2}})'}]} if IN_WORLD else
+                       # A3's M37 hook: before M36 (111720) it answers with its own fail text ("cold and silent"),
+                       # after it once its experience. D-144 (F69b): a click, the hook's line on the status line
+                       # (`status: true`); the source's "Reflector. Activate?" was a free Yes/No whose No changed nothing.
+                       **({'effects': [{'lua': 'XeenQuests.hook("m37.reflector_water")'}]} if IN_WORLD else
                           {'effects': [{'lua': 'evt.SimpleMessage("A disc of dark crystal on a stone stem, turned '
                                         'toward the stars below the rim. It hums faintly. Whatever it is for, its '
                                         'day has not come.")'}]})})
@@ -1489,7 +1537,10 @@ def build():
     structures.append({'id': 'thing:hill_cache', 'kind': 'chest', 'at': [102, 24], 'title': "Smugglers' cache"})
     structures.append({'id': 'thing:marsh_chest', 'kind': 'chest', 'at': [96, 96], 'title': "A drowned peddler's chest"})
     # CHANGES X1-2: where the Temple of Yak's door was, a ruined shrine against the rise, with a chest (the dead).
-    structures.append({'id': 'thing:ruined_shrine', 'kind': 'building', 'at': [29.5, 96.5], 'size': [2, 2],
+    # 2026-11-25 (xeen-fb4-outdoor2, check_faces faces.on_land): a quarter cell south, so its north wall stands on the
+    # level node row 97 (768) and not on the land rising to the cliff's foot (row 96, 800), where its stone course
+    # (floor + 8) lay on the slope and flickered
+    structures.append({'id': 'thing:ruined_shrine', 'kind': 'building', 'at': [29.5, 96.75], 'size': [2, 2],
                        'kit': 'stone', 'door': 'none', 'title': 'Ruined shrine',
                        'ruin': {'height': [256, 704], 'gaps': 0.3, 'thickness': 48, 'seed': 7},
                        'parts': [{'id': 's', 'at': [128, 128], 'size': [768, 768], 'wall_height': 704,
@@ -1580,11 +1631,14 @@ def build():
     # A3's hooks that need things of their own (CHANGES X1-10, X1-11; QUESTS Q-C20, Q-C21): the bone whistle in the
     # creek mud upstream of the bridge, four Phirna plants in Toad Meadow, the gate sign at the west gate, the two
     # boards of X1-11. On the stand-in they show their texts; in the world they call the hooks.
-    structures.append({'id': 'thing:creek_whistle', 'kind': 'decoration', 'decoration': '7rock01', 'at': [36.0, 49.6],
-                       'title': 'Something in the mud', **({'effects': hook('q-c20.whistle')} if IN_WORLD else {
+    # D-167 (issue #45, 2026-11-25): in the world the whistle is a ground item in the creek's shallows (CREEK_WHISTLE,
+    # sketch `items` below), no longer a click on a small rock ("Something in the mud", event 254)
+    if not IN_WORLD:
+        structures.append({'id': 'thing:creek_whistle', 'kind': 'decoration', 'decoration': '7rock01',
+                           'at': [36.0, 49.6], 'title': 'Something in the mud',
                            'condition': {'not': {'qbit': QBITS['q-c20.whistle_found']}},
                            'effects': [{'qbit': QBITS['q-c20.whistle_found']}] + hook('q-c20.whistle'),
-                           'else_effects': [{'text': 'Only mud.'}]})})
+                           'else_effects': [{'text': 'Only mud.'}]})
     for i, at in enumerate([(76.0, 84.5), (90.5, 78.5), (82.5, 96.5), (97.5, 88.5)]):
         structures.append({'id': 'thing:phirna_%d' % (i + 1), 'kind': 'decoration', 'decoration': 'plant02',
                            'at': list(at), 'title': 'Phirna plant', 'effects': hook('q-c21.phirna_plant')})
@@ -1638,8 +1692,9 @@ def build():
                    (63.6, 47.05), (47.2, 44.4), (56.4, 47.6), (59.8, 44.9), (50.6, 55.4), (45.8, 40.6)]:
         actors.append({'monster': '404', 'at': [x, y], 'spread': 0, 'group': 51})
     # The orc outposts: four orcs each (rebase: the per-map total; pass six had 4, 6, 4). Placed, so they do not
-    # refill; the burnable camps and XD-05's drums are phase 1 (QUESTS 4.3).
-    for i, (x, y) in enumerate([(30, 29), (56, 23), (97, 31)]):
+    # refill; the burnable camps and XD-05's drums are phase 1 (QUESTS 4.3). D-142 (2026-11-25): the north outpost's
+    # orcs (56, 23) -> (55, 22), round their fire's far side: 3,775 -> about 4,700 from XD-03's shaft
+    for i, (x, y) in enumerate([(30, 29), (55, 22), (97, 31)]):
         actors.append({'monster': PLACED['orcs'], 'at': [x, y], 'count': 4, 'spread': 1.2, 'group': 60 + i,
                        'hostile': True})
     # Placed groups of the families the three slots cannot carry (rebase): snakes in the marsh, zombies round the
@@ -1699,7 +1754,12 @@ def build():
         'areas': areas, 'views': views, 'scatter': scatter, 'ground': ground, 'structures': structures,
         'actors': V.fill(actors, 'X1'), 'relations': relations + V.relations('X1'), 'events': events,
     }
-    # D-93 (A3 s39): no ground item; the rain barrel gives the key (thing:rain_barrel above)
+    # D-93 (A3 s39): the rain barrel gives the key (thing:rain_barrel above). D-167 (issue #45, 2026-11-25): Orothin's
+    # bone whistle (12308) lies in the open in the mud at the creek's north edge, upstream of Vertigo Bridge and west
+    # of the west gate (the shore tiles of row 50 at x 36-40, the water rows 51-52). y 50.15: at 50.5 it lay at the
+    # water's surface (576, over the drawn creek bed) and the water hid it; here it shows on the wet mud of the bank
+    if IN_WORLD:
+        sketch['items'] = [{'id': 'item:bone_whistle', 'item': 12308, 'at': list(CREEK_WHISTLE)}]
     atmosphere = {'format': 0, 'notes': "World default sky and weather ('fair', light rain by the world chances)."}
 
     def dump(name, data):

@@ -26,8 +26,8 @@ houses:
 npcs:
   - {id: 5401, name: Bosco, title: Dwarf King, profession: Noble, talks: true, greet: ["A seer says I'll die of a poisoned drink. So I've stopped drinking. It's terrible.", "Taste this for me?"], source: "dark/aaze0013:14 (close)",
      greet_after: [{id: 5407, after: q-d17.done, greet: ["Ah, the taste testers! Please, please, sit down and drink with me for awhile! My halls will always be open to you.", "My halls will always be open to you."], note: "D-62: the Chalice brought home; A3's evt.SetNPCGreeting(5401, 5407) where q-d17.done is set"}]}
-  - {id: 5402, name: Durgan Ironfist, title: Royal Axesmith, profession: Smith, teaches: [{skill: Axe, mastery: grandmaster}], greet: ["An axe is a hammer that made something of itself.", "Swing it. No, properly."]}
-  - {id: 5403, name: Brunna, title: Keeper of the Alehall, profession: Cook, greet: ["The King doesn't drink any more. More for everyone else.", "A mug? It's been tasted."]}
-  - {id: 5404, name: Stonebeard, title: Earth Guildmaster, profession: Spell Master, teaches: [{skill: Earth Magic, mastery: grandmaster}], greet: ["We dug this hall with spells. Then with shovels, when the spells got tired.", "Feel the rock."]}
+  - {id: 5402, name: Durgan Ironfist, sex: male, title: Royal Axesmith, profession: Smith, teaches: [{skill: Axe, mastery: grandmaster}], greet: ["An axe is a hammer that made something of itself.", "Swing it. No, properly."]}
+  - {id: 5403, name: Brunna, sex: female, title: Keeper of the Alehall, profession: Cook, greet: ["The King doesn't drink any more. More for everyone else.", "A mug? It's been tasted."]}
+  - {id: 5404, name: Stonebeard, sex: male, title: Earth Guildmaster, profession: Spell Master, teaches: [{skill: Earth Magic, mastery: grandmaster}], greet: ["We dug this hall with spells. Then with shovels, when the spells got tired.", "Feel the rock."]}
   - {id: 5405, name: Hilde Ringwright, title: Mailwright, profession: Armorer, teaches: [{skill: Chain, mastery: grandmaster}], greet: ["A dwarf shirt has forty thousand rings. I count every one. Twice.", "Arms up."]}
   - {id: 5406, name: Gimble, title: Tinker, profession: Tinker, teaches: [{skill: Repair Item, mastery: grandmaster}], greet: ["Bring me anything broken. If it isn't broken, I'll fix that too.", "What did you do to it?"]}

@@ -1,0 +1,271 @@
+format: 1
+counter: 37
+pins:
+  - id: pin:p1
+    text: maybe move the bridge a bit more left
+    source: game
+    world: xeen
+    map: xeen_x4.odm
+    pose:
+      position: [11301.994, -6720.118, 840.124]
+      yaw_radians: 2.895
+      pitch_degrees: -13.931
+      heading_yaw_units: 944
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-24T15:49:32
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-154932-xeen_x4.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: The King's Bridge now lines up with the road.
+        created: 2026-11-25T09:40:38
+        revision: 15fc9182c8ab176aacf8ea3c0af9f656
+        status: resolved
+  - id: pin:p2
+    text: z-fighting
+    source: game
+    world: xeen
+    map: xeen_x4.odm
+    pose:
+      position: [20578.771, 16490.268, 2177]
+      yaw_radians: 1.954
+      pitch_degrees: -47.114
+      heading_yaw_units: 637
+    picture: .oymap/pins/pictures/p2.png
+    author: user
+    created: 2026-11-24T16:26:36
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-162636-xeen_x4.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "F58: a ruin's gone wall now keeps a stone course 8 over its floor instead of a cap lying on the land (studio ruinPieces); check_faces faces.on_land guards it. Installed 2026-11-25."
+        created: 2026-11-25T09:40:35
+        revision: 15fc9182c8ab176aacf8ea3c0af9f656
+        status: resolved
+  - id: pin:p3
+    text: "i guess it has to be like this, but it looks strange"
+    source: game
+    world: xeen
+    map: xeen_x4.odm
+    pose:
+      position: [11599.458, 11106.292, 1154.404]
+      yaw_radians: 2.526
+      pitch_degrees: -5.117
+      heading_yaw_units: 823
+    picture: .oymap/pins/pictures/p3.png
+    author: user
+    created: 2026-11-24T16:29:42
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-162942-xeen_x4.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "The falls are one leaning sheet over the lip into the pool, not upright dark slabs."
+        created: 2026-11-25T09:40:38
+        revision: 15fc9182c8ab176aacf8ea3c0af9f656
+        status: resolved
+  - id: pin:p4
+    text: the complete thing looks strange
+    source: game
+    world: xeen
+    map: xeen_x4.odm
+    pose:
+      position: [9051.308, 9124.419, 641]
+      yaw_radians: 1.704
+      pitch_degrees: -1.094
+      heading_yaw_units: 555
+    picture: .oymap/pins/pictures/p4.png
+    author: user
+    created: 2026-11-24T16:30:28
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-163028-xeen_x4.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "The falls are one leaning sheet over the lip into the pool, not upright dark slabs."
+        created: 2026-11-25T09:40:38
+        revision: 15fc9182c8ab176aacf8ea3c0af9f656
+        status: resolved
+  - id: pin:p5
+    text: the fountain needs a even ground
+    source: game
+    world: xeen
+    map: xeen_x4.odm
+    pose:
+      position: [6647.695, 8168.013, 655.128]
+      yaw_radians: 3.077
+      pitch_degrees: 15.536
+      heading_yaw_units: 1003
+    picture: .oymap/pins/pictures/p5.png
+    author: user
+    created: 2026-11-24T16:31:15
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-163115-xeen_x4.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "3.3 levelled the land under the Olympian Fountain (level pad); F59 now pads every set piece on a slope."
+        created: 2026-11-25T09:40:36
+        revision: 15fc9182c8ab176aacf8ea3c0af9f656
+        status: resolved
+  - id: pin:p6
+    text: "z-fighting i guess?"
+    source: game
+    world: xeen
+    map: xeen_x4.odm
+    pose:
+      position: [3115.645, 3235.907, 1297.3]
+      yaw_radians: 2.981
+      pitch_degrees: 5.867
+      heading_yaw_units: 972
+    picture: .oymap/pins/pictures/p6.png
+    author: user
+    created: 2026-11-24T16:32:12
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-163212-xeen_x4.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "Fixed by 3.3: the wall faces across the east gate's opening are gone (wall_check 0)."
+        created: 2026-11-25T09:40:36
+        revision: 15fc9182c8ab176aacf8ea3c0af9f656
+        status: resolved
+  - id: pin:p7
+    text: pile needs a more even ground
+    source: game
+    world: xeen
+    map: xeen_x4.odm
+    pose:
+      position: [-9580.716, 11191.871, 1797.697]
+      yaw_radians: 2.354
+      pitch_degrees: 8.574
+      heading_yaw_units: 767
+    picture: .oymap/pins/pictures/p7.png
+    author: user
+    created: 2026-11-24T16:39:15
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-163915-xeen_x4.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "F59: set pieces on slopes stand on a level pad (common/level_pads.py auto); the skull pile sits on level ground."
+        created: 2026-11-25T09:40:36
+        revision: 15fc9182c8ab176aacf8ea3c0af9f656
+        status: resolved
+  - id: pin:p8
+    text: you can see through
+    source: game
+    world: xeen
+    map: xeen_x4.odm
+    pose:
+      position: [-8199.795, 13563.776, 3070.516]
+      yaw_radians: 0.992
+      pitch_degrees: 13.215
+      heading_yaw_units: 323
+    picture: .oymap/pins/pictures/p8.png
+    author: user
+    created: 2026-11-24T16:39:39
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-163939-xeen_x4.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "The sky-crack ledge (a platform over the peak) stands on a level pad since 3.3; nothing to see through."
+        created: 2026-11-25T09:40:36
+        revision: 15fc9182c8ab176aacf8ea3c0af9f656
+        status: resolved
+  - id: pin:p9
+    text: campfire gives you rings and food
+    source: game
+    world: xeen
+    map: xeen_x4.odm
+    pose:
+      position: [-20161.359, 4635.508, 1345]
+      yaw_radians: 4.249
+      pitch_degrees: -31.737
+      heading_yaw_units: 1385
+    picture: .oymap/pins/pictures/p9.png
+    author: user
+    created: 2026-11-24T16:54:01
+    status: resolved
+    claimed_by: agent:xeen-fb4-engine
+    from: 20261124-165401-xeen_x4.yml
+    replies:
+      - author: agent:xeen-fb4-engine
+        text: "Confirmed in 3.3: a campfire gives its food (and a find) once; the next click gives nothing, also after a reload (tests/scenarios/xeen/campfire_once.yml). The fire keeps burning."
+        created: 2026-11-25T08:39:36
+        revision: fd7b0b56b54d92abec4a536fb05fd629
+        status: resolved
+  - id: pin:p10
+    text: let it burn when you click on it
+    source: game
+    world: xeen
+    map: xeen_x4.odm
+    pose:
+      position: [-19559.504, 4924.809, 1345]
+      yaw_radians: 2.009
+      pitch_degrees: -4.928
+      heading_yaw_units: 655
+    picture: .oymap/pins/pictures/p10.png
+    author: user
+    created: 2026-11-24T16:55:12
+    status: resolved
+    from: 20261124-165512-xeen_x4.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor2
+        text: "D-144/D-152: a click on any barbarian tent burns the camp (no question; the status line says so) and its bones go; a second click says what is drawn. The camp now stands 4 cells east and 2 north (D-142: 4,096 from the X6 arrival), so this pose shows open ground. gen_walk's playtest checks the click."
+        created: 2026-11-25T10:12:49
+        revision: 3c89fa3c048ae223992846e66b2f389e
+        status: resolved
+  - id: pin:p11
+    text: i crawl under the ramp
+    source: game
+    world: xeen
+    map: xeen_x4.odm
+    pose:
+      position: [-1306.669, 6511.691, 1313]
+      yaw_radians: 5.282
+      pitch_degrees: -11.688
+      heading_yaw_units: 1722
+    picture: .oymap/pins/pictures/p11.png
+    author: user
+    created: 2026-11-24T17:18:32
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor3
+    from: 20261124-171832-xeen_x4.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor2
+        text: "Reproduced in 3.3 by tests/scenarios/xeen/x4_castle_ramp.yml (tools/xeen/ramp_test.py, D-160): XD-07's exit lands right and the ramp holds the feet, but walking at a cheek from outside passes through it (west side at y 6350: 802 east, stopped by the east cheek's inside, feet on the land at 1313, the ramp's top 1628 above). The ramp's four side faces have their normals pointing into the ramp (Map Studio's stairs ramp: true), so the one-sided collision lets the party in from outside. Sent to A1."
+        created: 2026-11-25T10:12:49
+        revision: 3c89fa3c048ae223992846e66b2f389e
+      - author: agent:xeen-fb4-outdoor3
+        text: "Fixed (D-160): the ramp's two cheeks and two ends were wound inward, so the one-sided collision let the party walk in through them. Map Studio now builds every 'stairs' ramp with its sides facing out; X4 (castle lane) and D1 (Kalindra's ramp) are rebuilt. tests/scenarios/xeen/x4_castle_ramp.yml passes in party and solo mode: XD-07's exit lands on the ramp; pushing, jumping and Blinking at the cheeks and walking into the foot never get under it. The first picture is a camera placed at your pin's pose, which is now inside the solid ramp; the second is the ramp from the square."
+        created: 2026-11-25T11:00:37
+        revision: 0af2f5295c97612b0602eb539231fa1b
+        status: resolved
+        pictures: [.oymap/pins/pictures/p11-r2.png, .oymap/pins/pictures/p11-r2-2.png]
+  - id: pin:p12
+    text: move the house to the street
+    source: game
+    world: xeen
+    map: xeen_x4.odm
+    pose:
+      position: [-9115.435, -10815.296, 1057]
+      yaw_radians: 5.112
+      pitch_degrees: -9.058
+      heading_yaw_units: 1666
+    picture: .oymap/pins/pictures/p12.png
+    author: user
+    created: 2026-11-25T00:42:36
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261125-004236-xeen_x4.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: The Potter's door now faces the street.
+        created: 2026-11-25T09:40:38
+        revision: 15fc9182c8ab176aacf8ea3c0af9f656
+        status: resolved

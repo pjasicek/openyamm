@@ -593,8 +593,18 @@ events = [
      'else_effects': [{'lua': 'XeenQuests.hook("q-c11.crystals")'}],
      'notes': "link:machine_crystal: shut while the machine works (the hook q-c11.crystals' fail text)."},
     {'id': 'evt:crystals', 'preset': 'script', 'source': 'platform:housing', 'title': 'Crystal housing',
-     'effects': [{'lua': 'XeenQuests.hook("q-c11.crystals")'}],
-     'notes': "goal:crystals: A3's hook q-c11.crystals gives the Crystals of Piezoelectricity (12313) once and sets crystals_found 112222."},
+     'condition': {'qbit': 'q_c5_done'},
+     'effects': [{'lua': 'XeenQuests.hook("q-c11.crystals")'}, {'hide': 'deco:crystals'}],
+     'else_effects': [{'lua': 'XeenQuests.hook("q-c11.crystals")'}],
+     'notes': "goal:crystals: A3's hook q-c11.crystals gives the Crystals of Piezoelectricity (12313) once and sets crystals_found 112222; the crystals on the housing go with them."},
+    # F65 XD-25 p1 (2026-11-25): deco:crystals is crclstr, MMerge's gem crystal, which without an event of its own
+    # gives a random Gem on the first click and hides; only a second click reached the housing. Its own event runs
+    # the housing's (tools/xeen/check_self_acting_decos.py keeps self-acting decorations off event sources).
+    {'id': 'evt:crystals_cluster', 'preset': 'script', 'source': 'deco:crystals', 'title': 'Crystals',
+     'condition': {'qbit': 'q_c5_done'},
+     'effects': [{'lua': 'XeenQuests.hook("q-c11.crystals")'}, {'hide': 'deco:crystals'}],
+     'else_effects': [{'lua': 'XeenQuests.hook("q-c11.crystals")'}],
+     'notes': "goal:crystals, the crystals themselves: as evt:crystals."},
     {'id': 'evt:drain_reached', 'preset': 'script', 'trigger': 'step', 'source': 'room:drain', 'once': True,
      'effects': [{'set': {'var': {'map_var': 'drain_reached'}, 'value': 1}}],
      'text': "The channel climbs toward a grate. On this side, a heavy bolt holds it.",

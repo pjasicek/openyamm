@@ -241,6 +241,8 @@ end
 -- NOTES "Falls"; each map's owner confirms its point at install). P2's islands fall back onto its own Gale Landing
 -- (D-58 P2 Q1: the same map, from Xeen.SkyFallHeight above it, with falling damage).
 Xeen.SkyFalls = {
+    -- x9: X2's island crown at 768 (D-174: 3.3's island jetty cut had dipped it to 736); the fall stays 850 (X9's
+    -- fall playtests); tools/xeen/check_sky_falls.py compares this table with the maps' ground.
     x9 = {-15360, 3072, 768, 0, "xeen_x2.odm"},
     p5 = {-4608, 2560, 1504, 1536, "xeen_x5.odm"},
     d7_ab12 = {13824, -7680, 1672, 1536, "xeen_d6.odm"},   -- A1-B2: before the Necropolis' gate

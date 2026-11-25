@@ -4,8 +4,9 @@
 # it), the market shaft (its chest, its bolted ladder) and the temple shaft (Green Liquid +2 Endurance once per
 # character), back west past the guild-row shaft (Red Liquid +2 Might, its bolted ladder), talks to Felix at his
 # bench and to Valio in his bed (topic Rats: Q-D5 started), goes down the overflow stair to the deep cistern and the
-# rat runs, where the flooded culvert refuses it; climbs back to the jammed sluice and works its lever: shut (the
-# culvert drains), open (it floods again), shut. Down again through the drained culvert and up the nest ramp: the
+# rat runs, where the flooded culvert refuses it (its line names the sluice house, D-166); climbs back to the jammed
+# sluice and works its lever, first by the interact key from inside the iron door (D-166): shut (the culvert drains),
+# open (it floods again), shut. Felix is also talked to by the interact key on his own body (D-166). Down again through the drained culvert and up the nest ramp: the
 # nest's monsters and Rooka die (q-d5.rooka: rooka_slain 113101), the heap of shiny things gives Nadia's necklace
 # (m16.necklace, once), the hoard; the bone slide, the midden's pack, the drowned cellar (its chest, its barrel), the
 # grate's bolt (once) and the ladder up into the east drain; back to Valio, who pays with his chest (no anger), the
@@ -111,11 +112,23 @@ steps:
   - play_lua: {source: "click(19); wait(1)"}
   - assert: {dialog: {active: true, text_contains: "compass"}}
   - press_action: {action: cancel_dialog}
+  # D-166: Felix stands by his bench (Picard the Aged's peaceful row 11922, npc 4958) and talks when used himself.
+  - assert: {actor_count: {monster_id: 11922, hostile: false, min: 1, max: 1}}
+  - set_pose: {map: xeen_dd01.blv, x: -2880, y: -2560, z: 0, yaw: -2.1723, pitch: -0.1}
+  - advance_runtime: {seconds: 0.3}
+  - play_lua:
+      source: |
+        local ok, ev = interact(); wait(1)
+        log('Felix interact: ' .. tostring(ok) .. ' event ' .. tostring(ev))
+        if not ok then error('facing Felix, interact used nothing') end
+  - assert: {dialog: {active: true, text_contains: "Shut the sluice"}}
+  - press_action: {action: cancel_dialog}
   - walk_to: {x: -2880, y: -1728, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
   - walk_to: {x: -2240, y: -1700, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
   - play_lua: {source: "click(3); wait(1)"}
   - select_topic: {action_id: 44251, match_label: "Quest"}
   - assert: {dialog: {text_contains: "Maybe you could kill the Queen Rat"}}
+  - assert: {dialog: {text_contains: "worked from the sluice house"}}
   - press_action: {action: cancel_dialog}
   - assert: {qbit_set: [113100]}
   # The overflow, its stair, the deep cistern, the rat runs; the culvert is flooded.
@@ -137,7 +150,7 @@ steps:
         status()
         click(9); wait(0.5)
         local seen = status()
-        if not string.find(seen, "flooded to its roof", 1, true) then error("the culvert said: " .. seen) end
+        if not string.find(seen, "worked from the sluice house", 1, true) then error("the culvert said: " .. seen) end
   # Back up to the jammed sluice: shut, open (floods), shut.
   - walk_to: {x: 600, y: -4100, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
   - walk_to: {x: -1152, y: -4000, z: -512, radius: 64, timeout_seconds: 30, close_dialogs: true}
@@ -148,8 +161,16 @@ steps:
   - walk_to: {x: -1408, y: 200, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
   - walk_to: {x: -1408, y: 800, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
   - clear_hostiles: {radius: 3000}
-  - walk_to: {x: -1280, y: 1900, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
-  - play_lua: {source: "click(34); wait(1)"}
+  # D-166: from just inside the sluice house's iron door, facing the lit lever on the east wall (460 away), the
+  # interact key picks it (event 34): the gate drops and the culvert drains.
+  - walk_to: {x: -1000, y: 1152, z: 0, radius: 48, timeout_seconds: 20, clear_hostiles: 2000, close_dialogs: true}
+  - set_pose: {map: xeen_dd01.blv, x: -1000, y: 1152, z: 0, yaw: 1.3424, pitch: -0.1}
+  - advance_runtime: {seconds: 0.3}
+  - play_lua:
+      source: |
+        local ok, ev = interact(); wait(1)
+        log('sluice interact from the door: ' .. tostring(ok) .. ' event ' .. tostring(ev))
+        if ev ~= 34 then error('facing the sluice from its door, interact found event ' .. tostring(ev) .. ', not the sluice (34)') end
   - advance_runtime: {seconds: 1, present_dialogs: true}
   - assert: {dialog: {active: true, text_contains: "The gate drops shut"}}
   - play_lua:

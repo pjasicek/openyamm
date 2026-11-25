@@ -140,8 +140,8 @@ Closed on 2026-11-21 (session 2):
 - **Random treasure drawing MM9 items (A1/O, D-44):** gone in merge point 33.
 - **Q-D12 war, D1 event 215 (A6):** the Sardaj turn hostile within a second of "Battle!" (14:31); the save and load
   step is gone.
-- **Q-C16, X5 event 112 (A6):** the outpost asks "You have found the Cyclops' outpost! Burn?" on Yes/No buttons
-  (14:35); the scenario answers Yes.
+- **Q-C16, X5 event 112 (A6):** the outpost burns on a click, its line on the status line (D-144, 2026-11-25; it
+  asked "You have found the Cyclops' outpost! Burn?" on Yes/No buttons before).
 - **Q-D4, D1's lettered chests (A6):** they say "A letter on the lid reads: P. The lid drops shut.", "The P chest is
   shut." and "... It will not shut. All nine lids spring open again."; the scenario asserts them.
 - **Q-D27, the small lamps' second rub (A6):** "The lamp is cold. Its genie has gone back in for good." (D4's skerry:

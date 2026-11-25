@@ -11,6 +11,7 @@ is land.py, the towns' plots, structures, actors and events places.py, the scatt
 import pathlib  # noqa: E402
 _REPO_ROOT = str(pathlib.Path(__file__).resolve().parents[4])  # the repository root
 import copy
+import math
 import os
 import sys
 sys.path.insert(0, _REPO_ROOT + '/tools/xeen')
@@ -95,8 +96,31 @@ def plan(level):
     return p
 
 
+def d142_enforce(areas):
+    """D-142 / D-157 (2026-11-25, F64) for X4's encounter circles (common/d142.py): 4,096 (5,888 for a slot that shoots)
+    from the edge arrivals and, X4 rebuilt under the rule, the dungeon exits, the circle's edge; centres 1,024 from
+    every road, lane and path. A failing circle moves to the nearest passing spot (printed as `D-142:`) off the towns'
+    and camps' keep-clear ground, the water and steep land, and keeps the map's own rules checked below."""
+    sys.path.insert(0, _REPO_ROOT + '/level_generation/projects/xeen/common')
+    import d142
+    sys.path.pop(0)
+    l4 = _REPO_ROOT + '/devdocs/xeen/briefs/x4/L4/sketch.yml'
+    keep = [poly for _aid, poly, _n in L1.KEEP_CLEAR] + list(L1.TOWNS.values())
+    base = d142.standard_ok(l4, LD.raw_height, keep_off=keep)
+    adit = (104.0, 95.5)
+
+    def ok(x, y, r):
+        # the plan's rules: no gargoyle within 6 cells of the castle, no ogre within 4 cells of the adit
+        return (base(x, y, r) and d142._poly_dist(L1.TOWNS['town:burlock_castle'], x, y) - r >= 6
+                and math.hypot(x - adit[0], y - adit[1]) - r >= 4)
+    slots = {aid: slot for aid, slot, _c, _p, _n in L1.AREAS}
+    for pop, slot in slots.items():
+        d142.enforce('xeen_x4', areas, d142.road_cells(l4), {pop: slot}, ok)
+
+
 def sketch():
     s = L1.sketch()
+    d142_enforce(s['areas'])
     gone = {k for k, v in LIVE.items() if not v}
     gone_points = {'entrance:x3_road': 'edge:south_x3', 'entrance:west_road': 'edge:west',
                    'entrance:east_road': 'edge:east', 'entrance:xd07_gate': 'door:xd07',

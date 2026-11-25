@@ -1,0 +1,213 @@
+format: 1
+counter: 27
+pins:
+  - id: pin:p1
+    text: bridge is clipping
+    source: game
+    world: xeen
+    map: xeen_x8.blv
+    pose:
+      position: [11431.009, -7168.368, 0]
+      yaw_radians: 3.245
+      pitch_degrees: -26.365
+      heading_yaw_units: 1058
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-24T21:01:22
+    status: resolved
+    claimed_by: agent:xeen-fb4-dungeon
+    from: 20261124-210122-xeen_x8.yml
+    replies:
+      - author: agent:xeen-fb4-dungeon
+        text: "Fixed (F62): the plank bridges and causeways now lie level at the island's height until they are past the cloud across their whole width and slope only over the void; before, a deck sloping from its end dipped under the cloud top before the rim. All 13 links on Cloudreach rebuilt; tools/xeen/check_floor_cross.py checks it (0 on X8)."
+        created: 2026-11-25T08:34:34
+        revision: bffeb6acb9fed3afd9c0050a268364a4
+        status: resolved
+        pictures: [.oymap/pins/pictures/p1-r1.png]
+  - id: pin:p2
+    text: "2 things, remove the input and make i clickable, and also remove the skulls"
+    source: game
+    world: xeen
+    map: xeen_x8.blv
+    pose:
+      position: [11144.766, -10435.251, -128]
+      yaw_radians: 3.173
+      pitch_degrees: -16.774
+      heading_yaw_units: 1034
+    picture: .oymap/pins/pictures/p2.png
+    author: user
+    created: 2026-11-24T21:02:28
+    status: resolved
+    from: 20261124-210228-xeen_x8.yml
+    replies:
+      - author: agent:xeen-fb4-dungeon
+        text: "Since 3.3 the nest burns on a click (no typed 'Destroy?', no password). Now the bones and skull lying in each nest burn with it (D-145); the eyrie's and the heights' bones stay as dressing."
+        created: 2026-11-25T08:34:35
+        revision: bffeb6acb9fed3afd9c0050a268364a4
+        pictures: [.oymap/pins/pictures/p2-r1.png]
+      - author: agent:xeen-fb4-orchestrator
+        text: "Both done: the nest burns on one click with no typed question (3.3), and since this round the skull and bones lying in each nest burn with it (D-145). Installed with X8's rebuild."
+        created: 2026-11-25T12:01:28
+        revision: 64bd31d5ffe654cd40249f3030935a38
+        status: resolved
+  - id: pin:p3
+    text: "is it intended that you can't go back to the tower?"
+    source: game
+    world: xeen
+    map: xeen_x8.blv
+    pose:
+      position: [11500.124, -7047.955, 0]
+      yaw_radians: 4.723
+      pitch_degrees: -16.929
+      heading_yaw_units: 1539
+    picture: .oymap/pins/pictures/p3.png
+    author: user
+    created: 2026-11-24T21:03:16
+    status: resolved
+    claimed_by: agent:xeen-fb4-dungeon
+    from: 20261124-210316-xeen_x8.yml
+    replies:
+      - author: agent:xeen-fb4-dungeon
+        text: "Not intended any more (F62): at the foot of each arrival stair now stands the stair of cloud you came up; click it to go back down (Witch Clouds: to the Witch Tower's roof; High Magic Clouds: to the Tower of High Magic's roof). It also stops a walk off the last step."
+        created: 2026-11-25T08:34:35
+        revision: bffeb6acb9fed3afd9c0050a268364a4
+        status: resolved
+        pictures: [.oymap/pins/pictures/p3-r1.png]
+  - id: pin:p4
+    text: bridge is clipping
+    source: game
+    world: xeen
+    map: xeen_x8.blv
+    pose:
+      position: [5113.386, -663.19, 128]
+      yaw_radians: 3.063
+      pitch_degrees: -26.907
+      heading_yaw_units: 998
+    picture: .oymap/pins/pictures/p4.png
+    author: user
+    created: 2026-11-24T21:04:20
+    status: resolved
+    claimed_by: agent:xeen-fb4-dungeon
+    from: 20261124-210420-xeen_x8.yml
+    replies:
+      - author: agent:xeen-fb4-dungeon
+        text: "Fixed (F62): the plank bridges and causeways now lie level at the island's height until they are past the cloud across their whole width and slope only over the void; before, a deck sloping from its end dipped under the cloud top before the rim. All 13 links on Cloudreach rebuilt; tools/xeen/check_floor_cross.py checks it (0 on X8)."
+        created: 2026-11-25T08:34:34
+        revision: bffeb6acb9fed3afd9c0050a268364a4
+        status: resolved
+        pictures: [.oymap/pins/pictures/p4-r1.png]
+  - id: pin:p5
+    text: bridge is clipping
+    source: game
+    world: xeen
+    map: xeen_x8.blv
+    pose:
+      position: [-9786.159, -4456.959, 0]
+      yaw_radians: 4.801
+      pitch_degrees: -35.957
+      heading_yaw_units: 1565
+    picture: .oymap/pins/pictures/p5.png
+    author: user
+    created: 2026-11-24T21:10:13
+    status: resolved
+    claimed_by: agent:xeen-fb4-dungeon
+    from: 20261124-211013-xeen_x8.yml
+    replies:
+      - author: agent:xeen-fb4-dungeon
+        text: "Fixed (F62): the plank bridges and causeways now lie level at the island's height until they are past the cloud across their whole width and slope only over the void; before, a deck sloping from its end dipped under the cloud top before the rim. All 13 links on Cloudreach rebuilt; tools/xeen/check_floor_cross.py checks it (0 on X8)."
+        created: 2026-11-25T08:34:35
+        revision: bffeb6acb9fed3afd9c0050a268364a4
+        status: resolved
+        pictures: [.oymap/pins/pictures/p5-r1.png]
+  - id: pin:p6
+    text: cannot go to this tower
+    source: game
+    world: xeen
+    map: xeen_x8.blv
+    pose:
+      position: [-10743.859, -4703.056, 0]
+      yaw_radians: 4.741
+      pitch_degrees: -22.575
+      heading_yaw_units: 1545
+    picture: .oymap/pins/pictures/p6.png
+    author: user
+    created: 2026-11-24T21:10:39
+    status: resolved
+    claimed_by: agent:xeen-fb4-dungeon
+    from: 20261124-211039-xeen_x8.yml
+    replies:
+      - author: agent:xeen-fb4-dungeon
+        text: "Not intended any more (F62): at the foot of each arrival stair now stands the stair of cloud you came up; click it to go back down (Witch Clouds: to the Witch Tower's roof; High Magic Clouds: to the Tower of High Magic's roof). It also stops a walk off the last step."
+        created: 2026-11-25T08:34:35
+        revision: bffeb6acb9fed3afd9c0050a268364a4
+        status: resolved
+        pictures: [.oymap/pins/pictures/p6-r1.png]
+  - id: pin:p7
+    text: bridge is clipping
+    source: game
+    world: xeen
+    map: xeen_x8.blv
+    pose:
+      position: [-7246.558, 1189.808, 256]
+      yaw_radians: 3.501
+      pitch_degrees: -21.337
+      heading_yaw_units: 1141
+    picture: .oymap/pins/pictures/p7.png
+    author: user
+    created: 2026-11-24T21:11:43
+    status: resolved
+    claimed_by: agent:xeen-fb4-dungeon
+    from: 20261124-211143-xeen_x8.yml
+    replies:
+      - author: agent:xeen-fb4-dungeon
+        text: "Fixed (F62): the plank bridges and causeways now lie level at the island's height until they are past the cloud across their whole width and slope only over the void; before, a deck sloping from its end dipped under the cloud top before the rim. All 13 links on Cloudreach rebuilt; tools/xeen/check_floor_cross.py checks it (0 on X8)."
+        created: 2026-11-25T08:34:35
+        revision: bffeb6acb9fed3afd9c0050a268364a4
+        status: resolved
+        pictures: [.oymap/pins/pictures/p7-r1.png]
+  - id: pin:p8
+    text: you get stuck here
+    source: game
+    world: xeen
+    map: xeen_x8.blv
+    pose:
+      position: [-10564.661, 10078.196, 768]
+      yaw_radians: 1.21
+      pitch_degrees: -28.067
+      heading_yaw_units: 394
+    picture: .oymap/pins/pictures/p8.png
+    author: user
+    created: 2026-11-24T21:15:31
+    status: resolved
+    claimed_by: agent:xeen-fb4-dungeon
+    from: 20261124-211531-xeen_x8.yml
+    replies:
+      - author: agent:xeen-fb4-dungeon
+        text: "Fixed (F62): every block set on a cloud (these cloud lumps, nests, plinths, spires, tiers) drew its underside on the walking plane, a ceiling at the party's feet that wedged it at the block's foot. They are now sunk into the cloud; check_floor_cross.py floor.lid keeps it so."
+        created: 2026-11-25T08:34:35
+        revision: bffeb6acb9fed3afd9c0050a268364a4
+        status: resolved
+        pictures: [.oymap/pins/pictures/p8-r1.png]
+  - id: pin:p9
+    text: bridge is clipping
+    source: game
+    world: xeen
+    map: xeen_x8.blv
+    pose:
+      position: [12879.515, 11394.736, 834.043]
+      yaw_radians: 0.642
+      pitch_degrees: -18.089
+      heading_yaw_units: 209
+    picture: .oymap/pins/pictures/p9.png
+    author: user
+    created: 2026-11-24T21:18:19
+    status: resolved
+    claimed_by: agent:xeen-fb4-dungeon
+    from: 20261124-211819-xeen_x8.yml
+    replies:
+      - author: agent:xeen-fb4-dungeon
+        text: "Fixed (F62): the plank bridges and causeways now lie level at the island's height until they are past the cloud across their whole width and slope only over the void; before, a deck sloping from its end dipped under the cloud top before the rim. All 13 links on Cloudreach rebuilt; tools/xeen/check_floor_cross.py checks it (0 on X8)."
+        created: 2026-11-25T08:34:35
+        revision: bffeb6acb9fed3afd9c0050a268364a4
+        status: resolved
+        pictures: [.oymap/pins/pictures/p9-r1.png]

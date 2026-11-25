@@ -276,3 +276,14 @@ dressing warning:
 - **No lighting bake**: X8 is an open-air BLV with no lamps (0 lights); its light is the scene's daylight by the hour.
   A Cycles sidecar (version 1) on a map open to the sky would draw noon light at night (devdocs/INDOOR_BAKED_LIGHTING.md,
   "Daylight pages"); `stale_bakes.py` lists nothing for it.
+
+## 2026-11-25, agent xeen-fb4-dungeon2 (D-151)
+
+- The ways back down are the stairs back (gated as the way up) and the falls. The stair of cloud at each arrival
+  stair's foot leads down only as the way up allowed: `evt:down_stair_landing` with qbit 111240 (M12 key bought) or
+  111260 (M13 done), else "Below the step the cloud thins over the Tower of High Magic. Its wards let down only those
+  who hold the Enchanted Key from the Cave of Illusion."; `evt:down_witch_landing` with 110046 (XD-04's climb gate),
+  else "The clouds answer to the Head Witch. While she lives, they will not bear you down." (status line;
+  `gen_objects.py`). `playtest_down*.yml` try each stair first without the qbit.
+- The stair-of-cloud panels' 48-wide ends are plain cloud (`end_surface`): the picture was cut on them
+  (`textures.feature_cut`, 4 audit errors). Audit 0 errors, playtests 7/7 from a stage, installed (no bake).

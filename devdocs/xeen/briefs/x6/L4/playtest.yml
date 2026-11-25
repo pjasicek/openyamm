@@ -116,7 +116,7 @@ steps:
     map: xeen_x6.odm
     x: -9011
     y: 1126
-    z: 1233
+    z: 1222
     yaw: 0.0
     pitch: 0.0
 - advance_runtime:
@@ -492,7 +492,7 @@ steps:
     map: xeen_x6.odm
     x: -16691
     y: 14848
-    z: 2541
+    z: 2509
     yaw: 0.0
     pitch: 0.0
 - advance_runtime:
@@ -516,24 +516,17 @@ steps:
     seconds: 0.5
 - clear_hostiles:
     radius: 4000
-- note: '"Reflector. Activate?" Yes: before M36 the hook''s fail text'
-- play_lua:
-    source: click(43); wait(0.5)
-- advance_runtime:
-    seconds: 0.3
-    present_dialogs: true
-- assert:
-    dialog:
-      active: true
-      text_contains: Reflector. Activate?
-- answer_input:
-    text: 'Yes'
+- note: 'The Air Reflector, a click (D-144): before M36 the hook''s fail text on the status line'
+- execute_event:
+    id: 43
 - advance_runtime:
     seconds: 0.5
 - play_lua:
-    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
-- play_lua:
-    source: if qbit(111740) then error("the Reflector set its bit before M36") end
+    source: 'local s = tostring(status())
+
+      if not string.find(s, "cold and silent", 1, true) then error("status line: " .. s) end
+
+      if qbit(111740) then error("the Reflector set its bit before M36") end'
 - note: The Shrine of Energy by the west rim
 - set_pose:
     map: xeen_x6.odm
@@ -546,37 +539,18 @@ steps:
     seconds: 0.5
 - clear_hostiles:
     radius: 4000
-- note: '"Shrine of Energy. Pray?" (xeen/aaze0001:0) after the look, Yes/No buttons (D-72): No leaves it'
-- play_lua:
-    source: click(40); wait(0.5)
-- advance_runtime:
-    seconds: 0.3
-    present_dialogs: true
-- assert:
-    dialog:
-      active: true
-      text_contains: Shrine of Energy. Pray?
-- answer_input:
-    text: 'No'
+- note: 'The Shrine of Energy (xeen/aaze0001:0), a click: +5 Air resistance once'
+- execute_event:
+    id: 40
 - advance_runtime:
     seconds: 0.5
+- play_lua:
+    source: 'local s = tostring(status())
+
+      if not string.find(s, "Lightning runs over your skin", 1, true) then error("status line: " .. s) end'
 - assert:
     dialog:
       active: false
-- note: '"Shrine of Energy. Pray?" (xeen/aaze0001:0): Yes, +5 Air resistance once'
-- play_lua:
-    source: click(40); wait(0.5)
-- advance_runtime:
-    seconds: 0.3
-    present_dialogs: true
-- assert:
-    dialog:
-      active: true
-      text_contains: Shrine of Energy. Pray?
-- answer_input:
-    text: 'Yes'
-- advance_runtime:
-    seconds: 0.5
 - note: Saul at his hermitage (Meditation)
 - walk_to:
     x: -16282
@@ -746,7 +720,7 @@ steps:
     map: xeen_x6.odm
     x: 2560
     y: -19149
-    z: 1485
+    z: 1504
     yaw: 0.0
     pitch: 0.0
 - advance_runtime:
@@ -1013,7 +987,7 @@ steps:
 - walk_to:
     x: -24320
     y: 2048
-    z: 1184
+    z: 1152
     z_tolerance: 900
     radius: 128
     timeout_seconds: 90

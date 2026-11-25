@@ -1,8 +1,8 @@
 # Written by oymap install: the Map Studio project this map was built from. The game's `pin` copies it into
 # every pin made on the map; `oymap pins import` files the pin into that project.
 project: "/home/pjasicek/github/OpenYAMM/devdocs/xeen/briefs/x4/L4"
-revision: "0a3e9a24a893c188dba65c46ceff1af7"
-lock_hash: "22ec8bcd91f684e10e4c2e8e4b5f33a0"
+revision: "3c804c9904ce3aaf843ea10a2dd00adc"
+lock_hash: "1e03a438ba73000df6f2af2dc79709da"
 # Where a party arrives (`into: {map, arrival}` and a neighbour's `arrival: <name>` of other maps).
 arrivals:
   - {name: "start", at: [-12800, -11776, 1056], facing: 512}
@@ -13,7 +13,7 @@ arrivals:
   - {name: "entrance:east_road", at: [22016, -1024, 1056], facing: 1024}
   - {name: "entrance:river_landing", at: [9728, -18944, 736], facing: 1024}
   - {name: "entrance:throne_landing", at: [-4608, 9728, 1504], facing: 0}
-  - {name: "entrance:west_road", at: [-22528, 2048, 1184], facing: 0}
+  - {name: "entrance:west_road", at: [-22528, 2048, 1152], facing: 0}
   - {name: "entrance:x2_road", at: [16384, -22016, 992], facing: 512}
   - {name: "entrance:x3_road", at: [-14336, -22016, 992], facing: 512}
   - {name: "entrance:xd02_adit", at: [19968, -15872, 1504], facing: 1024}

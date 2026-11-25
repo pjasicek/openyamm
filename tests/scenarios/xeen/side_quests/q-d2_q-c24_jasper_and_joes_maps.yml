@@ -3,7 +3,7 @@
 # one. The jail's back window (D1 event 107) before the quest: old bars, someone snoring. Jethro's Maps (house 4469,
 # NPC 4919): Jasper (started, autonote 4420; again "still languishes"); no Joe's map topic yet. Castleview Jail
 # (house 4468): Warden Krupp (4917): Jasper ("Bring me proof"); Jasper (4918): Joe (the fake maps). Joe's stall on the
-# road outside the gate: his sign (event 167); Joe (actor 30, NPC 4956): Treasure map (1,000 gold: the fake map 12355,
+# road outside the gate: his sign (event 167); Joe (actor 45, NPC 4956): Treasure map (1,000 gold: the fake map 12355,
 # map_bought, started; again "only one of its kind"). The jail: Krupp reads the map (jasper_freed; Jasper moves to
 # Jethro's; the party keeps the map; again "Jasper's gone"). Jethro's house (now two residents): Jethro: Jasper (done:
 # 4,000 XP each, 1,000 gold; again "Good to see you"), Joe's map (the fake taken, the real map 12356, Q-C24 done,
@@ -77,7 +77,7 @@ steps:
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
   - assert: {qbit_clear: [113041]}
-  # Joe's stall on the road outside the gate: his sign (event 167), then Joe (actor 30): Treasure map, 1,000 gold.
+  # Joe's stall on the road outside the gate: his sign (event 167), then Joe (actor 45): Treasure map, 1,000 gold.
   - set_pose: {map: xeen_d1.odm, x: 1408, y: 11600, z: 1152, yaw: 1.5708, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - clear_hostiles: {radius: 3000}
@@ -87,7 +87,7 @@ steps:
   - set_pose: {map: xeen_d1.odm, x: 1024, y: 10957, z: 1152, yaw: 1.5708, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - play_lua: {source: "remember('gold', gold())"}
-  - interact_actor: {actor_index: 30}
+  - interact_actor: {actor_index: 45}
   - assert: {dialog: {active: true, source_id: 4956}}
   - select_topic: {action_id: 43702, match_label: "Quest"}
   - assert:

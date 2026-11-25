@@ -1,0 +1,47 @@
+# Feedback F65 (2026-11-25, XD-26 p1 "make the nest more clickable, first i thought there is a bug"): the Great nest's
+# name showed in the status line up to 1,024 away, but a click reaches only 512 (the interaction depth, MM's 0x200),
+# so between the two the name showed and the click did nothing. Since D-153 a face, decoration or mechanism a click
+# can use is named only within the click's reach (GameplayInteractionController::resolveHoverStatusText).
+# From about 700 the crosshair lies on the nest and names nothing; at about 400 it names the nest and the Use (the live input
+# path, press_action: use) gives the scarab. The nest's top took the room's step event (evt:roost_seen), so only its
+# 24-high rim was clickable: the studio now leaves a clicked low block's top to its click
+# (openyamm-studio core/IndoorLowering.cpp, featureFloorPart). Passes once XD-26 is rebuilt with that oymap.
+#   build/game/openyamm --headless-run-scenario tests/scenarios/xeen/xd26_nest_name_within_reach.yml --scenario-no-color
+id: xeen.f65.xd26_nest_name_within_reach
+title: "F65: XD-26's Great nest is named only within a click's reach, and the Use there gives the scarab"
+world: xeen
+mode: faithful
+tags: [xeen, picking, regression]
+steps:
+  - new_game_flow:
+      start_map: xeen_xd26.blv
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "clear_hostiles(100000)"}
+  # About 700 from the nest's top (2072, its click since the studio fix below), the crosshair on its east half,
+  # beside the gargoyle (the eye about 180 over the feet).
+  - set_pose: {map: xeen_xd26.blv, x: 1430, y: 2604.8, z: 2048, yaw: 1.5708, pitch_degrees: -13.7}
+  - advance_runtime: {seconds: 0.3}
+  - play_lua:
+      source: |
+        local text = hover()
+        log("hover at 700: [" .. text .. "]")
+        if text ~= "" then error("the nest is named beyond a click's reach: " .. text) end
+  - press_action: {action: use}
+  - advance_runtime: {seconds: 0.3}
+  - play_lua: {source: "if item_count(12312) ~= 0 or held() == 12312 then error('a Use reached the nest from 700') end"}
+  # Closer (about 400), the crosshair on the same half of the top.
+  - set_pose: {map: xeen_xd26.blv, x: 1430, y: 2959.7, z: 2048, yaw: 1.5708, pitch_degrees: -20}
+  - advance_runtime: {seconds: 0.3}
+  - play_lua:
+      source: |
+        status()
+        local text = hover()
+        log("hover at 400: [" .. text .. "]")
+        if text ~= "Great nest" then error("the nest is not named within reach: [" .. text .. "]") end
+  - press_action: {action: use}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        log(tostring(status()))
+        if held() ~= 0 then stow() end
+        if item_count(12312) ~= 1 then error("the Use at the nest gave no scarab: " .. pack_items()) end

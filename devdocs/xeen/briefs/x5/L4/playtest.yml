@@ -294,7 +294,7 @@ steps:
 - walk_to:
     x: -9088
     y: 13316
-    z: 1008
+    z: 1024
     z_tolerance: 700
     radius: 192
     timeout_seconds: 90
@@ -927,7 +927,7 @@ steps:
 - walk_to:
     x: -11520
     y: -13568
-    z: 2328
+    z: 2312
     z_tolerance: 700
     radius: 192
     timeout_seconds: 90
@@ -936,50 +936,22 @@ steps:
 - walk_to:
     x: -10752
     y: -14336
-    z: 2272
+    z: 2304
     z_tolerance: 700
     radius: 192
     timeout_seconds: 90
     clear_hostiles: 3000
-- note: 'The Cyclops'' outpost: Burn? No'
-- play_lua:
-    source: click(112); wait(0.5)
-- advance_runtime:
-    seconds: 0.3
-    present_dialogs: true
-- assert:
-    dialog:
-      active: true
-      text_contains: Cyclops' outpost! Burn?
-- answer_input:
-    text: 'No'
+- note: 'Burn the Cyclops'' outpost: a click (q-c16.outpost)'
+- execute_event:
+    id: 112
 - advance_runtime:
     seconds: 0.5
 - play_lua:
-    source: if qbit(112321) then error("outpost_burnt (112321) set by No") end
-- note: 'Burn the Cyclops'' outpost: Yes (q-c16.outpost)'
-- play_lua:
-    source: click(112); wait(0.5)
-- advance_runtime:
-    seconds: 0.3
-    present_dialogs: true
-- assert:
-    dialog:
-      active: true
-      text_contains: Cyclops' outpost! Burn?
-- answer_input:
-    text: 'Yes'
-- advance_runtime:
-    seconds: 0.5
-- assert:
-    dialog:
-      active: true
-- press_action:
-    action: cancel_dialog
-- advance_runtime:
-    seconds: 0.3
-- play_lua:
-    source: if not qbit(112321) then error("outpost_burnt (112321) not set") end
+    source: 'local s = tostring(status())
+
+      if not string.find(s, "You destroy the outpost.", 1, true) then error("status line: " .. s) end
+
+      if not qbit(112321) then error("outpost_burnt (112321) not set") end'
 - note: Down to the Reflector's ledge
 - walk_to:
     x: -9216
@@ -1002,29 +974,17 @@ steps:
     id: 118
 - advance_runtime:
     seconds: 0.5
-- note: '"Reflector. Activate?" Yes: before M36 the hook''s fail text'
-- play_lua:
-    source: click(119); wait(0.5)
-- advance_runtime:
-    seconds: 0.3
-    present_dialogs: true
-- assert:
-    dialog:
-      active: true
-      text_contains: Reflector. Activate?
-- answer_input:
-    text: 'Yes'
+- note: 'The Earth Reflector, a click (D-144): before M36 the hook''s fail text on the status line'
+- execute_event:
+    id: 119
 - advance_runtime:
     seconds: 0.5
-- assert:
-    dialog:
-      active: true
-- press_action:
-    action: cancel_dialog
-- advance_runtime:
-    seconds: 0.3
 - play_lua:
-    source: if qbit(111742) then error("the Reflector set its bit before M36") end
+    source: 'local s = tostring(status())
+
+      if not string.find(s, "cold and silent", 1, true) then error("status line: " .. s) end
+
+      if qbit(111742) then error("the Reflector set its bit before M36") end'
 - note: The forest track east of the fork (by teleport)
 - set_pose:
     map: xeen_x5.odm
@@ -1691,7 +1651,7 @@ steps:
 - walk_to:
     x: 9216
     y: 9421
-    z: 1670
+    z: 1658
     z_tolerance: 700
     radius: 192
     timeout_seconds: 120
@@ -2171,7 +2131,7 @@ steps:
 - walk_to:
     x: -9088
     y: 13316
-    z: 1008
+    z: 1024
     z_tolerance: 700
     radius: 192
     timeout_seconds: 90

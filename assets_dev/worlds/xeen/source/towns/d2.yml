@@ -23,8 +23,8 @@ houses:
 
 npcs:
   - {id: 5101, name: Sharla, title: Queen of the Sprites, profession: Noble, talks: true, greet: ["Orcs hold my Princess Sheewana in the Temple of Bark. Ask politely, pay, or take her.", "Sheewana?"]}
-  - {id: 5102, name: Dewdrop, title: Sprite Potioner, profession: Alchemist, greet: ["Potions brewed from morning dew. Mostly dew.", "A sip?"]}
-  - {id: 5103, name: Lumen, title: Sprite Lightkeeper, profession: Spell Master, greet: ["The sun is weak; we keep a little of it in jars.", "Glow."]}
+  - {id: 5102, name: Dewdrop, sex: female, title: Sprite Potioner, profession: Alchemist, greet: ["Potions brewed from morning dew. Mostly dew.", "A sip?"]}
+  - {id: 5103, name: Lumen, sex: female, title: Sprite Lightkeeper, profession: Spell Master, greet: ["The sun is weak; we keep a little of it in jars.", "Glow."]}
   - {id: 5104, name: Mossbell, title: Sprite, profession: Peasant, greet: ["Big people! Mind the branches. And the sprites on them.", "Hello again, big people."]}
   - {id: 5105, name: Thistledown, title: Sprite, profession: Piper, greet: ["I play for the trees. They don't clap, but they listen.", "A tune?"]}
   - {id: 5106, name: Nibbler, title: Monkeydog, profession: Peasant, talks: true, greet: ["(Nibbler sniffs your pack hopefully. He is looking for melons.)", "(Nibbler wags at you.)"]}

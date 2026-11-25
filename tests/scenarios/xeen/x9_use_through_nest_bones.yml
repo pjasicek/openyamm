@@ -1,0 +1,46 @@
+# Feedback F65 (2026-11-25, XD-25 p1 and the dungeon lane's survey of 233 Xeen sites where a decoration without an
+# event stands on or in front of a face with one): MM6-MM8's click skips decorations without an event (MM7
+# vis_decoration_noevent_filter); OpenYAMM's indoor Use took the first thing under the crosshair, so a pile of bones
+# lying on a clickable floor swallowed the click. Since D-153 the Use and the smart click's choice look through them
+# (GameplayWorldPickRequest::ignoreDecorationsWithoutEvent, IndoorRenderer::inspectAtCursor); the hover still names
+# them. X9's first Roc Nest (evt:nest_a1, event 18 on the nest's top) with its bones (deco:nest_a1_bones, 7dec18
+# "bones", no event) in the middle: the crosshair on the bones, a Use (the live input path) burns the nest (D-159,
+# 2026-11-25: a click, no "Destroy?" question): 2,000 experience each, the bit set, the bones and skull hidden, the
+# nest gone from under the crosshair.
+#   build/game/openyamm --headless-run-scenario tests/scenarios/xeen/x9_use_through_nest_bones.yml --scenario-no-color
+id: xeen.f65.x9_use_through_nest_bones
+title: "F65: a Use on bones lying on X9's Roc Nest reaches the nest"
+world: xeen
+mode: faithful
+tags: [xeen, picking, regression]
+steps:
+  - new_game_flow:
+      start_map: xeen_x9.blv
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "clear_hostiles(100000)"}
+  # On the nest's top, 250 east of the bones, the crosshair on them.
+  - set_pose: {map: xeen_x9.blv, x: 12700, y: 14272, z: 1064, yaw: 3.14159, pitch_degrees: -30}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; status()"}
+  - play_lua:
+      source: |
+        local text = hover()
+        log("hover: [" .. text .. "]")
+        if string.lower(text) ~= "bones" then error("the crosshair is not on the bones: [" .. text .. "]") end
+  - play_lua: {source: "remember('x0', experience(0))"}
+  - press_action: {action: use}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - play_lua:
+      source: |
+        local w = close()
+        log("window after the burn: " .. tostring(w) .. ", status: [" .. status() .. "]")
+        if not qbit(116222) then error("the nest's bit 116222 is not set") end
+        -- the new game's party here is one character (experience() of an empty slot reads 0)
+        local d = experience(0) - recall("x0")
+        if d ~= 2000 then error("the burn gave " .. d .. " experience, not 2,000") end
+  - assert: {sprite_hidden: [10, 11]}
+  - play_lua:
+      source: |
+        local text = string.lower(hover())
+        log("hover after: [" .. text .. "]")
+        if text == "bones" or string.find(text, "nest", 1, true) then error("still under the crosshair: " .. text) end

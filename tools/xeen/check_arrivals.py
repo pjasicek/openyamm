@@ -50,6 +50,11 @@ Open-air maps (D-122, 2026-11-24: D7, P1-P4 and X8, BLVs under the sky) take the
 - `arrival.open_seen` (warning): what `arrival.hot` would have said (seen within the notice range), for the record.
 Moving the landing out of sight (behind a wall) is not a fix on these maps: the monsters move.
 
+The outdoor ODMs' checkers (level_generation/projects/xeen/x2/check_d85.py, common/d85.py) use `first_fight()` with
+the arrival's kind (`arrival_kind()`): D-142's 4,096 / 5,888 floors at edge arrivals and a new game's start (and at
+dungeon exits of the maps in D142_EXITS), D-15's 2,000 at town arrivals, and `road_setbacks()` (marker centres 1,024
+from a road, lane or path's centreline; D-157).
+
 Each flagged arrival names where it is defined (the source Lua event; and every brief/generator file that spells its
 x, y). Exit 1 on an error.
 """
@@ -126,6 +131,7 @@ class World:
             if len(f) > 28 and f[0].strip().isdigit():
                 self.slots[f[2].strip()] = [f[16 + 4 * k] for k in range(3)]
         self.relation = self._relations()
+        self.start_map = (load_yaml(os.path.join(self.xeen, 'world.yml')).get('start') or {}).get('map')
         self.party_row = []
         rows = list(tsv(os.path.join(assets, 'engine', 'data_tables', 'hostile.txt')))
         if len(rows) > 1:
@@ -465,21 +471,111 @@ def hostiles(world, scene, fname=None, blv_spawns=()):
 
 
 FIRST_FIGHT = OPEN_BUFFER
+# D-142 (2026-11-25, F64: monsters on arrivals and roads, the 13 outdoor ODMs): from a map-edge arrival (a road, a pass,
+# an edge span) and a new game's start, no spawn marker or movable placed hostile nearer than 4,096 (2D, less the
+# marker's radius), 5,888 if any row it can roll shoots or casts (D-87's range); D-15's first-fight band 4,096-8,192.
+# Dungeon-exit arrivals take the same floors from each map's rebuild under the rule: the maps in D142_EXITS (errors);
+# the others keep D-136/D-138's 2,000 as the error and the D-142 floors as warnings until then. Town arrivals (squares,
+# stables, docks, mirrors, Town Portal points, coaches, town gates) keep D-15's buffer (2,000 here; D-11.2's 2,500 or
+# X2's 4,500 stay with each map's own measure). D-136's kept door guards (`kept_groups`) stay, never at an edge
+# arrival or the start. Spawn marker centres stand at least 1,024 from a road, lane or path's centreline (every entry
+# of the sketch's `roads`, as built; D-157).
+EDGE_FLOOR = 4096.0
+EDGE_FLOOR_RANGED = DISABLER_RANGE
+FIRST_FIGHT_BAND = 8192.0
+ROAD_SETBACK = 1024.0
+D142_EXITS = {'xeen_x1', 'xeen_x2', 'xeen_x3', 'xeen_x4', 'xeen_x5', 'xeen_x6', 'xeen_x7', 'xeen_d1', 'xeen_d2', 'xeen_d3', 'xeen_d5', 'xeen_d6'}   # rebuilt under D-142 (2026-11-25; D6 D-164)
+EXIT_LABEL = re.compile(r'(?<![a-z])(?:xd|dd|fd)\d+|(?<![a-z])(?:d7|p\d|x8|x9)_|skyfall|lua table xeen_common\.|'
+                        r'move in xeen_(?:xd|dd|fd|d7|p\d|x8|x9)', re.I)
+EDGE_LABEL = re.compile(r'road|_pass\b|edge', re.I)
+START_LABELS = {'start', 'party start', 'entrance:party_start', 'start (entrance:party_start)'}
 
 
-def first_fight(world, scene, fname, at, kept_groups=()):
-    """D-15's first-fight buffer on an outdoor map, counting spawn markers (D-133): the hostiles that move or shoot
-    (placed actors and the scene's spawns, as hostiles() reads them) within 2,000 (2D, less a marker's radius) of an
-    arrival at `at`, nearest first. No line test: the outdoor checkers have no terrain (the open-air rule's clear line
-    is left out, the stricter reading). Rows of `kept_groups` come back with kept=True."""
+def arrival_kind(world, labels, fname):
+    """D-142's kind of an outdoor arrival from its labels: 'start' (a new game's start on the world's start map),
+    'edge' (a map-edge road, pass or edge span), 'exit' (a dungeon's exit, a fall, a sky landing) or 'town' (the rest:
+    squares, stables, docks, mirrors, Town Portal points, coaches, town gates). The strictest label wins."""
+    labels = [str(n) for n in labels]
+    if fname == world.start_map and any(n in START_LABELS for n in labels):
+        return 'start'
+    if any(EDGE_LABEL.search(n) for n in labels):
+        return 'edge'
+    if any(EXIT_LABEL.search(n) for n in labels):
+        return 'exit'
+    return 'town'
+
+
+def first_fight(world, scene, fname, at, kept_groups=(), kind='town'):
+    """D-15's first-fight buffer with D-142's floors, counting spawn markers (D-133): the hostiles that move or shoot
+    (placed actors and the scene's spawns, as hostiles() reads them) nearer than the arrival kind's floor (2D, less a
+    marker's radius), nearest first. No line test: the outdoor checkers have no terrain (the open-air rule's clear
+    line is left out, the stricter reading). Each row has `floor`, `level` ('error' or 'warn': a dungeon exit of a map
+    not yet rebuilt under D-142 between 2,000 and its floor) and `kept` (an actor of `kept_groups`, not at an edge
+    arrival or the start)."""
+    stem = os.path.splitext(fname)[0]
     out = []
+    for h in hostiles(world, scene, fname):
+        ranged = any(world.shoots(m) for m in h['rows'])
+        if h['immobile'] and not ranged:
+            continue
+        d = math.dist(h['at'][:2], at[:2]) - h['spread']
+        d142 = EDGE_FLOOR_RANGED if ranged else EDGE_FLOOR
+        if kind in ('edge', 'start') or (kind == 'exit' and stem in D142_EXITS):
+            floor, level = d142, 'error'
+        elif kind == 'exit':
+            floor, level = d142, 'error' if d < FIRST_FIGHT else 'warn'
+        else:
+            floor, level = FIRST_FIGHT, 'error'
+        if d < floor:
+            kept = kind not in ('edge', 'start') and h.get('group') in kept_groups and h['id'].startswith('actor')
+            out.append(dict(h, distance=round(d), floor=round(floor), level=level, ranged=ranged, kept=kept))
+    return sorted(out, key=lambda r: r['distance'])
+
+
+def nearest_fight(world, scene, fname, at):
+    """The nearest hostile that moves or shoots (2D, less a marker's radius), for D-15's band's upper end, or None."""
+    best = None
     for h in hostiles(world, scene, fname):
         if h['immobile'] and not any(world.shoots(m) for m in h['rows']):
             continue
         d = math.dist(h['at'][:2], at[:2]) - h['spread']
-        if d < FIRST_FIGHT:
-            out.append(dict(h, distance=round(d), kept=h.get('group') in kept_groups and h['id'].startswith('actor')))
-    return sorted(out, key=lambda r: r['distance'])
+        if best is None or d < best[0]:
+            best = (d, h)
+    return best
+
+
+def sketch_roads(sketch_path):
+    """The sketch's `roads` lines (roads, lanes and paths) in world units: [(link, [(x, y), ...])]."""
+    sk = load_yaml(sketch_path)
+    out = []
+    for r in sk.get('roads') or []:
+        line = [((q[0] - 64) * 512.0, (64 - q[1]) * 512.0) for q in r.get('line') or []]
+        if len(line) >= 2:
+            out.append((r.get('link', '?'), line))
+    return out
+
+
+def segment_distance(p, a, b):
+    ax, ay = a
+    dx, dy = b[0] - ax, b[1] - ay
+    t = ((p[0] - ax) * dx + (p[1] - ay) * dy) / (dx * dx + dy * dy) if dx or dy else 0.0
+    t = max(0.0, min(1.0, t))
+    return math.hypot(p[0] - ax - t * dx, p[1] - ay - t * dy)
+
+
+def road_setbacks(scene, roads):
+    """D-142/D-157: the scene's monster spawn markers whose centre stands nearer than 1,024 to a road, lane or path's
+    centreline, as (spawn, road link, distance)."""
+    out = []
+    for s in scene.get('spawns') or []:
+        if s.get('type_id') != 3:
+            continue
+        p = (s['position']['x'], s['position']['y'])
+        best = min(((min(segment_distance(p, a, b) for a, b in zip(line, line[1:])), link) for link, line in roads),
+                   default=None)
+        if best and best[0] < ROAD_SETBACK:
+            out.append((s, best[1], round(best[0])))
+    return out
 
 
 def sees(geo, h, at):

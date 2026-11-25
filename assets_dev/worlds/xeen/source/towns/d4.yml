@@ -65,11 +65,11 @@ houses:
     note: "D-36 (6): the ferry back from the Isle of Lost Souls, at the Isle's jetty (A6's L4 door thing:isle_ferry, the sign at (73.4, 73.6) by poi:isle_boat)."
 
 npcs:
-  - {id: 5301, name: Grizel, title: Guildmistress of Lakeside, profession: Spell Master, greet: ["I never joined the coven. They kept me on for the bookkeeping. Spells are on the shelves.", "Mind the cauldron, it's mine."]}
-  - {id: 5302, name: Bess Brewer, title: Innkeeper, profession: Cook, greet: ["We rebuilt the tavern in a week. Turns out the witches only painted it gone.", "Something warm?"]}
-  - {id: 5303, name: Harrow, title: Smith of Lakeside, profession: Smith, greet: ["The witches wanted cauldrons. I made them swords. We disagreed.", "What needs an edge?"]}
-  - {id: 5304, name: Father Wade, profession: Healer, greet: ["We had the doors nailed shut for two years. The prayers got out anyway.", "Be still."]}
-  - {id: 5305, name: Captain Ferris Gull, title: Ferryman, profession: Sailor, greet: ["The coven never sank my boat. Somebody had to row their rejects to the Isle. Isle of Lost Souls, every day, for anyone with business there. Mind the octopods.", "Isle?"]}
+  - {id: 5301, name: Grizel, sex: female, title: Guildmistress of Lakeside, profession: Spell Master, greet: ["I never joined the coven. They kept me on for the bookkeeping. Spells are on the shelves.", "Mind the cauldron, it's mine."]}
+  - {id: 5302, name: Bess Brewer, sex: female, title: Innkeeper, profession: Cook, greet: ["We rebuilt the tavern in a week. Turns out the witches only painted it gone.", "Something warm?"]}
+  - {id: 5303, name: Harrow, sex: male, title: Smith of Lakeside, profession: Smith, greet: ["The witches wanted cauldrons. I made them swords. We disagreed.", "What needs an edge?"]}
+  - {id: 5304, name: Father Wade, sex: male, profession: Healer, greet: ["We had the doors nailed shut for two years. The prayers got out anyway.", "Be still."]}
+  - {id: 5305, name: Captain Ferris Gull, sex: male, title: Ferryman, profession: Sailor, greet: ["The coven never sank my boat. Somebody had to row their rejects to the Isle. Isle of Lost Souls, every day, for anyone with business there. Mind the octopods.", "Isle?"]}
   - {id: 5306, name: Old Gill, title: Fisherman, profession: Sailor, greet: ["I stayed. The witches didn't want an old man. Their loss.", "Fish?"]}
   - {id: 5307, name: Tanner Bodkin, profession: Armorer, teaches: [{skill: Leather, mastery: grandmaster}], greet: ["Good leather turns a blade and keeps out the rain. Great leather does it while you sleep in it.", "Feel that grain."]}
   - {id: 5308, name: Morna, title: Tidewife, profession: Water Master, teaches: [{skill: Water Magic, mastery: grandmaster}], greet: ["The lake listens to me. It ignored the coven. Lakes have taste.", "Hear the water?"]}
@@ -87,4 +87,4 @@ npcs:
   - {id: 5319, name: Leafpoint, title: Elder Tree, profession: Mystic, house: none, place: "D4, the Forest of Peril: Leafpoint's grove (a talking tree, A6)", greet: ["The leaves shiver. A tree hears axes before it sees them.", "The wind brought you back."], note: "T2-LEAFPOINT (A3): Great Druid to Arch Druid after q-c15.done; Thickbark's cousin (X5, 4528)", source: "dark E2 (Leafpoint the tree)"}
   - {id: 5320, name: Ector, title: Woodsman, profession: Laborer, house: none, place: "D4, the Forest of Peril, by his cabin (A6); his woodpile is on Magic Mountain", greet: ["Mind the stumps. Half this forest is firewood that hasn't heard yet.", "Any luck on the mountain?"], note: "Q-D21 Ector's Ring (A3)", source: "dark E2 (Ector the Woodsman)"}
   # ---- added in the ninth session (D-36 (6): the ferry back from the Isle) ----
-  - {id: 5321, name: Tern, title: Ferryman's Mate, profession: Sailor, greet: ["The Captain rows them out. I row back whoever's left.", "Back to Lakeside?"]}
+  - {id: 5321, name: Tern, sex: male, title: Ferryman's Mate, profession: Sailor, greet: ["The Captain rows them out. I row back whoever's left.", "Back to Lakeside?"]}

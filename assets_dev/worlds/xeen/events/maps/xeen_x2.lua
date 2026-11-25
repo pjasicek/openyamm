@@ -490,7 +490,7 @@ RegisterEvent(141, "Medin's boat", function()
         return
     end
     evt.StatusText("Medin rows you across to the island.", 4)
-    evt.MoveToMap(-14848, 1792, 768, 1024, 0, 0, 0, 0)
+    evt.MoveToMap(-14899, 1971, 768, 1024, 0, 0, 0, 0)
 end, "Medin's boat")
 
 -- evt:thing:island_jetty
@@ -516,9 +516,9 @@ end, "Bottle")
 RegisterEvent(146, "Danulf the Faery King", nil, "Danulf the Faery King")
 
 -- evt:thing:sprite_eggs
-RegisterEvent(147, "Sprite eggs", function()
+RegisterEvent(147, "Sprite nest", function()
     XeenQuests.hook("q-c17.nest")
-end, "Sprite eggs")
+end, "Sprite nest")
 
 -- evt:thing:sage_fountain
 RegisterEvent(148, "Sage's Fountain", function()

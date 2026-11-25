@@ -54,8 +54,8 @@ events:
     condition: {not: {map_var: sluice_shut}}
     locked_text: The culvert lies drained.
     effects:
-      - text: "The old culvert is flooded to its roof. Somewhere above, the town's sluice is pouring into it."
-    notes: The flooded culvert refuses the party while the sluice runs (Felix's hint names the sluice).
+      - text: "The culvert to the Rat Queen's den is flooded. Its sluice is worked from the sluice house, at the far north-west of the upper level."
+    notes: "The flooded culvert refuses the party while the sluice runs; its line names the sluice house (D-166), as Felix's and Valio's do."
   - id: evt:door_cross_east
     preset: door
     source: door:cross_east
@@ -226,7 +226,7 @@ events:
   - id: evt:sluice_lever
     preset: switch
     source: switch:sluice_lever
-    title: Sluice lever
+    title: Sluice
     toggles: [mover:water, mover:sluice_gate]
     effects:
       - lua: "if IsAtLeast(MapVar(sluice_shut), 1) then SetValue(MapVar(sluice_shut), 0) evt.SimpleMessage(\"You heave the lever back. The sluice gate lifts and the town's water pours through it again; below, the old culvert floods to its roof.\") else SetValue(MapVar(sluice_shut), 1) evt.SimpleMessage(\"You throw your weight on the lever. Gears grind, crack and spit out of the sluice: the gremlins' wedge. The gate drops shut, the channel stills, and somewhere below you water drains away with a long gurgle.\") end"

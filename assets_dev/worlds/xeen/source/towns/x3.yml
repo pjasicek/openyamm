@@ -148,17 +148,17 @@ houses:
 
 npcs:
   # ---- fixed in the first session (A3 has their topics) ----
-  - {id: 4201, name: Ebenezer, title: Taxman, profession: Clerk, talks: true, greet: ["The ruins of Newcastle are for sale. Twelve thousand gold, deed included.", "Changed your mind about the deed?"]}
+  - {id: 4201, name: Ebenezer, sex: male, title: Taxman, profession: Clerk, talks: true, greet: ["The ruins of Newcastle are for sale. Twelve thousand gold, deed included.", "Changed your mind about the deed?"]}
   - {id: 4202, name: Mirabeth, title: Mermaid, profession: Peasant, talks: true, house: none, place: "X3, her rock in the lagoon (A5)", greet: ["These legs itch. Have you ever had legs that itch?", "Still on legs, sadly."]}
   # ---- Ebenezer's camp ----
-  - {id: 4203, name: Brother Tobit, profession: Healer, greet: ["I followed the taxman for the souls. Mostly I bandage the people he taxes.", "Hurt?"]}
+  - {id: 4203, name: Brother Tobit, sex: male, profession: Healer, greet: ["I followed the taxman for the souls. Mostly I bandage the people he taxes.", "Hurt?"]}
   # ---- Nightshadow ----
-  - {id: 4204, name: Mordecai, title: Moon Guildmaster, profession: Spell Master, teaches: [{skill: Dark Magic, mastery: expert}], greet: ["We open when the moon is up. The Count prefers it. So do our customers.", "Good evening. It is always evening."]}
+  - {id: 4204, name: Mordecai, sex: male, title: Moon Guildmaster, profession: Spell Master, teaches: [{skill: Dark Magic, mastery: expert}], greet: ["We open when the moon is up. The Count prefers it. So do our customers.", "Good evening. It is always evening."]}
   - {id: 4205, name: Count Du Monay, profession: Noble, teaches: [{skill: Vampire, mastery: expert}], greet: ["The living pay a small fee to visit. A very small fee. Mostly in blood.", "Back so soon? How warm of you."], source: "MAPS X3: Count Du Monay's fee for the living"}
-  - {id: 4206, name: Mother Aurelia, profession: Healer, greet: ["We hung the first lamp the morning the Count died. We have not taken it down.", "Blessed light."]}
-  - {id: 4207, name: Grimsby, title: Innkeeper, profession: Cook, greet: ["The red wine is wine now. I checked.", "A table by the window?"]}
-  - {id: 4208, name: Lucan Gloom, title: Dealer in Curiosities, profession: Merchant, greet: ["Everything here belonged to someone who no longer needs it.", "Browsing the dead?"]}
-  - {id: 4209, name: Widow Mabry, title: Apothecary, profession: Alchemist, greet: ["Garlic for the neck, holy water for the rest. Cash only.", "More garlic?"]}
+  - {id: 4206, name: Mother Aurelia, sex: female, profession: Healer, greet: ["We hung the first lamp the morning the Count died. We have not taken it down.", "Blessed light."]}
+  - {id: 4207, name: Grimsby, sex: male, title: Innkeeper, profession: Cook, greet: ["The red wine is wine now. I checked.", "A table by the window?"]}
+  - {id: 4208, name: Lucan Gloom, sex: male, title: Dealer in Curiosities, profession: Merchant, greet: ["Everything here belonged to someone who no longer needs it.", "Browsing the dead?"]}
+  - {id: 4209, name: Widow Mabry, sex: female, title: Apothecary, profession: Alchemist, greet: ["Garlic for the neck, holy water for the rest. Cash only.", "More garlic?"]}
   - {id: 4210, name: Nib, title: Gnome, profession: Tinker, greet: ["We hid under the floor for nine years. It was roomy.", "Mind your head. No, lower."]}
   - {id: 4211, name: Tuck, title: Gnome, profession: Tinker, greet: ["Vampires can't bite what they can't find.", "Shh."]}
   - {id: 4212, name: Pim, title: Gnome, profession: Child, greet: ["Is it day? Is it really day?", "Still day?"]}

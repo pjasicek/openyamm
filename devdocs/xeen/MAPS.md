@@ -11,7 +11,7 @@ checklist) and `reviews/SCALE_AND_DENSITY.md`. Every sheet must satisfy: exactly
 device with one permanent-effect device, the **POI budget** of its row (20–50 POIs 1,300–2,600 units apart, by map
 type; counted as the shipped games were, one point per spot merging anything within 400, service doors included, D-11.4), 3–6 dungeon entrances, 4–10 outdoor chests with a reason each (start pocket 8–12), 45–70 spawn markers,
 **hostiles at load as in the per-map table** (by map role, MONSTERS_AND_ITEMS §3), monsters in 3–8 **encounter areas**
-of 6–30 cells of 4,096 with at least a third of the land cells quiet, first fight 2,000–6,000 from each map-edge arrival and the new-game start (town arrivals keep the town buffer instead, D-15), roads
+of 6–30 cells of 4,096 with at least a third of the land cells quiet, first fight 4,096–8,192 from each map-edge arrival and the new-game start (5,888 when the marker's slot shoots or casts; marker centres 1,024 from a road; dungeon exits the same from each map's rebuild, D-142; road, lane or path alike, D-157; a start in a town that shares its point with a town arrival has no upper end and keeps the floors, D-158; town arrivals keep the town buffer instead, D-15), roads
 on 1–4 % of land, height range ≥ 2,500.
 
 Family names refer to [MONSTERS_AND_ITEMS.md](MONSTERS_AND_ITEMS.md#2-monster-families). "Tres" is the map_stats
@@ -230,7 +230,7 @@ Darkside maps share Darkside's sky: day and night, an amber day sky and a sun th
 | Outdoor content | Obelisk; four gemsmith workshops; Luna's grove; Falista's hut; Justine's camp; Brother Reger's cell; well of +2 permanent Might; prayer shrine (temporary levels rescaled to +10 all stats until rest); Dark Grove rope (→ D7); the **travel pyramid** (→ Vertigo) outside the north gate |
 | POI budget | Named items 20; add 20–30 generic devices to reach 40–50 |
 | Arrivals | Pyramid; D2 (east); D6 (north, a long mountain road); stables; mirror |
-| Notes | First fight within 3,000 of the pyramid; no fight inside the town buffer. The gremlins' sabotage is visible: broken bridges, a burned mill |
+| Notes | No fight within 4,096 (5,888 for a shooter) of the pyramid (D-142, D-161); no fight inside the town buffer. The gremlins' sabotage is visible: broken bridges, a burned mill |
 | Original lines | "This bench reserved for Lyle the Pigeon Feeder"; "Ellinger has a great fondness for boots."; the gremlin complaint about Mayor Snarfblad; Eeried's guidebook on sale (also in Vertigo) |
 
 ### D2 Sprite Forest and Ogre Pass
@@ -297,7 +297,7 @@ D4–D5 crossing (D-36): at y 80, a level valley at 1,500 out of the Forest of P
 | --- | --- |
 | Source | Darkside A1, A2, B1, B2 |
 | Biome and sky | Volcanic waste and Ancient ruins; **two crashed escape pods**, one in a lava lake; Griffin Pass; the walled **Necropolis**; **Castle Alamar**, a fortress of metal and stone with energy fields. Ash fall. North-west corner: rim |
-| Monsters | A 30–50, C 75 (D-49). **Gamma gazers** (Eyes 40/50/65), **Lava dwellers**, **Griffins**; robot patrols near Alamar. Party 48 → 51. 110 hostiles, few and strong. Tres 5, L/T 15/8 |
+| Monsters | A 30–50, C 75 (D-49). **Gamma gazers** (Eyes 40/50/65), **Lava dwellers**, **Griffins**; robot patrols on Alamar's mesa behind the castle (none within 5,888 of the gate or the pyramid); lava dwellers on Corak's lake's north shore and in the moat's arms (D-164). Party 48 → 51. 110 hostiles, few and strong. Tres 5, L/T 15/8 |
 | Town | **Necropolis** (city of the dead, pass required), Ambrose's camp at Griffin Pass |
 | Dungeons | Castle Alamar (DD-17), Corak's Pod (DD-16), Sheltem's Pod (DD-22), Necropolis Sewer (DD-21), Alamar Depths (FD-01, after Alamar) |
 | Outdoor content | Obelisk; Fountain of Super Resilience (temporary HP); barbarian archer camp (rows 11104/11105, D-49); a travel pyramid outside Alamar's gate (to Shangri-La after M30, D-50); mine entrances to the Forbidden Zone mines (small BLV pockets of DD-10) |

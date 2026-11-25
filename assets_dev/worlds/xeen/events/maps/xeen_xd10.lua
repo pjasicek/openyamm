@@ -133,7 +133,7 @@ end, "Cave wall")
 
 -- evt:notice
 RegisterEvent(22, "Notice", function()
-    evt.SimpleMessage("A board, the words scratched deep: 'THE SKULLS TAKE GEMS, NOT GOLD. THE GREAT ONE AT THE BOTTOM WANTS TEN FOR HIS KEY - KEEP TEN. THE ECHO CAVE PAST THE GUARDIANS' POST KEEPS SOME. THE PLUG IN THE SLUICE LETS THE WATER OUT, IF YOU ARE STRONG.'")
+    evt.SimpleMessage("A board, the words scratched deep: 'THE SKULLS TAKE GEMS, NOT GOLD: ONE A HEAD FOR THEIR GIFTS. THE GREAT ONE AT THE BOTTOM WANTS TEN FOR HIS KEY - KEEP TEN. THE ECHO CAVE PAST THE GUARDIANS' POST KEEPS SOME. THE PLUG IN THE SLUICE LETS THE WATER OUT, IF YOU ARE STRONG.'")
 end, "Notice")
 
 -- evt:plug
@@ -170,7 +170,7 @@ RegisterEvent(25, "Great skull", function(continueStep)
         return
     end
     if continueStep ~= nil and continueStep >= 1 and continueStep <= 3 then
-        if Xeen.payGems(10) then
+        if Xeen.payGems(1) then
             local stat = tr("Might")
             if continueStep == 1 then
                 AddValue(BaseMight, 5)
@@ -182,7 +182,7 @@ RegisterEvent(25, "Great skull", function(continueStep)
                 stat = tr("Accuracy")
             end
             SetPlayerBit(PlayerBit(11240))
-            evt.SimpleMessage(tr("The great skull takes ten of your gems and grins wider. +5 {stat} (permanent).",
+            evt.SimpleMessage(tr("The great skull takes one of your gems and grins wider. +5 {stat} (permanent).",
                 {stat = stat}))
         else
             XeenQuests.hook("m12.skull_poor")
@@ -192,12 +192,12 @@ RegisterEvent(25, "Great skull", function(continueStep)
     if continueStep ~= nil then
         return
     end
-    if Xeen.gemCount() < 10 then
+    if Xeen.gemCount() < 1 then
         XeenQuests.hook("m12.skull_poor")
         return
     end
     XeenQuests.hook("m12.skull_grotto")
-    AskChoiceWithAnswerSteps(eventId, 5, "Ten gems for +5 to Might, Endurance or Accuracy?", {{Answer = "Might", Step = 1}, {Answer = "Endurance", Step = 2}, {Answer = "Accuracy", Step = 3}})
+    AskChoiceWithAnswerSteps(eventId, 5, "One gem for +5 to Might, Endurance or Accuracy?", {{Answer = "Might", Step = 1}, {Answer = "Endurance", Step = 2}, {Answer = "Accuracy", Step = 3}})
 end, "Great skull")
 
 -- evt:skull_intellect
@@ -208,10 +208,10 @@ RegisterEvent(26, "Skull (Intellect)", function(continueStep)
         return
     end
     if continueStep == 1 then
-        if Xeen.payGems(5) then
+        if Xeen.payGems(1) then
             AddValue(BaseIntellect, 3)
             SetPlayerBit(PlayerBit(11238))
-            evt.SimpleMessage("The skull's jaw clacks shut on 5 of your gems. +3 Intellect (permanent).")
+            evt.SimpleMessage("The skull's jaw clacks shut on one gem. +3 Intellect (permanent).")
         else
             XeenQuests.hook("m12.skull_poor")
         end
@@ -220,12 +220,12 @@ RegisterEvent(26, "Skull (Intellect)", function(continueStep)
     if continueStep ~= nil then
         return
     end
-    if Xeen.gemCount() < 5 then
+    if Xeen.gemCount() < 1 then
         XeenQuests.hook("m12.skull_poor")
         return
     end
     XeenQuests.hook("m12.skull_deep")
-    AskChoiceWithAnswerSteps(eventId, 3, "5 gems for +3 Intellect?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    AskChoiceWithAnswerSteps(eventId, 3, "One gem for +3 Intellect?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
 end, "Skull (Intellect)")
 
 -- evt:skull_luck
@@ -236,10 +236,10 @@ RegisterEvent(27, "Skull (Luck)", function(continueStep)
         return
     end
     if continueStep == 1 then
-        if Xeen.payGems(3) then
+        if Xeen.payGems(1) then
             AddValue(BaseLuck, 2)
             SetPlayerBit(PlayerBit(11236))
-            evt.SimpleMessage("The skull's jaw clacks shut on 3 of your gems. +2 Luck (permanent).")
+            evt.SimpleMessage("The skull's jaw clacks shut on one gem. +2 Luck (permanent).")
         else
             XeenQuests.hook("m12.skull_poor")
         end
@@ -248,12 +248,12 @@ RegisterEvent(27, "Skull (Luck)", function(continueStep)
     if continueStep ~= nil then
         return
     end
-    if Xeen.gemCount() < 3 then
+    if Xeen.gemCount() < 1 then
         XeenQuests.hook("m12.skull_poor")
         return
     end
     XeenQuests.hook("m12.skull_upper")
-    AskChoiceWithAnswerSteps(eventId, 3, "3 gems for +2 Luck?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    AskChoiceWithAnswerSteps(eventId, 3, "One gem for +2 Luck?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
 end, "Skull (Luck)")
 
 -- evt:skull_personality
@@ -264,10 +264,10 @@ RegisterEvent(28, "Skull (Personality)", function(continueStep)
         return
     end
     if continueStep == 1 then
-        if Xeen.payGems(3) then
+        if Xeen.payGems(1) then
             AddValue(BasePersonality, 2)
             SetPlayerBit(PlayerBit(11237))
-            evt.SimpleMessage("The skull's jaw clacks shut on 3 of your gems. +2 Personality (permanent).")
+            evt.SimpleMessage("The skull's jaw clacks shut on one gem. +2 Personality (permanent).")
         else
             XeenQuests.hook("m12.skull_poor")
         end
@@ -276,12 +276,12 @@ RegisterEvent(28, "Skull (Personality)", function(continueStep)
     if continueStep ~= nil then
         return
     end
-    if Xeen.gemCount() < 3 then
+    if Xeen.gemCount() < 1 then
         XeenQuests.hook("m12.skull_poor")
         return
     end
     XeenQuests.hook("m12.skull_upper")
-    AskChoiceWithAnswerSteps(eventId, 3, "3 gems for +2 Personality?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    AskChoiceWithAnswerSteps(eventId, 3, "One gem for +2 Personality?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
 end, "Skull (Personality)")
 
 -- evt:skull_speed
@@ -292,10 +292,10 @@ RegisterEvent(29, "Skull (Speed)", function(continueStep)
         return
     end
     if continueStep == 1 then
-        if Xeen.payGems(5) then
+        if Xeen.payGems(1) then
             AddValue(BaseSpeed, 3)
             SetPlayerBit(PlayerBit(11239))
-            evt.SimpleMessage("The skull's jaw clacks shut on 5 of your gems. +3 Speed (permanent).")
+            evt.SimpleMessage("The skull's jaw clacks shut on one gem. +3 Speed (permanent).")
         else
             XeenQuests.hook("m12.skull_poor")
         end
@@ -304,12 +304,12 @@ RegisterEvent(29, "Skull (Speed)", function(continueStep)
     if continueStep ~= nil then
         return
     end
-    if Xeen.gemCount() < 5 then
+    if Xeen.gemCount() < 1 then
         XeenQuests.hook("m12.skull_poor")
         return
     end
     XeenQuests.hook("m12.skull_deep")
-    AskChoiceWithAnswerSteps(eventId, 3, "5 gems for +3 Speed?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+    AskChoiceWithAnswerSteps(eventId, 3, "One gem for +3 Speed?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
 end, "Skull (Speed)")
 
 -- evt:sluice_door

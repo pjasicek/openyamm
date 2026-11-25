@@ -1,0 +1,29 @@
+format: 1
+counter: 5
+pins:
+  - id: pin:p1
+    text: "make the nest more clickable, first i thought there is a bug"
+    source: game
+    world: xeen
+    map: xeen_xd26.blv
+    pose:
+      position: [1285.931, 2873.693, 2048]
+      yaw_radians: 1.582
+      pitch_degrees: -21.878
+      heading_yaw_units: 516
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-24T16:51:59
+    status: resolved
+    claimed_by: agent:xeen-fb4-dungeon3
+    from: 20261124-165159-xeen_xd26.yml
+    replies:
+      - author: agent:xeen-fb4-engine2
+        text: A name now shows only when a click can use the thing.
+        created: 2026-11-25T09:06:15
+        revision: d9321a46483f4b85e227e5c7034010ca
+      - author: agent:xeen-fb4-dungeon3
+        text: "Rebuilt: the Great nest's whole top now takes the click (the room's step event had made its top a pressure plate, so only the 24-high rim was clickable). Within a click's reach its name shows and one Use gives the scarab (tests/scenarios/xeen/xd26_nest_name_within_reach.yml)."
+        created: 2026-11-25T09:22:17
+        revision: d9321a46483f4b85e227e5c7034010ca
+        status: resolved

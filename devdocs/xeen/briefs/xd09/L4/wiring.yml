@@ -423,11 +423,21 @@ events:
     once: true
     text: "Below the rail, nine great stone blocks stand on the quarry floor, each beside an empty recess."
     seconds: 6
+  - id: evt:forge_fire
+    preset: text
+    source: deco:forge_fire
+    title: Forge
+    text: "The forge's coals still glow, though no smith has worked them in an age."
   - id: evt:forge_lock_door
     preset: door
     source: door:forge_lock
     title: Door
     action: open
+  - id: evt:forge_pot
+    preset: text
+    source: deco:forge_pot
+    title: Golem forge
+    text: An iron pot simmers on the coals. Here the golem-makers poured the iron limbs of their golems.
   - id: evt:great_lock
     preset: script
     source: mover:lid

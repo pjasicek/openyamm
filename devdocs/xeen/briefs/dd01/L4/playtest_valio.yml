@@ -1,5 +1,5 @@
 # Q-D5's other way (DD-01, L4): Valio's chest opened before he pays. A level-19 party stands in Valio's niche, finds
-# the talking Valio's monster (11193, scene actor 46) hidden, opens the chest by the bed: A3's hook q-d5.valio_chest
+# the talking Valio's monster (11193, scene actor 47 since Felix's body, D-166) hidden, opens the chest by the bed: A3's hook q-d5.valio_chest
 # (Valio yells; chest_opened 113103, valio_angered 113104), the hidden monster shows within a second, hostile
 # (q-d5.valio_angry), and the bed is empty; still shown after a save and a reload. Run with --world xeen --map
 # xeen_dd01.blv (output/studio_cal/dd01/four.sh).
@@ -21,7 +21,7 @@ steps:
   - play_lua: {source: "close(); wait(0.5)"}
   - set_pose: {map: xeen_dd01.blv, x: -2240, y: -1600, z: 0, yaw_degrees: 90, pitch: 0}
   - advance_runtime: {seconds: 1}
-  - assert: {actor_visible: {actor_index: 46, hidden: true}}
+  - assert: {actor_visible: {actor_index: 47, hidden: true}}
   - assert: {actor_count: {monster_id: 11193, min: 1, max: 1}}
   - play_lua: {source: "click(8); wait(1)"}
   - advance_runtime: {seconds: 1, present_dialogs: true}
@@ -32,7 +32,7 @@ steps:
         if not qbit(113103) then error("chest_opened not set") end
         if not qbit(113104) then error("valio_angered not set") end
   - advance_runtime: {seconds: 3}
-  - assert: {actor_visible: {actor_index: 46, hidden: false}}
+  - assert: {actor_visible: {actor_index: 47, hidden: false}}
   - assert: {actor_count: {monster_id: 11193, hostile: true, min: 1, max: 1}}
   - play_lua:
       source: |
@@ -43,5 +43,5 @@ steps:
   - save_game: {name: dd01_valio}
   - load_game: {name: dd01_valio}
   - advance_runtime: {seconds: 2}
-  - assert: {actor_visible: {actor_index: 46, hidden: false}}
+  - assert: {actor_visible: {actor_index: 47, hidden: false}}
   - assert: {actor_count: {monster_id: 11193, hostile: true, min: 1, max: 1}}

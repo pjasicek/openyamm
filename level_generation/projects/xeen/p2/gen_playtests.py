@@ -210,7 +210,11 @@ def main():
     s += [{'advance_runtime': {'seconds': 3}}, lua('close(); wait(0.5); close()'),
           lua(f"if not qbit({gen.TEST_QBIT}) then error('qbit {gen.TEST_QBIT} not set after the kill') end"),
           {'advance_runtime': {'seconds': 2}}, lua('close(); wait(0.5); close()')]
+    # The field's groups roam (since the 3.3 AI no monster stands still): a Lesser Air Elemental of group 5 drifted from
+    # its post (720, 1114) onto the Stair of Wind and stood in the party's way after the reload (xeen-fb4-dungeon6,
+    # 2026-11-25). The test is the curtain's, not a fight: clear the field before each walk through it.
     s.append({'note': "The curtain stilled: through it and up the Stair of Wind into the Sleeper's Aerie."})
+    s += [{'clear_hostiles': {'radius': 40000}}]
     s += through_curtain()
     s.append({'note': 'A save and a reload: the qbit kept, the guardians dead; the curtain passable again.'})
     s += [{'reload': {}}, {'advance_runtime': {'seconds': 2}},
@@ -218,6 +222,7 @@ def main():
           {'advance_runtime': {'seconds': 1}}]
     for i in GUARDS:
         s.append({'assert': {'actor_visible': {'actor_index': i, 'dead': True}}})
+    s += [{'clear_hostiles': {'radius': 40000}}]
     s += through_curtain()
     write('test', 'the test raises the guardians, their deaths set 111765 and still the curtain, kept over a reload',
           'The test (D-58 C3, C4, P-1; D-64).', s)

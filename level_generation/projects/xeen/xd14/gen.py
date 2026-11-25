@@ -290,10 +290,12 @@ PARAPET_H = 160
 
 
 def sky_side(r, wall):
-    """An outer wall drawn as sky over a parapet 32 in from it: (the wall's entry, the parapet)."""
+    """An outer wall drawn as sky over a parapet 32 in from it: (the wall's entry, the parapet). F60 (the player's
+    pins 2026-11-25, p3/p4 "wall is missing"): the parapet runs from side wall to side wall; it stopped 32 short of
+    both and left a slot of sky from the floor up (tools/xeen/check_parapet_gaps.py)."""
     x0, y0, x1, y1 = r
-    path = {'south': [[x0 + 32, y0 + 32], [x1 - 32, y0 + 32]], 'north': [[x0 + 32, y1 - 32], [x1 - 32, y1 - 32]],
-            'west': [[x0 + 32, y0 + 32], [x0 + 32, y1 - 32]], 'east': [[x1 - 32, y0 + 32], [x1 - 32, y1 - 32]]}[wall]
+    path = {'south': [[x0, y0 + 32], [x1, y0 + 32]], 'north': [[x0, y1 - 32], [x1, y1 - 32]],
+            'west': [[x0 + 32, y0], [x0 + 32, y1]], 'east': [[x1 - 32, y0], [x1 - 32, y1]]}[wall]
     return ({'wall': wall, 'surface': dict(OUTER, sky=True), 'bands': False},
             {'path': path, 'height': PARAPET_H, 'thickness': 32, 'surface': OUTER,
              'notes': f"The {wall} parapet, X6's sky beyond it (D-97)."})
@@ -554,8 +556,12 @@ D('gate_barrel_1', 'room:gatehouse', 'smlbarel', [520, -1400])
 D('gate_barrel_2', 'room:gatehouse', 'smlbarel', [520, -1280])
 D('kennel_bowl_1', 'room:kennels', 'foodbowl', [2200, 1980])
 D('kennel_bowl_2', 'room:kennels', 'foodbowl', [3350, 1980])
-D('kennel_bones_1', 'room:kennels', '7dec18', [2560, 1344], floor_height=PIT_FLOOR)
-D('kennel_bones_2', 'room:kennels', 'dec29', [2700, 1300], floor_height=PIT_FLOOR)
+# F63 (the player's pin XD-14 p1, 2026-11-25, "monsters can get stuck here"): the big bone pile (7dec18, a solid
+# cylinder of radius 52) lay in the middle of the pit's 256-wide floor, in the way of anything crossing it; both piles
+# now lie in the pit's north corners, the floor between them clear. This did not free the monster that freezes in the
+# pit in output/xeen_fb/p4_dungeon2/dbg_pit2.yml (the same spot with and without the bones): an engine request.
+D('kennel_bones_1', 'room:kennels', '7dec18', [2372, 1408], floor_height=PIT_FLOOR)
+D('kennel_bones_2', 'room:kennels', 'dec29', [2776, 1440], floor_height=PIT_FLOOR)
 D('kennel_bones_3', 'room:kennels', 'dec19', [1600, 1760])
 D('kennel_skull', 'room:kennels', '7dec20', [3380, 1720])
 D('stores_barrel_1', 'room:stores', 'bigbarel', [-2840, 2330])

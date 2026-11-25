@@ -11323,3 +11323,128 @@ actors:
     dead: Dead
     fidget: Fidget
   skin: dru1_a
+# 2026-11-25 D-163 as amended by the user ("mm9 has child models/npcs"; xeen-fb4-dungeon5): XD-04's caged children on
+# Xeen copies of MM9's child bodies (D-44: no binding borrows worlds/mm9/; installed with tools/install_model.py from
+# assets_source/worlds/mm9/models, skins and clips unchanged, as xeen_mummy): Xeen Goblin-eared boy (11930) is MM9
+# descriptor 73's elf-eared boy (xeen_peasantboy skin pboy_e, ears xeen_peasantboy_elfears on Bip01 ElfEars), Xeen
+# Goblin-eared girl (11931) MM9 descriptor 74's elf girl (xeen_peasantgirl1e skin pg_g1e).
+# 2026-11-25 D-163 skins (xeen-fb4-dungeon6; the user: "you can generate new skins for them if it makes sense"): each
+# child its own ramp-only skin on the Xeen copies (level_generation/creatures/xeen_children_claude): xboy_ginger (child 1,
+# npc 4053's ginger freckled boy, green-tinged ears), xboy_dark (child 3, row 11932), xgirl_rose (Rosebud), xgirl_flax
+# (child 4, row 11933). The ears attachment carries the same skin names.
+- descriptor: Xeen Goblin-eared boy
+  model: worlds/xeen/models/xeen_peasantboy.glb
+  scale: 100.0
+  yaw_offset: -1.570796327
+  animation:
+    run: Running
+    stride_length: 0.97
+    run_stride_length: 1.3
+    look: {nodes: [Bip01 Neck, Bip01 Head], max_yaw_degrees: 60, max_pitch_degrees: 35}
+    events:
+      attack_melee: {impact: 0.7}
+      attack_ranged: {impact: 0.7}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: AttackMelee
+    attack_ranged: AttackMelee
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  script_clips:
+    talk: Talk
+    conv1: Talk
+    fidget1: Fidget
+    cower: Cower
+    stand: Standing
+  skin: xboy_ginger
+  attachments:
+    - model: worlds/xeen/models/xeen_peasantboy_elfears.glb
+      node: Bip01 ElfEars
+- descriptor: Xeen Goblin-eared boy 2
+  model: worlds/xeen/models/xeen_peasantboy.glb
+  scale: 100.0
+  yaw_offset: -1.570796327
+  animation:
+    run: Running
+    stride_length: 0.97
+    run_stride_length: 1.3
+    look: {nodes: [Bip01 Neck, Bip01 Head], max_yaw_degrees: 60, max_pitch_degrees: 35}
+    events:
+      attack_melee: {impact: 0.7}
+      attack_ranged: {impact: 0.7}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: AttackMelee
+    attack_ranged: AttackMelee
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  script_clips:
+    talk: Talk
+    conv1: Talk
+    fidget1: Fidget
+    cower: Cower
+    stand: Standing
+  skin: xboy_dark
+  attachments:
+    - model: worlds/xeen/models/xeen_peasantboy_elfears.glb
+      node: Bip01 ElfEars
+- descriptor: Xeen Goblin-eared girl
+  model: worlds/xeen/models/xeen_peasantgirl1e.glb
+  scale: 100.0
+  yaw_offset: -1.570796327
+  animation:
+    run: Running
+    stride_length: 0.62
+    run_stride_length: 1.55
+    look: {nodes: [Bip01 Neck, Bip01 Head], max_yaw_degrees: 60, max_pitch_degrees: 35}
+    events:
+      attack_melee: {impact: 1.0}
+      attack_ranged: {impact: 1.0}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Fidget
+    attack_ranged: Fidget
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  script_clips:
+    talk: Talk
+    conv: Talk
+    cower: Cower
+    stand: Standing
+  skin: xgirl_rose
+- descriptor: Xeen Goblin-eared girl 2
+  model: worlds/xeen/models/xeen_peasantgirl1e.glb
+  scale: 100.0
+  yaw_offset: -1.570796327
+  animation:
+    run: Running
+    stride_length: 0.62
+    run_stride_length: 1.55
+    look: {nodes: [Bip01 Neck, Bip01 Head], max_yaw_degrees: 60, max_pitch_degrees: 35}
+    events:
+      attack_melee: {impact: 1.0}
+      attack_ranged: {impact: 1.0}
+  clips:
+    standing: Standing
+    walking: Walking
+    attack_melee: Fidget
+    attack_ranged: Fidget
+    hit: Hit
+    dying: Death
+    dead: Dead
+    fidget: Fidget
+  script_clips:
+    talk: Talk
+    conv: Talk
+    cower: Cower
+    stand: Standing
+  skin: xgirl_flax

@@ -351,3 +351,14 @@ Rebuilt on merge point 41, installed with its bake 01:20. Dungeon doors with row
 - D-136 (kept): Q-D11's fort camps, groups 1 and 2 (Ogres, Ogre Brutes, an Ogre Chief each: no row shoots or casts,
   so no member moved), stay at the DD-13 gates, 927-1,691 from `entrance:dd13_west`/`dd13_east`; they guard the gates
   from outside. `v.sh` runs `x2/check_d85.py --kept-group 1 --kept-group 2`.
+
+## D-142, D-157, D-162, F59, F63 (2026-11-25, `xeen-fb4-outdoor3` sub-agent D)
+
+- `gen.py d142_enforce()` (common/d142.py): 11 circles moved: west sprites 1 (party start 5,600 < 5,888), seven troll
+  circles off the DD-11 holes (2,196-3,808 before), woods wolves 2 off the tower lane, and (F63, `hull_reason`) west
+  sprites 3 and woods wolves 6 in from the bounds. D2 is in `check_arrivals.D142_EXITS`.
+- The road ogre groups 3, 4 three cells down the caravan road (62.5, 42.5) and (96.5, 42.2): 4,096 from DD-13's gate
+  exits (3,119 / 3,132 before). Kept groups (D-136, D-162): 1, 2 only (Q-D11's fort camps at DD-13's gates;
+  `check_d85.py --kept-group 1 --kept-group 2`).
+- `landmark_crystals_4` sunk 32 into the pass's south slope (`decorations.slope`, 26 over its rim before).
+- Left: `faces.on_land` 1, the log bridge's deck (the bridge-end pad kind, common/wild.py DECK_LIFT is off).

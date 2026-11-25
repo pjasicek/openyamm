@@ -1,7 +1,10 @@
 # Xeen side quest Q-C20, the Bone Whistle (X1), from a new game. Orothin the Hermit (outdoors by the delta pond)
-# lost the whistle that wakes his statues; it lies in the mud of Pitchfork Creek. Asked, found, returned; the statues
-# then give the Cure Poison and Cure Disease books once each, and repel the party before. Outdoors the party is
-# placed beside each person and prop (tests/playthrough/PLAYBOOK.md §2). Quest logic: source/quests/q-c20.yml.
+# lost the whistle that wakes his statues; since D-167 it lies in the open, a ground item in the mud at the edge of
+# Pitchfork Creek's shallows upstream of Vertigo Bridge, west of the town. Asked, found, returned; the statues then give
+# the Cure Poison and Cure Disease books once each, and repel the party before. Outdoors the party is placed beside each
+# person and prop (tests/playthrough/PLAYBOOK.md §2); the whistle is found the player's way: under the crosshair from
+# standing height 300 away on two sides (within the click's reach of 512), and picked up with the interact key.
+# Quest logic: source/quests/q-c20.yml.
 #   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-c20_bone_whistle.yml
 id: xeen.side_quests.q-c20
 title: "Xeen Q-C20: Orothin's bone whistle wakes his statues"
@@ -39,14 +42,26 @@ steps:
       dialog: {text_contains: "I lost the bone whistle"}
   - press_action: {action: cancel_dialog}
   - assert: {qbit_set: [112400]}
-  # The mud of Pitchfork Creek: the whistle.
-  - set_pose: {map: xeen_x1.odm, x: -14336, y: 7173, z: 576, yaw: 1.5708, pitch: 0.0}
+  # The whistle at the edge of Pitchfork Creek's shallows (-13824, 7091, on the mud at 576): named under the crosshair
+  # from the bank north of it (on the land at 604) and from the shore east of it, 300 away, looking down at it; the
+  # interact key there picks it up.
+  - set_pose: {map: xeen_x1.odm, x: -13824, y: 7391, z: 604, yaw: -1.5708, pitch: -0.588}
+  - advance_runtime: {seconds: 0.3}
   - play_lua:
       source: |
-        click(254); wait(1)
+        local text = hover()
+        if text ~= "Get Orothin's Bone Whistle" then error("from the north the crosshair names [" .. text .. "]") end
+  - set_pose: {map: xeen_x1.odm, x: -13524, y: 7091, z: 576, yaw: 3.1416, pitch: -0.521}
+  - advance_runtime: {seconds: 0.3}
+  - play_lua:
+      source: |
+        local text = hover()
+        if text ~= "Get Orothin's Bone Whistle" then error("from the east the crosshair names [" .. text .. "]") end
+        local used = interact(); wait(1)
+        if not used then error("the interact key did not pick the whistle up") end
         close()
         if held() ~= 0 then stow() end
-        if not has_item(12308) then error("no bone whistle in the creek mud") end
+        if not has_item(12308) then error("no bone whistle from the creek's edge") end
   # Orothin takes it (Q-C20 done).
   - set_pose: {map: xeen_x1.odm, x: -205, y: -507, z: 576, yaw: 1.5708, pitch: 0.0}
   - interact_actor: {actor_index: 76}   # Orothin (NPC 4047), the scene's actor 76 (fuller X1)

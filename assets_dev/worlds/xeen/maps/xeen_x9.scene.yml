@@ -449,7 +449,7 @@ initial_state:
       position:
         x: 5827
         y: -17328
-        z: 389
+        z: 392
       initial_yaw_units: 256
       sprite_ids: [0, 0, 0, 0]
       sector_id: 1
@@ -472,7 +472,7 @@ initial_state:
       position:
         x: 5949
         y: -16976
-        z: 390
+        z: 392
       initial_yaw_units: 1536
       sprite_ids: [0, 0, 0, 0]
       sector_id: 1
@@ -1189,7 +1189,7 @@ initial_state:
       position:
         x: -5896
         y: -17338
-        z: 391
+        z: 392
       initial_yaw_units: 768
       sprite_ids: [0, 0, 0, 0]
       sector_id: 1
@@ -1212,7 +1212,7 @@ initial_state:
       position:
         x: -5880
         y: -16966
-        z: 391
+        z: 392
       initial_yaw_units: 0
       sprite_ids: [0, 0, 0, 0]
       sector_id: 1
@@ -1374,7 +1374,7 @@ ambient_sounds:
     start_on: true
   - key: 4
     sound: xeen_amb_sky
-    position: [0, -2816, 787.3905716237759]
+    position: [0, -2816, 776]
     inner_radius: 22000
     outer_radius: 28000
     volume: 0.4
@@ -1382,7 +1382,7 @@ ambient_sounds:
     start_on: true
     pan: false
 translucent_faces:
-  - faces: [1202]
+  - faces: [1484]
     opacity: 0.55
     tint: [1, 1, 1]
     two_sided: false

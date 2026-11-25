@@ -40,7 +40,8 @@ npcs:
 hooks:
   outpost:
     map: X5
-    where: "the cyclops outpost in the Land of the Giants corner: the map asks \"You have found the Cyclops' outpost! Burn?\" and burns it (a destructible), then calls this"
+    status: true   # D-144: the outpost burns on a click, its line on the status line
+    where: "the cyclops outpost in the Land of the Giants corner: a click on the tent burns it (D-144: the source's \"Burn?\" was a free Yes/No) and calls this"
     sets: [outpost_burnt]
     once: true
     text: "You destroy the outpost. Glom will be pleased."

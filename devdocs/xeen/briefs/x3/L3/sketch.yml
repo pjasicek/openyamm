@@ -44,6 +44,30 @@ heights:
       height: 1000
       slope: 1
       notes: "The Tower's islet, level under the tower."
+    - polygon: [[96, 24], [100, 24], [100, 27], [96, 27]]
+      height: 2688
+      slope: 1
+      notes: Level land under the fallen watchtower.
+    - polygon: [[62.98, 55.98], [66.02, 55.98], [66.02, 57.02], [62.98, 57.02]]
+      height: 864
+      notes: "D-170: the land at The causeway's end, its lowest across it (common/wild.py bridge_ends)"
+    - polygon: [[62.98, 66.98], [66.02, 66.98], [66.02, 68.02], [62.98, 68.02]]
+      height: 960
+      notes: "D-170: the land at The causeway's end, its lowest across it (common/wild.py bridge_ends)"
+    - polygon: [[35.98, 60.98], [38.02, 60.98], [38.02, 62.02], [35.98, 62.02]]
+      height: 864
+      notes: "D-170: the land at Fen bridge's end, its lowest across it (common/wild.py bridge_ends)"
+    - polygon: [[35.98, 66.98], [38.02, 66.98], [38.02, 68.02], [35.98, 68.02]]
+      height: 928
+      notes: "D-170: the land at Fen bridge's end, its lowest across it (common/wild.py bridge_ends)"
+    - polygon: [[25, 31], [30, 31], [30, 35], [25, 35]]
+      height: 1344
+      slope: 1
+      notes: "level land under Evil Ranger camp (common/level_pads.py); level land under Evil Ranger camp (common/level_pads.py)"
+    - polygon: [[32, 82], [36, 82], [36, 84], [32, 84]]
+      height: 1120
+      slope: 1
+      notes: "level land under thing:tomb_dress_1 (common/level_pads.py); level land under thing:tomb_dress_2 (common/level_pads.py)"
   rough:
     - {polygon: [[19, 19], [46, 19], [46, 50], [19, 50]], amount: 0.6, notes: the Bogwood's hills}
     - {polygon: [[60, 19], [109, 19], [109, 28], [60, 28]], amount: 0.8, notes: the Crow Hills}
@@ -274,93 +298,258 @@ points:
 areas:
   - id: pop:bogwood_things
     index: 1
-    count: 3
-    polygon: [[19, 19], [44, 19], [44, 30], [46, 44], [44, 50], [19, 50]]
+    kind: encounter
+    count: 1
+    circle: {at: [33, 35], r: 0.5}
     notes: "E1 Bogwood: Swamp things in the hill bogs; the rangers' camp placed in the middle."
   - id: pop:bogwood_things
     index: 2
+    kind: encounter
+    count: 1
+    circle: {at: [25, 36], r: 0.5}
+    notes: "E1 Bogwood: Swamp things in the hill bogs; the rangers' camp placed in the middle."
+  - id: pop:bogwood_things
+    index: 3
+    kind: encounter
+    count: 1
+    circle: {at: [23, 21], r: 0.5}
+    notes: "E1 Bogwood: Swamp things in the hill bogs; the rangers' camp placed in the middle."
+  - id: pop:bogwood_things
+    index: 4
     count: 1
     circle: {at: [22, 22], r: 1}
     notes: "An arrival's first fight (2,000-6,000 from it)."
   - id: pop:bogwood_things
-    index: 3
+    index: 5
     count: 1
     circle: {at: [45, 45], r: 1}
     notes: "An arrival's first fight (2,000-6,000 from it)."
   - id: pop:bogwood_toads
     index: 1
-    count: 2
-    polygon: [[19, 19], [44, 19], [44, 30], [46, 44], [44, 50], [19, 50]]
+    kind: encounter
+    count: 1
+    circle: {at: [36, 24], r: 0.5}
     notes: "E1 Bogwood: Toads on the west and north edges."
   - id: pop:bogwood_toads
     index: 2
+    kind: encounter
+    count: 1
+    circle: {at: [38, 32], r: 0.5}
+    notes: "E1 Bogwood: Toads on the west and north edges."
+  - id: pop:bogwood_toads
+    index: 3
     count: 1
     circle: {at: [41, 26], r: 1}
     notes: "An arrival's first fight (2,000-6,000 from it)."
   - id: pop:fen_things
     index: 1
-    count: 4
-    polygon: [[28, 52], [41, 52], [50, 55], [55, 62], [55, 74], [44, 76], [28, 74]]
+    kind: encounter
+    count: 1
+    circle: {at: [50, 72], r: 0.5}
     notes: "E2 Black Fen: Swamp things along the Lagoon Water; the west arrival keeps 6 cells clear."
   - id: pop:fen_things
     index: 2
+    kind: encounter
+    count: 1
+    circle: {at: [33, 69], r: 0.5}
+    notes: "E2 Black Fen: Swamp things along the Lagoon Water; the west arrival keeps 6 cells clear."
+  - id: pop:fen_things
+    index: 3
+    kind: encounter
+    count: 1
+    circle: {at: [38, 73], r: 0.5}
+    notes: "E2 Black Fen: Swamp things along the Lagoon Water; the west arrival keeps 6 cells clear."
+  - id: pop:fen_things
+    index: 4
+    kind: encounter
+    count: 1
+    circle: {at: [42, 63], r: 0.5}
+    notes: "E2 Black Fen: Swamp things along the Lagoon Water; the west arrival keeps 6 cells clear."
+  - id: pop:fen_things
+    index: 5
     count: 1
     circle: {at: [52, 72], r: 1}
     notes: "An arrival's first fight (2,000-6,000 from it)."
   - id: pop:fen_toads
     index: 1
+    kind: encounter
     count: 1
-    polygon: [[28, 52], [41, 52], [50, 55], [55, 62], [55, 74], [44, 76], [28, 74]]
+    circle: {at: [33, 56], r: 0.5}
     notes: "E2 Black Fen: Toads at the fen's west end."
   - id: pop:fen_toads
     index: 2
     count: 1
-    circle: {at: [30, 56], r: 1}
+    circle: {at: [30, 55], r: 1}
     notes: "An arrival's first fight (2,000-6,000 from it)."
   - id: pop:gloomwood_dead
     index: 1
-    count: 12
-    polygon: [[19, 79], [44, 79], [56, 81], [58, 88], [54, 103], [19, 103]]
+    kind: encounter
+    count: 1
+    circle: {at: [42, 87], r: 0.5}
     notes: "E3 Gloomwood: Zombies, ghouls and grave ghouls round the Tomb; none on the tomb door's step (2 cells)."
   - id: pop:gloomwood_dead
     index: 2
+    kind: encounter
+    count: 1
+    circle: {at: [41, 89], r: 0.5}
+    notes: "E3 Gloomwood: Zombies, ghouls and grave ghouls round the Tomb; none on the tomb door's step (2 cells)."
+  - id: pop:gloomwood_dead
+    index: 3
+    kind: encounter
+    count: 1
+    circle: {at: [40, 93], r: 0.5}
+    notes: "E3 Gloomwood: Zombies, ghouls and grave ghouls round the Tomb; none on the tomb door's step (2 cells)."
+  - id: pop:gloomwood_dead
+    index: 4
+    kind: encounter
+    count: 1
+    circle: {at: [20, 88], r: 0.5}
+    notes: "E3 Gloomwood: Zombies, ghouls and grave ghouls round the Tomb; none on the tomb door's step (2 cells)."
+  - id: pop:gloomwood_dead
+    index: 5
+    kind: encounter
+    count: 1
+    circle: {at: [28, 90], r: 0.5}
+    notes: "E3 Gloomwood: Zombies, ghouls and grave ghouls round the Tomb; none on the tomb door's step (2 cells)."
+  - id: pop:gloomwood_dead
+    index: 6
+    kind: encounter
+    count: 1
+    circle: {at: [33, 101], r: 0.5}
+    notes: "E3 Gloomwood: Zombies, ghouls and grave ghouls round the Tomb; none on the tomb door's step (2 cells)."
+  - id: pop:gloomwood_dead
+    index: 7
+    kind: encounter
+    count: 1
+    circle: {at: [54, 100], r: 0.5}
+    notes: "E3 Gloomwood: Zombies, ghouls and grave ghouls round the Tomb; none on the tomb door's step (2 cells)."
+  - id: pop:gloomwood_dead
+    index: 8
+    kind: encounter
+    count: 1
+    circle: {at: [51, 95], r: 0.5}
+    notes: "E3 Gloomwood: Zombies, ghouls and grave ghouls round the Tomb; none on the tomb door's step (2 cells)."
+  - id: pop:gloomwood_dead
+    index: 9
+    kind: encounter
+    count: 1
+    circle: {at: [44, 82], r: 0.5}
+    notes: "E3 Gloomwood: Zombies, ghouls and grave ghouls round the Tomb; none on the tomb door's step (2 cells)."
+  - id: pop:gloomwood_dead
+    index: 10
+    kind: encounter
+    count: 1
+    circle: {at: [33, 93], r: 0.5}
+    notes: "E3 Gloomwood: Zombies, ghouls and grave ghouls round the Tomb; none on the tomb door's step (2 cells)."
+  - id: pop:gloomwood_dead
+    index: 11
+    kind: encounter
+    count: 1
+    circle: {at: [27, 100], r: 0.5}
+    notes: "E3 Gloomwood: Zombies, ghouls and grave ghouls round the Tomb; none on the tomb door's step (2 cells)."
+  - id: pop:gloomwood_dead
+    index: 12
+    kind: encounter
+    count: 1
+    circle: {at: [50, 80], r: 0.5}
+    notes: "E3 Gloomwood: Zombies, ghouls and grave ghouls round the Tomb; none on the tomb door's step (2 cells)."
+  - id: pop:gloomwood_dead
+    index: 13
     count: 1
     circle: {at: [59, 83], r: 1}
     notes: "An arrival's first fight (2,000-6,000 from it)."
   - id: pop:gloomwood_dead
-    index: 3
+    index: 14
     count: 1
     circle: {at: [35, 100], r: 1}
     notes: "An arrival's first fight (2,000-6,000 from it)."
   - id: pop:shore_things
     index: 1
-    count: 7
-    polygon: [[58, 90], [66, 90], [76, 91], [86, 90], [94, 89], [108, 89], [108, 103], [56, 103]]
+    kind: encounter
+    count: 1
+    circle: {at: [98, 97], r: 0.5}
+    notes: "E4 Drowned Shore: Swamp things on the Drowned Shore round the Lifeforce Spring and the wreck."
+  - id: pop:shore_things
+    index: 2
+    kind: encounter
+    count: 1
+    circle: {at: [107, 96], r: 0.5}
+    notes: "E4 Drowned Shore: Swamp things on the Drowned Shore round the Lifeforce Spring and the wreck."
+  - id: pop:shore_things
+    index: 3
+    kind: encounter
+    count: 1
+    circle: {at: [62, 101], r: 0.5}
+    notes: "E4 Drowned Shore: Swamp things on the Drowned Shore round the Lifeforce Spring and the wreck."
+  - id: pop:shore_things
+    index: 4
+    kind: encounter
+    count: 1
+    circle: {at: [89, 100], r: 0.5}
+    notes: "E4 Drowned Shore: Swamp things on the Drowned Shore round the Lifeforce Spring and the wreck."
+  - id: pop:shore_things
+    index: 5
+    kind: encounter
+    count: 1
+    circle: {at: [84, 98], r: 0.5}
+    notes: "E4 Drowned Shore: Swamp things on the Drowned Shore round the Lifeforce Spring and the wreck."
+  - id: pop:shore_things
+    index: 6
+    kind: encounter
+    count: 1
+    circle: {at: [90, 94], r: 0.5}
+    notes: "E4 Drowned Shore: Swamp things on the Drowned Shore round the Lifeforce Spring and the wreck."
+  - id: pop:shore_things
+    index: 7
+    kind: encounter
+    count: 1
+    circle: {at: [90, 92], r: 0.5}
     notes: "E4 Drowned Shore: Swamp things on the Drowned Shore round the Lifeforce Spring and the wreck."
   - id: pop:shore_dead
     index: 1
-    count: 2
-    polygon: [[58, 90], [66, 90], [76, 91], [86, 90], [94, 89], [108, 89], [108, 103], [56, 103]]
+    kind: encounter
+    count: 1
+    circle: {at: [82, 100], r: 0.5}
+    notes: "E4 Drowned Shore: Drowned dead at the shore's west end, toward the Gloomwood."
+  - id: pop:shore_dead
+    index: 2
+    kind: encounter
+    count: 1
+    circle: {at: [83, 94], r: 0.5}
     notes: "E4 Drowned Shore: Drowned dead at the shore's west end, toward the Gloomwood."
   - id: pop:crow_toads
     index: 1
-    count: 2
-    polygon: [[66, 19], [109, 19], [109, 35], [98, 35], [91, 31], [84, 26], [70, 25], [66, 23]]
+    kind: encounter
+    count: 1
+    circle: {at: [71, 21], r: 0.5}
     notes: "E5 Crow Hills: Toads in the Crow Hills' wet hollows: the first fight from the X2 road (about 4,900)."
   - id: pop:crow_toads
     index: 2
+    kind: encounter
+    count: 1
+    circle: {at: [87, 21], r: 0.5}
+    notes: "E5 Crow Hills: Toads in the Crow Hills' wet hollows: the first fight from the X2 road (about 4,900)."
+  - id: pop:crow_toads
+    index: 3
     count: 1
     circle: {at: [100, 33], r: 1}
     notes: "An arrival's first fight (2,000-6,000 from it)."
   - id: pop:crow_foot
     index: 1
-    count: 2
-    polygon: [[92, 30], [96, 30], [96, 33], [92, 33]]
+    kind: encounter
+    count: 1
+    circle: {at: [94, 33], r: 0.5}
+    notes: "E5 Crow Hills: Toads at the Crow Hills' south foot, about 6,000 from the camp's doors and the Newcastle gate (D-11.1)."
+  - id: pop:crow_foot
+    index: 2
+    kind: encounter
+    count: 1
+    circle: {at: [94, 31], r: 0.5}
     notes: "E5 Crow Hills: Toads at the Crow Hills' south foot, about 6,000 from the camp's doors and the Newcastle gate (D-11.1)."
   - id: pop:vale_toads
     index: 1
     count: 1
-    circle: {at: [55, 27], r: 1}
+    circle: {at: [57, 27], r: 1}
     notes: "A single marker (F10: no land far from a fight)."
   - id: pop:vale_toads
     index: 2
@@ -375,12 +564,12 @@ areas:
   - id: pop:reed_dead
     index: 1
     count: 1
-    circle: {at: [68, 48], r: 1}
+    circle: {at: [69, 45], r: 1}
     notes: "A single marker (F10: no land far from a fight)."
   - id: pop:reed_dead
     index: 2
     count: 1
-    circle: {at: [76, 53], r: 1}
+    circle: {at: [76, 52], r: 1}
     notes: "A single marker (F10: no land far from a fight)."
   - id: pop:reed_things
     index: 1
@@ -852,21 +1041,21 @@ structures:
     decoration: ped02
     title: Sundial
     effects:
-      - lua: "local v = evt.GetMapVar(\"x3_dial_1\", 3) if continueStep == 2 then v = v % 12 + 1 evt.SetMapVar(\"x3_dial_1\", v) if evt.GetMapVar(\"x3_dial_1\", 3) == 9 and evt.GetMapVar(\"x3_dial_2\", 6) == 9 and evt.GetMapVar(\"x3_dial_3\", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText(tr(\"The sundial is set to {reading}.\", {reading = v})) return end if continueStep ~= nil then return end AskChoiceWithAnswerSteps(eventId, 3, tr(\"The sundial is set to {reading}.  Turn?\", {reading = v}), {{Answer = \"Yes\", Step = 2}, {Answer = \"No\", Step = 3}})"
+      - lua: "local v = evt.GetMapVar(\"x3_dial_1\", 3) % 12 + 1 evt.SetMapVar(\"x3_dial_1\", v) if evt.GetMapVar(\"x3_dial_1\", 3) == 9 and evt.GetMapVar(\"x3_dial_2\", 6) == 9 and evt.GetMapVar(\"x3_dial_3\", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText(tr(\"You turn the sundial. It is set to {reading}.\", {reading = v}))"
   - id: thing:sundial_2
     kind: decoration
     at: [98.5, 70.4]
     decoration: ped02
     title: Sundial
     effects:
-      - lua: "local v = evt.GetMapVar(\"x3_dial_2\", 6) if continueStep == 2 then v = v % 12 + 1 evt.SetMapVar(\"x3_dial_2\", v) if evt.GetMapVar(\"x3_dial_1\", 3) == 9 and evt.GetMapVar(\"x3_dial_2\", 6) == 9 and evt.GetMapVar(\"x3_dial_3\", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText(tr(\"The sundial is set to {reading}.\", {reading = v})) return end if continueStep ~= nil then return end AskChoiceWithAnswerSteps(eventId, 3, tr(\"The sundial is set to {reading}.  Turn?\", {reading = v}), {{Answer = \"Yes\", Step = 2}, {Answer = \"No\", Step = 3}})"
+      - lua: "local v = evt.GetMapVar(\"x3_dial_2\", 6) % 12 + 1 evt.SetMapVar(\"x3_dial_2\", v) if evt.GetMapVar(\"x3_dial_1\", 3) == 9 and evt.GetMapVar(\"x3_dial_2\", 6) == 9 and evt.GetMapVar(\"x3_dial_3\", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText(tr(\"You turn the sundial. It is set to {reading}.\", {reading = v}))"
   - id: thing:sundial_3
     kind: decoration
     at: [99.25, 70.4]
     decoration: ped02
     title: Sundial
     effects:
-      - lua: "local v = evt.GetMapVar(\"x3_dial_3\", 12) if continueStep == 2 then v = v % 12 + 1 evt.SetMapVar(\"x3_dial_3\", v) if evt.GetMapVar(\"x3_dial_1\", 3) == 9 and evt.GetMapVar(\"x3_dial_2\", 6) == 9 and evt.GetMapVar(\"x3_dial_3\", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText(tr(\"The sundial is set to {reading}.\", {reading = v})) return end if continueStep ~= nil then return end AskChoiceWithAnswerSteps(eventId, 3, tr(\"The sundial is set to {reading}.  Turn?\", {reading = v}), {{Answer = \"Yes\", Step = 2}, {Answer = \"No\", Step = 3}})"
+      - lua: "local v = evt.GetMapVar(\"x3_dial_3\", 12) % 12 + 1 evt.SetMapVar(\"x3_dial_3\", v) if evt.GetMapVar(\"x3_dial_1\", 3) == 9 and evt.GetMapVar(\"x3_dial_2\", 6) == 9 and evt.GetMapVar(\"x3_dial_3\", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText(tr(\"You turn the sundial. It is set to {reading}.\", {reading = v}))"
   - id: thing:dial_plinth_1
     kind: sign
     at: [97.75, 70]
@@ -1233,10 +1422,12 @@ structures:
   - id: thing:yard_1
     kind: decoration
     at: [75.6, 38]
+    raise: -22
     decoration: rock68
   - id: thing:yard_2
     kind: decoration
     at: [76.2, 38.9]
+    raise: -25
     decoration: rock68
   - id: thing:yard_3
     kind: decoration
@@ -1386,7 +1577,7 @@ structures:
     height: 352
     title: Evil Ranger camp
     effects:
-      - lua: "if continueStep == 2 then evt.StatusText(\"You ruin their food, burn their tents, and poison their water.\") XeenQuests.hook(\"x3.ranger_camp\") HideThing(\"thing:ranger_tent_1\") HideThing(\"thing:ranger_tent_2\") return end if continueStep ~= nil then return end if IsQBitSet(QBit(116040)) then evt.StatusText(\"Only ashes and charred poles are left of the rangers' camp.\") return end AskChoiceWithAnswerSteps(eventId, 3, \"You have come upon an Evil Ranger camp.  Destroy?\", {{Answer = \"Yes\", Step = 2}, {Answer = \"No\", Step = 3}})"
+      - lua: "if IsQBitSet(QBit(116040)) then evt.StatusText(\"Only ashes and charred poles are left of the rangers' camp.\") return end XeenQuests.hook(\"x3.ranger_camp\") HideThing(\"thing:ranger_tent_1\") HideThing(\"thing:ranger_tent_2\") HideThing(\"thing:ranger_bones\")"
     open: true
   - id: thing:ranger_tent_2
     kind: tent
@@ -1396,7 +1587,7 @@ structures:
     height: 352
     title: Evil Ranger camp
     effects:
-      - lua: "if continueStep == 2 then evt.StatusText(\"You ruin their food, burn their tents, and poison their water.\") XeenQuests.hook(\"x3.ranger_camp\") HideThing(\"thing:ranger_tent_1\") HideThing(\"thing:ranger_tent_2\") return end if continueStep ~= nil then return end if IsQBitSet(QBit(116040)) then evt.StatusText(\"Only ashes and charred poles are left of the rangers' camp.\") return end AskChoiceWithAnswerSteps(eventId, 3, \"You have come upon an Evil Ranger camp.  Destroy?\", {{Answer = \"Yes\", Step = 2}, {Answer = \"No\", Step = 3}})"
+      - lua: "if IsQBitSet(QBit(116040)) then evt.StatusText(\"Only ashes and charred poles are left of the rangers' camp.\") return end XeenQuests.hook(\"x3.ranger_camp\") HideThing(\"thing:ranger_tent_1\") HideThing(\"thing:ranger_tent_2\") HideThing(\"thing:ranger_bones\")"
     open: true
   - id: thing:ranger_fire
     kind: decoration
@@ -1873,7 +2064,7 @@ structures:
     notes: "F32 (P2 pin p16, 2026-11-23): the shrine's altar under its roof carries the click; the pavilion keeps its title (MM6 OUTE1 261, MM7 \"Shrine\"/\"Altar\")."
 actors:
   - {monster: "11131", at: [27.5, 34], count: 4, spread: 2, group: 61, hostile: true, notes: Evil Rangers 12 round the fire.}
-  - {monster: "11132", at: [28.5, 33], count: 2, spread: 1, group: 61, hostile: true, notes: Elite Rangers 18.}
+  - {monster: "11132", at: [29, 35.4], count: 2, spread: 0.6, group: 61, hostile: true, notes: Elite Rangers 18.}
   - {monster: "11130", at: [26, 35.5], count: 1, spread: 0, group: 61, hostile: true, notes: An Evil Archer 8 on watch.}
   - {monster: "11310", at: [100, 94], count: 2, spread: 1, group: 62, hostile: true, notes: Bat Queens 10 in the dead trees below the churchyard.}
   - {monster: "11311", at: [101, 95], count: 2, spread: 1, group: 62, hostile: true, notes: Vampire Bats 14.}
@@ -1883,7 +2074,7 @@ actors:
   - {monster: "350", at: [85.6, 81], spread: 0, group: 4, npc: 4202, notes: "Mirabeth (A4's NPC 4202) on her rock, Q-C12; hidden once q-c12.done (112240)."}
   - {monster: "359", at: [81, 34.6], spread: 0, group: 51, notes: Ebenezer's workmen at the ruin.}
   - {monster: "362", at: [83.7, 31.9], spread: 0, group: 51, notes: Ebenezer's workmen at the ruin.}
-  - {monster: "368", at: [79.9, 32.4], spread: 0, group: 51, notes: Ebenezer's workmen at the ruin.}
+  - {monster: "368", at: [80.4, 34], spread: 0, group: 51, notes: Ebenezer's workmen at the ruin.}
   - {monster: "166", at: [100.25, 69.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Nightshadow (villagers.yml)}
   - {monster: "355", at: [91.5, 78.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Nightshadow (villagers.yml)}
   - {monster: "364", at: [103.5, 81.5], spread: 0, group: 47, hostile: false, notes: D-96 villager of Nightshadow (villagers.yml)}
@@ -1967,8 +2158,8 @@ events:
     trigger: load
     condition: {qbit: 116040}
     effects:
-      - hide: [thing:ranger_tent_1, thing:ranger_tent_2]
-    notes: "x3.ranger_camp: the burnt camp stays burnt."
+      - hide: [thing:ranger_tent_1, thing:ranger_tent_2, thing:ranger_bones]
+    notes: "x3.ranger_camp: the burnt camp stays burnt (D-152: its bones gone with it)."
   - id: evt:nightshadow_dawn
     trigger: load
     condition: {qbit: nightshadow_liberated}

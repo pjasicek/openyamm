@@ -183,6 +183,9 @@ TERRACES = [
     ((45.5, 28.0, 48.5, 30.5), 2944, 2, "The Fountain of Energy Resistance by the Barrier's west end."),
     ((100.5, 29.5, 103.5, 32.5), 3136, 2, "The Fountain of Might under the rim."),
     ((100.0, 48.5, 104.0, 51.5), 2496, 2, "The dwarf prospectors' camp."),
+    # D-170 (2026-11-25): the Last Water's fountain stood on the oasis bank's slope (1280 to 1376 under it): its
+    # step's top lay on the land on the pond side; level with the pool under the whole basin, the step 24 over it
+    ((46.0, 78.0, 48.0, 80.5), POND_H, 1, "The Last Water's fountain on the oasis bank."),
 ]
 SANDS = [[56, 59.5], [72, 60.5], [86, 62], [100, 62], [100, 86], [102, 101], [52, 101], [54, 96], [52, 78], [56, 72]]
 
@@ -298,6 +301,36 @@ BARRIER = [[46, 24.2], [52, 28.5], [58, 31.5], [64, 33.5], [70, 34.5], [76, 34.5
 DESERT_ROAD = [[127, 80], [109, 80], [105, 80], [100, 79], [94, 78.5], [88, 78.5], [84, 78], [80, 77]]
 WEST_ROAD = [[80, 77], [76.5, 75], [74, 73], [70, 72.5], [64, 72], [58, 71.5], [52, 71], [47, 70.5], [43, 69.5],
              [40, 68], [36, 67], [32, 66], [28, 64.5], [24, 64], [19, 64], [0, 64]]
+
+
+# D-142 (F64, 2026-11-25): the markers of L1's four polygons at the spots the studio drew them on the map installed
+# 2026-11-24 (scene spawns 0-36, to whole cells), one circle each, so that common/d142.py can move the ones too near
+# an arrival or a road (the polygons' own sampling left two cyclopes 704 and 996 from the forest track and the
+# Barrier path)
+POLY_SPOT_R = 0.5
+POLY_SPOTS = {
+    'pop:sands_lizards': [(74, 103), (98, 87), (90, 93), (93, 86), (79, 94), (77, 102), (82, 89), (98, 93)],
+    'pop:pyramid_lizards': [(56, 98), (53, 101), (69, 95), (71, 102), (57, 94), (56, 99), (50, 89)],
+    'pop:cliff_birds': [(41, 56), (39, 58), (45, 52), (57, 53), (40, 50), (55, 61), (71, 59), (77, 57), (95, 60),
+                        (98, 58), (107, 61)],
+    'pop:forest_cyclopes': [(22, 47), (36, 32), (52, 41), (46, 37), (41, 30), (39, 39), (25, 29), (43, 46), (24, 42),
+                            (34, 43), (51, 37)],
+}
+
+
+def d142_enforce(areas):
+    """D-142 / D-157 / D-162 (2026-11-25, F64) for the marker circles (common/d142.py): the edge arrivals and the
+    dungeon exits (D5 in check_arrivals.D142_EXITS) 4,096 from a marker's edge, 5,888 for a slot that shoots or casts;
+    every road, lane and path 1,024 from its centre; F63: 768 from the bounds and the hull. A failing circle moves to
+    the nearest spot off the keep-clear areas (the boulders, the oasis, the hold, the mesa), the water and steep land."""
+    sys.path.insert(0, _REPO_ROOT + '/level_generation/projects/xeen/common')
+    import d142
+    sys.path.pop(0)
+    d142.CA.D142_EXITS.add(STEM)   # the floors this build is held to (the checker's set takes D5 at its install)
+    l4 = os.path.join(OUT, 'sketch.yml')
+    keep = [a['polygon'] for a in areas if a.get('kind') == 'keep_clear' and 'polygon' in a]
+    ok = d142.standard_ok(l4, land, keep_off=keep)
+    d142.enforce(STEM, areas, d142.road_cells(l4), {}, ok, also=d142.hull_reason(l4))
 
 
 def build():
@@ -466,10 +499,23 @@ def build():
     for i, at in enumerate([(81.0, 76.0), (77.0, 52.0), (41.0, 67.0)]):
         points.append({'id': 'poi:signposts', 'index': i + 1, 'at': list(at)})
     # ---------------------------------------------------------------- encounter areas (L1's 47 markers) and clear zones
-    areas = copy.deepcopy(L1S['areas'])
-    for a in areas:
-        if a['id'].startswith('pop:'):
-            a['kind'] = 'encounter'
+    areas = []
+    for a in copy.deepcopy(L1S['areas']):
+        if not a['id'].startswith('pop:'):
+            areas.append(a)
+            continue
+        a['kind'] = 'encounter'
+        spots = POLY_SPOTS.get(a['id']) if 'polygon' in a else None
+        if spots is None:
+            areas.append(a)
+            continue
+        assert len(spots) == a['count'], (a['id'], a['count'], len(spots))   # D-142: the polygon's markers as circles
+        for k, at in enumerate(spots, 1):
+            c = {'id': a['id'], 'index': k, 'kind': 'encounter', 'count': 1, 'slot': a['slot'],
+                 'circle': {'at': list(at), 'r': POLY_SPOT_R}}
+            if k == 1 and a.get('notes'):
+                c['notes'] = a['notes']
+            areas.append(c)
     # E5 by hand (the first fight from D6 inside 6,000; clear of the west boulders, the oasis and the mesa)
     areas = [a for a in areas if a['id'] != 'pop:doom_birds']
     for k, (cx, cy) in enumerate(DOOM_BIRDS):
@@ -478,12 +524,11 @@ def build():
     # F10 (s32): the north-east corner was the Xeen world's largest empty stretch (1,276 tiles, 20,123 deep): three of
     # the doom birds (slot 2 as the cliffs') fly over the highland in front of the Barrier's middle and the corner east of the Barrier's end instead (the strip behind the
     # Barrier is not walkable land: tools/xeen/empty_zones.yml, D-49) (kill XP unchanged)
-    for a in areas:
-        if a['id'] == 'pop:cliff_birds':
-            a['index'] = 1
+    n_cliff = sum(1 for a in areas if a['id'] == 'pop:cliff_birds')
     for k, (cx, cy) in enumerate([(102, 28), (104, 40), (77, 37)]):
-        areas.append({'id': 'pop:cliff_birds', 'index': k + 2, 'kind': 'encounter', 'count': 1, 'slot': 2,
+        areas.append({'id': 'pop:cliff_birds', 'index': n_cliff + k + 1, 'kind': 'encounter', 'count': 1, 'slot': 2,
                       'circle': {'at': [cx, cy], 'r': 1}})
+    d142_enforce(areas)
     views = copy.deepcopy(L1S['views'])
     structures = []
     S = structures.append
@@ -553,8 +598,11 @@ def build():
        'parts': [{'id': 'body', 'at': [64, 64], 'size': [896, 896], 'wall_height': 576, 'batter': 352,
                   'roof': 'flat', 'windows': 'none', 'title': 'A broken pyramid',
                   'effects': hook('obelisks.dark_hoard')},
-                 {'id': 'apex', 'at': [352, 352], 'size': [320, 320], 'bottom': 576, 'wall_height': 288,
-                  'roof': 'none', 'windows': 'none', 'ruin': {'height': [48, 288], 'gaps': 0.45, 'thickness': 48,
+                 # D-170 (2026-11-25): the broken apex's walls rise from the shelf inside the body and stand 48 to
+                 # 288 over its top (they hung on an underside at the top: back to back with the body's roof, and a
+                 # ruin over the land is not closed on a hanging floor; standing on the ground it is)
+                 {'id': 'apex', 'at': [352, 352], 'size': [320, 320], 'wall_height': 864,
+                  'roof': 'none', 'windows': 'none', 'ruin': {'height': [624, 864], 'gaps': 0.45, 'thickness': 48,
                                                               'seed': 11}}],
        'notes': "The broken travel pyramid (aaze0013:12): its click is obelisks.dark_hoard, as the capstone's."})
     S({'id': 'thing:capstone', 'kind': 'building', 'at': [CAPSTONE[0] - 0.4, CAPSTONE[1] - 0.4], 'size': [0.8, 0.8],
@@ -581,8 +629,13 @@ def build():
        'textures': {'wall': 'xafield', 'top': 'xafield'}, 'translucent': True,
        'notes': "The shimmering curtain between the frames (D-49 Q4): a landmark, no event; see-through by "
                 "xafield's graded alpha (merge point 23)."})
-    S({'id': 'thing:barrier_block', 'kind': 'barrier', 'line': pylons, 'height': 6000,
-       'notes': "The Barrier blocks walking and flying up to the fly ceiling (D-49 change 4); past its ends the rim rule."})
+    # towns.py --strict walls.open (2026-11-25): the end frames stand on the hull's line at y 24.2, and the walkable
+    # ledge between the hull and the rim's cliff (y 23.84-24.3) ran on past the east end (a 32-wide slot at
+    # (98.05, 23.86)): the block's line runs on north across the ledge into the cliff at both ends
+    S({'id': 'thing:barrier_block', 'kind': 'barrier',
+       'line': [[BARRIER[0][0], RIM_N - 0.8]] + pylons + [[BARRIER[-1][0], RIM_N - 0.8]], 'height': 6000,
+       'notes': "The Barrier blocks walking and flying up to the fly ceiling (D-49 change 4); its ends run across the "
+                "ledge outside the hull into the rim's cliff."})
     # ---------------------------------------------------------------- Gurodel's hold and DD-24's great doors
     hx, hy = HOLD_FIRE
     S({'id': 'thing:hold_ring', 'kind': 'stone_ring', 'at': [hx, hy], 'radius': 1000, 'count': 9, 'lintel': False,
@@ -783,7 +836,9 @@ def build():
     place(11085, (88.8, 45.2), 1, 0, 3, hostile=False)
     actors.append({'monster': '11085', 'npc': 5452, 'at': [HOLD_FIRE[0], HOLD_FIRE[1] + 0.9], 'spread': 0,
                    'group': 2, 'hostile': False})
-    place(11562, EYRIE, 3, 1, 1, hostile=True)
+    # F63 (2026-11-25, check_spawn_clear spawn.in_model): spread 1 stood the first griffin 161 from the nest's chest
+    # (172 for its 140 radius); spread 1.4 keeps the three round the nest, clear of it
+    place(11562, EYRIE, 3, 1.4, 1, hostile=True)
     # ---------------------------------------------------------------- events
     people = range(0, 6)
     crumble = ' '.join('if IsQBitSet(QBit(%d)) then HideThing("thing:boulder_%d") end' % (113480 + n, n)

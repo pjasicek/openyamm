@@ -232,7 +232,12 @@ geo.ROOMS['room:out_s'].setdefault('platforms', []).extend([
 op('open:battlement_sw', 'room:roof_s', 'room:out_w', 'w', width='full', height='full', sill=64, **PARA)
 op('open:battlement_se', 'room:roof_s', 'room:out_e', 'e', width='full', height='full', sill=64, **PARA)
 op('open:battlement_w', 'room:roof_w', 'room:out_w', 'w', centre=0, width=1984, height='full', sill=64, **PARA)
-op('open:battlement_e', 'room:sky_stair', 'room:out_e', 'e', centre=0, width=3520, height='full', sill=880, **PARA)
+# its two ends (the keep wall's cut, 256 deep) in stone to 288 over the sill, not sky: a party that jumps onto the
+# 256-deep sill saw the sky's below-horizon fog at its feet there (check_parapet_gaps.py sky.low; xeen-fb4-dungeon6,
+# 2026-11-25). Above the opening the stair's own wall is sky, so its top through the wall is sky too (`lintel`); a
+# full-height stone reveal stood up as two bare posts 1,000 into the sky.
+op('open:battlement_e', 'room:sky_stair', 'room:out_e', 'e', centre=0, width=3520, height=288, sill=880,
+   **dict(PARA, reveal=CNB, lintel=SKYS))
 
 # windows over the lake: slits on the gate floor, windows above, tall windows in the stair halls
 WIN = [

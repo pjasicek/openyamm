@@ -1,0 +1,60 @@
+# Feedback F63 (2026-11-25, X5 p11/p12): Winterkill's Polter-Fools and Ghost Riders stood still in the square and
+# never attacked. The studio placed every actor on the land (992), under the square's paving (a platform 16 over it,
+# thing:square_court); walkers step up out of it, but these ghosts fly, and a flyer inside a floor cannot leave it.
+# Since the fix (openyamm-studio core/OutdoorBuild.cpp: actors and spawn points stand on a structure's top where one
+# covers the land, as arrivals do) they stand on the paving (1008), come for the party and fight.
+#   build/game/openyamm --headless-run-scenario tests/scenarios/xeen/x5_winterkill_ghosts_move.yml --scenario-no-color
+id: xeen.f63.winterkill_ghosts_move
+title: "F63: Winterkill's revealed ghost waves leave their places and attack"
+world: xeen
+mode: faithful
+tags: [xeen, ai, regression]
+steps:
+  - new_game_flow:
+      start_map: xeen_x5.odm
+  - setup_shortcut: {kind: immortal, value: true}
+  - damage_actor: {actor_index: 62, amount: 999}
+  - damage_actor: {actor_index: 63, amount: 999}
+  - damage_actor: {actor_index: 64, amount: 999}
+  - damage_actor: {actor_index: 65, amount: 999}
+  - damage_actor: {actor_index: 66, amount: 999}
+  - damage_actor: {actor_index: 67, amount: 999}
+  - damage_actor: {actor_index: 68, amount: 999}
+  - damage_actor: {actor_index: 69, amount: 999}
+  - damage_actor: {actor_index: 70, amount: 999}
+  - damage_actor: {actor_index: 71, amount: 999}
+  - damage_actor: {actor_index: 72, amount: 999}
+  - damage_actor: {actor_index: 73, amount: 999}
+  - damage_actor: {actor_index: 74, amount: 999}
+  - damage_actor: {actor_index: 75, amount: 999}
+  - damage_actor: {actor_index: 76, amount: 999}
+  - damage_actor: {actor_index: 77, amount: 999}
+  - advance_runtime: {seconds: 6}
+  - setup_shortcut: {kind: set_qbit, id: 112126, value: true}
+  - set_pose: {map: xeen_x5.odm, x: -14392, y: 10504, z: 1009, yaw_degrees: 74}
+  - advance_runtime: {seconds: 10}
+  - assert: {actor_visible: {actor_index: 78, far: {x: -14566, y: 11213, min_distance: 100}, report_state: true}}
+  - assert: {actor_visible: {actor_index: 87, far: {x: -14259, y: 11622, min_distance: 100}, report_state: true}}
+  - assert: {actor_visible: {actor_index: 90, far: {x: -14976, y: 10189, min_distance: 100}, report_state: true}}
+  - damage_actor: {actor_index: 78, amount: 999}
+  - damage_actor: {actor_index: 79, amount: 999}
+  - damage_actor: {actor_index: 80, amount: 999}
+  - damage_actor: {actor_index: 81, amount: 999}
+  - damage_actor: {actor_index: 82, amount: 999}
+  - damage_actor: {actor_index: 83, amount: 999}
+  - damage_actor: {actor_index: 84, amount: 999}
+  - damage_actor: {actor_index: 85, amount: 999}
+  - damage_actor: {actor_index: 86, amount: 999}
+  - damage_actor: {actor_index: 87, amount: 999}
+  - damage_actor: {actor_index: 88, amount: 999}
+  - damage_actor: {actor_index: 89, amount: 999}
+  - damage_actor: {actor_index: 90, amount: 999}
+  - damage_actor: {actor_index: 91, amount: 999}
+  - damage_actor: {actor_index: 92, amount: 999}
+  - damage_actor: {actor_index: 93, amount: 999}
+  - advance_runtime: {seconds: 6}
+  - setup_shortcut: {kind: set_qbit, id: 112127, value: true}
+  - advance_runtime: {seconds: 10}
+  - assert: {actor_visible: {actor_index: 100, far: {x: -14182, y: 11674, min_distance: 100}, report_state: true}}
+  - assert: {actor_visible: {actor_index: 103, far: {x: -14899, y: 10240, min_distance: 100}, report_state: true}}
+  - assert: {actor_visible: {actor_index: 107, far: {x: -14490, y: 11264, min_distance: 100}, report_state: true}}

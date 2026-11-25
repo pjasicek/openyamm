@@ -303,7 +303,9 @@ PLOTS = {
 # Placed actors (monster row, at, count, spread, group, notes)
 ACTORS = [
     ('11131', [27.5, 34], 4, 2, 1, 'Evil Rangers 12 round the fire.'),
-    ('11132', [28.5, 33], 2, 1, 1, 'Elite Rangers 18.'),
+    # F63 (2026-11-25): at (28.5, 33) the pair stood on ranger_tent_2 (28.5, 32.9), one inside it: now south-east of
+    # the fire, clear of both tents and the chest (29.3, 33.3)
+    ('11132', [29.0, 35.4], 2, 0.6, 1, 'Elite Rangers 18.'),
     ('11130', [26, 35.5], 1, 0, 1, 'An Evil Archer 8 on watch.'),
     ('11310', [100, 94], 2, 1, 2, 'Bat Queens 10 in the dead trees below the churchyard.'),
     ('11311', [101, 95], 2, 1, 2, 'Vampire Bats 14.'),

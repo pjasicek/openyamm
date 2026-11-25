@@ -77,7 +77,12 @@ end, "Iron door")
 
 -- evt:crystals
 RegisterEvent(11, "Crystal housing", function()
+    if not (IsQBitSet(QBit(112102))) then
+        XeenQuests.hook("q-c11.crystals")
+        return
+    end
     XeenQuests.hook("q-c11.crystals")
+    evt.SetSprite(14, 0)
 end, "Crystal housing")
 
 -- evt:drain_reached
@@ -244,3 +249,13 @@ end, nil)
 RegisterEvent(28, nil, function()
     SetValue(MapVar(10), 0)
 end, nil)
+
+-- evt:crystals_cluster
+RegisterEvent(29, "Crystals", function()
+    if not (IsQBitSet(QBit(112102))) then
+        XeenQuests.hook("q-c11.crystals")
+        return
+    end
+    XeenQuests.hook("q-c11.crystals")
+    evt.SetSprite(14, 0)
+end, "Crystals")

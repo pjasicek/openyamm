@@ -4,7 +4,7 @@ and ground heights from the map's export, event numbers from ids.lock.yml, NPC a
 Usage: gen_walk.py <project L4> <build folder>
 The walk: a new game on Winterkill square; the gongs, the plaque, the signboard, the machine, the cursed chest, Mayor
 Randon; Q-C6's machinery (the Spirit Bones laid set wave1_laid; Randon's reported1 brings the Polter-Fools); the Edge
-Watch; the south track to the Winter Druid, Glom's fork, the giants' outpost (Q-C16's hook), the Giants' Stones, the
+Watch; the south track to the Winter Druid, Glom's fork, the giants' outpost (Q-C16's hook, a click), the Giants' Stones, the
 Waters of Great Magic and the Reflector; the forest track to the Shrine of Cold, the Holy Book (Q-C18), the warren,
 XD-10's south mouth, Thickbark; the mere (the fishing hole, the frozen pack, Darkstone's sealed door); the monastery,
 the pagoda, the obelisk, the steppe road's end, the barbarian camp; the pass and Freeda; the pocket: Halon, XD-10's
@@ -242,18 +242,19 @@ walkc(39.5, 86, timeout=90)
 event('evt:thing:giant_stone', "The Giants' Stones (Might 40)", dialog=False)
 walkc(41.5, 90.5, timeout=90)
 walkc(43, 92, 'The cyclops outpost', timeout=90)
-# A6 s27 (D-72): the source's question on Yes/No buttons; No leaves it standing, Yes burns it (the hook's text)
-event('evt:thing:outpost_tent', "The Cyclops' outpost: Burn? No", answer='No', prompt="Cyclops' outpost! Burn?",
-      dialog=False, check='if qbit(112321) then error("outpost_burnt (112321) set by No") end')
-event('evt:thing:outpost_tent', "Burn the Cyclops' outpost: Yes (q-c16.outpost)", answer='Yes',
-      prompt="Cyclops' outpost! Burn?",
-      check='if not qbit(112321) then error("outpost_burnt (112321) not set") end')
+# D-144 (F69b): a click burns it, the hook's line (q-c16.outpost) on the status line, no question
+event('evt:thing:outpost_tent', "Burn the Cyclops' outpost: a click (q-c16.outpost)", dialog=False,
+      check='local s = tostring(status())\n'
+            'if not string.find(s, "You destroy the outpost.", 1, true) then error("status line: " .. s) end\n'
+            'if not qbit(112321) then error("outpost_burnt (112321) not set") end')
 walkc(46, 98, 'Down to the Reflector\'s ledge', timeout=120)
 walkc(46.5, 99.6, timeout=60)
 event('evt:thing:waters_great_magic', 'The Waters of Great Magic', dialog=False)
-event('evt:thing:earth_reflector', '"Reflector. Activate?" Yes: before M36 the hook\'s fail text', answer='Yes',
-      prompt='Reflector. Activate?',
-      check='if qbit(111742) then error("the Reflector set its bit before M36") end')
+event('evt:thing:earth_reflector', 'The Earth Reflector, a click (D-144): before M36 the hook\'s fail text on the '
+      'status line', dialog=False,
+      check='local s = tostring(status())\n'
+            'if not string.find(s, "cold and silent", 1, true) then error("status line: " .. s) end\n'
+            'if qbit(111742) then error("the Reflector set its bit before M36") end')
 # ---------------------------------------------------------------- the Troll Forest
 jump(48, 77, 'The forest track east of the fork', yaw=0.0)
 walkc(53, 76.2, 'The Shrine of Cold', timeout=90)

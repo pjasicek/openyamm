@@ -83,144 +83,181 @@ rooms:
       - {id: platform:dragon_clouds_root1, at: [21143, 18120], size: [409, 358], rise: 1520, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, base: 6280, top_size: [2048, 1792]}
       - {id: platform:dragon_clouds_root2, at: [20889, 18578], size: [409, 358], rise: 1328, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, base: 6480, top_size: [2048, 1792]}
       - {id: platform:dragon_clouds_root3, at: [20819, 18062], size: [409, 358], rise: 1232, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, base: 6584, top_size: [2048, 1792]}
-      - {id: platform:gate_causeway, at: [0, 10336], size: [1728, 1024], rise: 128, facing: 90, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: 7tws1f, size: [128, 128]}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, thickness: 128, base: 6584, top_heights: [128, 192, 192, 128], notes: "The causeway up to Castle Xeen's gate: cloud-stone flags on a cloud tongue."}
-      - {id: platform:brink_neck, at: [0, -14025], size: [3560, 1536], rise: 192, facing: 90, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, thickness: 192, base: 6136, top_heights: [192, 320, 320, 192], notes: "link:brink_neck: a waist of cloud, 2279 rim to rim"}
-      - {id: platform:west_neck, at: [-3752, -17030], size: [4452, 1280], rise: 192, facing: -177.95, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, thickness: 192, base: 6136, top_heights: [192, 256, 256, 192], notes: "link:west_neck: a waist of cloud, 3172 rim to rim"}
-      - {id: platform:sw_neck, at: [-10003, -16443], size: [3955, 1280], rise: 192, facing: 165.96, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, thickness: 192, base: 6200, top_heights: [192, 320, 320, 192], notes: "link:sw_neck: a waist of cloud, 2675 rim to rim"}
-      - {id: platform:east_neck, at: [3789, -17031], size: [4532, 1280], rise: 192, facing: -2.05, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, thickness: 192, base: 6136, top_heights: [192, 256, 256, 192], notes: "link:east_neck: a waist of cloud, 3251 rim to rim"}
-      - {id: platform:se_neck, at: [10116, -16415], size: [3978, 1280], rise: 192, facing: 14.04, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, thickness: 192, base: 6200, top_heights: [192, 320, 320, 192], notes: "link:se_neck: a waist of cloud, 2698 rim to rim"}
+      - {id: platform:gate_causeway, at: [0, 9712], size: [480, 1024], rise: 128, facing: 90, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: 7tws1f, size: [128, 128]}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, thickness: 128, base: 6584, top_heights: [128, 192, 192, 128], notes: "The causeway up to Castle Xeen's gate: cloud-stone flags on a cloud tongue."}
+      - {id: platform:gate_causeway_2, at: [0, 10576], size: [1248, 1024], rise: 128, facing: 90, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: 7tws1f, size: [128, 128]}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, base: 6648}
+      - {id: platform:brink_neck, at: [0, -15465], size: [680, 1536], rise: 192, facing: 90, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, base: 6136, notes: "link:brink_neck: a waist of cloud, 2279 rim to rim"}
+      - {id: platform:brink_neck_2, at: [0, -14017], size: [2216, 1536], rise: 192, facing: 90, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, thickness: 192, base: 6136, top_heights: [192, 320, 320, 192]}
+      - {id: platform:brink_neck_3, at: [0, -12577], size: [664, 1536], rise: 192, facing: 90, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, base: 6264}
+      - {id: platform:west_neck, at: [-1859, -16962], size: [664, 1280], rise: 192, facing: -177.95, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, base: 6136, notes: "link:west_neck: a waist of cloud, 3172 rim to rim"}
+      - {id: platform:west_neck_2, at: [-3748, -17030], size: [3116, 1280], rise: 192, facing: -177.95, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, thickness: 192, base: 6136, top_heights: [192, 256, 256, 192]}
+      - {id: platform:west_neck_3, at: [-5641, -17097], size: [672, 1280], rise: 192, facing: -177.95, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, base: 6200}
+      - {id: platform:sw_neck, at: [-8410, -16841], size: [672, 1280], rise: 192, facing: 165.96, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, base: 6200, notes: "link:sw_neck: a waist of cloud, 2675 rim to rim"}
+      - {id: platform:sw_neck_2, at: [-10007, -16442], size: [2619, 1280], rise: 192, facing: 165.96, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, thickness: 192, base: 6200, top_heights: [192, 320, 320, 192]}
+      - {id: platform:sw_neck_3, at: [-11600, -16044], size: [664, 1280], rise: 192, facing: 165.96, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, base: 6328}
+      - {id: platform:east_neck, at: [1857, -16962], size: [664, 1280], rise: 192, facing: -2.05, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, base: 6136, notes: "link:east_neck: a waist of cloud, 3251 rim to rim"}
+      - {id: platform:east_neck_2, at: [3777, -17031], size: [3180, 1280], rise: 192, facing: -2.05, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, thickness: 192, base: 6136, top_heights: [192, 256, 256, 192]}
+      - {id: platform:east_neck_3, at: [5710, -17100], size: [688, 1280], rise: 192, facing: -2.05, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, base: 6200}
+      - {id: platform:se_neck, at: [8513, -16816], size: [672, 1280], rise: 192, facing: 14.04, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, base: 6200, notes: "link:se_neck: a waist of cloud, 2698 rim to rim"}
+      - {id: platform:se_neck_2, at: [10120, -16414], size: [2642, 1280], rise: 192, facing: 14.04, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, thickness: 192, base: 6200, top_heights: [192, 320, 320, 192]}
+      - {id: platform:se_neck_3, at: [11724, -16013], size: [664, 1280], rise: 192, facing: 14.04, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, base: 6328}
       - {id: platform:unseen_way, at: [0, -8353], size: [4926, 768], rise: 32, facing: 90, surface: {texture: xccloud, size: [256, 256], scale: 32, sky: true}, top_surface: {texture: xcwisp, size: [256, 256], scale: 2, translucent: 0.55}, bottom_surface: {texture: xccloud, size: [256, 256], scale: 32, sky: true}, thickness: 32, base: 6232, top_heights: [224, 32, 32, 224], notes: "link:unseen_way: 'Xeen--9N.' The unseen way, 4606 rim to rim (nine cells), 768 wide: its top the faint wisp texture, its sides and underside sky faces (not drawn) (D-50 change 1)."}
-      - {id: platform:west_bridge_1_1, at: [-14201, -13245], size: [1984, 256], rise: 24, facing: 110.56, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6287, top_heights: [233, 24, 24, 233], notes: "link:west_bridge_1: rope bridge, 3648 rim to rim"}
-      - {id: platform:west_bridge_1_2, at: [-14898, -11387], size: [1984, 256], rise: 24, facing: 110.56, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6287, top_heights: [24, 105, 105, 24]}
-      - {id: platform:west_bridge_2_1, at: [-15987, -7543], size: [1936, 256], rise: 24, facing: 100.89, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6258, top_heights: [134, 24, 24, 134], notes: "link:west_bridge_2: rope bridge, 3551 rim to rim"}
-      - {id: platform:west_bridge_2_2, at: [-16352, -5643], size: [1936, 256], rise: 24, facing: 100.89, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6258, top_heights: [24, 198, 198, 24]}
-      - {id: platform:west_bridge_3_1, at: [-16896, 206], size: [1992, 256], rise: 24, facing: 90, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6318, top_heights: [138, 24, 24, 138], notes: "link:west_bridge_3: rope bridge, 3663 rim to rim"}
-      - {id: platform:west_bridge_3_2, at: [-16896, 2198], size: [1992, 256], rise: 24, facing: 90, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6318, top_heights: [24, 202, 202, 24]}
-      - {id: platform:west_bridge_4_1, at: [-16467, 6582], size: [1970, 256], rise: 24, facing: 79.11, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6384, top_heights: [136, 24, 24, 136], notes: "link:west_bridge_4: rope bridge, 3619 rim to rim"}
-      - {id: platform:west_bridge_4_2, at: [-16095, 8516], size: [1970, 256], rise: 24, facing: 79.11, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6384, top_heights: [24, 200, 200, 24]}
-      - {id: platform:back_lot_bridge_1, at: [-13186, 9590], size: [1860, 384], rise: 24, facing: -30.26, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6393, top_heights: [191, 24, 24, 191], notes: "link:back_lot_bridge: rope bridge, 3399 rim to rim"}
-      - {id: platform:back_lot_bridge_2, at: [-11580, 8653], size: [1860, 384], rise: 24, facing: -30.26, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6393, top_heights: [24, 127, 127, 24]}
-      - {id: platform:back_lot_neck, at: [-6531, 5355], size: [5170, 1536], rise: 192, facing: -35.13, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, thickness: 192, base: 6264, top_heights: [256, 192, 192, 256], notes: "link:back_lot_neck: a waist of cloud, 3889 rim to rim"}
-      - {id: platform:landing_road, at: [0, -881], size: [4391, 768], rise: 128, facing: 90, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: 7tws1f, size: [128, 128]}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, thickness: 128, base: 6136, top_heights: [128, 320, 320, 128], notes: "link:landing_road: the Xeen road, cloud-stone flags on a cloud tongue, 3750 rim to rim"}
-      - {id: platform:xeen_road, at: [0, 5964], size: [4745, 768], rise: 128, facing: 90, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: 7tws1f, size: [128, 128]}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, thickness: 128, base: 6328, top_heights: [128, 384, 384, 128], notes: "link:xeen_road: the Xeen road, cloud-stone flags on a cloud tongue, 4105 rim to rim"}
-      - {id: platform:aviary_stair, at: [8388, 14529], size: [4778, 512], rise: 96, facing: -12.16, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, bottom_surface: {texture: 7tws1f, size: [128, 128]}, thickness: 96, base: 6680, top_heights: [96, 352, 352, 96], notes: "link:aviary_stair: the aviary's cloud-stone stair, 4137 rim to rim, rising 256"}
-      - {id: platform:east_bridge_1_1, at: [13818, -13134], size: [2100, 256], rise: 24, facing: 78.49, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6277, top_heights: [243, 24, 24, 243], notes: "link:east_bridge_1: rope bridge, 3880 rim to rim"}
-      - {id: platform:east_bridge_1_2, at: [14237, -11076], size: [2100, 256], rise: 24, facing: 78.49, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6277, top_heights: [24, 115, 115, 24]}
-      - {id: platform:east_bridge_2_1, at: [14885, -6471], size: [2043, 256], rise: 24, facing: 85.76, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6282, top_heights: [110, 24, 24, 110], notes: "link:east_bridge_2: rope bridge, 3765 rim to rim"}
-      - {id: platform:east_bridge_2_2, at: [15036, -4434], size: [2043, 256], rise: 24, facing: 85.76, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6282, top_heights: [24, 238, 238, 24]}
-      - {id: platform:east_bridge_3_1, at: [15093, 842], size: [2035, 256], rise: 24, facing: 93.01, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6443, top_heights: [77, 24, 24, 77], notes: "link:east_bridge_3: rope bridge, 3749 rim to rim"}
-      - {id: platform:east_bridge_3_2, at: [14986, 2874], size: [2035, 256], rise: 24, facing: 93.01, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6443, top_heights: [24, 269, 269, 24]}
-      - {id: platform:east_bridge_4_1, at: [14377, 8157], size: [2108, 256], rise: 24, facing: 100.06, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6688, top_heights: [24, 29, 29, 24], notes: "link:east_bridge_4: rope bridge, 3895 rim to rim"}
-      - {id: platform:east_bridge_4_2, at: [14009, 10232], size: [2108, 256], rise: 24, facing: 100.06, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6693, top_heights: [24, 339, 339, 24]}
-      - {id: platform:stair_step1, at: [0, -18792], size: [512, 192], rise: 32, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6256}
-      - {id: platform:stair_step2, at: [0, -18984], size: [512, 192], rise: 32, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6224}
-      - {id: platform:stair_step3, at: [0, -19176], size: [512, 192], rise: 32, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6192}
-      - {id: platform:stair_step4, at: [0, -19368], size: [512, 192], rise: 32, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6160}
-      - {id: platform:stair_step5, at: [0, -19560], size: [512, 192], rise: 32, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6128}
-      - {id: platform:stair_step6, at: [0, -19752], size: [512, 192], rise: 32, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6096}
-      - {id: platform:stair_step7, at: [0, -19944], size: [512, 192], rise: 32, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6064}
-      - {id: platform:stair_step8, at: [0, -20136], size: [512, 192], rise: 32, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6032}
-      - {id: platform:lip_south, at: [0, -10784], size: [1024, 256], rise: 24, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6448, notes: "A cloud-stone lip at the unseen way's foot, by the 'Xeen--9N.' sign (D-50 change 1)."}
-      - {id: platform:lip_north, at: [0, -5921], size: [1024, 256], rise: 24, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6256, notes: "A cloud-stone lip at the unseen way's head, under 'Now entering Xeendom' (D-50 change 1)."}
-      - {id: platform:danger_sign_post, at: [640, -15232], size: [24, 24], rise: 256, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6320}
-      - {id: platform:danger_sign, at: [640, -15212], size: [224, 16], rise: 112, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6512, notes: "'Danger! Go back!' (aaze0027:7), on the neck to the brink."}
-      - {id: platform:nine_north_post, at: [-448, -10976], size: [24, 24], rise: 256, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6448}
-      - {id: platform:nine_north, at: [-448, -10956], size: [224, 16], rise: 112, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6640, notes: "'Xeen--9N.' (aaze0027:6), at the unseen way's foot."}
-      - {id: platform:xeendom_sign_post, at: [-448, -5665], size: [24, 24], rise: 256, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6256}
-      - {id: platform:xeendom_sign, at: [-448, -5645], size: [224, 16], rise: 112, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6448, notes: "'Now entering Xeendom' (aaze0027:8), at the unseen way's head."}
-      - {id: platform:aviary_sign_post, at: [11136, 12288], size: [24, 24], rise: 256, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 7024}
-      - {id: platform:aviary_sign, at: [11136, 12308], size: [224, 16], rise: 112, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, base: 7216, notes: "'Xeen's Aviary' (aaze0027:9), at the head of the aviary stair (D-47's relay)."}
-      - {id: platform:statue_1_plinth, at: [-6144, -16384], size: [160, 160], rise: 48, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6384}
-      - {id: platform:statue_2_plinth, at: [-8064, -18048], size: [160, 160], rise: 48, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6384}
-      - {id: platform:statue_3_plinth, at: [6144, -16384], size: [160, 160], rise: 48, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6384}
-      - {id: platform:statue_4_plinth, at: [8064, -18048], size: [160, 160], rise: 48, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6384}
-      - {id: platform:offering_1_plinth, at: [-15616, -9472], size: [192, 192], rise: 48, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6384}
-      - {id: platform:offering_2_plinth, at: [-16896, -2816], size: [192, 192], rise: 48, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6448}
-      - {id: platform:offering_3_plinth, at: [-17280, 4608], size: [192, 192], rise: 48, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6512}
-      - {id: platform:offering_4_plinth, at: [-16384, 11776], size: [192, 192], rise: 48, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6576}
-      - {id: platform:offering_5_plinth, at: [15488, -1792], size: [192, 192], rise: 48, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6512}
-      - {id: platform:offering_6_plinth, at: [15616, 6016], size: [192, 192], rise: 48, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6704}
-      - {id: platform:nest_sw, rise: 40, surface: {texture: gkp1flr, size: [128, 128]}, outline: [[-13382, -15168], [-13480, -14996], [-13660, -14914], [-13853, -14953], [-13987, -15099], [-14010, -15296], [-13912, -15468], [-13732, -15550], [-13539, -15511], [-13405, -15365]], top_surface: {texture: gkp1flr, size: [128, 128]}, base: 6512, notes: "A roc nest of whole branches and straw: 'Roc Nest. Destroy?' ('Roc Nest. Destroy?' (aaze0027:0))."}
-      - {id: platform:nest_se, rise: 40, surface: {texture: gkp1flr, size: [128, 128]}, outline: [[14010, -15168], [13912, -14996], [13732, -14914], [13539, -14953], [13405, -15099], [13382, -15296], [13480, -15468], [13660, -15550], [13853, -15511], [13987, -15365]], top_surface: {texture: gkp1flr, size: [128, 128]}, base: 6512, notes: "A roc nest of whole branches and straw: 'Roc Nest. Destroy?' ('Roc Nest. Destroy?' (aaze0027:0))."}
-      - {id: platform:nest_a1, rise: 40, surface: {texture: gkp1flr, size: [128, 128]}, outline: [[12858, 14272], [12760, 14444], [12580, 14526], [12387, 14487], [12253, 14341], [12230, 14144], [12328, 13972], [12508, 13890], [12701, 13929], [12835, 14075]], top_surface: {texture: gkp1flr, size: [128, 128]}, base: 7024, notes: "A roc nest of whole branches and straw: 'Roc Nest. Destroy?' ('Roc Nest. Destroy?' (aaze0027:0))."}
-      - {id: platform:nest_a2, rise: 40, surface: {texture: gkp1flr, size: [128, 128]}, outline: [[15546, 14016], [15448, 14188], [15268, 14270], [15075, 14231], [14941, 14085], [14918, 13888], [15016, 13716], [15196, 13634], [15389, 13673], [15523, 13819]], top_surface: {texture: gkp1flr, size: [128, 128]}, base: 7024, notes: "A roc nest of whole branches and straw: 'Roc Nest. Destroy?' ('Roc Nest. Destroy?' (aaze0027:0))."}
-      - {id: platform:nest_a3, rise: 40, surface: {texture: gkp1flr, size: [128, 128]}, outline: [[14522, 12096], [14424, 12268], [14244, 12350], [14051, 12311], [13917, 12165], [13894, 11968], [13992, 11796], [14172, 11714], [14365, 11753], [14499, 11899]], top_surface: {texture: gkp1flr, size: [128, 128]}, base: 7024, notes: "A roc nest of whole branches and straw: 'Roc Nest. Destroy?' ('Roc Nest. Destroy?' (aaze0027:0))."}
-      - {id: platform:aviary_spur_1, at: [15844, 13805], size: [448, 320], rise: 704, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 6960, top_size: [96, 64], notes: A broken rock spur round the rookery.}
-      - {id: platform:aviary_spur_2, at: [15383, 14512], size: [448, 320], rise: 928, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 6960, top_size: [96, 64], notes: A broken rock spur round the rookery.}
-      - {id: platform:aviary_spur_3, at: [14538, 15007], size: [448, 320], rise: 1152, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 6960, top_size: [96, 64], notes: A broken rock spur round the rookery.}
-      - {id: platform:aviary_spur_4, at: [13475, 15191], size: [448, 320], rise: 1376, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 6960, top_size: [96, 64], notes: A broken rock spur round the rookery.}
-      - {id: platform:aviary_spur_5, at: [12406, 15028], size: [448, 320], rise: 704, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 6960, top_size: [96, 64], notes: A broken rock spur round the rookery.}
-      - {id: platform:aviary_spur_6, at: [11541, 14551], size: [448, 320], rise: 928, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 6960, top_size: [96, 64], notes: A broken rock spur round the rookery.}
-      - {id: platform:aviary_spur_7, at: [11036, 13075], size: [448, 320], rise: 1376, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 6960, top_size: [96, 64], notes: A broken rock spur round the rookery.}
-      - {id: platform:aviary_spur_8, at: [11497, 12368], size: [448, 320], rise: 704, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 6960, top_size: [96, 64], notes: A broken rock spur round the rookery.}
-      - {id: platform:aviary_spur_9, at: [12342, 11873], size: [448, 320], rise: 928, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 6960, top_size: [96, 64], notes: A broken rock spur round the rookery.}
-      - {id: platform:aviary_spur_10, at: [15339, 12329], size: [448, 320], rise: 704, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 6960, top_size: [96, 64], notes: A broken rock spur round the rookery.}
-      - {id: platform:aviary_spur_11, at: [15828, 13026], size: [448, 320], rise: 928, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 6960, top_size: [96, 64], notes: A broken rock spur round the rookery.}
-      - {id: platform:dragon_skull, at: [21376, 18560], size: [1280, 1024], rise: 960, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 7984, top_size: [1024, 768], notes: "The dragon-head rock: the skull (Q-F1's landmark; the way down and the Eye in its south face)."}
-      - {id: platform:dragon_snout, at: [20352, 18496], size: [896, 640], rise: 384, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 8304, top_size: [768, 512], notes: "Its snout, raised toward the south-west."}
-      - {id: platform:dragon_jaw, at: [20480, 18496], size: [768, 576], rise: 224, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 8016, notes: Its jaw.}
-      - {id: platform:dragon_horn_1, at: [21632, 18880], size: [256, 256], rise: 640, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 8944, top_size: [32, 32], notes: A horn.}
-      - {id: platform:dragon_horn_2, at: [21632, 18112], size: [256, 256], rise: 640, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 8944, top_size: [32, 32], notes: A horn.}
-      - {id: platform:fd04_door, at: [21632, 18044], size: [256, 8], rise: 512, surface: {texture: cvdor1, size: [128, 256], fit: true}, end_surface: {texture: gcav1flr, size: [128, 128], fit: false}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 8048, notes: "The way down into the Dragon Tower (FD-04's entrance:x9_clouds; 'Descend into Dragon Tower?')."}
-      - {id: platform:fd04_step, at: [21632, 17912], size: [384, 256], rise: 16, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 8048, notes: The worn step before the door.}
-      - {id: platform:dragon_eye_ledge, at: [21056, 17984], size: [256, 128], rise: 32, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 8144, notes: "The Eye of the Dragon's ledge: the crystal on it is the Eye (A3's q-f1.eye)."}
-      - {id: platform:book_in, at: [19600, 17300], size: [160, 160], rise: 112, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: xnpbook, size: [160, 160], fit: true}, base: 8048, notes: An Ancient Book of the Dragon on a rock lectern (IN).}
-      - {id: platform:book_fi, at: [19712, 19200], size: [160, 160], rise: 112, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: xnpbook, size: [160, 160], fit: true}, base: 8048, notes: An Ancient Book of the Dragon on a rock lectern (FI).}
-      - {id: platform:book_ni, at: [21300, 19700], size: [160, 160], rise: 112, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: xnpbook, size: [160, 160], fit: true}, base: 8048, notes: An Ancient Book of the Dragon on a rock lectern (NI).}
-      - {id: platform:book_ty, at: [22450, 18300], size: [160, 160], rise: 112, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: xnpbook, size: [160, 160], fit: true}, base: 8048, notes: An Ancient Book of the Dragon on a rock lectern (TY).}
-      - {id: platform:ball_mind_plinth, at: [19350, 17900], size: [160, 160], rise: 112, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 8048, notes: The plinth of the Mind of the Dragon (a crystal ball).}
-      - {id: platform:ball_past_plinth, at: [19300, 18350], size: [160, 160], rise: 112, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 8048, notes: The plinth of the Past of the Dragon (a crystal ball).}
-      - {id: platform:ball_future_plinth, at: [19400, 18800], size: [160, 160], rise: 112, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 8048, notes: The plinth of the Future of the Dragon (a crystal ball).}
-      - {id: platform:well_curb_s, at: [21800, 17058], size: [448, 64], rise: 112, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 8048, notes: The well's curb.}
-      - {id: platform:well_curb_n, at: [21800, 17442], size: [448, 64], rise: 112, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 8048, notes: The well's curb.}
-      - {id: platform:well_curb_w, at: [21608, 17250], size: [64, 320], rise: 112, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 8048, notes: The well's curb.}
-      - {id: platform:well_curb_e, at: [21992, 17250], size: [64, 320], rise: 112, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 8048, notes: The well's curb.}
-      - {id: platform:well_water, at: [21800, 17250], size: [320, 320], rise: 64, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: wtrtyl, size: [128, 128], liquid: water}, base: 8048, notes: "The Well of Fantastic Skill: the water inside the curb."}
-      - {id: platform:plaza, rise: 16, surface: {texture: 7tws1f, size: [128, 128]}, outline: [[-2539, 4524], [-3064, 4526], [-3606, 4419], [-4207, 4243], [-4648, 3796], [-4972, 3234], [-5063, 2587], [-5040, 1924], [-4751, 1327], [-4125, 1028], [-3553, 882], [-3025, 898], [-2580, 758], [-2092, 735], [-1560, 783], [-1018, 985], [-424, 1296], [-30, 1853], [-56, 2533], [-120, 3186], [-498, 3721], [-918, 4166], [-1503, 4346], [-2011, 4523]], top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6448, notes: "Slick's plaza: cloud-stone flags laid on the cloud (6,144 x 4,608, D-50)."}
-      - {id: platform:booth_might, at: [-752, 1008], size: [1024, 256], rise: 112, facing: 45, surface: {texture: tentwal7b, size: [128, 256], scale: 2}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6464, notes: "The Might booth: the counter, skirted in MM6's striped tent canvas (clicked)."}
-      - {id: platform:booth_might_back, at: [-526, 782], size: [1024, 16], rise: 432, facing: 45, surface: {texture: tentwal7b, size: [128, 256], scale: 2}, end_surface: {texture: t66floor, size: [128, 128], fit: false}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6464, notes: The canvas back wall.}
-      - {id: platform:booth_might_post1, at: [-1197, 774], size: [24, 24], rise: 432, facing: 45, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6464}
-      - {id: platform:booth_might_post2, at: [-518, 1453], size: [24, 24], rise: 432, facing: 45, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6464}
+      - {id: platform:west_bridge_1_1, at: [-13889, -14076], size: [208, 256], rise: 24, facing: 110.56, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, base: 6496, notes: "link:west_bridge_1: rope bridge, 3648 rim to rim"}
+      - {id: platform:west_bridge_1_2, at: [-14239, -13144], size: [1784, 256], rise: 24, facing: 110.56, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6287, top_heights: [233, 24, 24, 233]}
+      - {id: platform:west_bridge_1_3, at: [-14866, -11473], size: [1784, 256], rise: 24, facing: 110.56, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6287, top_heights: [24, 105, 105, 24]}
+      - {id: platform:west_bridge_1_4, at: [-15213, -10548], size: [192, 256], rise: 24, facing: 110.56, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, base: 6368}
+      - {id: platform:west_bridge_2_1, at: [-15822, -8400], size: [192, 256], rise: 24, facing: 100.89, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, base: 6368, notes: "link:west_bridge_2: rope bridge, 3551 rim to rim"}
+      - {id: platform:west_bridge_2_2, at: [-16005, -7447], size: [1748, 256], rise: 24, facing: 100.89, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6258, top_heights: [134, 24, 24, 134]}
+      - {id: platform:west_bridge_2_3, at: [-16335, -5731], size: [1748, 256], rise: 24, facing: 100.89, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6258, top_heights: [24, 198, 198, 24]}
+      - {id: platform:west_bridge_2_4, at: [-16518, -4783], size: [184, 256], rise: 24, facing: 100.89, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, base: 6432}
+      - {id: platform:west_bridge_3_1, at: [-16896, -698], size: [184, 256], rise: 24, facing: 90, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, base: 6432, notes: "link:west_bridge_3: rope bridge, 3663 rim to rim"}
+      - {id: platform:west_bridge_3_2, at: [-16896, 298], size: [1808, 256], rise: 24, facing: 90, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6318, top_heights: [138, 24, 24, 138]}
+      - {id: platform:west_bridge_3_3, at: [-16896, 2106], size: [1808, 256], rise: 24, facing: 90, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6318, top_heights: [24, 202, 202, 24]}
+      - {id: platform:west_bridge_3_4, at: [-16896, 3102], size: [184, 256], rise: 24, facing: 90, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, base: 6496}
+      - {id: platform:west_bridge_4_1, at: [-16635, 5709], size: [192, 256], rise: 24, facing: 79.11, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, base: 6496, notes: "link:west_bridge_4: rope bridge, 3619 rim to rim"}
+      - {id: platform:west_bridge_4_2, at: [-16449, 6676], size: [1778, 256], rise: 24, facing: 79.11, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6384, top_heights: [136, 24, 24, 136]}
+      - {id: platform:west_bridge_4_3, at: [-16113, 8422], size: [1778, 256], rise: 24, facing: 79.11, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6384, top_heights: [24, 200, 200, 24]}
+      - {id: platform:west_bridge_4_4, at: [-15927, 9389], size: [192, 256], rise: 24, facing: 79.11, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, base: 6560}
+      - {id: platform:back_lot_bridge_1, at: [-13906, 10011], size: [192, 384], rise: 24, facing: -30.26, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, base: 6560, notes: "link:back_lot_bridge: rope bridge, 3399 rim to rim"}
+      - {id: platform:back_lot_bridge_2, at: [-13103, 9542], size: [1668, 384], rise: 24, facing: -30.26, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6393, top_heights: [191, 24, 24, 191]}
+      - {id: platform:back_lot_bridge_3, at: [-11662, 8702], size: [1668, 384], rise: 24, facing: -30.26, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6393, top_heights: [24, 127, 127, 24]}
+      - {id: platform:back_lot_bridge_4, at: [-10859, 8233], size: [192, 384], rise: 24, facing: -30.26, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, base: 6496}
+      - {id: platform:back_lot_neck, at: [-8377, 6654], size: [656, 1536], rise: 192, facing: -35.13, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, base: 6328, notes: "link:back_lot_neck: a waist of cloud, 3889 rim to rim"}
+      - {id: platform:back_lot_neck_2, at: [-6545, 5364], size: [3826, 1536], rise: 192, facing: -35.13, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, thickness: 192, base: 6264, top_heights: [256, 192, 192, 256]}
+      - {id: platform:back_lot_neck_3, at: [-4699, 4065], size: [688, 1536], rise: 192, facing: -35.13, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: xccloud, size: [256, 256], scale: 2}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, base: 6264}
+      - {id: platform:landing_road, at: [0, -2884], size: [384, 768], rise: 128, facing: 90, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: 7tws1f, size: [128, 128]}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, base: 6136, notes: "link:landing_road: the Xeen road, cloud-stone flags on a cloud tongue, 3750 rim to rim"}
+      - {id: platform:landing_road_2, at: [0, -961], size: [3463, 768], rise: 128, facing: 90, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: 7tws1f, size: [128, 128]}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, thickness: 128, base: 6136, top_heights: [128, 320, 320, 128]}
+      - {id: platform:landing_road_3, at: [0, 1043], size: [544, 768], rise: 128, facing: 90, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: 7tws1f, size: [128, 128]}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, base: 6328}
+      - {id: platform:xeen_road, at: [0, 3972], size: [760, 768], rise: 128, facing: 90, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: 7tws1f, size: [128, 128]}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, base: 6328, notes: "link:xeen_road: the Xeen road, cloud-stone flags on a cloud tongue, 4105 rim to rim"}
+      - {id: platform:xeen_road_2, at: [0, 6172], size: [3641, 768], rise: 128, facing: 90, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: 7tws1f, size: [128, 128]}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, thickness: 128, base: 6328, top_heights: [128, 384, 384, 128]}
+      - {id: platform:xeen_road_3, at: [0, 8165], size: [344, 768], rise: 128, facing: 90, surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, top_surface: {texture: 7tws1f, size: [128, 128]}, bottom_surface: {texture: xccloudsd, size: [256, 256], scale: 2, uneven: true}, base: 6584}
+      - {id: platform:aviary_stair, at: [6245, 14990], size: [392, 512], rise: 96, facing: -12.16, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, bottom_surface: {texture: 7tws1f, size: [128, 128]}, base: 6680, notes: "link:aviary_stair: the aviary's cloud-stone stair, 4137 rim to rim, rising 256"}
+      - {id: platform:aviary_stair_2, at: [8404, 14525], size: [4026, 512], rise: 96, facing: -12.16, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, bottom_surface: {texture: 7tws1f, size: [128, 128]}, thickness: 96, base: 6680, top_heights: [96, 352, 352, 96]}
+      - {id: platform:aviary_stair_3, at: [10548, 14063], size: [360, 512], rise: 96, facing: -12.16, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, bottom_surface: {texture: 7tws1f, size: [128, 128]}, base: 6936}
+      - {id: platform:east_bridge_1_1, at: [13626, -14073], size: [184, 256], rise: 24, facing: 78.49, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, base: 6496, notes: "link:east_bridge_1: rope bridge, 3880 rim to rim"}
+      - {id: platform:east_bridge_1_2, at: [13835, -13050], size: [1904, 256], rise: 24, facing: 78.49, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6277, top_heights: [243, 24, 24, 243]}
+      - {id: platform:east_bridge_1_3, at: [14215, -11184], size: [1904, 256], rise: 24, facing: 78.49, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6277, top_heights: [24, 115, 115, 24]}
+      - {id: platform:east_bridge_1_4, at: [14426, -10149], size: [208, 256], rise: 24, facing: 78.49, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, base: 6368}
+      - {id: platform:east_bridge_2_1, at: [14817, -7398], size: [184, 256], rise: 24, facing: 85.76, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, base: 6368, notes: "link:east_bridge_2: rope bridge, 3765 rim to rim"}
+      - {id: platform:east_bridge_2_2, at: [14892, -6383], size: [1851, 256], rise: 24, facing: 85.76, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6282, top_heights: [110, 24, 24, 110]}
+      - {id: platform:east_bridge_2_3, at: [15029, -4537], size: [1851, 256], rise: 24, facing: 85.76, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6282, top_heights: [24, 238, 238, 24]}
+      - {id: platform:east_bridge_2_4, at: [15104, -3515], size: [200, 256], rise: 24, facing: 85.76, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, base: 6496}
+      - {id: platform:east_bridge_3_1, at: [15142, -82], size: [184, 256], rise: 24, facing: 93.01, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, base: 6496, notes: "link:east_bridge_3: rope bridge, 3749 rim to rim"}
+      - {id: platform:east_bridge_3_2, at: [15089, 932], size: [1847, 256], rise: 24, facing: 93.01, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6443, top_heights: [77, 24, 24, 77]}
+      - {id: platform:east_bridge_3_3, at: [14992, 2776], size: [1847, 256], rise: 24, facing: 93.01, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6443, top_heights: [24, 269, 269, 24]}
+      - {id: platform:east_bridge_3_4, at: [14938, 3794], size: [192, 256], rise: 24, facing: 93.01, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, base: 6688}
+      - {id: platform:east_bridge_4_1, at: [14545, 7210], size: [184, 256], rise: 24, facing: 100.06, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, base: 6688, notes: "link:east_bridge_4: rope bridge, 3895 rim to rim"}
+      - {id: platform:east_bridge_4_2, at: [14361, 8248], size: [1924, 256], rise: 24, facing: 100.06, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6688, top_heights: [24, 29, 29, 24]}
+      - {id: platform:east_bridge_4_3, at: [14025, 10142], size: [1924, 256], rise: 24, facing: 100.06, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, thickness: 24, base: 6693, top_heights: [24, 339, 339, 24]}
+      - {id: platform:east_bridge_4_4, at: [13841, 11179], size: [184, 256], rise: 24, facing: 100.06, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, base: 7008}
+      - {id: platform:stair_step1, at: [0, -18792], size: [512, 192], rise: 40, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6248}
+      - {id: platform:stair_step2, at: [0, -18984], size: [512, 192], rise: 40, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6216}
+      - {id: platform:stair_step3, at: [0, -19176], size: [512, 192], rise: 40, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6184}
+      - {id: platform:stair_step4, at: [0, -19368], size: [512, 192], rise: 40, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6152}
+      - {id: platform:stair_step5, at: [0, -19560], size: [512, 192], rise: 40, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6120}
+      - {id: platform:stair_step6, at: [0, -19752], size: [512, 192], rise: 40, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6088}
+      - {id: platform:stair_step7, at: [0, -19944], size: [512, 192], rise: 40, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6056}
+      - {id: platform:stair_step8, at: [0, -20136], size: [512, 192], rise: 40, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6024}
+      - {id: platform:lip_south, at: [0, -10784], size: [1024, 256], rise: 32, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6440, notes: "A cloud-stone lip at the unseen way's foot, by the 'Xeen--9N.' sign (D-50 change 1)."}
+      - {id: platform:lip_north, at: [0, -5921], size: [1024, 256], rise: 32, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6248, notes: "A cloud-stone lip at the unseen way's head, under 'Now entering Xeendom' (D-50 change 1)."}
+      - {id: platform:danger_sign_post, at: [640, -15232], size: [24, 24], rise: 264, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6312}
+      - {id: platform:danger_sign, at: [640, -15212], size: [224, 16], rise: 120, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6504, notes: "'Danger! Go back!' (aaze0027:7), on the neck to the brink."}
+      - {id: platform:nine_north_post, at: [-448, -10976], size: [24, 24], rise: 264, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6440}
+      - {id: platform:nine_north, at: [-448, -10956], size: [224, 16], rise: 120, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6632, notes: "'Xeen--9N.' (aaze0027:6), at the unseen way's foot."}
+      - {id: platform:xeendom_sign_post, at: [-448, -5665], size: [24, 24], rise: 264, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6248}
+      - {id: platform:xeendom_sign, at: [-448, -5645], size: [224, 16], rise: 120, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6440, notes: "'Now entering Xeendom' (aaze0027:8), at the unseen way's head."}
+      - {id: platform:aviary_sign_post, at: [11136, 12288], size: [24, 24], rise: 264, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 7016}
+      - {id: platform:aviary_sign, at: [11136, 12308], size: [224, 16], rise: 120, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, base: 7208, notes: "'Xeen's Aviary' (aaze0027:9), at the head of the aviary stair (D-47's relay)."}
+      - {id: platform:statue_1_plinth, at: [-6144, -16384], size: [160, 160], rise: 56, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6376}
+      - {id: platform:statue_2_plinth, at: [-8064, -18048], size: [160, 160], rise: 56, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6376}
+      - {id: platform:statue_3_plinth, at: [6144, -16384], size: [160, 160], rise: 56, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6376}
+      - {id: platform:statue_4_plinth, at: [8064, -18048], size: [160, 160], rise: 56, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6376}
+      - {id: platform:offering_1_plinth, at: [-15616, -9472], size: [192, 192], rise: 56, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6376}
+      - {id: platform:offering_2_plinth, at: [-16896, -2816], size: [192, 192], rise: 56, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6440}
+      - {id: platform:offering_3_plinth, at: [-17280, 4608], size: [192, 192], rise: 56, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6504}
+      - {id: platform:offering_4_plinth, at: [-16384, 11776], size: [192, 192], rise: 56, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6568}
+      - {id: platform:offering_5_plinth, at: [15488, -1792], size: [192, 192], rise: 56, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6504}
+      - {id: platform:offering_6_plinth, at: [15616, 6016], size: [192, 192], rise: 56, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6696}
+      - {id: platform:nest_sw, rise: 48, surface: {texture: gkp1flr, size: [128, 128]}, outline: [[-13382, -15168], [-13480, -14996], [-13660, -14914], [-13853, -14953], [-13987, -15099], [-14010, -15296], [-13912, -15468], [-13732, -15550], [-13539, -15511], [-13405, -15365]], top_surface: {texture: gkp1flr, size: [128, 128]}, base: 6504, notes: "A roc nest of whole branches and straw: 'Roc Nest. Destroy?' ('Roc Nest. Destroy?' (aaze0027:0))."}
+      - {id: platform:nest_se, rise: 48, surface: {texture: gkp1flr, size: [128, 128]}, outline: [[14010, -15168], [13912, -14996], [13732, -14914], [13539, -14953], [13405, -15099], [13382, -15296], [13480, -15468], [13660, -15550], [13853, -15511], [13987, -15365]], top_surface: {texture: gkp1flr, size: [128, 128]}, base: 6504, notes: "A roc nest of whole branches and straw: 'Roc Nest. Destroy?' ('Roc Nest. Destroy?' (aaze0027:0))."}
+      - {id: platform:nest_a1, rise: 48, surface: {texture: gkp1flr, size: [128, 128]}, outline: [[12858, 14272], [12760, 14444], [12580, 14526], [12387, 14487], [12253, 14341], [12230, 14144], [12328, 13972], [12508, 13890], [12701, 13929], [12835, 14075]], top_surface: {texture: gkp1flr, size: [128, 128]}, base: 7016, notes: "A roc nest of whole branches and straw: 'Roc Nest. Destroy?' ('Roc Nest. Destroy?' (aaze0027:0))."}
+      - {id: platform:nest_a2, rise: 48, surface: {texture: gkp1flr, size: [128, 128]}, outline: [[15546, 14016], [15448, 14188], [15268, 14270], [15075, 14231], [14941, 14085], [14918, 13888], [15016, 13716], [15196, 13634], [15389, 13673], [15523, 13819]], top_surface: {texture: gkp1flr, size: [128, 128]}, base: 7016, notes: "A roc nest of whole branches and straw: 'Roc Nest. Destroy?' ('Roc Nest. Destroy?' (aaze0027:0))."}
+      - {id: platform:nest_a3, rise: 48, surface: {texture: gkp1flr, size: [128, 128]}, outline: [[14522, 12096], [14424, 12268], [14244, 12350], [14051, 12311], [13917, 12165], [13894, 11968], [13992, 11796], [14172, 11714], [14365, 11753], [14499, 11899]], top_surface: {texture: gkp1flr, size: [128, 128]}, base: 7016, notes: "A roc nest of whole branches and straw: 'Roc Nest. Destroy?' ('Roc Nest. Destroy?' (aaze0027:0))."}
+      - {id: platform:aviary_spur_1, at: [15844, 13805], size: [448, 320], rise: 712, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 6952, top_size: [96, 64], notes: A broken rock spur round the rookery.}
+      - {id: platform:aviary_spur_2, at: [15383, 14512], size: [448, 320], rise: 936, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 6952, top_size: [96, 64], notes: A broken rock spur round the rookery.}
+      - {id: platform:aviary_spur_3, at: [14538, 15007], size: [448, 320], rise: 1160, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 6952, top_size: [96, 64], notes: A broken rock spur round the rookery.}
+      - {id: platform:aviary_spur_4, at: [13475, 15191], size: [448, 320], rise: 1384, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 6952, top_size: [96, 64], notes: A broken rock spur round the rookery.}
+      - {id: platform:aviary_spur_5, at: [12406, 15028], size: [448, 320], rise: 712, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 6952, top_size: [96, 64], notes: A broken rock spur round the rookery.}
+      - {id: platform:aviary_spur_6, at: [11541, 14551], size: [448, 320], rise: 936, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 6952, top_size: [96, 64], notes: A broken rock spur round the rookery.}
+      - {id: platform:aviary_spur_7, at: [11036, 13075], size: [448, 320], rise: 1384, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 6952, top_size: [96, 64], notes: A broken rock spur round the rookery.}
+      - {id: platform:aviary_spur_8, at: [11497, 12368], size: [448, 320], rise: 712, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 6952, top_size: [96, 64], notes: A broken rock spur round the rookery.}
+      - {id: platform:aviary_spur_9, at: [12342, 11873], size: [448, 320], rise: 936, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 6952, top_size: [96, 64], notes: A broken rock spur round the rookery.}
+      - {id: platform:aviary_spur_10, at: [15339, 12329], size: [448, 320], rise: 712, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 6952, top_size: [96, 64], notes: A broken rock spur round the rookery.}
+      - {id: platform:aviary_spur_11, at: [15828, 13026], size: [448, 320], rise: 936, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 6952, top_size: [96, 64], notes: A broken rock spur round the rookery.}
+      - {id: platform:dragon_skull, at: [21376, 18560], size: [1280, 1024], rise: 968, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 7976, top_size: [1024, 768], notes: "The dragon-head rock: the skull (Q-F1's landmark; the way down and the Eye in its south face)."}
+      - {id: platform:dragon_snout, at: [20352, 18496], size: [896, 640], rise: 392, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 8296, top_size: [768, 512], notes: "Its snout, raised toward the south-west."}
+      - {id: platform:dragon_jaw, at: [20480, 18496], size: [768, 576], rise: 232, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 8008, notes: Its jaw.}
+      - {id: platform:dragon_horn_1, at: [21632, 18880], size: [256, 256], rise: 648, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 8936, top_size: [32, 32], notes: A horn.}
+      - {id: platform:dragon_horn_2, at: [21632, 18112], size: [256, 256], rise: 648, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 8936, top_size: [32, 32], notes: A horn.}
+      - {id: platform:fd04_door, at: [21632, 18044], size: [256, 8], rise: 520, surface: {texture: cvdor1, size: [128, 256], fit: true}, end_surface: {texture: gcav1flr, size: [128, 128], fit: false}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 8040, notes: "The way down into the Dragon Tower (FD-04's entrance:x9_clouds; 'Descend into Dragon Tower?')."}
+      - {id: platform:fd04_step, at: [21632, 17912], size: [384, 256], rise: 24, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 8040, notes: The worn step before the door.}
+      - {id: platform:dragon_eye_ledge, at: [21056, 17984], size: [256, 128], rise: 40, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: gcav1flr, size: [128, 128]}, base: 8136, notes: "The Eye of the Dragon's ledge: the crystal on it is the Eye (A3's q-f1.eye)."}
+      - {id: platform:book_in, at: [19600, 17300], size: [160, 160], rise: 120, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: xnpbook, size: [160, 160], fit: true}, base: 8040, notes: An Ancient Book of the Dragon on a rock lectern (IN).}
+      - {id: platform:book_fi, at: [19712, 19200], size: [160, 160], rise: 120, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: xnpbook, size: [160, 160], fit: true}, base: 8040, notes: An Ancient Book of the Dragon on a rock lectern (FI).}
+      - {id: platform:book_ni, at: [21300, 19700], size: [160, 160], rise: 120, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: xnpbook, size: [160, 160], fit: true}, base: 8040, notes: An Ancient Book of the Dragon on a rock lectern (NI).}
+      - {id: platform:book_ty, at: [22450, 18300], size: [160, 160], rise: 120, surface: {texture: gcav1flr, size: [128, 128]}, top_surface: {texture: xnpbook, size: [160, 160], fit: true}, base: 8040, notes: An Ancient Book of the Dragon on a rock lectern (TY).}
+      - {id: platform:ball_mind_plinth, at: [19350, 17900], size: [160, 160], rise: 120, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 8040, notes: The plinth of the Mind of the Dragon (a crystal ball).}
+      - {id: platform:ball_past_plinth, at: [19300, 18350], size: [160, 160], rise: 120, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 8040, notes: The plinth of the Past of the Dragon (a crystal ball).}
+      - {id: platform:ball_future_plinth, at: [19400, 18800], size: [160, 160], rise: 120, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 8040, notes: The plinth of the Future of the Dragon (a crystal ball).}
+      - {id: platform:well_curb_s, at: [21800, 17058], size: [448, 64], rise: 120, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 8040, notes: The well's curb.}
+      - {id: platform:well_curb_n, at: [21800, 17442], size: [448, 64], rise: 120, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 8040, notes: The well's curb.}
+      - {id: platform:well_curb_w, at: [21608, 17250], size: [64, 320], rise: 120, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 8040, notes: The well's curb.}
+      - {id: platform:well_curb_e, at: [21992, 17250], size: [64, 320], rise: 120, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 8040, notes: The well's curb.}
+      - {id: platform:well_water, at: [21800, 17250], size: [320, 320], rise: 72, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: wtrtyl, size: [128, 128], liquid: water}, base: 8040, notes: "The Well of Fantastic Skill: the water inside the curb."}
+      - {id: platform:plaza, rise: 24, surface: {texture: 7tws1f, size: [128, 128]}, outline: [[-2539, 4524], [-3064, 4526], [-3606, 4419], [-4207, 4243], [-4648, 3796], [-4972, 3234], [-5063, 2587], [-5040, 1924], [-4751, 1327], [-4125, 1028], [-3553, 882], [-3025, 898], [-2580, 758], [-2092, 735], [-1560, 783], [-1018, 985], [-424, 1296], [-30, 1853], [-56, 2533], [-120, 3186], [-498, 3721], [-918, 4166], [-1503, 4346], [-2011, 4523]], top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6440, notes: "Slick's plaza: cloud-stone flags laid on the cloud (6,144 x 4,608, D-50)."}
+      - {id: platform:booth_might, at: [-752, 1008], size: [1024, 256], rise: 120, facing: 45, surface: {texture: tentwal7b, size: [128, 256], scale: 2}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6456, notes: "The Might booth: the counter, skirted in MM6's striped tent canvas (clicked)."}
+      - {id: platform:booth_might_back, at: [-526, 782], size: [1024, 16], rise: 440, facing: 45, surface: {texture: tentwal7b, size: [128, 256], scale: 2}, end_surface: {texture: t66floor, size: [128, 128], fit: false}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6456, notes: The canvas back wall.}
+      - {id: platform:booth_might_post1, at: [-1197, 774], size: [24, 24], rise: 440, facing: 45, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6456}
+      - {id: platform:booth_might_post2, at: [-518, 1453], size: [24, 24], rise: 440, facing: 45, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6456}
       - {id: platform:booth_might_awning, at: [-699, 955], size: [1024, 496], rise: 16, facing: 45, surface: {texture: tentwal7b, size: [128, 256], scale: 4}, end_surface: {texture: tentwal7b, size: [128, 256], scale: 4, fit: false}, top_surface: {texture: tentwal7b, size: [128, 256], scale: 4}, bottom_surface: {texture: tentwal7b, size: [128, 256], scale: 4}, base: 6896, notes: The striped awning.}
-      - {id: platform:booth_might_hem, at: [-877, 1133], size: [1008, 8], rise: 96, facing: 45, surface: {texture: tentwal7a, size: [128, 256]}, top_surface: {texture: tentwal7a, size: [128, 256]}, base: 6816, notes: The awning's scalloped hem.}
-      - {id: platform:booth_speed, at: [-1344, 4301], size: [1024, 256], rise: 112, facing: -210, surface: {texture: tentwal7b, size: [128, 256], scale: 2}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6464, notes: "The Speed booth: the counter, skirted in MM6's striped tent canvas (clicked)."}
-      - {id: platform:booth_speed_back, at: [-1184, 4578], size: [1024, 16], rise: 432, facing: -210, surface: {texture: tentwal7b, size: [128, 256], scale: 2}, end_surface: {texture: t66floor, size: [128, 128], fit: false}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6464, notes: The canvas back wall.}
-      - {id: platform:booth_speed_post1, at: [-1002, 3932], size: [24, 24], rise: 432, facing: -210, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6464}
-      - {id: platform:booth_speed_post2, at: [-1834, 4412], size: [24, 24], rise: 432, facing: -210, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6464}
+      - {id: platform:booth_might_hem, at: [-877, 1133], size: [1008, 8], rise: 104, facing: 45, surface: {texture: tentwal7a, size: [128, 256]}, top_surface: {texture: tentwal7a, size: [128, 256]}, base: 6808, notes: The awning's scalloped hem.}
+      - {id: platform:booth_speed, at: [-1344, 4301], size: [1024, 256], rise: 120, facing: -210, surface: {texture: tentwal7b, size: [128, 256], scale: 2}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6456, notes: "The Speed booth: the counter, skirted in MM6's striped tent canvas (clicked)."}
+      - {id: platform:booth_speed_back, at: [-1184, 4578], size: [1024, 16], rise: 440, facing: -210, surface: {texture: tentwal7b, size: [128, 256], scale: 2}, end_surface: {texture: t66floor, size: [128, 128], fit: false}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6456, notes: The canvas back wall.}
+      - {id: platform:booth_speed_post1, at: [-1002, 3932], size: [24, 24], rise: 440, facing: -210, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6456}
+      - {id: platform:booth_speed_post2, at: [-1834, 4412], size: [24, 24], rise: 440, facing: -210, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6456}
       - {id: platform:booth_speed_awning, at: [-1306, 4366], size: [1024, 496], rise: 16, facing: -210, surface: {texture: tentwal7b, size: [128, 256], scale: 4}, end_surface: {texture: tentwal7b, size: [128, 256], scale: 4, fit: false}, top_surface: {texture: tentwal7b, size: [128, 256], scale: 4}, bottom_surface: {texture: tentwal7b, size: [128, 256], scale: 4}, base: 6896, notes: The striped awning.}
-      - {id: platform:booth_speed_hem, at: [-1432, 4148], size: [1008, 8], rise: 96, facing: -210, surface: {texture: tentwal7a, size: [128, 256]}, top_surface: {texture: tentwal7a, size: [128, 256]}, base: 6816, notes: The awning's scalloped hem.}
-      - {id: platform:booth_endurance, at: [-4685, 4032], size: [1024, 256], rise: 112, facing: -120, surface: {texture: tentwal7b, size: [128, 256], scale: 2}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6464, notes: "The Endurance booth: the counter, skirted in MM6's striped tent canvas (clicked)."}
-      - {id: platform:booth_endurance_back, at: [-4962, 4192], size: [1024, 16], rise: 432, facing: -120, surface: {texture: tentwal7b, size: [128, 256], scale: 2}, end_surface: {texture: t66floor, size: [128, 128], fit: false}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6464, notes: The canvas back wall.}
-      - {id: platform:booth_endurance_post1, at: [-4316, 4374], size: [24, 24], rise: 432, facing: -120, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6464}
-      - {id: platform:booth_endurance_post2, at: [-4796, 3542], size: [24, 24], rise: 432, facing: -120, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6464}
+      - {id: platform:booth_speed_hem, at: [-1432, 4148], size: [1008, 8], rise: 104, facing: -210, surface: {texture: tentwal7a, size: [128, 256]}, top_surface: {texture: tentwal7a, size: [128, 256]}, base: 6808, notes: The awning's scalloped hem.}
+      - {id: platform:booth_endurance, at: [-4685, 4032], size: [1024, 256], rise: 120, facing: -120, surface: {texture: tentwal7b, size: [128, 256], scale: 2}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6456, notes: "The Endurance booth: the counter, skirted in MM6's striped tent canvas (clicked)."}
+      - {id: platform:booth_endurance_back, at: [-4962, 4192], size: [1024, 16], rise: 440, facing: -120, surface: {texture: tentwal7b, size: [128, 256], scale: 2}, end_surface: {texture: t66floor, size: [128, 128], fit: false}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6456, notes: The canvas back wall.}
+      - {id: platform:booth_endurance_post1, at: [-4316, 4374], size: [24, 24], rise: 440, facing: -120, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6456}
+      - {id: platform:booth_endurance_post2, at: [-4796, 3542], size: [24, 24], rise: 440, facing: -120, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6456}
       - {id: platform:booth_endurance_awning, at: [-4750, 4070], size: [1024, 496], rise: 16, facing: -120, surface: {texture: tentwal7b, size: [128, 256], scale: 4}, end_surface: {texture: tentwal7b, size: [128, 256], scale: 4, fit: false}, top_surface: {texture: tentwal7b, size: [128, 256], scale: 4}, bottom_surface: {texture: tentwal7b, size: [128, 256], scale: 4}, base: 6896, notes: The striped awning.}
-      - {id: platform:booth_endurance_hem, at: [-4532, 3944], size: [1008, 8], rise: 96, facing: -120, surface: {texture: tentwal7a, size: [128, 256]}, top_surface: {texture: tentwal7a, size: [128, 256]}, base: 6816, notes: The awning's scalloped hem.}
-      - {id: platform:booth_accuracy, at: [-3328, 1536], size: [1024, 256], rise: 112, facing: 90, surface: {texture: tentwal7b, size: [128, 256], scale: 2}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6464, notes: "The Accuracy booth: the counter, skirted in MM6's striped tent canvas (clicked)."}
-      - {id: platform:booth_accuracy_back, at: [-3008, 1536], size: [1024, 16], rise: 432, facing: 90, surface: {texture: tentwal7b, size: [128, 256], scale: 2}, end_surface: {texture: t66floor, size: [128, 128], fit: false}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6464, notes: The canvas back wall.}
-      - {id: platform:booth_accuracy_post1, at: [-3476, 1056], size: [24, 24], rise: 432, facing: 90, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6464}
-      - {id: platform:booth_accuracy_post2, at: [-3476, 2016], size: [24, 24], rise: 432, facing: 90, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6464}
+      - {id: platform:booth_endurance_hem, at: [-4532, 3944], size: [1008, 8], rise: 104, facing: -120, surface: {texture: tentwal7a, size: [128, 256]}, top_surface: {texture: tentwal7a, size: [128, 256]}, base: 6808, notes: The awning's scalloped hem.}
+      - {id: platform:booth_accuracy, at: [-3328, 1536], size: [1024, 256], rise: 120, facing: 90, surface: {texture: tentwal7b, size: [128, 256], scale: 2}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6456, notes: "The Accuracy booth: the counter, skirted in MM6's striped tent canvas (clicked)."}
+      - {id: platform:booth_accuracy_back, at: [-3008, 1536], size: [1024, 16], rise: 440, facing: 90, surface: {texture: tentwal7b, size: [128, 256], scale: 2}, end_surface: {texture: t66floor, size: [128, 128], fit: false}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6456, notes: The canvas back wall.}
+      - {id: platform:booth_accuracy_post1, at: [-3476, 1056], size: [24, 24], rise: 440, facing: 90, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6456}
+      - {id: platform:booth_accuracy_post2, at: [-3476, 2016], size: [24, 24], rise: 440, facing: 90, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6456}
       - {id: platform:booth_accuracy_awning, at: [-3252, 1536], size: [1024, 496], rise: 16, facing: 90, surface: {texture: tentwal7b, size: [128, 256], scale: 4}, end_surface: {texture: tentwal7b, size: [128, 256], scale: 4, fit: false}, top_surface: {texture: tentwal7b, size: [128, 256], scale: 4}, bottom_surface: {texture: tentwal7b, size: [128, 256], scale: 4}, base: 6896, notes: The striped awning.}
-      - {id: platform:booth_accuracy_hem, at: [-3504, 1536], size: [1008, 8], rise: 96, facing: 90, surface: {texture: tentwal7a, size: [128, 256]}, top_surface: {texture: tentwal7a, size: [128, 256]}, base: 6816, notes: The awning's scalloped hem.}
-      - {id: platform:striker_pad, at: [-390, 1642], size: [160, 160], rise: 24, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6464, notes: The striking pad.}
-      - {id: platform:striker_pole, at: [-390, 1642], size: [32, 32], rise: 1024, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6488, notes: "The high-striker's pole, standing on its pad."}
-      - {id: platform:striker_bell, at: [-390, 1642], size: [40, 40], rise: 48, surface: {texture: xngong5, size: [128, 32]}, top_surface: {texture: xngong5, size: [128, 32]}, base: 7512, notes: The bell on the pole's top (DING).}
-      - {id: platform:track, at: [-1374, 2840], size: [1536, 256], rise: 8, facing: -120, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6464, notes: "The gremlin's race track, 1,536 long."}
-      - {id: platform:track_post_1a, at: [-852, 3425], size: [24, 24], rise: 256, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6464}
-      - {id: platform:track_post_1b, at: [-1129, 3585], size: [24, 24], rise: 256, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6464}
-      - {id: platform:track_post_2a, at: [-1620, 2095], size: [24, 24], rise: 256, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6464}
-      - {id: platform:track_post_2b, at: [-1897, 2255], size: [24, 24], rise: 256, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6464}
-      - {id: platform:treadmill, at: [-4847, 3239], size: [512, 288], rise: 48, facing: -120, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6464, notes: The treadmill.}
-      - {id: platform:treadmill_post_a, at: [-4735, 3433], size: [24, 24], rise: 192, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6512}
-      - {id: platform:treadmill_post_b, at: [-4959, 3045], size: [24, 24], rise: 192, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6512}
-      - {id: platform:shooting_line, at: [-3776, 1536], size: [32, 768], rise: 8, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6464, notes: The shooting line.}
-      - {id: platform:bullseye_bale, at: [-5248, 1536], size: [96, 288], rise: 96, surface: {texture: gkp1flr, size: [128, 128]}, top_surface: {texture: gkp1flr, size: [128, 128]}, base: 6448, notes: A straw bale under the target.}
-      - {id: platform:bullseye, at: [-5248, 1536], size: [16, 256], rise: 256, surface: {texture: xctarget, size: [128, 128], fit: true}, end_surface: {texture: t66floor, size: [128, 128], fit: false}, top_surface: {texture: t66floor, size: [128, 128], fit: false}, base: 6544, notes: "The straw bullseye (xctarget), its face toward the line, 1,536 east."}
-      - {id: platform:prize_stand, at: [-1152, 9472], size: [1024, 256], rise: 112, facing: -90, surface: {texture: tentwal7b, size: [128, 256], scale: 2}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6704, notes: "Slick's prize stand: the counter, skirted in MM6's striped tent canvas (clicked)."}
-      - {id: platform:doll_shelf_post1, at: [-1564, 9928], size: [16, 16], rise: 192, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6704}
-      - {id: platform:doll_shelf_post2, at: [-1540, 9928], size: [16, 16], rise: 192, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6704}
-      - {id: platform:doll_shelf_post3, at: [-1564, 9016], size: [16, 16], rise: 192, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6704}
-      - {id: platform:doll_shelf_post4, at: [-1540, 9016], size: [16, 16], rise: 192, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6704}
-      - {id: platform:doll_shelf, at: [-1552, 9472], size: [960, 48], rise: 16, facing: -90, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6896, notes: The doll shelf on its two posts behind Slick.}
+      - {id: platform:booth_accuracy_hem, at: [-3504, 1536], size: [1008, 8], rise: 104, facing: 90, surface: {texture: tentwal7a, size: [128, 256]}, top_surface: {texture: tentwal7a, size: [128, 256]}, base: 6808, notes: The awning's scalloped hem.}
+      - {id: platform:striker_pad, at: [-390, 1642], size: [160, 160], rise: 32, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6456, notes: The striking pad.}
+      - {id: platform:striker_pole, at: [-390, 1642], size: [32, 32], rise: 1032, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6480, notes: "The high-striker's pole, standing on its pad."}
+      - {id: platform:striker_bell, at: [-390, 1642], size: [40, 40], rise: 56, surface: {texture: xngong5, size: [128, 32]}, top_surface: {texture: xngong5, size: [128, 32]}, base: 7504, notes: The bell on the pole's top (DING).}
+      - {id: platform:track, at: [-1374, 2840], size: [1536, 256], rise: 16, facing: -120, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6456, notes: "The gremlin's race track, 1,536 long."}
+      - {id: platform:track_post_1a, at: [-852, 3425], size: [24, 24], rise: 264, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6456}
+      - {id: platform:track_post_1b, at: [-1129, 3585], size: [24, 24], rise: 264, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6456}
+      - {id: platform:track_post_2a, at: [-1620, 2095], size: [24, 24], rise: 264, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6456}
+      - {id: platform:track_post_2b, at: [-1897, 2255], size: [24, 24], rise: 264, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6456}
+      - {id: platform:treadmill, at: [-4847, 3239], size: [512, 288], rise: 56, facing: -120, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6456, notes: The treadmill.}
+      - {id: platform:treadmill_post_a, at: [-4735, 3433], size: [24, 24], rise: 200, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6504}
+      - {id: platform:treadmill_post_b, at: [-4959, 3045], size: [24, 24], rise: 200, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6504}
+      - {id: platform:shooting_line, at: [-3776, 1536], size: [32, 768], rise: 16, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6456, notes: The shooting line.}
+      - {id: platform:bullseye_bale, at: [-5248, 1536], size: [96, 288], rise: 104, surface: {texture: gkp1flr, size: [128, 128]}, top_surface: {texture: gkp1flr, size: [128, 128]}, base: 6440, notes: A straw bale under the target.}
+      - {id: platform:bullseye, at: [-5248, 1536], size: [16, 256], rise: 264, surface: {texture: xctarget, size: [128, 128], fit: true}, end_surface: {texture: t66floor, size: [128, 128], fit: false}, top_surface: {texture: t66floor, size: [128, 128], fit: false}, base: 6536, notes: "The straw bullseye (xctarget), its face toward the line, 1,536 east."}
+      - {id: platform:prize_stand, at: [-1152, 9472], size: [1024, 256], rise: 120, facing: -90, surface: {texture: tentwal7b, size: [128, 256], scale: 2}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6696, notes: "Slick's prize stand: the counter, skirted in MM6's striped tent canvas (clicked)."}
+      - {id: platform:doll_shelf_post1, at: [-1564, 9928], size: [16, 16], rise: 200, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6696}
+      - {id: platform:doll_shelf_post2, at: [-1540, 9928], size: [16, 16], rise: 200, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6696}
+      - {id: platform:doll_shelf_post3, at: [-1564, 9016], size: [16, 16], rise: 200, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6696}
+      - {id: platform:doll_shelf_post4, at: [-1540, 9016], size: [16, 16], rise: 200, surface: {texture: hwm2rf, size: [128, 128]}, top_surface: {texture: hwm2rf, size: [128, 128]}, base: 6696}
+      - {id: platform:doll_shelf, at: [-1552, 9472], size: [960, 48], rise: 24, facing: -90, surface: {texture: t66floor, size: [128, 128]}, top_surface: {texture: t66floor, size: [128, 128]}, base: 6888, notes: The doll shelf on its two posts behind Slick.}
       - {id: platform:castle_walls, rise: 3392, surface: {texture: gnecwal1, size: [256, 256]}, outline: [[-5120, 11296], [-384, 11296], [-384, 11776], [384, 11776], [384, 11296], [5120, 11296], [5120, 21376], [-5120, 21376]], top_surface: {texture: gnecwal1, size: [256, 256]}, base: 6704, notes: "Castle Xeen's curtain walls and roof over XD-19's footprint, black stone (MM8 d35 gnecwal1); the gate's recess 768 wide in the south wall, its back the gate wall at y 11776.0."}
       - {id: platform:castle_frieze, rise: 256, surface: {texture: gnecwalt, size: [256, 256]}, outline: [[-5120, 11296], [5120, 11296], [5120, 21376], [-5120, 21376]], top_surface: {texture: gnecwal1, size: [256, 256]}, base: 10096, notes: "The gold frieze course along the walls' top (gnecwalt, one band), the roof closed."}
       - {id: platform:castle_lintel, rise: 2688, surface: {texture: gnecwal1, size: [256, 256]}, outline: [[-384, 11296], [384, 11296], [384, 11776], [-384, 11776]], top_surface: {texture: gnecwal1, size: [256, 256]}, bottom_surface: {texture: gnecwal1, size: [256, 256]}, base: 7408, notes: The wall over the gate's recess.}
@@ -232,226 +269,442 @@ rooms:
       - {id: platform:castle_tower_ne_frieze, rise: 256, surface: {texture: gnecwalt, size: [256, 256]}, outline: [[5265, 20918], [5151, 21195], [4939, 21407], [4662, 21521], [4362, 21521], [4085, 21407], [3873, 21195], [3759, 20918], [3759, 20618], [3873, 20341], [4085, 20129], [4362, 20015], [4662, 20015], [4939, 20129], [5151, 20341], [5265, 20618]], top_surface: {texture: gnecwal1, size: [256, 256]}, base: 10608}
       - {id: platform:castle_tower_nw, rise: 3968, surface: {texture: gnecwal1, size: [256, 256]}, outline: [[-3759, 20918], [-3873, 21195], [-4085, 21407], [-4362, 21521], [-4662, 21521], [-4939, 21407], [-5151, 21195], [-5265, 20918], [-5265, 20618], [-5151, 20341], [-4939, 20129], [-4662, 20015], [-4362, 20015], [-4085, 20129], [-3873, 20341], [-3759, 20618]], top_surface: {texture: gnecwal1, size: [256, 256]}, base: 6640, notes: The nw corner tower.}
       - {id: platform:castle_tower_nw_frieze, rise: 256, surface: {texture: gnecwalt, size: [256, 256]}, outline: [[-3759, 20918], [-3873, 21195], [-4085, 21407], [-4362, 21521], [-4662, 21521], [-4939, 21407], [-5151, 21195], [-5265, 20918], [-5265, 20618], [-5151, 20341], [-4939, 20129], [-4662, 20015], [-4362, 20015], [-4085, 20129], [-3873, 20341], [-3759, 20618]], top_surface: {texture: gnecwal1, size: [256, 256]}, base: 10608}
-      - {id: platform:castle_keep, at: [0, 17872], size: [3584, 2816], rise: 1536, surface: {texture: gnecwal1, size: [256, 256]}, top_surface: {texture: gnecwal1, size: [256, 256]}, base: 9584, notes: "The keep, over the throne."}
+      - {id: platform:castle_keep, at: [0, 17872], size: [3584, 2816], rise: 1544, surface: {texture: gnecwal1, size: [256, 256]}, top_surface: {texture: gnecwal1, size: [256, 256]}, base: 9576, notes: "The keep, over the throne."}
       - {id: platform:castle_keep_frieze, at: [0, 17872], size: [3584, 2816], rise: 256, surface: {texture: gnecwalt, size: [256, 256]}, top_surface: {texture: gnecwal1, size: [256, 256]}, base: 11120}
-      - {id: platform:gate_leaf_l, at: [-128, 11772], size: [256, 8], rise: 512, surface: {texture: gnecdr1l, size: [128, 256], fit: true}, end_surface: {texture: gnecwal1, size: [256, 256], fit: false}, top_surface: {texture: gnecwal1, size: [256, 256]}, base: 6768, notes: "Castle Xeen's gate, the left leaf (gnecdr1l)."}
-      - {id: platform:gate_leaf_r, at: [128, 11772], size: [256, 8], rise: 512, surface: {texture: gnecdr1r, size: [128, 256], fit: true}, end_surface: {texture: gnecwal1, size: [256, 256], fit: false}, top_surface: {texture: gnecwal1, size: [256, 256]}, base: 6768, notes: "Castle Xeen's gate, the right leaf (gnecdr1r)."}
-      - {id: platform:gate_threshold, at: [0, 11616], size: [736, 304], rise: 16, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6768, notes: "The gate's threshold in the recess (after m35.done the castle-gone line, A3's x9.castle_gone)."}
+      - {id: platform:gate_leaf_l, at: [-128, 11772], size: [256, 8], rise: 520, surface: {texture: gnecdr1l, size: [128, 256], fit: true}, end_surface: {texture: gnecwal1, size: [256, 256], fit: false}, top_surface: {texture: gnecwal1, size: [256, 256]}, base: 6760, notes: "Castle Xeen's gate, the left leaf (gnecdr1l)."}
+      - {id: platform:gate_leaf_r, at: [128, 11772], size: [256, 8], rise: 520, surface: {texture: gnecdr1r, size: [128, 256], fit: true}, end_surface: {texture: gnecwal1, size: [256, 256], fit: false}, top_surface: {texture: gnecwal1, size: [256, 256]}, base: 6760, notes: "Castle Xeen's gate, the right leaf (gnecdr1r)."}
+      - {id: platform:gate_threshold, at: [0, 11616], size: [736, 304], rise: 24, surface: {texture: 7tws1f, size: [128, 128]}, top_surface: {texture: 7tws1f, size: [128, 128]}, base: 6760, notes: "The gate's threshold in the recess (after m35.done the castle-gone line, A3's x9.castle_gone)."}
     beams:
-      - path: [[-13965, -14216], [-14662, -12358]]
+      - path: [[-13965, -14216], [-14038, -14021]]
+        width: 8
+        depth: 8
+        bottom: 600
+        bottom_end: 600
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[-13741, -14132], [-13814, -13937]]
+        width: 8
+        depth: 8
+        bottom: 600
+        bottom_end: 600
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[-14038, -14021], [-14665, -12351]]
         width: 8
         depth: 8
         bottom: 600
         bottom_end: 391
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[-13741, -14132], [-14437, -12274]]
+      - path: [[-13814, -13937], [-14440, -12266]]
         width: 8
         depth: 8
         bottom: 600
         bottom_end: 391
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[-14662, -12358], [-15359, -10500]]
+      - path: [[-14665, -12351], [-15291, -10680]]
         width: 8
         depth: 8
         bottom: 391
         bottom_end: 472
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[-14437, -12274], [-15134, -10416]]
+      - path: [[-14440, -12266], [-15066, -10596]]
         width: 8
         depth: 8
         bottom: 391
         bottom_end: 472
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[-15922, -8516], [-16287, -6616]]
+      - path: [[-15291, -10680], [-15359, -10500]]
+        width: 8
+        depth: 8
+        bottom: 472
+        bottom_end: 472
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[-15066, -10596], [-15134, -10416]]
+        width: 8
+        depth: 8
+        bottom: 472
+        bottom_end: 472
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[-15922, -8516], [-15958, -8328]]
+        width: 8
+        depth: 8
+        bottom: 472
+        bottom_end: 472
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[-15686, -8471], [-15723, -8283]]
+        width: 8
+        depth: 8
+        bottom: 472
+        bottom_end: 472
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[-15958, -8328], [-16288, -6612]]
         width: 8
         depth: 8
         bottom: 472
         bottom_end: 362
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[-15686, -8471], [-16052, -6570]]
+      - path: [[-15723, -8283], [-16053, -6566]]
         width: 8
         depth: 8
         bottom: 472
         bottom_end: 362
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[-16287, -6616], [-16653, -4715]]
+      - path: [[-16288, -6612], [-16618, -4896]]
         width: 8
         depth: 8
         bottom: 362
         bottom_end: 536
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[-16052, -6570], [-16417, -4670]]
+      - path: [[-16053, -6566], [-16383, -4850]]
         width: 8
         depth: 8
         bottom: 362
         bottom_end: 536
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[-17016, -790], [-17016, 1202]]
+      - path: [[-16618, -4896], [-16653, -4715]]
+        width: 8
+        depth: 8
+        bottom: 536
+        bottom_end: 536
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[-16383, -4850], [-16417, -4670]]
+        width: 8
+        depth: 8
+        bottom: 536
+        bottom_end: 536
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[-17016, -790], [-17016, -606]]
+        width: 8
+        depth: 8
+        bottom: 536
+        bottom_end: 536
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[-16776, -790], [-16776, -606]]
+        width: 8
+        depth: 8
+        bottom: 536
+        bottom_end: 536
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[-17016, -606], [-17016, 1202]]
         width: 8
         depth: 8
         bottom: 536
         bottom_end: 422
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[-16776, -790], [-16776, 1202]]
+      - path: [[-16776, -606], [-16776, 1202]]
         width: 8
         depth: 8
         bottom: 536
         bottom_end: 422
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[-17016, 1202], [-17016, 3194]]
+      - path: [[-17016, 1202], [-17016, 3010]]
         width: 8
         depth: 8
         bottom: 422
         bottom_end: 600
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[-16776, 1202], [-16776, 3194]]
+      - path: [[-16776, 1202], [-16776, 3010]]
         width: 8
         depth: 8
         bottom: 422
         bottom_end: 600
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[-16771, 5637], [-16399, 7572]]
+      - path: [[-17016, 3010], [-17016, 3194]]
+        width: 8
+        depth: 8
+        bottom: 600
+        bottom_end: 600
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[-16776, 3010], [-16776, 3194]]
+        width: 8
+        depth: 8
+        bottom: 600
+        bottom_end: 600
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[-16771, 5637], [-16735, 5826]]
+        width: 8
+        depth: 8
+        bottom: 600
+        bottom_end: 600
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[-16535, 5592], [-16499, 5780]]
+        width: 8
+        depth: 8
+        bottom: 600
+        bottom_end: 600
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[-16735, 5826], [-16399, 7572]]
         width: 8
         depth: 8
         bottom: 600
         bottom_end: 488
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[-16535, 5592], [-16163, 7526]]
+      - path: [[-16499, 5780], [-16163, 7526]]
         width: 8
         depth: 8
         bottom: 600
         bottom_end: 488
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[-16399, 7572], [-16027, 9506]]
+      - path: [[-16399, 7572], [-16063, 9317]]
         width: 8
         depth: 8
         bottom: 488
         bottom_end: 664
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[-16163, 7526], [-15791, 9461]]
+      - path: [[-16163, 7526], [-15828, 9272]]
         width: 8
         depth: 8
         bottom: 488
         bottom_end: 664
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[-13896, 10218], [-12290, 9281]]
+      - path: [[-16063, 9317], [-16027, 9506]]
+        width: 8
+        depth: 8
+        bottom: 664
+        bottom_end: 664
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[-15828, 9272], [-15791, 9461]]
+        width: 8
+        depth: 8
+        bottom: 664
+        bottom_end: 664
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[-13896, 10218], [-13731, 10121]]
+        width: 8
+        depth: 8
+        bottom: 664
+        bottom_end: 664
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[-14082, 9900], [-13916, 9803]]
+        width: 8
+        depth: 8
+        bottom: 664
+        bottom_end: 664
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[-13731, 10121], [-12290, 9281]]
         width: 8
         depth: 8
         bottom: 664
         bottom_end: 497
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[-14082, 9900], [-12475, 8963]]
+      - path: [[-13916, 9803], [-12475, 8963]]
         width: 8
         depth: 8
         bottom: 664
         bottom_end: 497
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[-12290, 9281], [-10684, 8344]]
+      - path: [[-12290, 9281], [-10850, 8441]]
         width: 8
         depth: 8
         bottom: 497
         bottom_end: 600
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[-12475, 8963], [-10869, 8026]]
+      - path: [[-12475, 8963], [-11035, 8123]]
         width: 8
         depth: 8
         bottom: 497
         bottom_end: 600
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[13490, -14139], [13910, -12081]]
+      - path: [[-10850, 8441], [-10684, 8344]]
+        width: 8
+        depth: 8
+        bottom: 600
+        bottom_end: 600
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[-11035, 8123], [-10869, 8026]]
+        width: 8
+        depth: 8
+        bottom: 600
+        bottom_end: 600
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[13490, -14139], [13527, -13959]]
+        width: 8
+        depth: 8
+        bottom: 600
+        bottom_end: 600
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[13726, -14187], [13762, -14007]]
+        width: 8
+        depth: 8
+        bottom: 600
+        bottom_end: 600
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[13527, -13959], [13907, -12093]]
         width: 8
         depth: 8
         bottom: 600
         bottom_end: 381
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[13726, -14187], [14145, -12129]]
+      - path: [[13762, -14007], [14142, -12141]]
         width: 8
         depth: 8
         bottom: 600
         bottom_end: 381
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[13910, -12081], [14329, -10023]]
+      - path: [[13907, -12093], [14287, -10227]]
         width: 8
         depth: 8
         bottom: 381
         bottom_end: 472
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[14145, -12129], [14564, -10071]]
+      - path: [[14142, -12141], [14523, -10275]]
         width: 8
         depth: 8
         bottom: 381
         bottom_end: 472
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[14690, -7480], [14841, -5443]]
+      - path: [[14287, -10227], [14329, -10023]]
+        width: 8
+        depth: 8
+        bottom: 472
+        bottom_end: 472
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[14523, -10275], [14564, -10071]]
+        width: 8
+        depth: 8
+        bottom: 472
+        bottom_end: 472
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[14690, -7480], [14704, -7297]]
+        width: 8
+        depth: 8
+        bottom: 472
+        bottom_end: 472
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[14930, -7498], [14943, -7315]]
+        width: 8
+        depth: 8
+        bottom: 472
+        bottom_end: 472
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[14704, -7297], [14841, -5451]]
         width: 8
         depth: 8
         bottom: 472
         bottom_end: 386
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[14930, -7498], [15081, -5461]]
+      - path: [[14943, -7315], [15080, -5469]]
         width: 8
         depth: 8
         bottom: 472
         bottom_end: 386
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[14841, -5443], [14992, -3406]]
+      - path: [[14841, -5451], [14977, -3606]]
         width: 8
         depth: 8
         bottom: 386
         bottom_end: 600
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[15081, -5461], [15231, -3424]]
+      - path: [[15080, -5469], [15217, -3623]]
         width: 8
         depth: 8
         bottom: 386
         bottom_end: 600
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[15027, -180], [14920, 1852]]
+      - path: [[14977, -3606], [14992, -3406]]
+        width: 8
+        depth: 8
+        bottom: 600
+        bottom_end: 600
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[15217, -3623], [15231, -3424]]
+        width: 8
+        depth: 8
+        bottom: 600
+        bottom_end: 600
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[15027, -180], [15017, 3]]
+        width: 8
+        depth: 8
+        bottom: 600
+        bottom_end: 600
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[15267, -168], [15257, 16]]
+        width: 8
+        depth: 8
+        bottom: 600
+        bottom_end: 600
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[15017, 3], [14920, 1848]]
         width: 8
         depth: 8
         bottom: 600
         bottom_end: 547
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[15267, -168], [15160, 1864]]
+      - path: [[15257, 16], [15160, 1860]]
         width: 8
         depth: 8
         bottom: 600
         bottom_end: 547
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[14920, 1852], [14813, 3884]]
+      - path: [[14920, 1848], [14823, 3692]]
         width: 8
         depth: 8
         bottom: 547
         bottom_end: 792
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[15160, 1864], [15053, 3896]]
+      - path: [[15160, 1860], [15063, 3705]]
         width: 8
         depth: 8
         bottom: 547
         bottom_end: 792
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[14443, 7098], [14075, 9174]]
+      - path: [[14823, 3692], [14813, 3884]]
+        width: 8
+        depth: 8
+        bottom: 792
+        bottom_end: 792
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[15063, 3705], [15053, 3896]]
+        width: 8
+        depth: 8
+        bottom: 792
+        bottom_end: 792
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[14443, 7098], [14411, 7280]]
+        width: 8
+        depth: 8
+        bottom: 792
+        bottom_end: 792
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[14680, 7140], [14647, 7322]]
+        width: 8
+        depth: 8
+        bottom: 792
+        bottom_end: 792
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[14411, 7280], [14075, 9174]]
         width: 8
         depth: 8
         bottom: 792
         bottom_end: 797
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[14680, 7140], [14311, 9216]]
+      - path: [[14647, 7322], [14311, 9216]]
         width: 8
         depth: 8
         bottom: 792
         bottom_end: 797
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[14075, 9174], [13707, 11249]]
+      - path: [[14075, 9174], [13739, 11068]]
         width: 8
         depth: 8
         bottom: 797
         bottom_end: 1112
         surface: {texture: hwm2rf, size: [128, 128]}
-      - path: [[14311, 9216], [13943, 11291]]
+      - path: [[14311, 9216], [13975, 11110]]
         width: 8
         depth: 8
         bottom: 797
+        bottom_end: 1112
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[13739, 11068], [13707, 11249]]
+        width: 8
+        depth: 8
+        bottom: 1112
+        bottom_end: 1112
+        surface: {texture: hwm2rf, size: [128, 128]}
+      - path: [[13975, 11110], [13943, 11291]]
+        width: 8
+        depth: 8
+        bottom: 1112
         bottom_end: 1112
         surface: {texture: hwm2rf, size: [128, 128]}
     notes: "The open air over Lake Darzog: one room from the safety floor at -6000 to the sky at 6400, every wall, floor and ceiling face a sky face. The clouds, bridges, the unseen way, the carnival and Castle Xeen's shell hang in it."

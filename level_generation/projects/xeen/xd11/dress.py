@@ -82,7 +82,10 @@ SPAWNS_A = [('foyer', [-1920, -704]), ('foyer', [-576, 320]), ('athanor', [-1280
             ('coils', [640, 320]), ('landing1', [768, -1600]), ('reagents', [-1728, -1664]),
             ('still', [-512, -1280]), ('poison', [-512, 768])]
 SPAWNS_B = [('landing2', [-768, 1728]), ('energy', [-384, 512]), ('magic', [1600, 1024]), ('landing3', [768, -1600]),
-            ('library', [-512, -256]), ('roof', [0, -512])]
+            ('library', [-512, -256]), ('stairway', [-1728, 1664])]
+# F62 follow-up (D-151, 2026-11-25): the roof's spawn (0, -512) saw X8's stair-of-cloud landing (1536, 1152, 2560)
+# across the open roof (check_arrivals.py arrival.hot); the roof has no spot out of its sight, so the marker moved to
+# the foot of the Stairway to Heaven, below the roof (hidden from the landing with its 128 spread).
 
 
 def spawns():
@@ -362,7 +365,7 @@ def events():
               'notes': "Original line 'Pandorian Box' (aaze0055:4): trapped (trap level 3)."})
     # D-89 (INWARD, 2026-11-22): the Enchanted Key (the Cave of Illusion's skull) guards only its beat, the Skeleton
     # Key's chest. The study door stays a plain door: the study, the observatory, the stairway and the roof beyond it
-    # (two sorceresses, the roof's spawn, the Stairway to Heaven) are cleared without the key (the user's F17).
+    # (two sorceresses, the Stairway to Heaven and its spawn) are cleared without the key (the user's F17).
     E.append({'id': 'evt:study_chest', 'preset': 'chest', 'source': 'chest:study', 'title': 'Chest',
               'condition': {'lua': 'XeenQuests.hook("m13.study_door")'},
               'effects': [{'lua': 'XeenQuests.hook("m13.skeleton_key")'}],

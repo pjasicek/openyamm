@@ -1,0 +1,37 @@
+# Feedback F65 (2026-11-25, XD-23 p1 "i had problem to click on this", the low hexagonal fire pit in the trolls'
+# hearth): before D-153 the pit's name showed from up to 1,024 away, but a click reaches only 512, so the name showed
+# where a click did nothing. Now a face with an event is named only within the click's reach
+# (GameplayInteractionController::resolveHoverStatusText). At the pin's pose (about 230 from the pit) the crosshair
+# names "Fire pit" and one Use through the live input path (press_action: use) burns the lair once the Troll Matron is
+# dead (evt:fire_pit, A3's q-c15.lair, lair_burnt 112301). Fails until XD-23 is rebuilt with a studio that gives a
+# clicked block's own top node (here split off by `set_texture ... face: top`) the block's click: today only the pit's
+# 24-high rim clicks (tools/xeen/check_clicked_tops.py; PLAYER_FEEDBACK_20261125.md, agent xeen-fb4-dungeon3).
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/xd23_fire_pit_use_at_pin.yml --scenario-no-color
+id: xeen.f65.xd23_fire_pit_use_at_pin
+title: "F65: at XD-23 p1's pose the fire pit is named and one Use burns the lair"
+world: xeen
+mode: faithful
+tags: [xeen, picking, regression]
+steps:
+  - new_game_flow:
+      start_map: xeen_xd23.blv
+  - setup_shortcut: {kind: immortal, value: true}
+  - clear_hostiles: {radius: 100000}
+  - play_lua: {source: "wait(4); close()"}
+  - play_lua: {source: "if not qbit(110930) then error('matron_dead 110930 not set') end"}
+  - set_pose: {map: xeen_xd23.blv, x: 1980.064, y: -5854.206, z: -1024, yaw: 0.111, pitch_degrees: -35.26}
+  - advance_runtime: {seconds: 0.3}
+  - play_lua:
+      source: |
+        status()
+        local text = hover()
+        log("hover at the pin: [" .. text .. "]")
+        if text ~= "Fire pit" then error("the fire pit is not named at the pin: [" .. text .. "]") end
+  - press_action: {action: use}
+  - advance_runtime: {seconds: 1}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        log(s)
+        close()
+        if not qbit(112301) then error("the Use at the pin did not burn the lair: " .. s) end

@@ -424,17 +424,17 @@ quests:
     requires: "Nothing. The hand-in is the Dark Elf racial promotion: every Dark Elf in the party becomes a Patriarch."
     steps:
       - "Danulf the Faery King stands at his ring of stones in the woods south of Rivercity. Click him and ask about 'Quest'."
-      - "The sprites' nest is about 5,000 units west-south-west of Danulf, deeper in the south woods. Sprite groups (Medusa Sprites, Killer Sprites and Sprite Queens, levels 10-18) swarm the woods around it."
-      - "Click the sprite eggs. The wand lies among them and goes into your packs. The nest gives it only once."
+      - "The sprites' nest is about 6,000 units west of Danulf, in the dry hollow at the heart of the woods: a great ring of woven twigs you cannot miss. Sprite groups (Medusa Sprites, Killer Sprites and Sprite Queens, levels 10-18) swarm the woods around it."
+      - "Click the nest. The wand lies among the eggs and comes up on your cursor (on Android it goes straight into your packs); put it in a pack. The nest gives it only once."
       - "Bring it to Danulf and ask about 'Quest'. He takes the wand, pays you and promotes your Dark Elves."
     tips:
       - "A Dark Elf who joins later, or who was not in the party at the hand-in, is promoted by Danulf's 'Promotion' topic. It shows only while someone in the party can be promoted."
       - "Medusa Sprites can turn characters to stone. Carry a cure or fight from range."
     reward: "4,000 XP for each member, 1,500 gold, and Dark Elf to Patriarch for every Dark Elf in the party."
     points:
-      - {map: xeen_x2, name: "Sprite eggs"}
+      - {map: xeen_x2, name: "Sprite nest"}
     maps:
-      - {map: xeen_x2, focus: "Danulf", caption: "Danulf's stones are south of Rivercity; the nest is to his west-south-west."}
+      - {map: xeen_x2, focus: "Danulf", caption: "Danulf's stones are south of Rivercity; the nest is in the hollow to his west."}
 
   - quest: q-c18
     from: {map: xeen_x2, npc: "Tito"}
@@ -484,7 +484,7 @@ quests:
     requires: "Nothing (a party of level 3-5)."
     steps:
       - "Orothin is outdoors south of Vertigo, south of Joe's yard on the creek's south bank, by the delta pond. Click him and ask about 'Quest'."
-      - "The whistle is in the mud of Pitchfork Creek just west of Vertigo, south-west of the west gate and upstream of the bridge. Click the patch 'Something in the mud' to take it."
+      - "The whistle lies in the mud at the edge of Pitchfork Creek's shallows just west of Vertigo, south-west of the west gate and upstream of the bridge, on the creek's north bank. Pick it up like any item."
       - "Bring it to Orothin and ask about 'Quest'."
       - "Now click his two statues on the isles of the delta pond, east of him. The north isle's statue gives a Cure Poison book, the south isle's a Cure Disease book."
     tips:
@@ -492,7 +492,7 @@ quests:
       - "Each statue gives its book once, not once per character. Give the books to your Cleric or Druid."
     reward: "1,000 XP for each member; the statues give a Cure Poison book and a Cure Disease book."
     points:
-      - {map: xeen_x1, name: "Something in the mud"}
+      - {map: xeen_x1, name: "Orothin's Bone Whistle"}
       - {map: xeen_x1, name: "Orothin's statue"}
     maps:
       - {map: xeen_x1, focus: "Orothin", caption: "Orothin and his statues south-east of Vertigo; the whistle in the creek west of town."}

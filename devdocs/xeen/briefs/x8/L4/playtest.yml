@@ -149,12 +149,20 @@ steps:
     seconds: 1
 - play_lua:
     source: 'close(); if not qbit(115021) then error(''nest 1: its bit is not set'') end'
+- assert:
+    sprite_hidden:
+    - 11
+    - 12
 - play_lua:
     source: click(10); wait(0.5)
 - advance_runtime:
     seconds: 1
 - play_lua:
     source: 'close(); if not qbit(115022) then error(''nest 2: its bit is not set'') end'
+- assert:
+    sprite_hidden:
+    - 13
+    - 14
 - walk_to:
     x: 11137
     y: 4907
@@ -959,6 +967,10 @@ steps:
     seconds: 1
 - play_lua:
     source: 'close(); if not qbit(115023) then error(''nest 3: its bit is not set'') end'
+- assert:
+    sprite_hidden:
+    - 15
+    - 16
 - play_lua:
     source: click(14); wait(0.5)
 - assert:

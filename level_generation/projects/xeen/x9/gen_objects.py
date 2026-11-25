@@ -265,20 +265,19 @@ def wiring():
     for tag in NESTS:
         ev.append({
             'id': f'evt:nest_{tag}', 'preset': 'script', 'source': f'platform:nest_{tag}', 'title': 'Roc Nest',
-            # D-72 item 3 (A5 s30): the source's question as one Yes/No prompt with buttons; Yes (step 1) burns the
-            # nest, No and Escape leave it with a status line
-            'effects': [{'lua': 'if continueStep ~= 1 then if continueStep == nil then AskChoiceWithAnswerSteps(eventId, '
-                                '3, "Roc Nest.  Destroy?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}}) '
-                                'else evt.StatusText("You leave the nest as it is.", 4) end return end'},
-                        {'hide': f'platform:nest_{tag}'}, {'passable': f'platform:nest_{tag}'},
+            # D-159 (2026-11-25, under D-144): a click burns the nest, as X8's (D-145); the source asked "Roc Nest.
+            # Destroy?" (xeen/aaze0027:0), a free question. The bones and skull in its straw burn with it.
+            'effects': [{'hide': f'platform:nest_{tag}'}, {'passable': f'platform:nest_{tag}'},
+                        {'hide': f'deco:nest_{tag}_bones'}, {'hide': f'deco:nest_{tag}_skull'},
                         {'lua': hook(f'x9.nest_{tag}')}],
-            'notes': (f"The source's question (xeen/aaze0027:0) as Yes/No buttons (D-72); A3's x9.nest_{tag} (2,000 "
-                      "experience each, once).")})
+            'notes': (f"A click burns the nest (D-159; the source's question, xeen/aaze0027:0, is gone); A3's "
+                      f"x9.nest_{tag} (2,000 experience each, once).")})
         bit = HOOKS[f'x9.nest_{tag}']['sets'][f'nest_{tag}']
         ev.append({'id': f'evt:nest_{tag}_gone', 'preset': 'script', 'trigger': 'load',
                    'condition': {'qbit': f'nest_{tag}'},
-                   'effects': [{'hide': f'platform:nest_{tag}'}, {'passable': f'platform:nest_{tag}'}],
-                   'notes': f'A burnt nest stays gone (bit {bit}).'})
+                   'effects': [{'hide': f'platform:nest_{tag}'}, {'passable': f'platform:nest_{tag}'},
+                               {'hide': f'deco:nest_{tag}_bones'}, {'hide': f'deco:nest_{tag}_skull'}],
+                   'notes': f'A burnt nest and its bones stay gone (bit {bit}).'})
     for name, title in BOOTHS:
         ev.append({'id': f'evt:booth_{name}', 'preset': 'script', 'source': f'platform:booth_{name}',
                    'title': f'{title} booth', 'effects': [{'lua': hook(f'm34.{name}_game')}],

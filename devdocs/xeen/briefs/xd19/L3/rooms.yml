@@ -406,7 +406,7 @@ rooms:
   walls:
   - {wall: west, surface: {texture: gnecwal1, size: *id011, sky: true}, bands: false}
   parapets:
-  - {path: [[-5088, -2688], [-5088, 288]], height: 160, thickness: 32, surface: *id001, notes: 'The outer parapet: the cloud
+  - {path: [[-5088, -2720], [-5088, 320]], height: 160, thickness: 32, surface: *id001, notes: 'The outer parapet: the cloud
       sea and X9''s sky beyond it (D-97).'}
   ambient: 28
   notes: 'The west wall walk under open sky, from the tower to the turret: the outer parapet over X9''s cloud sea.'
@@ -437,7 +437,7 @@ rooms:
   walls:
   - {wall: west, surface: {texture: gnecwal1, size: *id011, sky: true}, bands: false}
   parapets:
-  - {path: [[-5088, 1632], [-5088, 4448]], height: 160, thickness: 32, surface: *id001, notes: 'The outer parapet: the cloud
+  - {path: [[-5088, 1600], [-5088, 4480]], height: 160, thickness: 32, surface: *id001, notes: 'The outer parapet: the cloud
       sea and X9''s sky beyond it (D-97).'}
   ambient: 28
   notes: The west wall walk's north stretch, to the keep's west door; open sky over the outer parapet.
@@ -450,7 +450,7 @@ rooms:
   walls:
   - {wall: east, surface: {texture: gnecwal1, size: *id011, sky: true}, bands: false}
   parapets:
-  - {path: [[5088, -2688], [5088, 288]], height: 160, thickness: 32, surface: *id001, notes: 'The outer parapet: the cloud
+  - {path: [[5088, -2720], [5088, 320]], height: 160, thickness: 32, surface: *id001, notes: 'The outer parapet: the cloud
       sea and X9''s sky beyond it (D-97).'}
   ambient: 28
   notes: The east wall walk under open sky, the outer parapet over X9's cloud sea.
@@ -481,7 +481,7 @@ rooms:
   walls:
   - {wall: east, surface: {texture: gnecwal1, size: *id011, sky: true}, bands: false}
   parapets:
-  - {path: [[5088, 1632], [5088, 4448]], height: 160, thickness: 32, surface: *id001, notes: 'The outer parapet: the cloud
+  - {path: [[5088, 1600], [5088, 4480]], height: 160, thickness: 32, surface: *id001, notes: 'The outer parapet: the cloud
       sea and X9''s sky beyond it (D-97).'}
   ambient: 28
   notes: The east wall walk's north stretch, to the keep's east door; open sky over the outer parapet.

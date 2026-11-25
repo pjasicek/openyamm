@@ -1,0 +1,41 @@
+# Feedback F65 (2026-11-25, XD-25 p1 "it is a bit hard to click on them and get the crystal"): at the pin the
+# crosshair lies on deco:crystals (crclstr, MMerge's gem crystal) on top of the crystal housing. Without an event of its
+# own that decoration gave a random Gem on the first click and hid itself; only a second click reached the housing's
+# evt:crystals. Now it runs its own event (evt:crystals_cluster, the housing's hook) and hides once the crystals are
+# taken. One Use at the pin pose through the live input path (press_action: use) must give the Crystals of
+# Piezoelectricity (12313) and no Diamond (2056, crclstr's own harvest); the decoration (cog 14, ids.lock.yml) is
+# hidden after. The check tools/xeen/check_self_acting_decos.py keeps such decorations off event sources.
+# From output/xeen_fb/p4_engine2/xd25_use_gives_crystals.yml (agent xeen-fb4-engine2).
+id: xeen.xd25.l4.crystals_use
+title: "XD-25: one Use at the crystals on the housing gives the Crystals of Piezoelectricity"
+world: xeen
+mode: faithful
+tags: [xeen, picking, regression]
+steps:
+  - new_game_flow:
+      start_map: xeen_xd25.blv
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "clear_hostiles(100000)"}
+  - console: {line: "lua SetQBit(QBit(112102))", expect_contains: "Lua ran."}
+  - console: {line: "lua evt.SetDoorState(2, DoorAction.Open)", expect_contains: "Lua ran."}
+  - advance_runtime: {seconds: 6}
+  - set_pose: {map: xeen_xd25.blv, x: 423.5, y: -1743.3, z: -640, yaw: 1.689, pitch_degrees: -6.795}
+  - advance_runtime: {seconds: 0.3}
+  - play_lua: {source: "if item_count(12313) ~= 0 or held() == 12313 or item_count(2056) ~= 0 then error('the crystals or a Diamond before the Use') end"}
+  - assert:
+      sprite_shown: [14]
+  - press_action: {action: use}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua:
+      source: |
+        local s = tostring(status())
+        log(s)
+        if held() ~= 0 then stow() end
+        if item_count(12313) ~= 1 then error("the Use at the crystals gave nothing: " .. pack_items()) end
+        if not string.find(s, [[a cluster of blue crystals]], 1, true) then error("status line: " .. s) end
+        if item_count(2056) ~= 0 then error("the crystals gave a Diamond (crclstr's own harvest, event 65311)") end
+  - assert:
+      sprite_hidden: [14]
+  - press_action: {action: use}
+  - advance_runtime: {seconds: 0.5}
+  - play_lua: {source: "if item_count(12313) ~= 1 then error('the crystals were given twice') end"}

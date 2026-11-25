@@ -45,6 +45,7 @@ events:
   evt:thing:miner_cache: 45
   evt:thing:obelisk: 13
   evt:thing:orc_den: 42
+  evt:thing:outpost_char_1: 73
   evt:thing:outpost_chest: 23
   evt:thing:outpost_fire: 22
   evt:thing:outpost_hide_1: 19
@@ -86,6 +87,15 @@ cogs:
   cog:thing:cleft_fall_3: 30002
   cog:thing:cleft_spoil_1: 30003
   cog:thing:cleft_spoil_2: 30004
+  cog:thing:outpost_bones_1: 30006
+  cog:thing:outpost_bones_2: 30007
+  cog:thing:outpost_bones_3: 30008
+  cog:thing:outpost_char_1: 30009
+  cog:thing:outpost_char_2: 30010
+  cog:thing:outpost_char_3: 30011
+  cog:thing:outpost_char_4: 30012
+  cog:thing:outpost_char_5: 30013
+  cog:thing:outpost_fire: 30005
   cog:thing:outpost_hide_1: 1
   cog:thing:outpost_hide_2: 2
   cog:thing:outpost_hide_3: 3

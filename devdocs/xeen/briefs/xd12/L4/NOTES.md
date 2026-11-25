@@ -908,3 +908,14 @@ disc down keeps the grille shut; it fails on the old map (`the load did not open
 0; drops only the island ground; MAW reserve and check 0; key_npcs 0; tests 12/12 (6 playtests x 2,
 `output/studio_cal/a8_s26/run/xd12/c051750`).
 Main segments `run.py 81 83` and `run.py --reload 81 83` pass on it (A8 30th, `output/studio_cal/a8_s30/`).
+
+## 2026-11-25, xeen-fb4-dungeon6: the sky stair's battlement ends, the library stair's marker
+
+- `sky.low` faces 2056/2057 were the east battlement's reveals (in the keep wall's 256 thickness) drawn as sky down to
+  the 256-deep sill at 3,184: a party that jumps onto the sill saw the below-horizon fog at its feet. `shell.py`
+  `open:battlement_e`: the opening is 288 high over its sill with stone reveals and a sky lintel (a full-height stone
+  reveal stood up as two bare posts 1,000 into the sky; captures `output/xeen_fb/p4_dungeon6/xd12/sheet.png` before,
+  `sheet2.png` after). `check_parapet_gaps.py` 2 -> 0.
+- D-132: `spawn:library_stair` (-2496, 0) -> (-2496, -512) (`dress.py`): its shooters had a thin shot over the
+  library flight's edge at 1,952-1,984 (`check_ledge_shots.py` 2 errors, on HEAD's map too) -> 0.
+- Audit 0 errors (9 warnings as before), drops only the island ground, 6/6 playtests; installed, baked, MAW reserve.

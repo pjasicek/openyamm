@@ -56,7 +56,8 @@ def crest_y(x):
 # Applied in order (the later wins); inside a polygon the land is the place's height, outside it runs back over the
 # blend. The terraces of the sketch (slope 0) hold them exactly; the grid only brings the land round them near.
 PADS = [
-    ([[19, 51], [30, 51], [30, 59], [19, 59]], 1344, 3),            # the barbarian camp's flat
+    # D-142 (2026-11-25): the camp 4 cells east and 2 north, its fighters 4,096+ from the X6 arrival (20, 60)
+    ([[23, 49], [34, 49], [34, 57], [23, 57]], 1344, 3),            # the barbarian camp's flat
     ([[37, 50], [44, 50], [44, 56], [37, 56]], 1376, 3),            # Carlawna's yard
     ([[21, 65], [31, 65], [31, 75], [21, 75]], 1120, 3),            # the Autumn Druid's grove
     ([[46, 65], [50, 65], [50, 68], [46, 68]], 1376, 3),            # the obelisk's knoll
@@ -75,7 +76,7 @@ PADS = [
 ]
 # quiet ground: no rolling inside these (x0, y0, x1, y1) boxes and circles (x, y, r)
 CALM_BOXES = [(52, 42, 76, 80), (32, 77, 53, 93)]
-CALM = [(24, 55, 4), (40.5, 53, 3), (26, 70, 4), (48, 66.5, 3), (87, 87, 3), (82, 101, 4), (96, 107, 4),
+CALM = [(28, 53, 4), (40.5, 53, 3), (26, 70, 4), (48, 66.5, 3), (87, 87, 3), (82, 101, 4), (96, 107, 4),
         (36, 107, 4), (20, 60, 3), (107, 66.5, 3), (100, 61, 3), (106, 86, 3), (102, 95.5, 3), (104, 46, 3),
         (77, 77, 3), (93, 50, 3), (21, 83, 2), (69, 106, 2), (56, 103, 4), (60, 93, 3), (27, 96, 3), (70, 86, 3),
         (88, 37, 2)]
@@ -141,7 +142,9 @@ def range_height(x, y):
 
 RIVER_LINE = [list(p) for p in L1.RIVER['line']]
 TARN = [[77, 36], [84, 36], [84, 40], [77, 40]]
-POOL = [[78, 42], [84, 42], [84, 47], [78, 47]]
+# F67 p4 (2026-11-25): the pool reaches the falls' foot (node row 41; from row 42 before, the sheet's foot stood on the
+# cut land at 640 with the foot water lying on it)
+POOL = [[78, 41], [84, 41], [84, 47], [78, 47]]
 
 
 def raw_height(x, y):
@@ -259,7 +262,7 @@ def ground():
                                          [57, 59]], 'notes': "Burlock's square and its lanes to the doors and the south gate"},
         {'material': 'soil', 'polygon': [[38, 82], [46, 82], [46, 88], [38, 88]], 'notes': "Asp's square"},
         {'material': 'soil', 'polygon': [[65, 63], [74, 63], [74, 72], [65, 72]], 'notes': 'the lists'},
-        {'material': 'soil', 'polygon': [[21, 52], [27, 52], [27, 58], [21, 58]], 'notes': 'the barbarian camp'},
+        {'material': 'soil', 'polygon': [[25, 50], [31, 50], [31, 56], [25, 56]], 'notes': 'the barbarian camp'},
         {'material': 'soil', 'polygon': [[54, 101], [59, 101], [59, 105], [54, 105]], 'notes': "the knights' camp"},
         {'material': 'soil', 'polygon': [[104, 84], [108, 84], [108, 88], [104, 88]], 'notes': "the ogres' hollow"},
     ]

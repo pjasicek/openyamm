@@ -959,3 +959,20 @@ user's G0 saves reset X1's map state on entry (accepted).
 - New check on every build: `tools/xeen/town_fit_check.py xeen_x1 --odm <build> --sketch sketch.yml` (0).
 - Installed with its bake 11:28 (with the wild agent's F29-F33 work); audit 0, both playtests pass. (Do not pass
   `under` to the culvert's kit: row 54 holds the creek's level and the studio keeps it, the kit's heights then lie.)
+
+## D-158 (2026-11-25, agent xeen-fb4-outdoor2)
+
+Start: band upper end waived (D-158); first fight XD-01 at 6,400, north-gate orcs 7,464 from the gate.
+- 2026-11-25 (agent xeen-fb4-outdoor4, installed with its bake 11:53): `check_spawn_clear` 3 → 0. `d142_enforce()`
+  passes `also=d142.hull_reason(l4, hull=3.0)`, so a circle too near the bounds or the void moves (it only held the new
+  spots to 3 cells before): hill orcs 9 (52, 20) → (32, 27) (spawns 34, 35 had stood 162 and 386 from the north
+  bound), road orcs 11 (90, 21) → (100, 23), the dead 4 (23, 103) → (23, 101); road orcs 9 then takes (30, 23).
+  Plague Cult member 4052 from inside the temple's nave (58.6, 47.6) to the street east of its porch (60.4, 46.4).
+  Checks 0, walk, hostility, `x1_hull_edge`, `x1_start_nothing_in_reach`, `nystor_boats_back` pass.
+- 2026-11-25 (agent xeen-d167, D-167, issue #45): Orothin's bone whistle (Q-C20, 12308) is a ground item (sketch
+  `items`, `CREEK_WHISTLE` (37.0, 50.15)) in the mud at the north edge of Pitchfork Creek's shallows, upstream of
+  Vertigo Bridge and west of the west gate; the "Something in the mud" rock (7rock01, event 254) is stand-in only. At
+  y 50.5 the item lay at the creek's water surface (576 over the drawn bed) and the water hid it; at 50.15 it shows on
+  the wet bank. Named "Get Orothin's Bone Whistle" from 250-420 on the north, east and west; no decoration within 0.6
+  cells (quests.py prop finds 0). Built and checked in a private root only: the install and bake go with D-170's
+  rebuild of X1 (the generator carries both).

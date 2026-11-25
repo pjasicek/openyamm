@@ -412,9 +412,11 @@ EXTRA = {
     'pyramid': {
         'platforms': [plat('platform:plinth', PYR_AT, [PLINTH, PLINTH], 32, dict(GIRDER), dict(GIRDER),
                            "The dead pyramid's plinth: riveted plate."),
-                      plat('platform:pyramid', PYR_AT, [PYR_BASE, PYR_BASE], PYR_H, dict(PYRAMID), dict(PYRAMID),
+                      # F62's lid rule (xeen-fb4-dungeon5, 2026-11-25): sunk 8 into the plinth, its top where it was
+                      # (its bottom lay on the plinth's top: XD-17's pyramid so wedged a party walking into its foot)
+                      plat('platform:pyramid', PYR_AT, [PYR_BASE, PYR_BASE], PYR_H + 8, dict(PYRAMID), dict(PYRAMID),
                            "A small dark Ancient pyramid (four sloped faces of black veined marble, mystrya, D-71's tone, session 23): hover 'Pyramid' (m39.pyramid).",
-                           base=32, top_size=[16, 16])],
+                           base=24, top_size=[16, 16])],
         'notes': "Dead end: the dark Ancient pyramid on its plinth and a T6 chest beside it.",
     },
     'wpass': {'notes': "The west passage north from the workshop to the assembly hall's works door."},

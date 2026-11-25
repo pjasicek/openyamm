@@ -16,6 +16,7 @@ import gen_objects as go  # noqa: E402
 L4 = gen.BRIEF / 'L4'
 LOCK = yaml.safe_load(open(L4 / 'ids.lock.yml'))
 EV = dict(LOCK.get('events', {}))
+DECOS = dict(LOCK.get('decorations', {}) or {})   # sprite_hidden takes the decoration's index
 LANDING = D.FALL_LANDING_X2['at']
 LINK = {l['id']: l for l in D.LINKS}
 LINGUIST = 116240
@@ -78,11 +79,10 @@ def nest(tag):
     bit = go.HOOKS[f'x9.nest_{tag}']['sets'][f'nest_{tag}']
     return [near(f'poi:nest_{tag}', 0, -520),
             {'play_lua': {'source': f'click({EV[f"evt:nest_{tag}"]}); wait(0.5)'}},
-            # D-72 (A5 s30): Yes/No buttons
-            {'assert': {'dialog': {'active': True, 'action_label_present': 'Yes'}}},
-            {'select_topic': {'match_label': 'Yes'}},
+            # D-159: a click burns the nest (no question); its bones and skull burn with it
             {'advance_runtime': {'seconds': 1}},
-            {'play_lua': {'source': f"close(); if not qbit({bit}) then error('nest {tag}: its bit is not set') end"}}]
+            {'play_lua': {'source': f"close(); if not qbit({bit}) then error('nest {tag}: its bit is not set') end"}},
+            {'assert': {'sprite_hidden': [DECOS[f'deco:nest_{tag}_bones'], DECOS[f'deco:nest_{tag}_skull']]}}]
 
 
 def loot(chest):

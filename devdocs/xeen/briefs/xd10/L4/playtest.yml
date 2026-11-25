@@ -3,13 +3,13 @@
 # mouth's west wall (a mirage: it dissipates), loots the cache (the Potion of Might at power 10 into the hand, once per
 # game: D-22.2; a second opening gives none), passes the phantom safe (a click:
 # the hand passes through) and opens its mirage by a click, crosses the icicle hall, the Hall of Mirages and the frost
-# cavern, buys +2 Luck from the upper skull with three granted gems (once: a second click says so), opens the sluice's
+# cavern, buys +2 Luck from the upper skull with one granted gem (D-143: 1 gem a member) (once: a second click says so), opens the sluice's
 # door, is refused by the plug (Might 15), drinks the potion (Might 45), pulls the plug (the water sinks, the
 # three sluice gates open, plug_pulled), goes down the ice stair to the ledge, reads the notice, crosses the mirror
 # maze, touches its mirage into the deep skulls (no gems yet: the skull says nothing), takes the Guardians' post's
-# chest and the echo cave's 15 gems, buys +3 Intellect (5 gems), goes down the steps through their gate onto the
+# chest and the echo cave's 15 gems, buys +3 Intellect (1 gem), goes down the steps through their gate onto the
 # drained bed (the reservoir's hidden monsters appear), buys the Enchanted Key from the great skull (10 gems: A3's
-# hook m12.skull, qbit 111240), then with 10 granted gems takes +5 Endurance from the great skull's three-answer
+# hook m12.skull, qbit 111240), then with the 4 gems left takes +5 Endurance (1 gem) from the great skull's three-answer
 # question (once per character), touches the grotto's mirage, loots the phantom vault, goes back over the bed to the
 # wreck's strongbox and the sump, up the gallery stair through its gate into the drowned gallery and out through its
 # gate onto the ledge. Numbers are ids.lock.yml's (events, doors). Run with --world xeen --map xeen_xd10.blv
@@ -81,7 +81,7 @@ steps:
   - walk_to: {x: 256, y: 4500, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
   - walk_to: {x: 256, y: 3200, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
   - clear_hostiles: {radius: 2500}
-  # The upper skulls: +2 Luck for 3 gems, once per character. The cache's two random rolls may be gems: dropped first,
+  # The upper skulls: +2 Luck for 1 gem, once per character (D-143). The cache's two random rolls may be gems: dropped first,
   # so the gem counts below are the map's own.
   - lua_event:
       source: |
@@ -94,8 +94,6 @@ steps:
         end
   - walk_to: {x: -1450, y: 3200, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
   - grant_item: {item_id: 177, member_index: 0}
-  - grant_item: {item_id: 178, member_index: 0}
-  - grant_item: {item_id: 179, member_index: 0}
   - lua_event: {source: "SetValue(BaseLuck, 10)"}
   - play_lua: {source: "click(27); wait(0.5)"}
   - answer_input: {text: "Yes"}
@@ -186,7 +184,7 @@ steps:
         local n = 0
         for id = 177, 186 do n = n + item_count(id) end
         if n ~= 15 then error("the echo cave gave " .. n .. " gems") end
-  # Back to the deep skulls: +3 Intellect for 5 gems.
+  # Back to the deep skulls: +3 Intellect for 1 gem (D-143).
   - walk_to: {x: -576, y: 5632, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
   - walk_to: {x: 704, y: 6000, z: -640, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
   - walk_to: {x: 640, y: 6750, z: -640, radius: 64, timeout_seconds: 20, clear_hostiles: 1500, close_dialogs: true}
@@ -235,23 +233,18 @@ steps:
         if not qbit(111240) then error("key_bought not set") end
         local n = 0
         for id = 177, 186 do n = n + item_count(id) end
-        if n ~= 0 then error(n .. " gems left after the key") end
-  - grant_item: {item_id: 180, member_index: 1}
-  - grant_item: {item_id: 180, member_index: 1}
-  - grant_item: {item_id: 181, member_index: 1}
-  - grant_item: {item_id: 181, member_index: 1}
-  - grant_item: {item_id: 182, member_index: 1}
-  - grant_item: {item_id: 182, member_index: 1}
-  - grant_item: {item_id: 183, member_index: 1}
-  - grant_item: {item_id: 183, member_index: 1}
-  - grant_item: {item_id: 184, member_index: 1}
-  - grant_item: {item_id: 184, member_index: 1}
+        if n ~= 4 then error(n .. " gems left after the key (15 - 1 - 10)") end
   - lua_event: {source: "SetValue(BaseEndurance, 10)"}
   - play_lua: {source: "click(25); wait(0.5)"}
   - answer_input: {text: "Endurance"}
   - advance_runtime: {seconds: 1, present_dialogs: true}
   - assert: {dialog: {active: true, text_contains: "+5 Endurance"}}
-  - play_lua: {source: "close()"}
+  - play_lua:
+      source: |
+        close()
+        local n = 0
+        for id = 177, 186 do n = n + item_count(id) end
+        if n ~= 3 then error(n .. " gems left after the great skull's offer (one gem)") end
   - lua_event: {source: "if not IsAtLeast(BaseEndurance, 15) or IsAtLeast(BaseEndurance, 16) then error('Endurance is not 15') end"}
   - play_lua: {source: "click(25); wait(0.5)"}
   - advance_runtime: {seconds: 1, present_dialogs: true}

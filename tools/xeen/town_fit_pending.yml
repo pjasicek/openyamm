@@ -7,3 +7,7 @@
 # rule was added (X3's Newcastle mirror is fixed in that round; X4's fountain is on the X4 line above).
 # The sites on X4, X6, D5 and D6 were fixed on 2026-11-24 (level pads under them, common/level_pads.py; X6's oasis
 # fountain moved off the pond's bank) and taken out.
+# 2026-11-25 (F59/F66, agent xeen-fb4-outdoor): `things.overhang` now also covers tents, platforms, obelisks, crates,
+# stone rings and models, `decorations.slope` is new, and `props.in_wall` measures barrels and crates by their model's
+# width. Sites on maps not rebuilt in that round; common/level_pads.py `auto` (run by wild.apply) pads or sinks most
+# of them at their map's next rebuild (D3's crags and D6's cinder vent need a look: obelisk rocks on a crest).

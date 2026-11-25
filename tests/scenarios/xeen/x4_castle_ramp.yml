@@ -1,0 +1,2556 @@
+# Written by tools/xeen/ramp_test.py x4 (D-160): edit the script, not this file.
+# X4's castle lane (x4/places.py thing:castle_ramp): the village square up the rise's face to the gate; XD-07's castle door lands on it.
+#   build-xeen/game/openyamm --world xeen --map xeen_x4.odm --headless-run-scenario tests/scenarios/xeen/x4_castle_ramp.yml --scenario-no-color
+id: xeen.x4.ramp_solid
+title: 'X4: the ramp is solid (D-160): the dungeon exit lands on it, walking keeps to its top, pushing, jumping and Blinking
+  at it never gets under it'
+world: xeen
+mode: faithful
+steps:
+- note: '---- party mode ----'
+- new_game_flow:
+    start_map: xeen_xd07.blv
+- setup_shortcut:
+    kind: immortal
+    value: true
+- note: '(a) the real exit: xeen_xd07.blv event 8 lands on the ramp at (-1024, 6912)'
+- play_lua:
+    source: wait(3) close()
+- execute_event:
+    id: 8
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 0.5
+    follow_map_move: true
+- assert:
+    map: xeen_x4.odm
+- assert:
+    party_position:
+      x: -1024
+      y: 6912
+      radius: 300
+      z_min: 1760
+      z_max: 1860
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    party_position:
+      x: -1024
+      y: 6912
+      radius: 300
+      z_min: 1760
+      z_max: 1860
+- clear_hostiles:
+    radius: 6000
+- note: '(b) stations along the ramp: the feet within 32 of its surface'
+- set_pose:
+    map: xeen_x4.odm
+    x: -1024
+    y: 5445
+    z: 1365
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1024
+      y: 5445
+      radius: 48
+      z_min: 1317
+      z_max: 1381
+- set_pose:
+    map: xeen_x4.odm
+    x: -1248
+    y: 5445
+    z: 1365
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1248
+      y: 5445
+      radius: 48
+      z_min: 1317
+      z_max: 1381
+- set_pose:
+    map: xeen_x4.odm
+    x: -800
+    y: 5445
+    z: 1365
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -800
+      y: 5445
+      radius: 48
+      z_min: 1317
+      z_max: 1381
+- set_pose:
+    map: xeen_x4.odm
+    x: -1024
+    y: 5649
+    z: 1428
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1024
+      y: 5649
+      radius: 48
+      z_min: 1380
+      z_max: 1444
+- set_pose:
+    map: xeen_x4.odm
+    x: -1248
+    y: 5649
+    z: 1428
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1248
+      y: 5649
+      radius: 48
+      z_min: 1380
+      z_max: 1444
+- set_pose:
+    map: xeen_x4.odm
+    x: -800
+    y: 5649
+    z: 1428
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -800
+      y: 5649
+      radius: 48
+      z_min: 1380
+      z_max: 1444
+- set_pose:
+    map: xeen_x4.odm
+    x: -1024
+    y: 5852
+    z: 1490
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1024
+      y: 5852
+      radius: 48
+      z_min: 1442
+      z_max: 1506
+- set_pose:
+    map: xeen_x4.odm
+    x: -1248
+    y: 5852
+    z: 1490
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1248
+      y: 5852
+      radius: 48
+      z_min: 1442
+      z_max: 1506
+- set_pose:
+    map: xeen_x4.odm
+    x: -800
+    y: 5852
+    z: 1490
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -800
+      y: 5852
+      radius: 48
+      z_min: 1442
+      z_max: 1506
+- set_pose:
+    map: xeen_x4.odm
+    x: -1024
+    y: 6056
+    z: 1553
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1024
+      y: 6056
+      radius: 48
+      z_min: 1505
+      z_max: 1569
+- set_pose:
+    map: xeen_x4.odm
+    x: -1248
+    y: 6056
+    z: 1553
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1248
+      y: 6056
+      radius: 48
+      z_min: 1505
+      z_max: 1569
+- set_pose:
+    map: xeen_x4.odm
+    x: -800
+    y: 6056
+    z: 1553
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -800
+      y: 6056
+      radius: 48
+      z_min: 1505
+      z_max: 1569
+- set_pose:
+    map: xeen_x4.odm
+    x: -1024
+    y: 6260
+    z: 1616
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1024
+      y: 6260
+      radius: 48
+      z_min: 1568
+      z_max: 1632
+- set_pose:
+    map: xeen_x4.odm
+    x: -1248
+    y: 6260
+    z: 1616
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1248
+      y: 6260
+      radius: 48
+      z_min: 1568
+      z_max: 1632
+- set_pose:
+    map: xeen_x4.odm
+    x: -800
+    y: 6260
+    z: 1616
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -800
+      y: 6260
+      radius: 48
+      z_min: 1568
+      z_max: 1632
+- set_pose:
+    map: xeen_x4.odm
+    x: -1024
+    y: 6463
+    z: 1679
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1024
+      y: 6463
+      radius: 48
+      z_min: 1631
+      z_max: 1695
+- set_pose:
+    map: xeen_x4.odm
+    x: -1248
+    y: 6463
+    z: 1679
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1248
+      y: 6463
+      radius: 48
+      z_min: 1631
+      z_max: 1695
+- set_pose:
+    map: xeen_x4.odm
+    x: -800
+    y: 6463
+    z: 1679
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -800
+      y: 6463
+      radius: 48
+      z_min: 1631
+      z_max: 1695
+- set_pose:
+    map: xeen_x4.odm
+    x: -1024
+    y: 6667
+    z: 1742
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1024
+      y: 6667
+      radius: 48
+      z_min: 1694
+      z_max: 1758
+- set_pose:
+    map: xeen_x4.odm
+    x: -1248
+    y: 6667
+    z: 1742
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1248
+      y: 6667
+      radius: 48
+      z_min: 1694
+      z_max: 1758
+- set_pose:
+    map: xeen_x4.odm
+    x: -800
+    y: 6667
+    z: 1742
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -800
+      y: 6667
+      radius: 48
+      z_min: 1694
+      z_max: 1758
+- set_pose:
+    map: xeen_x4.odm
+    x: -1024
+    y: 6870
+    z: 1804
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1024
+      y: 6870
+      radius: 48
+      z_min: 1756
+      z_max: 1820
+- set_pose:
+    map: xeen_x4.odm
+    x: -1248
+    y: 6870
+    z: 1804
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1248
+      y: 6870
+      radius: 48
+      z_min: 1756
+      z_max: 1820
+- set_pose:
+    map: xeen_x4.odm
+    x: -800
+    y: 6870
+    z: 1804
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -800
+      y: 6870
+      radius: 48
+      z_min: 1756
+      z_max: 1820
+- set_pose:
+    map: xeen_x4.odm
+    x: -1024
+    y: 7074
+    z: 1867
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1024
+      y: 7074
+      radius: 48
+      z_min: 1819
+      z_max: 1883
+- set_pose:
+    map: xeen_x4.odm
+    x: -1248
+    y: 7074
+    z: 1867
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1248
+      y: 7074
+      radius: 48
+      z_min: 1819
+      z_max: 1883
+- set_pose:
+    map: xeen_x4.odm
+    x: -800
+    y: 7074
+    z: 1867
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -800
+      y: 7074
+      radius: 48
+      z_min: 1819
+      z_max: 1883
+- note: (b) the walk from the arrival down to the foot and back up to the top
+- clear_hostiles:
+    radius: 8000
+- set_pose:
+    map: xeen_x4.odm
+    x: -1024
+    y: 6912
+    z: 1809
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.3
+- movement_segment:
+    input: forward
+    seconds: 6.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1024
+      y: 6912
+      z: 1801
+      yaw_degrees: 270.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1024
+      y: 3825
+      z: 1312
+      yaw_degrees: 270.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.3
+- note: off the foot, on the land beyond it
+- assert:
+    party_position:
+      x: -1024
+      y: -14725
+      radius: 20000
+      z_min: 1280
+      z_max: 1408
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1024
+      y: 4925
+      z: 1312
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1024
+      y: 7194
+      z: 1888
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.3
+- note: 'back up past 1437 along the ramp: a party under the ramp could not stand this high'
+- assert:
+    party_position:
+      x: -1024
+      y: 26762
+      radius: 20000
+      z_min: 1723
+      z_max: 1984
+- note: '(c) beside the cheeks at ground level: pushes from four headings, a jump'
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6350
+      z: 1312
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6350
+      z: 1312
+      yaw_degrees: 0.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -21352
+      y: 6350
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6350
+      z: 1312
+      yaw_degrees: 35.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6350
+      z: 1312
+      yaw_degrees: 35.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -21352
+      y: 6350
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6350
+      z: 1312
+      yaw_degrees: -35.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6350
+      z: 1312
+      yaw_degrees: -35.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -21352
+      y: 6350
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6350
+      z: 1312
+      yaw_degrees: 70.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6350
+      z: 1312
+      yaw_degrees: 70.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -21352
+      y: 6350
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6350
+      z: 1312
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6350
+      z: 1312
+      yaw_degrees: 0.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+    jump: true
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -21352
+      y: 6350
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6800
+      z: 1312
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6800
+      z: 1312
+      yaw_degrees: 0.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -21352
+      y: 6800
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6800
+      z: 1312
+      yaw_degrees: 35.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6800
+      z: 1312
+      yaw_degrees: 35.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -21352
+      y: 6800
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6800
+      z: 1312
+      yaw_degrees: -35.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6800
+      z: 1312
+      yaw_degrees: -35.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -21352
+      y: 6800
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6800
+      z: 1312
+      yaw_degrees: 70.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6800
+      z: 1312
+      yaw_degrees: 70.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -21352
+      y: 6800
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6800
+      z: 1312
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6800
+      z: 1312
+      yaw_degrees: 0.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+    jump: true
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -21352
+      y: 6800
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -504
+      y: 6350
+      z: 1312
+      yaw_degrees: 180.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -504
+      y: 6350
+      z: 1312
+      yaw_degrees: 180.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 19304
+      y: 6350
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -504
+      y: 6350
+      z: 1312
+      yaw_degrees: 145.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -504
+      y: 6350
+      z: 1312
+      yaw_degrees: 145.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 19304
+      y: 6350
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -504
+      y: 6350
+      z: 1312
+      yaw_degrees: 215.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -504
+      y: 6350
+      z: 1312
+      yaw_degrees: 215.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 19304
+      y: 6350
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -504
+      y: 6350
+      z: 1312
+      yaw_degrees: 110.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -504
+      y: 6350
+      z: 1312
+      yaw_degrees: 110.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 19304
+      y: 6350
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -504
+      y: 6350
+      z: 1312
+      yaw_degrees: 180.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -504
+      y: 6350
+      z: 1312
+      yaw_degrees: 180.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+    jump: true
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 19304
+      y: 6350
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -504
+      y: 6800
+      z: 1312
+      yaw_degrees: 180.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -504
+      y: 6800
+      z: 1312
+      yaw_degrees: 180.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 19304
+      y: 6800
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -504
+      y: 6800
+      z: 1312
+      yaw_degrees: 145.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -504
+      y: 6800
+      z: 1312
+      yaw_degrees: 145.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 19304
+      y: 6800
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -504
+      y: 6800
+      z: 1312
+      yaw_degrees: 215.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -504
+      y: 6800
+      z: 1312
+      yaw_degrees: 215.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 19304
+      y: 6800
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -504
+      y: 6800
+      z: 1312
+      yaw_degrees: 110.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -504
+      y: 6800
+      z: 1312
+      yaw_degrees: 110.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 19304
+      y: 6800
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -504
+      y: 6800
+      z: 1312
+      yaw_degrees: 180.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -504
+      y: 6800
+      z: 1312
+      yaw_degrees: 180.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+    jump: true
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 19304
+      y: 6800
+      radius: 20000
+- note: '(c) into the foot from three headings: straight on up to its top; at 20 degrees for 1.2 s, on its top inside its
+    footprint (a longer slant walk steps off its side onto the land, which is not under it), never under it'
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1024
+      y: 5125
+      z: 1312
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1024
+      y: 7194
+      z: 1888
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    party_position:
+      x: -1024
+      y: 26762
+      radius: 20000
+      z_min: 1723
+      z_max: 1984
+- movement_segment:
+    input: forward
+    seconds: 1.2
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1024
+      y: 5125
+      z: 1312
+      yaw_degrees: 70.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1024
+      y: 5725
+      z: 1435
+      yaw_degrees: 70.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    party_position:
+      x: 18656
+      y: 5725
+      radius: 20000
+- assert:
+    party_position:
+      x: -20704
+      y: 5725
+      radius: 20000
+      z_min: 1357
+- movement_segment:
+    input: forward
+    seconds: 1.2
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1024
+      y: 5125
+      z: 1312
+      yaw_degrees: 110.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1024
+      y: 5725
+      z: 1435
+      yaw_degrees: 110.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    party_position:
+      x: 18656
+      y: 5725
+      radius: 20000
+- assert:
+    party_position:
+      x: -20704
+      y: 5725
+      radius: 20000
+      z_min: 1357
+- note: '---- solo mode ----'
+- new_game_flow:
+    start_map: xeen_xd07.blv
+    member_count: 1
+    ruleset: maw:solo
+- setup_shortcut:
+    kind: immortal
+    value: true
+- console:
+    line: talent blink 1
+    expect_contains: blink
+- note: '(a) the real exit: xeen_xd07.blv event 8 lands on the ramp at (-1024, 6912)'
+- play_lua:
+    source: wait(3) close()
+- execute_event:
+    id: 8
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 0.5
+    follow_map_move: true
+- assert:
+    map: xeen_x4.odm
+- assert:
+    party_position:
+      x: -1024
+      y: 6912
+      radius: 300
+      z_min: 1760
+      z_max: 1860
+- advance_runtime:
+    seconds: 2.5
+- assert:
+    party_position:
+      x: -1024
+      y: 6912
+      radius: 300
+      z_min: 1760
+      z_max: 1860
+- clear_hostiles:
+    radius: 6000
+- note: '(b) stations along the ramp: the feet within 32 of its surface'
+- set_pose:
+    map: xeen_x4.odm
+    x: -1024
+    y: 5445
+    z: 1365
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1024
+      y: 5445
+      radius: 48
+      z_min: 1317
+      z_max: 1381
+- set_pose:
+    map: xeen_x4.odm
+    x: -1248
+    y: 5445
+    z: 1365
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1248
+      y: 5445
+      radius: 48
+      z_min: 1317
+      z_max: 1381
+- set_pose:
+    map: xeen_x4.odm
+    x: -800
+    y: 5445
+    z: 1365
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -800
+      y: 5445
+      radius: 48
+      z_min: 1317
+      z_max: 1381
+- set_pose:
+    map: xeen_x4.odm
+    x: -1024
+    y: 5649
+    z: 1428
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1024
+      y: 5649
+      radius: 48
+      z_min: 1380
+      z_max: 1444
+- set_pose:
+    map: xeen_x4.odm
+    x: -1248
+    y: 5649
+    z: 1428
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1248
+      y: 5649
+      radius: 48
+      z_min: 1380
+      z_max: 1444
+- set_pose:
+    map: xeen_x4.odm
+    x: -800
+    y: 5649
+    z: 1428
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -800
+      y: 5649
+      radius: 48
+      z_min: 1380
+      z_max: 1444
+- set_pose:
+    map: xeen_x4.odm
+    x: -1024
+    y: 5852
+    z: 1490
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1024
+      y: 5852
+      radius: 48
+      z_min: 1442
+      z_max: 1506
+- set_pose:
+    map: xeen_x4.odm
+    x: -1248
+    y: 5852
+    z: 1490
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1248
+      y: 5852
+      radius: 48
+      z_min: 1442
+      z_max: 1506
+- set_pose:
+    map: xeen_x4.odm
+    x: -800
+    y: 5852
+    z: 1490
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -800
+      y: 5852
+      radius: 48
+      z_min: 1442
+      z_max: 1506
+- set_pose:
+    map: xeen_x4.odm
+    x: -1024
+    y: 6056
+    z: 1553
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1024
+      y: 6056
+      radius: 48
+      z_min: 1505
+      z_max: 1569
+- set_pose:
+    map: xeen_x4.odm
+    x: -1248
+    y: 6056
+    z: 1553
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1248
+      y: 6056
+      radius: 48
+      z_min: 1505
+      z_max: 1569
+- set_pose:
+    map: xeen_x4.odm
+    x: -800
+    y: 6056
+    z: 1553
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -800
+      y: 6056
+      radius: 48
+      z_min: 1505
+      z_max: 1569
+- set_pose:
+    map: xeen_x4.odm
+    x: -1024
+    y: 6260
+    z: 1616
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1024
+      y: 6260
+      radius: 48
+      z_min: 1568
+      z_max: 1632
+- set_pose:
+    map: xeen_x4.odm
+    x: -1248
+    y: 6260
+    z: 1616
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1248
+      y: 6260
+      radius: 48
+      z_min: 1568
+      z_max: 1632
+- set_pose:
+    map: xeen_x4.odm
+    x: -800
+    y: 6260
+    z: 1616
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -800
+      y: 6260
+      radius: 48
+      z_min: 1568
+      z_max: 1632
+- set_pose:
+    map: xeen_x4.odm
+    x: -1024
+    y: 6463
+    z: 1679
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1024
+      y: 6463
+      radius: 48
+      z_min: 1631
+      z_max: 1695
+- set_pose:
+    map: xeen_x4.odm
+    x: -1248
+    y: 6463
+    z: 1679
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1248
+      y: 6463
+      radius: 48
+      z_min: 1631
+      z_max: 1695
+- set_pose:
+    map: xeen_x4.odm
+    x: -800
+    y: 6463
+    z: 1679
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -800
+      y: 6463
+      radius: 48
+      z_min: 1631
+      z_max: 1695
+- set_pose:
+    map: xeen_x4.odm
+    x: -1024
+    y: 6667
+    z: 1742
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1024
+      y: 6667
+      radius: 48
+      z_min: 1694
+      z_max: 1758
+- set_pose:
+    map: xeen_x4.odm
+    x: -1248
+    y: 6667
+    z: 1742
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1248
+      y: 6667
+      radius: 48
+      z_min: 1694
+      z_max: 1758
+- set_pose:
+    map: xeen_x4.odm
+    x: -800
+    y: 6667
+    z: 1742
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -800
+      y: 6667
+      radius: 48
+      z_min: 1694
+      z_max: 1758
+- set_pose:
+    map: xeen_x4.odm
+    x: -1024
+    y: 6870
+    z: 1804
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1024
+      y: 6870
+      radius: 48
+      z_min: 1756
+      z_max: 1820
+- set_pose:
+    map: xeen_x4.odm
+    x: -1248
+    y: 6870
+    z: 1804
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1248
+      y: 6870
+      radius: 48
+      z_min: 1756
+      z_max: 1820
+- set_pose:
+    map: xeen_x4.odm
+    x: -800
+    y: 6870
+    z: 1804
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -800
+      y: 6870
+      radius: 48
+      z_min: 1756
+      z_max: 1820
+- set_pose:
+    map: xeen_x4.odm
+    x: -1024
+    y: 7074
+    z: 1867
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1024
+      y: 7074
+      radius: 48
+      z_min: 1819
+      z_max: 1883
+- set_pose:
+    map: xeen_x4.odm
+    x: -1248
+    y: 7074
+    z: 1867
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -1248
+      y: 7074
+      radius: 48
+      z_min: 1819
+      z_max: 1883
+- set_pose:
+    map: xeen_x4.odm
+    x: -800
+    y: 7074
+    z: 1867
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -800
+      y: 7074
+      radius: 48
+      z_min: 1819
+      z_max: 1883
+- note: (b) the walk from the arrival down to the foot and back up to the top
+- clear_hostiles:
+    radius: 8000
+- set_pose:
+    map: xeen_x4.odm
+    x: -1024
+    y: 6912
+    z: 1809
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.3
+- movement_segment:
+    input: forward
+    seconds: 6.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1024
+      y: 6912
+      z: 1801
+      yaw_degrees: 270.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1024
+      y: 3825
+      z: 1312
+      yaw_degrees: 270.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.3
+- note: off the foot, on the land beyond it
+- assert:
+    party_position:
+      x: -1024
+      y: -14725
+      radius: 20000
+      z_min: 1280
+      z_max: 1408
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1024
+      y: 4925
+      z: 1312
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1024
+      y: 7194
+      z: 1888
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.3
+- note: 'back up past 1437 along the ramp: a party under the ramp could not stand this high'
+- assert:
+    party_position:
+      x: -1024
+      y: 26762
+      radius: 20000
+      z_min: 1723
+      z_max: 1984
+- note: '(c) beside the cheeks at ground level: pushes from four headings, a jump and a Blink'
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6350
+      z: 1312
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6350
+      z: 1312
+      yaw_degrees: 0.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -21352
+      y: 6350
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6350
+      z: 1312
+      yaw_degrees: 35.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6350
+      z: 1312
+      yaw_degrees: 35.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -21352
+      y: 6350
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6350
+      z: 1312
+      yaw_degrees: -35.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6350
+      z: 1312
+      yaw_degrees: -35.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -21352
+      y: 6350
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6350
+      z: 1312
+      yaw_degrees: 70.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6350
+      z: 1312
+      yaw_degrees: 70.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -21352
+      y: 6350
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6350
+      z: 1312
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6350
+      z: 1312
+      yaw_degrees: 0.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+    jump: true
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -21352
+      y: 6350
+      radius: 20000
+- set_pose:
+    map: xeen_x4.odm
+    x: -1544
+    y: 6350
+    z: 1312
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.3
+- console:
+    line: talent use blink
+    expect_contains: using
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    party_position:
+      x: -21352
+      y: 6350
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6800
+      z: 1312
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6800
+      z: 1312
+      yaw_degrees: 0.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -21352
+      y: 6800
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6800
+      z: 1312
+      yaw_degrees: 35.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6800
+      z: 1312
+      yaw_degrees: 35.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -21352
+      y: 6800
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6800
+      z: 1312
+      yaw_degrees: -35.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6800
+      z: 1312
+      yaw_degrees: -35.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -21352
+      y: 6800
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6800
+      z: 1312
+      yaw_degrees: 70.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6800
+      z: 1312
+      yaw_degrees: 70.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -21352
+      y: 6800
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6800
+      z: 1312
+      yaw_degrees: 0.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1544
+      y: 6800
+      z: 1312
+      yaw_degrees: 0.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+    jump: true
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: -21352
+      y: 6800
+      radius: 20000
+- set_pose:
+    map: xeen_x4.odm
+    x: -1544
+    y: 6800
+    z: 1312
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.3
+- console:
+    line: talent use blink
+    expect_contains: using
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    party_position:
+      x: -21352
+      y: 6800
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -504
+      y: 6350
+      z: 1312
+      yaw_degrees: 180.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -504
+      y: 6350
+      z: 1312
+      yaw_degrees: 180.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 19304
+      y: 6350
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -504
+      y: 6350
+      z: 1312
+      yaw_degrees: 145.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -504
+      y: 6350
+      z: 1312
+      yaw_degrees: 145.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 19304
+      y: 6350
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -504
+      y: 6350
+      z: 1312
+      yaw_degrees: 215.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -504
+      y: 6350
+      z: 1312
+      yaw_degrees: 215.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 19304
+      y: 6350
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -504
+      y: 6350
+      z: 1312
+      yaw_degrees: 110.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -504
+      y: 6350
+      z: 1312
+      yaw_degrees: 110.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 19304
+      y: 6350
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -504
+      y: 6350
+      z: 1312
+      yaw_degrees: 180.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -504
+      y: 6350
+      z: 1312
+      yaw_degrees: 180.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+    jump: true
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 19304
+      y: 6350
+      radius: 20000
+- set_pose:
+    map: xeen_x4.odm
+    x: -504
+    y: 6350
+    z: 1312
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.3
+- console:
+    line: talent use blink
+    expect_contains: using
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    party_position:
+      x: 19304
+      y: 6350
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -504
+      y: 6800
+      z: 1312
+      yaw_degrees: 180.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -504
+      y: 6800
+      z: 1312
+      yaw_degrees: 180.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 19304
+      y: 6800
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -504
+      y: 6800
+      z: 1312
+      yaw_degrees: 145.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -504
+      y: 6800
+      z: 1312
+      yaw_degrees: 145.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 19304
+      y: 6800
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -504
+      y: 6800
+      z: 1312
+      yaw_degrees: 215.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -504
+      y: 6800
+      z: 1312
+      yaw_degrees: 215.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 19304
+      y: 6800
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -504
+      y: 6800
+      z: 1312
+      yaw_degrees: 110.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -504
+      y: 6800
+      z: 1312
+      yaw_degrees: 110.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 19304
+      y: 6800
+      radius: 20000
+- movement_segment:
+    input: forward
+    seconds: 2.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -504
+      y: 6800
+      z: 1312
+      yaw_degrees: 180.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -504
+      y: 6800
+      z: 1312
+      yaw_degrees: 180.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+    jump: true
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 19304
+      y: 6800
+      radius: 20000
+- set_pose:
+    map: xeen_x4.odm
+    x: -504
+    y: 6800
+    z: 1312
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.3
+- console:
+    line: talent use blink
+    expect_contains: using
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    party_position:
+      x: 19304
+      y: 6800
+      radius: 20000
+- note: '(c) into the foot from three headings: straight on up to its top; at 20 degrees for 1.2 s, on its top inside its
+    footprint (a longer slant walk steps off its side onto the land, which is not under it), never under it'
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1024
+      y: 5125
+      z: 1312
+      yaw_degrees: 90.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1024
+      y: 7194
+      z: 1888
+      yaw_degrees: 90.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    party_position:
+      x: -1024
+      y: 26762
+      radius: 20000
+      z_min: 1723
+      z_max: 1984
+- movement_segment:
+    input: forward
+    seconds: 1.2
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1024
+      y: 5125
+      z: 1312
+      yaw_degrees: 70.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1024
+      y: 5725
+      z: 1435
+      yaw_degrees: 70.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    party_position:
+      x: 18656
+      y: 5725
+      radius: 20000
+- assert:
+    party_position:
+      x: -20704
+      y: 5725
+      radius: 20000
+      z_min: 1357
+- movement_segment:
+    input: forward
+    seconds: 1.2
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x4.odm
+      x: -1024
+      y: 5125
+      z: 1312
+      yaw_degrees: 110.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x4.odm
+      x: -1024
+      y: 5725
+      z: 1435
+      yaw_degrees: 110.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.3
+- assert:
+    party_position:
+      x: 18656
+      y: 5725
+      radius: 20000
+- assert:
+    party_position:
+      x: -20704
+      y: 5725
+      radius: 20000
+      z_min: 1357

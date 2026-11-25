@@ -140,10 +140,10 @@ ASTRA = ["  - set_pose: {map: xeen_d3.odm, x: -12800, y: 20756, z: 1519, yaw: 1.
 LEAFPOINT = ["  - set_pose: {map: xeen_d4.odm, x: -11264, y: 819, z: 1504, yaw: 0.0, pitch: 0.0}",
              "  - advance_runtime: {seconds: 0.5}", "  - clear_hostiles: {radius: 3000}",
              "  - interact_actor: {actor_index: 22}"]
-# Luna in her grove on D1 (segment 85's pose; actor 32).
+# Luna in her grove on D1 (segment 85's pose; actor 47 since D1's 2026-11-25 rebuild put 15 actors before her).
 LUNA = ["  - set_pose: {map: xeen_d1.odm, x: -16691, y: 717, z: 1190, yaw: 0.0, pitch: 0.0}",
         "  - advance_runtime: {seconds: 0.5}", "  - clear_hostiles: {radius: 3000}",
-        "  - interact_actor: {actor_index: 32}"]
+        "  - interact_actor: {actor_index: 47}"]
 # Kramer's Caravans on D1 (segment 47's door; it opens on Kramer's talk).
 KRAMER = ["  - set_pose: {map: xeen_d1.odm, x: 3844, y: 5904, z: 1152, yaw: 0.0, pitch: 0.0}",
           "  - advance_runtime: {seconds: 0.5}", "  - clear_hostiles: {radius: 3000}",

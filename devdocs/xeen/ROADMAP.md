@@ -202,7 +202,7 @@ by one.
    against walls or in corners, barrels mostly in pairs, clumps only in storerooms.
 4. Outdoor maps:
    - all of MAPS's outdoor sheet checklist (one obelisk, 20–50 POIs, encounter areas, at least a third of the land
-     quiet, chests with a reason, relief, the first fight 2,000–6,000 from each map-edge arrival and the new-game start; town arrivals
+     quiet, chests with a reason, relief, the first fight 4,096–8,192 from each map-edge arrival and the new-game start (5,888 for a slot that shoots or casts, spawn centres 1,024 from a road, lane or path, D-142, D-157; a start in a town that shares its point with a town arrival has no upper end, D-158); town arrivals
      keep the town buffer instead, D-15);
    - `town_feel` (with `--small` for a town of 9 services or fewer) with no figure out of range, or each one kept
      with a reason line under "Town feel exceptions" in NOTES.md (D-20).

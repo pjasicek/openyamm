@@ -63,7 +63,9 @@ HOUSE_XEEN = {
 HOUSE_MIRROR, HOUSE_BAROK, HOUSE_MEDIN, HOUSE_TITO = 4064, 4095, 4096, 4097
 LIGONO_GROUP = 55
 # NPCs without a house that the map places (A4): Danulf at his ring, Ligono on the cliff top at the rim
-NPC_ACTORS = [(4154, '371', (56.8, 82.6)), (4155, '270', (27.0, 102.0))]   # 371 MM7's Peasant Human2 MaleB
+# F63 (2026-11-25, check_spawn_clear spawn.in_model): Danulf from (56.8, 82.6), 20 from a ring stone's face, to
+# between his altar and the stones, north-east of it (5,888 from the sprites' circle at (46, 87), D-85)
+NPC_ACTORS = [(4154, '371', (56.5, 81.8)), (4155, '270', (27.0, 102.0))]   # 371 MM7's Peasant Human2 MaleB
 XD06_EXIT = [(62.0, 98.0), (62.0, 98.84)]   # D-88: XD-06's named arrival and its own MoveToMap (-1024, -17840)
 # A2's rows: slot names (map_stats) and placed rows. Sprites 10/14/18 (Medusa Sprite, Killer Sprite, Sprite Queen),
 # rangers 8/12/18 (Evil Archer, Evil Ranger, Elite Ranger), ogres 18/22/30 (Ogre, Ogre Brute, Ogre Chief; the slot at
@@ -113,10 +115,16 @@ PLATEAU = 1024     # the farmland, the woods' floor and Rivercity's two terraces
 BANK = 640         # the quays and the river banks
 RIVER = 576        # the Great River and Lake Darzog
 ISLE_H = 768       # the island
+SPRITE_NEST = (44.5, 84.0)   # D-167: the sprites' nest (thing:sprite_eggs) in the west woods' dry hollow
 X9_FALL = [34, 58]   # X9's fall landing (D-50 change 4, kept by D-54): (-15360, 3072, 768) facing east
 # D-54: the three lake dragons' homes and leash radii (north-west lobe, west channel, south lobe); leash circles 6,587 /
 # 6,656 / 6,307 from X9_FALL and 6,147 / 5,985 / 5,997 from Darzog's door (-16031, 3014)
-LAKE_DRAGONS = [((23, 48), 1024), ((19.5, 58), 768), ((28, 71), 1024)]
+# D-142 (2026-11-25): the north-west lobe's (23, 48) -> (20.5, 51.5): it breathes (Ice Blast), so 5,888 from the
+# west road's arrival (21, 40): 4,222 -> 5,893; its leash circle 6,077 from Darzog's door, 7,600 from X9's landing,
+# 834 from the map's bound (check_spawn_clear's 768)
+# F63 (2026-11-25, check_spawn_clear spawn.at_hull): the west dragon from (19.5, 58), 322 from the west bound, a cell
+# east
+LAKE_DRAGONS = [((20.5, 51.5), 1024), ((20.5, 58), 768), ((28, 71), 1024)]
 RIM_Y = 104        # the world rim: the land ends in a cliff along y 104, the stars (water at 0) below
 # 2026-11-16 (the compact town): the river narrows between Rivercity's quays to the water nodes y 51-55 (49-55 before)
 # so that the two halves stand 8 cells apart instead of 11; 4 wide from the lake's outlet and east of the dock.
@@ -155,6 +163,29 @@ def roll(x, y):
     v = (560 * math.sin(x / 3.3 + 0.4) * math.sin(y / 3.9 + 1.3) + 380 * math.sin((x + 1.3 * y) / 5.1 + 0.9)
          + 170 * math.sin((x - 1.6 * y) / 2.7))
     return w * max(v, -380.0)
+
+def d142_enforce(areas):
+    """D-142's moves for the encounter circles (common/d142.py), keeping the checks of build()'s marker loop."""
+    root = os.path.realpath(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', '..', '..'))
+    sys.path.insert(0, os.path.join(root, 'level_generation', 'projects', 'xeen', 'common'))
+    import d142
+    sys.path.pop(0)
+    l4 = os.path.join(root, 'devdocs', 'xeen', 'briefs', 'x2', 'L4', 'sketch.yml')
+    keep = [[[46, 30], [87, 30], [87, 70], [46, 70]], [[24, 51], [38, 51], [38, 65], [24, 65]]]
+    base = d142.standard_ok(l4, height, keep_off=keep, wet=lambda x, y: in_lake((x, y)))
+    town = [d[2] for d in doors_out if K.inside(d[2], TOWN_POLY)]
+
+    def ok(x, y, r):
+        return base(x, y, r) and (min(math.hypot(x - p[0], y - p[1]) for p in town) - r) * 512 >= 4500
+    sprites = lambda x, y, r: ok(x, y, r) and all((math.hypot(x - q[0], y - q[1]) - r) * 512 >= 5888 for q in XD06_EXIT)
+    slots = {'pop:sprites': 1, 'pop:dark_sprites': 1, 'pop:rangers': 2, 'pop:road_rangers': 2, 'pop:west_shore': 2,
+             'pop:ogres': 3}
+    # F63 (2026-11-25): hull_reason() moves a circle whose markers come within 768 of the bounds or the void (the
+    # rangers' second and third: spawns 25, 26 stood 546 and 578 from the north bound)
+    hull = d142.hull_reason(l4)
+    for pop, slot in slots.items():
+        d142.enforce('xeen_x2', areas, d142.road_cells(l4), {pop: slot}, sprites if slot == 1 else ok, also=hull)
+
 
 def height(x, y):
     h = PLATEAU
@@ -245,7 +276,10 @@ BACK_LANE_S = [[53.5, 64.5], [63.5, 64.5]]
 BACK_LANE_SE = [[64.5, 64.5], [74.5, 64.5]]
 LANES = [PROM_N_W, PROM_N_E, PROM_S_W, PROM_S_E, BACK_LANE_S, BACK_LANE_SE]
 WOODS_PATH = [[63, 73], [61, 77], [58, 80], [58, 86], [61, 90], [62, 95], [62, 97.5]]
-LAKE_PATH = [[54.5, SOUTH_Y], [49, SOUTH_Y], [47.5, 61]]
+# D-170 (2026-11-25): the path's last stretch a row south of Medin's jetty (y 62): the studio grades a lane's nodes to the
+# mean of its land after the terraces, and along y 61 it lifted the nodes under the jetty's south edge to 704 (its pad's
+# 640 lost; the deck at 672 lay under the land there, check_faces faces.on_land)
+LAKE_PATH = [[54.5, SOUTH_Y], [51, SOUTH_Y], [50, 62], [47.5, 62]]
 LAIR_PATH = [[31, 40], [28, 37], [25, 34], [23, 31.5]]
 FARM_LANE_W = [[66, 30.5], [58, 31], [50, 28], [46, 24]]
 FARM_LANE_E = [[66, 29.5], [67, 27], [74, 27], [82, 25], [88, 25]]
@@ -1078,7 +1112,7 @@ def build():
         {'id': 'poi:ranger_camps', 'index': 1, 'at': [88, 24]}, {'id': 'poi:ranger_camps', 'index': 2, 'at': [46, 22]},
         {'id': 'poi:nystor_dock', 'at': [78, 56]}, {'id': 'poi:crodo_bottle', 'at': [41, 71]},
         {'id': 'poi:barok_hut', 'at': [44, 37]}, {'id': 'poi:mirror', 'at': [62, 46]},
-        {'id': 'poi:town_fountain', 'at': [64, 46]}, {'id': 'poi:sprite_eggs', 'at': [49, 87]},
+        {'id': 'poi:town_fountain', 'at': [64, 46]}, {'id': 'poi:sprite_eggs', 'at': [44, 84]},
         {'id': 'poi:boulder', 'at': [38, 43]}, {'id': 'poi:ads', 'at': [67, 45]},
         {'id': 'poi:wells', 'index': 1, 'at': [62, 40]}, {'id': 'poi:wells', 'index': 2, 'at': [63, 63]},
         {'id': 'poi:wells', 'index': 3, 'at': [60, 29]}, {'id': 'poi:wells', 'index': 4, 'at': [77, 78]},
@@ -1131,11 +1165,17 @@ def build():
     # 1,997 from the north road's arrival (66, 21)
     camps('pop:rangers', [(44, 21, 2, 1), (50, 20, 1, 1), (92, 21, 2, 1.5), (85, 21, 1, 1), (58, 20, 2, 1.5), (71, 23, 1, 1),
                           (76, 21, 1, 1), (101, 27, 2, 1.5)])
-    camps('pop:road_rangers', [(97, 44, 2, 1.5)])
+    # D-142 (2026-11-25): the east road's archers shoot, so 5,888 from its arrival (106, 46) and inside D-15's 8,192:
+    # (97, 44) r 1.5 (3,920) -> (99, 57) r 1, south of the road (about 6,100)
+    camps('pop:road_rangers', [(99, 57, 2, 1)])
     camps('pop:ogres', [(32, 42, 2, 1.5), (25, 42, 1, 1), (29, 32, 2, 1.5), (24, 35, 1, 1), (28, 21, 2, 1), (35, 29, 1, 1)])
     # F10 (A5 s29): the south-west rim corner (tile [20, 103]) lay 12,998 from every monster; the shore's pair moves
     # south from (22, 76) to (22, 88): 6,656 from the corner, 7,800 from Ligono (27, 103); counts unchanged
     camps('pop:west_shore', [(22, 88, 2, 1.5), (31, 78, 1, 1)])
+    # D-142 (2026-11-25, F64): 4,096 from the edge arrivals and (X2 rebuilt under the rule) the dungeon exits, 5,888
+    # for the rangers' slot (Arrows), the circle's edge; centres 1,024 from the roads and lanes. A failing circle moves
+    # to the nearest passing spot that keeps the checks below (common/d142.py; the moves print as `D-142:`)
+    d142_enforce(areas)
     for a in areas:
         c = a['circle']
         near = min(math.hypot(c['at'][0] - p[0], c['at'][1] - p[1]) for p in [d[2] for d in doors_out
@@ -1220,8 +1260,13 @@ def build():
                   'signs': [{'wall': 'w', 'bay': 0, 'texture': 'sgdock', 'hang': True, 'size': [64, 64], 'out': 48,
                              'bottom': 120}]}],
        'door': {'part': 'house', 'wall': 'w'}})
-    S({'id': 'thing:nystor_pier', 'kind': 'bridge', 'line': [[80.2, 55.2], [80.2, 52.7]], 'width': 384,
-       'height': BANK + 32, 'kerb': 0, 'textures': {'deck': 'trim11_32'}, 'title': "Captain Nystor's pier"})
+    # F67 p12 (2026-11-25): the head out to y 52.0 over the river (52.7 before): the river's water tiles are rows
+    # 51-53 and the beach under the quay rows 54-55. `head: last` (common/wild.py) keeps the head from being taken for a
+    # land end; town_fit_check bridges.step skips an end over the sketch's water. Its east kerb stays 0.47 clear of the
+    # ship (x 81.04)
+    S({'id': 'thing:nystor_pier', 'kind': 'bridge', 'line': [[80.2, 55.2], [80.2, 52.0]], 'width': 384,
+       'height': BANK + 32, 'kerb': 0, 'textures': {'deck': 'trim11_32'}, 'title': "Captain Nystor's pier",
+       'head': 'last'})
     S({'id': 'thing:nystor_post', 'kind': 'sign', 'at': [80.8, 53.3], 'height': 256, 'width': 128,
        'title': 'Captain Nystor',
        **({'effects': [{'text': "Captain Nystor: \"I can give ya a boat ride to the Eastern shore for 100 gold "
@@ -1390,8 +1435,11 @@ def build():
        'condition': {'lua': 'XeenQuests.hook("q-c12.temple_door")'},
        'notes': 'XD-06 (DOORS.md), moved from X1. D-89 (A5 s29): open without the Yak Stone; A3\'s q-c12.temple_door '
                 '(always true) before the entrance window (trans 5006).'})
-    for i, (d, at) in enumerate([('dec06', (61.2, 99.0)), ('dec06', (62.8, 99.0)), ('sklplrev', (60.4, 98.6)),
-                                 ('sklplrev', (63.6, 98.6)), ('7dec20', (60.0, 97.8)), ('7dec18', (64.2, 97.9))]):
+    # xeen-fb4-outdoor3 (2026-11-25): the skull piles on the temple's level plot (1,088), each north of its tower; the
+    # east one stood at (63.6, 98.6) in the dip before the door (864), 24 over its rim (town_fit decorations.slope),
+    # its level pad lost to the plot (the west one moves with it, the pair kept)
+    for i, (d, at) in enumerate([('dec06', (61.2, 99.0)), ('dec06', (62.8, 99.0)), ('sklplrev', (60.3, 99.3)),
+                                 ('sklplrev', (63.7, 99.3)), ('7dec20', (60.0, 97.8)), ('7dec18', (64.2, 97.9))]):
         S(deco('thing:yak_dress_%d' % (i + 1), d, at))
     # ---------------------------------------------------------------- the lake: Medin, the island, Crodo's bottle
     S({'id': 'thing:medin_jetty', 'kind': 'bridge', 'line': [[47.6, 60.5], [44.6, 60.5]], 'width': 384,
@@ -1402,9 +1450,11 @@ def build():
                    {'teleport': {'to': list(ISLAND_LANDING), 'direction': 180}}],
        'else_effects': hook('q-c13.medin_boat') if IN_WORLD else
                        [msg('Medin\'s boat is tied up. "Not while those beasts circle the island," says Medin.')]})
-    S({'id': 'thing:island_jetty', 'kind': 'bridge', 'line': [[36.0, 60.5], [39.0, 60.5]], 'width': 384,
+    # D-174 (xeen-fb4-fix7, 2026-11-25): on y 60.0, off the crown's south-east corner, whose node 35,61 the studio
+    # holds at the lake's 576: across a deck on 60.5 the land fell 60 under its south side (town_fit bridges.step)
+    S({'id': 'thing:island_jetty', 'kind': 'bridge', 'line': [[36.0, 60.0], [39.0, 60.0]], 'width': 384,
        'height': BANK + 32, 'textures': {'deck': 'trim11_32'}, 'title': 'Island jetty'})
-    S({'id': 'thing:island_boat', 'kind': 'sign', 'at': [38.6, 61.0], 'height': 192, 'width': 128,
+    S({'id': 'thing:island_boat', 'kind': 'sign', 'at': [38.6, 60.5], 'height': 192, 'width': 128,
        'title': "Medin's boat",
        'effects': [{'text': 'Medin rows you back to his jetty.'},
                    {'teleport': {'to': list(MEDIN_LANDING), 'direction': 0}}]})
@@ -1433,13 +1483,30 @@ def build():
         _ring = structures[-1]
         for _k in ('condition', 'once', 'effects', 'else_effects'):
             _ring.pop(_k)
-    S(deco('thing:sprite_eggs', 'mushrm05', (49.2, 87.3), title='Sprite eggs', effects=hook('q-c17.nest'))
-      if IN_WORLD else
-      deco('thing:sprite_eggs', 'mushrm05', (49.2, 87.3), title='Sprite eggs', once=True,
-           effects=[{'qbit': 'sprite_eggs'}, {'qbit': 'faery_wand'}, {'add': {'var': 'Experience', 'value': 2000}},
-                    msg('You have discovered a hollow full of blue speckled Sprite eggs. You ruin the nesting places '
-                        'and crush the eggs. Among them lies a slim wand of white wood: Danulf\'s Wand of Faery Magic. '
-                        '(+2,000 experience)')]))
+    # D-167 (issue #45, 2026-11-25): the sprites' nest is a large prop in the dry hollow at the heart of the west woods
+    # (the land's 640 between (42, 82) and (46, 86), ringed by the sprites' markers (44, 78), (45, 80), (46, 87),
+    # (46, 88), (40, 84); 6,250 from Danulf), not the small mushroom at (49.2, 87.3): a round floor of woven twigs 600
+    # across (X9's roc nests' gkp1flr) inside a rim of 14 twig bundles (a stone ring's standing stones in the same
+    # texture, 140 high, turned and varied by its seed), dead branches leaning on it outside. Floor and rim carry one
+    # click, the cursor find (D-93). The id keeps event 147
+    if IN_WORLD:
+        S({'id': 'thing:sprite_eggs', 'kind': 'platform', 'at': list(SPRITE_NEST), 'sides': 12, 'radius': 300,
+           'height': 56, 'textures': {'top': 'gkp1flr', 'wall': 'gkp1flr'}, 'title': 'Sprite nest',
+           'effects': hook('q-c17.nest')})
+        S({'id': 'thing:sprite_nest_rim', 'kind': 'stone_ring', 'at': list(SPRITE_NEST), 'radius': 300, 'count': 14,
+           'stone': [112, 72, 140], 'lintel': False, 'seed': 5, 'textures': {'wall': 'gkp1flr', 'top': 'gkp1flr'},
+           'same_event_as': 'thing:sprite_eggs'})
+        for i, (d, a) in enumerate([('7dec16', 20), ('7dec12', 80), ('7dec16', 140), ('7dec12', 200), ('7dec16', 260),
+                                    ('7dec12', 320)]):
+            r = 0.8     # D-170 round (2026-11-25): at 0.74 their discs stood 8-20 into the rim's stones (props.in_wall)
+            S(deco('thing:sprite_nest_twigs_%d' % (i + 1), d, (SPRITE_NEST[0] + r * math.cos(math.radians(a)),
+                                                              SPRITE_NEST[1] + r * math.sin(math.radians(a)))))
+    else:
+        S(deco('thing:sprite_eggs', 'mushrm05', (49.2, 87.3), title='Sprite eggs', once=True,
+               effects=[{'qbit': 'sprite_eggs'}, {'qbit': 'faery_wand'}, {'add': {'var': 'Experience', 'value': 2000}},
+                        msg('You have discovered a hollow full of blue speckled Sprite eggs. You ruin the nesting '
+                            'places and crush the eggs. Among them lies a slim wand of white wood: Danulf\'s Wand of '
+                            'Faery Magic. (+2,000 experience)')]))
     S({'id': 'thing:sage_fountain', 'kind': 'fountain', 'at': [70, 86], 'title': "Sage's Fountain",
        'condition': {'not': {'map_var': 'sage_drunk'}},
        'effects': [{'set': {'var': {'map_var': 'sage_drunk'}, 'value': 1}},
@@ -1563,7 +1630,9 @@ def build():
     # Rivercity's people: D-96's villagers (villagers.yml palette, villagers_spots.yml spots; they replace F20's
     # earlier 18 townsfolk of four MM7 kinds, Vertigo's own)
     actors += V.slots(18)     # the 18 earlier townsfolk's places in the list (actor indices stay)
-    for (x, y) in [(63.2, 47.9), (64.8, 47.9), (63.2, 58.1), (64.8, 58.1), (82.6, 43.8), (52.9, 43.2),
+    # F63 (2026-11-25, check_spawn_clear spawn.in_model): the Great Bridge's four guards 0.15 in from its parapets
+    # (they stood 22 from them, 85 needed)
+    for (x, y) in [(63.35, 47.9), (64.65, 47.9), (63.35, 58.1), (64.65, 58.1), (82.6, 43.8), (52.9, 43.2),
                    (68.3, 60.9), (62.0, 38.5)]:
         actors.append({'monster': '404', 'at': [x, y], 'spread': 0, 'group': 51})
     for i, (x, y) in enumerate([(88, 24), (46, 22)]):
@@ -1576,8 +1645,11 @@ def build():
     # spread from both, with the land (or the temple) between: the ogres on the rise south of the lair's camp, on its
     # approach; three sprites behind the temple's north-west corner (and 5,888 plus spread from NPC 4154, D-85), two
     # round its south-east corner
-    actors.append({'monster': W_('594'), 'at': [21.45, 34.4], 'count': 1, 'spread': 0, 'group': 62, 'hostile': True})
-    actors.append({'monster': W_('593'), 'at': [23.1, 35.45], 'count': 2, 'spread': 0.8, 'group': 62, 'hostile': True})
+    # D-142 (2026-11-25): the lair's ogres 4,096 plus spread from the XD-27 arrival (X2 rebuilt under the rule) and
+    # from the west road's: no spot between the two (9.7 cells apart) holds both, so they keep the lair's east ridge,
+    # (21.45, 34.4) -> (33, 28), (23.1, 35.45) -> (32, 32): 2,243-2,876 -> about 4,250 and over 7,000
+    actors.append({'monster': W_('594'), 'at': [33, 28], 'count': 1, 'spread': 0, 'group': 62, 'hostile': True})
+    actors.append({'monster': W_('593'), 'at': [32, 32], 'count': 2, 'spread': 0.8, 'group': 62, 'hostile': True})
     actors.append({'monster': W_('98'), 'at': [57.5, 95.65], 'count': 3, 'spread': 1.0, 'group': 63, 'hostile': True})
     actors.append({'monster': W_('98'), 'at': [66.6, 101.6], 'count': 2, 'spread': 0.8, 'group': 63, 'hostile': True})
     # D-54: the lake dragons further out on the lake, each held to its home by a leash; every leash circle's nearest
@@ -1585,7 +1657,8 @@ def build():
     for i, (at, leash) in enumerate(LAKE_DRAGONS):
         actors.append({'monster': W_('192'), 'at': list(at), 'count': 1, 'spread': 0, 'group': 80, 'hostile': True,
                        'leash': leash, 'notes': "One of Medin's three lake beasts."})
-    for i, (kind, at) in enumerate([('593', (30, 20)), ('97', (84, 69)), ('202', (100, 22)), ('97', (42, 90))]):
+    # F63 (2026-11-25): the ogre wanderer from (30, 20), 578 from the north bound, half a cell south
+    for i, (kind, at) in enumerate([('593', (30, 20.5)), ('97', (84, 69)), ('202', (100, 22)), ('97', (42, 90))]):
         kind = W_('ogre_wanderer' if kind == '593' else kind) if IN_WORLD else kind
         actors.append({'monster': kind, 'at': list(at), 'count': 1, 'spread': 0, 'group': 70 + i, 'hostile': True})
     if IN_WORLD:
@@ -1882,7 +1955,10 @@ DIAGRAM = '''\
 
 # Where Medin's boat lands on the island and back on his jetty; Nystor's ride lands on X1's creek bank (Vertigo's
 # south bank, by the town bridge: X1 cell [50, 55.2], its quay side)
-ISLAND_LANDING = (*W(35.0, 60.5), ISLE_H)
+# D-174 (xeen-fb4-fix7, 2026-11-25): on the crown's edge beside the island jetty's end, where the land stands at about
+# 742 (the studio holds node 35,61 at the lake's 576, so 35.0, 60.5 lay at 672 and the party fell 96); 186 from
+# the old point, inside the tests' 200 radius
+ISLAND_LANDING = (*W(34.9, 60.15), ISLE_H)
 MEDIN_LANDING = (*W(47.0, 59.6), BANK)
 VERTIGO_BANK = (-7168, 4506, 640)
 LAIR_FLOOR = 1216

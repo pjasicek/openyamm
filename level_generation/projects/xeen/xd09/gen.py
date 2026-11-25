@@ -772,6 +772,12 @@ events += [
      'text': "An iron pot simmers on the coals. Here the golem-makers poured the iron limbs of their golems."},
     {'id': 'evt:hearth', 'preset': 'text', 'source': 'platform:hearth', 'title': 'Forge',
      'text': "The forge's coals still glow, though no smith has worked them in an age."},
+    # F65 (2026-11-25): the fire and the pot on these hearths are MMerge's self-acting camp fire (food, then it goes
+    # out) and stat cauldron; their first click acted instead of the hearth's (tools/xeen/check_self_acting_decos.py).
+    {'id': 'evt:forge_fire', 'preset': 'text', 'source': 'deco:forge_fire', 'title': 'Forge',
+     'text': "The forge's coals still glow, though no smith has worked them in an age."},
+    {'id': 'evt:forge_pot', 'preset': 'text', 'source': 'deco:forge_pot', 'title': 'Golem forge',
+     'text': "An iron pot simmers on the coals. Here the golem-makers poured the iron limbs of their golems."},
 ]
 VARIABLES = ['boughs', 'cut_ln', 'cut_ls', 'cut_hn', 'cut_hs', 'stone_open', 'rocks', 'bolt_n', 'bolt_e', 'bolt_s', 'lid_open', 'diamond_open'] + \
     [f'block_{r}{c}' for r in (1, 2, 3) for c in (1, 2, 3)]

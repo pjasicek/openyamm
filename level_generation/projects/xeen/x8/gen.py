@@ -21,6 +21,7 @@ BRIEF = ROOT / 'devdocs/xeen/briefs/x8'
 FLOOR = -6000          # the safety floor (a fall that the poll misses ends here, and runs the same fall)
 CEIL = 6000
 SLAB = 256             # island slab thickness under its top
+SINK = 8               # how far a block on an island or another block is sunk into it (no bottom on the walking plane)
 
 CLOUD_TOP = {'texture': 'xccloud', 'size': [256, 256], 'scale': 2}
 CLOUD_SIDE = {'texture': 'xccloudsd', 'size': [256, 256], 'scale': 2, 'uneven': True}
@@ -103,6 +104,35 @@ def rim_point(poly, inside, outside):
     return (px + dx * best, py + dy * best)
 
 
+def inside(poly, x, y):
+    c = False
+    for i in range(len(poly)):
+        ax, ay = poly[i]
+        bx, by = poly[i - 1]
+        if (ay > y) != (by > y) and x < (bx - ax) * (y - ay) / (by - ay) + ax:
+            c = not c
+    return c
+
+
+def landing_end(poly, centre, u, width, margin=24):
+    """Where a deck of `width` leaving the island at `centre` along `u` is past the island across its whole width:
+    the point on the centre line `margin` beyond the furthest bit of cloud under the deck."""
+    ux, uy = u
+    nx, ny = -uy, ux
+    far = 0
+    for k in range(9):
+        o = (k / 8 - 0.5) * width
+        t = 0
+        while t < 20000:
+            if inside(poly, centre[0] + ux * t + nx * o, centre[1] + uy * t + ny * o):
+                far = max(far, t)
+            t += 8
+            if t > far + 2000:
+                break
+    far += margin
+    return (centre[0] + ux * far, centre[1] + uy * far)
+
+
 OUTLINES = {k: outline(c[0], c[1], e[0], e[1], seed=i * 7 + 3) for i, (k, (c, e, f, n)) in enumerate(ISLANDS.items())}
 
 
@@ -127,6 +157,11 @@ def platform_slab(pid, a, b, z0, z1, width, surface, top_surface, thickness, not
         'top_surface': top_surface,
         'bottom_surface': surface,
     }
+    if z0 == z1:
+        # a level piece (a landing on an island): a block `thickness` deep under its top
+        for k in ('top_heights', 'thickness'):
+            entry.pop(k)
+        entry['rise'] = thickness
     if notes:
         entry['notes'] = notes
     return entry
@@ -179,19 +214,28 @@ def build_rooms():
         a = (ra[0] - ux * 160, ra[1] - uy * 160)
         b = (rb[0] + ux * 160, rb[1] + uy * 160)
         za8, zb8 = za + 8, zb + 8
-        if kind == 'ramp':
-            platforms.append(platform_slab(f'platform:{lid}', a, b, za8, zb8, width, MARBLE, MARBLE, 96,
-                                           f'link:{lid}: {notes}, {int(d)} long'))
-            continue
-        # rope bridge: one deck, or two meeting at a sag in the middle when longer than 2,000
-        segs = [(a, b, za8, zb8)]
-        if d > 2000:
+        # F62 (the player's pins 2026-11-25): a deck that sloped from its end on the cloud dipped under the cloud's
+        # top before the rim (a sag, a lower or a higher island beyond) and came out again over the void. The deck
+        # now lies level at the island's height until it is past the island across its whole width (the rim is
+        # crooked), and slopes only over the void.
+        pa = landing_end(OUTLINES[frm], ca, (ux, uy), width)
+        pb = landing_end(OUTLINES[to], cb, (-ux, -uy), width)
+        span = [(pa, pb, za8, zb8)]
+        if kind != 'ramp' and d > 2000:
+            # rope bridge: two spans meeting at a sag in the middle when longer than 2,000
             sag = min(160, int(d / 25))
-            m = ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2)
+            m = ((pa[0] + pb[0]) / 2, (pa[1] + pb[1]) / 2)
             zm = (za8 + zb8) / 2 - sag
-            segs = [(a, m, za8, zm), (m, b, zm, zb8)]
+            span = [(pa, m, za8, zm), (m, pb, zm, zb8)]
+        segs = [(a, pa, za8, za8)] + span + [(pb, b, zb8, zb8)]
+        if kind == 'ramp':
+            for k, (p, q, z0, z1) in enumerate(segs):
+                platforms.append(platform_slab(f'platform:{lid}' if k == 0 else f'platform:{lid}_{k + 1}', p, q,
+                                               int(z0), int(z1), width, MARBLE, MARBLE, 96,
+                                               f'link:{lid}: {notes}, {int(d)} long' if k == 0 else None))
+            continue
         for k, (p, q, z0, z1) in enumerate(segs):
-            pid = f'platform:{lid}' if len(segs) == 1 else f'platform:{lid}_{k + 1}'
+            pid = f'platform:{lid}' if k == 0 else f'platform:{lid}_{k + 1}'
             platforms.append(platform_slab(pid, p, q, int(z0), int(z1), width, ROPE, DECK, 24,
                                            f'link:{lid}: {notes}, {int(d)} long' if k == 0 else None))
             # rope rails 88 over the deck at both sides
@@ -221,6 +265,22 @@ def build_rooms():
                 'top_surface': MARBLE,
                 'bottom_surface': MARBLE,
             })
+        # F62 (X8 p3/p6, "is it intended that you can't go back to the tower?"): at the stair's foot the stair of
+        # cloud the party came up by (XD-04's xwcloudst picture) stands across the way; a click on it goes back down
+        # to the tower's roof (gen_objects.py evt:down_*). It also stops a walk off the last step into the sky.
+        foot = rim[1] - 192 * 7
+        platforms.append({
+            'id': f'platform:{iid}_down',
+            'at': [x, int(foot - 96 - 24)],
+            'size': [512, 48],
+            'base': -256 - SINK - FLOOR,
+            'rise': 512 + SINK,
+            'surface': {'texture': 'xwcloudst', 'size': [512, 512]},
+            'end_surface': CLOUD_SIDE,      # the picture once on each face, the 48-wide ends plain cloud (feature_cut)
+            'top_surface': CLOUD_TOP,
+            'bottom_surface': CLOUD_SIDE,
+            'notes': "The stair of cloud down to the tower the party came up from (a clicked exit).",
+        })
     # ---- set pieces on the islands
     platforms += set_pieces()
     room = {
@@ -250,7 +310,11 @@ def on(iid, dx, dy):
 
 def block(pid, iid, dx, dy, size, rise, surface, top=None, top_size=None, extra_base=0, facing=None, notes=None):
     at, floor = on(iid, dx, dy)
-    e = {'id': pid, 'at': at, 'size': size, 'base': floor + extra_base - FLOOR, 'rise': rise, 'surface': surface}
+    # F62 (X8 p8, "you get stuck here"): every block hangs from the room's floor at -6,000, so the studio draws its
+    # bottom; a bottom lying on the cloud top is a ceiling at the party's feet, which wedged it at the block's foot.
+    # Each block is sunk SINK into what it stands on (tools/xeen/check_floor_cross.py floor.lid).
+    e = {'id': pid, 'at': at, 'size': size, 'base': floor + extra_base - SINK - FLOOR, 'rise': rise + SINK,
+         'surface': surface}
     if top:
         e['top_surface'] = top
     if top_size:
@@ -311,19 +375,19 @@ def set_pieces():
     (ox, oy), floor = on('observatory_isle', -512, 1152)
     ring = [[int(ox + 560 * math.cos(2 * math.pi * k / 12)), int(oy + 560 * math.sin(2 * math.pi * k / 12))]
             for k in range(12)]
-    out.append({'id': 'platform:observatory', 'outline': ring, 'base': floor - FLOOR, 'rise': 768,
+    out.append({'id': 'platform:observatory', 'outline': ring, 'base': floor - SINK - FLOOR, 'rise': 768 + SINK,
                 'surface': STONE, 'top_surface': STONE, 'notes': "The sorcerer's observatory: a round stone tower."})
     out.append({'id': 'platform:dome_w', 'at': [ox - 208, oy], 'size': [400, 960], 'top_size': [160, 640],
-                'base': floor + 768 - FLOOR, 'rise': 288, 'surface': SLATE, 'top_surface': SLATE,
+                'base': floor + 768 - SINK - FLOOR, 'rise': 288 + SINK, 'surface': SLATE, 'top_surface': SLATE,
                 'notes': 'The west half of the split dome.'})
     out.append({'id': 'platform:dome_e', 'at': [ox + 208, oy], 'size': [400, 960], 'top_size': [160, 640],
-                'base': floor + 768 - FLOOR, 'rise': 288, 'surface': SLATE, 'top_surface': SLATE,
+                'base': floor + 768 - SINK - FLOOR, 'rise': 288 + SINK, 'surface': SLATE, 'top_surface': SLATE,
                 'notes': 'The east half of the split dome; the telescope looks out of the split between them.'})
     out.append({'id': 'platform:observatory_porch', 'at': [ox, oy - 704], 'size': [768, 256],
-                'base': floor - FLOOR, 'rise': 16, 'surface': MARBLE, 'top_surface': MARBLE,
+                'base': floor - SINK - FLOOR, 'rise': 16 + SINK, 'surface': MARBLE, 'top_surface': MARBLE,
                 'notes': "The observatory's porch: the sorcerer's chest and the eyepiece of his telescope."})
     out.append({'id': 'platform:telescope', 'at': [ox + 256, oy - 704], 'size': [96, 96],
-                'base': floor + 16 - FLOOR, 'rise': 96, 'surface': {'texture': 'xngong5', 'size': [128, 32]},
+                'base': floor + 16 - SINK - FLOOR, 'rise': 96 + SINK, 'surface': {'texture': 'xngong5', 'size': [128, 32]},
                 'top_surface': {'texture': 'xngong5', 'size': [128, 32]},  # a bronze tile (texture fit: not the gong)
                 'notes': "The brass eyepiece of the sorcerer's telescope (a clicked block)."})
     # golem heights: lumps of cloud

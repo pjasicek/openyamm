@@ -1,7 +1,7 @@
 # The way in from D6 (live since A6's 08:39 D6 install): with the Cube and m33.done (111662, the ruin shown), D6's
 # thing:fd01_stair (its event number read from D6's ids.lock.yml when this file was written: rewrite it with
-# tools/tests.py after a D6 rebuild), m39.depths_door, then FD-01's entrance:d6_stair (0, 0, 0) facing 1024. No question
-# before the move: an ODM hatch into a BLV shows no window (D-72).
+# tools/tests.py after a D6 rebuild), m39.depths_door, the stair's entrance window (F16, OK), then FD-01's
+# entrance:d6_stair (0, 0, 0) facing 1024.
 # Run with --world xeen --map xeen_fd01.blv (output/studio_cal/fd01/four.sh). Written by tools/tests.py.
 id: xeen.fd01.l4.in
 title: 'Alamar Depths (FD-01 L4): in from D6 by the gatehouse stair'
@@ -55,19 +55,24 @@ steps:
     source: for i = 1, 3 do if not close() then break end wait(0.5) end
 - assert:
     map: xeen_d6.odm
-- note: 'D6''s thing:fd01_stair is D6''s event 70 (devdocs/xeen/briefs/d6/L4/ids.lock.yml); m39.depths_door (the Cube), then
-    the move to entrance:d6_stair (no question: D-72).'
+- note: D6's thing:fd01_stair is D6's event 70 (devdocs/xeen/briefs/d6/L4/ids.lock.yml); m39.depths_door (the Cube), then
+    the stair's entrance window (F16; D6's own walk test does the same), OK, and the move to entrance:d6_stair.
 - play_lua:
-    source: click(70); wait(0.8)
+    source: click(70); wait(0.5)
 - advance_runtime:
-    seconds: 1
-    present_dialogs: true
+    seconds: 0.3
+- assert:
+    dialog:
+      active: true
+      action_label_present: OK
+- select_topic:
+    match_label: OK
 - advance_runtime:
-    seconds: 2
-    present_dialogs: true
+    seconds: 1.5
     follow_map_move: true
 - advance_runtime:
     seconds: 1
+    present_dialogs: true
     follow_map_move: true
 - play_lua:
     source: for i = 1, 3 do if not close() then break end wait(0.5) end

@@ -1,0 +1,29 @@
+format: 1
+counter: 5
+pins:
+  - id: pin:p1
+    text: it is a bit hard to click on them and get the crystal
+    source: game
+    world: xeen
+    map: xeen_xd25.blv
+    pose:
+      position: [423.503, -1743.266, -640]
+      yaw_radians: 1.689
+      pitch_degrees: -6.795
+      heading_yaw_units: 551
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-24T17:10:58
+    status: resolved
+    claimed_by: agent:xeen-fb4-dungeon3
+    from: 20261124-171058-xeen_xd25.yml
+    replies:
+      - author: agent:xeen-fb4-engine2
+        text: A name now shows only when a click can use the thing.
+        created: 2026-11-25T09:06:15
+        revision: 14efc27e898d0ffa08f8b2f55df6a2dc
+      - author: agent:xeen-fb4-dungeon3
+        text: "Rebuilt: the crystals on the housing were MMerge's gem crystal, which took the first click for itself (a gem) before the housing's. They now carry the housing's event: one click gives the Crystals of Piezoelectricity, and the crystals vanish from the housing (playtest_crystals_use.yml). tools/xeen/check_self_acting_decos.py keeps such decorations off clickable things in every Xeen dungeon."
+        created: 2026-11-25T09:22:17
+        revision: 5d9c178bd5ebf0a6026535252c05a282
+        status: resolved

@@ -361,11 +361,8 @@ RegisterEvent(78, "Wishing Well", function()
 end, "Wishing Well")
 
 -- evt:thing:water_reflector
-RegisterEvent(79, "Water Reflector", function(continueStep)
-    local eventId = 79
-    if continueStep == 1 then XeenQuests.hook("m37.reflector_water") return end
-    if continueStep ~= nil then return end
-    AskChoiceWithAnswerSteps(eventId, 3, "A disc of dark crystal on a stone stem, turned toward the stars below the rim. Reflector. Activate?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+RegisterEvent(79, "Water Reflector", function()
+    XeenQuests.hook("m37.reflector_water")
 end, "Water Reflector")
 
 -- evt:thing:orothin_1
@@ -887,11 +884,6 @@ RegisterEvent(253, "Bones in the bog", function()
     evt.StatusText("A mule's bones, half sunk in the bog. Its packs are long gone.", 6)
 end, "Bones in the bog")
 
--- evt:thing:creek_whistle
-RegisterEvent(254, "Something in the mud", function()
-    XeenQuests.hook("q-c20.whistle")
-end, "Something in the mud")
-
 -- evt:thing:phirna_1
 RegisterEvent(255, "Phirna plant", function()
     XeenQuests.hook("q-c21.phirna_plant")
@@ -1012,3 +1004,11 @@ RegisterEvent(282, "Outfall", nil, "Outfall")
 
 -- evt:thing:culvert_outfall_cheek_e
 RegisterEvent(283, "Outfall", nil, "Outfall")
+
+-- evt:thing:nystor_jetty
+RegisterEvent(284, "Nystor's jetty", nil, "Nystor's jetty")
+
+-- evt:thing:nystor_post
+RegisterEvent(285, "Nystor's Landing", function()
+    evt.EnterHouse(4042)
+end, "Nystor's Landing")

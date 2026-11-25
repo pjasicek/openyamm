@@ -674,7 +674,7 @@ RegisterGlobalEvent(40051, "Quest", function()
         evt.SetMessage(NPCText(40050, "Joe swears he has the situation under control. He has sworn it for two years."))
         return
     end
-    evt.SetMessage(NPCText(40051, "Welcome to Vertigo. Sadly, most of the population has left because the town is infested with pests. A couple years ago I hired Joe the exterminator to rid the town of this menace, but the problem seems to be getting worse. Perhaps you could help."))
+    evt.SetMessage(NPCText(40051, "Welcome to Vertigo. Sadly, most of the population has left because of the pests. They are pouring out of Joe's warehouse, across the bridge, and into my streets. A couple years ago I hired Joe the exterminator to rid the town of this menace, but the problem seems to be getting worse. Perhaps you could help clear it out."))
     SetQBit(QBit(111020))
 end)
 RegisterCanShowTopic(40051, function()
@@ -813,6 +813,26 @@ RegisterGlobalEvent(40202, "Children", function()
 end)
 RegisterCanShowTopic(40202, function()
     return (IsQBitSet(QBit(111080)) or IsQBitSet(QBit(110047)))
+end)
+
+RegisterGlobalEvent(40204, "Ears", function()
+    if IsQBitSet(QBit(110040)) then
+        evt.SetMessage(NPCText(40208, "Round ears! Pink ones! Mum's going to cry anyway."))
+        return
+    end
+    if (IsQBitSet(QBit(110048)) and HasItem(12033)) then
+        evt.SetMessage(NPCText(40209, "You touch the Alacorn to his ears: they shrink back, pink and round. He whoops and runs for home."))
+        SetQBit(QBit(110040))
+        evt.ForPlayer(Players.All)
+        AddValue(Experience, 200)
+        evt.SetMonGroupBit(11, MonsterBits.Invisible, 1)
+        return
+    end
+    if IsQBitSet(QBit(110048)) then
+        evt.SetMessage(NPCText(40210, "Not going home with these. The witches' Alacorn cures anything. It's on a pedestal on the plank bridge over the cauldron shaft, three floors up. Bring it and touch my ears with it."))
+        return
+    end
+    evt.SetMessage(NPCText(40211, "Get me out! The warden's keys, the big ring. He keeps it in his strongbox, there by his table. Then I'll tell you about my ears."))
 end)
 
 RegisterGlobalEvent(40251, "Quest", function()
@@ -2220,10 +2240,10 @@ RegisterGlobalEvent(43351, "Quest", function()
         return
     end
     if IsQBitSet(QBit(112340)) then
-        evt.SetMessage(NPCText(43352, "The Sprites still possess my Wand. Try harder."))
+        evt.SetMessage(NPCText(43352, "The Sprites still possess my Wand. Try harder. Their nest lies in the hollow at the heart of the woods, west of my ring of stones."))
         return
     end
-    evt.SetMessage(NPCText(43353, "A terrible thing has happened. My Wand of Faery Magic has been stolen by the Sprites. Without the Wand in my possession, my powers of magic are reduced. Now that the Sprites possess my Wand they are crazed with power, attacking anyone in the forest. If you return my Wand I will reward you handsomely."))
+    evt.SetMessage(NPCText(43353, "A terrible thing has happened. My Wand of Faery Magic has been stolen by the Sprites. Without the Wand in my possession, my powers of magic are reduced. Now that the Sprites possess my Wand they are crazed with power, attacking anyone in the forest. Their nest lies in the hollow at the heart of the woods, west of my ring of stones. If you return my Wand I will reward you handsomely."))
     SetQBit(QBit(112340))
 end)
 RegisterCanShowTopic(43351, function()
@@ -2322,10 +2342,10 @@ RegisterGlobalEvent(43501, "Quest", function()
         return
     end
     if IsQBitSet(QBit(112400)) then
-        evt.SetMessage(NPCText(43502, "No luck finding the whistle? Well, if you find it be sure to bring it back to me. I'm sure I dropped it somewhere in Pitchfork Creek."))
+        evt.SetMessage(NPCText(43502, "No luck finding the whistle? Well, if you find it be sure to bring it back to me. I'm sure I dropped it at the edge of the shallows of Pitchfork Creek, upstream of the bridge, just west of the town."))
         return
     end
-    evt.SetMessage(NPCText(43503, "A couple of years ago I built a statue on each of the two islands near here. The statues are supposed to teach spellcasters the cure poison and cure disease spells, but I lost the bone whistle needed to activate them. I think I dropped it somewhere in Pitchfork Creek. If you can find my whistle I will activate the statues."))
+    evt.SetMessage(NPCText(43503, "A couple of years ago I built a statue on each of the two islands near here. The statues are supposed to teach spellcasters the cure poison and cure disease spells, but I lost the bone whistle needed to activate them. I think I dropped it at the edge of the shallows of Pitchfork Creek, upstream of Vertigo's bridge, just west of the town. If you can find my whistle I will activate the statues."))
     SetQBit(QBit(112400))
 end)
 RegisterCanShowTopic(43501, function()
@@ -2851,10 +2871,10 @@ RegisterGlobalEvent(44251, "Quest", function()
         return
     end
     if IsQBitSet(QBit(113100)) then
-        evt.SetMessage(NPCText(44252, "The Queen Rat is still alive. I can hear her awful chittering through the walls. No reward for you yet!"))
+        evt.SetMessage(NPCText(44252, "The Queen Rat is still alive. I can hear her awful chittering through the walls. No reward for you yet! The culvert to the Rat Queen's den is flooded. Its sluice is worked from the sluice house, at the far north-west of the upper level."))
         return
     end
-    evt.SetMessage(NPCText(44253, "Hi. I live down here. There sure are a lot of rats. Too many for me to kill. Maybe you could kill the Queen Rat for me. I'll give you something if you do."))
+    evt.SetMessage(NPCText(44253, "Hi. I live down here. There sure are a lot of rats. Too many for me to kill. Maybe you could kill the Queen Rat for me. I'll give you something if you do. The culvert to the Rat Queen's den is flooded. Its sluice is worked from the sluice house, at the far north-west of the upper level."))
     SetQBit(QBit(113100))
     SetAutonote(4450)
 end)
@@ -5517,7 +5537,7 @@ XeenQuests.hooks["m1.opening"] = {
         SetQBit(QBit(110103))
         SetQBit(QBit(111020))
         SetQBit(QBit(119020))
-        evt.SimpleMessage(NPCText(40052, "Vertigo. For weeks you dreamt of an old man in a dark tower who begged you to finish \"the sword\". Then a bolt from the sky destroyed Newcastle, and you woke here among its survivors. Mayor Gunther asks your help: slimes and doom bugs plague the town. The town hall is on the main street."))
+        evt.SimpleMessage(NPCText(40052, "Vertigo. For weeks you dreamt of an old man in a dark tower who begged you to finish \"the sword\". Then a bolt from the sky destroyed Newcastle, and you woke here among its survivors. Mayor Gunther asks your help: slimes and doom bugs pour into the town from Joe's warehouse. The town hall is on the main street."))
     end,
 }
 
@@ -5622,13 +5642,13 @@ XeenQuests.hooks["m12.skull"] = {
 
 XeenQuests.hooks["m12.skull_deep"] = {
     run = function()
-        evt.SimpleMessage(NPCText(40606, "\"Five gems for three points,\" the skull says. \"Down here prices are honest. Up there they're cheap.\""))
+        evt.SimpleMessage(NPCText(40606, "\"One gem for three points,\" the skull says. \"Down here prices are honest. Up there you get two.\""))
     end,
 }
 
 XeenQuests.hooks["m12.skull_grotto"] = {
     run = function()
-        evt.SimpleMessage(NPCText(40607, "\"Ten gems,\" the great skull says, \"and five points of Might, Endurance or Accuracy. Choose. I don't do refunds.\""))
+        evt.SimpleMessage(NPCText(40607, "\"One gem,\" the great skull says, \"and five points of Might, Endurance or Accuracy. Choose. I don't do refunds.\""))
     end,
 }
 
@@ -5646,7 +5666,14 @@ XeenQuests.hooks["m12.skull_sold"] = {
 
 XeenQuests.hooks["m12.skull_upper"] = {
     run = function()
-        evt.SimpleMessage(NPCText(40605, "\"Three gems,\" the skull says, \"and I'll make you two better than you are. Once. I'm not a charity.\""))
+        evt.SimpleMessage(NPCText(40605, "\"One gem,\" the skull says, \"and I'll make you two better than you are. Once. I'm not a charity.\""))
+    end,
+}
+
+XeenQuests.hooks["m13.cloud_stair_down"] = {
+    requires = function() return (IsQBitSet(QBit(111240)) or IsQBitSet(QBit(111260))) end,
+    failText = function() return NPCText(40653, "Below the step the cloud thins over the Tower of High Magic. Its wards let down only those who hold the Enchanted Key from the Cave of Illusion.") end,
+    run = function()
     end,
 }
 
@@ -6985,6 +7012,8 @@ XeenQuests.hooks["m37.reflector_air"] = {
     requires = function() return IsQBitSet(QBit(111720)) end,
     elseText = function() return NPCText(41851, "The Reflector hums quietly.") end,
     failText = function() return NPCText(41852, "A machine of the Ancients, cold and silent. Its panel shows a dragon's eye, closed.") end,
+    failStatus = true,
+    elseStatus = true,
     run = function()
         SetQBit(QBit(111740))
         evt.ForPlayer(Players.All)
@@ -6998,6 +7027,8 @@ XeenQuests.hooks["m37.reflector_earth"] = {
     requires = function() return IsQBitSet(QBit(111720)) end,
     elseText = function() return NPCText(41857, "The Reflector hums quietly.") end,
     failText = function() return NPCText(41858, "A machine of the Ancients, cold and silent. Its panel shows a dragon's eye, closed.") end,
+    failStatus = true,
+    elseStatus = true,
     run = function()
         SetQBit(QBit(111742))
         evt.ForPlayer(Players.All)
@@ -7011,6 +7042,8 @@ XeenQuests.hooks["m37.reflector_fire"] = {
     requires = function() return IsQBitSet(QBit(111720)) end,
     elseText = function() return NPCText(41854, "The Reflector hums quietly.") end,
     failText = function() return NPCText(41855, "A machine of the Ancients, cold and silent. Its panel shows a dragon's eye, closed.") end,
+    failStatus = true,
+    elseStatus = true,
     run = function()
         SetQBit(QBit(111741))
         evt.ForPlayer(Players.All)
@@ -7024,6 +7057,8 @@ XeenQuests.hooks["m37.reflector_water"] = {
     requires = function() return IsQBitSet(QBit(111720)) end,
     elseText = function() return NPCText(41860, "The Reflector hums quietly.") end,
     failText = function() return NPCText(41861, "A machine of the Ancients, cold and silent. Its panel shows a dragon's eye, closed.") end,
+    failStatus = true,
+    elseStatus = true,
     run = function()
         SetQBit(QBit(111743))
         evt.ForPlayer(Players.All)
@@ -7390,63 +7425,63 @@ XeenQuests.hooks["m4.alacorn"] = {
     elseStatus = true,
     run = function()
         SetQBit(QBit(110045))
-        evt.StatusText(NPCText(40218, "The cauldron roars and boils over: green steam boils up the shaft! Get off the bridge!"), 6)
+        evt.StatusText(NPCText(40222, "The cauldron roars and boils over: green steam boils up the shaft! Get off the bridge!"), 6)
     end,
 }
 
 XeenQuests.hooks["m4.cage_1"] = {
     run = function()
         if IsQBitSet(QBit(110040)) then
-            evt.StatusText(NPCText(40208, "The cage hangs open and empty."))
+            evt.StatusText(NPCText(40212, "The cage hangs open and empty."))
             return
         end
         if (IsQBitSet(QBit(110048)) and HasItem(12033)) then
             SetQBit(QBit(110040))
             evt.ForPlayer(Players.All)
             AddValue(Experience, 200)
-            evt.StatusText(NPCText(40209, "You touch the Alacorn to his ears: they shrink back, pink and round. He whoops and runs for home."), 6)
+            evt.StatusText(NPCText(40213, "You touch the Alacorn to his ears: they shrink back, pink and round. He whoops and runs for home."), 6)
             return
         end
         if IsQBitSet(QBit(110048)) then
-            evt.StatusText(NPCText(40210, "'I'm not going home with goblin ears!' The boy will not budge. 'They say the witches' Alacorn cures anything. It's up top, over the cauldron.'"), 6)
+            evt.StatusText(NPCText(40214, "'I'm not going home with goblin ears!' The boy will not budge. 'The witches' Alacorn cures anything. It's on a pedestal on the plank bridge over the cauldron shaft, three floors up.'"), 6)
             return
         end
         SetQBit(QBit(110048))
-        evt.StatusText(NPCText(40211, "The ring turns the lock and the cage rattles up its chain. The boy steps out and stops: 'Not with these ears. Mum would die. The witches' Alacorn could cure them. It's up top, over the cauldron.'"), 6)
+        evt.StatusText(NPCText(40215, "The ring turns the lock and the cage rattles up its chain. The boy steps out and stops: 'Not with these ears. Mum would die. The witches' Alacorn could cure them. It's on a pedestal on the plank bridge over the cauldron shaft, three floors up.'"), 6)
     end,
 }
 
 XeenQuests.hooks["m4.cage_2"] = {
     once = 110041,
-    elseText = function() return NPCText(40213, "The cage hangs open and empty.") end,
+    elseText = function() return NPCText(40217, "The cage hangs open and empty.") end,
     run = function()
         SetQBit(QBit(110041))
         SetQBit(QBit(110044))
         evt.ForPlayer(Players.All)
         AddValue(Experience, 200)
-        evt.SimpleMessage(NPCText(40212, "The ring turns the lock and the cage rattles up its chain. A girl with a green tinge to her skin tumbles out and hugs you. 'I'm Rosebud. The door at the top of the north stair has a witch's face on it, and it only opens to the coven's key. They keep it in their stores in the herb loft, past the vats. Don't tell them I told you!' Then she is gone, running for Toad Meadow."))
+        evt.SimpleMessage(NPCText(40216, "The ring turns the lock and the cage rattles up its chain. A girl with a green tinge to her skin tumbles out and hugs you. 'I'm Rosebud. The door at the top of the north stair has a witch's face on it, and it only opens to the coven's key. They keep it in their stores in the herb loft, past the vats. Don't tell them I told you!' Then she is gone, running for Toad Meadow."))
     end,
 }
 
 XeenQuests.hooks["m4.cage_3"] = {
     once = 110042,
-    elseText = function() return NPCText(40215, "The cage hangs open and empty.") end,
+    elseText = function() return NPCText(40219, "The cage hangs open and empty.") end,
     run = function()
         SetQBit(QBit(110042))
         evt.ForPlayer(Players.All)
         AddValue(Experience, 200)
-        evt.SimpleMessage(NPCText(40214, "The ring turns the lock and the cage rattles up its chain. A boy crawls out of the cage, wiping his nose. \"Thanks for getting me out of there,\" he says. \"I thought the witches were going to turn me into a goblin for sure. I want to go home.\" And he runs. Valia will hear of it."))
+        evt.SimpleMessage(NPCText(40218, "The ring turns the lock and the cage rattles up its chain. A boy crawls out of the cage, wiping his nose. \"Thanks for getting me out of there,\" he says. \"I thought the witches were going to turn me into a goblin for sure. I want to go home.\" And he runs. Valia will hear of it."))
     end,
 }
 
 XeenQuests.hooks["m4.cage_4"] = {
     once = 110043,
-    elseText = function() return NPCText(40217, "The cage hangs open and empty.") end,
+    elseText = function() return NPCText(40221, "The cage hangs open and empty.") end,
     run = function()
         SetQBit(QBit(110043))
         evt.ForPlayer(Players.All)
         AddValue(Experience, 200)
-        evt.StatusText(NPCText(40216, "The ring turns the lock and the cage rattles up its chain. The child in the witches' bedchamber slips out and is gone down the stair. Valia will hear of it."), 6)
+        evt.StatusText(NPCText(40220, "The ring turns the lock and the cage rattles up its chain. The child in the witches' bedchamber slips out and is gone down the stair. Valia will hear of it."), 6)
     end,
 }
 
@@ -8201,7 +8236,7 @@ XeenQuests.hooks["q-c16.outpost"] = {
     once = 112321,
     run = function()
         SetQBit(QBit(112321))
-        evt.SimpleMessage(NPCText(43304, "You destroy the outpost. Glom will be pleased."))
+        evt.StatusText(NPCText(43304, "You destroy the outpost. Glom will be pleased."), 5)
     end,
 }
 
@@ -8214,7 +8249,7 @@ XeenQuests.hooks["q-c17.nest"] = {
         SetQBit(QBit(110206))
         SetQBit(QBit(110205))
         AddValue(InventoryItem(12310), 12310)
-        evt.StatusText(NPCText(43355, "A hollow full of blue speckled sprite eggs, and among them a slim wand of white wood: Danulf's Wand of Faery Magic."), 6)
+        evt.StatusText(NPCText(43355, "Woven twigs and straw, full of blue speckled sprite eggs, and something glinting among them: a slim wand of white wood, Danulf's Wand of Faery Magic."), 6)
     end,
 }
 
@@ -8255,39 +8290,35 @@ XeenQuests.hooks["q-c2.strongbox"] = {
 XeenQuests.hooks["q-c20.statue_disease"] = {
     once = 112404,
     requires = function() return IsQBitSet(QBit(112402)) end,
-    elseText = function() return NPCText(43509, "Orothin the Wise: 'What falls past the rim does not come back.'") end,
-    failText = function() return NPCText(43510, "The statue repels you.") end,
+    elseText = function() return NPCText(43508, "Orothin the Wise: 'What falls past the rim does not come back.'") end,
+    failText = function() return NPCText(43509, "The statue repels you.") end,
     failStatus = true,
     elseStatus = true,
     run = function()
         SetQBit(QBit(112404))
         AddValue(InventoryItem(473), 473)
-        evt.StatusText(NPCText(43508, "The statue's stone hands open. In them lies a book: Cure Disease."), 6)
+        evt.StatusText(NPCText(43507, "The statue's stone hands open. In them lies a book: Cure Disease."), 6)
     end,
 }
 
 XeenQuests.hooks["q-c20.statue_poison"] = {
     once = 112403,
     requires = function() return IsQBitSet(QBit(112402)) end,
-    elseText = function() return NPCText(43506, "Orothin the Wise: 'The world has an edge. Mind it.'") end,
-    failText = function() return NPCText(43507, "The statue repels you.") end,
+    elseText = function() return NPCText(43505, "Orothin the Wise: 'The world has an edge. Mind it.'") end,
+    failText = function() return NPCText(43506, "The statue repels you.") end,
     failStatus = true,
     elseStatus = true,
     run = function()
         SetQBit(QBit(112403))
         AddValue(InventoryItem(471), 471)
-        evt.StatusText(NPCText(43505, "The statue's stone hands open. In them lies a book: Cure Poison."), 6)
+        evt.StatusText(NPCText(43504, "The statue's stone hands open. In them lies a book: Cure Poison."), 6)
     end,
 }
 
 XeenQuests.hooks["q-c20.whistle"] = {
-    once = 112401,
     failStatus = true,
     elseStatus = true,
     run = function()
-        SetQBit(QBit(112401))
-        AddValue(InventoryItem(12308), 12308)
-        evt.StatusText(NPCText(43504, "Half buried in the creek mud: a whistle carved from bone."), 5)
     end,
 }
 
@@ -11345,7 +11376,7 @@ XeenQuests.hooks["x3.ranger_camp"] = {
     once = 116040,
     run = function()
         SetQBit(QBit(116040))
-        evt.SimpleMessage(NPCText(47652, "You ruin their food, burn their tents, and poison their water."))
+        evt.StatusText(NPCText(47652, "You ruin their food, burn their tents, and poison their water."), 6)
     end,
 }
 
@@ -11354,7 +11385,7 @@ XeenQuests.hooks["x4.barbarian_camp"] = {
     run = function()
         SetQBit(QBit(116060))
         evt.PlaySoundName("xeen_fire_ignite")
-        evt.SimpleMessage(NPCText(47704, "The encampment burns to the sound of distant howls of anger and frustration."))
+        evt.StatusText(NPCText(47704, "The encampment burns to the sound of distant howls of anger and frustration."), 6)
     end,
 }
 

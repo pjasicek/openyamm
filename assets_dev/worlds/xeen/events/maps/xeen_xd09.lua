@@ -568,3 +568,13 @@ end, nil)
 RegisterEvent(51, "Golem forge", function()
     evt.StatusText("An iron pot simmers on the coals. Here the golem-makers poured the iron limbs of their golems.", 6)
 end, "Golem forge")
+
+-- evt:forge_fire
+RegisterEvent(52, "Forge", function()
+    evt.StatusText("The forge's coals still glow, though no smith has worked them in an age.", 6)
+end, "Forge")
+
+-- evt:forge_pot
+RegisterEvent(53, "Golem forge", function()
+    evt.StatusText("An iron pot simmers on the coals. Here the golem-makers poured the iron limbs of their golems.", 6)
+end, "Golem forge")

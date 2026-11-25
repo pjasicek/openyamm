@@ -14,14 +14,14 @@ after: []
 source: "QUESTS Q-C20; xeen/aaze0023:20-22, :36-43"
 
 qbits:
-  started: {id: 112400, journal: "Orothin the Hermit lost his bone whistle somewhere in Pitchfork Creek.", until: [done]}
-  whistle_found: {id: 112401}
+  started: {id: 112400, journal: "Orothin the Hermit lost his bone whistle in the mud at the edge of Pitchfork Creek's shallows, upstream of Vertigo's bridge, west of the town.", until: [done]}
+  whistle_found: {id: 112401, pending: true, note: "nothing sets it since D-167 (the whistle is a ground item, map_gives); the id stays retired"}
   done: {id: 112402}
   statue_poison: {id: 112403}
   statue_disease: {id: 112404}
 
 items:
-  bone_whistle: "Orothin's bone whistle; in the mud of Pitchfork Creek (X1); Orothin takes it."
+  bone_whistle: "Orothin's bone whistle; lying in the mud at the edge of Pitchfork Creek's shallows west of Vertigo (X1); Orothin takes it."
 
 npcs:
   4047:              # Orothin
@@ -37,18 +37,15 @@ npcs:
             text: "The Whistle! Thank you. I'll activate the statues now. Bye."
             do: [{take: bone_whistle}, {set: done}, {clear: started}, {xp: 1000}]
           - when: {qbit: started}
-            text: "No luck finding the whistle? Well, if you find it be sure to bring it back to me. I'm sure I dropped it somewhere in Pitchfork Creek."
-          - text: "A couple of years ago I built a statue on each of the two islands near here. The statues are supposed to teach spellcasters the cure poison and cure disease spells, but I lost the bone whistle needed to activate them. I think I dropped it somewhere in Pitchfork Creek. If you can find my whistle I will activate the statues."
+            text: "No luck finding the whistle? Well, if you find it be sure to bring it back to me. I'm sure I dropped it at the edge of the shallows of Pitchfork Creek, upstream of the bridge, just west of the town."
+          - text: "A couple of years ago I built a statue on each of the two islands near here. The statues are supposed to teach spellcasters the cure poison and cure disease spells, but I lost the bone whistle needed to activate them. I think I dropped it at the edge of the shallows of Pitchfork Creek, upstream of Vertigo's bridge, just west of the town. If you can find my whistle I will activate the statues."
             do: [{set: started}]
 
 hooks:
   whistle:
     map: X1
-    where: "the mud of Pitchfork Creek, upstream of the bridge"
-    sets: [whistle_found]
-    gives: [bone_whistle]
-    once: true
-    text: "Half buried in the creek mud: a whistle carved from bone."
+    where: "Orothin's whistle in the open in the mud at the north edge of Pitchfork Creek's shallows, upstream of Vertigo Bridge and west of the west gate: a ground item since D-167 (X1, 2026-11-25; it was a click on a rock, \"Something in the mud\"), picked up like any item; no event calls this hook (it records that the map gives the whistle)"
+    map_gives: {bone_whistle: 1}
   statue_poison:
     map: X1
     where: "Orothin's statue on the north isle of the delta pond (built: Orothin's statue)"
@@ -73,4 +70,4 @@ hooks:
     else_text: "Orothin the Wise: 'What falls past the rim does not come back.'"
 
 rewards: {xp: 1000, gold: 0}
-playthrough: "Orothin (Whistle); the creek mud; Orothin (Whistle); both statues give their books."
+playthrough: "Orothin (Whistle); the whistle at the edge of the creek's shallows; Orothin (Whistle); both statues give their books."

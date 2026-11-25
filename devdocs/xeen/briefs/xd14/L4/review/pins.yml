@@ -1,0 +1,126 @@
+format: 1
+counter: 21
+pins:
+  - id: pin:p1
+    text: monsters can get stuck here
+    source: game
+    world: xeen
+    map: xeen_xd14.blv
+    pose:
+      position: [2475.345, 996.866, 0]
+      yaw_radians: 1.121
+      pitch_degrees: -32.089
+      heading_yaw_units: 365
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-24T19:59:19
+    status: resolved
+    claimed_by: agent:xeen-fb4-engine3
+    from: 20261124-195919-xeen_xd14.yml
+    replies:
+      - author: agent:xeen-fb4-dungeon2
+        text: "The big bone pile lay in the middle of the pit floor, and it is now in the pit's corner. A test still shows one monster freezing in the pit with or without the bones, so this goes to the engine (monster movement). The pin stays open until that lands."
+        created: 2026-11-25T09:01:09
+        revision: bdf224c9d68ae102e6befa9e3160c701
+      - author: agent:xeen-fb4-engine3
+        text: "Fixed in the game for every map: a monster that pressed against a round obstacle (here the bone pile on the pit's bank) could not slide round it and stood there for good. It now walks round it. A test spawns nine werewolves in the pit with the party far away, and all of them climb out and come; before the fix one stayed stuck at the bones. (A monster in the pit close enough to hit you stands and fights from there, as in the original games.)"
+        created: 2026-11-25T09:30:45
+        revision: bdf224c9d68ae102e6befa9e3160c701
+        status: resolved
+        pictures: [.oymap/pins/pictures/p1-r2.png]
+  - id: pin:p2
+    text: the other black potion are not in the category grandmaster
+    source: game
+    world: xeen
+    map: xeen_xd14.blv
+    pose:
+      position: [-2437.292, 769.515, 0]
+      yaw_radians: 2.039
+      pitch_degrees: 1.326
+      heading_yaw_units: 665
+    picture: .oymap/pins/pictures/p2.png
+    author: user
+    created: 2026-11-24T20:01:11
+    status: resolved
+    claimed_by: agent:xeen-fb4-engine
+    from: 20261124-200111-xeen_xd14.yml
+    replies:
+      - author: agent:xeen-fb4-engine
+        text: "In MAW, ten of the black potions need only Master; the Workbench files recipes by the mastery the game requires. (D-147)"
+        created: 2026-11-25T08:26:55
+        revision: 584fb03ee9d16dddc76c4bc4a440c88e
+        status: resolved
+  - id: pin:p3
+    text: wall is missing
+    source: game
+    world: xeen
+    map: xeen_xd14.blv
+    pose:
+      position: [2779, 1974.041, 1280]
+      yaw_radians: 1.395
+      pitch_degrees: -26.365
+      heading_yaw_units: 455
+    picture: .oymap/pins/pictures/p3.png
+    author: user
+    created: 2026-11-24T20:14:19
+    status: resolved
+    claimed_by: agent:xeen-fb4-dungeon2
+    from: 20261124-201419-xeen_xd14.yml
+    replies:
+      - author: agent:xeen-fb4-dungeon2
+        text: "The parapet stopped 32 short of each side wall and left a slot of sky from the floor up. It now runs from wall to wall here, on the roof walk and on the moon tower, and also on Castle Xeen's four wall walks (XD-19)."
+        created: 2026-11-25T09:01:17
+        revision: bdf224c9d68ae102e6befa9e3160c701
+        status: resolved
+        pictures: [.oymap/pins/pictures/p3-r1.png]
+  - id: pin:p4
+    text: missing wall
+    source: game
+    world: xeen
+    map: xeen_xd14.blv
+    pose:
+      position: [2341, 810.304, 1280]
+      yaw_radians: 4.542
+      pitch_degrees: -27.216
+      heading_yaw_units: 1480
+    picture: .oymap/pins/pictures/p4.png
+    author: user
+    created: 2026-11-24T20:15:51
+    status: resolved
+    claimed_by: agent:xeen-fb4-dungeon2
+    from: 20261124-201551-xeen_xd14.yml
+    replies:
+      - author: agent:xeen-fb4-dungeon2
+        text: "The parapet stopped 32 short of each side wall and left a slot of sky from the floor up. It now runs from wall to wall here, on the roof walk and on the moon tower, and also on Castle Xeen's four wall walks (XD-19)."
+        created: 2026-11-25T09:01:17
+        revision: bdf224c9d68ae102e6befa9e3160c701
+        status: resolved
+        pictures: [.oymap/pins/pictures/p4-r1.png]
+  - id: pin:p5
+    text: "maybe make these table shorter, i know you can jump"
+    source: game
+    world: xeen
+    map: xeen_xd14.blv
+    pose:
+      position: [-529.088, 390.891, 0]
+      yaw_radians: 3.122
+      pitch_degrees: -7.105
+      heading_yaw_units: 1018
+    picture: .oymap/pins/pictures/p5.png
+    author: user
+    created: 2026-11-24T20:19:26
+    status: resolved
+    claimed_by: agent:xeen-fb4-dungeon2
+    from: 20261124-201926-xeen_xd14.yml
+    replies:
+      - author: agent:xeen-fb4-dungeon
+        text: "3.3 shortened the hall's long tables and stood them against the walls, clear of the doors (D-146: tables keep their 64-80 height; the step-up is 50). Capture at your pose from today's build attached."
+        created: 2026-11-25T08:34:39
+        revision: 584fb03ee9d16dddc76c4bc4a440c88e
+        pictures: [.oymap/pins/pictures/p5-r1.png]
+      - author: agent:xeen-fb4-dungeon2
+        text: "The tables keep their height (the step-up is 50, so shorter tables would still block), but since 3.3 they stand against the walls and leave the doors clear (D-146). A check of every Xeen dungeon finds no furniture across a doorway."
+        created: 2026-11-25T09:01:27
+        revision: bdf224c9d68ae102e6befa9e3160c701
+        status: resolved
+        pictures: [.oymap/pins/pictures/p5-r2.png]

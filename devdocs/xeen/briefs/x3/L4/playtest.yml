@@ -1247,221 +1247,59 @@ steps:
     source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
 - note: 'The dial walk: 3, 6 and 12 turned to 9, 9 and 9 ; q-c7.dials_set (112142)'
 - play_lua:
-    source: click(51); wait(0.5)
-- assert:
-    dialog:
-      active: true
-      action_label_present: 'Yes'
-- select_topic:
-    match_label: 'Yes'
-- advance_runtime:
-    seconds: 0.5
+    source: 'click(51); wait(0.5); local s = status(); if not s:find("You turn the sundial") then error("no dial line: " ..
+      s) end'
 - play_lua:
-    source: close(); wait(0.3)
+    source: 'click(51); wait(0.5); local s = status(); if not s:find("You turn the sundial") then error("no dial line: " ..
+      s) end'
 - play_lua:
-    source: click(51); wait(0.5)
-- assert:
-    dialog:
-      active: true
-      action_label_present: 'Yes'
-- select_topic:
-    match_label: 'Yes'
-- advance_runtime:
-    seconds: 0.5
+    source: 'click(51); wait(0.5); local s = status(); if not s:find("You turn the sundial") then error("no dial line: " ..
+      s) end'
 - play_lua:
-    source: close(); wait(0.3)
+    source: 'click(51); wait(0.5); local s = status(); if not s:find("You turn the sundial") then error("no dial line: " ..
+      s) end'
 - play_lua:
-    source: click(51); wait(0.5)
-- assert:
-    dialog:
-      active: true
-      action_label_present: 'Yes'
-- select_topic:
-    match_label: 'Yes'
-- advance_runtime:
-    seconds: 0.5
+    source: 'click(51); wait(0.5); local s = status(); if not s:find("You turn the sundial") then error("no dial line: " ..
+      s) end'
 - play_lua:
-    source: close(); wait(0.3)
+    source: 'click(51); wait(0.5); local s = status(); if not s:find("You turn the sundial") then error("no dial line: " ..
+      s) end'
 - play_lua:
-    source: click(51); wait(0.5)
-- assert:
-    dialog:
-      active: true
-      action_label_present: 'Yes'
-- select_topic:
-    match_label: 'Yes'
-- advance_runtime:
-    seconds: 0.5
+    source: 'click(52); wait(0.5); local s = status(); if not s:find("You turn the sundial") then error("no dial line: " ..
+      s) end'
 - play_lua:
-    source: close(); wait(0.3)
+    source: 'click(52); wait(0.5); local s = status(); if not s:find("You turn the sundial") then error("no dial line: " ..
+      s) end'
 - play_lua:
-    source: click(51); wait(0.5)
-- assert:
-    dialog:
-      active: true
-      action_label_present: 'Yes'
-- select_topic:
-    match_label: 'Yes'
-- advance_runtime:
-    seconds: 0.5
+    source: 'click(52); wait(0.5); local s = status(); if not s:find("You turn the sundial") then error("no dial line: " ..
+      s) end'
 - play_lua:
-    source: close(); wait(0.3)
+    source: 'click(53); wait(0.5); local s = status(); if not s:find("You turn the sundial") then error("no dial line: " ..
+      s) end'
 - play_lua:
-    source: click(51); wait(0.5)
-- assert:
-    dialog:
-      active: true
-      action_label_present: 'Yes'
-- select_topic:
-    match_label: 'Yes'
-- advance_runtime:
-    seconds: 0.5
+    source: 'click(53); wait(0.5); local s = status(); if not s:find("You turn the sundial") then error("no dial line: " ..
+      s) end'
 - play_lua:
-    source: close(); wait(0.3)
+    source: 'click(53); wait(0.5); local s = status(); if not s:find("You turn the sundial") then error("no dial line: " ..
+      s) end'
 - play_lua:
-    source: click(52); wait(0.5)
-- assert:
-    dialog:
-      active: true
-      action_label_present: 'Yes'
-- select_topic:
-    match_label: 'Yes'
-- advance_runtime:
-    seconds: 0.5
+    source: 'click(53); wait(0.5); local s = status(); if not s:find("You turn the sundial") then error("no dial line: " ..
+      s) end'
 - play_lua:
-    source: close(); wait(0.3)
+    source: 'click(53); wait(0.5); local s = status(); if not s:find("You turn the sundial") then error("no dial line: " ..
+      s) end'
 - play_lua:
-    source: click(52); wait(0.5)
-- assert:
-    dialog:
-      active: true
-      action_label_present: 'Yes'
-- select_topic:
-    match_label: 'Yes'
-- advance_runtime:
-    seconds: 0.5
+    source: 'click(53); wait(0.5); local s = status(); if not s:find("You turn the sundial") then error("no dial line: " ..
+      s) end'
 - play_lua:
-    source: close(); wait(0.3)
+    source: 'click(53); wait(0.5); local s = status(); if not s:find("You turn the sundial") then error("no dial line: " ..
+      s) end'
 - play_lua:
-    source: click(52); wait(0.5)
-- assert:
-    dialog:
-      active: true
-      action_label_present: 'Yes'
-- select_topic:
-    match_label: 'Yes'
-- advance_runtime:
-    seconds: 0.5
+    source: 'click(53); wait(0.5); local s = status(); if not s:find("You turn the sundial") then error("no dial line: " ..
+      s) end'
 - play_lua:
-    source: close(); wait(0.3)
-- play_lua:
-    source: click(53); wait(0.5)
-- assert:
-    dialog:
-      active: true
-      action_label_present: 'Yes'
-- select_topic:
-    match_label: 'Yes'
-- advance_runtime:
-    seconds: 0.5
-- play_lua:
-    source: close(); wait(0.3)
-- play_lua:
-    source: click(53); wait(0.5)
-- assert:
-    dialog:
-      active: true
-      action_label_present: 'Yes'
-- select_topic:
-    match_label: 'Yes'
-- advance_runtime:
-    seconds: 0.5
-- play_lua:
-    source: close(); wait(0.3)
-- play_lua:
-    source: click(53); wait(0.5)
-- assert:
-    dialog:
-      active: true
-      action_label_present: 'Yes'
-- select_topic:
-    match_label: 'Yes'
-- advance_runtime:
-    seconds: 0.5
-- play_lua:
-    source: close(); wait(0.3)
-- play_lua:
-    source: click(53); wait(0.5)
-- assert:
-    dialog:
-      active: true
-      action_label_present: 'Yes'
-- select_topic:
-    match_label: 'Yes'
-- advance_runtime:
-    seconds: 0.5
-- play_lua:
-    source: close(); wait(0.3)
-- play_lua:
-    source: click(53); wait(0.5)
-- assert:
-    dialog:
-      active: true
-      action_label_present: 'Yes'
-- select_topic:
-    match_label: 'Yes'
-- advance_runtime:
-    seconds: 0.5
-- play_lua:
-    source: close(); wait(0.3)
-- play_lua:
-    source: click(53); wait(0.5)
-- assert:
-    dialog:
-      active: true
-      action_label_present: 'Yes'
-- select_topic:
-    match_label: 'Yes'
-- advance_runtime:
-    seconds: 0.5
-- play_lua:
-    source: close(); wait(0.3)
-- play_lua:
-    source: click(53); wait(0.5)
-- assert:
-    dialog:
-      active: true
-      action_label_present: 'Yes'
-- select_topic:
-    match_label: 'Yes'
-- advance_runtime:
-    seconds: 0.5
-- play_lua:
-    source: close(); wait(0.3)
-- play_lua:
-    source: click(53); wait(0.5)
-- assert:
-    dialog:
-      active: true
-      action_label_present: 'Yes'
-- select_topic:
-    match_label: 'Yes'
-- advance_runtime:
-    seconds: 0.5
-- play_lua:
-    source: close(); wait(0.3)
-- play_lua:
-    source: click(53); wait(0.5)
-- assert:
-    dialog:
-      active: true
-      action_label_present: 'Yes'
-- select_topic:
-    match_label: 'Yes'
-- advance_runtime:
-    seconds: 0.5
-- play_lua:
-    source: close(); wait(0.3)
+    source: 'click(53); wait(0.5); local s = status(); if not s:find("You turn the sundial") then error("no dial line: " ..
+      s) end'
 - play_lua:
     source: if not qbit(112142) then error("dials_set (112142) not set") end
 - note: 'The coffin with the dials set, by day (D-89: no night condition): the lid slides aside (q-c7.coffin)'

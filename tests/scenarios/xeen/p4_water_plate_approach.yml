@@ -1,0 +1,35 @@
+# D-174: Xeen P4's test of Water plate (face 2385, event 11) tops a block 124-132 sunk into the arena floor (128),
+# which runs on under it. Walked onto from the colonnade's end at (-2462, 1560) (the walkway's top at 132, then 4 down
+# to the arena floor and 4 up onto the plate), the party walked on inside the block and never stood on its top, so
+# "Accept the test of Water?" never came (main playthrough segment 93). The indoor movement now stands a party on a
+# trigger face that tops a solid (IndoorMovementController, the overlapping-floor rule).
+#   ./build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/p4_water_plate_approach.yml
+id: xeen.p4_water_plate_approach
+title: 'Plane of Water (P4): the test plate asks from the colonnade''s end (D-174)'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_p4.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - {name: Brokk, class: Knight, level: 60, skills: [], equipment: {}}
+      - {name: Hild, class: Cleric, level: 60, skills: [], equipment: {}}
+      - {name: Ivar, class: Archer, level: 60, skills: [], equipment: {}}
+      - {name: Sefa, class: Sorcerer, level: 60, skills: [], equipment: {}}
+- setup_shortcut: {kind: immortal, value: true}
+- play_lua: {source: wait(2); close()}
+- assert: {map: xeen_p4.blv}
+- set_pose: {map: xeen_p4.blv, x: -2462, y: 1560, z: 132, yaw_degrees: 166, pitch: 0}
+- clear_hostiles: {radius: 3000}
+- advance_runtime: {seconds: 1}
+- assert: {party_position: {x: -2462, y: 1560, radius: 16, z_min: 128, z_max: 136}}
+- walk_to: {x: -2880, y: 1664, z: 132, z_tolerance: 60, radius: 48, timeout_seconds: 20, expect: dialog}
+- assert: {party_position: {x: -2880, y: 1664, radius: 128, z_min: 130, z_max: 136}}
+- answer_input: {text: 'Yes'}
+- advance_runtime: {seconds: 1.5}
+- assert: {dialog: {active: true, text_contains: "You accept the test of Water."}}
+- play_lua: {source: close(); wait(0.5); close()}
+- assert: {actor_visible: {actor_index: 2, hidden: false}}

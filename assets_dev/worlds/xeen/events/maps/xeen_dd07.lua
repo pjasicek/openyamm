@@ -293,3 +293,8 @@ RegisterEvent(44, "Roof trapdoor", function()
     end
     evt.MoveToMap(27136, -6144, 1024, 1024, 0, 0, 0, 1, "xeen_d7.blv")
 end, "Roof trapdoor")
+
+-- evt:vat_pot
+RegisterEvent(45, "Bubbling Vat", function()
+    evt.StatusText("The Bubbling Vat. It smells of copper and burnt sugar. Nobody is drinking from it.", 6)
+end, "Bubbling Vat")

@@ -814,3 +814,32 @@ warnings gone; the "Kept: corpse only" lines above are history); installed with 
 ## Door pictures (2026-11-22, lane A7 twenty-seventh session)
 
 F12(b), the orchestrator's decision (plank-strip leaves titled Door show a door picture of the family): the six two-leaf plank doors (7trimd strips: dormitory, larder, mistress, pens, schoolroom, warden) show Clanker's Laboratory's (7d12) door pair hwr1dl/hwr1dr, one wing a leaf; 7trimd stays on their edges. L4 objects.yml by hand. Textures 48/45 (two more, the map was over before). Installed with the bake; build warnings and audit as before; tests 4 of 4.
+
+## 2026-11-25, agent xeen-fb4-dungeon2 (D-151)
+
+The roof's way up to X8 has a way back: X8's Witch stair of cloud lands the party on this roof at (-6784, 448, 2560)
+facing east once the climb gate (110046) is open; before that the clouds refuse ("While she lives ..."). So the ways
+back from X8 are the stairs (gated as up) and the falls. Not rebuilt (no change to this map).
+
+## 2026-11-25, agent xeen-fb4-town (D-155, XD-04 p5)
+
+`monster:child_1` (the goblin-eared boy in cage 1) carries `name: Goblin-eared boy` (A2's placed name 416) and
+`npc: 4053` (A4's `x1.yml`, title Toad Meadow Child): his hover reads his name, and a click while he is friendly opens
+his talk, whose Ears topic (A3's `m4.yml`) mirrors the cage: caged, the warden's ring; waiting, the Alacorn's place;
+with the Alacorn, the cure (`child_rescued_1` first, so 200 once; it hides group 11 as `evt:cage_1` does). Rebuilt,
+installed, baked (09:54); MAW: no reserve (spawn points). `playtest_m4.yml` opens with the boy's three states and the
+cage after the cure (119 of 119); `playtest.yml` 196 of 196, `playtest_hostility.yml` 36 of 36. The headless pick
+still meets the hoisted cage's bars at their rest place ("Locked cage"), so the hover is checked in the real game:
+`output/xeen_fb/p4_town/cap/boy_hoisted_hover.png`, `boy_talk.png`.
+
+## 2026-11-25, xeen-fb4-dungeon6: the children's skins, the Alacorn bridge's rails
+
+- D-163 skins: child 1 (row 11930, npc 4053) `xboy_ginger` (ginger, freckled, green-tinged ears, grey-brown vest),
+  child 3 now row 11932 (`xboy_dark`: dark hair, moss-green vest), Rosebud row 11931 (`xgirl_rose`), child 4 now row
+  11933 (`xgirl_flax`: flaxen hair, woad blue). `playtest_hostility.yml` asserts 11930-11933. Model work:
+  `level_generation/creatures/xeen_children_claude/`.
+- The plank bridge to the Alacorn (`room:cauldron_chamber` platforms, 1,920): its two 24 kerbs were stepped over (the
+  step-up is 50) and the party fell 1,920; they are 96 rails now, as the balconies' sills, and the landing over the
+  cauldron has a 96 rail on its seven open edges (mitred, 16 wide; open on the bridge's side). dungeon5's lid probes
+  345/351 now stop on the bridge (`output/xeen_fb/p4_dungeon6/xd04/xd04_lid*.log`). Audit 0 errors (26 warnings as
+  before), drops 0 pockets, playtest, playtest_m4, playtest_hostility pass; installed, baked.

@@ -714,23 +714,23 @@ monsters:
     hostile: true
     group: 19
   - id: monster:well_foot_1
-    room: room:well_foot
+    room: room:ring1
     monster: 11203
-    at: [-256, -192]
-    facing: 180
+    at: [0, 704]
+    facing: 270
     hostile: true
     group: 10
   - id: monster:well_foot_2
-    room: room:well_foot
+    room: room:ring1
     monster: 11203
-    at: [0, 256]
+    at: [640, 320]
     facing: 180
     hostile: true
     group: 10
   - id: monster:well_foot_3
-    room: room:well_foot
+    room: room:ring1
     monster: 11203
-    at: [0, -256]
+    at: [640, -320]
     facing: 180
     hostile: true
     group: 10

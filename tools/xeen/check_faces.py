@@ -9,6 +9,13 @@ culling: game/outdoor/OutdoorRenderer.cpp and game/indoor/IndoorRenderer.cpp set
   X1 (the studio's tent lays its canvas once outward and once inward on the same points).
 - `faces.coplanar` (error): two drawn faces in one plane facing the same way that overlap (the studio's build warns of
   these; a warning is easy to miss).
+- `faces.on_land` (error, F58 2026-11-25): an upward model face lying on the land (within ON_LAND of the terrain as the
+  game draws it) over ON_LAND_AREA square units: the face and the ground flicker (z-fighting). The ruins' sills where
+  a wall is gone lay on the levelled land under the plot (X2 p11, X4 p2, X5 p5, X6 p2, p12). Decks, roads and slabs
+  meant to cover the land stand over it; one that lies on it flickers just the same. Land as steep as ON_LAND_STEEP
+  (0.35) or more crossing a level face is a seam, not a flicker (D-176: the band within ON_LAND is under a pixel wide),
+  and is not counted. Each face is compared with its plane's own height at each sample (a sloping deck's mean height
+  lay on the land somewhere along it).
 - `shell.open_edge` (error): a ruin's wall (a structure with `ruin:` in the map's sketch, or an indoor object with
   `ruin:`) must be a closed shell above the ground: every edge of its faces over the land is shared by another face.
   An open edge is a wall end or a corner seen as a paper-thin sheet (the Ruined watchtower on X1).
@@ -506,6 +513,67 @@ def shell_findings(faces: list[Face], ruins: set[str], terrain: Terrain | None) 
 
 # ---- the maps ----
 
+ON_LAND = 2.0          # a face this near the land flickers with it
+ON_LAND_AREA = 512.0   # ... over at least this much of it (square units; sampled every ON_LAND_STEP)
+ON_LAND_STEP = 8.0
+# D-176 (2026-11-25): land this steep (rise over run, central difference over ON_LAND_SLOPE_REACH each way) crosses a
+# level face in a seam, not a flicker: the band where the two are within ON_LAND of each other is under a pixel wide
+# (the cave crests on X1, X2, X5, X7 at 0.44-1.17, X1's culvert and shaft head, X7's XD-05 gate)
+ON_LAND_STEEP = 0.35
+ON_LAND_SLOPE_REACH = 4.0
+WATER_WORDS = ('wtr', 'water', 'lava', 'swmp')
+
+
+def on_land_findings(faces: list[Face], terrain: Terrain) -> list[dict]:
+    """Upward faces lying on the land (faces.on_land)."""
+    findings = []
+    for face in faces:
+        if face.normal[2] < 0.999 or any(word in face.texture for word in WATER_WORDS):
+            continue      # a water face lies on the land the studio levels to its surface (a fall's pool): by design
+        xs = [p[0] for p in face.points]
+        ys = [p[1] for p in face.points]
+        z = sum(p[2] for p in face.points) / len(face.points)
+        flat = [(p[0], p[1]) for p in face.points]
+        hits = []
+        x = min(xs) + ON_LAND_STEP / 2
+        while x < max(xs):
+            y = min(ys) + ON_LAND_STEP / 2
+            while y < max(ys):
+                # the plane's own height at the point: a sloping deck's mean height lies on the land somewhere along
+                # it while the deck stands well over it there (X3's causeway, D3's Wrath Bridge; 2026-11-25)
+                if point_in(flat, x, y) and abs(terrain.height(x, y) + (face.normal[0] * x + face.normal[1] * y
+                                                                        + face.d) / face.normal[2]) <= ON_LAND \
+                        and land_slope(terrain, x, y) < ON_LAND_STEEP:
+                    hits.append((x, y))
+                y += ON_LAND_STEP
+            x += ON_LAND_STEP
+        area = len(hits) * ON_LAND_STEP * ON_LAND_STEP
+        if area < ON_LAND_AREA:
+            continue
+        at = [round(sum(h[0] for h in hits) / len(hits)), round(sum(h[1] for h in hits) / len(hits)), round(z)]
+        findings.append({'rule': 'faces.on_land', 'severity': 'error', 'model': face.model, 'other': 'terrain',
+                         'textures': [face.texture], 'area': round(area), 'at': at,
+                         'text': '%s (%s) lies on the land over %d sq units at %s: it flickers with the ground' % (
+                             face.model, face.texture, area, at)})
+    return findings
+
+
+def land_slope(terrain, x, y) -> float:
+    """The land's slope at a point (rise over run) as the game draws it, by central differences (D-176)."""
+    r = ON_LAND_SLOPE_REACH
+    dx = (terrain.height(x + r, y) - terrain.height(x - r, y)) / (2 * r)
+    dy = (terrain.height(x, y + r) - terrain.height(x, y - r)) / (2 * r)
+    return math.hypot(dx, dy)
+
+
+def point_in(poly, x, y) -> bool:
+    inside = False
+    for (x1, y1), (x2, y2) in zip(poly, poly[1:] + poly[:1]):
+        if (y1 > y) != (y2 > y) and x < x1 + (y - y1) * (x2 - x1) / (y2 - y1):
+            inside = not inside
+    return inside
+
+
 def project_of(stem: str) -> Path | None:
     key = stem.replace('xeen_', '')
     path = ROOT / 'devdocs' / 'xeen' / 'briefs' / key / 'L4'
@@ -519,6 +587,8 @@ def check_map(path: Path, assets: Path, cache: Path) -> list[dict]:
     faces = faces_of(data)
     terrain = Terrain(data) if 'bmodels' in data else None
     findings = coplanar_findings(faces, terrain)
+    if terrain is not None:
+        findings += on_land_findings(faces, terrain)
     project = project_of(path.stem)
     if project is not None:
         ruins = ruin_ids(project)
@@ -549,6 +619,19 @@ def self_test() -> int:
     board = face(2, [(20000, 20000, 0), (20100, 20000, 0), (20100, 20000, 100), (20000, 20000, 100)], (0, -1, 0))
     sign = face(3, [(20020, 20000, 20), (20080, 20000, 20), (20080, 20000, 80), (20020, 20000, 80)], (0, -1, 0))
     failures = []
+
+    class Ramp:
+        """Land rising `slope` along x through height 100 at x 0."""
+        def __init__(self, slope):
+            self.slope = slope
+
+        def height(self, x, y):
+            return 100.0 + self.slope * x
+    level = face(4, [(-200, -100, 100), (200, -100, 100), (200, 100, 100), (-200, 100, 100)], (0, 0, 1))
+    if on_land_findings([level], Ramp(0.44)):
+        failures.append('a level face crossed by land at slope 0.44 counted as lying on it (D-176: a seam)')
+    if not on_land_findings([level], Ramp(0.125)):
+        failures.append('a level face on land at slope 0.125 not counted (a 32-wide band of 200)')
     if list(plane_pairs([near, far])):
         failures.append("a rail's two sides 8 apart are one plane")
     if len(list(plane_pairs([board, sign]))) != 1:

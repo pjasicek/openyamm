@@ -50,7 +50,7 @@ steps:
 - walk_to:
     x: 3240
     y: 3367
-    z: 6
+    z: 4
     z_tolerance: 160
     radius: 128
     timeout_seconds: 60
@@ -68,7 +68,7 @@ steps:
 - walk_to:
     x: 1844
     y: 2151
-    z: 26
+    z: 27
     z_tolerance: 160
     radius: 128
     timeout_seconds: 60
@@ -77,7 +77,7 @@ steps:
 - walk_to:
     x: 1246
     y: 1630
-    z: 34
+    z: 36
     z_tolerance: 160
     radius: 128
     timeout_seconds: 60
@@ -105,7 +105,7 @@ steps:
 - walk_to:
     x: -1037
     y: 1003
-    z: 46
+    z: 38
     z_tolerance: 160
     radius: 128
     timeout_seconds: 60
@@ -114,7 +114,7 @@ steps:
 - walk_to:
     x: -1646
     y: 1113
-    z: 76
+    z: 81
     z_tolerance: 160
     radius: 128
     timeout_seconds: 60
@@ -123,7 +123,7 @@ steps:
 - walk_to:
     x: -2255
     y: 1224
-    z: 107
+    z: 123
     z_tolerance: 160
     radius: 128
     timeout_seconds: 60
@@ -132,7 +132,7 @@ steps:
 - walk_to:
     x: -2560
     y: 1280
-    z: 122
+    z: 132
     z_tolerance: 160
     radius: 128
     timeout_seconds: 60

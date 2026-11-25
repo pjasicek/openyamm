@@ -130,12 +130,12 @@ houses:
 
 npcs:
   # ---- Winterkill ----
-  - {id: 4501, name: Casper, title: Mindmeld Guildmaster, profession: Spell Master, talks: true, greet: ["The guild was closed to newcomers. Then I fell asleep with the roll book open. (wink, wink) Go on in.", "Still awake? I'm not."], source: "MAPS X5: Casper's bribe"}
+  - {id: 4501, name: Casper, sex: male, title: Mindmeld Guildmaster, profession: Spell Master, talks: true, greet: ["The guild was closed to newcomers. Then I fell asleep with the roll book open. (wink, wink) Go on in.", "Still awake? I'm not."], source: "MAPS X5: Casper's bribe"}
   - {id: 4502, name: Mayor Randon, profession: Clerk, talks: true, house: none, place: "X5, Winterkill's square by the gongs (A6)", greet: ["My town is full of ghosts and empty of people. Ring the gongs, and come back after each wave.", "How many waves now?"]}
-  - {id: 4503, name: Ulla, title: Innkeeper, profession: Cook, greet: ["The last ghost drank here every night. Never paid.", "Something hot?"]}
-  - {id: 4504, name: Father Ingram, profession: Healer, greet: ["We buried the town twice. Once was enough.", "Warm yourself."]}
-  - {id: 4505, name: Morwenna the Shade, title: Mistress of Shadows, profession: Spell Master, teaches: [{skill: Dark Magic, mastery: master}], greet: ["The ghosts were amateurs. We teach the real thing.", "Step out of the light."]}
-  - {id: 4506, name: Bjorn Fellmonger, title: Furrier, profession: Armorer, greet: ["Fur outside, iron inside. The tundra respects both.", "Cold?"]}
+  - {id: 4503, name: Ulla, sex: female, title: Innkeeper, profession: Cook, greet: ["The last ghost drank here every night. Never paid.", "Something hot?"]}
+  - {id: 4504, name: Father Ingram, sex: male, profession: Healer, greet: ["We buried the town twice. Once was enough.", "Warm yourself."]}
+  - {id: 4505, name: Morwenna the Shade, sex: female, title: Mistress of Shadows, profession: Spell Master, teaches: [{skill: Dark Magic, mastery: master}], greet: ["The ghosts were amateurs. We teach the real thing.", "Step out of the light."]}
+  - {id: 4506, name: Bjorn Fellmonger, sex: male, title: Furrier, profession: Armorer, greet: ["Fur outside, iron inside. The tundra respects both.", "Cold?"]}
   - {id: 4507, name: Old Ottilie, title: Mentalist, profession: Psychic, teaches: [{skill: Mind Magic, mastery: master}], greet: ["I heard the ghosts' thoughts for nine years. Yours are much louder.", "I know why you came."]}
   - {id: 4508, name: Grimwald, title: Ghost Hunter, profession: Hunter, teaches: [{skill: Identify Monster, mastery: master}], greet: ["The Acme Ghost Visualization System. Sold by the gross, works by the dozen.", "Seen anything pale?"], source: "MAPS X5: Acme Ghost Visualization System"}
   - {id: 4509, name: Sven, title: Labourer, profession: Laborer, greet: ["Shovelled snow off the ghosts' graves. They complained.", "Mind the ice."]}
@@ -150,8 +150,8 @@ npcs:
   - {id: 4518, name: Liesl, title: Bram's Daughter, profession: Child, greet: ["I talked to the ghosts. They were nice. Papa says don't say that.", "Hello again!"]}
   - {id: 4519, name: Tobin Snow, title: Town Clerk, profession: Scribe, greet: ["Population: forty. Was: four hundred. I keep the old ledger too.", "Sign the book?"]}
   # ---- Kai Wu's monastery ----
-  - {id: 4521, name: Kai Wu, title: Master of the Monastery, profession: Instructor, teaches: [{skill: Staff, mastery: master}], greet: ["The ninja in the pagoda were once my students. They learned the wrong lesson.", "Sit. Breathe."]}
-  - {id: 4522, name: Brother Lin, profession: Healer, greet: ["The arrow that misses heals faster than the one that hits.", "Peace."]}
+  - {id: 4521, name: Kai Wu, sex: male, title: Master of the Monastery, profession: Instructor, teaches: [{skill: Staff, mastery: master}], greet: ["The ninja in the pagoda were once my students. They learned the wrong lesson.", "Sit. Breathe."]}
+  - {id: 4522, name: Brother Lin, sex: male, profession: Healer, greet: ["The arrow that misses heals faster than the one that hits.", "Peace."]}
   - {id: 4523, name: Sister Mei, profession: Instructor, greet: ["Your hands are weapons. Mind where you leave them.", "Again."]}
   # ---- the tundra ----
   - {id: 4524, name: Glom, title: Gnome King, profession: Noble, talks: true, greet: ["Cyclopes on my border, snow on my roof. Burn their outpost and I'll make it worth your while.", "Is it burnt?"]}

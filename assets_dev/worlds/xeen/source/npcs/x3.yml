@@ -22,7 +22,8 @@ npcs:
 hooks:
   ranger_camp:
     map: X3
-    where: "the evil rangers' camp in the marsh woods: the map asks \"You have come upon an Evil Ranger camp. Destroy?\" and burns it (a destructible), then calls this"
+    status: true   # D-144: the camp burns on a click, its line on the status line
+    where: "the evil rangers' camp in the marsh woods: a click on a tent burns it (D-144: the source's \"Destroy?\" was a free Yes/No) and calls this"
     sets: [ranger_camp]
     once: true
     text: "You ruin their food, burn their tents, and poison their water."

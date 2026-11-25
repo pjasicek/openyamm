@@ -7,7 +7,7 @@
 # atrium, the stair door, the Pharaoh's lift up, the antechamber, the throne hall. The Dragon Pharaoh: The destiny of
 # Xeen (m36.started 111720, the checklist autonote 4136, 4,000 each), The sleepers (the corners autonote 4137); down by
 # the lift and out by the green doors. West off D5's edge to D6, down the mountain road off D6's south edge to D1, D1's
-# pyramid back to X1. The four Reflectors ("Reflector. Activate?" Yes: 8,000 each, once): X1's Water Reflector on the
+# pyramid back to X1. The four Reflectors (8,000 each, once; a click since D-144): X1's Water Reflector on the
 # south-east rim (m37.water 111743); north off X1's edge to X7, the Fire Reflector on the north-east rim spit
 # (m37.fire 111741); west off X7's edge to X4, west off X4's edge to the Desert of the Sphinx (X6), the Air Reflector on
 # the north-west rock spit (m37.air 111740); south off X6's edge to Winterkill Tundra (X5), the Earth Reflector on its
@@ -192,9 +192,8 @@ steps:
   - advance_runtime: {seconds: 1.0}
   - clear_hostiles: {radius: 4000}
   - play_lua: {source: "remember('xp', experience(0)); remember('xp3', experience(3)); remember('gold', gold()); click(79); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: "turned toward the stars below the rim. Reflector. Activate?"}}
-  - select_topic: {match_label: "Yes"}
   - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: false}}   # D-144: a click, no question
   - play_lua:
       source: |
         local s = tostring(status())
@@ -203,12 +202,11 @@ steps:
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; local xp, xp3 = experience(0) - recall('xp'), experience(3) - recall('xp3'); if xp ~= 8000 or xp3 ~= 8000 then error('the Water Reflector paid ' .. xp .. ' / ' .. xp3) end; if gold() ~= recall('gold') then error('the Water Reflector paid gold') end"}
   - assert: {qbit_set: [111743]}
   - journal: {gone: [111743], shown: [111740, 111741, 111742]}
-  # Once only: a second Yes hums and pays nothing.
+  # Once only: a second click hums on the status line and pays nothing.
   - play_lua: {source: "remember('xp', experience(0)); click(79); wait(0.5)"}
-  - select_topic: {match_label: "Yes"}
   - advance_runtime: {seconds: 0.5}
-  - assert: {dialog: {active: true, text_contains: "The Reflector hums quietly."}}
-  - press_action: {action: cancel_dialog}
+  - assert: {dialog: {active: false}}
+  - play_lua: {source: "local s = tostring(status()); if not string.find(s, [[The Reflector hums quietly.]], 1, true) then error('status line: ' .. s) end"}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; if experience(0) ~= recall('xp') then error('the Water Reflector paid twice') end"}
   # North off X1's edge to Mount Firestone (X7's south edge).
   - set_pose: {map: xeen_x1.odm, x: 2560, y: 22016, z: 1824, yaw: 1.5708, pitch: 0.0}
@@ -225,9 +223,7 @@ steps:
   - advance_runtime: {seconds: 1.0}
   - clear_hostiles: {radius: 4000}
   - play_lua: {source: "remember('xp', experience(0)); remember('xp3', experience(3)); remember('gold', gold()); click(37); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: "turned toward the heat off the mountain. Reflector. Activate?"}}
-  - select_topic: {match_label: "Yes"}
-  - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: false}}
   - play_lua:
       source: |
         local s = tostring(status())
@@ -260,9 +256,8 @@ steps:
   - advance_runtime: {seconds: 1.0}
   - clear_hostiles: {radius: 4000}
   - play_lua: {source: "remember('xp', experience(0)); remember('xp3', experience(3)); remember('gold', gold()); click(43); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: "turned toward the wind off the edge. Reflector. Activate?"}}
-  - select_topic: {match_label: "Yes"}
   - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: false}}   # D-144: a click, no question
   - play_lua:
       source: |
         local s = tostring(status())
@@ -287,9 +282,8 @@ steps:
   - clear_hostiles: {radius: 4000}
   - walk_to: {x: -11776, y: -19763, z: 2080, z_tolerance: 900, radius: 192, timeout_seconds: 90, clear_hostiles: 3000, close_dialogs: true}
   - play_lua: {source: "clear_hostiles(4000); remember('xp', experience(0)); remember('xp3', experience(3)); remember('gold', gold()); click(119); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: "turned toward the glacier's edge. Reflector. Activate?"}}
-  - select_topic: {match_label: "Yes"}
   - advance_runtime: {seconds: 0.5}
+  - assert: {dialog: {active: false}}   # D-144: a click, no question
   - play_lua:
       source: |
         local s = tostring(status())

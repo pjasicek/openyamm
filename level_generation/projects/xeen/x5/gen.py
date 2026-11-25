@@ -69,7 +69,9 @@ def hook(name):
     return [{'lua': 'XeenQuests.hook("%s")' % name}]
 
 # Q-C16's outpost burnt (A6 s27): what goes and what shows (MM8's stumps and D2's charred embers, as D2's forts)
-OUTPOST_GONE = ['thing:outpost_tent', 'thing:outpost_tent2', 'thing:outpost_fire']
+# D-152: the bones round the tents go with them
+OUTPOST_GONE = ['thing:outpost_tent', 'thing:outpost_tent2', 'thing:outpost_fire'] + [
+    'thing:outpost_bones_%d' % (i + 1) for i in range(3)]
 OUTPOST_CHAR = [('dec24x', (42.2, 91.8)), ('stump5a', (42.9, 92.5)), ('dec24x', (45.1, 93.3)),
                 ('stump5a', (44.6, 93.9)), ('dec24x', (44.2, 91.6))]
 OUTPOST_BURN = ' '.join(['HideThing("%s")' % t for t in OUTPOST_GONE]
@@ -102,12 +104,16 @@ NPC_ACTORS = [
     (4502, '361', (36.6, 43.0)),     # Mayor Randon by the gongs (MM7 Peasant Human1 MaleB)
     (4527, '377', (82.8, 45.0)),     # Freeda the Mountaineer at her camp on the pass crest (Human2 FemaleA)
     (4528, '451', (73.6, 69.6)),     # Thickbark the Civilized, a talking tree (MM7's Treant) at the forest's edge
-    (4529, '11928', (30.4, 61.6)),   # the Winter Druid in his grove (D-91: S's Elder Druid, a robed old man)
+    (4529, '11928', (30.2, 61.3)),   # the Winter Druid in his grove (D-91: S's Elder Druid, a robed old man);
+                                     # F63: (30.4, 61.6) stood 80 from a stone of his ring
 ]
 QBIT = {'liberated': 112121, 'wave1': 112122, 'wave2': 112123, 'wave3': 112124, 'reported1': 112126,
         'reported2': 112127}
 ITEMS = {'golem_stone': 12305, 'holy_book': 12524}
 HOLY_BOOK_AT = (68.85, 92.4)   # s33: on the ground beside the torn pack (thing:holy_book at 68.6, 92.4)
+# F63 (X5 p7): the outpost's eight Cyclopes on open ground inside its fence, clear of the tents by a body and 32
+OUTPOST_CYCLOPES = [(41.9, 93.8), (43.0, 94.2), (42.3, 94.85), (43.9, 93.2), (43.9, 92.2), (44.6, 94.9), (45.6, 94.9),
+                    (46.25, 93.5)]
 WAVE = 16              # ghosts in each of Q-C6's three waves (D-13: 16, the source's 20 scaled to kill XP)
 
 def W(x, y):
@@ -191,6 +197,31 @@ def roll(x, y):
     v = (180 * math.sin(x / 3.1 + 0.7) * math.sin(y / 3.6 + 1.1) + 120 * math.sin((x + 1.4 * y) / 4.7 + 0.3)
          + 70 * math.sin((x - 1.7 * y) / 2.6))
     return w * v
+
+def d142_enforce(areas):
+    """D-142's moves for the encounter circles (common/d142.py), keeping the checks of build()'s marker loop."""
+    sys.path.insert(0, _REPO_ROOT + '/level_generation/projects/xeen/common')
+    import d142
+    sys.path.pop(0)
+    l4 = _REPO_ROOT + '/devdocs/xeen/briefs/x5/L4/sketch.yml'
+    keep = [[[25, 30], [52, 30], [52, 50], [37, 54], [25, 52]], [[62, 25], [78, 25], [78, 44], [62, 44]],
+            [[27, 58], [33, 58], [33, 64], [27, 64]], [[40, 78], [50, 78], [50, 85], [40, 85]],
+            [[78, 40], [88, 40], [88, 52], [78, 52]], [[100, 54], [112, 54], [112, 62], [100, 62]],
+            [[51, 56], [59, 56], [59, 65], [51, 65]]]   # build()'s keep_clear areas
+    base = d142.standard_ok(l4, land, keep_off=keep)
+    wk = [d[2] for d in doors_out if d[0].startswith('building:winterkill') or d[0] == 'building:mindmeld_guild']
+
+    def ok(x, y, r):
+        lo, hi = 64 - 23106 / 512, 64 + 23106 / 512
+        return (base(x, y, r) and min(x - max(lo, RIM_X), hi - x, y - lo, min(hi, RIM_Y) - y) - r >= 1.5
+                and (math.hypot(x - 55, y - 59) - r) * 512 >= 6000
+                and min(math.hypot(x - q[0], y - q[1]) for q in wk) * 512 >= 4500)
+    trolls = lambda x, y, r: ok(x, y, r) and math.hypot(x - XD10_SOUTH[0], y - XD10_SOUTH[1]) >= 6
+    steppe = lambda x, y, r: ok(x, y, r) and all(math.hypot(x - q[0], y - q[1]) * 512 >= 4000 for q in PASS_DESCENT)
+    roads = d142.road_cells(l4)   # the last sketch's lines (the roads are fixed in this file)
+    for pop, slot, fit in (('pop:snow_beasts', 1, ok), ('pop:barbarians', 2, steppe), ('pop:trolls', 3, trolls)):
+        d142.enforce('xeen_x5', areas, roads, {pop: slot}, fit, giver_range=5120)
+
 
 def land(x, y):
     """The land before the water, the town and the words that the build lays over it."""
@@ -701,6 +732,11 @@ def build():
         'terraces': [
             {'polygon': [[29, 34.5], [46, 34.5], [46, 48], [29, 48]], 'height': TOWN_H, 'slope': 3,
              'notes': 'Winterkill.'},
+            # F60 (X5 p4, 2026-11-25): east of x 110 the fen's land fell from 900 to 300-450 over its last four cells
+            # to the rim while west of it the land ran level (928) to the lip, a 640 step under hull_049 (x 107-111):
+            # the void showed under the piece. The fen runs level to its lip all the way to the east edge.
+            {'polygon': [[106, 100], [128, 100], [128, 104], [106, 104]], 'height': 928, 'slope': 2,
+             'notes': "The fen's lip east of the spur: level to the rim's hull (F60)."},
             {'polygon': MONASTERY, 'height': MONASTERY_H, 'slope': 3, 'notes': "Kai Wu's crag top."},
             {'polygon': [[92, 47], [100, 47], [100, 52.5], [92, 52.5]], 'height': 1350, 'slope': 3,
              'notes': "Halon's yard on its shoulder."},
@@ -742,8 +778,10 @@ def build():
              'radius': [2, 3], 'profile': 'cone', 'spacing': 3, 'seed': 9},
             {'polygon': [[25, 85], [33, 85], [32, 96], [25, 96]], 'count': 4, 'height': [2900, 3500],
              'radius': [2, 3], 'profile': 'cone', 'spacing': 3, 'seed': 11, 'notes': "The giants' west crags."},
-            {'polygon': [[45, 86], [53, 86], [53, 97], [46, 97]], 'count': 4, 'height': [2900, 3600],
-             'radius': [2, 3], 'profile': 'cone', 'spacing': 3, 'seed': 13, 'notes': "The giants' east crags."},
+            # F59 (X5 p8/p9, 2026-11-25): the field began at x 45, so its cones (raised after the terraces) climbed
+            # through the outpost's level pad and its east fence: now from x 49.5, the bases reaching x 47 at most
+            {'polygon': [[49.5, 86], [54, 86], [54, 97], [49.5, 97]], 'count': 4, 'height': [2900, 3600],
+             'radius': [1.5, 2.5], 'profile': 'cone', 'spacing': 3, 'seed': 13, 'notes': "The giants' east crags."},
         ],
         'nodes': [
             # D-56 (session 15): the top widened to x 53-57, y 58-63, so P5's fall lands on flat rock (a terrace
@@ -872,13 +910,22 @@ def build():
     # 6,000 from a dungeon-exit arrival), checked below
     # the steppe (slot 2): west of the road round the camp, east of it round the hunting camp; D-6.1: nothing within
     # 2,000 of the pass descent or the monastery foot (and only tier A within 4,000: none at all there)
-    markers('pop:barbarians', [(39, 21, 2, 1.5), (39, 27, 1, 1), (45, 22, 2, 1.5), (57, 24, 2, 1.5),
-                               (63, 20, 1, 1), (69, 26, 2, 1.5)])
+    # F63 (2026-11-25): (39, 21) and (63, 20) put their spawns 578 and 226 from the map's north bound: in to 22.5, 22
+    markers('pop:barbarians', [(39, 22.5, 2, 1.5), (39, 27, 1, 1), (45, 22, 2, 1.5), (57, 24, 2, 1.5),
+                               (63, 22, 1, 1), (69, 26, 2, 1.5)])
     # the Troll Forest (slot 3): none within 6 cells of XD-10's south mouth (D-6.1)
     markers('pop:trolls', [(58, 79, 2, 1.5), (67, 80, 2, 1.5), (61, 88, 2, 1.5), (56, 96, 2, 1.5),
                            (64, 100, 2, 1.5), (71, 93, 3, 1.5), (73, 99, 1, 1)])
+    # D-142 (2026-11-25, F64): 4,096 from the edge arrivals and (X5 rebuilt under the rule) the dungeon exits, the
+    # circle's edge; centres 1,024 from the roads and lanes. A failing circle moves to the nearest passing spot that
+    # also keeps this map's rules below (common/d142.py; the moves print as `D-142:`)
+    d142_enforce(areas)
     for a in areas:
         c = a['circle']['at']
+        # F63 (X6 p4): a circle's edge at least 768 (1.5 cells) from the map's bounds (+-23,106) and the rim's hull
+        lo, hi = 64 - 23106 / 512, 64 + 23106 / 512
+        if min(c[0] - max(lo, RIM_X), hi - c[0], c[1] - lo, min(hi, RIM_Y) - c[1]) - a['circle']['r'] < 1.5:
+            raise SystemExit('a marker circle within 768 of the bounds or the hull: %s %s' % (a['id'], c))
         if (math.hypot(c[0] - 55, c[1] - 59) - a['circle']['r']) * 512 < 6000:
             raise SystemExit('a marker within 6,000 of P5\'s fall landing (55, 59): %s %s' % (a['id'], c))
         if a['id'] == 'pop:trolls' and math.hypot(c[0] - XD10_SOUTH[0], c[1] - XD10_SOUTH[1]) < 6:
@@ -1183,7 +1230,9 @@ def build():
            effects=[{'lua': 'XeenQuests.hook("q-c18.book")'}]))
     S({'id': 'thing:warren', 'kind': 'cave_mouth', 'at': [WARREN_AT[0], WARREN_AT[1] - 1.0], 'size': [1536, 1536],
        'free': True, 'mouth': {'width': 384, 'height': 320, 'depth': 75}, 'turn': 180,
-       'textures': {'shell': '7dirttyl', 'door': '7solid01'}, 'roughness': 0.8, 'seed': 23,
+       # F60 X5 p10 (2026-11-25): wild.free_mouths' cwb1 is a dark brown rubble that reads as a plain dirt mound on
+       # the snow ("missing texture"); the warren is built of the grey stone of Winterkill's monastery (cnb)
+       'textures': {'shell': 'cnb', 'door': '7solid01'}, 'roughness': 0.8, 'seed': 23,
        'title': 'Troll Warren', 'hint': 'Troll Warren',
        **({'into': {'map': 'xeen_xd23.blv', 'arrival': 'entrance:x5_mouth'},
            'effects': [{'lua': 'evt.StatusText("You drag the frozen hides aside.", 5)'}],
@@ -1208,16 +1257,13 @@ def build():
     S({'id': 'thing:outpost_fence', 'kind': 'fence', 'line': [[41.4, 90.8], [46.6, 90.8], [46.8, 95.4],
                                                               [41.2, 95.2]],
        'notes': "The cyclopes' stockade, open on the north-west."})
-    # A6 s27 (D-72 (a), a real choice): one Yes/No prompt with buttons, the source's own question (aaze0004:8), no
-    # message before it; Yes burns the outpost (the tents and the fire go, char and embers show) and calls A3's
-    # q-c16.outpost (its text); No does nothing. evt:outpost_burnt keeps it burnt on every load.
+    # D-144 (F69b): a click burns the outpost (the tents and the fire go, char and embers show) and calls A3's
+    # q-c16.outpost (its line on the status line); the source's "You have found the Cyclops' outpost! Burn?"
+    # (aaze0004:8) was a free Yes/No whose No changed nothing. evt:outpost_burnt keeps it burnt on every load.
     S({'id': 'thing:outpost_tent', 'kind': 'tent', 'at': [42.4, 92.0], 'size': [1280, 960], 'height': 576,
        'open': True, 'title': "The Cyclops' outpost",
        'effects': [{'lua': 'if Xeen.isSet("q-c16.outpost_burnt") then return end'},
-                   {'lua': 'if continueStep == 1 then %s %s return end' % (OUTPOST_BURN, hook('q-c16.outpost')[0]['lua'])},
-                   {'lua': 'if continueStep ~= nil then return end'},
-                   {'lua': 'AskChoiceWithAnswerSteps(eventId, 3, "You have found the Cyclops\' outpost! Burn?", '
-                           '{{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})'}]})
+                   {'lua': OUTPOST_BURN}, hook('q-c16.outpost')[0]]})
     S({'id': 'thing:outpost_tent2', 'kind': 'tent', 'at': [45.0, 93.4], 'size': [896, 768], 'height': 512,
        'open': True, 'title': "The Cyclops' outpost"})
     S(deco('thing:outpost_fire', 'cmpfyr00', (44.2, 91.6), title='Campfire'))
@@ -1246,14 +1292,10 @@ def build():
        'effects': [{'add': {'var': 'SP', 'value': 200}}, {'text': '+200 Spell points'}]})
     S({'id': 'thing:earth_reflector', 'kind': 'portal', 'at': [40.0, 102.6], 'radius': 256, 'sides': 16, 'turn': 0,
        'textures': {'membrane': {'texture': 'xngong5'}}, 'title': 'The Earth Reflector',  # a bronze tile (fit)
-       # A3's m37.reflector_earth: one Yes/No prompt with buttons, the disc's look and the source's question joined
-       # (D-65 B1: a message before a question drops the question's text; D-66 item 6); Yes calls the hook (before M36
-       # its fail text), No does nothing. As A5's X1/X6/X7 Reflectors.
-       'effects': [{'lua': 'if continueStep == 1 then XeenQuests.hook("m37.reflector_earth") return end'},
-                   {'lua': 'if continueStep ~= nil then return end'},
-                   {'lua': 'AskChoiceWithAnswerSteps(eventId, 3, "A great bronze disc in a ring of stone, turned '
-                           'toward the glacier\'s edge. Reflector. Activate?", {{Answer = "Yes", Step = 1}, '
-                           '{Answer = "No", Step = 2}})'}],
+       # A3's m37.reflector_earth (before M36 its fail text, then once its experience). D-144 (F69b): a click, the
+       # hook's line on the status line (`status: true`); the source's "Reflector. Activate?" was a free Yes/No whose
+       # No changed nothing. As X1's and X6's Reflectors.
+       'effects': [{'lua': 'XeenQuests.hook("m37.reflector_earth")'}],
        'notes': 'M37: A3 m37.reflector_earth (requires m36.started, sets m37.earth once).'})
     # ---------------------------------------------------------------- signposts
     for sid, at, arms in (
@@ -1276,29 +1318,41 @@ def build():
         a.update(kw)
         actors.append(a)
     # the pocket (Act II, D-4: A tier only): Dark Wolves in packs, the ogres' camp, the archers' camp
-    for i, (at, n) in enumerate([((93, 26), 2), ((103, 29), 3), ((108, 46), 2), ((105, 21), 2),
-                                 ((95, 71), 2), ((90, 80), 2), ((99, 96), 3), ((108, 67), 2), ((96, 85), 2)]):
+    # F63 (2026-11-25): the packs at (108, 46) and (108, 67) stood 373 from the east bound: in to x 106
+    # D-142 (2026-11-25): placed groups 4,096 from XD-09's door and XD-10's north mouth (X5 rebuilt under the rule):
+    # wolves (95, 71) -> (91, 72) (2,355 -> about 4,500), (106, 67) -> (104, 80) (3,341 -> about 4,600); the ogres
+    # round their fire from (101.2, 38.4), (100.4, 36.4) to the camp's north-east side (3,570 -> about 5,300)
+    for i, (at, n) in enumerate([((93, 26), 2), ((103, 29), 3), ((106, 46), 2), ((105, 21), 2),
+                                 ((91, 72), 2), ((90, 80), 2), ((99, 96), 3), ((104, 80), 2), ((96, 85), 2)]):
         place(ROW['dark_wolf'], at, n, 0.8, 1 + i)
-    place(ROW['ogre'], (101.2, 38.4), 4, 1.2, 20)
-    place(ROW['ogre_brute'], (100.4, 36.4), 2, 0.8, 20)
+    place(ROW['ogre'], (103.0, 35.0), 4, 1.2, 20)
+    place(ROW['ogre_brute'], (101.5, 33.5), 2, 0.8, 20)
     place(ROW['evil_archer'], (104.2, 87.4), 5, 1.2, 21)
     # the west (Act III): the barbarian camps, the snowfields' packs, the giants' corner
     place(ROW['barbarian'], (42.6, 26.4), 3, 1.0, 22)
     place(ROW['sardaj'], (41.0, 26.0), 2, 0.8, 22)
-    place(ROW['barbarian_chief'], (43.6, 24.0), 1, 0, 22)
+    # F63: (43.6, 24) was in his tent's wall; D-142: (44.1, 24.0) -> (43.8, 26.0) by the fire, 3,650 -> 4,400 from the
+    # north road's arrival
+    place(ROW['barbarian_chief'], (43.8, 26.0), 1, 0, 22)
     place(ROW['barbarian'], (66.4, 23.3), 3, 0.9, 23)
     for i, (row, at, n) in enumerate([(ROW['sabertooth'], (26.5, 71), 2), (ROW['sabertooth'], (48, 82), 3),
                                       (ROW['snow_beast'], (30, 80.5), 1), (ROW['snow_beast'], (62, 73.5), 1)]):
         place(row, at, n, 0.9, 24 + i)
-    place(ROW['cyclops'], (44.2, 93.4), 8, 1.6, 30)                          # the outpost (Q-C16)
+    # the outpost (Q-C16). F63 (X5 p7, 2026-11-25): eight spread 1.6 round (44.2, 93.4) stood in and against the two
+    # tents; now each on open ground inside the fence, clear of the tents (check_spawn_clear.py)
+    for at in OUTPOST_CYCLOPES:
+        place(ROW['cyclops'], at, 1, 0, 30)
     for i, at in enumerate([(33, 92), (40, 87.6), (29.5, 97)]):              # pairs on the plateau
         place(ROW['cyclops'], at, 2, 0.8, 31 + i)
-    place(ROW['giant'], (50.5, 92.0), 1, 0, 34)                             # one Giant on the east crag
+    # one Giant at the east crag's north foot (2026-11-25: the crag's top at (50.5, 92) is cut off by the
+    # outpost's level pad, F59; check_reach)
+    place(ROW['giant'], (46.0, 88.5), 1, 0, 34)
     # Q-C6's three waves in Winterkill: the Spirit Bones at load; the Polter-Fools and the Ghost Riders hidden until
     # Randon has heard of the wave before (reported1, reported2; events below)
     spots = [(35, 39.2), (36.6, 40.6), (38.6, 40.2), (35.4, 42.2), (38.2, 42.4), (37, 43.8), (34.8, 37.8),
              (39.6, 44.6), (42.8, 40.6), (31.2, 41.6), (37, 47.8), (44.5, 43.5),
-             (36.0, 41.4), (39.2, 38.8), (46.4, 41.6), (34.6, 44.2)]          # D-13: 16 spots for 16 a wave
+             (36.0, 41.4), (39.6, 39.4), (46.4, 41.6), (34.6, 43.8)]          # D-13: 16 spots for 16 a wave
+    # F63 (X5 p13, 2026-11-25): (39.2, 38.8) put a ghost in the Acme machine, (34.6, 44.2) one in Randon's board
     for w, (row, group) in enumerate([(ROW['spirit_bones'], 40), (ROW['polter_fool'], 41), (ROW['ghost_rider'], 42)]):
         for i in range(WAVE):
             at = spots[(i + 3 * w) % len(spots)]
@@ -1309,7 +1363,7 @@ def build():
             actors.append(a)
     # townsfolk, shown when the town is free
     for i, at in enumerate([(35.2, 40.8), (38.8, 41.0), (36.2, 44.6), (33.0, 41.6), (41.5, 41.9), (37.2, 46.8),
-                            (43.0, 38.2), (30.8, 43.0), (39.6, 38.6), (45.2, 40.6)]):
+                            (43.0, 38.2), (30.8, 43.0), (40.1, 38.6), (45.2, 40.6)]):   # F63: (39.6, 38.6) in the machine
         actors.append({'monster': ['361', '377', '350', '368'][i % 4], 'at': list(at), 'spread': 0, 'group': 50,
                        'hidden': True})
     for npc, kind, at in NPC_ACTORS:
@@ -1522,6 +1576,10 @@ def build():
     # The classic Clouds kit (2026-11-24): Clouds of Xeen's own half-timbered walls on the map's houses
     import classic_kit as CK
     for _note in CK.apply(sketch, 'x5'):
+        print(_note)
+    # D-174: the level pads PADS lists by hand for this map (Freeda's tent; common/level_pads.py)
+    import level_pads as LP
+    for _note in LP.apply(sketch, 'x5'):
         print(_note)
     print('entrance screens:', ES.apply_sketch(sketch, 'xeen_x5'))
     dump(OUT, 'sketch.yml', sketch)

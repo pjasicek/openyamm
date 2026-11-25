@@ -216,3 +216,39 @@ Rebuilt on merge point 41, installed with its bake 01:11: the gate's whole `swdo
   stays dark under the Darkside haze.
 - Side quests crossing it, normal and `--reload` (2026-11-23, after the installs): pass (rim doc §6, map agent MB).
   Story segments and promotions: held for the orchestrator's single chain run after all 12 rim maps.
+
+## D-142, D-157, D-162, F59, F63, F66 (2026-11-25, `xeen-fb4-outdoor3` sub-agent D)
+
+- `gen.py d142_enforce()` (common/d142.py, per slot): 6 circles moved: three west griffin circles off DD-10C's adit
+  (2,441-3,012 < 4,096; the old D-85 exception west griffins 6 now 7,380 from Ambrose), east griffins 5 off DD-21's
+  stair (4,092), two eye circles off the field tracks (D-157). A moved circle keeps build()'s rules (town doors,
+  Ambrose, the arrival clearances, D-87.3's 5,888 for the eyes) and F63's 768 from the bounds and the hull.
+- Not moved (DECIDE 2026-11-25): Alamar's robots, groups 14-19 (2,985-4,924 from DD-17's gate / FD-01's stair and the
+  XD-17 pyramid, 5,888 needed: only the mesa's north rim behind the castle is far enough) and the lake's fire
+  elementals, groups 1-4 (no lava 5,888 from both DD-16's hatch and the pyramid but a thin north-shore strip). They
+  stay `check_d85` warnings and D6 stays out of `check_arrivals.D142_EXITS` until the decider rules.
+- F59: the cinder vent sinks 32 (its foot hung 26 over the cinder slope), the smoke with it. F66: the second tavern
+  barrel to (84.25, 82.25) (it stood through the tavern's corner). F63: the nine archers round the fire between the
+  tents, (35.0, 85.9) spread 1.0 (the fifth stood inside the first tent).
+
+## D-164 (2026-11-25, agent xeen-fb4-outdoor4; installed with its bake 11:41)
+
+- Alamar's robots: groups 14-19 on the north half of the mesa (`ROBOT_SPOTS`: east flank (58.6, 44), north rim
+  (54.8, 39) for the Annihilators, (47.4, 39), (49.3, 37.9), west flank (41.6, 44), (43.2, 42.6)); 11, 12 stay; 13 from
+  (58, 40) (one robot in the moat at 1,536, one on the cliff at 2,089) to (57.9, 42.4) under the north-east tower. 16
+  Patrols + 2 Annihilators, every robot 0.69+ cells inside the mesa's edge on its top (2,264-2,299). Nearest robot
+  6,586 from DD-17's gate / FD-01's stair (was 3,118), 9,291 from the XD-17 pyramid (was 2,731). gen.py refuses a
+  robot spot under ROBOT_CLEAR (5,888) and its spread from either, prints one under ROBOT_AIM (6,400).
+- The lava dwellers (14, leash 1,024): group 1 in the moat's east arm (63, 46), group 2 in its west arm (36.5, 46)
+  spread 0.8 and its Elemental (37, 43.5), groups 3 and 4 on the lake's north shore ((67.9, 57.8), (66.8, 58.5) spread
+  0.5; their Elementals (69.5, 57.6), (68.8, 57.3)). `LAVA_CLEAR`: every home 6,144 and its spread from the DD-16
+  hatch, the pyramid and the gate (the drawn point and its built whole cell), replacing D-49 (4)'s 2,500 hatch rule.
+  The shore's band is narrow: x 67.6-68.2 at y 57.8 for a 0.5 spread. Nearest: 6,275 from the hatch, 6,598 from the
+  pyramid. `tools/xeen/check_reach.yml` keeps groups 1, 2, 4 (fliers over the lava; group 3 now stands on the shore).
+- `xeen_d6` is in `check_arrivals.D142_EXITS`; no kept groups; `check_d85` 0, `common/d85.py` 0 FF and 0 FFW lines.
+- First fight, headless (`output/xeen_fb/p4_outdoor4/d6/fight/`, an immortal level-30 party set down at each arrival,
+  every placed hostile logged for 60 s): at the gate the nearest robot stays at 6,586 and none targets the party in
+  the minute (inside D-15's 4,096-8,192 band; no ambush, so no mesa leash); at the pyramid the nearest lava dweller
+  stays at 6,597. Captures `output/xeen_fb/p4_outdoor4/d6/tour/`.
+- `gen_hostility_d6.py` reads a build's scene (argv 1) or the installed map's: it read the lane's stale
+  `output/studio_cal/d6/build` and kept the old elemental homes. Rerun it after an install (regen.py runs it before).

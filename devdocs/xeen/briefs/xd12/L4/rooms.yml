@@ -847,10 +847,11 @@ openings:
     to_wall: 0
     along: 0.5
     width: 3520
-    height: full
+    height: 288
     sill: 880
     threshold: {texture: cnb, size: [128, 256]}
-    reveal: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+    lintel: {texture: xwsky, size: [512, 512], scale: 2, sky: true}
+    reveal: {texture: cnb, size: [128, 256]}
   - id: open:battlement_n
     from: room:roof_n
     to: room:out_n

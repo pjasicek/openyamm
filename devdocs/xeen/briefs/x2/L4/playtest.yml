@@ -1080,7 +1080,7 @@ steps:
 - walk_to:
     x: -7552
     y: 748
-    z: 879
+    z: 887
     z_tolerance: 600
     radius: 160
     timeout_seconds: 120
@@ -1089,7 +1089,7 @@ steps:
     map: xeen_x2.odm
     x: -7552
     y: 748
-    z: 960
+    z: 928
     yaw: -1.5708
     pitch: 0.0
 - advance_runtime:
@@ -1109,7 +1109,7 @@ steps:
 - walk_to:
     x: -7680
     y: 1536
-    z: 768
+    z: 640
     z_tolerance: 600
     radius: 160
     timeout_seconds: 60
@@ -1117,7 +1117,7 @@ steps:
 - walk_to:
     x: -8397
     y: 1536
-    z: 704
+    z: 640
     z_tolerance: 600
     radius: 160
     timeout_seconds: 60
@@ -1155,7 +1155,7 @@ steps:
 - walk_to:
     x: -15731
     y: 3014
-    z: 757
+    z: 768
     z_tolerance: 600
     radius: 160
     timeout_seconds: 90
@@ -1250,7 +1250,7 @@ steps:
 - walk_to:
     x: -7936
     y: 1280
-    z: 736
+    z: 728
     z_tolerance: 600
     radius: 160
     timeout_seconds: 60

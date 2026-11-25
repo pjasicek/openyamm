@@ -62,7 +62,7 @@ steps:
   # Q-C20, Q-C21, Q-C22, Oslo's son
   - talk: [4047, q-c20]
   - hook: m4.tower_door
-  - hook: q-c20.whistle
+  - give: bone_whistle   # D-167: a ground item in the creek's shallows (q-c20.whistle is a map_gives record)
   - hook: [q-c20.statue_poison, false]
   - talk: [4047, q-c20]
   - hook: q-c20.statue_poison

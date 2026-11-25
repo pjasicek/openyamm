@@ -142,11 +142,11 @@ RegisterEvent(17, "Castle Xeen", function()
 end, "Castle Xeen")
 
 -- evt:nest_a1
-RegisterEvent(18, "Roc Nest", function(continueStep)
-    local eventId = 18
-    if continueStep ~= 1 then if continueStep == nil then AskChoiceWithAnswerSteps(eventId, 3, "Roc Nest.  Destroy?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}}) else evt.StatusText("You leave the nest as it is.", 4) end return end
+RegisterEvent(18, "Roc Nest", function()
     evt.SetFacetBit(16, FaceAttribute.Invisible, 1)
     evt.SetFacetBit(16, FaceAttribute.Untouchable, 1)
+    evt.SetSprite(10, 0)
+    evt.SetSprite(11, 0)
     XeenQuests.hook("x9.nest_a1")
 end, "Roc Nest")
 
@@ -157,14 +157,16 @@ RegisterEvent(19, nil, function()
     end
     evt.SetFacetBit(16, FaceAttribute.Invisible, 1)
     evt.SetFacetBit(16, FaceAttribute.Untouchable, 1)
+    evt.SetSprite(10, 0)
+    evt.SetSprite(11, 0)
 end, nil)
 
 -- evt:nest_a2
-RegisterEvent(20, "Roc Nest", function(continueStep)
-    local eventId = 20
-    if continueStep ~= 1 then if continueStep == nil then AskChoiceWithAnswerSteps(eventId, 3, "Roc Nest.  Destroy?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}}) else evt.StatusText("You leave the nest as it is.", 4) end return end
+RegisterEvent(20, "Roc Nest", function()
     evt.SetFacetBit(17, FaceAttribute.Invisible, 1)
     evt.SetFacetBit(17, FaceAttribute.Untouchable, 1)
+    evt.SetSprite(12, 0)
+    evt.SetSprite(13, 0)
     XeenQuests.hook("x9.nest_a2")
 end, "Roc Nest")
 
@@ -175,14 +177,16 @@ RegisterEvent(21, nil, function()
     end
     evt.SetFacetBit(17, FaceAttribute.Invisible, 1)
     evt.SetFacetBit(17, FaceAttribute.Untouchable, 1)
+    evt.SetSprite(12, 0)
+    evt.SetSprite(13, 0)
 end, nil)
 
 -- evt:nest_a3
-RegisterEvent(22, "Roc Nest", function(continueStep)
-    local eventId = 22
-    if continueStep ~= 1 then if continueStep == nil then AskChoiceWithAnswerSteps(eventId, 3, "Roc Nest.  Destroy?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}}) else evt.StatusText("You leave the nest as it is.", 4) end return end
+RegisterEvent(22, "Roc Nest", function()
     evt.SetFacetBit(18, FaceAttribute.Invisible, 1)
     evt.SetFacetBit(18, FaceAttribute.Untouchable, 1)
+    evt.SetSprite(14, 0)
+    evt.SetSprite(15, 0)
     XeenQuests.hook("x9.nest_a3")
 end, "Roc Nest")
 
@@ -193,14 +197,16 @@ RegisterEvent(23, nil, function()
     end
     evt.SetFacetBit(18, FaceAttribute.Invisible, 1)
     evt.SetFacetBit(18, FaceAttribute.Untouchable, 1)
+    evt.SetSprite(14, 0)
+    evt.SetSprite(15, 0)
 end, nil)
 
 -- evt:nest_se
-RegisterEvent(24, "Roc Nest", function(continueStep)
-    local eventId = 24
-    if continueStep ~= 1 then if continueStep == nil then AskChoiceWithAnswerSteps(eventId, 3, "Roc Nest.  Destroy?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}}) else evt.StatusText("You leave the nest as it is.", 4) end return end
+RegisterEvent(24, "Roc Nest", function()
     evt.SetFacetBit(19, FaceAttribute.Invisible, 1)
     evt.SetFacetBit(19, FaceAttribute.Untouchable, 1)
+    evt.SetSprite(16, 0)
+    evt.SetSprite(17, 0)
     XeenQuests.hook("x9.nest_se")
 end, "Roc Nest")
 
@@ -211,14 +217,16 @@ RegisterEvent(25, nil, function()
     end
     evt.SetFacetBit(19, FaceAttribute.Invisible, 1)
     evt.SetFacetBit(19, FaceAttribute.Untouchable, 1)
+    evt.SetSprite(16, 0)
+    evt.SetSprite(17, 0)
 end, nil)
 
 -- evt:nest_sw
-RegisterEvent(26, "Roc Nest", function(continueStep)
-    local eventId = 26
-    if continueStep ~= 1 then if continueStep == nil then AskChoiceWithAnswerSteps(eventId, 3, "Roc Nest.  Destroy?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}}) else evt.StatusText("You leave the nest as it is.", 4) end return end
+RegisterEvent(26, "Roc Nest", function()
     evt.SetFacetBit(20, FaceAttribute.Invisible, 1)
     evt.SetFacetBit(20, FaceAttribute.Untouchable, 1)
+    evt.SetSprite(18, 0)
+    evt.SetSprite(19, 0)
     XeenQuests.hook("x9.nest_sw")
 end, "Roc Nest")
 
@@ -229,6 +237,8 @@ RegisterEvent(27, nil, function()
     end
     evt.SetFacetBit(20, FaceAttribute.Invisible, 1)
     evt.SetFacetBit(20, FaceAttribute.Untouchable, 1)
+    evt.SetSprite(18, 0)
+    evt.SetSprite(19, 0)
 end, nil)
 
 -- evt:nine_north

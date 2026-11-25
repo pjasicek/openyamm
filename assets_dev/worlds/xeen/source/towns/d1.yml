@@ -107,22 +107,22 @@ houses:
 
 npcs:
   # ---- service owners ----
-  - {id: 4901, name: Hogarth, title: Siege Smith, profession: Smith, teaches: [{skill: Spear, mastery: master}], greet: ["Spears for the walls, spears for the gate, spears for whoever pays.", "Need a point?"]}
-  - {id: 4902, name: Ingrid Chainmaker, title: Mailwright, profession: Armorer, teaches: [{skill: Chain, mastery: master}], greet: ["Ten thousand rings to a shirt. The gremlins steal about a hundred a night.", "Count your rings."]}
-  - {id: 4903, name: Philippa, title: Lampkeeper, profession: Merchant, greet: ["Wands, scrolls, and Eeried's guidebook. The guidebook is mostly wrong.", "Browsing?"], source: "MAPS D1: Eeried's guidebook on sale"}
-  - {id: 4904, name: Zelda, title: Herbalist, profession: Alchemist, talks: true, greet: ["I found a glowing orb in a crater. Take it, please. It hums at night.", "Still humming?"]}
-  - {id: 4905, name: Dreyfus, title: High Priest of Mok, profession: Healer, talks: true, teaches: [{skill: Mace, mastery: master}], greet: ["Heretics hold the Western Tower in Mok's name. Mok would be appalled.", "Mok's blessing."]}
-  - {id: 4906, name: Bertha, title: Innkeeper, profession: Cook, greet: ["Bread's short. The siege, you know. Ale isn't.", "Another?"]}
-  - {id: 4907, name: Crispin Mint, title: Banker, profession: Banker, greet: ["Our vault is the only building the gremlins haven't sabotaged. We check daily.", "Deposit?"]}
-  - {id: 4908, name: Captain Varga, profession: Weapons Master, greet: ["Train here and stand a watch. We train to forty, and the watch trains you the rest.", "On your feet."]}
-  - {id: 4909, name: Ignatia, title: Fire Guildmistress, profession: Spell Master, teaches: [{skill: Fire Magic, mastery: master}], greet: ["Fire is the one thing the besiegers can't take from us.", "Warm?"]}
-  - {id: 4910, name: Aeolus, title: Air Guildmaster, profession: Wind Master, greet: ["The wind blows the smoke over the enemy camp. You're welcome.", "Breezy."]}
-  - {id: 4911, name: Marisol, title: Water Guildmistress, profession: Water Master, teaches: [{skill: Water Magic, mastery: master}], greet: ["We keep the wells clean. Somebody keeps putting frogs in them.", "Thirsty?"]}
-  - {id: 4912, name: Grund, title: Earth Guildmaster, profession: Spell Master, greet: ["The walls stand because I tell them to.", "Steady."]}
-  - {id: 4913, name: Sister Prudence, profession: Healer, greet: ["Siege injuries, gremlin bites, and the odd catapult foot.", "Where does it hurt?"]}
-  - {id: 4914, name: Kramer, title: Caravan Master, profession: Trader, talks: true, greet: ["The ogres burned two of my wagons. I pay well for two of their forts.", "Ready to ride?"]}
-  - {id: 4915, name: Old Hamish, title: Innkeeper of the Adventurer's Inn, profession: Cook, greet: ["Adventurers come through the pyramid looking lost. I put them up and put them to work.", "Looking for company?"]}
-  - {id: 4916, name: Mayor Snarfblad, profession: Noble, talks: true, greet: ["Gremlins in the gears, enemies at the gate, and a stranger in my office. What now?", "Any news of the gremlins?"], source: "MAPS D1: the gremlin complaint about Mayor Snarfblad"}
+  - {id: 4901, name: Hogarth, sex: male, title: Siege Smith, profession: Smith, teaches: [{skill: Spear, mastery: master}], greet: ["Spears for the walls, spears for the gate, spears for whoever pays.", "Need a point?"]}
+  - {id: 4902, name: Ingrid Chainmaker, sex: female, title: Mailwright, profession: Armorer, teaches: [{skill: Chain, mastery: master}], greet: ["Ten thousand rings to a shirt. The gremlins steal about a hundred a night.", "Count your rings."]}
+  - {id: 4903, name: Philippa, sex: female, title: Lampkeeper, profession: Merchant, greet: ["Wands, scrolls, and Eeried's guidebook. The guidebook is mostly wrong.", "Browsing?"], source: "MAPS D1: Eeried's guidebook on sale"}
+  - {id: 4904, name: Zelda, sex: female, title: Herbalist, profession: Alchemist, talks: true, greet: ["I found a glowing orb in a crater. Take it, please. It hums at night.", "Still humming?"]}
+  - {id: 4905, name: Dreyfus, sex: male, title: High Priest of Mok, profession: Healer, talks: true, teaches: [{skill: Mace, mastery: master}], greet: ["Heretics hold the Western Tower in Mok's name. Mok would be appalled.", "Mok's blessing."]}
+  - {id: 4906, name: Bertha, sex: female, title: Innkeeper, profession: Cook, greet: ["Bread's short. The siege, you know. Ale isn't.", "Another?"]}
+  - {id: 4907, name: Crispin Mint, sex: male, title: Banker, profession: Banker, greet: ["Our vault is the only building the gremlins haven't sabotaged. We check daily.", "Deposit?"]}
+  - {id: 4908, name: Captain Varga, sex: female, profession: Weapons Master, greet: ["Train here and stand a watch. We train to forty, and the watch trains you the rest.", "On your feet."]}
+  - {id: 4909, name: Ignatia, sex: female, title: Fire Guildmistress, profession: Spell Master, teaches: [{skill: Fire Magic, mastery: master}], greet: ["Fire is the one thing the besiegers can't take from us.", "Warm?"]}
+  - {id: 4910, name: Aeolus, sex: male, title: Air Guildmaster, profession: Wind Master, greet: ["The wind blows the smoke over the enemy camp. You're welcome.", "Breezy."]}
+  - {id: 4911, name: Marisol, sex: female, title: Water Guildmistress, profession: Water Master, teaches: [{skill: Water Magic, mastery: master}], greet: ["We keep the wells clean. Somebody keeps putting frogs in them.", "Thirsty?"]}
+  - {id: 4912, name: Grund, sex: male, title: Earth Guildmaster, profession: Spell Master, greet: ["The walls stand because I tell them to.", "Steady."]}
+  - {id: 4913, name: Sister Prudence, sex: female, profession: Healer, greet: ["Siege injuries, gremlin bites, and the odd catapult foot.", "Where does it hurt?"]}
+  - {id: 4914, name: Kramer, sex: male, title: Caravan Master, profession: Trader, talks: true, greet: ["The ogres burned two of my wagons. I pay well for two of their forts.", "Ready to ride?"]}
+  - {id: 4915, name: Old Hamish, sex: male, title: Innkeeper of the Adventurer's Inn, profession: Cook, greet: ["Adventurers come through the pyramid looking lost. I put them up and put them to work.", "Looking for company?"]}
+  - {id: 4916, name: Mayor Snarfblad, sex: male, profession: Noble, talks: true, greet: ["Gremlins in the gears, enemies at the gate, and a stranger in my office. What now?", "Any news of the gremlins?"], source: "MAPS D1: the gremlin complaint about Mayor Snarfblad"}
   # ---- Castleview's people ----
   - {id: 4917, name: Warden Krupp, title: Jailer, profession: Guard, greet: ["Visiting hours are whenever I'm asleep.", "Who are you visiting?"]}
   - {id: 4918, name: Jasper, title: Prisoner, profession: Cartographer, talks: true, greet: ["I'm innocent. Joe sold the fake maps; I only drew the real ones.", "Any luck with the door?"]}

@@ -49,7 +49,7 @@ houses:
     opens: m22.dungeon
     closed_text: "A bare room with an iron ring in the floor. Emerson's chalk mark reads: BANK (DUNGEON STAGE)."
 npcs:
-  - {id: 4281, name: Torvald, title: Smith of Newcastle, profession: Smith, teaches: [{skill: Plate, mastery: master}], greet: ["Your castle, your smith. I forge plate for lords now. That's you.", "What needs hammering, my lord?"]}
-  - {id: 4282, name: Sir Percival Hale, profession: Instructor, teaches: [{skill: Regeneration, mastery: master}], greet: ["Run through four times and still standing. Train here, and you'll stand to sixty.", "Ready for the yard?"]}
-  - {id: 4283, name: Father Cuthbert, profession: Healer, greet: ["A castle with a chapel is a castle that means to stay.", "Blessings on the house."]}
-  - {id: 4284, name: Lyle Ledger, title: Steward of the Counting Room, profession: Banker, greet: ["Ebenezer's taxes come in here now. Funny how that works.", "Deposit, my lord?"]}
+  - {id: 4281, name: Torvald, sex: male, title: Smith of Newcastle, profession: Smith, teaches: [{skill: Plate, mastery: master}], greet: ["Your castle, your smith. I forge plate for lords now. That's you.", "What needs hammering, my lord?"]}
+  - {id: 4282, name: Sir Percival Hale, sex: male, profession: Instructor, teaches: [{skill: Regeneration, mastery: master}], greet: ["Run through four times and still standing. Train here, and you'll stand to sixty.", "Ready for the yard?"]}
+  - {id: 4283, name: Father Cuthbert, sex: male, profession: Healer, greet: ["A castle with a chapel is a castle that means to stay.", "Blessings on the house."]}
+  - {id: 4284, name: Lyle Ledger, sex: male, title: Steward of the Counting Room, profession: Banker, greet: ["Ebenezer's taxes come in here now. Funny how that works.", "Deposit, my lord?"]}

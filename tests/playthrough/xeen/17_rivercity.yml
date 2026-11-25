@@ -74,8 +74,8 @@ steps:
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "close()"}
   - assert: {qbit_set: [112340]}
-  # The sprites' nest (event 147): the wand.
-  - set_pose: {map: xeen_x2.odm, x: -7578, y: -11700, z: 1092, yaw: -1.5708, pitch: 0.0}
+  # The sprites' nest (event 147; D-167: in the hollow at the heart of the woods): the wand.
+  - set_pose: {map: xeen_x2.odm, x: -9984, y: -10690, z: 640, yaw: 1.5708, pitch: -0.3}
   - clear_hostiles: {radius: 3000}
   - play_lua: {source: "click(147); wait(1)"}
   - play_lua:
@@ -122,10 +122,11 @@ steps:
   - play_lua: {source: "click(141); wait(0.5)"}
   - assert: {dialog: {active: true, text_contains: "Not while those beasts circle the island"}}
   - play_lua: {source: "close()"}
-  # The three dragons where they swim (X2's spawns since its 2026-11-21 rebuild).
-  - set_pose: {map: xeen_x2.odm, x: -20400, y: 8192, z: 640, yaw: 3.1416, pitch: 0.0}
+  # The three dragons where they swim (X2's spawns since D-142, 2026-11-25: (-22272, 6400), (-22272, 3072),
+  # (-18432, -3584); level_generation/projects/xeen/x2/gen.py LAKE_DRAGONS).
+  - set_pose: {map: xeen_x2.odm, x: -21680, y: 6400, z: 640, yaw: 3.1416, pitch: 0.0}
   - clear_hostiles: {radius: 1800, min: 1}
-  - set_pose: {map: xeen_x2.odm, x: -22200, y: 3072, z: 640, yaw: 3.1416, pitch: 0.0}
+  - set_pose: {map: xeen_x2.odm, x: -21680, y: 3072, z: 640, yaw: 3.1416, pitch: 0.0}
   - clear_hostiles: {radius: 1800, min: 1}
   - set_pose: {map: xeen_x2.odm, x: -17900, y: -3584, z: 640, yaw: 3.1416, pitch: 0.0}
   - clear_hostiles: {radius: 1800, min: 1}

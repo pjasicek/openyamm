@@ -59,79 +59,25 @@ steps:
   - play_lua: {source: "click(46); wait(0.5)"}
   - assert: {dialog: {active: true, text_contains: "none of them set as they should be"}}
   - play_lua: {source: "close(); wait(0.3)"}
-  # The dial walk: 3, 6 and 12 turned to nine.
-  - play_lua: {source: "click(51); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(51); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(51); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(51); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(51); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(51); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(52); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(52); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(52); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(53); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(53); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(53); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(53); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(53); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(53); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(53); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(53); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(53); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
+  # The dial walk: 3, 6 and 12 turned to nine (D-159: a click turns a dial one step, its reading on the status line).
+  - play_lua: {source: "click(51); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial', 1, true) then error('dial: ' .. s) end"}
+  - play_lua: {source: "click(51); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial', 1, true) then error('dial: ' .. s) end"}
+  - play_lua: {source: "click(51); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial', 1, true) then error('dial: ' .. s) end"}
+  - play_lua: {source: "click(51); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial', 1, true) then error('dial: ' .. s) end"}
+  - play_lua: {source: "click(51); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial', 1, true) then error('dial: ' .. s) end"}
+  - play_lua: {source: "click(51); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial', 1, true) then error('dial: ' .. s) end"}
+  - play_lua: {source: "click(52); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial', 1, true) then error('dial: ' .. s) end"}
+  - play_lua: {source: "click(52); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial', 1, true) then error('dial: ' .. s) end"}
+  - play_lua: {source: "click(52); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial', 1, true) then error('dial: ' .. s) end"}
+  - play_lua: {source: "click(53); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial', 1, true) then error('dial: ' .. s) end"}
+  - play_lua: {source: "click(53); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial', 1, true) then error('dial: ' .. s) end"}
+  - play_lua: {source: "click(53); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial', 1, true) then error('dial: ' .. s) end"}
+  - play_lua: {source: "click(53); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial', 1, true) then error('dial: ' .. s) end"}
+  - play_lua: {source: "click(53); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial', 1, true) then error('dial: ' .. s) end"}
+  - play_lua: {source: "click(53); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial', 1, true) then error('dial: ' .. s) end"}
+  - play_lua: {source: "click(53); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial', 1, true) then error('dial: ' .. s) end"}
+  - play_lua: {source: "click(53); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial', 1, true) then error('dial: ' .. s) end"}
+  - play_lua: {source: "click(53); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial', 1, true) then error('dial: ' .. s) end"}
   - play_lua: {source: "if mapvar('x3_dial_1') ~= 9 or mapvar('x3_dial_2') ~= 9 or mapvar('x3_dial_3') ~= 9 then error('dials ' .. tostring(mapvar('x3_dial_1')) .. ' ' .. tostring(mapvar('x3_dial_2')) .. ' ' .. tostring(mapvar('x3_dial_3'))) end"}
   - assert: {qbit_set: [112142]}
   # D-89 (the coffin without the night condition): with the dials at nine the lid slides aside by day too.

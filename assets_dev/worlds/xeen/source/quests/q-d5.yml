@@ -39,8 +39,9 @@ npcs:
             text: "You've killed the Queen Rat! Here is your reward: my chest. Go on, open it. It's yours. Thanks."
             do: [{set: done}]
           - when: {qbit: started}
-            text: "The Queen Rat is still alive. I can hear her awful chittering through the walls. No reward for you yet!"
-          - text: "Hi. I live down here. There sure are a lot of rats. Too many for me to kill. Maybe you could kill the Queen Rat for me. I'll give you something if you do."
+            text: "The Queen Rat is still alive. I can hear her awful chittering through the walls. No reward for you yet! The culvert to the Rat Queen's den is flooded. Its sluice is worked from the sluice house, at the far north-west of the upper level."
+          # D-166 (issue #45): the way to the den named plainly, as the flooded water's own line says it
+          - text: "Hi. I live down here. There sure are a lot of rats. Too many for me to kill. Maybe you could kill the Queen Rat for me. I'll give you something if you do. The culvert to the Rat Queen's den is flooded. Its sluice is worked from the sluice house, at the far north-west of the upper level."
             do: [{set: started}, {autonote: rooka}]
 
 hooks:

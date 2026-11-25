@@ -635,3 +635,17 @@ Scripts and logs `output/xeen_rimmap_a/` (`build.sh x2`, `install.sh x2`, `tests
 - Exceptions: `faces.back_to_back` 2 and `faces.coplanar` 2 in `thing:nystor_ship` (MM7's `Boat 201_S` models from
   7out03, not ours). Build warning `gates.road_off` on `thing:ogre_bridge` (its line y 40, the road's tiles 40-41):
   not moved in this rebuild.
+- 2026-11-25 (agent xeen-fb4-outdoor4, installed with its bake 11:56): `check_spawn_clear` 9 → 0. `d142_enforce()`
+  passes `also=d142.hull_reason(l4)` (rangers 1-4, ogres 5 off the north bound); `common/d142.py standard_ok()` keeps
+  moved circles off the districts' houses (rangers 5 to (44, 28), not onto farmstead 1). The Great Bridge's guards at
+  x 63.35 / 64.65 (22 from the parapets before), Danulf (56.5, 81.8) north-east of his altar (20 from a ring stone
+  before; 5,999 from the sprites' circle), the west lake dragon (20.5, 58) (322 from the west bound before), the ogre
+  wanderer (30, 20.5). Every check 0 and every playtest passes (both dragon tests rewritten by gen_lake_dragons.py).
+- 2026-11-25 (agent xeen-d167, D-167, issue #45): the sprites' nest (Q-C17, `thing:sprite_eggs`, event 147 kept) is a
+  large prop at `SPRITE_NEST` (44.5, 84.0), the dry hollow (land 640) at the heart of the sprite-held west woods, 6,250
+  from Danulf: a 12-sided floor of woven twigs (`gkp1flr`, X9's roc nests) 600 across and 56 high with the hook, a rim
+  of 14 twig bundles 140 high (`stone_ring`, `same_event_as` the floor) and six dead branches (7dec16, 7dec12) round it.
+  The small mushroom at (49.2, 87.3) is gone (stand-in only). Named "Sprite nest" under the crosshair 380-500 from its
+  middle on all four sides at 17 degrees down; the interact key there puts the wand on the cursor. Audit, faces and
+  props-support findings unchanged against the installed map. Built and checked in a private root only: the install
+  and bake go with D-170's rebuild of X2 (the generator carries both).

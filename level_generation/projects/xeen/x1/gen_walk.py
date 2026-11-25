@@ -380,15 +380,14 @@ walk(*W(41.5, 44), timeout=90)
 walk(*W(38.5, 44), timeout=90)
 walk(*W(38.5, 46), timeout=90)
 walk(*W(21, 46), timeout=120)
-steps.append({'note': "The Water Reflector (M37, A3's hook): the prompt, Yes, and before M36 the hook's fail text"})
+steps.append({'note': "The Water Reflector (M37, A3's hook): a click (D-144), before M36 the hook's fail text on the "
+                      "status line"})
 add({'play_lua': {'source': 'click(%d); wait(0.5)' % ev['evt:thing:water_reflector']}})
-add({'advance_runtime': {'seconds': 0.3, 'present_dialogs': True}})   # one prompt with Yes/No buttons (D-65 B1, D-66)
-add({'assert': {'dialog': {'active': True, 'text_contains': 'below the rim. Reflector. Activate?'}}})
-add({'answer_input': {'text': 'Yes'}})
-add({'advance_runtime': {'seconds': 0.5}})
-add({'assert': {'dialog': {'active': True}}})
-add({'press_action': {'action': 'cancel_dialog'}})
-add({'play_lua': {'source': 'if qbit(111743) then error("the reflector set its bit before M36") end'}})
+add({'advance_runtime': {'seconds': 0.3, 'present_dialogs': True}})
+add({'assert': {'dialog': {'active': False}}})
+add({'play_lua': {'source': 'local s = tostring(status())\n'
+                            'if not string.find(s, "cold and silent", 1, true) then error("status line: " .. s) end\n'
+                            'if qbit(111743) then error("the reflector set its bit before M36") end'}})
 add({'advance_runtime': {'seconds': 0.3}})
 if installed('xeen_x2.odm'):
   add({'walk_to': {'x': W(18, 46)[0], 'y': W(18, 46)[1], 'z': ground(*W(18, 46)), 'z_tolerance': 600, 'radius': 128,

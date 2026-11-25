@@ -649,7 +649,10 @@ def structures():
     gorge_rock(S)
     crest_rock(S)
     # ======== Wrath Bridge, the falls over the rim, the Rim Watch ==============================================
+    # D-170 (2026-11-25): the west end stands 24 over a pad that runs 1.5 cells on up the bank (`pad_beyond`,
+    # common/wild.py): the road graded through the end lifted an end-cell pad back up and the end's edge lay on it
     S({'id': 'thing:wrath_bridge', 'kind': 'bridge', 'line': [[73.6, 46], [77.75, 46]], 'width': 640,
+       'raise': 24, 'pad_beyond': 1.5,
        'arches': {'count': 2, 'rise': 160, 'form': 'segment', 'pier_width': 256}, 'kerb': 96,
        'textures': {'deck': 't30a05c', 'side': 't30c01', 'pier': 't30c01'}, 'title': 'Wrath Bridge'})
     # U-12/D-112 (agent xeen-rimmap-c, 2026-11-23): the line on the river's mouth, pouring straight east over the rim
@@ -824,6 +827,12 @@ CRAGS = [((91.5, 28.5), 576, 20), ((93.0, 25.5), 512, -15), ((94.5, 23.0), 448, 
          ((92.0, 31.5), 448, 30), ((100.0, 37.5), 448, -20)]
 
 
+# F59 (2026-11-25, town_fit_check things.overhang): a crag on the crest's flank stood on the land at its middle and
+# hung 29-233 over the slope falling away under the rest of its foot (the build of 2026-11-24): each such crag sinks
+# its foot below the lowest land under it (the fall, a 32 step and 32 more) and grows by as much, the same top
+SINK = {'crag_3': 160, 'crag_4': 192, 'crag_5': 192, 'crag_8': 96, 'crag_10': 64, 'crag_11': 128, 'crag_13': 288}
+
+
 def crest_rock(S):
     """The Wrath crest's rock: pinnacles (obelisks in the world's rock: a broad tapering shaft, a low tip) along the
     ridge and in its notches."""
@@ -832,8 +841,10 @@ def crest_rock(S):
         if h < 320:
             continue
         w = min(w, h)                          # an obelisk is at least as high as wide
-        S({'id': 'thing:crag_%d' % k, 'kind': 'obelisk', 'at': [x, y], 'height': h, 'width': w, 'taper': 0.45,
-           'tip': int(w * 0.35), 'turn': turn, 'textures': dict(ROCK), 'title': 'The Wrath crest'})
+        sink = SINK.get('crag_%d' % k, 0)
+        S({'id': 'thing:crag_%d' % k, 'kind': 'obelisk', 'at': [x, y], 'height': h + sink, 'width': w, 'taper': 0.45,
+           'tip': int(w * 0.35), 'turn': turn, 'textures': dict(ROCK), 'title': 'The Wrath crest',
+           **({'raise': -sink} if sink else {})})
 
 
 def fruit_huts(S):

@@ -136,12 +136,11 @@ def window():
 
 
 def turn_dial(k, times):
+    # D-159: a click turns the dial one step, its new reading on the status line (no question)
     for _ in range(times):
-        add({'play_lua': {'source': 'click(%d); wait(0.5)' % ev['evt:thing:sundial_%d' % k]}})
-        add({'assert': {'dialog': {'active': True, 'action_label_present': 'Yes'}}})   # D-72 (A5 s30): buttons
-        add({'select_topic': {'match_label': 'Yes'}})
-        add({'advance_runtime': {'seconds': 0.5}})
-        add({'play_lua': {'source': 'close(); wait(0.3)'}})
+        add({'play_lua': {'source': 'click(%d); wait(0.5); local s = status(); '
+                                    'if not s:find("You turn the sundial") then error("no dial line: " .. s) end'
+                                    % ev['evt:thing:sundial_%d' % k]}})
 
 
 s = build['start']

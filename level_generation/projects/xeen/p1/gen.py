@@ -36,6 +36,7 @@ import planes_design as PD  # noqa: E402
 import planes_geom as PG  # noqa: E402
 sys.path.insert(0, str(ROOT / 'level_generation/projects/xeen/common/planes'))
 import pieces as PC  # noqa: E402
+import spans as SP  # noqa: E402
 
 BRIEF = ROOT / 'devdocs/xeen/briefs/p1'
 WORLD = ROOT / 'assets_dev/worlds/xeen'
@@ -176,14 +177,29 @@ def shelves():
     return out
 
 
-# the ramps up every raised shelf (D-58 Q1): two each where no causeway leaves, the arena three
+# the ramps up every raised shelf (D-58 Q1): two each where no causeway leaves, the arena three. F62 (2026-11-25): no
+# ramp within a causeway's or the bridge's width of its line (statue 330 lay on causeway_s at 335, the arena's 160 and
+# 330 on the bridge at 168 and causeway_ne at 325: the decks crossed, check_floor_cross floor.cross)
 RAMP_SLOPE = 0.3
 RAMP_W = 384
-RAMPS = {'room:statue': [150, 330], 'room:islet': [110, 250], 'room:spires': [30, 280],
-         'room:west_shelf': [200, 140], 'room:arena': [10, 160, 330]}
+RAMPS = {'room:statue': [150, 270], 'room:islet': [110, 250], 'room:spires': [30, 280],
+         'room:west_shelf': [200, 140], 'room:arena': [10, 135, 298]}
+
+
+def shelf_poly(sid):
+    """The shelf's outline as built (the arena: its outer ellipse)."""
+    if sid == 'room:arena':
+        c = SPACE['room:arena']['at']
+        return [(c[0] + arena_r(t) * math.cos(t), c[1] + arena_r(t) * math.sin(t))
+                for t in (2 * math.pi * k / 48 for k in range(48))]
+    if sid == 'room:chamber':
+        return None
+    return [tuple(p) for p in shelf_outline(sid)]
 
 
 def ramp(sid, deg, k):
+    """F62: level at the shelf's top until past its rim across the ramp's width (SP.ramp_spans), then down to 32 over
+    the lava (it sloped from 128 inside the rim and dipped under the shelf's top there)."""
     s = SPACE[sid]
     c = s['at']
     th = math.radians(deg)
@@ -195,13 +211,16 @@ def ramp(sid, deg, k):
     top = s['floor'] + 4
     run = (top - (LAVA + 32)) / RAMP_SLOPE
     a = (c[0] + (r - 128) * math.cos(th), c[1] + (r - 128) * math.sin(th))
-    b = (c[0] + (r + run) * math.cos(th), c[1] + (r + run) * math.sin(th))
-    return slab(f"platform:{key(sid)}_ramp{k}", a, b, top, LAVA + 32, RAMP_W, BASALT, CRUST, LAVA + 8,
-                notes=f"A crust ramp out of the lava up to {s['name']} (D-58 Q1), its foot 32 over the lava.")
+    (p0, q0, _, _), (p1, q1, z0, z1) = SP.ramp_spans(a, (math.cos(th), math.sin(th)), top, LAVA + 32, run,
+                                                      shelf_poly(sid), RAMP_W)
+    return [slab(f"platform:{key(sid)}_ramp{k}_a", p0, q0, top, top, RAMP_W, BASALT, CRUST, LAVA + 8),
+            slab(f"platform:{key(sid)}_ramp{k}", p1, q1, z0, z1, RAMP_W, BASALT, CRUST, LAVA + 8,
+                 notes=f"A crust ramp out of the lava up to {s['name']} (D-58 Q1), its foot 32 over the lava; level "
+                       f"over the shelf (`_a`, F62).")]
 
 
 def ramps():
-    return [ramp(sid, deg, k + 1) for sid, degs in RAMPS.items() for k, deg in enumerate(degs)]
+    return [e for sid, degs in RAMPS.items() for k, deg in enumerate(degs) for e in ramp(sid, deg, k + 1)]
 
 
 # ------------------------------------------------------------------------------------------------ causeways
@@ -215,6 +234,25 @@ def link_cut(l):
     return (p[0] - ux * INTO, p[1] - uy * INTO), (q[0] + ux * INTO, q[1] + uy * INTO), d
 
 
+def link_spans(l):
+    """F62: the causeway level across each shelf, sloping between (SP.link_spans)."""
+    a, b, _ = link_cut(l)
+    return SP.link_spans(a, b, SPACE[l['a']]['floor'] + 4, SPACE[l['b']]['floor'] + 4, l['width'],
+                         shelf_poly(l['a']), shelf_poly(l['b']))
+
+
+SPAN_SUFFIX = ('_a', '', '_b')
+
+
+def span_ids(base, spans):
+    """The pieces' ids: the slope keeps the link's id, a landing on its a shelf `_a`, on its b shelf `_b`."""
+    if len(spans) == 1:
+        return [base]
+    if len(spans) == 3:
+        return [base + s for s in SPAN_SUFFIX]
+    return [base + '_a', base] if spans[0][2] == spans[0][3] else [base, base + '_b']
+
+
 def causeways():
     out = []
     for l in D['links']:
@@ -222,8 +260,11 @@ def causeways():
             continue
         a, b, d = link_cut(l)
         za, zb = SPACE[l['a']]['floor'] + 4, SPACE[l['b']]['floor'] + 4
-        out.append(slab(f"platform:{key(l['id'])}", a, b, za, zb, l['width'], BASALT, CRUST, LAVA + 8,
-                        f"{l['id']}: a causeway of cooled black crust, {int(d):,} rim to rim, rising {zb - za}."))
+        spans = link_spans(l)
+        for pid, (p, q, z0, z1) in zip(span_ids(f"platform:{key(l['id'])}", spans), spans):
+            out.append(slab(pid, p, q, z0, z1, l['width'], BASALT, CRUST, LAVA + 8,
+                            f"{l['id']}: a causeway of cooled black crust, {int(d):,} rim to rim, rising {zb - za}; "
+                            f"level over each shelf (F62)." if pid == f"platform:{key(l['id'])}" else None))
     return out
 
 
@@ -232,14 +273,17 @@ GATE_Y = 4096                                  # the gate's middle on the hall's
 
 def bridge():
     """The obsidian bridge from the Crucible's west rim to the gate in the crater's notch wall; its deck meets the
-    doorway's sill (the hall's floor, 384) at the wall."""
+    doorway's sill (the hall's floor, 384) at the wall. F62: level over the Crucible's rim, then up."""
     c = SPACE['room:arena']['at']
     th = math.atan2(GATE_Y - c[1], NOTCH_X - c[0])
     r = arena_r(th)
     a = (c[0] + (r - INTO) * math.cos(th), c[1] + (r - INTO) * math.sin(th))
     b = (NOTCH_X + 2, GATE_Y)
-    return [slab('platform:bridge', a, b, SPACE['room:arena']['floor'] + 4, HALL_FLOOR, 640, BASALT, GLASS, LAVA + 8,
-                 "The obsidian bridge to the Sleeper's Gate (link:sleepers_gate): its deck meets the doorway's sill.")]
+    spans = SP.link_spans(a, b, SPACE['room:arena']['floor'] + 4, HALL_FLOOR, 640, shelf_poly('room:arena'), None)
+    return [slab(pid, p, q, z0, z1, 640, BASALT, GLASS, LAVA + 8,
+                 "The obsidian bridge to the Sleeper's Gate (link:sleepers_gate): its deck meets the doorway's sill."
+                 if pid == 'platform:bridge' else None)
+            for pid, (p, q, z0, z1) in zip(span_ids('platform:bridge', spans), spans)]
 
 
 # ------------------------------------------------------------------------------------------------ the Crucible
@@ -275,17 +319,46 @@ def crucible():
               notes="The Crucible's west half (2 higher where the halves overlap)."),
         prism('platform:pit', ring(PIT_AT[0], PIT_AT[1], PIT_R + 16, 24), LAVA, z - 24 - LAVA, BASALT, POOL,
               notes="The pit: lava welling in the ring, 24 under the glass (burning, floors); the guardians rise here."),
-        block('platform:test_plate', PLACE['poi:test']['at'], (256, 256), z + 2, 4, GLASS, GLASS,
+        # F62: sunk into the glass under it, its top 4 over the glass or the causeway's landing beside it (its bottom
+        # lay on the west half's top: check_floor_cross floor.lid). It straddles both halves (east top z, west z + 2):
+        # sunk SINK under the lower one (sunk from the west half's top it lay 2 under the east half's: a lid at 254).
+        block('platform:test_plate', PLACE['poi:test']['at'], (256, 256), z - SINK,
+              max(z + 2, SP.deck_top(ramps() + causeways() + bridge(), PLACE['poi:test']['at'], 128, LAVA) or z) + 4
+              - (z - SINK), GLASS, GLASS,
               notes="The test's floor before S's pedestal (poi:test): stepping on asks 'Accept the test of Fire?'."),
     ]
 
 
 # ------------------------------------------------------------------------------------------------ vents, spires
+SINK = 4               # how far a block standing on a shelf is sunk into it (X8's, F62: its bottom no lid)
+
+
+def deck_top(pt):
+    """The highest ramp, causeway or bridge top over a point, or None (F62: a vent on a deck's landing)."""
+    best = None
+    for e in ramps() + causeways() + bridge():
+        if not PG.point_in(pt, foot(e)):
+            continue
+        z = LAVA + e['base'] + e['rise']
+        if 'top_heights' in e:
+            f = math.radians(e['facing'])
+            u = ((pt[0] - e['at'][0]) * math.cos(f) + (pt[1] - e['at'][1]) * math.sin(f)) / e['size'][0] + 0.5
+            h = e['top_heights']
+            z = LAVA + e['base'] + h[0] + (h[1] - h[0]) * u
+        best = z if best is None else max(best, z)
+    return best
+
+
 def vents():
     out = []
     for i, c in enumerate(D['hazard']['cells']):
         z = PL.floor_at(c)
-        out.append(block(f'platform:vent{i + 1}', c, (192, 192), z, 4, CRUST, VENT,
+        # F62: sunk SINK into its shelf; a vent on a deck's landing stands on the deck (its top was in the landing's
+        # plane: geometry.coplanar)
+        decks = [deck_top((c[0] + dx, c[1] + dy)) for dx in (-96, 0, 96) for dy in (-96, 0, 96)]
+        decks = [d for d in decks if d is not None]
+        top = max([z] + decks) + 4
+        out.append(block(f'platform:vent{i + 1}', c, (192, 192), z - SINK, top - (z - SINK), CRUST, VENT,
                          notes="A vent (D-58 P1 Q2): a PressurePlate face, xpfvent, planes.vent." if i == 0 else None))
     return out
 
@@ -382,7 +455,8 @@ def lanes():
     for e in ramps() + causeways() + bridge():
         f = foot(e)
         out.append((((f[0][0] + f[3][0]) / 2, (f[0][1] + f[3][1]) / 2),
-                    ((f[1][0] + f[2][0]) / 2, (f[1][1] + f[2][1]) / 2), e['size'][1] / 2, e['id']))
+                    ((f[1][0] + f[2][0]) / 2, (f[1][1] + f[2][1]) / 2), e['size'][1] / 2,
+                    e['id'][:-2] if e['id'].endswith(('_a', '_b')) else e['id']))   # a landing is its deck's lane
     return out
 
 
@@ -454,7 +528,7 @@ def causeway_aprons():
         if l.get('gate'):
             continue
         a, b, _ = link_cut(l)
-        za, zb = SPACE[l['a']]['floor'] + 4 - LAVA, SPACE[l['b']]['floor'] + 4 - LAVA
+        spans = link_spans(l)
         length = math.hypot(b[0] - a[0], b[1] - a[1])
         u = ((b[0] - a[0]) / length, (b[1] - a[1]) / length)
         k = 0
@@ -465,7 +539,8 @@ def causeway_aprons():
                 t1 = min(length, t + rnd.uniform(380, 620))
                 p = (a[0] + u[0] * t + n[0] * l['width'] / 2, a[1] + u[1] * t + n[1] * l['width'] / 2)
                 q = (a[0] + u[0] * t1 + n[0] * l['width'] / 2, a[1] + u[1] * t1 + n[1] * l['width'] / 2)
-                zp, zq = za + (zb - za) * t / length - 4, za + (zb - za) * t1 / length - 4
+                zp = SP.span_top(spans, (a[0] + u[0] * t, a[1] + u[1] * t)) - LAVA - 4   # F62: the deck's own top
+                zq = SP.span_top(spans, (a[0] + u[0] * t1, a[1] + u[1] * t1)) - LAVA - 4
                 run_p, _, out_p, _ = edge_runs(rnd, zp)
                 run_q, _, out_q, _ = edge_runs(rnd, zq)
                 if sgn < 0:

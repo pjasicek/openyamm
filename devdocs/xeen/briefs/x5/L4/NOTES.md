@@ -348,3 +348,13 @@ lock); minimap re-rendered with `present/ice_minimap.py` as `redo_minimap.sh` do
 - D-136 (kept): group 40, Q-C6's first wave of Spirit Bones round Winterkill's square (D-13, D-87), stays 597-1,988
   from the start/mirror/portal arrival. `v.sh` runs `x2/check_d85.py ... 5120 --kept-group 40` and fails on every
   ERROR but Mayor Randon's giver line (NPC 4502 among the wave by D-87.1).
+
+## F59 outpost and haybales, rim point (2026-11-25, `xeen-fb4-outdoor2-x5x3`; scratch output/xeen_fb/p4_outdoor2/x5/)
+- The giants' east crags (`heights.peaks`, raised after the terraces) started at x 45 and climbed through the outpost's
+  level pad: the field now starts at x 49.5 (radius 1.5-2.5), so the merged pad holds the stockade at 2304 out to x 47
+  (pins p8, p9). The crag's top is now cut off from the west, so the lone Giant (group 34) stands at the crag's north
+  foot (46.0, 88.5) (check_reach). Haybales (`hay` in common/level_pads.py SET_WORDS) get a pad beside the barn.
+- `rim.point` (21504, -18944): the return point read the land before F60's 928 terrace; regenerated from the new land
+  (XEEN_WILD_MAPS on the scratch build) it is 928. Installed with its bake 10:01; town_fit 0, check_wild 0, reach 0,
+  spawn_clear 0, check_d85 as before (Randon's line, group 40 kept), walk/hostility/randon and
+  x5_winterkill_ghosts_move pass. Captures before/ and after/ (p8, p9, the outpost from the north, the barn's hay).

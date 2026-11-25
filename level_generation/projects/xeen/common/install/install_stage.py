@@ -1,7 +1,8 @@
 """Lane A8: install a map's files from an `oymap install --mount` staging folder into assets_dev, each as a new file
 then a rename (never in place: assets_dev files may be hard-linked into scratch roots).
 level_generation/projects/xeen/common/install/install_stage.py <stem> <stage dir>   e.g. install_stage.py xeen_xd12 output/studio_cal/xd12/stage_mp10
-Only the map's own files (maps/<stem>.blv, .scene.yml, .studio.yml, .cinematics.yml if built, events/maps/<stem>.lua);
+Only the map's own files (maps/<stem>.blv, .scene.yml, .studio.yml, .cinematics.yml if built, events/maps/<stem>.lua,
+terrain_materials/<stem>_blv* if built);
 never data_tables. Any other staged file stops the install."""
 import os, shutil, sys
 from pathlib import Path
@@ -16,6 +17,9 @@ for ext in ('.cinematics.yml',):
     src = stage / 'worlds/xeen/maps' / f'{stem}{ext}'
     if src.exists():
         pairs.append((src, dev / 'maps' / f'{stem}{ext}'))
+# The map's terrain material files when it has them (XD-17's valley: terrain_materials/<stem>_blv.yml and its weights).
+for src in sorted((stage / 'worlds/xeen/terrain_materials').glob(f'{stem}_blv*')):
+    pairs.append((src, dev / 'terrain_materials' / src.name))
 others = sorted(str(f.relative_to(stage)) for f in stage.rglob('*') if f.is_file()
                 and f not in [src for src, _ in pairs])
 if others:

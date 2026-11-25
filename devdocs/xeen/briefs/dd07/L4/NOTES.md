@@ -234,3 +234,13 @@ L4 only (`gen.py L4`): L1-L3 stay as approved, without the roof stair.
 
 `project.yml` no longer names `jewel_found` (113361), nor does the plan's goal give it (A3 35th: nothing sets or
 reads it since the Jewel of Ages became a ground item, D-90). Only the studio file changed (installed); tests 16/16.
+
+## 2026-11-25, xeen-fb4-dungeon6: D-132 ledge shots
+
+`check_ledge_shots.py` had 8 errors: the well foot's three Floating Adepts (group 10) saw the party at the railed
+windows of floors 2-4 and the disc landing with thin shots over the 80 sills. Tried posts (scene edited, no rebuild):
+every spot in the well's foot 48 or more off its middle grazes some window; the middle is in the arrival's sight
+through the door hall's arch (`check_arrivals.py arrival.hot`). `gen.py` `PLACED`: group 10's adepts keep the ring1
+gallery instead, (0, 704), (640, 320), (640, -320) (ids `monster:well_foot_1..3` kept; an entry's fourth field is its
+room). Errors 8 -> 0 (17 warnings from spots they can move to), arrivals 0; audit 0/0; 4/4 playtests; installed,
+baked, MAW reserve.

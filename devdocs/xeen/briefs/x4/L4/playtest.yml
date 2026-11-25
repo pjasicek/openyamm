@@ -579,8 +579,8 @@ steps:
 - note: The barbarian camp (x4.barbarian_camp)
 - set_pose:
     map: xeen_x4.odm
-    x: -18432
-    y: 2816
+    x: -17920
+    y: 3328
     z: 1296
     yaw: 0.0
     pitch: 0.0
@@ -595,44 +595,27 @@ steps:
     present_dialogs: true
 - assert:
     dialog:
-      active: true
-      text_contains: You have stumbled upon a Barbarian encampment. Burn?
-- answer_input:
-    text: 'No'
-- advance_runtime:
-    seconds: 1
+      active: false
 - play_lua:
-    source: 'close()
+    source: 'local s = tostring(status())
 
-      if qbit(116060) then error("the camp burnt on No") end'
-- play_lua:
-    source: click(103); wait(0.5)
-- advance_runtime:
-    seconds: 0.3
-    present_dialogs: true
-- assert:
-    dialog:
-      active: true
-      text_contains: You have stumbled upon a Barbarian encampment. Burn?
-- answer_input:
-    text: 'Yes'
-- advance_runtime:
-    seconds: 1
-- play_lua:
-    source: 'close(); wait(0.3); close()
+      if not string.find(s, "The encampment burns", 1, true) then error("status line: " .. s) end
 
       if not qbit(116060) then error("barbarian_camp not set") end'
-- note: 'Burnt: the other tents say so'
+- note: 'Burnt: the other tents say so (D-152: what is drawn)'
 - execute_event:
     id: 104
 - advance_runtime:
     seconds: 0.5
+- play_lua:
+    source: 'local s = tostring(status()) if not string.find(s, "Scorched planks", 1, true) then error("status line: " ..
+      s) end'
 - note: 'The desert road west to the edge: X6 Desert of the Sphinx (7 days)'
 - set_pose:
     map: xeen_x4.odm
     x: -20480
     y: 2048
-    z: 1152
+    z: 1120
     yaw: 0.0
     pitch: 0.0
 - advance_runtime:
@@ -640,7 +623,7 @@ steps:
 - walk_to:
     x: -24320
     y: 2048
-    z: 1184
+    z: 1152
     z_tolerance: 3000
     radius: 128
     timeout_seconds: 60
@@ -1013,7 +996,7 @@ steps:
     map: xeen_x4.odm
     x: 5427
     y: 7680
-    z: 960
+    z: 832
     yaw: 0.0
     pitch: 0.0
 - advance_runtime:
@@ -1135,6 +1118,43 @@ steps:
     state_dump_map_var:
       index: 12
       value: 1
+- note: 'Nystor''s landing: the mooring post is the door of the boat back to Rivercity (D-150)'
+- set_pose:
+    map: xeen_x4.odm
+    x: 9728
+    y: -18637
+    z: 742
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'Before Q-C23 (qbit 112461): the post''s closed line in a window'
+- execute_event:
+    id: 129
+- advance_runtime:
+    seconds: 0.5
+- play_lua:
+    source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
+- setup_shortcut:
+    kind: set_qbit
+    id: 112461
+    value: true
+- execute_event:
+    id: 129
+- advance_runtime:
+    seconds: 0.5
+- note: 'After Q-C23: the post opens Nystor''s Landing (the boats house, route 434 to Rivercity)'
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- setup_shortcut:
+    kind: set_qbit
+    id: 112461
+    value: false
 - note: The ogres' camp in the red hills
 - set_pose:
     map: xeen_x4.odm

@@ -41,13 +41,15 @@ neighbours:
   - id: roof:high_magic
     to: xeen_xd11.blv
     kind: roof
-    listed_only: true
-    notes: "One way up: XD-11's Stairway to Heaven arrives at the head of the High Magic Clouds' stair, by explicit coordinates in XD-11's exit (NOTES.md, Arrivals)."
+    arrival: [1536, 1152, 2560]
+    direction: 270
+    notes: "XD-11's Stairway to Heaven arrives at the head of the High Magic Clouds' stair, by explicit coordinates in XD-11's exit (NOTES.md, Arrivals); the stair's foot leads back down to the Tower of High Magic's roof in front of the cloud steps, facing away from them (F62)."
   - id: roof:witch_tower
     to: xeen_xd04.blv
     kind: roof
-    listed_only: true
-    notes: "One way up: XD-04's cloud stair arrives at the head of the Witch Clouds' stair (objects.yml start). There is no way back down but falling."
+    arrival: [-6784, 448, 2560]
+    direction: 0
+    notes: "XD-04's cloud stair arrives at the head of the Witch Clouds' stair (objects.yml start); the stair's foot leads back down to the Witch Tower's roof by the cloud stair, facing away from it (F62)."
 qbits:
   explorer: 115020
   m4_done: 110047

@@ -58,6 +58,8 @@ def main():
             roofs[i] = [V[v] for v in f['vertices']]
         if f['plane_normal'][2] < 0.7 * 65536:
             continue
+        if f['attributes'] & 0x20000000:
+            continue   # untouchable (FaceAttribute::Untouchable: a cloud skirt the party falls through), no floor
         floors[i] = [V[v] for v in f['vertices']]
     def zat(poly, x, y):
         # the face's height at (x, y) from its plane (three corners)

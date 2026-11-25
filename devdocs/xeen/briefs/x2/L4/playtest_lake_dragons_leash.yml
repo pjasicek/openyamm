@@ -1,5 +1,10 @@
 # Lake Darzog's north-west Water Dragon sees the party on the shore and must stay within its leash (D-54;
-# written by output/studio_cal/x2/tools/gen_lake_dragons.py). A1's repro: fails on merge point 22.
+# written by level_generation/projects/xeen/x2/gen_lake_dragons.py from gen.LAKE_DRAGONS on every X2
+# rebuild; tools/xeen/regressions.sh runs it). A1's repro: the dragon (a flyer, leash 1,024) sees an
+# immortal party on the north shore 2,816 from its home. Before merge point 24 it circled the party at
+# ~2,800 and was 4,347 from home after 30 s: the post's leash checked the line to the target, not the
+# flyer's offset pursuit, so the step the world took left the circle (keepStepOnLeash now holds that step).
+# Needs assets_dev's Xeen world (git-ignored).
 id: xeen.x2.l4.lake_dragons_leash
 title: 'X2 Lake Darzog: a Water Dragon that sees the party from its home stays within its leash (D-54)'
 world: xeen
@@ -55,8 +60,8 @@ steps:
     value: true
 - set_pose:
     map: xeen_x2.odm
-    x: -20992
-    y: 11008
+    x: -22272
+    y: 9216
     z: 1400
     yaw_degrees: 270
     pitch: 0
@@ -149,8 +154,8 @@ steps:
     actor_count:
       monster_id: 11640
       near:
-      - -20992
-      - 8192
+      - -22272
+      - 6400
       - 1280
       min: 1
       max: 1
@@ -158,7 +163,7 @@ steps:
     actor_count:
       monster_id: 11640
       near:
-      - -22784
+      - -22272
       - 3072
       - 1024
       min: 1

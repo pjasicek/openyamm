@@ -807,8 +807,8 @@ initial_state:
       open_speed: 128
       close_speed: 128
       state: 2
-      vertex_ids: [2650, 2651, 2652, 2653, 2654, 2655, 2656, 2657]
-      face_ids: [2166, 2167, 2168, 2169, 2170, 2171]
+      vertex_ids: [2698, 2699, 2700, 2701, 2702, 2703, 2704, 2705]
+      face_ids: [2214, 2215, 2216, 2217, 2218, 2219]
       sector_ids: [1]
       delta_us: [0, 0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0, 0]
@@ -869,7 +869,7 @@ loot_containers:
 ambient_sounds:
   - key: 1
     sound: xeen_amb_plane_earth
-    position: [-128, 0, 288.8416269953707]
+    position: [-128, 0, 272.01309525584844]
     inner_radius: 8000
     outer_radius: 12000
     volume: 0.9

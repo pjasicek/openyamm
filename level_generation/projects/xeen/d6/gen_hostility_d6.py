@@ -1,14 +1,18 @@
 """A6 (2026-11-21): D6's playtest_hostility.yml. At load the archers (11104/11105), the lava dwellers (11620/11621) and
 the robots (11610/11611) hostile; Ambrose (5512) and the tethered griffin (11913) peaceful. The elementals stay over
-the lake and its shores on their home radius (20 s with the party at Ash Fork, then on the lake's east shore). After
+the moat, the lake and its shores on their home radius (20 s with the party at Ash Fork, then on the lake's east shore). After
 m33.done (111662) the load event hides the robots (m33.robots_gone); after m25.done (111503) Ambrose and the griffin
-(m25.camp_gone). Written from the build's scene (actor indices)."""
+(m25.camp_gone). Written from a build's scene (argv 1, else the installed map's; actor indices)."""
 import pathlib  # noqa: E402
+import sys
 _REPO_ROOT = str(pathlib.Path(__file__).resolve().parents[4])  # the repository root
 import yaml
 R = _REPO_ROOT
 M = 'xeen_d6.odm'
-scene = yaml.load(open(f'{R}/output/studio_cal/d6/build/xeen_d6.scene.yml'), Loader=yaml.CSafeLoader)
+# the scene to read: a build's (argv 1) or the installed map's; the lane's old output/studio_cal/d6/build went stale
+# (2026-11-25, D-164: the moved lava dwellers' homes came from a build of the day before)
+SCENE = sys.argv[1] if len(sys.argv) > 1 else f'{R}/assets_dev/worlds/xeen/maps/xeen_d6.scene.yml'
+scene = yaml.load(open(SCENE), Loader=yaml.CSafeLoader)
 ACT = list(enumerate(scene['initial_state']['actors']))
 ELEM = [(i, a) for i, a in ACT if a.get('monster_id') in (11620, 11621)]
 ROBOT = [i for i, a in ACT if a.get('monster_id') in (11610, 11611)]

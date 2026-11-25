@@ -184,9 +184,62 @@ def dline(x, y, line):
     return LD.dist_to_line(x, y, line) if len(line) > 1 else math.hypot(x - line[0][0], y - line[0][1])
 
 
+# F63 (2026-11-25, check_spawn_clear `spawn.at_hull`): a marker lands anywhere in its circle (r 1), and must stand
+# 768 from the hull: the circle's centre 2.7 cells from the void (the rims and the lava cove)
+HULL_CELLS = 2.7
+
+
+def spot_ok(x, y, slot, clear, roads):
+    """A marker circle's centre at (x, y) (slot 1-3) on this map's own rules, outside any encounter polygon: walkable
+    (slot 3 anywhere off the lava), off the hull, the keep-clear areas, the door fronts, the arrivals and the roads; the
+    dragons (D-40) far from the cleft, the north track and the caves."""
+    p = (x, y)
+    if LD.in_void(x, y) or min(LD.RIM_X - x, y - LD.RIM_Y) < HULL_CELLS or \
+            (not K.inside(p, LD.COVE) and K.edge_dist(p, LD.COVE) < HULL_CELLS):
+        return False
+    ok = ((walkable(x, y) if slot != 3 else
+           (not K.inside(p, LD.CRATER) and LD.dist_to_line(x, y, LD.RIVER) > 1.5
+            and LD.dist_to_line(x, y, LD.ARM) > 1.5))
+          and not any(K.inside(p, c) for c in clear)
+          and min(math.hypot(x - d[0], y - d[1]) for d in DOOR_FRONTS.values()) > 4.0
+          and math.hypot(x - CLEFT_AT[0], y - CLEFT_AT[1]) > 4.8          # D-40: 2,000 from the cleft
+          and all(math.hypot(x - a[0], y - a[1]) > 4.4 for a in EDGE_ARRIVALS.values())
+          and all(math.hypot(x - a[0], y - a[1]) >= ARRIVAL_CELLS for a in ARRIVAL_CLEAR)
+          and min(LD.dist_to_line(x, y, r) for r in roads) > 0.8)
+    if ok and slot == 3:   # D-40: dragons 4,000 from the cleft, 6,000 from the tax track and the caves
+        ok = (math.hypot(x - CLEFT_AT[0], y - CLEFT_AT[1]) > 7.9
+              and min(dline(x, y, ln) for ln in DRAGON_KEEP) > 11.8)
+    return ok
+
+
+def marker_roads():
+    return [ln for _l, ln, _w, _s in L1.ROADS] + [ln for ln, _p, _h, _b in LD.PROFILED]
+
+
+def d142_enforce(areas):
+    """D-142 / D-157 (2026-11-25, F64) for the marker circles (common/d142.py): the edge arrivals, the start and the
+    dungeon exits (X7 in check_arrivals.D142_EXITS) 4,096 from a marker's edge, 5,888 for a slot that shoots or casts
+    (all three of X7's); every road, lane and path 1,024 from its centre. A failing circle moves to the nearest spot
+    that keeps spot_ok() for its slot."""
+    sys.path.insert(0, os.path.join(_REPO_ROOT, 'level_generation', 'projects', 'xeen', 'common'))
+    import d142
+    sys.path.pop(0)
+    d142.CA.D142_EXITS.add('xeen_x7')   # the floors this build is held to (the checker's set takes X7 at its install)
+    l4 = os.path.join(BRIEFS, 'L4', 'sketch.yml')
+    base = d142.standard_ok(l4, LD.raw_height)
+    clear = [poly for _aid, poly, _n in L1.KEEP_CLEAR]
+    roads = marker_roads()
+    circles = [a for a in areas if 'circle' in a and a.get('slot')]
+    for slot in (1, 2, 3):
+        mine = [a for a in circles if a['slot'] == slot]
+        others = [{'id': '_other', 'circle': a['circle']} for a in circles if a['slot'] != slot]
+        d142.enforce('xeen_x7', mine + others, d142.road_cells(l4), {},
+                     lambda x, y, r, s=slot: base(x, y, r) and spot_ok(x, y, s, clear, roads))
+
+
 def markers():
     clear = [poly for _aid, poly, _n in L1.KEEP_CLEAR]
-    roads = [ln for _l, ln, _w, _s in L1.ROADS] + [ln for ln, _p, _h, _b in LD.PROFILED]
+    roads = marker_roads()
     out = []
     south = []
     for pid, slot, count, poly, note in L1.AREAS:
@@ -198,21 +251,7 @@ def markers():
             x = math.floor(min(xs))
             while x < max(xs):
                 p = (x, y)
-                ok = (K.inside(p, poly) and K.edge_dist(p, poly) > 0.6
-                      and (walkable(x, y) if slot != 3 else
-                           (not LD.in_void(x, y) and min(LD.RIM_X - x, y - LD.RIM_Y) > 1.6
-                            and not K.inside(p, LD.CRATER) and LD.dist_to_line(x, y, LD.RIVER) > 1.5
-                            and LD.dist_to_line(x, y, LD.ARM) > 1.5))
-                      and not any(K.inside(p, c) for c in clear)
-                      and min(math.hypot(x - d[0], y - d[1]) for d in DOOR_FRONTS.values()) > 4.0
-                      and math.hypot(x - CLEFT_AT[0], y - CLEFT_AT[1]) > 4.8          # D-40: 2,000 from the cleft
-                      and all(math.hypot(x - a[0], y - a[1]) > 4.4 for a in EDGE_ARRIVALS.values())
-                      and all(math.hypot(x - a[0], y - a[1]) >= ARRIVAL_CELLS for a in ARRIVAL_CLEAR)
-                      and min(LD.dist_to_line(x, y, r) for r in roads) > 0.8)
-                if ok and slot == 3:   # D-40: dragons 4,000 from the cleft, 6,000 from the tax track and the caves
-                    ok = (math.hypot(x - CLEFT_AT[0], y - CLEFT_AT[1]) > 7.9
-                          and min(dline(x, y, ln) for ln in DRAGON_KEEP) > 11.8)
-                if ok:
+                if K.inside(p, poly) and K.edge_dist(p, poly) > 0.6 and spot_ok(x, y, slot, clear, roads):
                     cand.append(p)
                 x += 1
             y += 1
@@ -314,6 +353,7 @@ def sketch():
         pts.append(q)
     s['points'] = pts
     s['areas'] = markers()
+    d142_enforce(s['areas'])
     s['structures'] = P.structures()
     s['actors'] = P.actors()
     if P.LAVAFALL_LIVE:   # AU (2026-11-21): one looping point source over the three lava falls (panned, D-48)

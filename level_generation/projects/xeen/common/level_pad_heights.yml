@@ -1,0 +1,232 @@
+# Each level pad's height (common/level_pads.py apply): read once from the installed land at the thing's `at`, then
+# kept while the thing stays there, so a pad does not drift from build to build. Written by the outdoor generators.
+d1:
+  thing:castaway_camp:
+    at: [30.2, 89.4]
+    height: 1024
+  thing:justine_tent:
+    at: [56.0, 40.0]
+    height: 1184
+  thing:sardaj_tent_1:
+    at: [87.0, 23.9]
+    height: 1536
+d2:
+  thing:glimmer_pool:
+    at: [61.0, 51.0]
+    height: 1504
+d3:
+  thing:tower_cart:
+    at: [92.4, 42.6]
+    height: 1760
+d4:
+  thing:circle_ring:
+    at: [50.0, 90.0]
+    height: 1344
+d5:
+  thing:munchies_1:
+    at: [38.0, 95.0]
+    height: 1696
+  thing:munchies_2:
+    at: [70.0, 99.0]
+    height: 1632
+  thing:robbers_tent:
+    at: [71.6, 94.2]
+    height: 1312
+d6:
+  thing:pinnacle:
+    at: [36.0, 40.0]
+    height: 1536
+x1:
+  thing:grave_1:
+    at: [59.2, 97.4]
+    height: 480
+  thing:grave_4:
+    at: [59.6, 98.8]
+    height: 480
+  thing:outpost_crate_1:
+    at: [30.8, 29.4]
+    height: 1632
+    margin: 0
+  thing:outpost_crate_2:
+    at: [56.8, 23.4]
+    height: 2144
+  thing:outpost_crate_3:
+    at: [97.8, 31.4]
+    height: 1440
+  thing:phirna_1:
+    at: [76.0, 84.5]
+    height: 480
+  thing:phirna_3:
+    at: [82.5, 96.5]
+    height: 768
+  thing:prop_7:
+    at: [65.2, 49.6]
+    height: 576
+  thing:prop_8:
+    at: [66.6, 49.3]
+    height: 576
+  thing:sheepfold_hay:
+    at: [50.4, 74.4]
+    height: 672
+  thing:travellers_camp_1:
+    at: [92.0, 41.6]
+    height: 704
+  thing:travellers_tent:
+    at: [89.6, 40.2]
+    height: 704
+  thing:way_in_dress_20:
+    at: [82.75, 31.75]
+    height: 1152
+  thing:way_in_dress_25:
+    at: [84.4, 32.6]
+    height: 1152
+  thing:well_northeast:
+    at: [60.7, 40.55]
+    height: 1152
+  thing:well_spring:
+    at: [66.0, 21.5]
+    height: 1984
+    margin: 0
+x2:
+  thing:camp_nw_tent:
+    at: [44.8, 21.4]
+    height: 1184
+  thing:chapel_well:
+    at: [77.2, 78.0]
+    height: 960
+  thing:farm_well:
+    at: [59.8, 29.0]
+    height: 1088
+  thing:fouled_well:
+    at: [70.6, 98.2]
+    height: 1344
+  thing:grave_5:
+    at: [83.6, 79.4]
+    height: 1120
+  thing:lair_dress_1:
+    at: [24.9, 31.0]
+    height: 960
+  thing:lair_dress_5:
+    at: [21.95, 30.15]
+    height: 960
+  thing:lair_dress_6:
+    at: [24.05, 30.15]
+    height: 960
+  thing:yak_dress_3:
+    at: [60.3, 99.3]
+    height: 1088
+  thing:yak_dress_4:
+    at: [63.7, 99.3]
+    height: 1088
+x3:
+  thing:ranger_tent_1:
+    at: [26.2, 33.2]
+    height: 1344
+  thing:ranger_tent_2:
+    at: [28.5, 32.9]
+    height: 1344
+  thing:tomb_dress_1:
+    at: [33.2, 83.1]
+    height: 1120
+  thing:tomb_dress_2:
+    at: [34.8, 83.1]
+    height: 1120
+x4:
+  thing:eyrie_bones_3:
+    at: [43.7, 41.0]
+    height: 2144
+  thing:herders_well:
+    at: [40.4, 101.0]
+    height: 992
+  thing:joe_wagon:
+    at: [88.4, 86.6]
+    height: 960
+  thing:olympian_fountain:
+    at: [75.5, 48.0]
+    height: 832
+  thing:sky_crack_ledge:
+    at: [49.5, 35.5]
+    height: 3552
+  thing:wayfarers_well:
+    at: [96.6, 71.2]
+    height: 928
+x5:
+  thing:archer_tent:
+    at: [102.6, 84.8]
+    height: 896
+  thing:camp_tent:
+    at: [40.4, 24.0]
+    height: 1440
+  thing:earth_reflector:
+    at: [40.0, 102.6]
+    height: 2080
+  thing:freeda_fire:
+    at: [81.4, 44.6]
+    height: 1568
+  thing:freeda_tent:
+    at: [83.4, 43.6]
+    height: 1568
+  thing:hot_spring:
+    at: [104.0, 66.6]
+    height: 864
+  thing:ogre_fire:
+    at: [101.4, 37.9]
+    height: 1472
+  thing:ogre_tent:
+    at: [99.6, 35.8]
+    height: 1664
+  thing:outpost_tent:
+    at: [42.4, 92.0]
+    height: 2304
+  thing:outpost_tent2:
+    at: [45.0, 93.4]
+    height: 2304
+    margin: 0
+  thing:prop_5:
+    at: [47.2, 36.2]
+    height: 1024
+  thing:prop_6:
+    at: [47.2, 36.55]
+    height: 1024
+  thing:waters_great_magic:
+    at: [46.5, 100.5]
+    height: 2080
+  thing:well_accuracy:
+    at: [60.0, 30.0]
+    height: 1344
+x6:
+  thing:oasis_fountain:
+    at: [46.6, 61.2]
+    height: 1216
+  thing:prospector_tent:
+    at: [98.8, 100.7]
+    height: 2688
+  thing:sun_stones:
+    at: [69.0, 103.0]
+    height: 1504
+  thing:swallowed_wagon:
+    at: [93.0, 31.4]
+    height: 1856
+  thing:wagon_strongbox:
+    at: [95.0, 30.6]
+    height: 1856
+  thing:warzone_coach_wagon:
+    at: [87.2, 93.6]
+    height: 1504
+    margin: 0
+  thing:waters_power:
+    at: [30.6, 34.4]
+    height: 2496
+x7:
+  thing:broken_wagon:
+    at: [100.4, 92.6]
+    height: 2208
+  thing:den_fire:
+    at: [82.75, 103.35]
+    height: 1920
+  thing:hoard_bones_2:
+    at: [97.8, 47.0]
+    height: 3040
+  thing:miner_cache:
+    at: [44.7, 68.8]
+    height: 2016

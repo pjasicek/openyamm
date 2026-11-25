@@ -50,12 +50,12 @@ neighbours:
     kind: edge
     side: east
     days: 7
-    arrival: [-22528, 2048, 1184]
+    arrival: [-22528, 2048, 1152]
     span: [-32768, 32768]
     arrival_side: west
     approach: "The desert road in from the east edge at y 60, over the dry downs from the Asp road."
     direction: 0
-    notes: "X4 Burlock Savannah (installed): the whole east edge leads to X4's west road at its x 20 (-22528, 2048, 1184) facing east (edge_spans, 7 days). X4's west edge arrives here at entrance:east_road (107, 60) = (22016, 2048, about 1248) facing west (open since 2026-11-20)."
+    notes: "X4 Burlock Savannah (installed): the whole east edge leads to X4's west road at its x 20 (-22528, 2048, 1152) facing east (edge_spans, 7 days). X4's west edge arrives here at entrance:east_road (107, 60) = (22016, 2048, about 1248) facing west (open since 2026-11-20)."
   - id: edge:south
     to: xeen_x5.odm
     kind: edge

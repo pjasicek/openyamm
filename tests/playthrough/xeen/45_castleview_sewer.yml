@@ -54,7 +54,7 @@ steps:
   - assert: {dialog: {text_contains: "Maybe you could kill the Queen Rat"}}
   - press_action: {action: cancel_dialog}
   - assert: {qbit_set: [113100]}
-  # The overflow stair, the deep cistern, the rat runs: the culvert is flooded to its roof.
+  # The overflow stair, the deep cistern, the rat runs: the culvert is flooded; its line names the sluice house (D-166).
   - walk_to: {x: -2040, y: -1728, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
   - play_lua: {source: "open_door(16, 7)"}
   - walk_to: {x: -1600, y: -1728, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
@@ -72,7 +72,7 @@ steps:
         status()
         click(9); wait(0.5)
         local seen = status()
-        if not string.find(seen, "flooded to its roof", 1, true) then error("the culvert said: " .. seen) end
+        if not string.find(seen, "worked from the sluice house", 1, true) then error("the culvert said: " .. seen) end
   # Back up to the jammed sluice: its lever shuts the gate and the culvert drains.
   - walk_to: {x: 600, y: -4100, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
   - walk_to: {x: -1152, y: -4000, z: -512, radius: 64, timeout_seconds: 30, close_dialogs: true}

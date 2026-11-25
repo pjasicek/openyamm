@@ -288,16 +288,19 @@ go(31.4, 35.0, 'The Waters of Great Power on the heights')
 event('evt:thing:waters_power', 'The Waters of Great Power (+200 hit points, once per character a day)',
       dialog=False)
 go(27.4, 27.6, 'The Air Reflector on the rock spit where the rims meet')
-event('evt:thing:air_reflector', '"Reflector. Activate?" Yes: before M36 the hook\'s fail text', answer='Yes',
-      prompt='Reflector. Activate?',
-      check='if qbit(111740) then error("the Reflector set its bit before M36") end')
+event('evt:thing:air_reflector', 'The Air Reflector, a click (D-144): before M36 the hook\'s fail text on the status '
+      'line', dialog=False,
+      check='local s = tostring(status())\n'
+            'if not string.find(s, "cold and silent", 1, true) then error("status line: " .. s) end\n'
+            'if qbit(111740) then error("the Reflector set its bit before M36") end')
 # ---------------------------------------------------------------- the west: the shrine, Saul, the Southern Sphinx
 go(29.0, 55.2, 'The Shrine of Energy by the west rim')
-event('evt:thing:shrine_energy', '"Shrine of Energy. Pray?" (xeen/aaze0001:0) after the look, Yes/No buttons (D-72): '
-      'No leaves it', dialog=False, answer='No', prompt='Shrine of Energy. Pray?')
+# D-144 (F69b, X6 p5): a click, its line on the status line (the source's "Pray?" was a free Yes/No)
+event('evt:thing:shrine_energy', 'The Shrine of Energy (xeen/aaze0001:0), a click: +5 Air resistance once',
+      dialog=False,
+      check='local s = tostring(status())\n'
+            'if not string.find(s, "Lightning runs over your skin", 1, true) then error("status line: " .. s) end')
 add({'assert': {'dialog': {'active': False}}})
-event('evt:thing:shrine_energy', '"Shrine of Energy. Pray?" (xeen/aaze0001:0): Yes, +5 Air resistance once',
-      dialog=False, answer='Yes', prompt='Shrine of Energy. Pray?')
 npc(4602, (32.2, 71.0), "Saul at his hermitage (Meditation)")
 event('evt:thing:saul_urn', "Saul's urn (x6.saul_urn)")
 go(40.6, 84.0, "Before the Southern Sphinx's breast")

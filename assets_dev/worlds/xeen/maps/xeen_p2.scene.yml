@@ -852,7 +852,7 @@ loot_containers:
 ambient_sounds:
   - key: 1
     sound: xeen_amb_plane_air
-    position: [0, 0, 712.1931674759711]
+    position: [0, 0, 712.7223239578473]
     inner_radius: 11000
     outer_radius: 16000
     volume: 0.4
@@ -860,11 +860,11 @@ ambient_sounds:
     start_on: true
     pan: false
 translucent_faces:
-  - faces: [3765, 3766]
+  - faces: [3813, 3814]
     opacity: 0.55
     tint: [1, 1, 1]
     two_sided: false
-  - faces: [3732, 3733, 3734, 3735, 3736, 3737]
+  - faces: [3780, 3781, 3782, 3783, 3784, 3785]
     opacity: 0.8
     tint: [0.72, 0.86, 1.15]
     two_sided: false

@@ -476,7 +476,55 @@ D87_ARRIVALS = {'the D1 arrival': SOUTH_START, 'the D5 arrival': EAST_START, 'th
                 'the adit': ADIT_ARRIVAL, 'Ambrose': AMBROSE, 'the DD-22 hatch': (78.0, 40.0),
                 'the DD-16 hatch': (74.0, 69.0), 'Castle Alamar': (51.0, 55.0), 'the Necropolis': (91.0, 77.0),
                 'the Necropolis gate': (91.0, 72.0), 'the DD-21 stair': (98.0, 87.0)}
-HATCH_CLEAR = 2500
+
+
+def whole_cells(p):
+    """The drawn point and the whole cell the build puts it on (the XD-17 arrival (54.5, 62) stands at (54, 62))."""
+    return [p, (round(p[0]), round(p[1]))]
+
+
+# D-164 (2026-11-25, D-142 on D6's exits; supersedes D-49 (4)'s 2,500 hatch rule and D-136's D6 move): every lava
+# dweller's home at least 6,144 (5,120 and the 1,024 leash) and its spread from DD-16's hatch, the XD-17 pyramid and
+# the DD-17 gate; every robot at least 5,888 (aim 6,400) from the gate and the pyramid
+LAVA_FROM = {'the DD-16 hatch': HATCH_OUT, 'the pyramid': PYRAMID_ARRIVAL, 'the DD-17 gate': GATE_ARRIVAL}
+LAVA_CLEAR = 6144
+ROBOT_FROM = {'the pyramid': PYRAMID_ARRIVAL, 'the DD-17 gate': GATE_ARRIVAL}
+ROBOT_CLEAR = 5888
+ROBOT_AIM = 6400
+
+
+# build()'s keep_clear areas (the D1 and D5 arrivals, Necropolis, the adit, the pyramid's approach, the pod's crust)
+KEEP_CLEAR = [[[59, 92], [69, 92], [69, 109], [59, 109]], [[96, 59], [109, 59], [109, 73], [96, 73]],
+              [[77, 69], [105, 69], [105, 95], [77, 95]], [[42, 92], [50, 92], [50, 100], [42, 100]],
+              [[50, 58], [59, 58], [59, 66], [50, 66]], [[70, 66], [79, 66], [79, 75], [70, 75]]]
+
+
+def d142_enforce(areas, town_doors, clear):
+    """D-142 / D-157 / D-162 (2026-11-25, F64) for the marker circles (common/d142.py): the edge arrivals and the
+    dungeon exits 4,096 from a marker's edge, 5,888 for a slot that shoots or casts; every road, lane and path 1,024
+    from its centre; F63: 768 from the bounds and the hull. A failing circle moves to the nearest spot that keeps
+    build()'s own rules (2,500 from the town doors, D-85's 5,120 from Ambrose, the arrival clearances, D-87.3's 5,888
+    for the eyes from every arrival point) off the keep-clear areas, the water, the lava and steep land. D6 is in
+    check_arrivals.D142_EXITS since D-164 (2026-11-25: the robots and the lava dwellers moved, no kept groups)."""
+    sys.path.insert(0, _REPO_ROOT + '/level_generation/projects/xeen/common')
+    import d142
+    sys.path.pop(0)
+    l4 =os.path.join(OUT, 'sketch.yml')
+    base = d142.standard_ok(l4, land, keep_off=KEEP_CLEAR)
+
+    def ok(x, y, r, slot):
+        return (base(x, y, r)
+                and min(math.hypot(x - d[0], y - d[1]) for d in town_doors) * 512 >= 2600
+                and (math.hypot(x - AMBROSE[0], y - AMBROSE[1]) - r) * 512 >= 5220
+                and all(math.hypot(x - u[0], y - u[1]) * 512 >= c + 100 for u, c in clear.values())
+                and (slot != 1 or all((math.hypot(x - u[0], y - u[1]) - r) * 512 >= 5988
+                                      for u in D87_ARRIVALS.values())))
+    circles = [a for a in areas if 'circle' in a and a.get('slot')]
+    for slot in sorted({a['slot'] for a in circles}):
+        mine = [a for a in circles if a['slot'] == slot]
+        others = [{'id': '_other', 'circle': a['circle']} for a in circles if a['slot'] != slot]
+        d142.enforce(STEM, mine + others, d142.road_cells(l4), {},
+                     lambda x, y, r, s=slot: ok(x, y, r, s), also=d142.hull_reason(l4))
 
 
 def build():
@@ -678,9 +726,10 @@ def build():
     clear = {'the adit': (ADIT_ARRIVAL, SPAWN_CLEAR), 'the pyramid': (PYRAMID_ARRIVAL, SPAWN_CLEAR),
              'the D1 arrival': (SOUTH_START, SPAWN_CLEAR), 'the D5 arrival': (EAST_START, SPAWN_CLEAR),
              'Ambrose': (AMBROSE, SPAWN_CLEAR),
-             # D-138/D-136 (2026-11-24): DD-17's gate and FD-01's stair set the party down at (51, 55): 2,000 and
-             # the robots' spread (0.6) and a margin
+             # D-138/D-136 (2026-11-24): DD-17's gate and FD-01's stair set the party down at (51, 55): the markers
+             # 2,400 (D-142's exit floors on top, d142_enforce); the robots ROBOT_CLEAR (D-164)
              'the DD-17 gate': ((51.0, 55.0), 2400)}
+    d142_enforce(areas, town_doors, clear)
     for a in areas:
         c = a['circle']['at']
         if min(math.hypot(c[0] - d[0], c[1] - d[1]) for d in town_doors) * 512 < 2500:
@@ -735,30 +784,47 @@ def build():
              'group': group}
         a.update(kw)
         actors.append(a)
-    # the lava dwellers (D-49 Q2): 14 placed fire elementals over the lake and its shores, each on a home radius;
-    # none whose home plus radius comes within 2,500 of DD-16's way out on the crust (change 4)
-    LAVA = [(ROW['lesser_elemental'], (64.0, 56.5), 3, 1.2, 1), (ROW['lesser_elemental'], (63.0, 67.5), 3, 1.2, 2),
-            (ROW['elemental'], (63.5, 70.0), 1, 0, 2), (ROW['lesser_elemental'], (74.0, 59.5), 3, 1.2, 3),
-            (ROW['elemental'], (77.5, 61.0), 1, 0, 3), (ROW['lesser_elemental'], (67.5, 60.0), 2, 0.8, 4),
-            (ROW['elemental'], (66.0, 72.5), 1, 0, 4)]
+    # the lava dwellers (D-49 Q2): 14 placed fire elementals in the moat and the lake, each on a home radius (leash).
+    # D-164 (2026-11-25): groups 3 and 4 on the lake's north shore (were (74, 59.5), (77.5, 61), (67.5, 60),
+    # (66, 72.5): 4,471 from the hatch), group 1 in the moat's east arm (was (64, 56.5) by the burning falls: 5,423
+    # from the pyramid), group 2 in its west arm (was (63, 67.5), (63.5, 70): 5,175 from the pyramid, 5,400 from the
+    # hatch); every home at least LAVA_CLEAR and its spread from LAVA_FROM (the shore's band between the hatch and the
+    # pyramid is narrow: x 67.6-68.2 at y 57.8 for a 0.5 spread)
+    LAVA = [(ROW['lesser_elemental'], (63.0, 46.0), 3, 1.2, 1), (ROW['lesser_elemental'], (36.5, 46.0), 3, 0.8, 2),
+            (ROW['elemental'], (37.0, 43.5), 1, 0, 2), (ROW['lesser_elemental'], (67.9, 57.8), 3, 0.5, 3),
+            (ROW['elemental'], (69.5, 57.6), 1, 0, 3), (ROW['lesser_elemental'], (66.8, 58.5), 2, 0.5, 4),
+            (ROW['elemental'], (68.8, 57.3), 1, 0, 4)]
     for row, at, n, spread, g in LAVA:
-        d = math.hypot(at[0] - HATCH_OUT[0], at[1] - HATCH_OUT[1]) * 512 - spread * 512 - ELEMENTAL_LEASH
-        if d < HATCH_CLEAR:
-            raise SystemExit('a lava dweller within %d of the hatch: %s (%d)' % (HATCH_CLEAR, at, d))
+        for k, u in LAVA_FROM.items():
+            d = min(math.hypot(at[0] - v[0], at[1] - v[1]) for v in whole_cells(u)) * 512 - spread * 512
+            if d < LAVA_CLEAR:
+                raise SystemExit('D-164: a lava dweller\'s home within %d and its spread of %s: %s (%d)'
+                                 % (LAVA_CLEAR, k, at, d))
         place(row, at, n, spread, g, hostile=True, leash=ELEMENTAL_LEASH)
     # the archers' camp (D-49 Q3): 9 + 3 placed, hostile
-    place(ROW['archer'], (ARCHER_CAMP[0] - 0.6, ARCHER_CAMP[1] - 0.4), 9, 1.6, G_ARCHERS, hostile=True)
+    # F63 (2026-11-25, check_spawn_clear spawn.in_model): at (33.9, 85.6) spread 1.6 the fifth archer stood inside
+    # the first tent (its box 32-33.4 x 84.6-86): the nine round the fire between the tents, spread 1.0
+    place(ROW['archer'], (ARCHER_CAMP[0] + 0.5, ARCHER_CAMP[1] - 0.1), 9, 1.0, G_ARCHERS, hostile=True)
     place(ROW['archer_chief'], (ARCHER_CAMP[0] + 0.6, ARCHER_CAMP[1] - 0.2), 3, 0.8, G_ARCHERS, hostile=True)
     # the robots (D-49 change 7, D-36's coven pattern): placed in nine groups on the mesa and the approach, hidden on
     # load after m33.done; MM7's Dif 1 odds give 16 Patrols and 2 Annihilators at load (the slot's mean of 18)
-    # the last two (were (47, 55), (55, 55.5): 1,894 and 1,903 from DD-17's gate) out of its sight (D-136)
-    ROBOT_SPOTS = [(44.0, 40.0), (51.0, 38.5), (58.0, 40.0), (59.0, 47.0), (58.5, 53.5), (43.0, 47.0), (43.5, 53.5),
-                   (43.5, 57.0), (57.0, 57.0)]
+    # D-164 (2026-11-25, D-142 on DD-17's gate and the XD-17 pyramid): the garrison on the north half of the mesa,
+    # its flanks (x 40-45.5, 56.5-60) and north rim, cell y <= 44, every robot at least a cell inside the mesa's
+    # edge; groups 14-19 were on the flanks' south half and the approach (2,731-5,810 from the gate or the pyramid);
+    # 11 and 12 stay, 13 (was (58, 40): a robot in the moat at 1,536, one on the cliff at 2,089) back on the top
+    # under the north-east tower; group 15 the Annihilators
+    ROBOT_SPOTS = [(44.0, 40.0), (51.0, 38.5), (57.9, 42.4), (58.6, 44.0), (54.8, 39.0), (41.6, 44.0), (43.2, 42.6),
+                   (47.4, 39.0), (49.3, 37.9)]
     for i, (at, g) in enumerate(zip(ROBOT_SPOTS, G_ROBOTS)):
         row = ROW['annihilator'] if i == 4 else ROW['patrol']
-        for k, (u, r) in clear.items():
-            if math.hypot(at[0] - u[0], at[1] - u[1]) * 512 < r:
-                raise SystemExit('robots within %d of %s: %s' % (r, k, at))
+        if i >= 3 and (at[1] > 44 or not inside(at, MESA) or poly_dist(at, MESA) < 1.0):
+            raise SystemExit('D-164: robots off the mesa\'s north half or within a cell of its edge: %s' % (at,))
+        for k, u in ROBOT_FROM.items():
+            d = min(math.hypot(at[0] - v[0], at[1] - v[1]) for v in whole_cells(u)) * 512 - 0.6 * 512
+            if d < ROBOT_CLEAR:
+                raise SystemExit('D-164: robots within %d of %s: %s (%d)' % (ROBOT_CLEAR, k, at, d))
+            if d < ROBOT_AIM:
+                print('D-164: robots at %s %d from %s (aim %d)' % (at, d, k, ROBOT_AIM))
         place(row, at, 2, 0.6, g, hostile=True)
     # Ambrose and the Tethered Griffin (D-49 change 6), hidden on load after m25.done (m25.camp_gone)
     actors.append({'monster': str(ROW['ambrose']), 'npc': NPC['ambrose'], 'at': list(AMBROSE), 'spread': 0,
@@ -1236,7 +1302,9 @@ def necropolis(S):
         crypt['effects'] = [{'text': 'Behind the grilles a stair goes down into the sewers. %s' % SEALED}]
     S(crypt)
     # props by walls in pairs (the lane's dressing rule): barrels at the tavern's and the market's back walls
-    for i, at in enumerate(((84.25, 82.6), (84.25, 82.95), (98.05, 77.0), (98.05, 77.35))):
+    # F66 (2026-11-25, props.in_wall by the model's width): the second tavern barrel stood through the tavern's
+    # corner at y 82.95: the pair's other side of the first, (84.25, 82.25)
+    for i, at in enumerate(((84.25, 82.6), (84.25, 82.25), (98.05, 77.0), (98.05, 77.35))):
         S(deco('thing:np_prop_%d' % (i + 1), 'bigbarel', at))
 
 
@@ -1354,9 +1422,11 @@ def wilds(S):
                   'windows': 'none'}]})
     # the cinder plains' landmarks (no click): the cinder cone's smoking vent by the Alamar road, a spar of Ancient
     # metal heaved up through the cinders, a wyrm's bones; a cairn at the north rim
+    # F59 (2026-11-25, town_fit_check things.overhang): the vent's foot hung 26 over the cinder slope falling west;
+    # it sinks 32 into the cinders (its top 32 over the land) and the smoke with it
     S({'id': 'thing:cinder_vent', 'kind': 'platform', 'at': [49.0, 80.0], 'size': [512, 512], 'height': 64,
-       'textures': {'top': 'voltyl', 'wall': 'vlcwl1lg'}, 'title': 'A smoking vent'})
-    S(deco('thing:cinder_smoke', 'cmpfyr00', (49.0, 80.0), title='A smoking vent', **{'raise': 64}))
+       'raise': -32, 'textures': {'top': 'voltyl', 'wall': 'vlcwl1lg'}, 'title': 'A smoking vent'})
+    S(deco('thing:cinder_smoke', 'cmpfyr00', (49.0, 80.0), title='A smoking vent', **{'raise': 32}))
     S({'id': 'thing:ancient_spar', 'kind': 'building', 'at': [37.5, 70.5], 'size': [1.5, 1.0], 'kit': 'grey',
        'door': 'none', 'turn': 25, 'title': 'A spar of Ancient metal', 'textures': {'wall': 'xahullbn',
                                                                                     'roof': 'gn_mtl03'},

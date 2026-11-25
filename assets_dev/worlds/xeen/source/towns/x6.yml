@@ -54,9 +54,9 @@ houses:
 npcs:
   - {id: 4601, name: The Summer Druid, profession: Mystic, house: none, place: "X6, the Summer Druid's grove (A5)", greet: ["The sun is kind here, and nowhere else on Xeen.", "The flower?"]}
   - {id: 4602, name: Saul, title: Hermit, profession: Mystic, house: none, place: "X6, his hermitage by the urn (A5)", teaches: [{skill: Meditation, mastery: master}], greet: ["Sit by the urn. Breathe. The sand will wait.", "Still breathing?"]}
-  - {id: 4603, name: Hadda, title: Keeper of the Last Waterskin, profession: Cook, greet: ["Water's free. The cup costs a gold. The shade costs two.", "Thirsty again?"]}
-  - {id: 4604, name: Oskar, title: Caravan Master, profession: Trader, greet: ["Camels to Asp, wagons to Rivercity. The sand comes along for free.", "Riding?"]}
-  - {id: 4605, name: Gorm, title: Coachman of the Warzone, profession: Horseman, greet: ["One coach a week to Rivercity. One to Castleview, if you hold the sigil. Same seats, fewer passengers.", "Still in one piece? Climb in."], gate_line: "The sand's no place for you yet. Arena or home.", note: "D-8: gate_line is what Gorm says at the barred desert gate before x6.warzone_gate is set (A3's gate event)"}
+  - {id: 4603, name: Hadda, sex: female, title: Keeper of the Last Waterskin, profession: Cook, greet: ["Water's free. The cup costs a gold. The shade costs two.", "Thirsty again?"]}
+  - {id: 4604, name: Oskar, sex: male, title: Caravan Master, profession: Trader, greet: ["Camels to Asp, wagons to Rivercity. The sand comes along for free.", "Riding?"]}
+  - {id: 4605, name: Gorm, sex: male, title: Coachman of the Warzone, profession: Horseman, greet: ["One coach a week to Rivercity. One to Castleview, if you hold the sigil. Same seats, fewer passengers.", "Still in one piece? Climb in."], gate_line: "The sand's no place for you yet. Arena or home.", note: "D-8: gate_line is what Gorm says at the barred desert gate before x6.warzone_gate is set (A3's gate event)"}
   - {id: 4606, name: Old Ibb, title: Well Keeper, profession: Laborer, greet: ["The well is deeper than the Sphinx is tall. I've measured both.", "Water?"]}
   - {id: 4607, name: Tansy, title: Saddler, profession: Tailor, greet: ["Saddles for camels. The camels have opinions about saddles.", "Mind the camel. He bites."]}
   # ---- added in the fourth session for A3 (a talking actor; portrait batch 6) ----

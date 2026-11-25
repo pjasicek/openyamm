@@ -113,6 +113,24 @@ heights:
       height: 1600
       slope: 0
       notes: The adit's floor.
+    - polygon: [[77.98, 58.98], [79.02, 58.98], [79.02, 61.02], [77.98, 61.02]]
+      height: 832
+      notes: "D-170: the land at The East Bridge's end, its lowest across it (common/wild.py bridge_ends)"
+    - polygon: [[82.98, 58.98], [84.02, 58.98], [84.02, 61.02], [82.98, 61.02]]
+      height: 832
+      notes: "D-170: the land at The East Bridge's end, its lowest across it (common/wild.py bridge_ends)"
+    - polygon: [[29, 88], [32, 88], [32, 91], [29, 91]]
+      height: 1024
+      slope: 1
+      notes: level land under The castaway's lean-to (common/level_pads.py)
+    - polygon: [[55, 39], [57, 39], [57, 41], [55, 41]]
+      height: 1184
+      slope: 1
+      notes: level land under Justine's lean-to (common/level_pads.py)
+    - polygon: [[85, 22], [89, 22], [89, 25], [85, 25]]
+      height: 1536
+      slope: 1
+      notes: level land under A Sardaj tent (common/level_pads.py)
   grid:
     step: 4
     unit: 32
@@ -411,7 +429,7 @@ points:
   - {id: poi:sardaj_camp, at: [88, 25]}
   - {id: poi:yog, at: [89, 24]}
   - {id: poi:great_tree, at: [48, 35]}
-  - {id: poi:luna, at: [31, 63]}
+  - {id: poi:luna, at: [30, 62]}
   - {id: poi:obelisk, at: [27, 76]}
   - {id: poi:falista_hut, at: [46, 95]}
   - {id: poi:prayer_shrine, at: [52, 90]}
@@ -444,7 +462,7 @@ areas:
     kind: encounter
     count: 1
     slot: 1
-    circle: {at: [63, 28], r: 1.5}
+    circle: {at: [73, 25], r: 1.5}
   - id: pop:siege_north
     index: 2
     kind: encounter
@@ -456,13 +474,13 @@ areas:
     kind: encounter
     count: 1
     slot: 1
-    circle: {at: [58, 27], r: 1.5}
+    circle: {at: [76, 22], r: 1.5}
   - id: pop:siege_north
     index: 4
     kind: encounter
     count: 1
     slot: 1
-    circle: {at: [69, 24], r: 1.5}
+    circle: {at: [77, 26], r: 1.5}
   - id: pop:siege_north
     index: 5
     kind: encounter
@@ -480,7 +498,7 @@ areas:
     kind: encounter
     count: 1
     slot: 1
-    circle: {at: [53, 24], r: 1.5}
+    circle: {at: [55, 25], r: 1.5}
   - id: pop:east_road_camp
     index: 1
     kind: encounter
@@ -492,7 +510,7 @@ areas:
     kind: encounter
     count: 1
     slot: 1
-    circle: {at: [95, 57], r: 1.5}
+    circle: {at: [96, 53], r: 1.5}
   - id: pop:east_road_camp
     index: 3
     kind: encounter
@@ -510,67 +528,37 @@ areas:
     kind: encounter
     count: 1
     slot: 1
-    circle: {at: [91, 73], r: 1.5}
+    circle: {at: [94, 71], r: 1.5}
   - id: pop:east_road_camp
     index: 6
     kind: encounter
     count: 1
     slot: 1
-    circle: {at: [92, 75], r: 1.5}
+    circle: {at: [93, 75], r: 1.5}
   - id: pop:east_road_camp
     index: 7
     kind: encounter
     count: 1
     slot: 1
-    circle: {at: [100, 54], r: 1.5}
+    circle: {at: [100, 52], r: 1.5}
   - id: pop:grove_arachnoids
     index: 1
     kind: encounter
     count: 1
     slot: 2
-    circle: {at: [40, 30], r: 1.5}
+    circle: {at: [59, 71], r: 1.5}
   - id: pop:grove_arachnoids
     index: 2
     kind: encounter
     count: 1
     slot: 2
-    circle: {at: [42, 31], r: 1.5}
-  - id: pop:grove_arachnoids
-    index: 3
-    kind: encounter
-    count: 1
-    slot: 2
-    circle: {at: [52, 30], r: 1.5}
-  - id: pop:grove_arachnoids
-    index: 4
-    kind: encounter
-    count: 1
-    slot: 2
-    circle: {at: [54, 31], r: 1.5}
-  - id: pop:grove_arachnoids
-    index: 5
-    kind: encounter
-    count: 1
-    slot: 2
-    circle: {at: [44, 40], r: 1.5}
-  - id: pop:grove_arachnoids
-    index: 6
-    kind: encounter
-    count: 1
-    slot: 2
-    circle: {at: [42, 39], r: 1.5}
-  - id: pop:grove_arachnoids
-    index: 7
-    kind: encounter
-    count: 1
-    slot: 2
-    circle: {at: [49, 29], r: 1.5}
+    circle: {at: [32, 75], r: 1.5}
   - id: pop:west_heath
     index: 1
     kind: encounter
     count: 1
     slot: 2
-    circle: {at: [28, 40], r: 1.5}
+    circle: {at: [28, 79], r: 1.5}
   - id: pop:west_heath
     index: 2
     kind: encounter
@@ -582,7 +570,7 @@ areas:
     kind: encounter
     count: 1
     slot: 2
-    circle: {at: [28, 49], r: 1.5}
+    circle: {at: [31, 50], r: 1.5}
   - id: pop:west_heath
     index: 4
     kind: encounter
@@ -600,7 +588,7 @@ areas:
     kind: encounter
     count: 1
     slot: 3
-    circle: {at: [66, 84], r: 1.5}
+    circle: {at: [66, 82], r: 1.5}
   - id: pop:centipede_meadows
     index: 3
     kind: encounter
@@ -642,7 +630,7 @@ areas:
     kind: encounter
     count: 1
     slot: 3
-    circle: {at: [107, 88], r: 1.5}
+    circle: {at: [105, 88], r: 1.5}
   - id: pop:centipede_meadows
     index: 10
     kind: encounter
@@ -740,73 +728,89 @@ scatter:
   - id: scatter:dark_grove
     decoration: 7tree10
     count: 1
-    circle: {at: [46.691, 28.822], r: 0.1}
+    circle: {at: [40.845, 30.996], r: 0.1}
   - id: scatter:dark_grove
     decoration: tree28
     count: 1
-    circle: {at: [51.716, 33.167], r: 0.1}
+    circle: {at: [38.946, 29.615], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: 7tree10
     count: 1
-    circle: {at: [52.596, 36.159], r: 0.1}
+    circle: {at: [44.962, 29.248], r: 0.1}
   - id: scatter:dark_grove
     decoration: tree60
     count: 1
-    circle: {at: [51.422, 36.178], r: 0.1}
+    circle: {at: [50.342, 36.573], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [45.03, 38.377], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree04
+    count: 1
+    circle: {at: [44.159, 29.615], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree2
+    count: 1
+    circle: {at: [53.186, 31.043], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [40.275, 29.006], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree4
     count: 1
     circle: {at: [53.272, 32.8], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree10
     count: 1
-    circle: {at: [40.428, 38.69], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree10
-    count: 1
-    circle: {at: [42.784, 35.591], r: 0.1}
+    circle: {at: [52.496, 35.637], r: 0.1}
   - id: scatter:dark_grove
     decoration: tree60
     count: 1
-    circle: {at: [39.507, 33.911], r: 0.1}
+    circle: {at: [41.98, 29.486], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: tree60
     count: 1
-    circle: {at: [45.286, 31.013], r: 0.1}
+    circle: {at: [48.286, 39.067], r: 0.1}
   - id: scatter:dark_grove
     decoration: swptree2
     count: 1
-    circle: {at: [46.887, 31.056], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree04
-    count: 1
-    circle: {at: [55.608, 31.307], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: tree60
-    count: 1
-    circle: {at: [46.092, 40.211], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree04
-    count: 1
-    circle: {at: [45.927, 37.509], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: tree28
-    count: 1
-    circle: {at: [55.627, 29.521], r: 0.1}
+    circle: {at: [54.716, 34.281], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree10
+    count: 1
+    circle: {at: [50.879, 33.864], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [53.437, 36.814], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [45.873, 38.532], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [42.731, 35.791], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
     count: 1
     circle: {at: [46.593, 37.839], r: 0.1}
   - id: scatter:dark_grove
-    decoration: swptree2
+    decoration: 7tree04
     count: 1
-    circle: {at: [45.289, 38.713], r: 0.1}
+    circle: {at: [54.113, 31.147], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree10
     count: 1
-    circle: {at: [39.972, 37.595], r: 0.1}
+    circle: {at: [41.617, 34.341], r: 0.1}
   - id: scatter:dark_grove
     decoration: swptree4
+    count: 1
+    circle: {at: [50.902, 35.509], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
     count: 1
     circle: {at: [54.042, 34.971], r: 0.1}
   - id: scatter:dark_grove
@@ -814,7 +818,19 @@ scatter:
     count: 1
     circle: {at: [53.197, 34.711], r: 0.1}
   - id: scatter:dark_grove
+    decoration: tree28
+    count: 1
+    circle: {at: [46.458, 39.658], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [49.915, 29.055], r: 0.1}
+  - id: scatter:dark_grove
     decoration: 7tree10
+    count: 1
+    circle: {at: [45.02, 30.406], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
     count: 1
     circle: {at: [41.787, 28.748], r: 0.1}
   - id: scatter:dark_grove
@@ -822,23 +838,15 @@ scatter:
     count: 1
     circle: {at: [51.674, 34.595], r: 0.1}
   - id: scatter:dark_grove
-    decoration: tree28
-    count: 1
-    circle: {at: [48.756, 38.519], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree10
+    decoration: 7tree04
     count: 1
     circle: {at: [49.145, 32.749], r: 0.1}
   - id: scatter:dark_grove
-    decoration: tree28
+    decoration: 7tree04
     count: 1
-    circle: {at: [48.1, 39.668], r: 0.1}
+    circle: {at: [45.823, 29.261], r: 0.1}
   - id: scatter:dark_grove
-    decoration: swptree4
-    count: 1
-    circle: {at: [48.132, 31.237], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree10
+    decoration: 7tree04
     count: 1
     circle: {at: [53.313, 36.161], r: 0.1}
   - id: scatter:dark_grove
@@ -846,35 +854,55 @@ scatter:
     count: 1
     circle: {at: [44.175, 37.22], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree10
+    decoration: tree28
     count: 1
     circle: {at: [49.715, 34.059], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree04
-    count: 1
-    circle: {at: [50.397, 34.093], r: 0.1}
   - id: scatter:dark_grove
     decoration: swptree4
     count: 1
     circle: {at: [53.624, 33.588], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: 7tree10
     count: 1
-    circle: {at: [51.258, 37.19], r: 0.1}
+    circle: {at: [51.83, 37.714], r: 0.1}
   - id: scatter:dark_grove
-    decoration: tree28
+    decoration: tree60
+    count: 1
+    circle: {at: [48.265, 30.077], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree2
+    count: 1
+    circle: {at: [47.018, 30.392], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
     count: 1
     circle: {at: [52.004, 36.384], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: tree60
     count: 1
     circle: {at: [41.255, 37.46], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: 7tree10
     count: 1
-    circle: {at: [50.57, 36.455], r: 0.1}
+    circle: {at: [50.507, 29.961], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [42.054, 38.055], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [41.669, 31.325], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree04
+    count: 1
+    circle: {at: [42.242, 38.954], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [53.605, 31.961], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree2
     count: 1
     circle: {at: [42.95, 28.998], r: 0.1}
   - id: scatter:dark_grove
@@ -882,27 +910,23 @@ scatter:
     count: 1
     circle: {at: [49.965, 38.369], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: swptree4
     count: 1
-    circle: {at: [46.856, 38.63], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree04
-    count: 1
-    circle: {at: [52.766, 33.749], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree04
-    count: 1
-    circle: {at: [45.274, 38.025], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: swptree2
-    count: 1
-    circle: {at: [52.505, 37.509], r: 0.1}
+    circle: {at: [55.199, 31.952], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree10
     count: 1
+    circle: {at: [52.526, 32.89], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree2
+    count: 1
+    circle: {at: [52.766, 33.749], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree28
+    count: 1
     circle: {at: [55.52, 33.705], r: 0.1}
   - id: scatter:dark_grove
-    decoration: swptree4
+    decoration: 7tree10
     count: 1
     circle: {at: [43.444, 30.012], r: 0.1}
   - id: scatter:dark_grove
@@ -910,341 +934,305 @@ scatter:
     count: 1
     circle: {at: [49.786, 37.508], r: 0.1}
   - id: scatter:dark_grove
-    decoration: swptree4
+    decoration: 7tree04
+    count: 1
+    circle: {at: [51.674, 32.914], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
     count: 1
     circle: {at: [54.083, 33.117], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree10
+    decoration: tree28
     count: 1
-    circle: {at: [51.933, 32.169], r: 0.1}
+    circle: {at: [48.781, 38.219], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: swptree2
     count: 1
     circle: {at: [53.342, 35.534], r: 0.1}
   - id: scatter:dark_grove
+    decoration: tree28
+    count: 1
+    circle: {at: [42.552, 31.615], r: 0.1}
+  - id: scatter:dark_grove
     decoration: swptree4
     count: 1
-    circle: {at: [42.813, 36.789], r: 0.1}
+    circle: {at: [43.794, 31.116], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree10
+    decoration: swptree4
     count: 1
-    circle: {at: [47.649, 39.037], r: 0.1}
+    circle: {at: [41.012, 29.624], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree28
+    count: 1
+    circle: {at: [44.123, 38.719], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree04
     count: 1
-    circle: {at: [38.512, 33.725], r: 0.1}
+    circle: {at: [42.833, 40.268], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree10
+    decoration: swptree2
     count: 1
-    circle: {at: [47.27, 29.639], r: 0.1}
+    circle: {at: [48.156, 31.532], r: 0.1}
   - id: scatter:dark_grove
     decoration: tree28
+    count: 1
+    circle: {at: [42.111, 30.652], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree60
+    count: 1
+    circle: {at: [47.278, 39.164], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: swptree2
     count: 1
     circle: {at: [41.731, 36.509], r: 0.1}
   - id: scatter:dark_grove
-    decoration: tree60
+    decoration: tree28
     count: 1
-    circle: {at: [44.868, 28.744], r: 0.1}
+    circle: {at: [43.852, 36.59], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: 7tree10
     count: 1
-    circle: {at: [38.889, 36.798], r: 0.1}
+    circle: {at: [38.838, 37.662], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
-    count: 1
-    circle: {at: [50.495, 33.195], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: swptree2
     count: 1
     circle: {at: [48.911, 31.052], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: swptree2
     count: 1
-    circle: {at: [50.409, 35.017], r: 0.1}
+    circle: {at: [47.349, 38.427], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: swptree4
     count: 1
-    circle: {at: [45.906, 39.285], r: 0.1}
+    circle: {at: [39.199, 31.034], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: tree28
     count: 1
     circle: {at: [39.298, 34.6], r: 0.1}
   - id: scatter:dark_grove
+    decoration: swptree2
+    count: 1
+    circle: {at: [55.99, 31.579], r: 0.1}
+  - id: scatter:dark_grove
     decoration: 7tree10
+    count: 1
+    circle: {at: [46.661, 29.086], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree28
     count: 1
     circle: {at: [40.94, 33.831], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree10
+    decoration: 7tree04
     count: 1
-    circle: {at: [52.593, 34.776], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree10
-    count: 1
-    circle: {at: [46.724, 39.574], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree10
-    count: 1
-    circle: {at: [54.277, 29.32], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: tree28
-    count: 1
-    circle: {at: [53.079, 36.952], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree10
-    count: 1
-    circle: {at: [46.081, 29.468], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: tree60
-    count: 1
-    circle: {at: [43.625, 36.533], r: 0.1}
+    circle: {at: [39.685, 30.192], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree04
     count: 1
-    circle: {at: [40.593, 37.585], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: tree28
-    count: 1
-    circle: {at: [48.286, 38.899], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree04
-    count: 1
-    circle: {at: [47.591, 30.576], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree10
-    count: 1
-    circle: {at: [40.072, 33.343], r: 0.1}
+    circle: {at: [52.039, 30.826], r: 0.1}
   - id: scatter:dark_grove
     decoration: swptree2
     count: 1
-    circle: {at: [55.803, 32.932], r: 0.1}
+    circle: {at: [50.838, 29.155], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree10
     count: 1
-    circle: {at: [53.767, 28.669], r: 0.1}
+    circle: {at: [50.786, 37.674], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [39.621, 36.832], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree04
     count: 1
-    circle: {at: [39.085, 37.874], r: 0.1}
+    circle: {at: [48.032, 29.428], r: 0.1}
   - id: scatter:dark_grove
-    decoration: swptree2
+    decoration: tree28
     count: 1
-    circle: {at: [43.983, 31.411], r: 0.1}
+    circle: {at: [46.719, 38.455], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [47.444, 29.232], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree28
+    count: 1
+    circle: {at: [56.035, 32.828], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [39.668, 29.364], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [43.208, 36.37], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree10
     count: 1
     circle: {at: [44.97, 37.307], r: 0.1}
   - id: scatter:dark_grove
-    decoration: tree60
-    count: 1
-    circle: {at: [55.893, 30.298], r: 0.1}
-  - id: scatter:dark_grove
     decoration: 7tree04
     count: 1
-    circle: {at: [38.52, 35.302], r: 0.1}
+    circle: {at: [38.73, 36.123], r: 0.1}
   - id: scatter:dark_grove
     decoration: tree60
     count: 1
-    circle: {at: [54.936, 34.735], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree10
-    count: 1
-    circle: {at: [39.152, 33.085], r: 0.1}
+    circle: {at: [49.177, 28.508], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree04
     count: 1
-    circle: {at: [47.437, 28.51], r: 0.1}
+    circle: {at: [49.364, 29.96], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree60
+    count: 1
+    circle: {at: [52.654, 36.994], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [51.502, 30.399], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree60
+    count: 1
+    circle: {at: [46.196, 37.379], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree10
+    count: 1
+    circle: {at: [46.601, 29.717], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree28
     count: 1
     circle: {at: [54.842, 32.712], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree04
     count: 1
+    circle: {at: [47.476, 31.084], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [43.749, 28.909], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [54.198, 32.475], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
     circle: {at: [51.834, 36.98], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree04
     count: 1
-    circle: {at: [45.324, 30.07], r: 0.1}
+    circle: {at: [51.96, 32.384], r: 0.1}
   - id: scatter:dark_grove
-    decoration: swptree4
+    decoration: 7tree10
+    count: 1
+    circle: {at: [38.808, 33.837], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
     count: 1
     circle: {at: [48.921, 32.171], r: 0.1}
   - id: scatter:dark_grove
     decoration: swptree4
     count: 1
-    circle: {at: [44.24, 30.361], r: 0.1}
+    circle: {at: [50.77, 34.688], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
-    count: 1
-    circle: {at: [44.306, 29.441], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: swptree4
     count: 1
     circle: {at: [45.581, 28.523], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree04
     count: 1
-    circle: {at: [49.412, 33.33], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: tree60
-    count: 1
-    circle: {at: [43.726, 29.279], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree10
-    count: 1
-    circle: {at: [44.231, 38.406], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: tree28
-    count: 1
-    circle: {at: [50.627, 37.37], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: tree60
-    count: 1
-    circle: {at: [52.768, 32.023], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree10
-    count: 1
-    circle: {at: [56.23, 32.176], r: 0.1}
+    circle: {at: [45.187, 31.157], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree04
     count: 1
-    circle: {at: [46.814, 30.282], r: 0.1}
+    circle: {at: [52.164, 31.607], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree10
+    decoration: 7tree04
     count: 1
-    circle: {at: [55.473, 28.66], r: 0.1}
+    circle: {at: [49.33, 38.647], r: 0.1}
   - id: scatter:dark_grove
     decoration: swptree4
     count: 1
-    circle: {at: [47.98, 38.279], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree10
-    count: 1
-    circle: {at: [55.159, 32.193], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree10
-    count: 1
-    circle: {at: [41.94, 34.934], r: 0.1}
+    circle: {at: [53.801, 30.156], r: 0.1}
   - id: scatter:dark_grove
     decoration: swptree2
     count: 1
-    circle: {at: [54.783, 28.625], r: 0.1}
+    circle: {at: [48.141, 30.871], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [45.69, 37.04], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [40.98, 28.736], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [54.652, 31.645], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree60
+    count: 1
+    circle: {at: [47.98, 38.279], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [49.908, 33.147], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [48.249, 28.665], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [41.94, 34.934], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [50.622, 36.042], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [46.413, 39.032], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: tree28
+    count: 1
+    circle: {at: [55.3, 34.479], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree04
+    count: 1
+    circle: {at: [40.377, 37.246], r: 0.1}
+  - id: scatter:dark_grove
+    decoration: 7tree10
+    count: 1
+    circle: {at: [52.317, 34.66], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree04
     count: 1
     circle: {at: [38.587, 28.569], r: 0.1}
   - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: tree28
     count: 1
     circle: {at: [50.805, 38.464], r: 0.1}
   - id: scatter:dark_grove
-    decoration: tree60
-    count: 1
-    circle: {at: [52.482, 36.763], r: 0.1}
-  - id: scatter:dark_grove
     decoration: 7tree04
     count: 1
-    circle: {at: [50.898, 35.867], r: 0.1}
+    circle: {at: [38.521, 30.59], r: 0.1}
   - id: scatter:dark_grove
-    decoration: tree28
-    count: 1
-    circle: {at: [46.033, 38.311], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree04
+    decoration: swptree4
     count: 1
     circle: {at: [45.963, 30.552], r: 0.1}
   - id: scatter:dark_grove
-    decoration: tree60
+    decoration: 7tree04
     count: 1
-    circle: {at: [42.359, 29.223], r: 0.1}
+    circle: {at: [50.072, 35.381], r: 0.1}
   - id: scatter:dark_grove
     decoration: 7tree10
     count: 1
-    circle: {at: [51.938, 35.499], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: swptree4
-    count: 1
-    circle: {at: [50.251, 30.015], r: 0.1}
+    circle: {at: [40.106, 30.829], r: 0.1}
   - id: scatter:dark_grove
     decoration: swptree2
     count: 1
-    circle: {at: [49.431, 38.049], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree04
-    count: 1
-    circle: {at: [44.697, 31.355], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree04
-    count: 1
-    circle: {at: [38.844, 35.981], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree10
-    count: 1
-    circle: {at: [54.835, 33.594], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: swptree2
-    count: 1
-    circle: {at: [47.398, 39.691], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree04
-    count: 1
-    circle: {at: [45.55, 40.632], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree04
-    count: 1
-    circle: {at: [42.631, 37.473], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: tree28
-    count: 1
-    circle: {at: [51.573, 38.125], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree04
-    count: 1
-    circle: {at: [50.093, 36.928], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: tree28
-    count: 1
-    circle: {at: [48.333, 30.613], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: swptree4
-    count: 1
-    circle: {at: [38.516, 32.916], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: swptree2
-    count: 1
-    circle: {at: [44.255, 28.677], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree04
-    count: 1
-    circle: {at: [50.647, 29.025], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: swptree2
-    count: 1
-    circle: {at: [43.788, 30.842], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree10
-    count: 1
-    circle: {at: [40.81, 37.023], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree04
-    count: 1
-    circle: {at: [51.2, 34.032], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree10
-    count: 1
-    circle: {at: [49.419, 39.024], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree04
-    count: 1
-    circle: {at: [47.255, 37.993], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: 7tree04
-    count: 1
-    circle: {at: [54.315, 34.07], r: 0.1}
-  - id: scatter:dark_grove
-    decoration: tree28
-    count: 1
-    circle: {at: [39.414, 37.21], r: 0.1}
+    circle: {at: [38.766, 35.459], r: 0.1}
   - id: scatter:grove_undergrowth
     kinds:
       bush02: 3
@@ -1638,7 +1626,7 @@ structures:
     title: Castleview's walls
   - id: thing:wall_nw
     kind: wall
-    line: [[50, 52.8], [50, 47], [53, 44], [61.75, 44]]
+    line: [[50, 52.8], [50, 47], [53, 44], [61.78125, 44]]
     height: 600
     thickness: 256
     textures: {top: csbr128, wall: cswl128}
@@ -1655,7 +1643,7 @@ structures:
       - {id: tower_w_top, at: [0, 64], size: [640, 896], bottom: 576, wall_height: 256, walls: {e: [wall, wall, wall, wall, wall, wall, wall], n: [wall, wall, window, wall, wall], s: [wall, wall, window, wall, wall], w: [wall, wall, window, wall, window, wall, wall]}, roof: flat, battlements: true}
       - {id: tower_e, at: [1152, 64], size: [640, 896], wall_height: 576, windows: none, roof: none}
       - {id: tower_e_top, at: [1152, 64], size: [640, 896], bottom: 576, wall_height: 256, walls: {e: [wall, wall, window, wall, window, wall, wall], n: [wall, wall, window, wall, wall], s: [wall, wall, window, wall, wall], w: [wall, wall, wall, wall, wall, wall, wall]}, roof: flat, battlements: true}
-      - {id: arch, at: [640, 128], size: [512, 768], bottom: 384, wall_height: 320, windows: none, roof: flat, battlements: true}
+      - {id: arch, at: [624, 128], size: [544, 768], bottom: 384, wall_height: 320, windows: none, roof: flat, battlements: true}
       - {id: crest_frame, at: [816, 136], size: [160, 32], bottom: 400, textures: {roof: cstr128, wall: cstr128}, wall_height: 288, windows: none, roof: flat}
       - {id: crest, at: [832, 120], size: [128, 32], bottom: 416, wall_height: 256, walls: {n: [xkkalcrst], s: [cstr128]}, windows: none, roof: none}
     floor: 1150
@@ -1663,13 +1651,13 @@ structures:
     title: The north gatehouse
   - id: thing:north_gate_lintel
     kind: building
-    at: [63, 43.938]
-    size: [1, 0.125]
+    at: [62.969, 43.938]
+    size: [1.0625, 0.125]
     turn: 0
     kit: grey
     textures: {post_left: cswl128, post_right: cswl128, roof: csbr128, trim: cstr128, wall: cswl128}
     parts:
-      - {id: lintel, at: [0, 0], size: [512, 64], bottom: 256, wall_height: 128, windows: none, roof: flat}
+      - {id: lintel, at: [0, 0], size: [544, 64], bottom: 256, wall_height: 128, windows: none, roof: flat}
     floor: 1150
     door: none
     title: The north gate
@@ -1704,13 +1692,13 @@ structures:
       - text: The gate swings open.
   - id: thing:queens_gate_lintel
     kind: building
-    at: [51.938, 62.438]
-    size: [0.625, 0.125]
+    at: [51.906, 62.438]
+    size: [0.6875, 0.125]
     turn: 41.63
     kit: grey
     textures: {post_left: cswl128, post_right: cswl128, roof: csbr128, trim: cstr128, wall: cswl128}
     parts:
-      - {id: lintel, at: [0, 0], size: [320, 64], bottom: 256, wall_height: 64, windows: none, roof: flat}
+      - {id: lintel, at: [0, 0], size: [352, 64], bottom: 256, wall_height: 64, windows: none, roof: flat}
     floor: 1150
     door: none
     title: The Queen's Gate
@@ -1760,7 +1748,7 @@ structures:
     posts: 32
   - id: thing:jetty_pier
     kind: bridge
-    line: [[48.5, 54.9], [45.9, 54.9]]
+    line: [[48.4, 54.9], [45.9, 54.9]]
     height: 1766
     width: 320
     kerb: 48
@@ -2197,6 +2185,7 @@ structures:
   - id: thing:mill_beam
     kind: decoration
     at: [78, 47.4]
+    raise: -26
     decoration: 7dec18
   - id: thing:dd01_outfall
     kind: doorway
@@ -2241,6 +2230,7 @@ structures:
     kind: platform
     at: [60.5, 56.5]
     size: [192, 128]
+    raise: 4
     height: 8
     textures: {top: xkportc, wall: t09a02a}
     notes: the market (the square)
@@ -2269,7 +2259,7 @@ structures:
     title: The East Bridge
   - id: thing:sardaj_tent_1
     kind: tent
-    at: [86.5, 23]
+    at: [87, 23.9]
     size: [896, 704]
     height: 384
     title: A Sardaj tent
@@ -2725,6 +2715,7 @@ structures:
   - id: thing:wreck_bottle
     kind: decoration
     at: [53, 83.3]
+    raise: -24
     decoration: dec05
     title: A bottle in the reeds
     effects:
@@ -2839,335 +2830,455 @@ structures:
     decoration: tree20
   - id: thing:hull_001
     kind: decoration
-    at: [23.02, 2]
+    at: [23.02, 0.5]
     turn: -90
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_002
     kind: decoration
-    at: [23.02, 6]
+    at: [23.02, 1.5]
     turn: -90
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_003
     kind: decoration
-    at: [23.02, 10]
+    at: [23.02, 2.5]
     turn: -90
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_004
     kind: decoration
-    at: [23.02, 14]
+    at: [23.02, 3.5]
     turn: -90
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_005
     kind: decoration
-    at: [23.02, 18]
+    at: [23.02, 4.5]
     turn: -90
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_006
     kind: decoration
-    at: [23.02, 22]
+    at: [23.02, 5.5]
     turn: -90
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_007
     kind: decoration
-    at: [23.02, 26]
+    at: [23.02, 6.5]
     turn: -90
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_008
     kind: decoration
-    at: [23.02, 30]
+    at: [23.02, 7.5]
     turn: -90
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_009
     kind: decoration
-    at: [23.02, 34]
+    at: [23.02, 8.5]
     turn: -90
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_010
     kind: decoration
-    at: [23.02, 38]
+    at: [23.02, 9.5]
     turn: -90
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_011
     kind: decoration
-    at: [23.02, 42]
+    at: [23.02, 10.5]
     turn: -90
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_012
     kind: decoration
-    at: [23.02, 46]
+    at: [23.02, 11.5]
     turn: -90
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_013
     kind: decoration
-    at: [23.02, 50]
+    at: [23.02, 12.5]
     turn: -90
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_014
     kind: decoration
-    at: [23.02, 54]
+    at: [23.02, 15]
     turn: -90
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_015
     kind: decoration
-    at: [23.02, 58]
+    at: [23.02, 17.5]
     turn: -90
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_016
     kind: decoration
-    at: [23.02, 62]
+    at: [23.02, 18.5]
     turn: -90
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_017
     kind: decoration
-    at: [23.02, 66]
+    at: [23.02, 21]
     turn: -90
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_018
     kind: decoration
-    at: [23.02, 70]
+    at: [23.02, 25]
     turn: -90
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_019
     kind: decoration
-    at: [23.02, 74]
+    at: [23.02, 29]
     turn: -90
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_020
     kind: decoration
-    at: [23.02, 78]
+    at: [23.02, 33]
     turn: -90
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_021
     kind: decoration
-    at: [23.02, 82]
+    at: [23.02, 37]
     turn: -90
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_022
     kind: decoration
-    at: [23.02, 86]
+    at: [23.02, 41]
     turn: -90
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_023
     kind: decoration
-    at: [23.02, 90]
+    at: [23.02, 45]
     turn: -90
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_024
     kind: decoration
-    at: [23.02, 94]
+    at: [23.02, 49]
     turn: -90
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_025
     kind: decoration
-    at: [23.02, 98]
+    at: [23.02, 53]
     turn: -90
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_026
     kind: decoration
-    at: [23.02, 102]
+    at: [23.02, 57]
     turn: -90
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_027
     kind: decoration
+    at: [23.02, 61]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_028
+    kind: decoration
+    at: [23.02, 65]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_029
+    kind: decoration
+    at: [23.02, 69]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_030
+    kind: decoration
+    at: [23.02, 73]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_031
+    kind: decoration
+    at: [23.02, 77]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_032
+    kind: decoration
+    at: [23.02, 81]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_033
+    kind: decoration
+    at: [23.02, 85]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_034
+    kind: decoration
+    at: [23.02, 89]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_035
+    kind: decoration
+    at: [23.02, 93]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_036
+    kind: decoration
+    at: [23.02, 97]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_037
+    kind: decoration
+    at: [23.02, 101]
+    turn: -90
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_038
+    kind: decoration
+    at: [23.02, 103.5]
+    turn: -90
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_039
+    kind: decoration
     at: [23.02, 104.5]
     turn: -90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_028
+  - id: thing:hull_040
     kind: decoration
     at: [25, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_029
+  - id: thing:hull_041
     kind: decoration
     at: [27.5, 104.98]
     turn: -180
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_030
+  - id: thing:hull_042
     kind: decoration
     at: [28.5, 104.98]
     turn: -180
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_031
+  - id: thing:hull_043
     kind: decoration
     at: [29.5, 104.98]
     turn: -180
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_032
-    kind: decoration
-    at: [34, 104.98]
-    turn: -180
-    decoration: xeen_hull4
-    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_033
-    kind: decoration
-    at: [38, 104.98]
-    turn: -180
-    decoration: xeen_hull4
-    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_034
-    kind: decoration
-    at: [42, 104.98]
-    turn: -180
-    decoration: xeen_hull4
-    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_035
-    kind: decoration
-    at: [46, 104.98]
-    turn: -180
-    decoration: xeen_hull4
-    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_036
-    kind: decoration
-    at: [50, 104.98]
-    turn: -180
-    decoration: xeen_hull4
-    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_037
-    kind: decoration
-    at: [54, 104.98]
-    turn: -180
-    decoration: xeen_hull4
-    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_038
-    kind: decoration
-    at: [58, 104.98]
-    turn: -180
-    decoration: xeen_hull4
-    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_039
-    kind: decoration
-    at: [62, 104.98]
-    turn: -180
-    decoration: xeen_hull4
-    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_040
-    kind: decoration
-    at: [66, 104.98]
-    turn: -180
-    decoration: xeen_hull4
-    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_041
-    kind: decoration
-    at: [70, 104.98]
-    turn: -180
-    decoration: xeen_hull4
-    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_042
-    kind: decoration
-    at: [74, 104.98]
-    turn: -180
-    decoration: xeen_hull4
-    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_043
-    kind: decoration
-    at: [78, 104.98]
-    turn: -180
-    decoration: xeen_hull4
-    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_044
     kind: decoration
-    at: [82, 104.98]
+    at: [32.5, 104.98]
     turn: -180
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_045
     kind: decoration
-    at: [86, 104.98]
+    at: [33.5, 104.98]
     turn: -180
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_046
     kind: decoration
-    at: [90, 104.98]
+    at: [36, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_047
     kind: decoration
-    at: [94, 104.98]
+    at: [40, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_048
     kind: decoration
-    at: [98, 104.98]
+    at: [44, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_049
     kind: decoration
-    at: [102, 104.98]
+    at: [48, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_050
     kind: decoration
-    at: [106, 104.98]
+    at: [52, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_051
     kind: decoration
-    at: [110, 104.98]
+    at: [56, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_052
     kind: decoration
-    at: [114, 104.98]
+    at: [60, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_053
     kind: decoration
-    at: [118, 104.98]
+    at: [64, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_054
     kind: decoration
-    at: [122, 104.98]
+    at: [68, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_055
     kind: decoration
-    at: [126, 104.98]
+    at: [72, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_056
+    kind: decoration
+    at: [76, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_057
+    kind: decoration
+    at: [80, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_058
+    kind: decoration
+    at: [84, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_059
+    kind: decoration
+    at: [88, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_060
+    kind: decoration
+    at: [92, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_061
+    kind: decoration
+    at: [96, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_062
+    kind: decoration
+    at: [100, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_063
+    kind: decoration
+    at: [104, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_064
+    kind: decoration
+    at: [106.5, 104.98]
+    turn: -180
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_065
+    kind: decoration
+    at: [107.5, 104.98]
+    turn: -180
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_066
+    kind: decoration
+    at: [108.5, 104.98]
+    turn: -180
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_067
+    kind: decoration
+    at: [109.5, 104.98]
+    turn: -180
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_068
+    kind: decoration
+    at: [110.5, 104.98]
+    turn: -180
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_069
+    kind: decoration
+    at: [111.5, 104.98]
+    turn: -180
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_070
+    kind: decoration
+    at: [114, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_071
+    kind: decoration
+    at: [118, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_072
+    kind: decoration
+    at: [122, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_073
+    kind: decoration
+    at: [124.5, 104.98]
+    turn: -180
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_074
+    kind: decoration
+    at: [125.5, 104.98]
+    turn: -180
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_075
+    kind: decoration
+    at: [126.5, 104.98]
+    turn: -180
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_076
     kind: decoration
     at: [23.02, 104.98]
     turn: -135
@@ -3228,20 +3339,28 @@ structures:
       - text: You pray. +10 to every stat until you rest.
     notes: "F32 (P2 pin p16, 2026-11-23): the shrine's altar under its roof carries the click; the pavilion keeps its title (MM6 OUTE1 261, MM7 \"Shrine\"/\"Altar\")."
 actors:
-  - {monster: "11021", at: [77.6, 42], count: 4, spread: 0.6, group: 1, hostile: true}
+  - {monster: "11021", at: [86.6, 40.4], count: 4, spread: 0.6, group: 1, hostile: true}
   - {monster: "11020", at: [96, 64.4], count: 4, spread: 1.2, group: 2, hostile: true}
   - {monster: "11022", at: [97.6, 63.6], count: 2, spread: 0.6, group: 2, hostile: true}
   - {monster: "11021", at: [94.6, 61.4], count: 1, spread: 0, group: 2, hostile: true}
   - {monster: "11361", at: [50.4, 31.6], count: 3, spread: 0.7, group: 3, hostile: true}
   - {monster: "11361", at: [40.5, 35.5], count: 2, spread: 0.7, group: 4, hostile: true}
   - {monster: "11361", at: [43.2, 33.2], count: 2, spread: 0.7, group: 5, hostile: true}
-  - {monster: "11100", at: [88, 25], count: 7, spread: 1.4, group: 60, hostile: false}
+  - {monster: "11330", at: [40, 32.5], count: 2, spread: 0.6, group: 6, hostile: true}
+  - {monster: "11332", at: [40, 32.5], count: 1, spread: 0.6, group: 6, hostile: true}
+  - {monster: "11330", at: [40.5, 39], count: 2, spread: 0.6, group: 7, hostile: true}
+  - {monster: "11332", at: [40.5, 39], count: 1, spread: 0.6, group: 7, hostile: true}
+  - {monster: "11330", at: [44.5, 40.5], count: 2, spread: 0.6, group: 8, hostile: true}
+  - {monster: "11332", at: [44.5, 40.5], count: 1, spread: 0.6, group: 8, hostile: true}
+  - {monster: "11330", at: [52.5, 29], count: 3, spread: 0.6, group: 9, hostile: true}
+  - {monster: "11330", at: [55.5, 30], count: 3, spread: 0.6, group: 10, hostile: true}
+  - {monster: "11100", at: [88, 25.4], count: 7, spread: 1.4, group: 60, hostile: false}
   - {monster: "11101", at: [89.4, 26.2], count: 3, spread: 1.4, group: 60, hostile: false}
-  - {monster: "11102", at: [87.2, 24], count: 1, spread: 0, group: 60, hostile: false}
+  - {monster: "11102", at: [87.2, 25.2], count: 1, spread: 0, group: 60, hostile: false}
   - {monster: "11103", at: [89.2, 24], spread: 0, group: 60, hostile: false, npc: 4953}
   - {monster: "361", at: [66, 41.9], spread: 0, group: 52, npc: 4956}
   - {monster: "377", at: [57, 41.2], spread: 0, group: 52, npc: 4951}
-  - {monster: "517", at: [30.6, 62.6], spread: 0, group: 52, npc: 4952}
+  - {monster: "517", at: [30, 62], spread: 0, group: 52, npc: 4952}
   - {monster: "358", at: [58.38, 55.62], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
   - {monster: "352", at: [74.88, 48.62], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}
   - {monster: "382", at: [71.12, 62.88], spread: 0, group: 47, hostile: false, notes: D-96 villager of Castleview (villagers.yml)}

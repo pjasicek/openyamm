@@ -148,7 +148,7 @@ rooms:
     theme: theme:hall
     platforms:
       - {id: platform:plinth, at: [-6464, 768], size: [448, 448], rise: 32, surface: {texture: swgirder, size: [64, 64]}, top_surface: {texture: swgirder, size: [64, 64]}, notes: "The dead pyramid's plinth: riveted plate."}
-      - {id: platform:pyramid, at: [-6464, 768], size: [384, 384], rise: 352, surface: {texture: mystrya, size: [128, 128]}, top_surface: {texture: mystrya, size: [128, 128]}, base: 32, top_size: [16, 16], notes: "A small dark Ancient pyramid (four sloped faces of black veined marble, mystrya, D-71's tone, session 23): hover 'Pyramid' (m39.pyramid)."}
+      - {id: platform:pyramid, at: [-6464, 768], size: [384, 384], rise: 360, surface: {texture: mystrya, size: [128, 128]}, top_surface: {texture: mystrya, size: [128, 128]}, base: 24, top_size: [16, 16], notes: "A small dark Ancient pyramid (four sloped faces of black veined marble, mystrya, D-71's tone, session 23): hover 'Pyramid' (m39.pyramid)."}
     notes: "Dead end: the dark Ancient pyramid on its plinth and a T6 chest beside it."
   - id: room:shaft
     name: Rubble shaft

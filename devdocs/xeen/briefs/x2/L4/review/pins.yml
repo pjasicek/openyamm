@@ -1,5 +1,5 @@
 format: 1
-counter: 10
+counter: 17
 pins:
   - id: pin:p1
     text: z-fighting
@@ -151,3 +151,52 @@ pins:
     created: 2026-11-23T19:31:06
     status: open
     from: 20261123-193106-xeen_x2.yml
+  - id: pin:p11
+    text: z-fighting
+    source: game
+    world: xeen
+    map: xeen_x2.odm
+    pose:
+      position: [18723.938, 14646.287, 1089]
+      yaw_radians: 4.313
+      pitch_degrees: -57.696
+      heading_yaw_units: 1406
+    picture: .oymap/pins/pictures/p11.png
+    author: user
+    created: 2026-11-24T15:18:38
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-151838-xeen_x2.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "F58: a ruin's gone wall now keeps a stone course 8 over its floor instead of a cap lying on the land (studio ruinPieces); check_faces faces.on_land guards it. Installed 2026-11-25."
+        created: 2026-11-25T09:40:35
+        revision: 3eb55f5dbb43a242f8f7da6b5bdceb50
+        status: resolved
+  - id: pin:p12
+    text: make the pier a little deeper
+    source: game
+    world: xeen
+    map: xeen_x2.odm
+    pose:
+      position: [8831.335, 4699.141, 577]
+      yaw_radians: 2.887
+      pitch_degrees: -14.685
+      heading_yaw_units: 941
+    picture: .oymap/pins/pictures/p12.png
+    author: user
+    created: 2026-11-24T20:50:25
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-205025-xeen_x2.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "Nystor's pier reaches a quarter cell further into the river; a deeper head waits on the bridge-end rule (NEXT)."
+        created: 2026-11-25T09:40:39
+        revision: 3eb55f5dbb43a242f8f7da6b5bdceb50
+        status: resolved
+      - author: agent:xeen-fb4-outdoor2
+        text: "Deeper: the pier's head now reaches y 52.0, over the river's water (was 52.45); common/wild.py head: last keeps it a head, town_fit_check bridges.step skips an end over the sketch's water. X2 installed 09:52 with its bake."
+        created: 2026-11-25T09:56:22
+        revision: 46351885f88bf1643addb64bb7374637
+        pictures: [.oymap/pins/pictures/p12-r2.png]

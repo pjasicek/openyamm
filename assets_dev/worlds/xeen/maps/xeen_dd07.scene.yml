@@ -664,12 +664,12 @@ initial_state:
       height: 168
       move_speed: 200
       position:
-        x: -256
-        y: -192
+        x: 0
+        y: 704
         z: 0
-      initial_yaw_units: 1024
+      initial_yaw_units: 1536
       sprite_ids: [0, 0, 0, 0]
-      sector_id: 23
+      sector_id: 9
       current_action_animation: 0
       carried_item_id: 0
       group: 10
@@ -687,12 +687,12 @@ initial_state:
       height: 168
       move_speed: 200
       position:
-        x: 0
-        y: 256
+        x: 640
+        y: 320
         z: 0
       initial_yaw_units: 1024
       sprite_ids: [0, 0, 0, 0]
-      sector_id: 23
+      sector_id: 9
       current_action_animation: 0
       carried_item_id: 0
       group: 10
@@ -710,12 +710,12 @@ initial_state:
       height: 168
       move_speed: 200
       position:
-        x: 0
-        y: -256
+        x: 640
+        y: -320
         z: 0
       initial_yaw_units: 1024
       sprite_ids: [0, 0, 0, 0]
-      sector_id: 23
+      sector_id: 9
       current_action_animation: 0
       carried_item_id: 0
       group: 10

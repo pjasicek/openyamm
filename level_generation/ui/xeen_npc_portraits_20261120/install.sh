@@ -82,3 +82,9 @@ chmod 0644 $OUT/npc1*.png
 python3 extract.py raw/sheet47_v1.png $TMP 4158 9001 9002 9003 9004 9005 9006 9007 9008 9009 9010 9011
 cp $TMP/npc14158.png $OUT/
 chmod 0644 $OUT/npc1*.png
+# batch 16 (2026-11-25, agent xeen-fb4-town): the goblin-eared boy (4053, XD-04's cage 1, D-155), Rudd (4054) and
+# Marla (4346), the mates of Nystor's return boats (D-150): sheet48_v1 row 1; rows 2-4 are unrelated faces (the worker
+# drew no second takes), not used
+python3 extract.py raw/sheet48_v1.png $TMP 4053 4054 4346 9001 9002 9003 9004 9005 9006 9007 9008 9009
+cp $TMP/npc14053.png $TMP/npc14054.png $TMP/npc14346.png $OUT/
+chmod 0644 $OUT/npc1*.png

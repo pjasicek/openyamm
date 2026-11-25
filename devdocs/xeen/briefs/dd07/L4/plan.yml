@@ -85,7 +85,7 @@ spaces:
     floor: 0
     purpose: "The ground floor's gallery round the well's north, east and south sides."
     population:
-      - {actor: 11203, groups: 1, levels: [28, 28], notes: 2 placed Floating Adepts.}
+      - {actor: 11203, groups: 1, levels: [28, 28], notes: 5 placed Floating Adepts.}
   - id: room:ring2
     name: Second gallery
     kind: corridor
@@ -219,9 +219,8 @@ spaces:
     size: M
     extent: [896, 896]
     floor: 0
-    purpose: "The levitation well: an open shaft from the ground floor to the slate cone, railed windows on every floor, light falling from the cone; the floating disc rides it from the top floor to the foot. Three adepts float in the light."
-    population:
-      - {actor: 11203, groups: 1, levels: [28, 28], notes: 3 placed Floating Adepts.}
+    purpose: "The levitation well: an open shaft from the ground floor to the slate cone, railed windows on every floor, light falling from the cone; the floating disc rides it from the top floor to the foot. Its adepts keep the gallery round its foot."
+    empty: true
 links:
   - id: link:cabinet_dorm
     from: room:cabinet

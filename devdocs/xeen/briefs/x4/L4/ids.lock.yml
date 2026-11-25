@@ -1,5 +1,6 @@
 format: 0
 events:
+  evt:barbarian_camp_burnt: 189
   evt:door:building:asp_alchemist: 37
   evt:door:building:asp_armour: 39
   evt:door:building:asp_guild_body: 35
@@ -200,6 +201,9 @@ containers:
   chest:thing:sexton_chest: 9
   chest:thing:sunken_barge: 6
 cogs:
+  cog:thing:barbarian_dress_1: 30000
+  cog:thing:barbarian_dress_2: 30001
+  cog:thing:barbarian_dress_3: 30002
   cog:thing:pedestal_1_blue: 1
   cog:thing:pedestal_1_red: 2
   cog:thing:pedestal_2_blue: 3

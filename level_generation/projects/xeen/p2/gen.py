@@ -44,6 +44,7 @@ import planes_design as PD  # noqa: E402
 import planes_geom as PG  # noqa: E402
 sys.path.insert(0, str(ROOT / 'level_generation/projects/xeen/common/planes'))
 import pieces as PC  # noqa: E402
+import spans as SP  # noqa: E402
 
 BRIEF = ROOT / 'devdocs/xeen/briefs/p2'
 WORLD = ROOT / 'assets_dev/worlds/xeen'
@@ -59,6 +60,7 @@ TEST_QBIT = PD.TEST_QBITS['air']                      # 111765
 SLEEPER_QBIT = PD.SLEEPER_QBITS['air']                # 111761
 GUARD_GROUP = 60
 SLAB = 160             # the island's top slab (the rim's thickness)
+SINK = 4               # plates, the eye, the dais, the updraft: sunk into the top they lie on (X8's, F62: no lid)
 
 # ------------------------------------------------------------------------------------------------ textures
 SKY = {'texture': 'xccloud', 'size': [256, 256], 'scale': 32, 'sky': True}           # sky faces (plane_air draws)
@@ -377,6 +379,10 @@ def skirts(sid):
     poly = [tuple(p) for p in TOPS[sid]]
     rnd = random.Random(53 * s['seed'])
     out = []
+    # F62 (2026-11-25): two overlapping skirts' tilted tops (or a skirt's and the first tier's ledge) crossed at a
+    # shallow angle, a flickering seam (check_floor_cross floor.cross): a skirt whose height band meets one it
+    # overlaps goes under it. (outline, lowest top, highest top) of what is laid.
+    laid = island_layers(sid)
     for k, (p, n) in enumerate(PG.outline_samples(poly, 520)):
         if rnd.random() < 0.18:
             continue
@@ -387,12 +393,52 @@ def skirts(sid):
         pts = ccw(ring(c[0], c[1], r, 10, rnd.uniform(0, 1), ry=r * rnd.uniform(0.7, 1.0)))
         ph = rnd.uniform(0, 2 * math.pi)
         hs = [int(rise * (0.92 + 0.08 * math.cos(2 * math.pi * j / len(pts) + ph))) for j in range(len(pts))]   # a tilted top
+        top = clear_band(pts, top, max(hs) - min(hs), laid)
+        laid.append((pts, top - (max(hs) - min(hs)), top))
         out.append({'id': f'platform:{key(sid)}_cloud{len(out) + 1}', 'outline': [ipt(v) for v in pts],
                     'base': int(round(top - rise - FLOOR)), 'rise': min(hs), 'top_heights': hs,
                     'surface': CLOUD_SIDE, 'top_surface': CLOUD_TOP, 'bottom_surface': CLOUD_SIDE, 'solid': False})
     if out:
         out[0]['notes'] = "Cloud skirts under the rim (untouchable: a party falls through them)."
     return out
+
+
+def island_layers(sid):
+    """(outline, lowest, highest) of an island's flat faces a cloud must keep clear of: the top slab's bottom and the
+    first tier's ledge (F62)."""
+    fl = SPACE[sid]['floor']
+    tier = [tuple(v) for v in rough_outline(sid, TIERS[0][0], seed=1, points=20, out_amp=(-60, 120), hold=0)]
+    return [([tuple(v) for v in TOPS[sid]], fl - SLAB, fl - SLAB), (tier, fl - SLAB + 8, fl - SLAB + 8)]
+
+
+def clear_band(pts, top, band, laid):
+    """Lower a cloud's top (its tilted top spans `band` under it) under anything laid it overlaps whose heights its
+    own meet within 8: two crossing tops flicker (F62, check_floor_cross floor.cross)."""
+    for _ in range(len(laid)):
+        hit = [lo for q, lo, hi in laid if lo - 8 < top and top - band < hi + 8 and polys_meet(pts, q)]
+        if not hit:
+            break
+        top = min(hit) - 8.5
+    return top
+
+
+def skirt_layers():
+    """Every island's layers and skirts (outline, lowest, highest), for the bridges' wisps."""
+    out = []
+    for sid in ISLANDS:
+        out += island_layers(sid)
+        for e in skirts(sid):
+            z = e['base'] + FLOOR
+            out.append(([tuple(v) for v in e['outline']], z + min(e['top_heights']), z + max(e['top_heights'])))
+    return out
+
+
+def polys_meet(a, b):
+    """Two outlines overlap (a corner of one inside the other, or their middles inside each other)."""
+    ca = (sum(p[0] for p in a) / len(a), sum(p[1] for p in a) / len(a))
+    cb = (sum(p[0] for p in b) / len(b), sum(p[1] for p in b) / len(b))
+    return (any(PG.point_in(p, b) for p in a) or any(PG.point_in(p, a) for p in b) or PG.point_in(ca, b)
+            or PG.point_in(cb, a))
 
 
 # ------------------------------------------------------------------------------------------------ bridges
@@ -409,26 +455,37 @@ def link_cut(l):
 def bridges():
     out = []
     rnd = random.Random(808)
+    laid = skirt_layers()
     for l in D['links']:
         if l.get('gate'):
             continue
         a, b, d = link_cut(l)
         za, zb = FLOOR_OF[l['a']] + 4, FLOOR_OF[l['b']] + 4
-        out.append(slab(f"platform:{key(l['id'])}", a, b, za, zb, l['width'], MARBLE, MARBLE, 96,
-                        notes=f"{l['id']}: a bridge of cloud-stone over the sky, {int(d):,} rim to rim, rising "
-                              f"{zb - za}."))
+        # F62: level across each island until past its rim, sloping between (it dipped under the higher island's
+        # top before the rim: check_floor_cross floor.cross)
+        spans = SP.link_spans(a, b, za, zb, l['width'], [tuple(v) for v in TOPS[l['a']]],
+                              [tuple(v) for v in TOPS[l['b']]])
+        base = f"platform:{key(l['id'])}"
+        ids = [base] if len(spans) == 1 else ([base + '_a', base, base + '_b'] if len(spans) == 3 else
+                                              ([base + '_a', base] if spans[0][2] == spans[0][3] else [base, base + '_b']))
+        for pid, (p, q, z0, z1) in zip(ids, spans):
+            out.append(slab(pid, p, q, z0, z1, l['width'], MARBLE, MARBLE, 96,
+                            notes=f"{l['id']}: a bridge of cloud-stone over the sky, {int(d):,} rim to rim, rising "
+                                  f"{zb - za}; level over each island (F62)." if pid == base else None))
         # wisps of cloud under the deck (untouchable)
         L = math.hypot(b[0] - a[0], b[1] - a[1])
         u = ((b[0] - a[0]) / L, (b[1] - a[1]) / L)
         for k in range(3):
             t = (k + 1) / 4 + rnd.uniform(-0.08, 0.08)
             c = (a[0] + u[0] * L * t - u[1] * rnd.uniform(-120, 120), a[1] + u[1] * L * t + u[0] * rnd.uniform(-120, 120))
-            zt = za + (zb - za) * t - 96 - rnd.uniform(60, 200) - 5 * k - 1.5
+            zt = SP.span_top(spans, (a[0] + u[0] * L * t, a[1] + u[1] * L * t)) - 96 - rnd.uniform(60, 200) - 5 * k - 1.5
             r = rnd.uniform(240, 380)
             pts = ccw(ring(c[0], c[1], r, 10, rnd.uniform(0, 1), ry=r * 0.7))
             rise = rnd.uniform(120, 220)
             ph = rnd.uniform(0, 2 * math.pi)
             hs = [int(rise * (0.92 + 0.08 * math.cos(2 * math.pi * j / len(pts) + ph))) for j in range(len(pts))]   # a tilted top
+            zt = clear_band(pts, zt, max(hs) - min(hs), laid)
+            laid.append((pts, zt - (max(hs) - min(hs)), zt))
             out.append({'id': f"platform:{key(l['id'])}_wisp{k + 1}", 'outline': [ipt(v) for v in pts],
                         'base': int(round(zt - rise - FLOOR)), 'rise': min(hs), 'top_heights': hs,
                         'surface': CLOUD_SIDE, 'top_surface': CLOUD_TOP, 'bottom_surface': CLOUD_SIDE, 'solid': False})
@@ -528,10 +585,11 @@ def standing_stones():
         out.append(block(f'platform:eye_stone{k + 1}', at, (w, d), EYE_FL - 64, h + 64, MENHIR, MENHIR, facing=fac,
                          top_size=[mult(w * 0.75, q), mult(d * 0.8, q)],
                          notes="The Eye's standing stones (twelve with the gate's two)." if k == 0 else None))
-    out.append(block('platform:eye', EYE_AT, (768, 768), EYE_FL, 2, MARBLE, MARBLE, facing=0,
+    out.append(block('platform:eye', EYE_AT, (768, 768), EYE_FL - SINK, 2 + SINK, MARBLE, MARBLE, facing=0,
                      notes="The eye: a calm circle of cloud-stone where the guardians form (landmark:eye)."))
     tp = PLACE['poi:test']['at']
-    out.append(block('platform:test_plate', (tp[0] + 96, tp[1]), (256, 256), EYE_FL, 4, MARBLE, MARBLE,
+    out.append(block('platform:test_plate', (tp[0] + 96, tp[1]), (256, 256), EYE_FL - SINK,
+                     plate_top((tp[0] + 96, tp[1]), EYE_FL, 128) - EYE_FL + SINK, MARBLE, MARBLE,
                      notes="The test's floor before S's pedestal (poi:test): stepping on asks 'Accept the test of Air?'."))
     return out
 
@@ -557,7 +615,7 @@ def dome():
                          notes="The dome, stepping in (open on all sides)." if k == 0 else None))
         z += h - 8
     dp = PLACE['exit:dais']['at']
-    out.append(prism('platform:dais', ring(dp[0], dp[1], 224, 12), AERIE_FL, 8, MARBLE, MARBLE,
+    out.append(prism('platform:dais', ring(dp[0], dp[1], 224, 12), AERIE_FL - SINK, 8 + SINK, MARBLE, MARBLE,
                      notes="The return dais (exit:dais): shown once the Air Sleeper is awake (qbit 111761)."))
     return out
 
@@ -582,7 +640,7 @@ def devices():
     out = []
     # the updraft: a disc of wind in a ring of white stones
     wx, wy = WAY_UP
-    out.append(prism('platform:way_up', ring(wx, wy, 176, 12), 0, 4, MARBLE, WIND,
+    out.append(prism('platform:way_up', ring(wx, wy, 176, 12), -SINK, 4 + SINK, MARBLE, WIND,
                      notes="The updraft (exit:way_up): wind blowing straight up in a ring of white stones."))
     for k in range(8):
         th = 2 * math.pi * (k + 0.5) / 8
@@ -614,11 +672,39 @@ def devices():
     return out
 
 
+def deck_top(c, half):
+    """The highest bridge deck top over a square of `half` round c, or None (F62: a plate on a bridge's landing lay in
+    its plane: geometry.coplanar)."""
+    best = None
+    for e in bridges():
+        if 'size' not in e:
+            continue
+        f = math.radians(e['facing'])
+        for dx in (-half, 0, half):
+            for dy in (-half, 0, half):
+                pt = (c[0] + dx, c[1] + dy)
+                if not PG.point_in(pt, foot(e)):
+                    continue
+                z = FLOOR + e['base'] + e['rise']
+                if 'top_heights' in e:
+                    u = ((pt[0] - e['at'][0]) * math.cos(f) + (pt[1] - e['at'][1]) * math.sin(f)) / e['size'][0] + 0.5
+                    h = e['top_heights']
+                    z = FLOOR + e['base'] + h[0] + (h[1] - h[0]) * u
+                best = z if best is None else max(best, z)
+    return best
+
+
+def plate_top(c, z, half):
+    """A plate's top: 4 over its island, or over a bridge's landing it lies on."""
+    d = deck_top(c, half)
+    return max(z, d if d is not None else z) + 4
+
+
 def storm_plates():
     out = []
     for i, c in enumerate(D['hazard']['cells']):
         z = FLOOR_OF[PL.space_of(c)]
-        out.append(block(f'platform:storm{i + 1}', c, (192, 192), z, 4, RIM, SCORCH,
+        out.append(block(f'platform:storm{i + 1}', c, (192, 192), z - SINK, plate_top(c, z, 96) - z + SINK, RIM, SCORCH,
                          notes="A storm cell (D-58 P2 Q2): a PressurePlate face, xpascorch, planes.storm." if i == 0
                          else None))
     return out

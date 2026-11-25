@@ -32,7 +32,7 @@ npcs:
         states:
           - when: {qbit: m2.started}
             text: "Joe swears he has the situation under control. He has sworn it for two years."
-          - text: "Welcome to Vertigo. Sadly, most of the population has left because the town is infested with pests. A couple years ago I hired Joe the exterminator to rid the town of this menace, but the problem seems to be getting worse. Perhaps you could help."
+          - text: "Welcome to Vertigo. Sadly, most of the population has left because of the pests. They are pouring out of Joe's warehouse, across the bridge, and into my streets. A couple years ago I hired Joe the exterminator to rid the town of this menace, but the problem seems to be getting worse. Perhaps you could help clear it out."
             do: [{set: started}]
 
 hooks:
@@ -41,7 +41,7 @@ hooks:
     where: "first arrival in Vertigo's square (X1's one-shot timer, today evt:gunther_errand, which must call this hook): the new game's script; also opens Vertigo's inn roster"
     sets: [opening, started, world.inn_vertigo]
     once: true
-    text: "Vertigo. For weeks you dreamt of an old man in a dark tower who begged you to finish \"the sword\". Then a bolt from the sky destroyed Newcastle, and you woke here among its survivors. Mayor Gunther asks your help: slimes and doom bugs plague the town. The town hall is on the main street."
+    text: "Vertigo. For weeks you dreamt of an old man in a dark tower who begged you to finish \"the sword\". Then a bolt from the sky destroyed Newcastle, and you woke here among its survivors. Mayor Gunther asks your help: slimes and doom bugs pour into the town from Joe's warehouse. The town hall is on the main street."
   crodo_bottle_creek:
     map: X1
     where: "a bottle in the reeds of Pitchfork Creek, below the bridge"

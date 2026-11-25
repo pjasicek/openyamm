@@ -41,7 +41,7 @@ heights:
     - {at: [46, 41], h: 1900, notes: the eyrie's mouth}
     - {at: [42, 47], h: 1500, notes: the eyrie path under the crags}
     - {at: [40, 53], h: 1350, notes: Carlawna's hut}
-    - {at: [24, 55], h: 1350, notes: the barbarian camp}
+    - {at: [28, 53], h: 1350, notes: the barbarian camp}
     - {at: [20, 60], h: 1150, notes: the X6 arrival}
     - {at: [36, 62], h: 1200, notes: the west fork}
     - {at: [48, 66], h: 1350, notes: the obelisk's knoll}
@@ -206,7 +206,7 @@ roads:
     line: [[62.5, 76], [62, 84], [60, 92], [57, 100], [56, 102]]
     width: lane
   - link: link:barbarian_track
-    line: [[28, 61], [26, 57.5], [24.5, 56]]
+    line: [[28, 61], [29, 57.5], [28.5, 55.5]]
     width: lane
 districts:
   - space: town:burlock_castle
@@ -250,7 +250,7 @@ districts:
       - {building: building:asp_houses, index: 4, at: [38, 89], facing: n, house: 4180, kit: timber}
       - {building: building:asp_houses, index: 5, at: [43.5, 89], facing: n, house: 4181, kit: plaster}
       - {building: building:asp_houses, index: 6, at: [45, 89], facing: n, house: 4182, kit: poor}
-      - {building: building:asp_houses, index: 7, at: [46.5, 86], facing: w, house: 4183, kit: grey}
+      - {building: building:asp_houses, index: 7, at: [46.5, 86], facing: n, house: 4183, kit: grey}
       - {building: building:asp_houses, index: 8, at: [47, 89], facing: n, house: 4184, kit: poor}
       - {building: building:asp_houses, index: 9, at: [45, 80], facing: s, house: 4185, kit: poor}
       - {building: building:asp_houses, index: 10, at: [35.5, 90], facing: e, house: 4186, kit: timber}
@@ -318,7 +318,7 @@ points:
   - {id: poi:carlawna, at: [40, 54], notes: Carlawna (4303) at her hut's door.}
   - {id: poi:falagar, at: [100, 62], notes: Falagar (4304) at his hut's door.}
   - {id: poi:joe_caravan, at: [87, 87], notes: Joe the Merchant (4320) at his wagon on the river road.}
-  - {id: poi:barbarian_camp, at: [24, 55]}
+  - {id: poi:barbarian_camp, at: [28, 53]}
   - {id: poi:nystor_landing, at: [81, 101]}
   - {id: poi:autumn_druid, at: [26, 70], notes: The Autumn Druid (4321) in her ring of stones.}
   - {id: poi:asp_well, at: [41, 85]}
@@ -370,49 +370,259 @@ points:
   - {id: poi:signposts, index: 5, at: [49, 83]}
 areas:
   - id: pop:range_west
-    count: 9
+    index: 1
+    kind: encounter
+    count: 1
     slot: 3
-    polygon: [[20, 34], [41, 34], [41, 46], [38, 47], [28, 49], [20, 50]]
+    circle: {at: [26, 48], r: 0.5}
     notes: "Gargoyles (16/22/28) along the range foot and round the eyrie path; none within 6 cells of the castle."
-  - id: pop:range_east
-    count: 9
+  - id: pop:range_west
+    index: 2
+    kind: encounter
+    count: 1
     slot: 3
-    polygon: [[74, 32], [109, 32], [109, 56], [102, 56], [96, 48], [88, 48], [82, 50], [76, 48], [74, 44]]
+    circle: {at: [27, 35], r: 0.5}
+  - id: pop:range_west
+    index: 3
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [31, 47], r: 0.5}
+  - id: pop:range_west
+    index: 4
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [33, 38], r: 0.5}
+  - id: pop:range_west
+    index: 5
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [39, 38], r: 0.5}
+  - id: pop:range_west
+    index: 6
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [22, 44], r: 0.5}
+  - id: pop:range_west
+    index: 7
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [23, 47], r: 0.5}
+  - id: pop:range_west
+    index: 8
+    kind: encounter
+    count: 2
+    slot: 3
+    circle: {at: [39, 46], r: 1}
+  - id: pop:range_east
+    index: 1
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [87, 33], r: 0.5}
     notes: "Gargoyles over the falls, the roost and the lava fields; the Olympian Fountain is the lure."
+  - id: pop:range_east
+    index: 2
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [75, 38], r: 0.5}
+  - id: pop:range_east
+    index: 3
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [103, 38], r: 0.5}
+  - id: pop:range_east
+    index: 4
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [101, 34], r: 0.5}
+  - id: pop:range_east
+    index: 5
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [94, 44], r: 0.5}
+  - id: pop:range_east
+    index: 6
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [103, 36], r: 0.5}
+  - id: pop:range_east
+    index: 7
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [84, 48], r: 0.5}
+  - id: pop:range_east
+    index: 8
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [105, 40], r: 0.5}
+  - id: pop:range_east
+    index: 9
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [76, 46], r: 0.5}
   - id: pop:red_hills
-    count: 8
+    index: 1
+    kind: encounter
+    count: 2
     slot: 2
-    polygon: [[97, 78], [109, 76], [109, 109], [103, 109], [99, 101], [100, 95], [100, 88], [98, 82]]
+    circle: {at: [105, 89], r: 1}
     notes: "Ogres (18/22/30) in the red dwarf hills round their camp; no marker within 4 cells of the adit; the west side cut back so no marker stands within 5,888 of Joe's caravan (D-85)."
-  - id: pop:south_fields
-    count: 9
-    slot: 1
-    polygon: [[46, 92], [56, 88], [66, 82], [76, 80], [77, 96], [76, 109], [44, 109], [42, 100]]
-    notes: "Burlock knights gone bad: Jousters 14, Yang Knights 20, Knight Captains 26 roam the jousting fields."
-  - id: pop:west_downs
-    count: 4
+  - id: pop:red_hills
+    index: 2
+    kind: encounter
+    count: 1
     slot: 2
-    polygon: [[19, 76], [32, 76], [33, 92], [30, 109], [19, 109]]
+    circle: {at: [109, 90], r: 0.5}
+  - id: pop:red_hills
+    index: 3
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [98, 82], r: 0.5}
+  - id: pop:red_hills
+    index: 4
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [103, 81], r: 0.5}
+  - id: pop:red_hills
+    index: 5
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [103, 103], r: 0.5}
+  - id: pop:red_hills
+    index: 6
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [104, 108], r: 0.5}
+  - id: pop:red_hills
+    index: 7
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [105, 105], r: 0.5}
+  - id: pop:south_fields
+    index: 1
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [68, 84], r: 0.5}
+    notes: "Burlock knights gone bad: Jousters 14, Yang Knights 20, Knight Captains 26 roam the jousting fields."
+  - id: pop:south_fields
+    index: 2
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [56, 98], r: 0.5}
+  - id: pop:south_fields
+    index: 3
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [71, 87], r: 0.5}
+  - id: pop:south_fields
+    index: 4
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [44, 98], r: 0.5}
+  - id: pop:south_fields
+    index: 5
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [62, 104], r: 0.5}
+  - id: pop:south_fields
+    index: 6
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [67, 93], r: 0.5}
+  - id: pop:south_fields
+    index: 7
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [59, 108], r: 0.5}
+  - id: pop:south_fields
+    index: 8
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [72, 104], r: 0.5}
+  - id: pop:south_fields
+    index: 9
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [57, 106], r: 0.5}
+  - id: pop:west_downs
+    index: 1
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [32, 85], r: 0.5}
     notes: "Ogres on the downs west of Asp, round the old cemetery."
+  - id: pop:west_downs
+    index: 2
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [22, 102], r: 0.5}
+  - id: pop:west_downs
+    index: 3
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [22, 98], r: 0.5}
+  - id: pop:west_downs
+    index: 4
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [29, 108], r: 0.5}
   - id: pop:pair_river_road
+    index: 1
+    kind: encounter
     count: 2
     slot: 1
-    polygon: [[88, 100], [90, 100], [90, 103], [88, 103]]
+    circle: {at: [90, 101], r: 1}
     notes: "D-11.2: a pair of renegade knights on the Rivercity road just past the landing fork (D-85: moved off the river road, out of missile range of Joe's caravan)."
   - id: pop:pair_firestone_road
+    index: 1
+    kind: encounter
     count: 2
     slot: 2
-    polygon: [[92, 71], [96, 71], [96, 75], [92, 75]]
+    circle: {at: [92, 73], r: 1}
     notes: "D-11.2: a pair of ogres on the Firestone road east of the east fork."
   - id: pop:pair_west_ogres
+    index: 1
+    kind: encounter
     count: 1
     slot: 2
-    polygon: [[40, 62], [43, 62], [43, 65], [40, 65]]
+    circle: {at: [40, 64], r: 0.5}
     notes: "D-11.2: the west road's pair, an ogre band below the obelisk's knoll ..."
   - id: pop:pair_west_knights
+    index: 1
+    kind: encounter
     count: 1
     slot: 1
-    polygon: [[52, 70], [55, 70], [55, 73], [52, 73]]
+    circle: {at: [53, 72], r: 0.5}
     notes: "... and a knight band nearer Burlock Cross (one marker each: the pair is a downs marker and a fields marker)."
   - id: town:burlock
     kind: keep_clear
@@ -451,9 +661,9 @@ views:
   - {id: view:arrival, at: [96, 107], height: 180, look: [80, 84], purpose: "MU-4 arrival view from X2's road: the river valley north-west, Nystor's landing and the jetty on the left, the Rivercity road bending to the landing fork, Joe's caravan by the river road beyond, the red dwarf hills on the right, and the Gargoyle Range's bare peaks across the horizon."}
   - {id: view:signature, at: [69, 74], height: 300, look: [63, 46], purpose: "MU-4 signature view: from the south end of the jousting lists, north over the lists to the walled village and Castle Burlock on its rise, the Gargoyle Range's peaks behind and the falls on the right."}
 actors:
-  - {monster: "11100", at: [24, 55], count: 4, spread: 2, group: 1, hostile: true, notes: Barbarians 14 at the camp to burn.}
-  - {monster: "11101", at: [25, 56], count: 1, spread: 1, group: 1, hostile: true, notes: A Sardaj Warrior 20.}
-  - {monster: "11102", at: [23.5, 54], count: 1, spread: 0, group: 1, hostile: true, notes: The Barbarian Chief 28 by the chest.}
+  - {monster: "11100", at: [28, 53], count: 4, spread: 2, group: 1, hostile: true, notes: Barbarians 14 at the camp to burn.}
+  - {monster: "11101", at: [29, 54], count: 1, spread: 1, group: 1, hostile: true, notes: A Sardaj Warrior 20.}
+  - {monster: "11102", at: [27.5, 52], count: 1, spread: 0, group: 1, hostile: true, notes: The Barbarian Chief 28 by the chest.}
   - {monster: "11060", at: [106, 86], count: 3, spread: 2, group: 2, hostile: true, notes: Ogres 18 at their camp in the hollow.}
   - {monster: "11061", at: [107, 87], count: 1, spread: 1, group: 2, hostile: true, notes: An Ogre Brute 22.}
   - {monster: "11140", at: [56, 103], count: 3, spread: 2, group: 3, hostile: true, notes: Jousters 14 at the renegade knights' camp.}

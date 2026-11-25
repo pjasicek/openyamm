@@ -91,6 +91,8 @@ _TOWN = yaml.safe_load(open(os.path.join(os.path.dirname(os.path.realpath(__file
 # X4_ASP_OPEN=1: Asp as after q-c5.done (no closed texts), for town_feel's measure of Asp's houses only (never installed)
 CLOSED = {} if os.environ.get('X4_ASP_OPEN') else {
     h['id']: h['closed_text'] for h in _TOWN['houses'] if h.get('opens') == 'q-c5.done' and h['id'] != 4177}
+# D-150: Nystor's Landing, the boat back to Rivercity (A4's house whose door is the landing's mooring post)
+NYSTOR_HOUSE = next((h['id'] for h in _TOWN['houses'] if h.get('door') == 'thing:nystor_post'), None)
 
 
 def W(x, y):
@@ -216,6 +218,13 @@ for space, bid, service, house, fp, at, facing, kit in L1.HUTS:
 
 
 # ---------------------------------------------------------------- structures
+# the barbarian camp's dress (bones, a skull pile): gone once the camp is burnt (D-152)
+# D-142 (2026-11-25): the whole camp 4 cells east and 2 north of where it stood (its fighters were 2,632-3,776 from
+# the X6 edge arrival (20, 60), the floor 4,096); land.py's flat, ground and calm and gen_l1's track moved with it
+BARBARIAN_DRESS = [('7dec18', (29.6, 54.6)), ('sklplrev', (25.6, 53.4)), ('7dec20', (30.2, 52.6))]
+BARBARIAN_DRESS_IDS = ['thing:barbarian_dress_%d' % (i + 1) for i in range(len(BARBARIAN_DRESS))]
+
+
 def structures():
     out = []
     S = out.append
@@ -340,13 +349,20 @@ def structures():
             s['effects'] = [hook('x4.sign_asp')]
         S(s)
     # ======== the King's Bridge over the river and its cairn (D-11.5)
-    S({'id': 'thing:kings_bridge', 'kind': 'bridge', 'line': [[76.6, 76], [84.4, 76]], 'width': 640,
+    # F67 p1 (2026-11-25): on y 76.5, the middle of the road's tile row (a road line on a node line lays its tiles in
+    # the row south of it, y 76-77): the deck at y 76 met the road with half its width beside it
+    S({'id': 'thing:kings_bridge', 'kind': 'bridge', 'line': [[76.6, 76.5], [84.4, 76.5]], 'width': 640,
        'arches': {'count': 3, 'rise': 192, 'form': 'segment', 'pier_width': 256}, 'kerb': 96,
        'textures': {'deck': 'cwb', 'side': 'cwb1', 'pier': 'cwb1'}, 'title': "The King's Bridge"})
     S(deco('thing:bridge_cairn', 'rock26', (77.2, 77.6)))     # D-20: dressing (no click)
     # ======== the falls and the Olympian Fountain (+2 Might, permanent, once)
+    # F67 p3/p4 (2026-11-25): the sheet leans out (`lean`), as the shipped falls and the rim falls do: an upright water
+    # face is drawn with a level face's waves and read as a plain dark slab; the top water reaches only over the cut
+    # row before the lip (back 768: it lay 1,088 up the tarn, 2 over its water) and the foot water only a half cell
+    # out into the pool (768 before, a second slab over the pool's water)
     S({'id': 'thing:falls', 'kind': 'waterfall', 'line': [[80.5, 40.2], [80.5, 42.5]], 'top': LD.TARN_H,
-       'foot': LD.RIVER_LVL, 'width': 1024, 'back': 1088, 'pool': 768, 'spread': 1.4, 'title': 'The falls'})
+       'foot': LD.RIVER_LVL, 'width': 1024, 'back': 768, 'pool': 256, 'lean': 448, 'spread': 1.3,
+       'title': 'The falls'})
     S({'id': 'thing:olympian_fountain', 'kind': 'fountain', 'at': [75.5, 48.0], 'title': 'Olympian Fountain',
        'tiers': [[96, 48]], 'textures': {'wall': 'chb1'},
        'condition': {'not': {'map_var': 'olympian_drunk'}},
@@ -397,19 +413,21 @@ def structures():
     S({'id': 'thing:druid_ring', 'kind': 'stone_ring', 'at': [26, 70], 'radius': 640, 'count': 6, 'lintel': False,
        'title': "The Autumn Druid's ring"})
     # ======== the barbarian camp to burn (x4.barbarian_camp)
-    burn = ('if IsQBitSet(QBit(116060)) then evt.StatusText("Charred poles and wet ash.", 4) return end '
-            'if continueStep == 1 then XeenQuests.hook("x4.barbarian_camp") return end '
-            'if continueStep ~= nil then evt.StatusText("You leave the camp standing, for now.", 4) return end '
-            'AskChoiceWithAnswerSteps(eventId, 3, "You have stumbled upon a Barbarian encampment. Burn?", '
-            '{{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})')   # D-72: the source question as Yes/No buttons
-    for i, (x, y, w, d) in enumerate([(22.4, 53.2, 896, 704), (25.4, 53.0, 768, 640), (22.8, 56.4, 768, 640)]):
+    # D-144 (F69b): a click burns it, the hook's line on the status line; the source's "You have stumbled upon a
+    # Barbarian encampment. Burn?" was a free Yes/No whose No changed nothing (no cost, no war or peace)
+    # D-152: the tents stay drawn after the burn, so the after-line says what is drawn; the bones and the skull pile
+    # go with the camp (and stay gone: evt:barbarian_camp_burnt)
+    burn = ('if IsQBitSet(QBit(116060)) then evt.StatusText("Scorched planks. The barbarians will not camp here '
+            'again.", 4) return end XeenQuests.hook("x4.barbarian_camp") '
+            + ' '.join('HideThing("%s")' % t for t in BARBARIAN_DRESS_IDS))
+    for i, (x, y, w, d) in enumerate([(26.4, 51.2, 896, 704), (29.4, 51.0, 768, 640), (26.8, 54.4, 768, 640)]):
         S({'id': 'thing:barbarian_tent_%d' % (i + 1), 'kind': 'tent', 'at': [x, y], 'size': [w, d], 'height': 384,
            'title': 'Barbarian tent', 'open': i != 1, 'lua': burn})
-    S(deco('thing:barbarian_fire', 'cmpfyr00', (24.4, 55.4), title='Campfire'))
-    S({'id': 'thing:barbarian_chest', 'kind': 'chest', 'at': [24.4, 54.75], 'title': "The chief's chest",
+    S(deco('thing:barbarian_fire', 'cmpfyr00', (28.4, 53.4), title='Campfire'))
+    S({'id': 'thing:barbarian_chest', 'kind': 'chest', 'at': [28.4, 52.75], 'title': "The chief's chest",
        'chest': {'level': 3, 'random_items': 3}})
-    for i, (d, at) in enumerate([('7dec18', (25.6, 56.6)), ('sklplrev', (21.6, 55.4)), ('7dec20', (26.2, 54.6))]):
-        S(deco('thing:barbarian_dress_%d' % (i + 1), d, at))
+    for i, (d, at) in enumerate(BARBARIAN_DRESS):
+        S(deco(BARBARIAN_DRESS_IDS[i], d, at))
     # ======== the renegade knights' camp (burn: a line and experience) and the quintain field
     for i, (x, y) in enumerate([(55.0, 102.0), (57.6, 102.2)]):
         S({'id': 'thing:knight_tent_%d' % (i + 1), 'kind': 'tent', 'at': [x, y], 'size': [768, 640], 'height': 416,
@@ -435,7 +453,8 @@ def structures():
                    {'add': {'var': 'Experience', 'value': 1500}},
                    status("You scatter the ogres' fire into their bedding and the camp burns. (+1,500 experience)")],
        'else_effects': [{'text': 'Ashes and gnawed bones.'}]})
-    S({'id': 'thing:ogre_chest', 'kind': 'chest', 'at': [106.5, 85.6], 'title': "The ogres' loot",
+    S({'id': 'thing:ogre_chest', 'kind': 'chest', 'at': [107.3, 84.6],   # out of the ogres' spread (check_spawn_clear)
+        'title': "The ogres' loot",
        'chest': {'level': 3, 'random_items': 2}})
     for i, (d, at) in enumerate([('7dec18', (104.8, 86.8)), ('dec19', (107.4, 87.2)), ('7rock08', (104.6, 84.6))]):
         S(deco('thing:ogre_dress_%d' % (i + 1), d, at))
@@ -465,7 +484,9 @@ def structures():
        **({'into': into('xeen_xd26.blv', XD26_ARRIVAL)} if XD26_LIVE else
           {'effects': [msg('Wings beat somewhere far up inside the mountain. A slide of fresh scree chokes the way in.')]}),
        'notes': 'XD-26 Gargoyle Eyrie (A7): its mouth leads back here (DOORS.md).'})
-    for i, (d, at) in enumerate([('7dec18', (45.0, 42.2)), ('dec19', (47.2, 42.4)), ('sklplrev', (44.6, 41.4))]):
+    # the skull pile 0.9 west and 0.4 north (2026-11-25, town_fit decorations.slope): at (44.6, 41.4) its rim reached
+    # the cave mouth's own land (1,792 at node (45, 42)), which wins over its level pad; it stood 40-57 over its rim
+    for i, (d, at) in enumerate([('7dec18', (45.0, 42.2)), ('dec19', (47.2, 42.4)), ('sklplrev', (43.7, 41.0))]):
         S(deco('thing:eyrie_bones_%d' % (i + 1), d, at))
     S({'id': 'thing:sky_crack_ledge', 'kind': 'platform', 'at': [49.5, 35.5], 'size': [768, 512], 'height': 32,
        'textures': {'top': 'cwb', 'wall': 'cwb1'}, 'title': 'A ledge high on Gargoyle Peak',
@@ -523,14 +544,20 @@ def structures():
        'title': "Joe's wagon", 'open': True})
     for i, (d, at) in enumerate([('bigbarel', (89.2, 87.9)), ('7dec21', (89.5, 87.9)), ('haybale2', (87.6, 85.6))]):
         S(deco('thing:joe_dress_%d' % (i + 1), d, at))
-    S({'id': 'thing:nystor_jetty', 'kind': 'bridge', 'line': [[82.0, 101.0], [79.4, 101.0]], 'width': 384,
+    # D-174 (xeen-fb4-outdoor9): the land end on node line 83 (as installed since D-170): on line 82 the deck's
+    # quarter-width edge ran past the lake's corner node (82, 102) at 640 and the end stood 39 over the land beyond
+    # (town_fit bridges.step) once common/wild.py stopped taking the jetty's own cut for water
+    S({'id': 'thing:nystor_jetty', 'kind': 'bridge', 'line': [[83.0, 101.0], [79.4, 101.0]], 'width': 384,
        'height': LD.BANK + 32, 'kerb': 0, 'textures': {'deck': 'trim11_32'}, 'title': "Nystor's jetty"})
     S({'id': 'thing:nystor_post', 'kind': 'sign', 'at': [82.4, 100.4], 'height': 256, 'width': 128,
        'title': "Captain Nystor's landing",
        'condition': {'qbit': 'nystor_upriver'},
-       'effects': [msg('Captain Nystor\'s boat calls here on its way upriver. Ask at his dock in Rivercity.')],
        'else_effects': [msg("A mooring post with Captain Nystor's mark. \"Closed until the ogres stop throwing "
-                            "boulders.\"")]})
+                            "boulders.\"")],
+       # D-150: the post is the door of the boat back to Rivercity (A4's x4.yml house 4187, route 434, q-c23.done),
+       # closed as the Asp houses are until then; before A4's row lands, its old line
+       **({'house': NYSTOR_HOUSE} if NYSTOR_HOUSE else
+          {'effects': [msg('Captain Nystor\'s boat calls here on its way upriver. Ask at his dock in Rivercity.')]})})
     S({'id': 'thing:nystor_boathouse', 'kind': 'building', 'at': [83, 98.5], 'size': [2, 1.5], 'kit': 'timber',
        'facing': 'w', 'door': 'none', 'title': "Nystor's boathouse",
        'parts': [{'id': 'house', 'at': [48, 48], 'size': [928, 672], 'wall_height': 320, 'roof': 'gable',
@@ -600,13 +627,17 @@ def actors():
     out = []
     A = out.append
     # placed hostiles (L1 ACTORS): the barbarian camp, the ogres' camp, the renegade knights' camp
-    A({'monster': BARBARIAN_ROWS['barbarian'], 'at': [24.0, 56.4], 'count': 4, 'spread': 1.4, 'group': 61,
+    # 2026-11-25 (oymap: "an actor stands inside thing:barbarian_tent_3", x 22.18-23.43): the four east of the tent,
+    # [24.0, 56.4] spread 1.4 before
+    A({'monster': BARBARIAN_ROWS['barbarian'], 'at': [28.7, 54.8], 'count': 4, 'spread': 0.9, 'group': 61,
        'hostile': True})
-    A({'monster': BARBARIAN_ROWS['warrior'], 'at': [25.6, 55.2], 'count': 1, 'spread': 0, 'group': 61, 'hostile': True})
-    A({'monster': BARBARIAN_ROWS['chief'], 'at': [23.4, 55.0], 'count': 1, 'spread': 0, 'group': 61, 'hostile': True})
-    A({'monster': OGRE_ROWS['ogre'], 'at': [106.0, 87.0], 'count': 3, 'spread': 1.2, 'group': 62, 'hostile': True})
+    A({'monster': BARBARIAN_ROWS['warrior'], 'at': [29.6, 53.2], 'count': 1, 'spread': 0, 'group': 61, 'hostile': True})
+    A({'monster': BARBARIAN_ROWS['chief'], 'at': [27.4, 53.0], 'count': 1, 'spread': 0, 'group': 61, 'hostile': True})
+    # D-142 (X4 rebuilt under it): XD-02's adit exit (103, 95) keeps 4,096 from the ogres (one stood at 3,993)
+    A({'monster': OGRE_ROWS['ogre'], 'at': [106.6, 86.4], 'count': 3, 'spread': 0.9, 'group': 62, 'hostile': True})
     A({'monster': OGRE_ROWS['brute'], 'at': [105.2, 85.4], 'count': 1, 'spread': 0, 'group': 62, 'hostile': True})
-    A({'monster': KNIGHT_ROWS['jouster'], 'at': [56.4, 102.6], 'count': 3, 'spread': 1.2, 'group': 63,
+    # F63 (check_spawn_clear): south of the pavilions, out of tent 2's walls ([56.4, 102.6] spread 1.2 before)
+    A({'monster': KNIGHT_ROWS['jouster'], 'at': [56.2, 103.9], 'count': 3, 'spread': 0.8, 'group': 63,
        'hostile': True})
     A({'monster': KNIGHT_ROWS['leader'], 'at': [57.0, 103.8], 'count': 1, 'spread': 0, 'group': 63, 'hostile': True})
     # Burlock's people: D-96's villagers (gen.py fills these places, villagers.yml); the King's Guard (friendly)
@@ -632,6 +663,9 @@ def relations():
 
 def events():
     ev = []
+    ev.append({'id': 'evt:barbarian_camp_burnt', 'trigger': 'load', 'condition': {'lua': 'IsQBitSet(QBit(116060))'},
+               'effects': [{'hide': t} for t in BARBARIAN_DRESS_IDS],
+               'notes': 'x4.barbarian_camp (D-144, D-152): the burnt camp keeps its bones and skull pile gone.'})
     # the pedestals' caps on entering the map, from the map's variables (blue or red shown)
     for i in range(1, 9):
         pid = 'thing:pedestal_%d' % i

@@ -90,14 +90,20 @@ class SunkenEntrance:
     into the arch as a grass slope under the dark face); the mouth sits DRY_SINK under the floor so its tunnel water
     lies under the land (a dry ditch shows no flat strip of water); the revetments reach down to the floor (they hung
     over it); the outfall's block has cheeks over its tunnel's sides between the headwall and the cap (seen from the
-    creek its side showed the tunnel cut through)."""
+    creek its side showed the tunnel cut through).
+
+    D-170 (2026-11-25, `faces.on_land`): with `bank` the land nodes beside the ditch (columns x0 - 1 and x1 + 1 on its
+    floor rows) stand at that height, so the revetments' tops (16 under `top`), the end face and the cap stand over the
+    land they retain (X1's bank at 640 lay over the revetments' tops and round the end face's corners: their top faces
+    crossed the land and flickered with it). Pick `bank` and `revet_to` so the land under each revetment stays 4 or
+    more under its top. Left out, the land is the land words' (X4)."""
 
     THICK = 112           # the mouth's headwall
     DEPTH = 16            # the dark face behind it
     DRY_SINK = 16         # a dry mouth's floor under the ditch's floor: its tunnel water stays under the land
 
     def __init__(self, name, x0, x1, face_y, floor_to, ramp_to, ground, top, depth=PARTY_H + 32, back_to=None,
-                 revet_to=None, texture='cwb', land=None, revet_thick=CELL, under=0):
+                 revet_to=None, texture='cwb', land=None, revet_thick=CELL, under=0, bank=None):
         self.name, self.x0, self.x1 = name, x0, x1
         self.face_y, self.floor_to, self.ramp_to = face_y, floor_to, ramp_to
         self.ground, self.floor, self.top = ground, ground - depth, top
@@ -108,10 +114,16 @@ class SunkenEntrance:
         self.rows = range(int(face_y) - under, floor_to + 1)
         assert face_y == int(face_y), 'the end face stands on a whole row of floor nodes'
         assert under * CELL >= self.THICK + self.DEPTH or under == 0, 'the cut rows behind reach past the dark face'
+        assert bank is None or bank % 32 == 0, "the bank is a whole number of the nodes block's units (32)"
+        self.bank = bank
 
     def node(self, i, j):
-        """A node's height after the cut (the floor's, else the land's)."""
-        return self.floor if self.x0 <= i <= self.x1 and j in self.rows else self.land(i, j)
+        """A node's height after the cut (the floor's, the bank's beside it, else the land's)."""
+        if j in self.rows and self.x0 <= i <= self.x1:
+            return self.floor
+        if j in self.rows and self.bank is not None and i in (self.x0 - 1, self.x1 + 1):
+            return self.bank
+        return self.land(i, j)
 
     def stored(self, x, y):
         return bilinear(self.node, x, y)
@@ -119,10 +131,15 @@ class SunkenEntrance:
     def nodes(self):
         """The heights.nodes block: the floor's nodes (applied after the land words; keep roads and water off)."""
         unit = 32
-        return {'at': [self.x0, self.rows[0]], 'unit': unit,
-                'rows': [[round(self.floor / unit)] * (self.x1 - self.x0 + 1) for _ in self.rows],
-                'notes': 'D-95: the %s\'s sunken approach, %d under the land; its ramp rises south to row %s.'
-                         % (self.name, self.ground - self.floor, self.ramp_to)}
+        row = [round(self.floor / unit)] * (self.x1 - self.x0 + 1)
+        notes = 'D-95: the %s\'s sunken approach, %d under the land; its ramp rises south to row %s.' % (
+            self.name, self.ground - self.floor, self.ramp_to)
+        if self.bank is not None:
+            # D-170: the bank's nodes either side, under the revetments' tops
+            row = [self.bank // unit] + row + [self.bank // unit]
+            notes += " D-170: the bank beside it at %d, under the revetments' tops (%d)." % (self.bank, self.top - 16)
+        return {'at': [self.x0 - (1 if self.bank is not None else 0), self.rows[0]], 'unit': unit,
+                'rows': [list(row) for _ in self.rows], 'notes': notes}
 
     def backing(self, tag, xm, width, front, facing, thick, depth, top, to_y, sink=0):
         """The cap and lintel behind a mouth whose front is at row `front` looking `facing` (+1 south, -1 north):

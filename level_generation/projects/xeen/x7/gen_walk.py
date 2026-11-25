@@ -213,13 +213,9 @@ go(28.1, 103.4, 'The Well of Speed')
 event('evt:thing:well_speed', "The Well of Speed: +2 Speed once, A3's x7.well_speed (player bit 11338)")
 event('evt:thing:well_speed', "Again: A3's x7.well_speed_again")
 go(33.0, 88.4, 'The orc outpost')
-event('evt:thing:outpost_fire', '"You have found an Orc Outpost. Put it to the torch?" (xeen/aaze0018:3) after the '
-      'look, Yes/No buttons (D-72): No leaves it standing', dialog=False, answer='No',
-      prompt='You have found an Orc Outpost. Put it to the torch?',
-      check='if qbit(116160) then error("No burned the outpost") end')
-event('evt:thing:outpost_fire', '"You have found an Orc Outpost. Put it to the torch?" (xeen/aaze0018:3): Yes',
-      answer='Yes', prompt='You have found an Orc Outpost. Put it to the torch?', check='if not qbit(116160) then error("x7.outpost_burned not set") end')
-event('evt:thing:outpost_fire', "Burnt: A3's else text", dialog=True)
+event('evt:thing:outpost_fire', 'D-144: a click burns the outpost (the hook\'s line on the status line)',
+      check='if not qbit(116160) then error("x7.outpost_burned not set") end')
+event('evt:thing:outpost_char_1', "D-152: burnt, the charred stakes: A3's else text", dialog=True)
 event('evt:thing:outpost_chest', "The orcs' loot (level 1)", dialog=False, chest=True)
 go(40.1, 66.2, 'The cairn of the unreturned by the Firestone road')
 event('evt:thing:cairn', 'The cairn: +10 Luck to every member until tomorrow', dialog=False)
@@ -379,14 +375,13 @@ go(73, 51, 'The firestone path from the cleft round the mountain')
 path([(78, 53), (84, 54.6), (90, 54), (95, 50.5), (97.6, 45.2)], 'Round the south shoulder to the hoard')
 event('evt:thing:dragon_hoard', "A dragon's hoard (level 6)", dialog=False, chest=True)
 path([(98.5, 44), (100, 37), (101, 31), (101, 28.2)], 'On to the Fire corner')
-event('evt:thing:fire_reflector', '"Reflector. Activate?" Yes: before M36 the hook\'s fail text', answer='Yes',
-      prompt='Reflector. Activate?',
+event('evt:thing:fire_reflector', 'D-144: a click, before M36 the hook\'s fail text on the status line',
       check='if qbit(111741) then error("the Reflector set its bit before M36") end')
 # ---------------------------------------------------------------- the reload: the outpost stays burnt
 add({'load_map': {'map': M}})
 add({'advance_runtime': {'seconds': 1.0}})
 go(33.0, 88.4, 'After a reload the outpost stays burnt (evt:outpost_state)')
-event('evt:thing:outpost_fire', "A3's else text again (the burn does not repeat)")
+event('evt:thing:outpost_char_1', "A3's else text again (the burn does not repeat)")
 # ---------------------------------------------------------------- the edges
 if EDGES:
     pr = yaml.safe_load(open(os.path.join(P, 'project.yml')))

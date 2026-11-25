@@ -1,0 +1,29 @@
+format: 1
+counter: 6
+pins:
+  - id: pin:p1
+    text: the fire dragon gets stuck there
+    source: game
+    world: xeen
+    map: xeen_xd07.blv
+    pose:
+      position: [2857.772, -4508.154, -1152]
+      yaw_radians: 1.376
+      pitch_degrees: 3.956
+      heading_yaw_units: 449
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-24T17:23:24
+    status: resolved
+    claimed_by: agent:xeen-fb4-dungeon3
+    from: 20261124-172324-xeen_xd07.yml
+    replies:
+      - author: agent:xeen-fb4-dungeon2
+        text: "This is by design (D-32). The narrow, low stair out of the dragon pit is there to keep the Fire Dragon in its pit: it chased you to the stair's mouth and could go no further. It is optional, and you can fight it from the stair. A leash that sends it back to its hoard has been proposed."
+        created: 2026-11-25T09:01:28
+        revision: 72fd6ccb754c139def3342e5404202f2
+      - author: agent:xeen-fb4-dungeon3
+        text: "The Fire Dragon now keeps to its hoard (a leash of 768): woken, it stops well short of the pit stair's mouth (about 380 off) and fights from there instead of waiting in the mouth. The stair still keeps it in the pit (D-32, D-154; playtest_dragon.yml)."
+        created: 2026-11-25T09:23:16
+        revision: 319d928c64ac2150a5a464bbd23a6614
+        status: resolved

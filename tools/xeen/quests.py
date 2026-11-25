@@ -64,6 +64,7 @@ SEALED = {
     'm2.warehouse_door': 'XD-01: Joe\'s locked warehouse; the key is in the rain barrel by the door, a click puts it on the cursor (D-93)',
     'm5.crusaders_gate': 'XD-07: the Act I to II beat, the Crusader title (the source\'s line)',
     'm13.darzog_door': 'XD-12: the Act IV hinge; the Skeleton Key is loot in XD-11',
+    'm13.cloud_stair_down': 'XD-11 from X8\'s cloud stair: D-151, the way down opens as the way up (M12 key, M13)',
     'q-c7.coffin': 'XD-24: the sundial puzzle at the door, answered on the square',
     'm34.gate': 'XD-19: the cupie doll from Slick\'s stand (the source\'s joke)',
     'x9.castle_gone': 'XD-19: the castle is gone after the finale',

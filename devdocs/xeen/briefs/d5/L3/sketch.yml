@@ -394,6 +394,14 @@ heights:
       height: 2496
       slope: 2
       notes: The dwarf prospectors' camp.
+    - polygon: [[46, 78], [48, 78], [48, 80.5], [46, 80.5]]
+      height: 1312
+      slope: 1
+      notes: The Last Water's fountain on the oasis bank.
+    - polygon: [[70, 93], [73, 93], [73, 96], [70, 96]]
+      height: 1312
+      slope: 1
+      notes: level land under A tomb robber's tent (common/level_pads.py)
     - polygon: [[37, 94], [39, 94], [39, 96], [37, 96]]
       height: 1696
       slope: 1
@@ -567,30 +575,231 @@ points:
   - {id: poi:signposts, index: 3, at: [41, 67]}
 areas:
   - id: pop:sands_lizards
+    index: 1
     kind: encounter
-    count: 8
+    count: 1
     slot: 1
-    polygon: [[80, 88], [92, 86], [99, 85], [102, 90], [100, 97], [93, 97], [90, 104], [74, 105], [72, 96]]
+    circle: {at: [74, 103], r: 0.5}
     notes: "E1: Iguanasaurus 42 (Great 50, Ancient 55; Dif 3) in the dunes east of the pyramid and round the salt pan; the first fight from D4 (about 4,400 off). The grate hollow kept clear."
-  - id: pop:pyramid_lizards
+  - id: pop:sands_lizards
+    index: 2
     kind: encounter
-    count: 7
+    count: 1
     slot: 1
-    polygon: [[48, 73], [57, 74], [56, 81], [55, 92], [71, 95], [72, 105], [52, 105], [48, 96], [50, 86]]
+    circle: {at: [97, 87], r: 0.5}
+  - id: pop:sands_lizards
+    index: 3
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [90, 93], r: 0.5}
+  - id: pop:sands_lizards
+    index: 4
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [93, 86], r: 0.5}
+  - id: pop:sands_lizards
+    index: 5
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [79, 94], r: 0.5}
+  - id: pop:sands_lizards
+    index: 6
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [77, 102], r: 0.5}
+  - id: pop:sands_lizards
+    index: 7
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [82, 89], r: 0.5}
+  - id: pop:sands_lizards
+    index: 8
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [97, 93], r: 0.5}
+  - id: pop:pyramid_lizards
+    index: 1
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [56, 98], r: 0.5}
     notes: "E2: the same west and south of the pyramid; none on the north door's apron or the track."
+  - id: pop:pyramid_lizards
+    index: 2
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [53, 101], r: 0.5}
+  - id: pop:pyramid_lizards
+    index: 3
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [69, 95], r: 0.5}
+  - id: pop:pyramid_lizards
+    index: 4
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [71, 102], r: 0.5}
+  - id: pop:pyramid_lizards
+    index: 5
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [57, 94], r: 0.5}
+  - id: pop:pyramid_lizards
+    index: 6
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [56, 99], r: 0.5}
+  - id: pop:pyramid_lizards
+    index: 7
+    kind: encounter
+    count: 1
+    slot: 1
+    circle: {at: [50, 89], r: 0.5}
   - id: pop:cliff_birds
     index: 1
     kind: encounter
-    count: 11
+    count: 1
     slot: 2
-    polygon: [[36, 51], [50, 49], [56, 49], [62, 53], [70, 55], [80, 56], [92, 57], [100, 57], [108, 56], [108, 64], [98, 64], [92, 62], [80, 62], [70, 61], [56, 61], [44, 61], [36, 62]]
+    circle: {at: [41, 56], r: 0.5}
     notes: "E3: Vulture Rocs 30, Rocs 38, Griffins 48 (Dif 2) on the Griffin Cliffs, east to the valley's north slope at the D4 border; 3 Griffins placed at the eyrie (50, 54)."
-  - id: pop:forest_cyclopes
+  - id: pop:cliff_birds
+    index: 2
     kind: encounter
-    count: 11
+    count: 1
+    slot: 2
+    circle: {at: [39, 58], r: 0.5}
+  - id: pop:cliff_birds
+    index: 3
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [45, 52], r: 0.5}
+  - id: pop:cliff_birds
+    index: 4
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [57, 53], r: 0.5}
+  - id: pop:cliff_birds
+    index: 5
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [40, 50], r: 0.5}
+  - id: pop:cliff_birds
+    index: 6
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [55, 61], r: 0.5}
+  - id: pop:cliff_birds
+    index: 7
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [71, 59], r: 0.5}
+  - id: pop:cliff_birds
+    index: 8
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [78, 57], r: 0.5}
+  - id: pop:cliff_birds
+    index: 9
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [95, 60], r: 0.5}
+  - id: pop:cliff_birds
+    index: 10
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [98, 58], r: 0.5}
+  - id: pop:cliff_birds
+    index: 11
+    kind: encounter
+    count: 1
+    slot: 2
+    circle: {at: [107, 61], r: 0.5}
+  - id: pop:forest_cyclopes
+    index: 1
+    kind: encounter
+    count: 1
     slot: 3
-    polygon: [[21, 27], [43, 26], [44, 33], [51, 34], [54, 41], [53, 47], [44, 50], [32, 53], [21, 54]]
+    circle: {at: [22, 47], r: 0.5}
     notes: "E4: wild Cyclopes 36 (Giants 50, Elder Giants 62 rare; Dif 1) in the Quivering Forest round their lair; the Barrier's west end and its fountain outside it."
+  - id: pop:forest_cyclopes
+    index: 2
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [36, 32], r: 0.5}
+  - id: pop:forest_cyclopes
+    index: 3
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [52, 40], r: 0.5}
+  - id: pop:forest_cyclopes
+    index: 4
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [46, 37], r: 0.5}
+  - id: pop:forest_cyclopes
+    index: 5
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [41, 30], r: 0.5}
+  - id: pop:forest_cyclopes
+    index: 6
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [40, 39], r: 0.5}
+  - id: pop:forest_cyclopes
+    index: 7
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [25, 29], r: 0.5}
+  - id: pop:forest_cyclopes
+    index: 8
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [43, 46], r: 0.5}
+  - id: pop:forest_cyclopes
+    index: 9
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [24, 42], r: 0.5}
+  - id: pop:forest_cyclopes
+    index: 10
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [32, 43], r: 0.5}
+  - id: pop:forest_cyclopes
+    index: 11
+    kind: encounter
+    count: 1
+    slot: 3
+    circle: {at: [51, 37], r: 0.5}
   - id: zone:east_valley
     kind: keep_clear
     polygon: [[99, 74], [109, 74], [109, 86], [99, 86]]
@@ -627,7 +836,7 @@ areas:
     kind: encounter
     count: 1
     slot: 2
-    circle: {at: [24, 72], r: 1}
+    circle: {at: [25, 73], r: 1}
   - id: pop:doom_birds
     index: 2
     kind: encounter
@@ -645,7 +854,7 @@ areas:
     kind: encounter
     count: 1
     slot: 2
-    circle: {at: [37, 87], r: 1}
+    circle: {at: [38, 87], r: 1}
   - id: pop:doom_birds
     index: 5
     kind: encounter
@@ -665,23 +874,23 @@ areas:
     slot: 2
     circle: {at: [44, 98], r: 1}
   - id: pop:cliff_birds
-    index: 2
+    index: 12
     kind: encounter
     count: 1
     slot: 2
     circle: {at: [102, 28], r: 1}
   - id: pop:cliff_birds
-    index: 3
+    index: 13
     kind: encounter
     count: 1
     slot: 2
     circle: {at: [104, 40], r: 1}
   - id: pop:cliff_birds
-    index: 4
+    index: 14
     kind: encounter
     count: 1
     slot: 2
-    circle: {at: [77, 37], r: 1}
+    circle: {at: [78, 37], r: 1}
 views:
   - {id: view:arrival, at: [105, 80], height: 180, look: [64, 80], purpose: "MU-4 arrival view (about 76 degrees): from the D4 arrival in the level valley, looking west: the last firs of the Forest of Peril either side, the road running down to the boulder field, the dunes opening beyond, the Great Pyramid far off (about 21,000 away), the broken travel pyramid on the right-hand slope, the Griffin Cliffs and the highlands along the north (right)."}
   - {id: view:signature, at: [82, 98], height: 180, look: [64, 85], purpose: "MU-4 signature view (about 60 degrees): from the dune crest south-east of the pyramid, looking north-west: the Great Pyramid rising from the dunes (about 11,300 away, its apex 15 degrees up), the robbers' tent at its foot, the pale small sun low in the amber band, the Griffin Cliffs and the Barrier's line faint beyond."}
@@ -886,7 +1095,7 @@ structures:
     textures: {roof: gn_mtl01, trim: gn_mtl01, wall: xahull, window: xahull}
     parts:
       - {id: body, at: [64, 64], size: [896, 896], wall_height: 576, windows: none, roof: flat, title: A broken pyramid, effects: [{lua: "XeenQuests.hook(\"obelisks.dark_hoard\")"}], batter: 352}
-      - {id: apex, at: [352, 352], size: [320, 320], bottom: 576, wall_height: 288, windows: none, roof: none, ruin: {height: [48, 288], gaps: 0.45, thickness: 48, seed: 11}}
+      - {id: apex, at: [352, 352], size: [320, 320], wall_height: 864, windows: none, roof: none, ruin: {height: [624, 864], gaps: 0.45, thickness: 48, seed: 11}}
     floor: 1600
     door: none
     title: A broken pyramid
@@ -1083,9 +1292,9 @@ structures:
     notes: "The shimmering curtain between the frames (D-49 Q4): a landmark, no event; see-through by xafield's graded alpha (merge point 23)."
   - id: thing:barrier_block
     kind: barrier
-    line: [[46, 24.2], [49, 26.35], [52, 28.5], [55, 30], [58, 31.5], [61, 32.5], [64, 33.5], [67, 34], [70, 34.5], [73, 34.5], [76, 34.5], [79, 34], [82, 33.5], [85, 32.5], [88, 31.5], [91, 30], [94, 28.5], [97, 26.35], [100, 24.2]]
+    line: [[46, 23.2], [46, 24.2], [49, 26.35], [52, 28.5], [55, 30], [58, 31.5], [61, 32.5], [64, 33.5], [67, 34], [70, 34.5], [73, 34.5], [76, 34.5], [79, 34], [82, 33.5], [85, 32.5], [88, 31.5], [91, 30], [94, 28.5], [97, 26.35], [100, 24.2], [100, 23.2]]
     height: 6000
-    notes: "The Barrier blocks walking and flying up to the fly ceiling (D-49 change 4); past its ends the rim rule."
+    notes: "The Barrier blocks walking and flying up to the fly ceiling (D-49 change 4); its ends run across the ledge outside the hull into the rim's cliff."
   - id: thing:hold_ring
     kind: stone_ring
     at: [86.5, 46.5]
@@ -1459,202 +1668,376 @@ structures:
     title: A boundary stone
   - id: thing:hull_001
     kind: decoration
-    at: [126, 24.02]
+    at: [126.5, 24.02]
     turn: 0
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_002
     kind: decoration
-    at: [122, 24.02]
+    at: [125.5, 24.02]
     turn: 0
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_003
     kind: decoration
-    at: [118, 24.02]
+    at: [124.5, 24.02]
     turn: 0
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_004
     kind: decoration
-    at: [114, 24.02]
+    at: [123.5, 24.02]
     turn: 0
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_005
     kind: decoration
-    at: [110, 24.02]
+    at: [122.5, 24.02]
     turn: 0
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_006
     kind: decoration
-    at: [106, 24.02]
+    at: [121.5, 24.02]
     turn: 0
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_007
     kind: decoration
-    at: [102, 24.02]
+    at: [120.5, 24.02]
     turn: 0
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_008
     kind: decoration
-    at: [98, 24.02]
+    at: [119.5, 24.02]
     turn: 0
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_009
     kind: decoration
-    at: [94, 24.02]
+    at: [118.5, 24.02]
     turn: 0
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_010
     kind: decoration
-    at: [90, 24.02]
+    at: [117.5, 24.02]
     turn: 0
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_011
     kind: decoration
-    at: [86, 24.02]
+    at: [116.5, 24.02]
     turn: 0
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_012
     kind: decoration
-    at: [82, 24.02]
+    at: [115.5, 24.02]
     turn: 0
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_013
     kind: decoration
-    at: [78, 24.02]
+    at: [114.5, 24.02]
     turn: 0
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_014
     kind: decoration
-    at: [74, 24.02]
+    at: [112, 24.02]
     turn: 0
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_015
     kind: decoration
-    at: [70, 24.02]
+    at: [109.5, 24.02]
     turn: 0
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_016
     kind: decoration
-    at: [66, 24.02]
+    at: [107, 24.02]
     turn: 0
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_017
     kind: decoration
-    at: [62, 24.02]
+    at: [103, 24.02]
     turn: 0
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_018
     kind: decoration
-    at: [58, 24.02]
+    at: [99, 24.02]
     turn: 0
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_019
     kind: decoration
-    at: [54, 24.02]
+    at: [95, 24.02]
     turn: 0
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_020
     kind: decoration
-    at: [50, 24.02]
+    at: [91, 24.02]
     turn: 0
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_021
     kind: decoration
-    at: [46, 24.02]
+    at: [87, 24.02]
     turn: 0
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_022
     kind: decoration
-    at: [42, 24.02]
+    at: [83, 24.02]
     turn: 0
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_023
     kind: decoration
-    at: [38, 24.02]
+    at: [79, 24.02]
     turn: 0
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_024
     kind: decoration
-    at: [34, 24.02]
+    at: [76.5, 24.02]
     turn: 0
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_025
     kind: decoration
-    at: [30, 24.02]
+    at: [74, 24.02]
     turn: 0
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_026
     kind: decoration
-    at: [26, 24.02]
+    at: [70, 24.02]
     turn: 0
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_027
     kind: decoration
-    at: [22, 24.02]
+    at: [66, 24.02]
     turn: 0
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_028
     kind: decoration
-    at: [18, 24.02]
+    at: [62, 24.02]
     turn: 0
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_029
     kind: decoration
-    at: [14, 24.02]
+    at: [58, 24.02]
     turn: 0
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_030
     kind: decoration
-    at: [10, 24.02]
+    at: [55.5, 24.02]
     turn: 0
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_031
     kind: decoration
-    at: [6, 24.02]
+    at: [54.5, 24.02]
     turn: 0
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_032
     kind: decoration
-    at: [2, 24.02]
+    at: [53.5, 24.02]
+    turn: 0
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_033
+    kind: decoration
+    at: [52.5, 24.02]
+    turn: 0
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_034
+    kind: decoration
+    at: [50, 24.02]
     turn: 0
     decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_035
+    kind: decoration
+    at: [46, 24.02]
+    turn: 0
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_036
+    kind: decoration
+    at: [42, 24.02]
+    turn: 0
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_037
+    kind: decoration
+    at: [38, 24.02]
+    turn: 0
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_038
+    kind: decoration
+    at: [34, 24.02]
+    turn: 0
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_039
+    kind: decoration
+    at: [30, 24.02]
+    turn: 0
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_040
+    kind: decoration
+    at: [26, 24.02]
+    turn: 0
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_041
+    kind: decoration
+    at: [22, 24.02]
+    turn: 0
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_042
+    kind: decoration
+    at: [19.5, 24.02]
+    turn: 0
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_043
+    kind: decoration
+    at: [18.5, 24.02]
+    turn: 0
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_044
+    kind: decoration
+    at: [17.5, 24.02]
+    turn: 0
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_045
+    kind: decoration
+    at: [16.5, 24.02]
+    turn: 0
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_046
+    kind: decoration
+    at: [15.5, 24.02]
+    turn: 0
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_047
+    kind: decoration
+    at: [14.5, 24.02]
+    turn: 0
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_048
+    kind: decoration
+    at: [13.5, 24.02]
+    turn: 0
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_049
+    kind: decoration
+    at: [12.5, 24.02]
+    turn: 0
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_050
+    kind: decoration
+    at: [11.5, 24.02]
+    turn: 0
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_051
+    kind: decoration
+    at: [10.5, 24.02]
+    turn: 0
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_052
+    kind: decoration
+    at: [9.5, 24.02]
+    turn: 0
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_053
+    kind: decoration
+    at: [8.5, 24.02]
+    turn: 0
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_054
+    kind: decoration
+    at: [7.5, 24.02]
+    turn: 0
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_055
+    kind: decoration
+    at: [6.5, 24.02]
+    turn: 0
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_056
+    kind: decoration
+    at: [5.5, 24.02]
+    turn: 0
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_057
+    kind: decoration
+    at: [4.5, 24.02]
+    turn: 0
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_058
+    kind: decoration
+    at: [3.5, 24.02]
+    turn: 0
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_059
+    kind: decoration
+    at: [2.5, 24.02]
+    turn: 0
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_060
+    kind: decoration
+    at: [1.5, 24.02]
+    turn: 0
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_061
+    kind: decoration
+    at: [0.5, 24.02]
+    turn: 0
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
 actors:
   - {monster: "11083", at: [84.4, 47.2], count: 3, spread: 1.2, group: 3, hostile: false}
   - {monster: "11084", at: [88.6, 47], count: 2, spread: 0.8, group: 3, hostile: false}
   - {monster: "11085", at: [88.8, 45.2], count: 1, spread: 0, group: 3, hostile: false}
   - {monster: "11085", at: [86.5, 47.4], spread: 0, group: 2, hostile: false, npc: 5452}
-  - {monster: "11562", at: [50, 54], count: 3, spread: 1, group: 1, hostile: true}
+  - {monster: "11562", at: [50, 54], count: 3, spread: 1.4, group: 1, hostile: true}
 sounds:
   - {id: sound:barrier_hum_1, at: [48.7, 26.05], sound: humming, radius: 3000, inner_radius: 800, volume: 0.35}
   - {id: sound:barrier_hum_2, at: [57.7, 31.2], sound: humming, radius: 3000, inner_radius: 800, volume: 0.35}

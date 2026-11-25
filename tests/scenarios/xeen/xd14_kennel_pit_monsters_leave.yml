@@ -1,0 +1,62 @@
+# Feedback F63 (2026-11-25, XD-14 p1 "monsters can get stuck here"): the kennels' sunken feeding pit (64 deep, walkable
+# banks of normal z 0.83, two bone piles in its north corners). A werewolf that climbed the east bank and turned back
+# for the party met the corner bone pile on the bank and stood there for good, pursuing: every slide along the pile,
+# projected from the contact's normal, kept a rounding residue pointing into it, and the indoor sweep counted that as
+# a move into the pile at no distance (sweepIndoorSphereAgainstCylinder, game/indoor/IndoorCollisionPrimitives.cpp;
+# shared by every world's indoor bodies, actors and the party, against decorations and actors). Nine werewolves
+# spawned over the pit's floor, the party 1,000 away by the hall door: each must climb out and come to it.
+# (A monster in the pit within MM's melee reach of the party, 307.2 from its edge, stands and fights from there, as in
+# the originals: output/xeen_fb/p4_dungeon2/dbg_pit2.yml's "frozen" Wizard attacked the whole time.)
+#   build/game/openyamm --headless-run-scenario tests/scenarios/xeen/xd14_kennel_pit_monsters_leave.yml --scenario-no-color
+id: xeen.f63.xd14_kennel_pit_monsters_leave
+title: "F63: werewolves in XD-14's kennel pit climb out and come for the party"
+world: xeen
+mode: faithful
+tags: [xeen, ai, movement, regression]
+steps:
+  - new_game_flow:
+      start_map: xeen_xd14.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 32, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 32, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 32, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 32, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3}
+  - play_lua: {source: close()}
+  - clear_hostiles: {radius: 40000}
+  # The party by the kennels' west side, facing the pit.
+  - movement_segment:
+      input: forward
+      seconds: 0.1
+      actor_collision: true
+      actor_ai: true
+      start: {map: xeen_xd14.blv, x: 1750, y: 750, z: 0, yaw_degrees: 90, pitch: 0}
+      expect_stop: {map: xeen_xd14.blv, x: 1750, y: 750, z: 0, yaw_degrees: 90, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 400
+      tolerance_z: 100
+  - play_lua: {source: close()}
+  # spawn_actor puts a single summon 96 east of the point.
+  - spawn_actor: {monster_id: 11421, x: 2244, y: 1250, z: -64}
+  - spawn_actor: {monster_id: 11421, x: 2684, y: 1250, z: -64}
+  - spawn_actor: {monster_id: 11421, x: 2464, y: 1344, z: -64}
+  - spawn_actor: {monster_id: 11421, x: 2244, y: 1300, z: -64}
+  - spawn_actor: {monster_id: 11421, x: 2604, y: 1450, z: -64}
+  - spawn_actor: {monster_id: 11421, x: 2464, y: 1225, z: -64}
+  - spawn_actor: {monster_id: 11421, x: 2464, y: 1465, z: -64}
+  - spawn_actor: {monster_id: 11421, x: 2216, y: 1344, z: -64}
+  - spawn_actor: {monster_id: 11421, x: 2712, y: 1344, z: -64}
+  - advance_runtime: {seconds: 15}
+  - assert: {actor_visible: {actor_index: last, report_state: true, near: {x: 1750, y: 750, max_distance: 700, min_z: -8}}}
+  - assert: {actor_visible: {actor_index: last-1, report_state: true, near: {x: 1750, y: 750, max_distance: 700, min_z: -8}}}
+  - assert: {actor_visible: {actor_index: last-2, report_state: true, near: {x: 1750, y: 750, max_distance: 700, min_z: -8}}}
+  - assert: {actor_visible: {actor_index: last-3, report_state: true, near: {x: 1750, y: 750, max_distance: 700, min_z: -8}}}
+  - assert: {actor_visible: {actor_index: last-4, report_state: true, near: {x: 1750, y: 750, max_distance: 700, min_z: -8}}}
+  - assert: {actor_visible: {actor_index: last-5, report_state: true, near: {x: 1750, y: 750, max_distance: 700, min_z: -8}}}
+  - assert: {actor_visible: {actor_index: last-6, report_state: true, near: {x: 1750, y: 750, max_distance: 700, min_z: -8}}}
+  - assert: {actor_visible: {actor_index: last-7, report_state: true, near: {x: 1750, y: 750, max_distance: 700, min_z: -8}}}
+  - assert: {actor_visible: {actor_index: last-8, report_state: true, near: {x: 1750, y: 750, max_distance: 700, min_z: -8}}}

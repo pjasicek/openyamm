@@ -59,16 +59,16 @@ hooks:
     else_text: "The skull has nothing more to sell you but its opinions."
   skull_upper:
     map: XD-10
-    where: "the upper skull alcoves off the frost cavern, near the south mouth: the offer (the map asks Yes/No, then pays 3 gems and gives +2 to the clicking member once)"
-    text: "\"Three gems,\" the skull says, \"and I'll make you two better than you are. Once. I'm not a charity.\""
+    where: "the upper skull alcoves off the frost cavern, near the south mouth: the offer (the map asks Yes/No, then pays 1 gem and gives +2 to the clicking member once; D-143)"
+    text: "\"One gem,\" the skull says, \"and I'll make you two better than you are. Once. I'm not a charity.\""
   skull_deep:
     map: XD-10
-    where: "the deep skull alcoves behind the mirror maze's mirage: the offer (5 gems, +3 once per member)"
-    text: "\"Five gems for three points,\" the skull says. \"Down here prices are honest. Up there they're cheap.\""
+    where: "the deep skull alcoves behind the mirror maze's mirage: the offer (1 gem, +3 once per member; D-143)"
+    text: "\"One gem for three points,\" the skull says. \"Down here prices are honest. Up there you get two.\""
   skull_grotto:
     map: XD-10
-    where: "the great skull in the grotto, after the key is bought: the stat offer (10 gems, +5 to Might, Endurance or Accuracy, once per member)"
-    text: "\"Ten gems,\" the great skull says, \"and five points of Might, Endurance or Accuracy. Choose. I don't do refunds.\""
+    where: "the great skull in the grotto, after the key is bought: the stat offer (1 gem, +5 to Might, Endurance or Accuracy, once per member; D-143)"
+    text: "\"One gem,\" the great skull says, \"and five points of Might, Endurance or Accuracy. Choose. I don't do refunds.\""
   skull_sold:
     map: XD-10
     where: "any skull, when the member has already bought from it"
@@ -79,8 +79,8 @@ hooks:
     text: "The skull looks at your purse and says nothing at all, which is worse."
 
 rewards: {xp: 1500, gold: 0}
-# XD-10's other skulls sell stat rises for gems, once per character (D-4, 2026-11-20): the upper alcoves +2 for 3 gems,
-# the deep alcoves +3 for 5, the great skull +5 to Might, Endurance or Accuracy for 10. The map pays and raises the
+# XD-10's other skulls sell stat rises for gems, once per character (D-4, 2026-11-20; D-143, 2026-11-25: 1 gem a member
+# each): the upper alcoves +2, the deep alcoves +3, the great skull +5 to Might, Endurance or Accuracy. The map pays and raises the
 # stat for the member who clicks (Xeen.payGems, a player bit per skull, registered in `player_bits` above); these
 # hooks are their words.
 playthrough: "XD-07: Artemus (Darzog's tower). XD-10: pull the plug; the great skull with 10 gems: the Enchanted Key."

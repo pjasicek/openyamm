@@ -12,14 +12,14 @@ after: []
 source: "QUESTS Q-C17; xeen/aaze0011:1-3"
 
 qbits:
-  started: {id: 112340, journal: "Crazed sprites stole Danulf the Faery King's Wand of Faery Magic. They nest in the south woods.",
+  started: {id: 112340, journal: "Crazed sprites stole Danulf the Faery King's Wand of Faery Magic. Their great nest of twigs lies in the hollow at the heart of the woods, west of his ring of stones.",
             until: [done]}
-  sprite_eggs: {id: 110206, map: X2, note: "the nest destroyed; the wand found there"}
+  sprite_eggs: {id: 110206, map: X2, note: "the nest searched; the wand found there"}
   faery_wand: {id: 110205, map: X2, note: "the wand found (the built map set it at the nest)"}
   done: {id: 112341}
 
 items:
-  wand_of_faery_magic: "the Wand of Faery Magic; the sprites' nest in X2's south woods; Danulf takes it."
+  wand_of_faery_magic: "the Wand of Faery Magic; the sprites' nest in the hollow at the heart of X2's south woods; Danulf takes it."
 
 npcs:
   4154:              # Danulf
@@ -35,8 +35,8 @@ npcs:
             text: "You have returned my Wand of Faery Magic! Now peace can be restored to the forest. Please accept this gold as a reward. And any of you with elven blood in the dark: kneel. The wand remembers its own."
             do: [{take: wand_of_faery_magic}, {set: done}, {clear: started}, {xp: 4000}, {gold: 1500}, {promote: elf}]
           - when: {qbit: started}
-            text: "The Sprites still possess my Wand. Try harder."
-          - text: "A terrible thing has happened. My Wand of Faery Magic has been stolen by the Sprites. Without the Wand in my possession, my powers of magic are reduced. Now that the Sprites possess my Wand they are crazed with power, attacking anyone in the forest. If you return my Wand I will reward you handsomely."
+            text: "The Sprites still possess my Wand. Try harder. Their nest lies in the hollow at the heart of the woods, west of my ring of stones."
+          - text: "A terrible thing has happened. My Wand of Faery Magic has been stolen by the Sprites. Without the Wand in my possession, my powers of magic are reduced. Now that the Sprites possess my Wand they are crazed with power, attacking anyone in the forest. Their nest lies in the hollow at the heart of the woods, west of my ring of stones. If you return my Wand I will reward you handsomely."
             do: [{set: started}]
       - n: 2
         role: promotion
@@ -47,11 +47,11 @@ npcs:
 hooks:
   nest:
     map: X2
-    where: "the sprites' nest in the south woods (built: thing:sprite_eggs)"
+    where: "the sprites' nest, a great mound of straw and twigs in the dry hollow at the heart of the south woods, west of Danulf's ring (built: thing:sprite_eggs, D-167)"
     sets: [sprite_eggs, faery_wand]
     gives: [wand_of_faery_magic]
     once: true
-    text: "A hollow full of blue speckled sprite eggs, and among them a slim wand of white wood: Danulf's Wand of Faery Magic."
+    text: "Woven twigs and straw, full of blue speckled sprite eggs, and something glinting among them: a slim wand of white wood, Danulf's Wand of Faery Magic."
     else_text: "Broken eggshells and angry chirping."
 
 rewards: {xp: 4000, gold: 1500}

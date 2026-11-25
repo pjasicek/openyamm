@@ -120,9 +120,19 @@ def rim_distance(poly, p):
     return best
 
 
+SINK = 4               # how far a block standing on the ground is sunk into it (X8's, F62)
+
+
 def block(pid, at, size, z, rise, surface, top=None, facing=None, top_size=None, notes=None, **kw):
+    # F62 (X8 p8 "you get stuck here", ported 2026-11-25): every block hangs from the room's floor at -6,000, so the
+    # studio draws its bottom; a bottom lying on the cloud, a road or the paving is a ceiling at the party's feet. A
+    # block whose foot is the walkable top under its middle (height_at) is sunk SINK into it, its top where it was
+    # (tools/xeen/check_floor_cross.py floor.lid). Blocks on other blocks keep their foot (their sides would run on in
+    # the plane of the sides under them and flicker).
+    ground = height_at(at)
+    sink = SINK if ground is not None and abs(ground - z) < 1 else 0
     e = {'id': pid, 'at': [int(round(at[0])), int(round(at[1]))], 'size': [int(round(size[0])), int(round(size[1]))],
-         'base': int(round(z - FLOOR)), 'rise': int(round(rise)), 'surface': surface}
+         'base': int(round(z - sink - FLOOR)), 'rise': int(round(rise + sink)), 'surface': surface}
     if top:
         e['top_surface'] = top
     if facing is not None:
@@ -135,9 +145,11 @@ def block(pid, at, size, z, rise, surface, top=None, facing=None, top_size=None,
     return e
 
 
-def prism(pid, outline, z, rise, surface, top=None, notes=None, **kw):
-    e = {'id': pid, 'outline': [[int(round(x)), int(round(y))] for x, y in outline], 'base': int(round(z - FLOOR)),
-         'rise': int(round(rise)), 'surface': surface, 'top_surface': top or surface}
+def prism(pid, outline, z, rise, surface, top=None, notes=None, sink=0, **kw):
+    # `sink`: SINK for a prism lying on the cloud (the shrine's paving, the disc; F62, as block())
+    e = {'id': pid, 'outline': [[int(round(x)), int(round(y))] for x, y in outline],
+         'base': int(round(z - sink - FLOOR)), 'rise': int(round(rise + sink)), 'surface': surface,
+         'top_surface': top or surface}
     e.update(kw)
     if notes:
         e['notes'] = notes
@@ -151,7 +163,7 @@ def platform_slab(pid, a, b, z0, z1, width, surface, top_surface, thickness, not
     length = math.hypot(bx - ax, by - ay)
     facing = math.degrees(math.atan2(by - ay, bx - ax))
     low = min(z0, z1) - thickness
-    if int(z0) == int(z1):
+    if int(z0) == int(z1) or int(z0 - low) == int(z1 - low):   # level (or within a unit: the studio wants `rise`)
         e = block(pid, ((ax + bx) / 2, (ay + by) / 2), (length, width), low, thickness, surface, top_surface,
                   facing=facing, bottom_surface=bottom or surface)
         if notes:
@@ -201,15 +213,116 @@ def link_cut(link, into):
 ROAD_INTO = 320
 
 
+def landing_end(poly, start, u, width, margin=24):
+    """Where a deck of `width` leaving `start` (on its cloud) along `u` is past the cloud across its whole width: the
+    point on the centre line `margin` beyond the furthest bit of cloud under the deck (X8's, F62)."""
+    ux, uy = u
+    nx, ny = -uy, ux
+    far = 0
+    for k in range(9):
+        o = (k / 8 - 0.5) * width
+        t = 0
+        while t < 20000:
+            if inside(poly, (start[0] + ux * t + nx * o, start[1] + uy * t + ny * o)):
+                far = max(far, t)
+            t += 8
+            if t > far + 2000:
+                break
+    far += margin
+    return (start[0] + ux * far, start[1] + uy * far)
+
+
+_SPANS = {}
+
+
+def link_spans(l):
+    """F62 (the player's pins 2026-11-25, X8 "bridge is clipping"; ported to P5 the same day): a road sloping straight
+    from inside one cloud to inside the other dipped under the higher cloud's top before its rim. It lies level at
+    each cloud's height out to where it is past that cloud across its whole width and slopes only between; where the
+    clouds leave no room, level on the higher only. [(p, q, z0, z1)] from a to b."""
+    if l['id'] in _SPANS:
+        return _SPANS[l['id']]
+    a, b, d, (ux, uy) = link_cut(l, ROAD_INTO)
+    za8, zb8 = floor_of(l['a']) + 8, floor_of(l['b']) + 8
+    width = l['width']
+
+    def along(p, q):
+        return (q[0] - p[0]) * ux + (q[1] - p[1]) * uy
+    pa = landing_end(POLYS[l['a']], a, (ux, uy), width)
+    pb = landing_end(POLYS[l['b']], b, (-ux, -uy), width)
+    # a lobe of cloud beside the road (a board's, lobes()) is level: the road lies level across it too, at the height
+    # the straight slope had there (else the lobe's top and the road's cross, check_floor_cross floor.cross)
+    stretches = []
+    for pid in BOARD_TEX:
+        if not needs_lobe(pid):
+            continue
+        f = lobe_front(pid)
+        t = along(a, f)
+        off = abs((f[0] - a[0]) * uy - (f[1] - a[1]) * ux)
+        if off <= width / 2 + 64 and along(pa, f) > -672 and along(f, pb) > -672:
+            stretches.append((t - 672, t + 672))
+    if za8 == zb8:
+        spans = [(a, b, za8, zb8)]
+    elif along(pa, pb) >= 64:
+        ta, tb = along(a, pa), along(a, pb)
+
+        def point(t):
+            return (a[0] + ux * t, a[1] + uy * t)
+
+        def z_at(t):
+            return za8 + (zb8 - za8) * (t - ta) / (tb - ta)
+        spans = [(a, pa, za8, za8)]
+        t0, z0 = ta, za8
+        end = [(pb, b, zb8, zb8)]
+        for s0, s1 in sorted(stretches):
+            if s1 >= tb - 64:
+                # the lobe reaches the far landing: the landing runs back across it, at the far cloud's height
+                end = [(point(min(s0, tb)), b, zb8, zb8)]
+                tb = min(s0, tb)
+                break
+            if s0 <= t0 + 64:
+                # the lobe reaches the near landing (or the last stretch): that level piece runs on across it
+                p0, _, zp, _ = spans.pop()
+                spans.append((p0, point(s1), zp, zp))
+                t0 = s1
+                continue
+            zl = z_at((s0 + s1) / 2)
+            spans += [(point(t0), point(s0), z0, zl), (point(s0), point(s1), zl, zl)]
+            t0, z0 = s1, zl
+        spans += [(point(t0), point(tb), z0, zb8)] + end
+    elif zb8 > za8 and along(a, pb) >= 64 and along(pb, b) >= 64:
+        spans = [(a, pb, za8, zb8), (pb, b, zb8, zb8)]
+    elif za8 > zb8 and along(a, pa) >= 64 and along(pa, b) >= 64:
+        spans = [(a, pa, za8, za8), (pa, b, za8, zb8)]
+    else:
+        spans = [(a, b, za8, zb8)]
+    _SPANS[l['id']] = spans
+    return spans
+
+
+def span_top(spans, pt):
+    """The road's top (as laid by link_spans) over the point's projection on the link's line, or None off its ends."""
+    for p, q, z0, z1 in spans:
+        dx, dy = q[0] - p[0], q[1] - p[1]
+        L2 = dx * dx + dy * dy
+        t = ((pt[0] - p[0]) * dx + (pt[1] - p[1]) * dy) / L2 if L2 else 0
+        if -1e-6 <= t <= 1 + 1e-6:
+            return z0 + (z1 - z0) * t
+    return None
+
+
 def road_slabs():
-    """Each link a cloud slab with a cloud top (the cloud road), 8 over its pads' tops at its ends."""
+    """Each link a cloud slab with a cloud top (the cloud road), 8 over its pads' tops at its ends (F62: level over
+    each cloud, link_spans)."""
     out = []
     for l in D.LINKS:
         a, b, d, _ = link_cut(l, ROAD_INTO)
         za, zb = floor_of(l['a']), floor_of(l['b'])
         what = 'the causeway (cloud road)' if l['style'] == 'causeway' else 'the cloud road'
-        out.append(platform_slab(f"platform:{key(l['id'])}", a, b, za + 8, zb + 8, l['width'], CLOUD_SIDE, CLOUD_TOP,
-                                 192, f"{l['id']}: {what}, {int(d)} rim to rim, rising {zb - za}"))
+        for k, (p, q, z0, z1) in enumerate(link_spans(l)):
+            out.append(platform_slab(f"platform:{key(l['id'])}" if k == 0 else f"platform:{key(l['id'])}_{k + 1}", p, q,
+                                     z0, z1, l['width'], CLOUD_SIDE, CLOUD_TOP, 192,
+                                     f"{l['id']}: {what}, {int(d)} rim to rim, rising {zb - za}" if k == 0 else None))
     return out
 
 
@@ -222,8 +335,7 @@ def height_at(pt):
         t = ((pt[0] - a[0]) * dx + (pt[1] - a[1]) * dy) / L2
         off = abs((pt[0] - a[0]) * dy - (pt[1] - a[1]) * dx) / math.sqrt(L2)
         if 0 <= t <= 1 and off <= l['width'] / 2:
-            za, zb = floor_of(l['a']) + 8, floor_of(l['b']) + 8
-            return za + (zb - za) * t
+            return span_top(link_spans(l), pt)
     for s in D.SPACES:
         if inside(POLYS[s['id']], pt):
             return s['floor'] + (PAVE_RISE if s['id'] == 'room:shrine' and inside(PAVING, pt) else 0)
@@ -258,8 +370,12 @@ def flags():
             zp, zq = height_at(p), height_at(q)
             if zp is None or zq is None or inside(PAVING, p) or inside(PAVING, q):
                 continue
+            zm = height_at(((p[0] + q[0]) / 2, (p[1] + q[1]) / 2))
+            if zm is None or abs(zm - (zp + zq) / 2) > 1:
+                continue    # F62: a flag over a bend in the road's slope would cut into it (a dash left out)
             k += 1
-            out.append(platform_slab(f'platform:flag_{k}', p, q, zp + 6, zq + 6, 128, FLAG, FLAG, 16))
+            # 24 deep (F62: at 16 a flag's bottom lay 2 under a cloud's top where the road runs into it)
+            out.append(platform_slab(f'platform:flag_{k}', p, q, zp + 6, zq + 6, 128, FLAG, FLAG, 24))
     return out
 
 
@@ -329,13 +445,12 @@ def lobes():
     from 640 before its face (onto the road or pad it faces) to 384 behind it. Returns (board id, outline, top)."""
     out = []
     for pid in BOARD_TEX:
-        p = PLACE[pid]
-        pts = [p['at']] + board_legs(pid)
-        if all(any(inside(POLYS[s['id']], q) for s in D.SPACES) and rim_distance_any(q) > 96 for q in pts):
+        if not needs_lobe(pid):
             continue
+        p = PLACE[pid]
+        front = lobe_front(pid)
         phi = math.radians(COMPASS[p['face']])
         f = (math.cos(phi), math.sin(phi))
-        front = (p['at'][0] + f[0] * 640, p['at'][1] + f[1] * 640)
         back = (p['at'][0] - f[0] * 384, p['at'][1] - f[1] * 384)
         z = height_at(front)
         if z is None:
@@ -347,6 +462,19 @@ def lobes():
             oct_.append((u[0] + (v[0] - u[0]) * 0.82, u[1] + (v[1] - u[1]) * 0.82))
         out.append((pid, ccw(oct_), int(round(z)) - 4))     # 4 under the pad or road it joins: no faces in one plane
     return out
+
+
+def needs_lobe(pid):
+    """Whether the board's spot or legs lie off every cloud (or within 96 of a rim): it stands on a lobe."""
+    pts = [PLACE[pid]['at']] + board_legs(pid)
+    return not all(any(inside(POLYS[s['id']], q) for s in D.SPACES) and rim_distance_any(q) > 96 for q in pts)
+
+
+def lobe_front(pid):
+    """The lobe's front end: 640 before the board's face, on the road or pad it faces."""
+    p = PLACE[pid]
+    phi = math.radians(COMPASS[p['face']])
+    return (p['at'][0] + math.cos(phi) * 640, p['at'][1] + math.sin(phi) * 640)
 
 
 def rim_distance_any(q):
@@ -499,7 +627,7 @@ PAV_W, PAV_D, PAV_H = 1536, 1024, 512
 def shrine():
     z = floor_of('room:shrine')
     sx, sy = SHRINE
-    P = [prism('platform:paving', PAVING, z, PAVE_RISE, GOLD,
+    P = [prism('platform:paving', PAVING, z, PAVE_RISE, GOLD, sink=SINK,
                notes="The shrine's pale gold paving round the dais (MM7's 7tws1h; no new stone, D-56 8)."),
          block('platform:dais', (sx, sy), (1024, 704), z + PAVE_RISE, 64, TRIM, GOLD,
                notes="The Pharaoh's shrine: the dais, 1,024 x 704 and 64 high, facing south (m42.shrine).")]
@@ -535,7 +663,7 @@ DISC = PLACE['poi:disc']['at']
 
 def disc():
     z = floor_of('room:shrine')
-    return [prism('platform:disc', ring(DISC[0], DISC[1], 192, 12), z, 24, FLAG, FLAG,
+    return [prism('platform:disc', ring(DISC[0], DISC[1], 192, 12), z, 24, FLAG, FLAG, sink=SINK,
                   notes="The cloud-stone disc back to the crown (state:wedding; D-56 7).")]
 
 

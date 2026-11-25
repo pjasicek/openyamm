@@ -413,7 +413,7 @@ initial_state:
       position:
         x: 4904
         y: 4025
-        z: 1556
+        z: 1558
       initial_yaw_units: 768
       sprite_ids: [0, 0, 0, 0]
       sector_id: 1
@@ -482,7 +482,7 @@ initial_state:
       position:
         x: 28372
         y: -11448
-        z: 927
+        z: 928
       initial_yaw_units: 256
       immobile: true
       sprite_ids: [0, 0, 0, 0]
@@ -625,7 +625,7 @@ initial_state:
       position:
         x: -20736
         y: -4864
-        z: 1100
+        z: 1101
       initial_yaw_units: 1536
       sprite_ids: [0, 0, 0, 0]
       sector_id: 1
@@ -648,7 +648,7 @@ initial_state:
       position:
         x: -20237
         y: -4751
-        z: 1109
+        z: 1110
       initial_yaw_units: 1280
       sprite_ids: [0, 0, 0, 0]
       sector_id: 1
@@ -815,7 +815,7 @@ initial_state:
       position:
         x: -11646
         y: 687
-        z: 1434
+        z: 1439
       initial_yaw_units: 0
       immobile: true
       sprite_ids: [0, 0, 0, 0]
@@ -839,7 +839,7 @@ initial_state:
       position:
         x: -11100
         y: 615
-        z: 1455
+        z: 1462
       initial_yaw_units: 1536
       immobile: true
       sprite_ids: [0, 0, 0, 0]
@@ -863,7 +863,7 @@ initial_state:
       position:
         x: -11209
         y: 1155
-        z: 1476
+        z: 1486
       initial_yaw_units: 0
       immobile: true
       sprite_ids: [0, 0, 0, 0]
@@ -887,7 +887,7 @@ initial_state:
       position:
         x: -28160
         y: 10714
-        z: 1223
+        z: 1228
       initial_yaw_units: 768
       sprite_ids: [0, 0, 0, 0]
       sector_id: 1
@@ -1101,7 +1101,7 @@ initial_state:
       position:
         x: -27188
         y: -2554
-        z: 1072
+        z: 1070
       initial_yaw_units: 1536
       sprite_ids: [0, 0, 0, 0]
       sector_id: 1
@@ -1124,7 +1124,7 @@ initial_state:
       position:
         x: -27264
         y: -2048
-        z: 1081
+        z: 1079
       initial_yaw_units: 0
       sprite_ids: [0, 0, 0, 0]
       sector_id: 1
@@ -1604,7 +1604,7 @@ ambient_sounds:
     start_on: true
   - key: 12
     sound: xeen_dragon_call
-    position: [13056, -1024, 2168.700051276307]
+    position: [13056, -1024, 2165.30083410978]
     inner_radius: 2500
     outer_radius: 9000
     volume: 0.45
@@ -1613,7 +1613,7 @@ ambient_sounds:
     start_on: true
   - key: 13
     sound: xeen_dragon_call
-    position: [-20736, -4864, 2124.4994720313884]
+    position: [-20736, -4864, 2124.8325247791336]
     inner_radius: 2500
     outer_radius: 9000
     volume: 0.45

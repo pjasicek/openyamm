@@ -157,11 +157,12 @@ events:
     source: platform:nest_a1
     title: Roc Nest
     effects:
-      - lua: "if continueStep ~= 1 then if continueStep == nil then AskChoiceWithAnswerSteps(eventId, 3, \"Roc Nest.  Destroy?\", {{Answer = \"Yes\", Step = 1}, {Answer = \"No\", Step = 2}}) else evt.StatusText(\"You leave the nest as it is.\", 4) end return end"
       - hide: platform:nest_a1
       - passable: platform:nest_a1
+      - hide: deco:nest_a1_bones
+      - hide: deco:nest_a1_skull
       - lua: "XeenQuests.hook(\"x9.nest_a1\")"
-    notes: "The source's question (xeen/aaze0027:0) as Yes/No buttons (D-72); A3's x9.nest_a1 (2,000 experience each, once)."
+    notes: "A click burns the nest (D-159; the source's question, xeen/aaze0027:0, is gone); A3's x9.nest_a1 (2,000 experience each, once)."
   - id: evt:nest_a1_gone
     preset: script
     trigger: load
@@ -169,17 +170,20 @@ events:
     effects:
       - hide: platform:nest_a1
       - passable: platform:nest_a1
-    notes: A burnt nest stays gone (bit 116222).
+      - hide: deco:nest_a1_bones
+      - hide: deco:nest_a1_skull
+    notes: A burnt nest and its bones stay gone (bit 116222).
   - id: evt:nest_a2
     preset: script
     source: platform:nest_a2
     title: Roc Nest
     effects:
-      - lua: "if continueStep ~= 1 then if continueStep == nil then AskChoiceWithAnswerSteps(eventId, 3, \"Roc Nest.  Destroy?\", {{Answer = \"Yes\", Step = 1}, {Answer = \"No\", Step = 2}}) else evt.StatusText(\"You leave the nest as it is.\", 4) end return end"
       - hide: platform:nest_a2
       - passable: platform:nest_a2
+      - hide: deco:nest_a2_bones
+      - hide: deco:nest_a2_skull
       - lua: "XeenQuests.hook(\"x9.nest_a2\")"
-    notes: "The source's question (xeen/aaze0027:0) as Yes/No buttons (D-72); A3's x9.nest_a2 (2,000 experience each, once)."
+    notes: "A click burns the nest (D-159; the source's question, xeen/aaze0027:0, is gone); A3's x9.nest_a2 (2,000 experience each, once)."
   - id: evt:nest_a2_gone
     preset: script
     trigger: load
@@ -187,17 +191,20 @@ events:
     effects:
       - hide: platform:nest_a2
       - passable: platform:nest_a2
-    notes: A burnt nest stays gone (bit 116223).
+      - hide: deco:nest_a2_bones
+      - hide: deco:nest_a2_skull
+    notes: A burnt nest and its bones stay gone (bit 116223).
   - id: evt:nest_a3
     preset: script
     source: platform:nest_a3
     title: Roc Nest
     effects:
-      - lua: "if continueStep ~= 1 then if continueStep == nil then AskChoiceWithAnswerSteps(eventId, 3, \"Roc Nest.  Destroy?\", {{Answer = \"Yes\", Step = 1}, {Answer = \"No\", Step = 2}}) else evt.StatusText(\"You leave the nest as it is.\", 4) end return end"
       - hide: platform:nest_a3
       - passable: platform:nest_a3
+      - hide: deco:nest_a3_bones
+      - hide: deco:nest_a3_skull
       - lua: "XeenQuests.hook(\"x9.nest_a3\")"
-    notes: "The source's question (xeen/aaze0027:0) as Yes/No buttons (D-72); A3's x9.nest_a3 (2,000 experience each, once)."
+    notes: "A click burns the nest (D-159; the source's question, xeen/aaze0027:0, is gone); A3's x9.nest_a3 (2,000 experience each, once)."
   - id: evt:nest_a3_gone
     preset: script
     trigger: load
@@ -205,17 +212,20 @@ events:
     effects:
       - hide: platform:nest_a3
       - passable: platform:nest_a3
-    notes: A burnt nest stays gone (bit 116224).
+      - hide: deco:nest_a3_bones
+      - hide: deco:nest_a3_skull
+    notes: A burnt nest and its bones stay gone (bit 116224).
   - id: evt:nest_se
     preset: script
     source: platform:nest_se
     title: Roc Nest
     effects:
-      - lua: "if continueStep ~= 1 then if continueStep == nil then AskChoiceWithAnswerSteps(eventId, 3, \"Roc Nest.  Destroy?\", {{Answer = \"Yes\", Step = 1}, {Answer = \"No\", Step = 2}}) else evt.StatusText(\"You leave the nest as it is.\", 4) end return end"
       - hide: platform:nest_se
       - passable: platform:nest_se
+      - hide: deco:nest_se_bones
+      - hide: deco:nest_se_skull
       - lua: "XeenQuests.hook(\"x9.nest_se\")"
-    notes: "The source's question (xeen/aaze0027:0) as Yes/No buttons (D-72); A3's x9.nest_se (2,000 experience each, once)."
+    notes: "A click burns the nest (D-159; the source's question, xeen/aaze0027:0, is gone); A3's x9.nest_se (2,000 experience each, once)."
   - id: evt:nest_se_gone
     preset: script
     trigger: load
@@ -223,17 +233,20 @@ events:
     effects:
       - hide: platform:nest_se
       - passable: platform:nest_se
-    notes: A burnt nest stays gone (bit 116221).
+      - hide: deco:nest_se_bones
+      - hide: deco:nest_se_skull
+    notes: A burnt nest and its bones stay gone (bit 116221).
   - id: evt:nest_sw
     preset: script
     source: platform:nest_sw
     title: Roc Nest
     effects:
-      - lua: "if continueStep ~= 1 then if continueStep == nil then AskChoiceWithAnswerSteps(eventId, 3, \"Roc Nest.  Destroy?\", {{Answer = \"Yes\", Step = 1}, {Answer = \"No\", Step = 2}}) else evt.StatusText(\"You leave the nest as it is.\", 4) end return end"
       - hide: platform:nest_sw
       - passable: platform:nest_sw
+      - hide: deco:nest_sw_bones
+      - hide: deco:nest_sw_skull
       - lua: "XeenQuests.hook(\"x9.nest_sw\")"
-    notes: "The source's question (xeen/aaze0027:0) as Yes/No buttons (D-72); A3's x9.nest_sw (2,000 experience each, once)."
+    notes: "A click burns the nest (D-159; the source's question, xeen/aaze0027:0, is gone); A3's x9.nest_sw (2,000 experience each, once)."
   - id: evt:nest_sw_gone
     preset: script
     trigger: load
@@ -241,7 +254,9 @@ events:
     effects:
       - hide: platform:nest_sw
       - passable: platform:nest_sw
-    notes: A burnt nest stays gone (bit 116220).
+      - hide: deco:nest_sw_bones
+      - hide: deco:nest_sw_skull
+    notes: A burnt nest and its bones stay gone (bit 116220).
   - id: evt:nine_north
     preset: script
     source: platform:nine_north

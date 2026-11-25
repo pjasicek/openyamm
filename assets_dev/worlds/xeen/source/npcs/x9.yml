@@ -22,7 +22,7 @@ hooks:
   nest_sw:
     map: X9
     status: true   # D-90: experience, a find's answer or a death on the status line
-    where: "the roc nest on the south-west cloud (the source's rookery): the map asks \"Roc Nest. Destroy?\" (xeen/aaze0027:0); Yes calls this once (No: nothing); the nest burns and is gone"
+    where: "the roc nest on the south-west cloud (the source's rookery): a click burns it and calls this once (D-159: no question; the source asked \"Roc Nest. Destroy?\", xeen/aaze0027:0); the nest and its bones are gone"
     sets: [nest_sw]
     once: true
     do: [{xp: 2000}]

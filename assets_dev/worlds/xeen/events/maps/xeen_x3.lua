@@ -264,21 +264,18 @@ RegisterEvent(50, "Sign", function()
 end, "Sign")
 
 -- evt:thing:sundial_1
-RegisterEvent(51, "Sundial", function(continueStep)
-    local eventId = 51
-    local v = evt.GetMapVar("x3_dial_1", 3) if continueStep == 2 then v = v % 12 + 1 evt.SetMapVar("x3_dial_1", v) if evt.GetMapVar("x3_dial_1", 3) == 9 and evt.GetMapVar("x3_dial_2", 6) == 9 and evt.GetMapVar("x3_dial_3", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText(tr("The sundial is set to {reading}.", {reading = v})) return end if continueStep ~= nil then return end AskChoiceWithAnswerSteps(eventId, 3, tr("The sundial is set to {reading}.  Turn?", {reading = v}), {{Answer = "Yes", Step = 2}, {Answer = "No", Step = 3}})
+RegisterEvent(51, "Sundial", function()
+    local v = evt.GetMapVar("x3_dial_1", 3) % 12 + 1 evt.SetMapVar("x3_dial_1", v) if evt.GetMapVar("x3_dial_1", 3) == 9 and evt.GetMapVar("x3_dial_2", 6) == 9 and evt.GetMapVar("x3_dial_3", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText(tr("You turn the sundial. It is set to {reading}.", {reading = v}))
 end, "Sundial")
 
 -- evt:thing:sundial_2
-RegisterEvent(52, "Sundial", function(continueStep)
-    local eventId = 52
-    local v = evt.GetMapVar("x3_dial_2", 6) if continueStep == 2 then v = v % 12 + 1 evt.SetMapVar("x3_dial_2", v) if evt.GetMapVar("x3_dial_1", 3) == 9 and evt.GetMapVar("x3_dial_2", 6) == 9 and evt.GetMapVar("x3_dial_3", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText(tr("The sundial is set to {reading}.", {reading = v})) return end if continueStep ~= nil then return end AskChoiceWithAnswerSteps(eventId, 3, tr("The sundial is set to {reading}.  Turn?", {reading = v}), {{Answer = "Yes", Step = 2}, {Answer = "No", Step = 3}})
+RegisterEvent(52, "Sundial", function()
+    local v = evt.GetMapVar("x3_dial_2", 6) % 12 + 1 evt.SetMapVar("x3_dial_2", v) if evt.GetMapVar("x3_dial_1", 3) == 9 and evt.GetMapVar("x3_dial_2", 6) == 9 and evt.GetMapVar("x3_dial_3", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText(tr("You turn the sundial. It is set to {reading}.", {reading = v}))
 end, "Sundial")
 
 -- evt:thing:sundial_3
-RegisterEvent(53, "Sundial", function(continueStep)
-    local eventId = 53
-    local v = evt.GetMapVar("x3_dial_3", 12) if continueStep == 2 then v = v % 12 + 1 evt.SetMapVar("x3_dial_3", v) if evt.GetMapVar("x3_dial_1", 3) == 9 and evt.GetMapVar("x3_dial_2", 6) == 9 and evt.GetMapVar("x3_dial_3", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText(tr("The sundial is set to {reading}.", {reading = v})) return end if continueStep ~= nil then return end AskChoiceWithAnswerSteps(eventId, 3, tr("The sundial is set to {reading}.  Turn?", {reading = v}), {{Answer = "Yes", Step = 2}, {Answer = "No", Step = 3}})
+RegisterEvent(53, "Sundial", function()
+    local v = evt.GetMapVar("x3_dial_3", 12) % 12 + 1 evt.SetMapVar("x3_dial_3", v) if evt.GetMapVar("x3_dial_1", 3) == 9 and evt.GetMapVar("x3_dial_2", 6) == 9 and evt.GetMapVar("x3_dial_3", 12) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end evt.StatusText(tr("You turn the sundial. It is set to {reading}.", {reading = v}))
 end, "Sundial")
 
 -- evt:thing:dial_plinth_1
@@ -477,15 +474,13 @@ RegisterEvent(90, "Sunken grave", function()
 end, "Sunken grave")
 
 -- evt:thing:ranger_tent_1
-RegisterEvent(91, "Evil Ranger camp", function(continueStep)
-    local eventId = 91
-    if continueStep == 2 then evt.StatusText("You ruin their food, burn their tents, and poison their water.") XeenQuests.hook("x3.ranger_camp") evt.SetFacetBit(9, FacetBits.Invisible, 1) evt.SetFacetBit(9, FacetBits.Untouchable, 1) evt.SetFacetBit(10, FacetBits.Invisible, 1) evt.SetFacetBit(10, FacetBits.Untouchable, 1) return end if continueStep ~= nil then return end if IsQBitSet(QBit(116040)) then evt.StatusText("Only ashes and charred poles are left of the rangers' camp.") return end AskChoiceWithAnswerSteps(eventId, 3, "You have come upon an Evil Ranger camp.  Destroy?", {{Answer = "Yes", Step = 2}, {Answer = "No", Step = 3}})
+RegisterEvent(91, "Evil Ranger camp", function()
+    if IsQBitSet(QBit(116040)) then evt.StatusText("Only ashes and charred poles are left of the rangers' camp.") return end XeenQuests.hook("x3.ranger_camp") evt.SetFacetBit(9, FacetBits.Invisible, 1) evt.SetFacetBit(9, FacetBits.Untouchable, 1) evt.SetFacetBit(10, FacetBits.Invisible, 1) evt.SetFacetBit(10, FacetBits.Untouchable, 1) evt.SetSprite(30000, 0)
 end, "Evil Ranger camp")
 
 -- evt:thing:ranger_tent_2
-RegisterEvent(92, "Evil Ranger camp", function(continueStep)
-    local eventId = 92
-    if continueStep == 2 then evt.StatusText("You ruin their food, burn their tents, and poison their water.") XeenQuests.hook("x3.ranger_camp") evt.SetFacetBit(9, FacetBits.Invisible, 1) evt.SetFacetBit(9, FacetBits.Untouchable, 1) evt.SetFacetBit(10, FacetBits.Invisible, 1) evt.SetFacetBit(10, FacetBits.Untouchable, 1) return end if continueStep ~= nil then return end if IsQBitSet(QBit(116040)) then evt.StatusText("Only ashes and charred poles are left of the rangers' camp.") return end AskChoiceWithAnswerSteps(eventId, 3, "You have come upon an Evil Ranger camp.  Destroy?", {{Answer = "Yes", Step = 2}, {Answer = "No", Step = 3}})
+RegisterEvent(92, "Evil Ranger camp", function()
+    if IsQBitSet(QBit(116040)) then evt.StatusText("Only ashes and charred poles are left of the rangers' camp.") return end XeenQuests.hook("x3.ranger_camp") evt.SetFacetBit(9, FacetBits.Invisible, 1) evt.SetFacetBit(9, FacetBits.Untouchable, 1) evt.SetFacetBit(10, FacetBits.Invisible, 1) evt.SetFacetBit(10, FacetBits.Untouchable, 1) evt.SetSprite(30000, 0)
 end, "Evil Ranger camp")
 
 -- evt:thing:ranger_fire
@@ -714,6 +709,7 @@ RegisterEvent(127, nil, function()
     evt.SetFacetBit(9, FacetBits.Untouchable, 1)
     evt.SetFacetBit(10, FacetBits.Invisible, 1)
     evt.SetFacetBit(10, FacetBits.Untouchable, 1)
+    evt.SetSprite(30000, 0)
 end)
 
 -- evt:studio_relations

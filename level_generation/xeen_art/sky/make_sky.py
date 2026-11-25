@@ -41,11 +41,12 @@ STAGES = {
                     'coverage': 0.30, 'softness': 0.35, 'opacity': 0.9, 'curvature': 0.13}],
     },
     'xeen_darkside_fading': {
-        'comment': 'Acts III-IV after M17: the sun weakens; the band browns, the day is dimmer.',
-        'noon': {'zenith': [0.13, 0.10, 0.12], 'horizon': [0.62, 0.36, 0.16], 'fog': [0.40, 0.28, 0.18],
-                 'sun_glow': [1.0, 0.66, 0.38], 'sun_disc': [1.0, 0.86, 0.66], 'cloud_lit': [0.70, 0.46, 0.27],
-                 'cloud_shadow': [0.24, 0.16, 0.15], 'ambient_tint': [0.95, 0.84, 0.72],
-                 'water_sun': [0.9, 0.66, 0.42], 'water_sky': [0.28, 0.21, 0.16]},
+        # D-169: amber-red, halfway from the day's amber to the failing stage's ember red
+        'comment': 'Acts III-IV after M17: the sun weakens; the band reddens to amber-red, the day is dimmer.',
+        'noon': {'zenith': [0.15, 0.085, 0.055], 'horizon': [0.72, 0.25, 0.08], 'fog': [0.48, 0.24, 0.11],
+                 'sun_glow': [1.0, 0.50, 0.24], 'sun_disc': [1.0, 0.78, 0.52], 'cloud_lit': [0.78, 0.35, 0.17],
+                 'cloud_shadow': [0.26, 0.13, 0.08], 'ambient_tint': [0.96, 0.80, 0.66],
+                 'water_sun': [0.92, 0.56, 0.32], 'water_sky': [0.30, 0.17, 0.12]},
         'sun_glow_strength': 0.3, 'sun_disc_visibility': 0.85, 'day_stars': 0.05,
         'sun_disc_degrees': 0.85,
         'clouds': [{'texture': 'clouds_stratus', 'scale': 0.090, 'speed': 0.0012, 'direction_deg': 30,
@@ -54,12 +55,13 @@ STAGES = {
                     'coverage': 0.28, 'softness': 0.35, 'opacity': 0.85, 'curvature': 0.13}],
     },
     'xeen_darkside_failing': {
-        'comment': 'Act V after M27 until Sheltem falls (M33): a failing ember of a sun, a brown dusk all day, the '
+        'comment': 'Act V after M27 until Sheltem falls (M33): a failing ember of a sun, an ember-red dusk all day, the '
                    'brightest stars showing through; lamps and windows burn all day (map events).',
-        'noon': {'zenith': [0.065, 0.05, 0.065], 'horizon': [0.40, 0.20, 0.09], 'fog': [0.24, 0.16, 0.10],
-                 'sun_glow': [1.0, 0.50, 0.26], 'sun_disc': [1.0, 0.62, 0.40], 'cloud_lit': [0.44, 0.25, 0.14],
-                 'cloud_shadow': [0.12, 0.08, 0.08], 'ambient_tint': [0.88, 0.74, 0.62],
-                 'water_sun': [0.8, 0.48, 0.28], 'water_sky': [0.16, 0.11, 0.09]},
+        # D-169: ember red-orange
+        'noon': {'zenith': [0.09, 0.033, 0.02], 'horizon': [0.52, 0.12, 0.03], 'fog': [0.32, 0.11, 0.04],
+                 'sun_glow': [1.0, 0.36, 0.14], 'sun_disc': [1.0, 0.48, 0.24], 'cloud_lit': [0.56, 0.17, 0.06],
+                 'cloud_shadow': [0.15, 0.055, 0.035], 'ambient_tint': [0.92, 0.66, 0.50],
+                 'water_sun': [0.86, 0.36, 0.18], 'water_sky': [0.20, 0.08, 0.05]},
         'sun_glow_strength': 0.25, 'sun_disc_visibility': 0.65, 'day_stars': 0.18,
         'sun_disc_degrees': 0.7,
         'clouds': [{'texture': 'clouds_stratus', 'scale': 0.090, 'speed': 0.0014, 'direction_deg': 30,

@@ -27,6 +27,7 @@ ROOT = HERE.parents[3]
 BRIEF = ROOT / 'devdocs/xeen/briefs/x9'
 
 FLOOR = -6000          # the safety floor (a fall the one-second check misses ends here and runs the same fall)
+SINK = 8               # how far a block is sunk into what it stands on (X8's, F62: no bottom on the walking plane)
 CEIL = 6400
 SLAB = 256             # cloud slab thickness under its top
 
@@ -121,14 +122,20 @@ def platform_slab(pid, a, b, z0, z1, width, surface, top_surface, thickness, not
         'top_surface': top_surface,
         'bottom_surface': bottom or surface,
     }
+    if int(z0) == int(z1):
+        del entry['top_heights'], entry['thickness']    # a level span (F62's landings): base and rise
     if notes:
         entry['notes'] = notes
     return entry
 
 
-def block(pid, at, size, z, rise, surface, top=None, facing=None, top_size=None, notes=None, **kw):
+def block(pid, at, size, z, rise, surface, top=None, facing=None, top_size=None, notes=None, sink=SINK, **kw):
+    # F62 (X8 p8, ported 2026-11-25): every block hangs from the room's floor at -6,000, so the studio draws its
+    # bottom; a bottom lying on the cloud (or on the block under it) is a ceiling at the party's feet. Each block is
+    # sunk SINK into what it stands on, its top where it was (tools/xeen/check_floor_cross.py floor.lid); not a block
+    # whose sides run on in the plane of the sides under it (sink=0: they would flicker), which nobody walks under.
     e = {'id': pid, 'at': [int(round(at[0])), int(round(at[1]))], 'size': [int(round(size[0])), int(round(size[1]))],
-         'base': int(round(z - FLOOR)), 'rise': int(round(rise)), 'surface': surface}
+         'base': int(round(z - sink - FLOOR)), 'rise': int(round(rise + sink)), 'surface': surface}
     if top:
         e['top_surface'] = top
     if facing is not None:
@@ -156,6 +163,47 @@ def link_cut(link, into):
     d = math.hypot(q[0] - p[0], q[1] - p[1])
     ux, uy = (q[0] - p[0]) / d, (q[1] - p[1]) / d
     return (p[0] - ux * into, p[1] - uy * into), (q[0] + ux * into, q[1] + uy * into), d, (ux, uy)
+
+
+def landing_end(poly, start, u, width, margin=24):
+    """Where a deck of `width` leaving `start` (on its cloud) along `u` is past the cloud across its whole width: the
+    point on the centre line `margin` beyond the furthest bit of cloud under the deck (X8's, F62)."""
+    ux, uy = u
+    nx, ny = -uy, ux
+    far = 0
+    for k in range(9):
+        o = (k / 8 - 0.5) * width
+        t = 0
+        while t < 20000:
+            if inside(poly, (start[0] + ux * t + nx * o, start[1] + uy * t + ny * o)):
+                far = max(far, t)
+            t += 8
+            if t > far + 2000:
+                break
+    far += margin
+    return (start[0] + ux * far, start[1] + uy * far)
+
+
+def level_spans(link, a, b, u, width, za8, zb8, partial=True):
+    """F62 (the player's pins 2026-11-25, X8 "bridge is clipping"): a deck sloping straight from inside one cloud to
+    inside the other dips under the higher cloud's top before its rim, or stands out of the lower one. It lies level
+    at each cloud's height out to where it is past that cloud across its whole width, and slopes only between:
+    [(p, q, z0, z1)] from a to b. When the clouds leave no room between (they overlap), it lies level on the higher
+    cloud only and slopes from inside the lower one (`partial`; a rising deck stands out of the lower cloud, which is
+    meant), else one straight span."""
+    ux, uy = u
+
+    def along(p, q):
+        return (q[0] - p[0]) * ux + (q[1] - p[1]) * uy
+    pa = landing_end(POLYS[link['a']], a, (ux, uy), width)
+    pb = landing_end(POLYS[link['b']], b, (-ux, -uy), width)
+    if along(pa, pb) >= 64:
+        return [(a, pa, za8, za8), (pa, pb, za8, zb8), (pb, b, zb8, zb8)]
+    if partial and zb8 > za8 and along(a, pb) >= 64 and along(pb, b) >= 64:
+        return [(a, pb, za8, zb8), (pb, b, zb8, zb8)]
+    if partial and za8 > zb8 and along(a, pa) >= 64 and along(pa, b) >= 64:
+        return [(a, pa, za8, za8), (pa, b, za8, zb8)]
+    return [(a, b, za8, zb8)]
 
 
 # ------------------------------------------------------------------------------------------------ clouds
@@ -210,28 +258,41 @@ def links():
     # the return point (link:gate's approach; the two clouds only overlap, 64 apart in height)
     gc = SPACE['room:gate_court']
     a, b = (0, gc['at'][1]), (0, RETURN[1] - 64)
-    platforms.append(platform_slab('platform:gate_causeway', a, b, gc['floor'] + 8, BASE + 8, 1024, CLOUD_SIDE, MARBLE,
-                                   128, "The causeway up to Castle Xeen's gate: cloud-stone flags on a cloud tongue.",
-                                   bottom=CLOUD_SIDE))
+    # F62 (2026-11-25): the straight slope ran under the castle cloud's top before its rim (check_floor_cross.py
+    # floor.cross at (-504, 10926)); it lies level at the castle's height where the castle cloud is under it
+    pb = landing_end(POLYS['zone:castle'], b, (0, -1), 1024)
+    spans = [(a, pb, gc['floor'] + 8, BASE + 8), (pb, b, BASE + 8, BASE + 8)] if a[1] + 64 <= pb[1] <= b[1] - 64 \
+        else [(a, b, gc['floor'] + 8, BASE + 8)]
+    for k, (p, q, z0, z1) in enumerate(spans):
+        platforms.append(platform_slab('platform:gate_causeway' if k == 0 else f'platform:gate_causeway_{k + 1}', p,
+                                       q, z0, z1, 1024, CLOUD_SIDE, MARBLE, 128,
+                                       "The causeway up to Castle Xeen's gate: cloud-stone flags on a cloud tongue."
+                                       if k == 0 else None, bottom=CLOUD_SIDE))
     for l in D.LINKS:
         if l['style'] == 'gate':
             continue
         za, zb = floor_of(l['a']), floor_of(l['b'])
         lid = key(l['id'])
         if l['style'] == 'neck':
-            a, b, d, _ = link_cut(l, 640)
-            platforms.append(platform_slab(f'platform:{lid}', a, b, za + 8, zb + 8, l['width'], CLOUD_SIDE, CLOUD_TOP,
-                                           192, f"{l['id']}: a waist of cloud, {int(d)} rim to rim"))
+            a, b, d, u = link_cut(l, 640)
+            for k, (p, q, z0, z1) in enumerate(level_spans(l, a, b, u, l['width'], za + 8, zb + 8)):
+                platforms.append(platform_slab(f'platform:{lid}' if k == 0 else f'platform:{lid}_{k + 1}', p, q,
+                                               z0, z1, l['width'], CLOUD_SIDE, CLOUD_TOP, 192,
+                                               f"{l['id']}: a waist of cloud, {int(d)} rim to rim" if k == 0 else None))
         elif l['style'] == 'road':
-            a, b, d, _ = link_cut(l, 320)
-            platforms.append(platform_slab(f'platform:{lid}', a, b, za + 8, zb + 8, l['width'], CLOUD_SIDE, MARBLE,
-                                           128, f"{l['id']}: the Xeen road, cloud-stone flags on a cloud tongue, "
-                                                f"{int(d)} rim to rim", bottom=CLOUD_SIDE))
+            a, b, d, u = link_cut(l, 320)
+            for k, (p, q, z0, z1) in enumerate(level_spans(l, a, b, u, l['width'], za + 8, zb + 8)):
+                platforms.append(platform_slab(f'platform:{lid}' if k == 0 else f'platform:{lid}_{k + 1}', p, q,
+                                               z0, z1, l['width'], CLOUD_SIDE, MARBLE, 128,
+                                               f"{l['id']}: the Xeen road, cloud-stone flags on a cloud tongue, "
+                                               f"{int(d)} rim to rim" if k == 0 else None, bottom=CLOUD_SIDE))
         elif l['style'] == 'causeway':
-            a, b, d, _ = link_cut(l, 320)
-            platforms.append(platform_slab(f'platform:{lid}', a, b, za + 8, zb + 8, l['width'], MARBLE, MARBLE, 96,
-                                           f"{l['id']}: the aviary's cloud-stone stair, {int(d)} rim to rim, "
-                                           f"rising {zb - za}"))
+            a, b, d, u = link_cut(l, 320)
+            for k, (p, q, z0, z1) in enumerate(level_spans(l, a, b, u, l['width'], za + 8, zb + 8)):
+                platforms.append(platform_slab(f'platform:{lid}' if k == 0 else f'platform:{lid}_{k + 1}', p, q,
+                                               z0, z1, l['width'], MARBLE, MARBLE, 96,
+                                               f"{l['id']}: the aviary's cloud-stone stair, {int(d)} rim to rim, "
+                                               f"rising {zb - za}" if k == 0 else None))
         elif l['style'] == 'unseen':
             a, b, d, _ = link_cut(l, 160)
             platforms.append(platform_slab(
@@ -242,10 +303,15 @@ def links():
             a, b, d, (ux, uy) = link_cut(l, 160)
             za8, zb8 = za + 8, zb + 8
             width = l['width']
+            spans = level_spans(l, a, b, (ux, uy), width, za8, zb8, partial=False)
+            pa, pb = spans[0][1], spans[-1][0]
             sag = min(160, int(d / 25))
-            m = ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2)
+            m = ((pa[0] + pb[0]) / 2, (pa[1] + pb[1]) / 2)
             zm = (za8 + zb8) / 2 - sag
-            for k, (p, q, z0, z1) in enumerate(((a, m, za8, zm), (m, b, zm, zb8))):
+            spans = ([spans[0]] if len(spans) == 3 else []) + [(pa if len(spans) == 3 else a, m, za8, zm),
+                                                                (m, pb if len(spans) == 3 else b, zm, zb8)] + \
+                ([spans[-1]] if len(spans) == 3 else [])
+            for k, (p, q, z0, z1) in enumerate(spans):
                 platforms.append(platform_slab(f'platform:{lid}_{k + 1}', p, q, int(z0), int(z1), width, ROPE, DECK,
                                                24, f"{l['id']}: rope bridge, {int(d)} rim to rim" if k == 0 else None))
                 nx, ny = -uy * (width / 2 - 8), ux * (width / 2 - 8)
@@ -337,8 +403,9 @@ def nests():
     out = []
     for pid in ('poi:nest_sw', 'poi:nest_se', 'poi:nest_a1', 'poi:nest_a2', 'poi:nest_a3'):
         x, y = at(pid)
-        out.append({'id': f'platform:{key(pid)}', 'outline': ring(x, y, 320, 10, 0.2), 'base': space_floor(pid) - FLOOR,
-                    'rise': 40, 'surface': STRAW, 'top_surface': STRAW,
+        out.append({'id': f'platform:{key(pid)}', 'outline': ring(x, y, 320, 10, 0.2),
+                    'base': space_floor(pid) - SINK - FLOOR,
+                    'rise': 40 + SINK, 'surface': STRAW, 'top_surface': STRAW,
                     'notes': f"A roc nest of whole branches and straw: 'Roc Nest. Destroy?' ({PLACE[pid]['text']})."})
     return out
 
@@ -455,7 +522,7 @@ def booth(name, origin, out_deg, fl, title):
                        ROPE, ROPE, facing=along))
     # the awning: a flat canvas roof over the counter, from the back wall out to the posts (fl + 432 .. 448)
     P.append(block(f'platform:{name}_awning', frame(origin, phi, 0, -76), (1024, 496), fl + 432, 16, AWNING, AWNING,
-                   facing=along, bottom_surface=AWNING, end_surface=dict(AWNING, fit=False),
+                   facing=along, bottom_surface=AWNING, end_surface=dict(AWNING, fit=False), sink=0,
                    notes='The striped awning.'))
     P.append(block(f'platform:{name}_hem', frame(origin, phi, 0, 176), (1008, 8), fl + 352, 96, VALANCE, VALANCE,
                    facing=along, notes="The awning's scalloped hem."))
@@ -472,7 +539,7 @@ def carnival():
     fl = s['floor']
     # the paved plaza: the cloud's outline drawn in to 82 % (cloud-stone flags, 16 high)
     pav = [[int(round(cx + 0.82 * (x - cx))), int(round(cy + 0.82 * (y - cy)))] for x, y in OUTLINES['room:carnival']]
-    out.append({'id': 'platform:plaza', 'outline': pav, 'base': fl - FLOOR, 'rise': 16, 'surface': MARBLE,
+    out.append({'id': 'platform:plaza', 'outline': pav, 'base': fl - SINK - FLOOR, 'rise': 16 + SINK, 'surface': MARBLE,
                 'top_surface': MARBLE, 'notes': "Slick's plaza: cloud-stone flags laid on the cloud (6,144 x 4,608, D-50)."})
     pf = fl + 16
     names = {'poi:might_game': ('booth_might', 'The Might booth'),
@@ -599,7 +666,7 @@ def castle():
     P.append(block('platform:castle_keep', (kx, ky), (kw, kd), top - band - 512, ktop - band - (top - band - 512),
                    STONE, STONE,
                    notes='The keep, over the throne.'))
-    P.append(block('platform:castle_keep_frieze', (kx, ky), (kw, kd), ktop - band, band, FRIEZE, STONE))
+    P.append(block('platform:castle_keep_frieze', (kx, ky), (kw, kd), ktop - band, band, FRIEZE, STONE, sink=0))
     # the gate: two leaves against the gate wall, each its own wing (D-50; the double-door rule)
     lw, lh = H['gate_leaves']
     for nm, surf, sx in (('l', LEAF_L, -1), ('r', LEAF_R, 1)):

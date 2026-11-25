@@ -29,7 +29,8 @@ INDICES = [44, 45, 46]
 LAKE_BEASTS = 110201
 LANDING = (-15360, 3072, 768)
 ISLAND_LANDING = (-14848, 1792)
-SHORE = (23, 42.5)          # land north of the north-west lobe, 5.5 cells (2,816) from the dragon at [23, 48]
+SHORE = (20.5, 46)          # land north of the north-west lobe, 5.5 cells (2,816) from the dragon at [20.5, 51.5]
+#                             (D-142 moved its home from [23, 48]; the shore went with it, 2026-11-25)
 
 
 def units(c):
@@ -112,6 +113,11 @@ head = ("# Lake Darzog's three Water Dragons (D-54; written by output/studio_cal
         "# leashed at home, X9's fall landing unhurt, then killed for Medin's boat (Q-C13).\n")
 (L4 / 'playtest_lake_dragons.yml').write_text(head + yaml.safe_dump(scenario(), sort_keys=False, width=120))
 head = ("# Lake Darzog's north-west Water Dragon sees the party on the shore and must stay within its leash (D-54;\n"
-        "# written by output/studio_cal/x2/tools/gen_lake_dragons.py). A1's repro: fails on merge point 22.\n")
+        "# written by level_generation/projects/xeen/x2/gen_lake_dragons.py from gen.LAKE_DRAGONS on every X2\n"
+        "# rebuild; tools/xeen/regressions.sh runs it). A1's repro: the dragon (a flyer, leash 1,024) sees an\n"
+        "# immortal party on the north shore 2,816 from its home. Before merge point 24 it circled the party at\n"
+        "# ~2,800 and was 4,347 from home after 30 s: the post's leash checked the line to the target, not the\n"
+        "# flyer's offset pursuit, so the step the world took left the circle (keepStepOnLeash now holds that step).\n"
+        "# Needs assets_dev's Xeen world (git-ignored).\n")
 (L4 / 'playtest_lake_dragons_leash.yml').write_text(head + yaml.safe_dump(leash(), sort_keys=False, width=120))
 print('wrote', L4 / 'playtest_lake_dragons.yml', L4 / 'playtest_lake_dragons_leash.yml')

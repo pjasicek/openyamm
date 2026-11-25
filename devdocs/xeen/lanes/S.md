@@ -934,3 +934,21 @@ Meshy lane total: 330 (session 7: armadillo 10 more (20 in all), guard 15, octop
 - New decoration row 4069 `xeen_fairycap` (`worlds/xeen/models/decoration_data.txt`, sprite stub 27069,
   `models/decorations.yml`: `engine/models/mm6_deco_mushrm05.glb` at height 200 ±15 %, light 384 pale green) for D2's
   fairy ring (L1: "tall glowing mushrooms"). A glowing cap texture would show by day; today only the light.
+
+## Log: 2026-11-25 ~10:45, agent `xeen-fb4-dungeon5` (D-163, acting for this lane)
+
+- `source/monsters.yml` characters 11930 Goblin-eared boy (PeasantM1 A stand-in, 133/26) and 11931 Goblin-eared girl
+  (PeasantF1 A, 130/21), friendly, stand, not counted; `build_world.py` (only these rows). `models/actors.yml`:
+  `Xeen Goblin-eared boy` on `worlds/xeen/models/xeen_peasantboy.glb` skin `pboy_e` + `xeen_peasantboy_elfears.glb` on
+  `Bip01 ElfEars`, `Xeen Goblin-eared girl` on `xeen_peasantgirl1e.glb` skin `pg_g1e` (Xeen copies of MM9's, D-44,
+  installed with `tools/install_model.py --world xeen`; `xeen_peasantboy.cook.yml` copied from MM9's). Used by XD-04's
+  four caged children. Open: the user allows new skins (ginger, freckled boy matching npc 4053's portrait; each child
+  different) per CLAUDE_CREATURE_TEXTURES.md: not started.
+
+## Log: 2026-11-25 ~12:00, agent `xeen-fb4-dungeon6` (D-163 skins, acting for this lane)
+
+- New ramp-only skins on the Xeen children (`level_generation/creatures/xeen_children_claude/`, README there):
+  `xeen_peasantboy` `xboy_ginger` (npc 4053's ginger freckled boy) and `xboy_dark`, the ears attachment the same two
+  (green-tinged), `xeen_peasantgirl1e` `xgirl_rose` and `xgirl_flax`; installed with `tools/install_model.py --world
+  xeen` from the MM9 sources; far maps by `lod_repair_claude/scripts/fix_variant_maps.py`. `models/actors.yml`:
+  descriptors `Xeen Goblin-eared boy`/`boy 2`/`girl`/`girl 2`. Detail: `reviews/PLAYER_FEEDBACK_20261125.md`, agent `xeen-fb4-dungeon6`.

@@ -345,15 +345,20 @@ def in_test():
          adv(2, dialogs=True, follow=True), lua("for i = 1, 3 do if not close() then break end wait(0.5) end"),
          {'assert': {'map': 'xeen_d6.odm'}},
          {'note': f"D6's thing:fd01_stair is D6's event {stair} (devdocs/xeen/briefs/d6/L4/ids.lock.yml); m39.depths_door "
-                  "(the Cube), then the move to entrance:d6_stair (no question: D-72)."},
-         lua(f"click({stair}); wait(0.8)"), adv(1, dialogs=True),
-         adv(2, dialogs=True, follow=True), adv(1, follow=True),
+                  "(the Cube), then the stair's entrance window (F16; D6's own walk test does the same), OK, and the move to "
+                  "entrance:d6_stair."},
+         # The window came with F16's entrance windows (the hatch's `screen:` text 5062); this test still closed it as a
+         # stray dialog and stayed on D6 (xeen-fb4-dungeon6, 2026-11-25).
+         lua(f"click({stair}); wait(0.5)"), adv(0.3),
+         {'assert': {'dialog': {'active': True, 'action_label_present': 'OK'}}},
+         {'select_topic': {'match_label': 'OK'}},
+         adv(1.5, follow=True), adv(1, dialogs=True, follow=True),
          lua("for i = 1, 3 do if not close() then break end wait(0.5) end"),
          {'assert': {'map': MAP}}, pos(0, 0, 64, -8, 8, 1024), lua("log('entrance:d6_stair: ' .. party())")]
     header('playtest_in.yml', """The way in from D6 (live since A6's 08:39 D6 install): with the Cube and m33.done (111662, the ruin shown), D6's
 thing:fd01_stair (its event number read from D6's ids.lock.yml when this file was written: rewrite it with
-tools/tests.py after a D6 rebuild), m39.depths_door, then FD-01's entrance:d6_stair (0, 0, 0) facing 1024. No question
-before the move: an ODM hatch into a BLV shows no window (D-72).""",
+tools/tests.py after a D6 rebuild), m39.depths_door, the stair's entrance window (F16, OK), then FD-01's
+entrance:d6_stair (0, 0, 0) facing 1024.""",
            'xeen.fd01.l4.in', 'Alamar Depths (FD-01 L4): in from D6 by the gatehouse stair', s)
 
 

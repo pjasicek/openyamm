@@ -215,9 +215,11 @@ def wiring():
         ev.append({
             'id': f'evt:nest_{k}', 'preset': 'script', 'source': f'platform:nest_{k}', 'title': 'Harpy Nest',
             'effects': [{'hide': f'platform:nest_{k}'}, {'passable': f'platform:nest_{k}'},
+                        {'hide': f'deco:n{k}_bones'}, {'hide': f'deco:n{k}_skull'},
                         {'lua': f'XeenQuests.hook("x8-sky.nest_{k}")'}],
             'notes': f'poi:harpy_nests: a click burns the nest (F47, the player\'s pins 2026-11-24: no Yes/No '
-                     f'for a quest goal; the source asked, xeen/aaze0025:5); A3\'s hook x8-sky.nest_{k} (500 XP).'})
+                     f'for a quest goal; the source asked, xeen/aaze0025:5); A3\'s hook x8-sky.nest_{k} (500 XP). D-145 '
+                     f'(F62 p2): the bones and skull in its straw burn with it.'})
     ev.append({'id': 'evt:explorer', 'preset': 'script', 'source': 'deco:explorer_statue', 'title': 'Statue',
                'effects': [{'lua': 'XeenQuests.hook("x8-sky.explorer_statue")'}],
                'notes': ('poi:explorer_statue: A3\'s hook (Super Explorer, +2 Speed; "I dub all who find me Super '
@@ -248,6 +250,21 @@ def wiring():
                                         'lagoon to the west with the Tower of High Magic on its shore, Lake Darzog '
                                         'under the long bridge, and east, past Vertigo, the crooked Witch Tower.')}],
                'notes': 'poi:observatory: the sorcerer\'s telescope (our words).'})
+    # D-151 (2026-11-25): each way down is gated as its way up, else the long bridge lets a party skip M12: the High
+    # Magic stair only with the Enchanted Key bought (111240) or M13 done (111260), through A3's sealed hook
+    # m13.cloud_stair_down (D-89: an entrance tests no bit directly; quests.py), the Witch stair only once XD-04's
+    # climb gate is open (110046, set inside XD-04).
+    for iid, nb, title, cond, refusal in (
+            ('witch_landing', 'roof:witch_tower', 'Witch Tower', {'qbit': 110046},
+             'The clouds answer to the Head Witch. While she lives, they will not bear you down.'),
+            ('stair_landing', 'roof:high_magic', 'Tower of High Magic', {'lua': 'XeenQuests.can("m13.cloud_stair_down")'},
+             'Below the step the cloud thins over the Tower of High Magic. Its wards let down only those who hold '
+             'the Enchanted Key from the Cave of Illusion.')):
+        ev.append({'id': f'evt:down_{iid}', 'preset': 'script', 'source': f'platform:{iid}_down',
+                   'title': title, 'condition': cond, 'locked_text': refusal, 'effects': [{'exit': nb}],
+                   'notes': ('F62 (the player\'s pins 2026-11-25, X8 p3/p6): the stair of cloud at the foot of the '
+                             f'stair the party came up (a click) leads back down to the {title}\'s roof ({nb}); the exit preset\'s window, OK '
+                             'or Close. D-151: gated as the way up (the condition), else the refusal on the status line.')})
     for c in ('hoard', 'star_charts', 'golem_cache', 'lantern'):
         ev.append({'id': f'evt:chest_{c}', 'preset': 'chest', 'source': f'chest:{c}'})
     return {'format': 0, 'variables': ['offering_1', 'offering_2'], 'events': ev}

@@ -404,7 +404,10 @@ def platforms():
     # the travel pyramid on its terrace, the portal on its south face
     px, py = L.PYRAMID['at']
     pyr = []
-    pyr.append({'key': 'pyramid', 'at': [px, py], 'size': [896, 896], 'rise': 704, 'top_size': [16, 16],
+    # F62's lid rule (xeen-fb4-dungeon5, 2026-11-25): sunk 8 into its terrace (its top where it was). Its bottom lay
+    # on the terrace's floor, a ceiling at the party's feet: a party walking into its foot from the east slid inside
+    # it and could not walk out (headless probe, output/xeen_fb/p4_dungeon5/lids; check_floor_cross floor.lid)
+    pyr.append({'key': 'pyramid', 'at': [px, py], 'size': [896, 896], 'base': -8, 'rise': 712, 'top_size': [16, 16],
                 'surface': surf('gcstroof', (256, 256)), 'notes': 'The small stone travel pyramid.'})
     pyr.append({'id': 'platform:pyramid_portal', 'at': [px, py - 448 - 8], 'size': [160, 16], 'rise': 320,
                 'surface': surf('xdpyrdor', (128, 256), fit=True), 'end_surface': surf('gcstroof', (16, 320), fit=False),

@@ -1,0 +1,25 @@
+format: 1
+counter: 3
+pins:
+  - id: pin:p1
+    text: 3 gems for +3 is not a good exchange
+    source: game
+    world: xeen
+    map: xeen_xd10.blv
+    pose:
+      position: [851.911, 6440.938, -640]
+      yaw_radians: 1.879
+      pitch_degrees: -9.89
+      heading_yaw_units: 612
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-24T23:19:28
+    status: resolved
+    claimed_by: agent:xeen-fb4-dungeon2
+    from: 20261124-231928-xeen_xd10.yml
+    replies:
+      - author: agent:xeen-fb4-dungeon2
+        text: "Agreed. Each skull's gift now costs 1 gem a member, and so does the great skull's +5 offer (D-143). The great skull's key still costs 10 gems. The notice board and the skulls' words say so."
+        created: 2026-11-25T09:01:27
+        revision: 41ce422556f59ab80c696b033029b9d7
+        status: resolved

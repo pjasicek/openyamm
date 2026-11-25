@@ -39,7 +39,7 @@ houses:
     residents: [4404]
     town: Castle Burlock
 npcs:
-  - {id: 4401, name: King Burlock, profession: Noble, talks: true, greet: ["Only Crusaders may stand before the throne. Have you found my mirror?", "NO MIRROR?!? Get out of my sight!"], source: "xeen/aaze0064:13"}
+  - {id: 4401, name: King Burlock, sex: male, profession: Noble, talks: true, greet: ["Only Crusaders may stand before the throne. Have you found my mirror?", "NO MIRROR?!? Get out of my sight!"], source: "xeen/aaze0064:13"}
   - {id: 4402, name: Artemus, title: Royal Advisor, profession: Counselor, talks: true, greet: ["The King hears little these days but the word 'mirror'.", "A quiet word, Crusaders?"]}
   - {id: 4403, name: Emerson, title: Royal Engineer, profession: Carpenter, talks: true, greet: ["Walls, keeps, dungeons. Bring me Megacredits and I'll build you a castle.", "Megacredits?"]}
   - {id: 4404, name: Princess Roxanne, profession: Noble, talks: true, greet: ["Don't look so disappointed. I'm not a damsel in distress, but there is a quest you could perform for me.", "Any news of my tiara?"], source: "xeen/aaze0066:0"}

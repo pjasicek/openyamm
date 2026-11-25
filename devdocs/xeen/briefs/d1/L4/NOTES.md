@@ -172,7 +172,7 @@ trebuchet, three packs of Electrapedes (11361, 7) round the great tree; the Sard
   (D-27, shared with DD-03).
 - **POIs 52** after the second reinstall (the stable yard's barred gate at stage 4).
 - Audit (`--reach --solve --dressing`): 0 errors, 7 warnings (the 7 older coplanar pairs: walls' ends, the jetty
-  deck and pier, a street grate; the observatory's floor lifted 32 off the keep's second storey to keep it at 7).
+  deck and pier, a street grate (fixed 2026-11-25, issue #45, last section); the observatory's floor lifted 32 off the keep's second storey to keep it at 7).
 - `town_feel` (full, 16 services): 73 figures in range, 5 out (below).
 
 - Eleventh session: `entrance:dd05_door` faces south (1536, A8's request; DD-05's door is not live yet, so only the
@@ -446,7 +446,65 @@ Rebuilt on merge point 41 (chests as chest kinds, ground heights, scatter), inst
   (story 45, Q-D5).
 - Villagers re-placed (`villagers.py --place D1`): villager 47 stood 493 from a house door.
 - Checks: town_fit 0 (kept: `jetty_pier`), check_reach 0, door 0, wall 0, check_wild 0, villagers 0 on D1, stale bakes
-  0. check_faces 28 (unchanged: the F31 list, gatehouse, Kalindra's ghost houses, wall NE, jetty, street grate,
-  mill). Audit errors: `doors.tiled` on `kalindra_gate_restored` (xvsdoor 2 across) and `textures.feature_repeated`
+  0. check_faces 28 (unchanged: the F31 list, gatehouse, Kalindra's ghost houses, wall NE, jetty, street grate
+  (fixed 2026-11-25, issue #45, last section), mill). Audit errors: `doors.tiled` on `kalindra_gate_restored` (xvsdoor 2 across) and `textures.feature_repeated`
   xvswin (model 15): the classic kit's, for c7. D-85: NPCs 4951, 4953, 4956 at 5,527-5,803 (as before this run).
   Playtests: walk 908, hostility 50 pass.
+
+## D-142, D-157, F59, F63 (agent xeen-fb4-outdoor2-x7d1, 2026-11-25; run files output/xeen_fb/p4_outdoor2/d1/)
+
+- **D-142 / D-157.** `gen.py` `d142_enforce()` (common/d142.py, D-85's 5,120 to the givers, 2,600 from Castleview's
+  doors, the keep-clear areas, 3 cells plus r off the electrapedes' packs): 11 circles moved (siege_north 1, 3, 4 off
+  the north edge arrival, 2,185-3,544 before; east_road_camp 7 off the east arrival; 7 off roads, lanes and paths:
+  east_road_camp 2, 5, 6, grove_arachnoids 1, 2 (to the heath west of the grove, (27, 27) and (27, 23)), west_heath 3,
+  centipede_meadows 2). check_d85 `5120` 0 errors, no road-setback WARN; `common/d85.py` exit 0.
+- **Dungeon exits not held to D-142 yet:** D1 is not in `check_arrivals.D142_EXITS`. 27 exit WARN lines remain (D7's
+  rope at the great tree: the electrapedes' packs 3-5 and the grove's arachnoids; DD-05's door and rope, DD-10's
+  adit, DD-01's outfall (group 1's saboteurs at the cut bridge), the Castleview pyramid 5,805 < 5,888). Holding them
+  would empty the Dark Grove and the west heath of monsters: a DECIDE in the agent's report.
+- **F63.** Centipede marker (107, 88) → (105, 88) (578 from the bounds); Luna in the middle of her stones (30, 62)
+  (`LUNA_AT`; she stood inside a stone); the Barbarian chief and the seven barbarians south of the moved tent.
+  check_spawn_clear 0.
+- **F59.** `thing:sardaj_tent_1` (86.5, 23.0) → (87.0, 23.9): it hung 578 over the gorge's lip, which no pad can
+  level; now on the camp's shelf at 1,536 (padded). `mill_beam` sinks 26 to its rim. town_fit 0; D1's line out of
+  `town_fit_pending.yml`. The Sardaj camp keeps its question (Q-D12, D-144's `OUTDOOR_KEEP`).
+- Installed with its bake 10:27:59. Checks: audit the known kinds (classic kit `feature_repeated` 1, back-to-back,
+  coplanar, tile seams), door 0, wall 0, wild 0, fit 0, reach 0, faces 28 (as before), stale_bakes 0; walk, hostility,
+  daily, `d1_hull_edge` pass. Captures `output/xeen_fb/p4_outdoor2/after/d1/` (the Sardaj camp, Luna's ring).
+
+## D-161, D-160 (agent xeen-fb4-outdoor3, 2026-11-25; run files output/xeen_fb/p4_outdoor3/d1/)
+
+- **D-161: D1 is in `check_arrivals.D142_EXITS`.** Every dungeon exit takes D-142's floors (4,096; 5,888 for a slot
+  that shoots or casts). `d1/gen.py`: the grove's arachnoid markers 3-7 (spawns 16-20) are `GROVE_PACKS`, five placed
+  packs of three (Arachnoid 11330 ×12, Arachnoid Queen 11332 ×3, no Hunter; groups 6-10) in the grove's clearings
+  (40.0, 32.5), (40.5, 39.0), (44.5, 40.5), (52.5, 29.0), (55.5, 30.0): every member 2,000 or more from the rope's
+  landing, 4,096 or more from DD-10A's adit, both DD-05 arrivals and the pyramid, 5,120 from Justine. The grove's
+  markers 1-2 and the heath's marker 1 moved off the rope and DD-05 by `d142_enforce` (to (77, 26), (59, 71), (32, 75):
+  nothing nearer passes 5,888 from the rope, DD-05 and the adit), the siege's marker 7 off the adit (55, 25). Group 1's
+  four saboteurs at the cut rope bridge's east end on the east bank lane (`SABOTEURS_AT` (86.6, 40.4); were at its
+  west end, 3,033 from DD-01's outfall; nearest now 4,966). The pyramid is held (no marker or group within 5,888).
+- **Kept groups (D-161, the D7 rope's door guards only):** the Electrapedes, groups 3, 4, 5 (melee; nearest 2,328 from
+  `entrance:d7_rope`), and the grove packs, groups 6-10 (melee; nearest 2,827). Checks:
+  `x2/check_d85.py <scene> 5120 --kept-group 3 ... --kept-group 10` 0 errors (12 KEPT lines, all at the rope);
+  `common/d85.py ... xeen_d1 --kept-group 3 ... --kept-group 10` exit 0 (it takes `--kept-group` since this round).
+- **D-160:** Kalindra's ramp (bmodel 138) had its four side faces wound inward, as X4's castle lane: Map Studio's
+  `stairs` `ramp: true` now winds them outward (oymap 10:39). `tests/scenarios/xeen/d1_ramp.yml`
+  (`tools/xeen/ramp_test.py d1`): stations, the walk down and up, the foot from three headings, party and solo: pass.
+  The cheeks stand under a step over the land here, so no cheek pushes.
+- Installed with its bake 10:50:25; door, wall, wild, fit, reach 0; faces 28 (as before); gate lanes 0; walk,
+  hostility, daily pass.
+
+## Issue #45: the market grate (agent `xeen-cv45`, 2026-11-25; run files output/cv45/)
+
+- **Fault:** `thing:street_grate_4` ("the market (the square)", 8 high on the land) had its top in the plane of
+  `thing:square_paving`'s top (z 1160; check_faces `faces.coplanar`, overlap 24,576): the grate vanished up close and
+  showed black fragments from afar.
+- **Fix (`gen.py`):** a street grate over another platform (any unturned, drawn `kind: platform` placed before it whose
+  top holds the grate's footprint) stands with its top 4 over that platform's top (`raise` = the platform's raise +
+  height - 4, still 8 high, the least a platform takes). Only grate 4 lies on a platform: `raise: 4`, top 1164. The
+  other three stay on the land.
+- check_faces 27 (was 28; the grate pair gone; the rest as listed above). Audit errors as before (`feature_repeated`
+  xvswin, the classic kit's), door 0, wall 0, town_fit 0, reach 0, gate lanes 0, stale_bakes 0. Installed with its bake
+  (a6_install_baked.sh), key_npcs rewritten (D1's figures are actors 44-47 since D-161's packs; the list still said
+  29-32). Walk 1,166, hostility 51, daily 82: pass from the scratch root and from assets_dev.
+- Captures `output/cv45/shots_d1/` (near, mid, far side; looked at): the grate reads whole at every distance.

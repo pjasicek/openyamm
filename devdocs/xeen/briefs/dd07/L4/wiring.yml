@@ -268,6 +268,12 @@ events:
     title: Bubbling Vat
     text: The Bubbling Vat. It smells of copper and burnt sugar. Nobody is drinking from it.
     notes: "dark/aaze0068:0: the vat is dressing (D-39 Q3); the source's ageing water is not given."
+  - id: evt:vat_pot
+    preset: text
+    source: deco:vat
+    title: Bubbling Vat
+    text: The Bubbling Vat. It smells of copper and burnt sugar. Nobody is drinking from it.
+    notes: "As evt:vat, on the pot that stands on the bench (D-39 Q3: no stat)."
   - id: evt:ward
     preset: door
     source: door:ward

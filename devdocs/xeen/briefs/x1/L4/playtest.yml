@@ -560,7 +560,7 @@ steps:
 - walk_to:
     x: -6144
     y: 4608
-    z: 640
+    z: 608
     z_tolerance: 600
     radius: 160
     timeout_seconds: 120
@@ -642,7 +642,7 @@ steps:
 - walk_to:
     x: -6144
     y: 4608
-    z: 640
+    z: 608
     z_tolerance: 600
     radius: 160
     timeout_seconds: 60
@@ -725,7 +725,7 @@ steps:
 - walk_to:
     x: -6144
     y: 4608
-    z: 640
+    z: 608
     z_tolerance: 600
     radius: 160
     timeout_seconds: 90
@@ -907,7 +907,7 @@ steps:
 - walk_to:
     x: -6144
     y: 4608
-    z: 640
+    z: 608
     z_tolerance: 600
     radius: 160
     timeout_seconds: 60
@@ -1227,7 +1227,7 @@ steps:
 - walk_to:
     x: 9216
     y: 16761
-    z: 1376
+    z: 1351
     z_tolerance: 600
     radius: 160
     timeout_seconds: 180
@@ -1273,8 +1273,8 @@ steps:
       x: 9216
       y: 16384
       radius: 128
-      z_min: 1296
-      z_max: 1456
+      z_min: 1200
+      z_max: 1360
 - note: Off from the door on foot
 - walk_to:
     x: 9216
@@ -1792,7 +1792,7 @@ steps:
     radius: 160
     timeout_seconds: 120
     clear_hostiles: 3000
-- note: 'The Water Reflector (M37, A3''s hook): the prompt, Yes, and before M36 the hook''s fail text'
+- note: 'The Water Reflector (M37, A3''s hook): a click (D-144), before M36 the hook''s fail text on the status line'
 - play_lua:
     source: click(79); wait(0.5)
 - advance_runtime:
@@ -1800,19 +1800,13 @@ steps:
     present_dialogs: true
 - assert:
     dialog:
-      active: true
-      text_contains: below the rim. Reflector. Activate?
-- answer_input:
-    text: 'Yes'
-- advance_runtime:
-    seconds: 0.5
-- assert:
-    dialog:
-      active: true
-- press_action:
-    action: cancel_dialog
+      active: false
 - play_lua:
-    source: if qbit(111743) then error("the reflector set its bit before M36") end
+    source: 'local s = tostring(status())
+
+      if not string.find(s, "cold and silent", 1, true) then error("status line: " .. s) end
+
+      if qbit(111743) then error("the reflector set its bit before M36") end'
 - advance_runtime:
     seconds: 0.3
 - walk_to:

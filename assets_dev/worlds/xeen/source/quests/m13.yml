@@ -56,6 +56,13 @@ hooks:
     sealed: "the Act IV hinge: a level-30-48 no-magic tower beside the Act II hub; the key is loot in XD-11"
     needs: [skeleton_key]
     fail_text: "The tower door is sealed. Its lock is shaped like a grinning skull, and nothing you carry fits it. The Skeleton Key that fits it went up the Tower of High Magic with the King's alchemists, they say."
+  cloud_stair_down:
+    map: X8
+    where: "X8's stair of cloud at the foot of the Tower of High Magic's stair (evt:down_stair_landing) back down to XD-11's roof; X8 calls XeenQuests.can as the click's condition, the refusal is its locked text. D-151: gated as the way up, else Cloudreach's long bridge lets a party skip M12"
+    entrance: XD-11
+    sealed: "D-151 (decider, 2026-11-25): the way down from Cloudreach onto the Tower of High Magic's roof opens as the way up (M12's Enchanted Key bought, or M13 done)"
+    requires: {any: [{qbit: m12.key_bought}, {qbit: done}]}
+    fail_text: "Below the step the cloud thins over the Tower of High Magic. Its wards let down only those who hold the Enchanted Key from the Cave of Illusion."
 
 rewards: {xp: 6000, gold: 0}
 playthrough: "X3: the tower door. XD-11: up to the study (Enchanted Key): the Skeleton Key. X2: Darzog's door opens."

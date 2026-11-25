@@ -1,0 +1,98 @@
+# F62 (the player's pins 2026-11-25, X8 p3): down the Witch Clouds' stair, its foot leads back to the
+# Witch Tower's roof (XD-04).
+id: xeen.x8.l4.down
+title: 'Cloudreach (X8): the foot of the witch_landing stair leads back to xeen_xd04.blv (F62)'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x8.blv
+    party:
+      gold: 0
+      food: 20
+      members:
+      - name: Brokk
+        class: Knight
+        level: 18
+        skills: []
+        equipment: {}
+      - name: Hild
+        class: Cleric
+        level: 18
+        skills: []
+        equipment: {}
+      - name: Ivar
+        class: Archer
+        level: 18
+        skills: []
+        equipment: {}
+      - name: Sefa
+        class: Sorcerer
+        level: 18
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- play_lua:
+    source: wait(3); close()
+- clear_hostiles:
+    radius: 40000
+- movement_segment:
+    input: forward
+    seconds: 0.2
+    actor_collision: true
+    actor_ai: true
+    start:
+      map: xeen_x8.blv
+      x: 11520
+      y: -6802
+      z: 0
+      yaw_degrees: 270
+      pitch: 0
+    expect_stop:
+      map: xeen_x8.blv
+      x: 11520
+      y: -6802
+      z: 0
+      yaw_degrees: 270
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 400
+    tolerance_z: 100
+- walk_to:
+    x: 11520
+    y: -8634
+    radius: 32
+    timeout_seconds: 30
+    close_dialogs: false
+    z: -256
+    z_tolerance: 64
+- advance_runtime:
+    seconds: 1.0
+- play_lua:
+    source: 'click(19); wait(0.5); local s = tostring(status()); if not string.find(s, [[While she lives]], 1, true) then
+      error("status line: " .. s) end'
+- assert:
+    map: xeen_x8.blv
+- lua_event:
+    source: SetQBit(QBit(110046))
+- play_lua:
+    source: click(19); wait(0.5)
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd04.blv
+- assert:
+    party_position:
+      x: -6784
+      y: 448
+      radius: 200
+      z_min: 2496
+      z_max: 2624

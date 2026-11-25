@@ -728,44 +728,46 @@ spawns:
 monsters:
   - id: monster:child_1
     room: room:warden_lodge
-    monster: 439
+    monster: 11930
     at: [-2880, -1850]
     floor_height: 0
     facing: 0
     hostile: false
     group: 11
+    name: Goblin-eared boy
     immobile: true
-    notes: "Child 1, the half-turned boy, in cage 1 (a Goblin peasant: the children are half turned)."
+    npc: 4053
+    notes: "Child 1, the half-turned boy, in cage 1 (the children are half turned; D-163: the Goblin-eared boy row 11930, a child on MM9's elf-eared boy). D-155: placed name 416 and NPC 4053 (x1.yml): clicked, he talks; his Ears topic (m4.yml) cures him with the Alacorn as the cage does."
   - id: monster:child_2
     room: room:schoolroom
-    monster: 430
+    monster: 11931
     at: [2752, 2260]
     floor_height: 640
     facing: 270
     hostile: false
     group: 12
     immobile: true
-    notes: "Child 2, Rosebud, who knows where the coven keeps the face door's key, in cage 2."
+    notes: "Child 2, Rosebud, who knows where the coven keeps the face door's key, in cage 2 (D-163: the Goblin-eared girl row 11931)."
   - id: monster:child_3
     room: room:hidden_cage
-    monster: 433
+    monster: 11932
     at: [-2944, 2420]
     floor_height: 1280
     facing: 0
     hostile: false
     group: 13
     immobile: true
-    notes: "Child 3, hidden behind the bookcase."
+    notes: "Child 3, hidden behind the bookcase (D-163: row 11932, the dark-haired boy in a moss-green vest)."
   - id: monster:child_4
     room: room:witch_bedchamber
-    monster: 442
+    monster: 11933
     at: [-3950, -500]
     floor_height: 1920
     facing: 0
     hostile: false
     group: 14
     immobile: true
-    notes: "Child 4, in the witches' bedchamber."
+    notes: "Child 4, in the witches' bedchamber (D-163: row 11933, the flaxen-haired girl in woad blue)."
   - id: monster:familiar_1
     room: room:coven_sanctum
     monster: 11452

@@ -38,6 +38,7 @@ import planes_design as PD  # noqa: E402
 import planes_geom as PG  # noqa: E402
 sys.path.insert(0, str(ROOT / 'level_generation/projects/xeen/common/planes'))
 import pieces as PC  # noqa: E402
+import spans as SP  # noqa: E402
 
 BRIEF = ROOT / 'devdocs/xeen/briefs/p3'
 WORLD = ROOT / 'assets_dev/worlds/xeen'
@@ -336,12 +337,20 @@ def span(l, prefix, side, crown, note):
     a, b, d = link_cut(l)
     za, zb = FLOOR_OF[l['a']] + 4, FLOOR_OF[l['b']] + 4
     segs = 7 if d > 1400 else 5
+    # F62 (2026-11-25): level across each terrace until past its rim, sloping between (SP.link_spans; the straight
+    # slope dipped under the higher terrace's top before the rim: check_floor_cross floor.cross); the slabs break at
+    # the landings' ends as well
+    spans = SP.link_spans(a, b, za, zb, l['width'], OUTLINE[l['a']], OUTLINE[l['b']])
+    L = math.hypot(b[0] - a[0], b[1] - a[1])
+    breaks = sorted({min(1.0, max(0.0, math.hypot(p[0] - a[0], p[1] - a[1]) / L)) for p, _, _, _ in spans[1:]})
+    ts = [0.0] + [k / segs for k in range(1, segs) if all(abs(k / segs - t) * L >= 48 for t in breaks)] + breaks
+    ts = sorted(set(t for t in ts if 0 <= t < 1)) + [1.0]
     out = []
-    for k in range(segs):
-        t0, t1 = k / segs, (k + 1) / segs
+    for k in range(len(ts) - 1):
+        t0, t1 = ts[k], ts[k + 1]
         p = (a[0] + (b[0] - a[0]) * t0, a[1] + (b[1] - a[1]) * t0)
         q = (a[0] + (b[0] - a[0]) * t1, a[1] + (b[1] - a[1]) * t1)
-        z0, z1 = za + (zb - za) * t0, za + (zb - za) * t1
+        z0, z1 = SP.span_top(spans, p), SP.span_top(spans, q)
         tm = (t0 + t1) / 2
         th = crown + int(round(640 * (1 - math.sin(math.pi * tm)) ** 1.6))
         th = int(min(th, min(z0, z1) - (SCREE + 24)))
@@ -434,7 +443,8 @@ def anvil():
                         ARENA_FL - 6 - k % 2,
                         notes="The Anvil's crack (landmark:anvil): a split in the bedrock." if k == 0 else None))
     tp = PLACE['poi:test']['at']
-    out.append(block('platform:test_plate', (tp[0] - 64, tp[1]), (256, 256), ARENA_FL, 4, DAIS, DAIS,
+    out.append(block('platform:test_plate', (tp[0] - 64, tp[1]), (256, 256), ARENA_FL - SINK,
+                     plate_top((tp[0] - 64, tp[1]), ARENA_FL, 128) - ARENA_FL + SINK, DAIS, DAIS,
                      notes="The test's floor before S's pedestal (poi:test): stepping on asks 'Accept the test of Earth?'."))
     return out
 
@@ -513,7 +523,7 @@ def hollow():
                  notes=("The Sleeper's Hollow: a hollow at the bowl's bottom, 256 over the scree on every side (P-2), "
                         "under the south wall's overhang."))]
     dp = PLACE['exit:dais']['at']
-    out.append(prism('platform:dais', ring(dp[0], dp[1], 224, 12), HOLLOW_FL, 8, DAIS, DAIS,
+    out.append(prism('platform:dais', ring(dp[0], dp[1], 224, 12), HOLLOW_FL - SINK, 8 + SINK, DAIS, DAIS,
                      notes="The return dais (exit:dais): a disc of grey granite, shown once the Earth Sleeper is awake "
                            "(qbit 111762)."))
     return out
@@ -532,7 +542,7 @@ WAY_UP = None
 
 def way_up():
     wx, wy = WAY_UP
-    out = [prism('platform:way_up', ring(wx, wy, 176, 12), 0, 4, MONOLITH, PALE,
+    out = [prism('platform:way_up', ring(wx, wy, 176, 12), -SINK, 4 + SINK, MONOLITH, PALE,
                  notes="The dust shaft's foot (exit:way_up): a disc of pale stone in a ring of standing stones (S's "
                        "dust column over it is blocked).")]
     for k in range(8):
@@ -662,11 +672,21 @@ def quarry():
 
 
 # ------------------------------------------------------------------------------------------------ rockfall
+SINK = 4               # plates, the dais, the dust shaft: sunk into the top they lie on (X8's, F62: no lid)
+
+
+def plate_top(c, z, half):
+    """A plate's top: 4 over its terrace, or over a bridge's landing it lies on (F62)."""
+    d = SP.deck_top(ramps() + arch(), c, half, SCREE)
+    return max(z, d if d is not None else z) + 4
+
+
 def rockfall():
     out = []
     for i, c in enumerate(D['hazard']['cells']):
         z = FLOOR_OF[PL.space_of(c)]
-        out.append(block(f'platform:rockfall{i + 1}', c, (192, 192), z, 4, ROCK_FLOOR, RUBBLE,
+        out.append(block(f'platform:rockfall{i + 1}', c, (192, 192), z - SINK, plate_top(c, z, 96) - z + SINK,
+                         ROCK_FLOOR, RUBBLE,
                          notes="A rockfall (D-58 P3 Q2): a PressurePlate face, xperubble, planes.rockfall." if i == 0
                          else None))
     return out

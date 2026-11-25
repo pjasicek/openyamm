@@ -1596,6 +1596,25 @@ characters:
   # and skin as row 517), so row 517 stays hostile and needs no map-wide relation.
   - {key: druidess, id: 11929, name: Druidess, level: 30, stand_in: Druidess A, party: friendly, move: stand,
      fly: N, note: "X4 (Autumn Druid, npc 4321) and X6 (Summer Druid, npc 4601), D91 §1; immobile, peaceful, unkillable, not counted"}
+  # D-163 (2026-11-25, amended by the user: "mm9 has child models/npcs"): XD-04's caged children wore adult goblin and
+  # orc bodies (rows 439, 430, 433, 442), which clashed with the boy's child portrait (D-155). Children's rows on Xeen
+  # copies of MM9's elf-eared children (S: models/actors.yml, xeen_peasantboy pboy_e with its ears, xeen_peasantgirl1e);
+  # height and radius MM9's (descriptors 73, 74). The stand-ins give the sounds and the fallback sprites only.
+  - {key: goblin_eared_boy, id: 11930, name: Goblin-eared boy, level: 2, stand_in: PeasantM1 A, party: friendly,
+     move: stand, fly: N, height: 133, radius: 26,
+     note: "XD-04's child 1, npc 4053 the Goblin-eared boy (D-155), D-163; immobile, peaceful, not counted"}
+  - {key: goblin_eared_girl, id: 11931, name: Goblin-eared girl, level: 2, stand_in: PeasantF1 A, party: friendly,
+     move: stand, fly: N, height: 130, radius: 21,
+     note: "XD-04's caged girl Rosebud (child 2), D-163; immobile, peaceful, not counted"}
+  # D-163 follow-up (the user: "you can generate new skins for them if it makes sense"): each caged child looks
+  # different, so the second boy and the second girl have rows of their own (S: skins xboy_dark, xgirl_flax beside
+  # the first ones' xboy_ginger, xgirl_rose; one descriptor carries one skin).
+  - {key: goblin_eared_boy_2, id: 11932, name: Goblin-eared boy, picture: Xeen Goblin-eared boy 2, level: 2,
+     stand_in: PeasantM1 A, party: friendly, move: stand, fly: N, height: 133, radius: 26,
+     note: "XD-04's child 3 behind the bookcase, D-163; immobile, peaceful, not counted"}
+  - {key: goblin_eared_girl_2, id: 11933, name: Goblin-eared girl, picture: Xeen Goblin-eared girl 2, level: 2,
+     stand_in: PeasantF1 A, party: friendly, move: stand, fly: N, height: 130, radius: 21,
+     note: "XD-04's child 4 in the witches' bedchamber, D-163; immobile, peaceful, not counted"}
 
 # Relations between factions (the family key, a `faction`'s name, or character_<key>), each rule one way; `from` and
 # `to` may list several. A pair no rule covers keeps the engine table's relation, which has no row for Xeen ids, so
@@ -1626,3 +1645,4 @@ placed_names:
   - {id: 413, name: Goblin Warden, map: XD-04}
   - {id: 414, name: Orc Shaman, map: XD-05}
   - {id: 415, name: Tam, map: XD-05}
+  - {id: 416, name: Goblin-eared boy, map: XD-04}   # D-155: monster:child_1, the half-turned boy in cage 1

@@ -34,7 +34,7 @@ hooks:
   reflector_air:
     map: X6
     status: true   # D-90: experience, a find's answer or a death on the status line
-    where: "the Air Reflector on the north-west rim corner (prompt 'Reflector. Activate?'; Yes calls the hook)"
+    where: "the Air Reflector on the north-west rim corner (a click calls the hook, D-144)"
     requires: {qbit: m36.started}
     sets: [air]
     once: true
@@ -42,10 +42,12 @@ hooks:
     text: "The Reflector hums quietly. Somewhere far to the south, something answers it."
     fail_text: "A machine of the Ancients, cold and silent. Its panel shows a dragon's eye, closed."
     else_text: "The Reflector hums quietly."
+    fail_status: true   # D-144: a click; every line on the status line
+    else_status: true
   reflector_fire:
     map: X7
     status: true   # D-90: experience, a find's answer or a death on the status line
-    where: "the Fire Reflector on the north-east rim corner (prompt 'Reflector. Activate?')"
+    where: "the Fire Reflector on the north-east rim corner (a click calls the hook, D-144)"
     requires: {qbit: m36.started}
     sets: [fire]
     once: true
@@ -53,10 +55,12 @@ hooks:
     text: "The Reflector hums quietly. The heat of the mountain seems to lean towards it."
     fail_text: "A machine of the Ancients, cold and silent. Its panel shows a dragon's eye, closed."
     else_text: "The Reflector hums quietly."
+    fail_status: true   # D-144: a click; every line on the status line
+    else_status: true
   reflector_earth:
     map: X5
     status: true   # D-90: experience, a find's answer or a death on the status line
-    where: "the Earth Reflector on the south-west rim corner, in the Land of the Giants (prompt 'Reflector. Activate?')"
+    where: "the Earth Reflector on the south-west rim corner, in the Land of the Giants (a click calls the hook, D-144)"
     requires: {qbit: m36.started}
     sets: [earth]
     once: true
@@ -64,10 +68,12 @@ hooks:
     text: "The Reflector hums quietly. The snow on its housing slides off in one sheet."
     fail_text: "A machine of the Ancients, cold and silent. Its panel shows a dragon's eye, closed."
     else_text: "The Reflector hums quietly."
+    fail_status: true   # D-144: a click; every line on the status line
+    else_status: true
   reflector_water:
     map: X1
     status: true   # D-90: experience, a find's answer or a death on the status line
-    where: "the Water Reflector on the south-east rim corner (prompt 'Reflector. Activate?')"
+    where: "the Water Reflector on the south-east rim corner (a click calls the hook, D-144)"
     requires: {qbit: m36.started}
     sets: [water]
     once: true
@@ -75,6 +81,8 @@ hooks:
     text: "The Reflector hums quietly. The creek beside it runs backwards for a moment, then thinks better of it."
     fail_text: "A machine of the Ancients, cold and silent. Its panel shows a dragon's eye, closed."
     else_text: "The Reflector hums quietly."
+    fail_status: true   # D-144: a click; every line on the status line
+    else_status: true
 
 rewards: {xp: 32000, gold: 0}
 playthrough: "X1, X5, X6, X7: each corner's Reflector (Activate)."

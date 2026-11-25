@@ -1,0 +1,226 @@
+# Each land-following bridge end's pad height (common/wild.py bridge_ends): read once from the installed land,
+# then kept while the end stays at `at`, so the pad does not drift from build to build. Written by the outdoor generators.
+d1:
+  thing:east_bridge#0:
+    at: [78.8, 60.0]
+    height: 832
+  thing:east_bridge#1:
+    at: [83.3, 60.0]
+    height: 832
+  thing:east_bridge#cut:
+    line:
+    - [78.8, 60.0]
+    - [83.3, 60.0]
+    nodes: []
+  thing:jetty_pier#cut:
+    line:
+    - [48.4, 54.9]
+    - [45.9, 54.9]
+    nodes: []
+d2:
+  thing:footbridge#0:
+    at: [46.5, 70.0]
+    height: 1056
+  thing:footbridge#1:
+    at: [50.5, 70.0]
+    height: 1056
+  thing:footbridge#cut:
+    line:
+    - [46.5, 70.0]
+    - [50.5, 70.0]
+    nodes: []
+  thing:log_bridge#0:
+    at: [48.5, 48.0]
+    height: 1184
+  thing:log_bridge#1:
+    at: [53.0, 48.0]
+    height: 1216
+  thing:log_bridge#cut:
+    line:
+    - [48.5, 48.0]
+    - [53.0, 48.0]
+    nodes: []
+d3:
+  thing:wrath_bridge#0:
+    at: [73.6, 46.0]
+    height: 1024
+  thing:wrath_bridge#1:
+    at: [77.75, 46.0]
+    height: 992
+  thing:wrath_bridge#cut:
+    line:
+    - [73.6, 46.0]
+    - [77.75, 46.0]
+    nodes:
+    - [74, 45]
+    - [74, 46]
+    - [74, 47]
+d4:
+  thing:ferry_jetty#cut:
+    line:
+    - [72.0, 83.031]
+    - [72.0, 79.2]
+    nodes:
+    - [71, 83]
+    - [71, 84]
+    - [72, 83]
+    - [72, 84]
+    - [73, 83]
+    - [73, 84]
+  thing:isle_jetty#cut:
+    line:
+    - [72.6, 71.969]
+    - [72.6, 75.8]
+    nodes:
+    - [72, 71]
+    - [72, 72]
+    - [73, 71]
+    - [73, 72]
+  thing:snow_bridge#0:
+    at: [57.2, 53.0]
+    height: 1120
+  thing:snow_bridge#1:
+    at: [60.8, 53.0]
+    height: 1056
+  thing:snow_bridge#cut:
+    line:
+    - [57.2, 53.0]
+    - [60.8, 53.0]
+    nodes: []
+x1:
+  thing:nystor_jetty#cut:
+    line:
+    - [49.3, 55.031]
+    - [49.3, 52.3]
+    nodes:
+    - [48, 55]
+    - [48, 56]
+    - [49, 55]
+    - [49, 56]
+    - [50, 55]
+    - [50, 56]
+  thing:town_bridge#0:
+    at: [52.5, 50.3]
+    height: 576
+  thing:town_bridge#1:
+    at: [52.5, 54.6]
+    height: 576
+  thing:town_bridge#cut:
+    line:
+    - [52.5, 50.3]
+    - [52.5, 54.6]
+    nodes: []
+x2:
+  thing:great_bridge#cut:
+    line:
+    - [64.0, 48.031]
+    - [64.0, 57.969]
+    nodes: []
+  thing:island_jetty#cut:
+    line:
+    - [35.531, 60.0]
+    - [39.0, 60.0]
+    nodes: []
+  thing:medin_jetty#cut:
+    line:
+    - [48.031, 60.5]
+    - [44.6, 60.5]
+    nodes:
+    - [47, 61]
+    - [48, 60]
+    - [48, 61]
+    - [49, 60]
+    - [49, 61]
+  thing:nystor_pier#cut:
+    line:
+    - [80.2, 56.031]
+    - [80.2, 52.0]
+    nodes:
+    - [79, 57]
+    - [80, 56]
+    - [80, 57]
+    - [81, 56]
+    - [81, 57]
+  thing:ogre_bridge#0:
+    at: [31.3, 40.0]
+    height: 576
+  thing:ogre_bridge#1:
+    at: [35.7, 40.0]
+    height: 576
+  thing:ogre_bridge#cut:
+    line:
+    - [31.3, 40.0]
+    - [35.7, 40.0]
+    nodes: []
+x3:
+  thing:causeway#0:
+    at: [64.5, 56.5]
+    height: 864
+  thing:causeway#1:
+    at: [64.5, 67.0]
+    height: 960
+  thing:causeway#cut:
+    line:
+    - [64.5, 56.5]
+    - [64.5, 67.0]
+    nodes: []
+  thing:fen_bridge#0:
+    at: [37.0, 61.3]
+    height: 864
+  thing:fen_bridge#1:
+    at: [37.0, 67.2]
+    height: 928
+  thing:fen_bridge#cut:
+    line:
+    - [37.0, 61.3]
+    - [37.0, 67.2]
+    nodes: []
+x4:
+  thing:kings_bridge#0:
+    at: [76.6, 76.5]
+    height: 768
+  thing:kings_bridge#1:
+    at: [84.4, 76.5]
+    height: 768
+  thing:kings_bridge#cut:
+    line:
+    - [76.6, 76.5]
+    - [84.4, 76.5]
+    nodes: []
+  thing:nystor_jetty#cut:
+    line:
+    - [83.031, 101.0]
+    - [79.4, 101.0]
+    nodes:
+    - [82, 100]
+    - [82, 101]
+    - [83, 100]
+    - [83, 101]
+    - [83, 102]
+    - [84, 100]
+    - [84, 101]
+    - [84, 102]
+x5:
+  thing:golem_bridge#0:
+    at: [97.5, 61.0]
+    height: 832
+  thing:golem_bridge#1:
+    at: [97.5, 65.0]
+    height: 832
+  thing:golem_bridge#cut:
+    line:
+    - [97.5, 61.0]
+    - [97.5, 65.0]
+    nodes: []
+x7:
+  thing:black_bridge#0:
+    at: [61.0, 41.2]
+    height: 1888
+  thing:black_bridge#1:
+    at: [61.0, 44.8]
+    height: 1888
+  thing:black_bridge#cut:
+    line:
+    - [61.0, 41.2]
+    - [61.0, 44.8]
+    nodes: []

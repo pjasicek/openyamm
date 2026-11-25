@@ -1,0 +1,302 @@
+format: 1
+counter: 46
+pins:
+  - id: pin:p1
+    text: blessing is not working
+    source: game
+    world: xeen
+    map: xeen_x5.odm
+    pose:
+      position: [3194.141, 17396.951, 1889]
+      yaw_radians: 0.505
+      pitch_degrees: -6.042
+      heading_yaw_units: 165
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-24T22:33:35
+    status: resolved
+    claimed_by: agent:xeen-fb4-engine
+    from: 20261124-223335-xeen_x5.yml
+    replies:
+      - author: agent:xeen-fb4-engine
+        text: "Under MAW your reputation always counts as Neutral, so a bad name never shuts a temple or trainer. A Neutral party's donations are thanked but bless no one, as in MM7. (D-148)"
+        created: 2026-11-25T08:39:25
+        revision: 18df4f58ffe22f36fd3a99e6333d00b6
+        status: resolved
+  - id: pin:p2
+    text: music in winterkill is the old one
+    source: game
+    world: xeen
+    map: xeen_x5.odm
+    pose:
+      position: [2780.401, 14478.894, 1889]
+      yaw_radians: 5.474
+      pitch_degrees: -4.959
+      heading_yaw_units: 1784
+    picture: .oymap/pins/pictures/p2.png
+    author: user
+    created: 2026-11-24T22:34:24
+    status: resolved
+    claimed_by: agent:xeen-fb4-engine
+    from: 20261124-223424-xeen_x5.yml
+    replies:
+      - author: agent:xeen-fb4-engine
+        text: "The snow, desert, swamp and volcano lands keep fitting MM6-MM8 tracks on purpose; Winterkill is a ghost town with no town tune. (D-149)"
+        created: 2026-11-25T08:39:25
+        revision: 18df4f58ffe22f36fd3a99e6333d00b6
+        status: resolved
+  - id: pin:p3
+    text: Freedas tent can fly
+    source: game
+    world: xeen
+    map: xeen_x5.odm
+    pose:
+      position: [9454.723, 9666.636, 1644.506]
+      yaw_radians: 0.845
+      pitch_degrees: 10.82
+      heading_yaw_units: 275
+    picture: .oymap/pins/pictures/p3.png
+    author: user
+    created: 2026-11-24T22:35:56
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-223556-xeen_x5.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "F59: Freeda's tent stands on a level pad."
+        created: 2026-11-25T09:40:36
+        revision: acc4318ed3be69abdc987f9c536a9c6a
+        status: resolved
+  - id: pin:p4
+    text: there is something missing
+    source: game
+    world: xeen
+    map: xeen_x5.odm
+    pose:
+      position: [23062.34, -18857.184, 986.019]
+      yaw_radians: 5.059
+      pitch_degrees: -23.6
+      heading_yaw_units: 1649
+    picture: .oymap/pins/pictures/p4.png
+    author: user
+    created: 2026-11-24T22:49:03
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-224903-xeen_x5.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "The fen beside the hull's south-east corner is raised to the hull's level: no gap under it."
+        created: 2026-11-25T09:40:37
+        revision: acc4318ed3be69abdc987f9c536a9c6a
+        status: resolved
+  - id: pin:p5
+    text: z-fighting
+    source: game
+    world: xeen
+    map: xeen_x5.odm
+    pose:
+      position: [-19435.605, 11854.905, 1023.725]
+      yaw_radians: 3.981
+      pitch_degrees: -46.836
+      heading_yaw_units: 1298
+    picture: .oymap/pins/pictures/p5.png
+    author: user
+    created: 2026-11-24T23:47:53
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-234753-xeen_x5.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "F58: a ruin's gone wall now keeps a stone course 8 over its floor instead of a cap lying on the land (studio ruinPieces); check_faces faces.on_land guards it. Installed 2026-11-25."
+        created: 2026-11-25T09:40:35
+        revision: acc4318ed3be69abdc987f9c536a9c6a
+        status: resolved
+  - id: pin:p6
+    text: maybe put the tree to a more even ground
+    source: game
+    world: xeen
+    map: xeen_x5.odm
+    pose:
+      position: [3760.277, -3252.983, 769]
+      yaw_radians: 0.054
+      pitch_degrees: 5.824
+      heading_yaw_units: 17
+    picture: .oymap/pins/pictures/p6.png
+    author: user
+    created: 2026-11-24T23:51:46
+    status: resolved
+    claimed_by: agent:xeen-fb4-orchestrator
+    from: 20261124-235146-xeen_x5.yml
+    replies:
+      - author: agent:xeen-fb4-orchestrator
+        text: "The face tree's ground was levelled with this round's pads (F59: set pieces on uneven land get a level pad); a capture at the pin from close by shows its roots resting on level snow."
+        created: 2026-11-25T12:01:31
+        revision: f20993694a83756494f033cb3bc0c437
+        status: resolved
+        pictures: [.oymap/pins/pictures/p6-r1.png]
+  - id: pin:p7
+    text: the trolls are stuck in their tents
+    source: game
+    world: xeen
+    map: xeen_x5.odm
+    pose:
+      position: [-11515.443, -13113.453, 2349.409]
+      yaw_radians: 4.672
+      pitch_degrees: -2.143
+      heading_yaw_units: 1523
+    picture: .oymap/pins/pictures/p7.png
+    author: user
+    created: 2026-11-24T23:57:01
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-235701-xeen_x5.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "The Cyclopes start at fixed spots inside the outpost's fence, clear of the tents (check_spawn_clear)."
+        created: 2026-11-25T09:40:37
+        revision: acc4318ed3be69abdc987f9c536a9c6a
+        status: resolved
+  - id: pin:p8
+    text: both tents need a even ground
+    source: game
+    world: xeen
+    map: xeen_x5.odm
+    pose:
+      position: [-11448.606, -15929.092, 2256.106]
+      yaw_radians: 0.623
+      pitch_degrees: -7.171
+      heading_yaw_units: 203
+    picture: .oymap/pins/pictures/p8.png
+    author: user
+    created: 2026-11-24T23:57:49
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor2
+    from: 20261124-235749-xeen_x5.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor2
+        text: "Level ground under both tents and the whole stockade: the giants' east crags (a peak field raised after the level pads) now start at x 49.5, so the merged pad holds at 2304 to the east fence (x5/gen.py); haybales padded too (common/level_pads.py). Installed with its bake 10:01."
+        created: 2026-11-25T10:04:11
+        revision: f20993694a83756494f033cb3bc0c437
+        status: resolved
+        pictures: [.oymap/pins/pictures/p8-r1.png]
+  - id: pin:p9
+    text: or make this even
+    source: game
+    world: xeen
+    map: xeen_x5.odm
+    pose:
+      position: [-10905.958, -15082.678, 2258.333]
+      yaw_radians: 5.899
+      pitch_degrees: 5.545
+      heading_yaw_units: 1923
+    picture: .oymap/pins/pictures/p9.png
+    author: user
+    created: 2026-11-24T23:58:46
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor2
+    from: 20261124-235846-xeen_x5.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor2
+        text: "Level ground under both tents and the whole stockade: the giants' east crags (a peak field raised after the level pads) now start at x 49.5, so the merged pad holds at 2304 to the east fence (x5/gen.py); haybales padded too (common/level_pads.py). Installed with its bake 10:01."
+        created: 2026-11-25T10:04:11
+        revision: f20993694a83756494f033cb3bc0c437
+        status: resolved
+        pictures: [.oymap/pins/pictures/p9-r1.png]
+  - id: pin:p10
+    text: missing texture
+    source: game
+    world: xeen
+    map: xeen_x5.odm
+    pose:
+      position: [783.783, -13735.714, 1164.068]
+      yaw_radians: 4.604
+      pitch_degrees: -8.455
+      heading_yaw_units: 1501
+    picture: .oymap/pins/pictures/p10.png
+    author: user
+    created: 2026-11-25T00:00:45
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261125-000045-xeen_x5.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "The Troll Warren's mound is now built of Winterkill's grey stone, not a brown rubble that read as dirt."
+        created: 2026-11-25T09:40:37
+        revision: acc4318ed3be69abdc987f9c536a9c6a
+        status: resolved
+  - id: pin:p11
+    text: Polter-Fool are not attacking.
+    source: game
+    world: xeen
+    map: xeen_x5.odm
+    pose:
+      position: [-14392.273, 10504.266, 1009]
+      yaw_radians: 1.295
+      pitch_degrees: -5.423
+      heading_yaw_units: 422
+    picture: .oymap/pins/pictures/p11.png
+    author: user
+    created: 2026-11-25T00:19:55
+    status: resolved
+    claimed_by: agent:xeen-fb4-engine3
+    from: 20261125-001955-xeen_x5.yml
+    replies:
+      - author: agent:xeen-fb4-engine
+        text: "Found: the studio set every actor on the land, under the square's paving (16 high). Walkers step out of it, but the Polter-Fools and Ghost Riders fly and could not leave it, so they stood still and never attacked. Map Studio now stands actors and spawn points on the structure that covers the land (fixed with X5's next rebuild; test tests/scenarios/xeen/x5_winterkill_ghosts_move.yml)."
+        created: 2026-11-25T08:39:25
+        revision: 18df4f58ffe22f36fd3a99e6333d00b6
+      - author: agent:xeen-fb4-engine3
+        text: "Fixed: the ghosts of Winterkill's waves were placed inside the square's paving, where a flying monster cannot move. They now stand on the paving, come for the party and fight. Checked in today's X5 with a test where three Polter-Fools and three Ghost Riders must leave their places (it passes); the picture is taken from your spot."
+        created: 2026-11-25T09:24:03
+        revision: acc4318ed3be69abdc987f9c536a9c6a
+        status: resolved
+        pictures: [.oymap/pins/pictures/p11-r2.png]
+  - id: pin:p12
+    text: Ghost-Rider are also not moving
+    source: game
+    world: xeen
+    map: xeen_x5.odm
+    pose:
+      position: [-14392.273, 10504.266, 1009]
+      yaw_radians: 1.266
+      pitch_degrees: -4.185
+      heading_yaw_units: 413
+    picture: .oymap/pins/pictures/p12.png
+    author: user
+    created: 2026-11-25T00:21:07
+    status: resolved
+    claimed_by: agent:xeen-fb4-engine3
+    from: 20261125-002107-xeen_x5.yml
+    replies:
+      - author: agent:xeen-fb4-engine
+        text: "The same cause as p11: the Ghost Riders stood inside the square's paving. Fixed with X5's next rebuild."
+        created: 2026-11-25T08:39:25
+        revision: 18df4f58ffe22f36fd3a99e6333d00b6
+      - author: agent:xeen-fb4-engine3
+        text: "Fixed: the ghosts of Winterkill's waves were placed inside the square's paving, where a flying monster cannot move. They now stand on the paving, come for the party and fight. Checked in today's X5 with a test where three Polter-Fools and three Ghost Riders must leave their places (it passes); the picture is taken from your spot."
+        created: 2026-11-25T09:24:04
+        revision: acc4318ed3be69abdc987f9c536a9c6a
+        status: resolved
+        pictures: [.oymap/pins/pictures/p12-r2.png]
+  - id: pin:p13
+    text: monster is stuck
+    source: game
+    world: xeen
+    map: xeen_x5.odm
+    pose:
+      position: [-12843.974, 12438.783, 1009]
+      yaw_radians: 1.012
+      pitch_degrees: -8.594
+      heading_yaw_units: 330
+    picture: .oymap/pins/pictures/p13.png
+    author: user
+    created: 2026-11-25T00:22:13
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261125-002213-xeen_x5.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "The ghosts' wave spot moved out of the Acme machine; the studio now warns of any actor inside a model."
+        created: 2026-11-25T09:40:37
+        revision: acc4318ed3be69abdc987f9c536a9c6a
+        status: resolved

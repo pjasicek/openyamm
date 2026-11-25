@@ -49,87 +49,26 @@ steps:
   - play_lua: {source: "click(46); wait(0.5)"}
   - assert: {dialog: {active: true, text_contains: "none of them set as they should be"}}
   - play_lua: {source: "close(); wait(0.3)"}
-  # The dial walk: each sundial shows its hour in its Turn? question (the town left them at 3, 6 and 12); each turned
-  # on to 9 (6, 3 and 9 turns).
-  - play_lua: {source: "click(51); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: "The sundial is set to 3."}}
-  - play_lua: {source: "close(); wait(0.3); click(52); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: "The sundial is set to 6."}}
-  - play_lua: {source: "close(); wait(0.3); click(53); wait(0.5)"}
-  - assert: {dialog: {active: true, text_contains: "The sundial is set to 12."}}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(51); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(51); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(51); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(51); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(51); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(51); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(52); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(52); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(52); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(53); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(53); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(53); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(53); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(53); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(53); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(53); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(53); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
-  - play_lua: {source: "click(53); wait(0.5)"}
-  - answer_input: {text: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - play_lua: {source: "close(); wait(0.3)"}
+  # The dial walk (D-159, 2026-11-25: a click turns the sundial one step, "You turn the sundial. It is set to {N}."
+  # on the status line; no question): the town left them at 3, 6 and 12; each turned on to 9 (6, 3 and 9 clicks).
+  - play_lua: {source: "click(51); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial. It is set to 4.', 1, true) then error('dial 51: ' .. s) end"}
+  - play_lua: {source: "click(51); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial. It is set to 5.', 1, true) then error('dial 51: ' .. s) end"}
+  - play_lua: {source: "click(51); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial. It is set to 6.', 1, true) then error('dial 51: ' .. s) end"}
+  - play_lua: {source: "click(51); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial. It is set to 7.', 1, true) then error('dial 51: ' .. s) end"}
+  - play_lua: {source: "click(51); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial. It is set to 8.', 1, true) then error('dial 51: ' .. s) end"}
+  - play_lua: {source: "click(51); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial. It is set to 9.', 1, true) then error('dial 51: ' .. s) end"}
+  - play_lua: {source: "click(52); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial. It is set to 7.', 1, true) then error('dial 52: ' .. s) end"}
+  - play_lua: {source: "click(52); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial. It is set to 8.', 1, true) then error('dial 52: ' .. s) end"}
+  - play_lua: {source: "click(52); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial. It is set to 9.', 1, true) then error('dial 52: ' .. s) end"}
+  - play_lua: {source: "click(53); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial. It is set to 1.', 1, true) then error('dial 53: ' .. s) end"}
+  - play_lua: {source: "click(53); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial. It is set to 2.', 1, true) then error('dial 53: ' .. s) end"}
+  - play_lua: {source: "click(53); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial. It is set to 3.', 1, true) then error('dial 53: ' .. s) end"}
+  - play_lua: {source: "click(53); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial. It is set to 4.', 1, true) then error('dial 53: ' .. s) end"}
+  - play_lua: {source: "click(53); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial. It is set to 5.', 1, true) then error('dial 53: ' .. s) end"}
+  - play_lua: {source: "click(53); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial. It is set to 6.', 1, true) then error('dial 53: ' .. s) end"}
+  - play_lua: {source: "click(53); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial. It is set to 7.', 1, true) then error('dial 53: ' .. s) end"}
+  - play_lua: {source: "click(53); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial. It is set to 8.', 1, true) then error('dial 53: ' .. s) end"}
+  - play_lua: {source: "click(53); wait(0.5); local s = status(); if not string.find(s, 'You turn the sundial. It is set to 9.', 1, true) then error('dial 53: ' .. s) end"}
   - play_lua: {source: "if mapvar('x3_dial_1') ~= 9 or mapvar('x3_dial_2') ~= 9 or mapvar('x3_dial_3') ~= 9 then error('dials ' .. tostring(mapvar('x3_dial_1')) .. ' ' .. tostring(mapvar('x3_dial_2')) .. ' ' .. tostring(mapvar('x3_dial_3'))) end"}
   - assert: {qbit_set: [112142]}
   # D-89 (the coffin without the night condition): with the dials at nine the lid slides aside by day too.

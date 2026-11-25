@@ -1,0 +1,289 @@
+format: 1
+counter: 39
+pins:
+  - id: pin:p1
+    text: "i make the pin here for every map. Is it possible to move the monsters more far away from the streets? You load in and get immediately attacked."
+    source: game
+    world: xeen
+    map: xeen_x6.odm
+    pose:
+      position: [21803.291, 2246.758, 1198.294]
+      yaw_radians: 4.56
+      pitch_degrees: -10.683
+      heading_yaw_units: 1486
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-24T18:03:22
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-180322-xeen_x6.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "D-142: no monster within 4,096 of a map's edge arrival (5,888 if it shoots), spawns 1,024 off roads, on X1, X2, X5, X6 now; X4 and the other maps at their next rebuild."
+        created: 2026-11-25T09:40:38
+        revision: 4541b739c0fa7825fb840e1f3f8c417d
+        status: resolved
+  - id: pin:p2
+    text: z-fighting
+    source: game
+    world: xeen
+    map: xeen_x6.odm
+    pose:
+      position: [7257.77, -6858.628, 1505]
+      yaw_radians: 4.826
+      pitch_degrees: -47.981
+      heading_yaw_units: 1573
+    picture: .oymap/pins/pictures/p2.png
+    author: user
+    created: 2026-11-24T18:15:20
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-181520-xeen_x6.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "F58: a ruin's gone wall now keeps a stone course 8 over its floor instead of a cap lying on the land (studio ruinPieces); check_faces faces.on_land guards it. Installed 2026-11-25."
+        created: 2026-11-25T09:40:35
+        revision: 4541b739c0fa7825fb840e1f3f8c417d
+        status: resolved
+  - id: pin:p3
+    text: barrels are clipping
+    source: game
+    world: xeen
+    map: xeen_x6.odm
+    pose:
+      position: [11732.919, -14336.055, 1505]
+      yaw_radians: 4.773
+      pitch_degrees: -28.458
+      heading_yaw_units: 1556
+    picture: .oymap/pins/pictures/p3.png
+    author: user
+    created: 2026-11-24T18:17:42
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-181742-xeen_x6.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "The barrels stand 220 from the coach's wall; props.in_wall measures barrels by their model's width."
+        created: 2026-11-25T09:40:37
+        revision: 4541b739c0fa7825fb840e1f3f8c417d
+        status: resolved
+  - id: pin:p4
+    text: the monsters are trapped
+    source: game
+    world: xeen
+    map: xeen_x6.odm
+    pose:
+      position: [-18068.33, -15224.179, 1488.022]
+      yaw_radians: 1.64
+      pitch_degrees: -7.852
+      heading_yaw_units: 535
+    picture: .oymap/pins/pictures/p4.png
+    author: user
+    created: 2026-11-24T18:21:27
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-182127-xeen_x6.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "X6's spawn circles keep 2.5 cells from the cove, the rims and the map's bounds (check_spawn_clear spawn.at_hull)."
+        created: 2026-11-25T09:40:37
+        revision: 4541b739c0fa7825fb840e1f3f8c417d
+        status: resolved
+  - id: pin:p5
+    text: maybe remove the question
+    source: game
+    world: xeen
+    map: xeen_x6.odm
+    pose:
+      position: [-18465.689, 4463.589, 1431.974]
+      yaw_radians: 1.572
+      pitch_degrees: -6.924
+      heading_yaw_units: 512
+    picture: .oymap/pins/pictures/p5.png
+    author: user
+    created: 2026-11-24T18:25:08
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-182508-xeen_x6.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "D-144: the Shrine of Energy is a click, no question; its effect on the status line."
+        created: 2026-11-25T09:40:38
+        revision: 4541b739c0fa7825fb840e1f3f8c417d
+        status: resolved
+  - id: pin:p6
+    text: move the fountain to a more even ground
+    source: game
+    world: xeen
+    map: xeen_x6.odm
+    pose:
+      position: [-9942.382, 1089.087, 993]
+      yaw_radians: 0.653
+      pitch_degrees: -2.825
+      heading_yaw_units: 213
+    picture: .oymap/pins/pictures/p6.png
+    author: user
+    created: 2026-11-24T18:26:41
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-182641-xeen_x6.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: 3.3 moved the oasis fountain off the pond's bank onto a level pad.
+        created: 2026-11-25T09:40:36
+        revision: 4541b739c0fa7825fb840e1f3f8c417d
+        status: resolved
+  - id: pin:p7
+    text: you can clip through
+    source: game
+    world: xeen
+    map: xeen_x6.odm
+    pose:
+      position: [8813.373, 9993.507, 1409]
+      yaw_radians: 1.605
+      pitch_degrees: -4.789
+      heading_yaw_units: 523
+    picture: .oymap/pins/pictures/p7.png
+    author: user
+    created: 2026-11-24T18:29:41
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-182941-xeen_x6.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "D-141: the Sphinxes are solid (LOD2 collision proxies) and their doors sit inside the reveal; tests/scenarios/xeen/x6_sphinx_solid.yml."
+        created: 2026-11-25T09:40:37
+        revision: 4541b739c0fa7825fb840e1f3f8c417d
+        status: resolved
+  - id: pin:p8
+    text: here the same
+    source: game
+    world: xeen
+    map: xeen_x6.odm
+    pose:
+      position: [9599.152, 10142.482, 1409]
+      yaw_radians: 1.539
+      pitch_degrees: -8.657
+      heading_yaw_units: 502
+    picture: .oymap/pins/pictures/p8.png
+    author: user
+    created: 2026-11-24T18:30:00
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-183000-xeen_x6.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "D-141: the Sphinxes are solid (LOD2 collision proxies) and their doors sit inside the reveal; tests/scenarios/xeen/x6_sphinx_solid.yml."
+        created: 2026-11-25T09:40:37
+        revision: 4541b739c0fa7825fb840e1f3f8c417d
+        status: resolved
+  - id: pin:p9
+    text: the entrance is clipping through both side
+    source: game
+    world: xeen
+    map: xeen_x6.odm
+    pose:
+      position: [8908.172, 9757.111, 1409]
+      yaw_radians: 1.478
+      pitch_degrees: -15.309
+      heading_yaw_units: 482
+    picture: .oymap/pins/pictures/p9.png
+    author: user
+    created: 2026-11-24T18:30:30
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-183030-xeen_x6.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "D-141: the Sphinxes are solid (LOD2 collision proxies) and their doors sit inside the reveal; tests/scenarios/xeen/x6_sphinx_solid.yml."
+        created: 2026-11-25T09:40:37
+        revision: 4541b739c0fa7825fb840e1f3f8c417d
+        status: resolved
+  - id: pin:p10
+    text: here too
+    source: game
+    world: xeen
+    map: xeen_x6.odm
+    pose:
+      position: [9033.339, 16493.438, 1409]
+      yaw_radians: 4.737
+      pitch_degrees: 5.73
+      heading_yaw_units: 1544
+    picture: .oymap/pins/pictures/p10.png
+    author: user
+    created: 2026-11-24T18:31:58
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-183158-xeen_x6.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "D-141: the Sphinxes are solid (LOD2 collision proxies) and their doors sit inside the reveal; tests/scenarios/xeen/x6_sphinx_solid.yml."
+        created: 2026-11-25T09:40:38
+        revision: 4541b739c0fa7825fb840e1f3f8c417d
+        status: resolved
+  - id: pin:p11
+    text: "maybe it is intended, but one part needs mor ground"
+    source: game
+    world: xeen
+    map: xeen_x6.odm
+    pose:
+      position: [13865.707, 16295.46, 1755.146]
+      yaw_radians: 0.456
+      pitch_degrees: -0.226
+      heading_yaw_units: 149
+    picture: .oymap/pins/pictures/p11.png
+    author: user
+    created: 2026-11-24T18:32:52
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-183252-xeen_x6.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "F59: the half-buried wagon stands on a level pad."
+        created: 2026-11-25T09:40:36
+        revision: 4541b739c0fa7825fb840e1f3f8c417d
+        status: resolved
+  - id: pin:p12
+    text: z-fighting
+    source: game
+    world: xeen
+    map: xeen_x6.odm
+    pose:
+      position: [20479.963, 12703.204, 1536.988]
+      yaw_radians: 0.293
+      pitch_degrees: -43
+      heading_yaw_units: 96
+    picture: .oymap/pins/pictures/p12.png
+    author: user
+    created: 2026-11-24T18:33:46
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-183346-xeen_x6.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "F58: a ruin's gone wall now keeps a stone course 8 over its floor instead of a cap lying on the land (studio ruinPieces); check_faces faces.on_land guards it. Installed 2026-11-25."
+        created: 2026-11-25T09:40:35
+        revision: 4541b739c0fa7825fb840e1f3f8c417d
+        status: resolved
+  - id: pin:p13
+    text: "sorry to say this, the door sticks out"
+    source: game
+    world: xeen
+    map: xeen_x6.odm
+    pose:
+      position: [-11687.269, -10275.056, 1574.546]
+      yaw_radians: 3.129
+      pitch_degrees: 18.014
+      heading_yaw_units: 1020
+    picture: .oymap/pins/pictures/p13.png
+    author: user
+    created: 2026-11-24T20:21:11
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-202111-xeen_x6.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "D-141: the Sphinxes are solid (LOD2 collision proxies) and their doors sit inside the reveal; tests/scenarios/xeen/x6_sphinx_solid.yml."
+        created: 2026-11-25T09:40:38
+        revision: 4541b739c0fa7825fb840e1f3f8c417d
+        status: resolved

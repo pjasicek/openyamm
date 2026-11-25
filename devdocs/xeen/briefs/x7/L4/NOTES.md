@@ -353,3 +353,23 @@ closed rockfall; they are rocks, not containers, and hide once cleft_open is set
   along a piece varies by more than its kerb); not changed here (NEXT).
 - Side quests crossing it, normal and `--reload` (2026-11-23, after the installs): pass (rim doc §6, map agent MB).
   Story segments and promotions: held for the orchestrator's single chain run after all 12 rim maps.
+
+## D-142, D-144, D-152, D-157, F59, F63 (agent xeen-fb4-outdoor2-x7d1, 2026-11-25; run files output/xeen_fb/p4_outdoor2/x7/)
+
+- **D-142 / D-157.** `gen.py` `spot_ok()` (the marker loop's own rules, now shared) and `d142_enforce()`
+  (common/d142.py, X7 held to the dungeon-exit floors too): 29 circles moved (edge arrivals and the start 4,096, 5,888
+  for X7's three slots, which all shoot or cast; the five dungeon exits likewise; every road, lane and path 1,024 from a
+  marker's centre). `xeen_x7` is in `check_arrivals.D142_EXITS`. check_d85 0 errors (no WARN, no road setback),
+  `common/d85.py` exit 0.
+- **F63.** Marker circles 2.7 cells from the void and the lava cove (`HULL_CELLS`: spawns 20 and 25 stood 704 and 160
+  from the hull); Sablewing at (76.3, 90.05), off his shelter's face (141 → clear). check_spawn_clear 0.
+- **D-144 / D-152.** The Fire Reflector is one click (A3's hook, `fail_status`/`else_status`); the orc outpost burns on
+  one click of its fire: hides, fire and bones go, charred stakes and embers show (`OUTPOST_CHAR`), whose click gives
+  A3's else text "Charred stakes and cold ash."; `evt:outpost_state` does the same on load. X7's `OUTDOOR_OPEN` lines
+  are out of `check_wiring_rules.py` (0 errors). `gen_walk.py` and `tests/playthrough/xeen/85_reflectors.yml` click.
+- **F59 / F58.** Level pads under the broken wagon (2,208) and hoard_bones_2 (3,008) from `common/level_pads.py`
+  (regenerated on the scratch build's land, `XEEN_WILD_MAPS`); town_fit 0, X7's line out of `town_fit_pending.yml`.
+  The ruins' `faces.on_land` are gone; 4 left, the known kinds: XD-18's cave-mouth floor (3) and XD-05's gate sill (1).
+- Installed with its bake 10:20:44. Checks: audit 0 errors, door 0, wall 0, wild 0 (no `rim.hull_step`), fit 0,
+  reach 0, stale_bakes 0; walk, hostility, `x7_edges`, `hooks_fd04` pass. Captures
+  `output/xeen_fb/p4_outdoor2/after/x7/` (wagon, hoard bones, Sablewing, outpost).

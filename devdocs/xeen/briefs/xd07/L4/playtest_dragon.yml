@@ -2,6 +2,11 @@
 # routes at radius 60 indoors, so the caged Fire Dragon (11642, 476 across, 487 high) is kept in its pit by the
 # pit stair's height (288: floor -640, ceiling -352), not its width (160). The warden's lever (event 7) raises the
 # portcullis (door 10); the party waits in the pit gallery above for 40 s; the dragon is still in the pit.
+# D-154 (XD-07 p1 "the fire dragon gets stuck there", 2026-11-25): the dragon is leashed 768 to its hoard. Woken by
+# the party in the pit, then with the party at the foot of the stair for 20 s, it stays at least 300 from the stair's
+# mouth (2944, -4096) (it stops at the leash, about (3438, -4350)); 20 s after the party has gone back up out of sight
+# it is still inside its leash (864 of its post (3456, -5120)) and away from the mouth. It does not walk home then:
+# out of the party's sight it is a background actor, which holds still (MM's active-actor rule).
 id: xeen.xd07.l4.dragon
 title: Castle Burlock (XD-07 L4), the Fire Dragon stays in its pit with the portcullis raised (D-32)
 world: xeen
@@ -31,3 +36,18 @@ steps:
   - assert: {actor_count: {monster_id: 11642, near: [2944, -5120, 1300], min: 1}}
   - assert: {actor_count: {monster_id: 11642, near: [2816, -2432, 900], max: 0}}
   - assert: {actor_count: {monster_id: 11642, near: [2944, -3456, 450], max: 0}}
+  # D-154: the party goes into the pit by its north wall (the pin's place), wakes the dragon, and goes back to the
+  # foot of the pit stair (unleashed, the dragon waited 60 from the mouth, at (2944, -4156)).
+  - set_pose: {map: xeen_xd07.blv, x: 2858, y: -4508, z: -1152, yaw: -1.0, pitch: 0.0}
+  - advance_runtime: {seconds: 8}
+  - set_pose: {map: xeen_xd07.blv, x: 2944, y: -3800, z: -1120, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 20}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11642, near: [2944, -4096, 300], max: 0}}
+  - assert: {actor_count: {monster_id: 11642, near: [2944, -5120, 1300], min: 1}}
+  # Back up in the gallery, out of its sight: it keeps to its leash.
+  - set_pose: {map: xeen_xd07.blv, x: 3000, y: -2700, z: -640, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 20}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11642, near: [3456, -5120, 864], min: 1}}
+  - assert: {actor_count: {monster_id: 11642, near: [2944, -4096, 300], max: 0}}

@@ -327,3 +327,18 @@ Scripts and logs `output/xeen_rimmap_a/` (`build.sh x3`, `install.sh x3`, `tests
 - Tests: walk and hostility from the root twice and from assets_dev pass.
 - Captures `output/xeen_rimmap_a/x3/cap_after/` (rim low/along/high/mid day and night, Ebenezer's tent, the
   Newcastle ruin, the hull from the void day/night, the west rim, the far void); before `output/xeen_rim/before/x3/`.
+
+## D-142/D-157, D-159, F58/F59/F63 (2026-11-25, `xeen-fb4-outdoor2-x5x3`; scratch output/xeen_fb/p4_outdoor2/x3/)
+- D-142: the L1 polygons' markers are fixed circles (`gen.py POLY_SPOTS`, the spots the studio had drawn, whole cells,
+  r 0.5); `d142_enforce` (common/d142.py) moved 10: fen_things 2, 3, fen_toads 1, 2 (road setback), gloomwood_dead
+  1, 5 (XD-08's exit), crow_foot 1 (XD-13's exit), vale_toads 1 (the north edge, 3,455 -> past 4,096), reed_dead 1, 2
+  (the X8 landing). X3 is in check_arrivals.D142_EXITS: check_d85 0 errors, common/d85 exit 0 (FF 0, ROAD 0; six
+  D-85 FAIL lines with no disabler, melee only, as before).
+- D-159: a click turns a sundial one step ("You turn the sundial. It is set to N."); q-c7.dials_set as before.
+  `gen_walk.py` and `tests/scenarios/xeen/side_quests/q-c7_count_of_nightshadow.yml` click (both pass).
+- F58/F59/F63: newcastle_ruin and wreck 0 `faces.on_land` (A1's ruin courses), the watchtower levelled by a terrace
+  under its plot (2688); rangers' tents and the rune stones `yard_1`, `yard_2` (sunk, `rune stone` natural in
+  common/level_pads.py) 0 town_fit; Ebenezer's third workman out of the stage-2 keep (80.4, 34.0); crow_toads and a
+  shore marker a cell in from the bounds (check_spawn_clear 0). Left: `faces.on_land` on nightshadow_temple and the
+  causeway (not F58's ruins); audit's classic-kit `textures.feature_repeated` (6).
+- Installed with its bake 10:07; walk and hostility pass; stale_bakes 0.

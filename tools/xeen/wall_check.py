@@ -55,6 +55,7 @@ BODY = (40, 120)          # an upright face blocks when it covers this band over
 UNTOUCHABLE = 0x20000000
 PORTAL = 0x1
 SLIT = 96                 # a piece this close in front of an open end face makes a slit
+MERLON = 80               # the top band of a wall where its battlements' merlons stand
 STEP = 32                 # an end face open over this much across and up next to a covering piece: a step
 PIECE_KINDS = ('wall', 'culvert', 'building', 'barrier', 'bridge')
 WATER_END = 'thing:water_end*'
@@ -312,6 +313,15 @@ def first_hit(q, d3, models, reach):
     return best
 
 
+def enclosed(q, model):
+    """D-170 (2026-11-25): q is shut in by the building on every side (a wall run 16 into a tower whose storeys are
+    parts of their own: inside the lower storey, under the upper one's floor, `contains` finds no solid)."""
+    if np.any(q < model.lo - 1) or np.any(q > model.hi + 1):
+        return False
+    return all(first_hit(q, np.array(d, float), [model], 4096) for d in
+               ((1, 0, 0), (-1, 0, 0), (0, 1, 0), (0, -1, 0), (0, 0, 1)))
+
+
 def check_ends(mp, circuit_ids, seals=(), joints_ok=()):
     """Each wall end face sampled: a sample is covered when the ray along the wall's way out first meets the inside
     of another piece (the back of its face), open with a piece in front when it meets a face from outside within
@@ -332,6 +342,15 @@ def check_ends(mp, circuit_ids, seals=(), joints_ok=()):
                  and np.all(m.lo[:2] - 1024 <= end) and np.all(end <= m.hi[:2] + 1024)
                  and m.lo[0] - 8 <= end[0] <= m.hi[0] + 8 and m.lo[1] - 8 <= end[1] <= m.hi[1] + 8]
         d3 = np.array([direction[0], direction[1], 0.0])
+        # D-170: no end face but battlement ends (merlons in the wall's top band, or set back from the end): the
+        # studio left the end face out because the piece it meets covers it; covered when that piece's solid stands
+        # just past the end
+        top = max(float(m.hi[2]) for m in mp.models[tid])
+        if all(float(np.dot(pts[:, :2].mean(0) - end, direction)) < -24 or float(pts[:, 2].min()) >= top - MERLON
+               for pts, _ in faces):
+            low = min(float(pts[:, 2].min()) for pts, _ in faces) - 16
+            if any(m.contains(np.array([end[0], end[1], low]) + d3 * 10) for m in near):
+                continue
         covered, open_, slit, exposed = 0, 0, None, []
         for pts, n in faces:
             samples, u, v = sample_face(pts, n, offset=-2.0)
@@ -340,7 +359,11 @@ def check_ends(mp, circuit_ids, seals=(), joints_ok=()):
                 if q[2] < ground + 2:
                     continue          # under the land: neither covered by a piece nor open
                 hit = first_hit(q, d3, near, 2048)
-                if (hit and (np.dot(hit[1], d3) > 0 or hit[0] <= 6)) or any(m.contains(q) for m in near):
+                # D-170 (2026-11-25): the studio draws no end face where a wall meets another head on (as thick and as
+                # high or more), so the piece met is also found by its solid just past the face
+                if (hit and (np.dot(hit[1], d3) > 0 or hit[0] <= 6)) \
+                        or any(m.contains(q) or m.contains(q + d3 * 10) for m in near) \
+                        or any(enclosed(q, m) for m in near if mp.things.get(m.name, {}).get('kind') == 'building'):
                     covered += 1      # inside the piece it meets, or flush against it
                     continue
                 open_ += 1

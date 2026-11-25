@@ -1,8 +1,11 @@
 # Xeen side quest Q-C17, the Wand of Faery Magic (X2), from a new game on Rivercity's Bridge Square. Danulf the Faery
 # King (his ring of stones in the south woods, the scene's actor 51) lost his wand to the crazed sprites; their nest
-# (the sprite eggs, event 147) gives it once; Danulf takes it, pays 4,000 experience each and 1,500 gold and promotes
-# the Dark Elf to Patriarch (racial promotion). A Dark Elf who joins later is promoted by his Patriarch topic. Outdoors
-# the party is placed beside each person and prop (tests/playthrough/PLAYBOOK.md §2).
+# (event 147; D-167: a great nest of woven twigs in the hollow at the heart of the woods, west of Danulf's ring) gives it
+# once onto the cursor; Danulf takes it, pays 4,000 experience each and 1,500 gold and promotes the Dark Elf to
+# Patriarch (racial promotion). A Dark Elf who joins later is promoted by his Patriarch topic. Outdoors the party is
+# placed beside each person and prop (tests/playthrough/PLAYBOOK.md §2); the nest is found the player's way: named
+# under the crosshair from standing height 450 from its middle (150 from its rim) on two sides, and used with the
+# interact key (D-153's reach of 512).
 # Quest logic: source/quests/q-c17.yml.
 #   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/side_quests/q-c17_faery_wand.yml
 id: xeen.side_quests.q-c17
@@ -42,21 +45,37 @@ steps:
       dialog: {text_contains: "The Sprites still possess my Wand"}
   - press_action: {action: cancel_dialog}
   - assert: {qbit_set: [112340]}
-  # The sprites' nest in the south woods (event 147): the wand, once.
-  - set_pose: {map: xeen_x2.odm, x: -7578, y: -11700, z: 1092, yaw: -1.5708, pitch: 0.0}
+  # The sprites' nest in the hollow at the heart of the woods (event 147, middle (-9984, -10240), land 640): named under
+  # the crosshair from the south and from the east, standing 450 from its middle and looking down at it (17 degrees);
+  # the interact key there gives the wand onto the cursor, once.
+  - set_pose: {map: xeen_x2.odm, x: -9984, y: -10690, z: 640, yaw: 1.5708, pitch: -0.3}
   - clear_hostiles: {radius: 3000}
-  - play_lua: {source: "click(147); wait(1)"}
+  - advance_runtime: {seconds: 0.3}
+  - play_lua:
+      source: |
+        local text = hover()
+        if text ~= "Sprite nest" then error("from the south the crosshair names [" .. text .. "], not the nest") end
+  - set_pose: {map: xeen_x2.odm, x: -9534, y: -10240, z: 640, yaw: 3.1416, pitch: -0.3}
+  - clear_hostiles: {radius: 3000}
+  - advance_runtime: {seconds: 0.3}
+  - play_lua:
+      source: |
+        local text = hover()
+        if text ~= "Sprite nest" then error("from the east the crosshair names [" .. text .. "], not the nest") end
+        local used, event = interact(); wait(1)
+        if not used or event ~= 147 then error("the interact key at the nest ran event " .. tostring(event)) end
   - play_lua:
       source: |
         local s = tostring(status())
         if not string.find(s, [[Danulf's Wand of Faery Magic]], 1, true) then error("status line: " .. s) end
+        if held() ~= 12310 then error("the wand is not on the cursor: " .. tostring(held())) end
   - play_lua:
       source: |
         close(); wait(0.5)
         if held() ~= 0 then stow() end
         if item_count(12310) ~= 1 then error("no wand from the nest") end
   - assert: {qbit_set: [110205, 110206]}
-  - play_lua: {source: "click(147); wait(1)"}
+  - play_lua: {source: "local used, event = interact(); wait(1); if event ~= 147 then error('second use ran event ' .. tostring(event)) end"}
   - play_lua:
       source: |
         local s = tostring(status())

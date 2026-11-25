@@ -130,6 +130,7 @@ def plan(level):
 
 
 # ---------------------------------------------------------------- spawn markers on walkable ground
+# The edge arrivals seed each area's first marker as near as D-142 lets it (4,096-5,888 from the arrival: D-15's band)
 EDGE_ARRIVALS = {'entrance:east_road': (107.5, 60.5), 'entrance:south_road': (50.5, 107.5)}
 KNOBS = [(cx, cy) for cx, cy, r, top in LD.BARBARIC + LD.GARGOYLE if top >= 2900]
 NO_MARKERS = [  # things the markers keep off (the castle, the sphinxes, the mesa tops, the serai, the paths)
@@ -154,7 +155,15 @@ def walkable(x, y):
     for line in (LD.CLIFF_PATH, LD.PROSPECT_PATH, LD.NEST_CRACK):
         if LD.dist_to_line(x, y, line) < 1.5:
             return False
-    return x > LD.RIM_X + 1.5 and y > LD.RIM_Y + 1.2 and x < 109 and y < 109
+    # F63 (X6 p4, 2026-11-25: worms trapped at the hull): a marker's circle (1 cell) stands at least 768 from the hull
+    # (the rims and the cove) and from the map's bounds (+-23,106: cell 19.13..108.87), so HULL_CELLS to its centre
+    if K.inside((x, y), LD.COVE) or K.edge_dist((x, y), LD.COVE) < HULL_CELLS:
+        return False
+    lo, hi = LD.RIM_X + HULL_CELLS, 64 + 23106 / 512 - HULL_CELLS
+    return lo < x < hi and LD.RIM_Y + HULL_CELLS < y < hi
+
+
+HULL_CELLS = 2.5
 
 # D-85 (s26): no hostile marker within 5,888 (missile range 5,120 + 768) of an outdoor talking quest giver. The markers
 # of these areas that the sampling puts nearer than 12.5 cells (5,888 + the circle's 512) move to the nearest free
@@ -163,7 +172,7 @@ GIVER_CLEAR = {'pop:west_dunes': [(31.1, 70.6)],   # Saul (4602)
                'pop:basenji_heights': [(45.4, 45.0)]}   # NPC 4608 (check_d85, 2026-11-24: spawns 20 and 33 at 5,258)
 # D-138 (2026-11-24): no spawn marker within 2,000 of a door's arrival or its move-in: the circle (512) and a margin on
 # top, 5 cells (XD-14's gate, its spawn 20 stood 1,921)
-ARRIVAL_CLEAR = [(38.0, 34.0), (38.0, 34.5)]
+ARRIVAL_CLEAR = [(38.0, 34.0), (38.0, 34.5), (40.0, 84.0)]   # F63: + FD-02's door arrival (the cove's markers moved in)
 ARRIVAL_CELLS = 5.0
 GIVER_CELLS = 12.5
 
@@ -185,18 +194,32 @@ def clear_givers(pid, chosen, cand):
 
 
 # F10 (A5 s30): areas whose markers stand at fixed cells (gen_l1.AREAS pop:pan_west), not sampled
-FIXED_SPOTS = {'pop:pan_west': [(26, 59), (36, 55)]}
+# D-142 (2026-11-25): (36, 55) -> (36, 54), 687 -> 1,024 + 512 from the steppe road
+FIXED_SPOTS = {'pop:pan_west': [(27, 59), (36, 54)]}   # (26, 59) -> (27, 59): HULL_CELLS (F63)
+
+
+def d142_rule(roads):
+    """D-142 (2026-11-25, F64): common/d142.py's floors from the installed map's arrivals (edges 4,096, 5,888 for a
+    slot that shoots; X6's dungeon exits the same, rebuilt under the rule; towns 2,000) and 1,024 from the roads."""
+    sys.path.insert(0, _REPO_ROOT + '/level_generation/projects/xeen/common')
+    import d142
+    sys.path.pop(0)
+    return d142.Rule('xeen_x6', roads)
 
 
 def markers():
     clear = [poly for _aid, poly, _n in L1.KEEP_CLEAR] + NO_MARKERS
     door_pts = [d[2] for d in P.doors]
     roads = [ln for _l, ln, _w, _s in L1.ROADS]
+    rule = d142_rule([r['line'] for r in LD.roads()])   # the sketch's roads, lanes and paths (the check's)
     out = []
     for pid, slot, count, poly, note in L1.AREAS:
         if pid in FIXED_SPOTS:
             spots = FIXED_SPOTS[pid]
             assert len(spots) == count and all(walkable(x, y) and K.inside((x, y), poly) for x, y in spots), pid
+            bad = [(q, rule.why_not(q[0], q[1], 1, slot, givers=False)) for q in spots]
+            if any(w for _q, w in bad):
+                raise SystemExit('D-142: %s fixed spots %s' % (pid, [b for b in bad if b[1]]))
             for k, (x, y) in enumerate(spots, 1):
                 out.append({'id': pid, 'index': k, 'count': 1, 'slot': slot, 'circle': {'at': [x, y], 'r': 1},
                             'notes': note if k == 1 else 'walkable ground'})
@@ -212,9 +235,8 @@ def markers():
                 if (K.inside(p, poly) and K.edge_dist(p, poly) > 0.6 and walkable(x, y)
                         and not any(K.inside(p, c) for c in clear)
                         and min(math.hypot(x - d[0], y - d[1]) for d in door_pts) > 5.2
-                        and all(math.hypot(x - a[0], y - a[1]) > 4.4 for a in EDGE_ARRIVALS.values())
                         and all(math.hypot(x - a[0], y - a[1]) >= ARRIVAL_CELLS for a in ARRIVAL_CLEAR)
-                        and min(LD.dist_to_line(x, y, r) for r in roads) > 0.8):
+                        and not rule.why_not(x, y, 1, slot, givers=False)):   # D-142: arrivals, roads
                     cand.append(p)
                 x += 1
             y += 1

@@ -59,12 +59,12 @@ steps:
   - assert:
       dialog: {active: true, text_contains: "No strangers!"}
   - press_action: {action: cancel_dialog}
-  # Justine at her camp outside the gate (actor 31, NPC 4951): a pass for 1,000 gold.
+  # Justine at her camp outside the gate (actor 46, NPC 4951): a pass for 1,000 gold.
   - set_pose: {map: xeen_d1.odm, x: -3584, y: 11400, z: 1152, yaw: 1.5708, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - clear_hostiles: {radius: 3000}
   - play_lua: {source: "remember('gold', gold())"}
-  - interact_actor: {actor_index: 31}
+  - interact_actor: {actor_index: 46}
   - select_topic: {match_label: "Passes"}
   - assert:
       dialog: {text_contains: "One pass into Castleview"}
@@ -129,15 +129,15 @@ steps:
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
   - assert: {qbit_set: [111320]}
-  # Yog in the Sardaj camp north of the town (actor 29, NPC 4953): peace (Q-D12 done), then food against Alamar.
+  # Yog in the Sardaj camp north of the town (actor 44, NPC 4953): peace (Q-D12 done), then food against Alamar.
   - set_pose: {map: xeen_d1.odm, x: 12800, y: 19866, z: 1536, yaw: 1.5708, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
-  - interact_actor: {actor_index: 29}
+  - interact_actor: {actor_index: 44}
   - select_topic: {match_label: "We come in peace"}
   - press_action: {action: cancel_dialog}
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
   - assert: {qbit_set: [113241]}
-  - interact_actor: {actor_index: 29}
+  - interact_actor: {actor_index: 44}
   - select_topic: {match_label: "Help against Alamar"}
   - press_action: {action: cancel_dialog}
   - play_lua:

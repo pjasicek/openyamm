@@ -16,7 +16,7 @@ hooks:
   orc_outpost:
     map: X7
     status: true   # D-90: experience, a find's answer or a death on the status line
-    where: "the orc outpost in the south (the map asks the source's \"You have found an Orc Outpost.  Put it to the torch?\", aaze0018:3; Yes calls this once; the outpost's chest is the map's)"
+    where: "the orc outpost in the south (a click on its fire burns it and calls this once, D-144/D-152; the source asked \"You have found an Orc Outpost.  Put it to the torch?\", aaze0018:3; the outpost's chest is the map's)"
     sets: [outpost_burned]
     once: true
     do: [{xp: 500}]

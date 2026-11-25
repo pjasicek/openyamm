@@ -9,7 +9,8 @@ Checks: ids inside their blocks and the world's ranges and never twice; every ho
 (its L4 sketch, or an indoor map's L4 wiring) has a house and every house a door; the installed script enters every
 built house, a house that opens by qbit only behind it with its closed text; residences and services per town against WORLD_DESIGN 5; teacher offers against
 teachers_plan.yml, with a warning (WARN) when a Master place's level is below its Expert place's (D-73; Grandmaster
-before Master is no fault, U-2); every NPC has a portrait, and a profession, a teacher offer or a greeting; every built
+before Master is no fault, U-2); every NPC has a portrait, and a profession, a teacher offer or a greeting; every
+house greets in a voice of its owner's sex (D-165, gen_towns.voice_errors); every built
 guild has a book of the world for each spell its shelf sells (feedback F7: Xeen had no books of its own and every guild's
 shelf was empty); no guild person sells, prices or demands membership or dues (Xeen's guilds are open to all; pin X1 p4,
 Vern's "Dues"); every built town map's house hangs the sign of its kind (house_signs.py; a service of a signed kind
@@ -646,6 +647,8 @@ def main():
     written = sum(len(v) for v in taught.values())
     errors += guild_book_errors(towns, rule_sections)
     errors += membership_text_errors(towns)
+    # D-165: every house greets in a voice of its owner's sex (issue #45: male greetings from female proprietors)
+    errors += gen_towns.voice_errors()
     # every built town map's house signs against their kinds (house_signs.py; the user 2026-11-22: the Adventurer's
     # Inn hung the tavern's mug)
     sign_errors, sign_warnings = house_signs.check_all()

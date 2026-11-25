@@ -1,5 +1,5 @@
 # Xeen side quest Q-D20, Luna's Statuettes (D1, DD-05, D4, DD-20, D3, DD-07), from a new game on D1 with a Warrior Mage
-# in a level-34 party. Luna in her grove (D1, actor 32, NPC 4952): Statuettes (started 113400, autonote 4600), and
+# in a level-34 party. Luna in her grove (D1, actor 47, NPC 4952): Statuettes (started 113400, autonote 4600), and
 # again. The Western Tower by its front door (Q-D6's tower_opened, a CONVENTION prerequisite: Q-D6 is its own side
 # quest): L1's north ledge (the Golden Pegasus, a ground item since D-90); out. Luna: the
 # Pegasus back (3,000 XP per member, a T5 item). Overland to D4: the Guild's riddle answered wrong ("broom"), the
@@ -37,7 +37,7 @@ steps:
   - set_pose: {map: xeen_d1.odm, x: -16691, y: 717, z: 1190, yaw: 0.0, pitch: 0.0}
   - advance_runtime: {seconds: 0.5}
   - clear_hostiles: {radius: 3000}
-  - interact_actor: {actor_index: 32}
+  - interact_actor: {actor_index: 47}
   - advance_runtime: {seconds: 0.5}
   - assert: {dialog: {active: true, source_id: 4952, action_label_present: "Quest"}}
   - select_topic: {action_id: 45001, match_label: "Quest"}
@@ -95,7 +95,7 @@ steps:
   - advance_runtime: {seconds: 0.5}
   - clear_hostiles: {radius: 3000}
   - play_lua: {source: "remember('items', pack_items()); for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
-  - interact_actor: {actor_index: 32}
+  - interact_actor: {actor_index: 47}
   - advance_runtime: {seconds: 0.5}
   - assert: {dialog: {active: true, source_id: 4952}}
   - select_topic: {action_id: 45001, match_label: "Quest"}
@@ -246,7 +246,7 @@ steps:
   - clear_hostiles: {radius: 3000}
   - play_lua: {source: "for _, i in ipairs({0}) do local c = conditions(i); for _, n in ipairs({'Dead', 'Eradicated', 'Petrified', 'Paralyzed', 'Unconscious', 'Asleep'}) do if c:find(n, 1, true) then error('member ' .. i .. ' cannot act before the altar: ' .. c) end end end"}
   - play_lua: {source: "remember('items', pack_items()); remember('gold', gold()); for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
-  - interact_actor: {actor_index: 32}
+  - interact_actor: {actor_index: 47}
   - advance_runtime: {seconds: 0.5}
   - assert: {dialog: {active: true, source_id: 4952, action_label_present: "Quest"}}
   - select_topic: {action_id: 45001, match_label: "Quest"}

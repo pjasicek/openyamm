@@ -68,6 +68,8 @@ end, nil)
 RegisterEvent(9, "Harpy Nest", function()
     evt.SetFacetBit(1, FaceAttribute.Invisible, 1)
     evt.SetFacetBit(1, FaceAttribute.Untouchable, 1)
+    evt.SetSprite(11, 0)
+    evt.SetSprite(12, 0)
     XeenQuests.hook("x8-sky.nest_1")
 end, "Harpy Nest")
 
@@ -75,6 +77,8 @@ end, "Harpy Nest")
 RegisterEvent(10, "Harpy Nest", function()
     evt.SetFacetBit(2, FaceAttribute.Invisible, 1)
     evt.SetFacetBit(2, FaceAttribute.Untouchable, 1)
+    evt.SetSprite(13, 0)
+    evt.SetSprite(14, 0)
     XeenQuests.hook("x8-sky.nest_2")
 end, "Harpy Nest")
 
@@ -82,6 +86,8 @@ end, "Harpy Nest")
 RegisterEvent(11, "Harpy Nest", function()
     evt.SetFacetBit(3, FaceAttribute.Invisible, 1)
     evt.SetFacetBit(3, FaceAttribute.Untouchable, 1)
+    evt.SetSprite(15, 0)
+    evt.SetSprite(16, 0)
     XeenQuests.hook("x8-sky.nest_3")
 end, "Harpy Nest")
 
@@ -136,3 +142,21 @@ end, "Statue")
 RegisterEvent(17, "Telescope", function()
     evt.SimpleMessage("Through the brass telescope the land lies small and clear far below: the lagoon to the west with the Tower of High Magic on its shore, Lake Darzog under the long bridge, and east, past Vertigo, the crooked Witch Tower.")
 end, "Telescope")
+
+-- evt:down_stair_landing
+RegisterEvent(18, "Tower of High Magic", function()
+    if not ((XeenQuests.can("m13.cloud_stair_down"))) then
+        evt.StatusText("Below the step the cloud thins over the Tower of High Magic. Its wards let down only those who hold the Enchanted Key from the Cave of Illusion.", 6)
+        return
+    end
+    evt.MoveToMap(1536, 1152, 2560, 1536, 0, 0, 0, 1, "xeen_xd11.blv")
+end, "Tower of High Magic")
+
+-- evt:down_witch_landing
+RegisterEvent(19, "Witch Tower", function()
+    if not (IsQBitSet(QBit(110046))) then
+        evt.StatusText("The clouds answer to the Head Witch. While she lives, they will not bear you down.", 6)
+        return
+    end
+    evt.MoveToMap(-6784, 448, 2560, 0, 0, 0, 0, 1, "xeen_xd04.blv")
+end, "Witch Tower")

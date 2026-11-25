@@ -2,4 +2,13 @@
 # but does not fail `--check`. Keep each reason short and say what would end it.
 # (2026-11-24, P3 studio round: Nystor's ship on X2 no longer kept: `drop_overlaps: true` on its `kind: model` drops
 # the taken model's overlapping faces; the installed X2 shows its 4 findings until its next rebuild.)
-kept: []
+kept:
+# D1, found before D-170 and outside it (agent xeen-fb4-outdoor5, 2026-11-25): listed so D-170's rebuild can gate on
+# the rest; each ends at A6's next D1 round, which fixes the piece.
+- {map: xeen_d1, rule: faces.back_to_back, model: thing:kalindra_1_ghost, reason: "D-30's out-of-phase stage pieces of Castle Kalindra are all shown at load and share wall planes (stages 1/3/4); A6 to give each stage's shared walls to one piece"}
+- {map: xeen_d1, rule: faces.back_to_back, model: thing:kalindra_gate, reason: "the shimmer face (xkshimmer) in the gate's own stone plane; A6, with the stage pieces"}
+- {map: xeen_d1, rule: faces.back_to_back, model: thing:wall_ne, reason: "the jetty bastion (768 thick) along the west wall's line shares its faces; A6 to end wall_ne at the bastion"}
+- {map: xeen_d1, rule: shell.open_edge, model: thing:mill_burnt, reason: "the burnt mill ruin's walls end as single sheets (20 open edges); A6 to close its shell (ruin: thick walls)"}
+- {map: xeen_d1, rule: faces.back_to_back, model: "building:cv_weapons", reason: "two 256 sq unit beam ends (xvbeam) of the weapon shed's porch meet back to back (on the installed map before D-170); the studio's porch builder (A1)"}
+- {map: xeen_d3, rule: faces.coplanar, model: thing:spring_fall, reason: "the waterfall's water and dirt faces share 72-84 sq units at its lip (on the installed map before D-170); the studio's waterfall builder (A1)"}
+- {map: xeen_d4, rule: shell.open_edge, model: thing:isle_tower_crown, reason: "the isle tower's ruined crown stands on the tower's top as a hanging ruin, whose wall bottoms the studio leaves open (46 edges; on the installed map before D-170); its generator to stand the crown's walls on the tower's inner shelf as D5's broken pyramid now does"}

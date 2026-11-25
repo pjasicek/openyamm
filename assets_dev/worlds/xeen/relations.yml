@@ -243,6 +243,14 @@ factions:
     monsters: [11928]
   xeen_character_druidess:
     monsters: [11929]
+  xeen_character_goblin_eared_boy:
+    monsters: [11930]
+  xeen_character_goblin_eared_girl:
+    monsters: [11931]
+  xeen_character_goblin_eared_boy_2:
+    monsters: [11932]
+  xeen_character_goblin_eared_girl_2:
+    monsters: [11933]
 relations:
 - {from: xeen_goblins, to: party, relation: long}
 - {from: xeen_gremlins_court, to: party, relation: friendly}
@@ -364,6 +372,10 @@ relations:
 - {from: xeen_character_sablewing, to: party, relation: friendly}
 - {from: xeen_character_elder_druid, to: party, relation: friendly}
 - {from: xeen_character_druidess, to: party, relation: friendly}
+- {from: xeen_character_goblin_eared_boy, to: party, relation: friendly}
+- {from: xeen_character_goblin_eared_girl, to: party, relation: friendly}
+- {from: xeen_character_goblin_eared_boy_2, to: party, relation: friendly}
+- {from: xeen_character_goblin_eared_girl_2, to: party, relation: friendly}
 - {from: xeen_ogres_pass, to: party, relation: friendly, after_qbit: 113221}
 - {from: xeen_ogres_pass, to: party, relation: long, after_qbit: 113222}
 - {from: xeen_ogres_graalg, to: party, relation: long, after_qbit: 113222}

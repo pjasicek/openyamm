@@ -38,11 +38,11 @@ houses:
   - {id: 4762, door: building:np_houses#6, kind: residence, name: The Weeping Mausoleum, residents: [5511]}
 
 npcs:
-  - {id: 5501, name: Mordant the Pale, title: Master of the Necropolis Guild, profession: Spell Master, teaches: [{skill: Dark Magic, mastery: grandmaster}], greet: ["Membership used to cost fifty thousand. Now it costs your attention. Pay it.", "You are still alive. Remarkable."]}
-  - {id: 5502, name: Mother Mortis, profession: Healer, greet: ["We raise the dead here at a discount. We have a great deal of practice.", "Feeling poorly? Feeling dead?"]}
-  - {id: 5503, name: Knell, title: Dealer in Grave Goods, profession: Merchant, teaches: [{skill: Stealing, mastery: grandmaster}], greet: ["Everything here was buried with someone who no longer needs it. I asked. Nobody objected.", "Nothing is stolen. It's re-homed."]}
-  - {id: 5504, name: Embalmer Vesk, profession: Alchemist, greet: ["Potions for the living, preserves for the rest. Don't mix them up. I did once.", "Something to keep?"]}
-  - {id: 5505, name: Barrelman Crane, title: Keeper of the Warm Barrel, profession: Cook, greet: ["Food for the dead, keep warm. The dead don't eat, but they like the smell.", "A bowl? It's for display."]}
+  - {id: 5501, name: Mordant the Pale, sex: male, title: Master of the Necropolis Guild, profession: Spell Master, teaches: [{skill: Dark Magic, mastery: grandmaster}], greet: ["Membership used to cost fifty thousand. Now it costs your attention. Pay it.", "You are still alive. Remarkable."]}
+  - {id: 5502, name: Mother Mortis, sex: female, profession: Healer, greet: ["We raise the dead here at a discount. We have a great deal of practice.", "Feeling poorly? Feeling dead?"]}
+  - {id: 5503, name: Knell, sex: male, title: Dealer in Grave Goods, profession: Merchant, teaches: [{skill: Stealing, mastery: grandmaster}], greet: ["Everything here was buried with someone who no longer needs it. I asked. Nobody objected.", "Nothing is stolen. It's re-homed."]}
+  - {id: 5504, name: Embalmer Vesk, sex: male, profession: Alchemist, greet: ["Potions for the living, preserves for the rest. Don't mix them up. I did once.", "Something to keep?"]}
+  - {id: 5505, name: Barrelman Crane, sex: male, title: Keeper of the Warm Barrel, profession: Cook, greet: ["Food for the dead, keep warm. The dead don't eat, but they like the smell.", "A bowl? It's for display."]}
   - {id: 5506, name: Master Morbius, title: Necromancer, profession: Spell Master, talks: true, greet: ["Death is a door. We are the locksmiths.", "Back already?"]}
   - {id: 5507, name: Count Velkor, profession: Noble, teaches: [{skill: Vampire, mastery: grandmaster}], greet: ["I have been a vampire for four hundred years. The first hundred are the hardest.", "Do sit. I won't."]}
   - {id: 5508, name: Lady Vex, profession: Burglar, teaches: [{skill: Dagger, mastery: grandmaster}], greet: ["The best dagger work is never seen. I'm told mine is excellent.", "You didn't hear me come in."]}

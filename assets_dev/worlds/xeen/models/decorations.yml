@@ -80,19 +80,24 @@ decorations:
     height: 23
     yaw: facing
   # The Northern and Southern Sphinx (X6 Desert of the Sphinx; XD-15's and FD-02's shells). Carved pale sandstone with a
-  # gold and umber striped nemes; the southern one buried to its shoulders. Static, no collision (radius 0): A5 adds
-  # barriers from integration/sphinx_collision.yml. Origin = the middle of the door's threshold on the breast at the
-  # ground (place z = the ground there); facing 0 faces +Y, so the northern one takes facing 180 (south) at (9216,
-  # 10240) and the southern one facing 270 (east) at (-12544, -10240). A framed doorway, open at the back, for A5's door
-  # leaves: 384 x 512 (north) and 320 x 448 (south) in the door plane through the origin. Heights are the LOD0 bounds
-  # (1 model metre = 100 units). level_generation/decorations/xeen_sphinx_claude/README.md.
+  # gold and umber striped nemes; the southern one buried to its shoulders. Static; solid by a proxy (D-141, F61:
+  # `collision: model`, the table radius 0): the model's own LOD2 mesh in its coordinates (scripts/collision_proxy.py;
+  # LOD3 lay up to 40 inside LOD0 at the paws and the door frame, LOD2 at most 11). Origin = the middle of the door's
+  # threshold on the breast at the ground (place z = the ground there); facing 0 faces +Y, so the northern one takes
+  # facing 180 (south) at (9216, 10240) and the southern one facing 270 (east) at (-12544, -10240). A framed doorway,
+  # open at the back, for A5's door leaves: 384 x 512 (north) and 320 x 448 (south) in the door plane through the
+  # origin. Heights are the LOD0 bounds (1 model metre = 100 units). level_generation/decorations/xeen_sphinx_claude/.
   - name: xeen_sphinx_north
     model: worlds/xeen/models/xeen_deco_sphinx_north.glb
+    collision: model
+    collision_model: worlds/xeen/models/xeen_deco_sphinx_north_collision.glb
     height: 2453.46
     yaw: facing
     lod_pixels: [900, 400, 160]
   - name: xeen_sphinx_south
     model: worlds/xeen/models/xeen_deco_sphinx_south.glb
+    collision: model
+    collision_model: worlds/xeen/models/xeen_deco_sphinx_south_collision.glb
     height: 1414.39
     yaw: facing
     lod_pixels: [900, 400, 160]

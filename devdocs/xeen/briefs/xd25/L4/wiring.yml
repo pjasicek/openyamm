@@ -69,9 +69,24 @@ events:
     preset: script
     source: platform:housing
     title: Crystal housing
+    condition: {qbit: q_c5_done}
     effects:
       - lua: "XeenQuests.hook(\"q-c11.crystals\")"
-    notes: "goal:crystals: A3's hook q-c11.crystals gives the Crystals of Piezoelectricity (12313) once and sets crystals_found 112222."
+      - hide: deco:crystals
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-c11.crystals\")"
+    notes: "goal:crystals: A3's hook q-c11.crystals gives the Crystals of Piezoelectricity (12313) once and sets crystals_found 112222; the crystals on the housing go with them."
+  - id: evt:crystals_cluster
+    preset: script
+    source: deco:crystals
+    title: Crystals
+    condition: {qbit: q_c5_done}
+    effects:
+      - lua: "XeenQuests.hook(\"q-c11.crystals\")"
+      - hide: deco:crystals
+    else_effects:
+      - lua: "XeenQuests.hook(\"q-c11.crystals\")"
+    notes: "goal:crystals, the crystals themselves: as evt:crystals."
   - id: evt:drain_reached
     preset: script
     source: room:drain

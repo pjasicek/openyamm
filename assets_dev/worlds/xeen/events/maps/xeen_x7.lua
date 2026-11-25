@@ -64,14 +64,12 @@ RegisterEvent(20, "Orc hides on poles", nil, "Orc hides on poles")
 RegisterEvent(21, "Orc hides on poles", nil, "Orc hides on poles")
 
 -- evt:thing:outpost_fire
-RegisterEvent(22, "The orc outpost", function(continueStep)
-    local eventId = 22
+RegisterEvent(22, "The orc outpost", function()
     if not (not (IsQBitSet(QBit(116160)))) then
         XeenQuests.hook("x7.orc_outpost")
         return
     end
-    if continueStep ~= 1 then if continueStep == nil then AskChoiceWithAnswerSteps(eventId, 3, "Hides stretched on poles round a fire pit, bones and filth everywhere. You have found an Orc Outpost. Put it to the torch?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}}) end return end
-    if XeenQuests.hook("x7.orc_outpost") then evt.SetFacetBit(1, FacetBits.Invisible, 1) evt.SetFacetBit(1, FacetBits.Untouchable, 1) evt.SetFacetBit(2, FacetBits.Invisible, 1) evt.SetFacetBit(2, FacetBits.Untouchable, 1) evt.SetFacetBit(3, FacetBits.Invisible, 1) evt.SetFacetBit(3, FacetBits.Untouchable, 1) end
+    if XeenQuests.hook("x7.orc_outpost") then evt.SetFacetBit(1, FacetBits.Invisible, 1) evt.SetFacetBit(1, FacetBits.Untouchable, 1) evt.SetFacetBit(2, FacetBits.Invisible, 1) evt.SetFacetBit(2, FacetBits.Untouchable, 1) evt.SetFacetBit(3, FacetBits.Invisible, 1) evt.SetFacetBit(3, FacetBits.Untouchable, 1) evt.SetSprite(30005, 0) evt.SetSprite(30006, 0) evt.SetSprite(30007, 0) evt.SetSprite(30008, 0) evt.SetSprite(30009, 1) evt.SetSprite(30010, 1) evt.SetSprite(30011, 1) evt.SetSprite(30012, 1) evt.SetSprite(30013, 1) end
 end, "The orc outpost")
 
 -- evt:thing:outpost_chest
@@ -148,11 +146,8 @@ RegisterEvent(34, "A dragon's bones, picked clean", nil, "A dragon's bones, pick
 RegisterEvent(35, "The black bridge", nil, "The black bridge")
 
 -- evt:thing:fire_reflector
-RegisterEvent(37, "Fire Reflector", function(continueStep)
-    local eventId = 37
-    if continueStep == 1 then XeenQuests.hook("m37.reflector_fire") return end
-    if continueStep ~= nil then return end
-    AskChoiceWithAnswerSteps(eventId, 3, "A disc of red crystal on a stone stem, turned toward the heat off the mountain. Reflector. Activate?", {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})
+RegisterEvent(37, "Fire Reflector", function()
+    XeenQuests.hook("m37.reflector_fire")
 end, "Fire Reflector")
 
 -- evt:thing:xd16_mouth
@@ -275,6 +270,15 @@ RegisterEvent(63, nil, function()
     evt.SetFacetBit(2, FacetBits.Untouchable, 1)
     evt.SetFacetBit(3, FacetBits.Invisible, 1)
     evt.SetFacetBit(3, FacetBits.Untouchable, 1)
+    evt.SetSprite(30005, 0)
+    evt.SetSprite(30006, 0)
+    evt.SetSprite(30007, 0)
+    evt.SetSprite(30008, 0)
+    evt.SetSprite(30009, 1)
+    evt.SetSprite(30010, 1)
+    evt.SetSprite(30011, 1)
+    evt.SetSprite(30012, 1)
+    evt.SetSprite(30013, 1)
 end)
 
 -- evt:cleft_state
@@ -336,3 +340,8 @@ end, "The pickets' fire")
 RegisterEvent(72, nil, function()
     Xeen.rimFall({{{-32768, 32768}, {32768, 32768}, {32768, -32768}, {20480, -32768}, {20480, 20480}, {7680, 20480}, {7168, 17920}, {2560, 17920}, {2048, 20480}, {-32768, 20480}}}, {{18432, -18432, 1952, 1024}, {18432, -12288, 2048, 1024}, {18432, -9216, 2208, 1024}, {18432, -6144, 2304, 1024}, {18432, 0, 2880, 1024}, {18432, 3072, 2400, 1024}, {18432, 12800, 2976, 1024}, {18432, 15872, 2912, 1024}, {0, 19456, 2112, 1024}, {-12288, 18432, 1792, 1536}})
 end)
+
+-- evt:thing:outpost_char_1
+RegisterEvent(73, "The burnt outpost", function()
+    XeenQuests.hook("x7.orc_outpost")
+end, "The burnt outpost")

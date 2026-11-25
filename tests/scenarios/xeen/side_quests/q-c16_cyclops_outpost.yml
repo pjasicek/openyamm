@@ -1,8 +1,8 @@
 # Xeen side quest Q-C16, Cyclops Outpost (X5), from a new game on X5 with a level-28 party. Glom's Burrow (house 4272,
 # X5 event 39: Glom the Gnome King, NPC 4524, talks at the door): Cyclopes (started), and again. The Land of the Giants
-# in X5's south-west corner: the cyclops outpost's tent (X5 event 112) asks "You have found the Cyclops' outpost!
-# Burn?" on Yes/No buttons (D-72; A6, 2026-11-21 14:35); Yes burns the tents and calls q-c16.outpost (outpost_burnt and
-# "You destroy the outpost. Glom will be pleased."); clicked again: nothing more. Glom: Cyclopes (done, started
+# in X5's south-west corner: a click on the cyclops outpost's tent (X5 event 112; D-144, 2026-11-25: no question)
+# burns the tents and calls q-c16.outpost (outpost_burnt and "You destroy the outpost. Glom will be pleased." on the
+# status line); clicked again: nothing more. Glom: Cyclopes (done, started
 # cleared, 6,000 XP each, 1,500 gold, one item of treasure level 4), and again. Outdoors the party is placed beside
 # each place (tests/playthrough/PLAYBOOK.md section 2).
 # Routes: devdocs/xeen/briefs/x5/L4/playtest.yml (Glom's burrow, the outpost 112). Quest logic: source/quests/q-c16.yml.
@@ -51,13 +51,11 @@ steps:
   - clear_hostiles: {radius: 3000}
   - play_lua: {source: "click(112); wait(0.5)"}
   - advance_runtime: {seconds: 0.3, present_dialogs: true}
-  - assert: {dialog: {active: true, text_contains: "You have found the Cyclops' outpost! Burn?"}}
-  - select_topic: {match_label: "Yes"}
-  - advance_runtime: {seconds: 0.5}
-  - assert: {dialog: {active: true, text_contains: "You destroy the outpost. Glom will be pleased."}}
+  - assert: {dialog: {active: false}}
   - play_lua:
       source: |
-        close()
+        local s = tostring(status())
+        if not string.find(s, [[You destroy the outpost. Glom will be pleased.]], 1, true) then error("status line: " .. s) end
         if not qbit(112321) then error("outpost_burnt 112321 not set") end
         click(112); wait(0.5)
         local seen = status()

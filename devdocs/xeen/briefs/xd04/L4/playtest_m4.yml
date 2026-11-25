@@ -26,6 +26,63 @@ steps:
   - setup_shortcut: {kind: immortal, value: true}
   - setup_shortcut: {kind: set_qbit, id: 110047}
   - setup_shortcut: {kind: set_qbit, id: 110046}
+  # D-155: the goblin-eared boy (NPC 4053, actor 0, placed name 416) talks. Caged, his Ears topic asks for the
+  # warden's keys; after the ring opens cage 1 and before the Alacorn it names the Alacorn's place; with the Alacorn it
+  # cures him once (child_rescued_1, 200 experience, group 11 hidden), and the cage then hangs empty, with no second award.
+  - walk_to: {x: 0, y: -1700, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: -700, y: -1312, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 900}
+  - walk_to: {x: -1420, y: -1312, z: 0, radius: 48, timeout_seconds: 30, clear_hostiles: 900}
+  - clear_hostiles: {radius: 900}
+  - play_lua: {source: "click(24); wait(3); if door_state(20) ~= 'open' then error('the warden door did not open') end"}
+  - walk_to: {x: -1750, y: -1312, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - clear_hostiles: {radius: 1000}
+  - walk_to: {x: -2660, y: -1820, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - play_lua: {source: "close(); close()"}
+  - interact_actor: {actor_index: 0}
+  - advance_runtime: {seconds: 0.6, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Don't stare at my ears!"}}
+  - select_topic: {action_id: 40204, match_label: "Ears"}
+  - assert: {dialog: {active: true, text_contains: "The warden's keys"}}
+  - play_lua: {source: "close(); close(); if qbit(110048) then error('talking set boy_waiting') end"}
+  - walk_to: {x: -1880, y: -1720, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - play_lua:
+      source: |
+        loot_chest(48)
+        if held() ~= 0 then stow() end
+        if not has_item(12032) then error("the strongbox did not hold the ring of keys") end
+  - walk_to: {x: -2660, y: -1820, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - play_lua: {source: "click(7); wait(1); close(); wait(3); if not qbit(110048) then error('opening cage 1 did not set boy_waiting') end"}
+  # His hover ("Goblin-eared boy", placed name 416, not "peasant") is not asserted here: the headless pick still meets
+  # the hoisted cage's bars at their rest place (2026-11-25), so it reads "Locked cage"; the real game's capture of
+  # the user's pin pose shows it (output/xeen_fb/p4_town/cap/).
+  - interact_actor: {actor_index: 0}
+  - advance_runtime: {seconds: 0.6, present_dialogs: true}
+  - select_topic: {action_id: 40204, match_label: "Ears"}
+  - assert: {dialog: {active: true, text_contains: "plank bridge over the cauldron shaft"}}
+  - play_lua: {source: "close(); close(); if qbit(110040) then error('child_rescued_1 set without the Alacorn') end"}
+  - grant_item: {item_id: 12033, member_index: 0}
+  - play_lua: {source: "if held() ~= 0 then stow() end; remember('xp0', experience(0)); if not has_item(12033) then error('no Alacorn') end"}
+  - interact_actor: {actor_index: 0}
+  - advance_runtime: {seconds: 0.6, present_dialogs: true}
+  - select_topic: {action_id: 40204, match_label: "Ears"}
+  - assert: {dialog: {active: true, text_contains: "they shrink back, pink and round"}}
+  - play_lua:
+      source: |
+        close(); close(); wait(1)
+        if not qbit(110040) then error("the Ears topic did not set child_rescued_1") end
+        local gained = experience(0) - tonumber(recall('xp0'))
+        if gained ~= 200 then error("the cure gave " .. gained .. " experience, not 200") end
+        if not discard(12033) then error("the cure spent the Alacorn") end
+  - assert: {actor_visible: {actor_index: 0, hidden: true}}
+  - play_lua:
+      source: |
+        click(7); wait(1)
+        local s = tostring(status())
+        if not string.find(s, [[open and empty]], 1, true) then error("cage 1 after the cure: " .. s) end
+        close()
+        if experience(0) - tonumber(recall('xp0')) ~= 200 then error("the cage gave the cure's award a second time") end
+  - walk_to: {x: -1750, y: -1312, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
+  - walk_to: {x: -700, y: -1312, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
   # Up the east and west stairs to the third floor.
   - walk_to: {x: 0, y: -1700, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1000}
   - walk_to: {x: 1400, y: -1312, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 1000}

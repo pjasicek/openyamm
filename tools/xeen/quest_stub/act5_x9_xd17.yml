@@ -46,4 +46,4 @@ steps:
   - lua: 'Xeen.travelPyramid("alamar_gate")'         # D6's pyramid outside Alamar's gate
   - expect: {last: "xeen_xd17.blv 0 3200 256"}
   - lua: 'Xeen.skyFallTo("x9")'
-  - expect: {last: "xeen_x2.odm -15360 3072 1618"}
+  - expect: {last: "xeen_x2.odm -15360 3072 1618"}    # X2 ground 768 at entrance:x9_fall + 850 (xeen_common.lua SkyFalls.x9)

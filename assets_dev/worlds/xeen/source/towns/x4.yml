@@ -235,6 +235,19 @@ houses:
   - {id: 4185, door: "building:asp_houses#9", town: Asp, kind: residence, name: Mother Ophidia's, residents: [4344], opens: q-c5.done, closed_text: "Hissing behind the door. Nobody answers.", enter_sound: xeen_fortune}   # a fortune teller: AU's reading sound
   - {id: 4186, door: "building:asp_houses#10", town: Asp, kind: residence, name: The Old Mill, residents: [4345], opens: q-c5.done, closed_text: "Hissing behind the door. Nobody answers."}
 
+  # ---- the boat back from Nystor's upriver landing (D-150) ----
+  - id: 4187
+    door: thing:nystor_post   # D-150: the landing's mooring post becomes the door (replaces its message event 129)
+    was: 486
+    kind: boats
+    name: Nystor's Landing
+    owner: 4346
+    opens: q-c23.done
+    closed_text: "A mooring post with Captain Nystor's mark. \"Closed until the ogres stop throwing boulders.\""
+    routes:
+      - {id: 434, to: rivercity_dock, days: [tue, sat], travel_days: 2, qbit: q-c23.done}   # route 407's days and time, back
+    note: "D-150: Nystor's river pilot Marla takes the party back down to Rivercity once Q-C23 has ended the ogres' boulders (route 407 brings them up)."
+
 npcs:
   # ---- fixed in the first session (A3 has their topics) ----
   - {id: 4301, name: Adam, title: Townsman of Asp, profession: Peasant, talks: true, house: none, place: "X4, Asp's square by the well (A5)", greet: ["The people of Asp are turning into snakes. My Eve has started to hiss.", "Any luck with the pedestals?"]}
@@ -242,12 +255,12 @@ npcs:
   - {id: 4303, name: Carlawna, title: Cleric, profession: Healer, talks: true, greet: ["Gargoyles stole my Scarab of Imaging and flew off to their range.", "The scarab?"]}
   - {id: 4304, name: Falagar, title: Wizard, profession: Spell Master, talks: true, greet: ["Bring me the Crystals of Piezoelectricity from Asp, and I'll tell you why.", "The crystals?"]}
   # ---- Castle Burlock's village ----
-  - {id: 4305, name: Gareth, title: Royal Armourer, profession: Smith, teaches: [{skill: Axe, mastery: master}], greet: ["By royal appointment. The King has never bought a thing, but the sign looks good.", "Back for an edge?"]}
-  - {id: 4306, name: Hilda Ironsides, title: Mailwright, profession: Armorer, teaches: [{skill: Plate, mastery: expert}], greet: ["Plate is a house you wear. Learn to live in it.", "Mind the rivets."]}
-  - {id: 4307, name: Father Anselm, profession: Healer, teaches: [{skill: Light Magic, mastery: expert}], greet: ["The Chapel of the Crown heals all, Crusaders or not. The King insists on the first part.", "Blessings."]}
-  - {id: 4308, name: Sir Brack, profession: Weapons Master, teaches: [{skill: Armsmaster, mastery: master}], greet: ["Lance up, chin down. The lists train you to forty, and the ground trains you the rest.", "Back on the horse?"]}
-  - {id: 4309, name: Ned, title: Ostler, profession: Horseman, greet: ["Vertigo, Rivercity or Asp. The coaches go when the horses agree.", "Where to?"]}
-  - {id: 4310, name: Big Martha, title: Innkeeper, profession: Cook, greet: ["Sit. Eat. The pig is not the one from the sign.", "The usual?"]}
+  - {id: 4305, name: Gareth, sex: male, title: Royal Armourer, profession: Smith, teaches: [{skill: Axe, mastery: master}], greet: ["By royal appointment. The King has never bought a thing, but the sign looks good.", "Back for an edge?"]}
+  - {id: 4306, name: Hilda Ironsides, sex: female, title: Mailwright, profession: Armorer, teaches: [{skill: Plate, mastery: expert}], greet: ["Plate is a house you wear. Learn to live in it.", "Mind the rivets."]}
+  - {id: 4307, name: Father Anselm, sex: male, profession: Healer, teaches: [{skill: Light Magic, mastery: expert}], greet: ["The Chapel of the Crown heals all, Crusaders or not. The King insists on the first part.", "Blessings."]}
+  - {id: 4308, name: Sir Brack, sex: male, profession: Weapons Master, teaches: [{skill: Armsmaster, mastery: master}], greet: ["Lance up, chin down. The lists train you to forty, and the ground trains you the rest.", "Back on the horse?"]}
+  - {id: 4309, name: Ned, sex: male, title: Ostler, profession: Horseman, greet: ["Vertigo, Rivercity or Asp. The coaches go when the horses agree.", "Where to?"]}
+  - {id: 4310, name: Big Martha, sex: female, title: Innkeeper, profession: Cook, greet: ["Sit. Eat. The pig is not the one from the sign.", "The usual?"]}
   - {id: 4311, name: Dame Ysolde, profession: Arms Master, teaches: [{skill: Shield, mastery: master}], greet: ["Three years champion of the lists. A shield is not for hiding behind. It is for hitting with.", "Shields up."]}
   - {id: 4312, name: Zephyra, title: Court Magician, profession: Wind Master, teaches: [{skill: Air Magic, mastery: master}], greet: ["The King wants a mirror. I gave him a weather report. We do not speak now.", "Windy today."]}
   - {id: 4313, name: Professor Gilliam, title: Keeper of the Bestiary, profession: Scholar, teaches: [{skill: Identify Monster, mastery: expert}], greet: ["Know the beast before it knows you. Mind the cages on the way out.", "Seen anything new?"]}
@@ -260,13 +273,13 @@ npcs:
   - {id: 4320, name: Joe the Merchant, title: Caravan Trader, profession: Merchant, house: none, place: "X4, his caravan on the river road (A5)", greet: ["Everything on the wagon is genuine. Mostly.", "Buying or browsing?"]}
   - {id: 4321, name: The Autumn Druid, profession: Mystic, house: none, place: "X4, the Autumn Druid's grove (A5)", greet: ["The leaves fall here, and nowhere else on Xeen.", "The leaf?"]}
   # ---- Asp ----
-  - {id: 4330, name: Wendel, title: Drover of the Travel Pit, profession: Horseman, greet: ["The pit is outside the town. So am I. Let's keep it that way.", "Burlock or Rivercity?"]}
-  - {id: 4331, name: Sister Mabel, profession: Healer, greet: ["I heal what walks in on two legs. The rest I pray for.", "Hurt again?"]}
+  - {id: 4330, name: Wendel, sex: male, title: Drover of the Travel Pit, profession: Horseman, greet: ["The pit is outside the town. So am I. Let's keep it that way.", "Burlock or Rivercity?"]}
+  - {id: 4331, name: Sister Mabel, sex: female, profession: Healer, greet: ["I heal what walks in on two legs. The rest I pray for.", "Hurt again?"]}
   - {id: 4332, name: Sarah Slither, title: Guildmistress of Asp, profession: Spell Master, talks: true, greet: ["I'll ssslip your name into the guild rollsss.", "Ssstill no cure?"], source: "MAPS X4: Sarah Slither's lisp"}
-  - {id: 4333, name: Doc Viper, title: Apothecary, profession: Alchemist, teaches: [{skill: Alchemy, mastery: master}], greet: ["Snake oil cures everything. I have checked.", "Another bottle?"]}
-  - {id: 4334, name: Grisla, title: Armourer, profession: Armorer, greet: ["Scale mail. Locally sourced.", "Need a fitting?"]}
-  - {id: 4335, name: Basil Coil, title: Earth Guildmaster, profession: Spell Master, teaches: [{skill: Earth Magic, mastery: master}], greet: ["Stone does not shed its skin. Learn from it.", "Steady footing?"]}
-  - {id: 4336, name: Nessa Fang, title: Body Guildmistress, profession: Healer, teaches: [{skill: Body Magic, mastery: master}], greet: ["We cured ourselves of snakes. We can cure you of anything.", "Feeling whole?"]}
+  - {id: 4333, name: Doc Viper, sex: male, title: Apothecary, profession: Alchemist, teaches: [{skill: Alchemy, mastery: master}], greet: ["Snake oil cures everything. I have checked.", "Another bottle?"]}
+  - {id: 4334, name: Grisla, sex: female, title: Armourer, profession: Armorer, greet: ["Scale mail. Locally sourced.", "Need a fitting?"]}
+  - {id: 4335, name: Basil Coil, sex: male, title: Earth Guildmaster, profession: Spell Master, teaches: [{skill: Earth Magic, mastery: master}], greet: ["Stone does not shed its skin. Learn from it.", "Steady footing?"]}
+  - {id: 4336, name: Nessa Fang, sex: female, title: Body Guildmistress, profession: Healer, teaches: [{skill: Body Magic, mastery: master}], greet: ["We cured ourselves of snakes. We can cure you of anything.", "Feeling whole?"]}
   - {id: 4337, name: Fennick Reed, title: Farmer, profession: Farmer, teaches: [{skill: Regeneration, mastery: expert}], greet: ["When I was half a snake, I grew back my own tail. Twice. The knack stayed.", "Cut yourself? Wait a bit."]}
   - {id: 4338, name: Old Moss, title: Townsman, profession: Peasant, greet: ["I hissed for a month. Still do when I sneeze.", "Bless me."]}
   - {id: 4339, name: Tilda Brook, title: Weaver, profession: Weaver, greet: ["I weave the guild's robes. Sleeves were hard while we had no arms.", "Need a robe?"]}
@@ -276,3 +289,5 @@ npcs:
   - {id: 4343, name: Corin Dale, title: Cobbler, profession: Cobbler, greet: ["Boots again! I had nothing to make them for.", "New soles?"]}
   - {id: 4344, name: Mother Ophidia, profession: Gypsy, greet: ["I saw the curse coming. Nobody listens to a woman who hisses.", "Cross my palm."]}
   - {id: 4345, name: Lem Tallow, title: Miller, profession: Miller, greet: ["The mill turned all through the curse. Nobody could carry the flour.", "Flour?"]}
+  # ---- Nystor's Landing (D-150) ----
+  - {id: 4346, name: Marla, sex: female, title: River Pilot, profession: Sailor, greet: ["Two boats a week down to Rivercity, now nobody's throwing rocks at them. I still duck at the bend.", "Downriver?"]}

@@ -1,5 +1,5 @@
 format: 1
-counter: 4
+counter: 12
 pins:
   - id: pin:p1
     text: he is not coming to me
@@ -61,3 +61,40 @@ pins:
     created: 2026-11-23T16:55:14
     status: open
     from: 20261123-165514-xeen_xd04.yml
+  - id: pin:p5
+    text: i think he is bugged
+    source: game
+    world: xeen
+    map: xeen_xd04.blv
+    pose:
+      position: [-2773.291, -1623.994, 0]
+      yaw_radians: 4.266
+      pitch_degrees: -7.337
+      heading_yaw_units: 1390
+    picture: .oymap/pins/pictures/p5.png
+    author: user
+    created: 2026-11-24T20:59:55
+    status: resolved
+    claimed_by: agent:xeen-fb4-town
+    from: 20261124-205955-xeen_xd04.yml
+    replies:
+      - author: agent:xeen-fb4-dungeon2
+        text: "This is the half-turned boy from cage 1 (M4), not a bug: he won't go home with goblin ears and waits until you bring the Alacorn from the bridge at the top. Click his cage again with the Alacorn in your packs. He is friendly and not counted in Cleared. He should say this better: a name instead of 'peasant', and his words when you click him (planned)."
+        created: 2026-11-25T09:01:28
+        revision: edb9f6fcaf62fc1dcbcd5d0ca0ceb865
+      - author: agent:xeen-fb4-town
+        text: "He has a name and a voice now: hovering him reads 'Goblin-eared boy', and clicking him opens his talk (Toad Meadow Child). His Ears topic tells you what he wants: the warden's ring while he is caged, then the Alacorn on the plank bridge over the cauldron shaft, three floors up. With the Alacorn in your packs he is cured, runs home and you get the 200 experience once. Clicking his cage with the Alacorn still works the same way."
+        created: 2026-11-25T09:55:41
+        revision: 2e99b4feec0059c316cb88d703c1f0d1
+        status: resolved
+        pictures: [.oymap/pins/pictures/p5-r2.png, .oymap/pins/pictures/p5-r2-2.png]
+      - author: agent:xeen-fb4-dungeon5
+        text: "D-163 (as amended by the user): the caged children now wear MM9's child bodies (Xeen copies). The goblin-eared boy is MM9's elf-eared boy (pointed ears), row 11930; Rosebud and child 4 are MM9's elf-eared girl, row 11931; child 3 is the boy. Pictures: at your pin's pose with cage 1 hoisted, and talking to him."
+        created: 2026-11-25T10:51:52
+        revision: 3e3da26f24feb704141cbb6c48751525
+        pictures: [.oymap/pins/pictures/p5-r3.png, .oymap/pins/pictures/p5-r3-2.png]
+      - author: agent:xeen-fb4-dungeon6
+        text: "D-163 skins: each caged child now looks different (ramp-only skins on the Xeen copies, no new paint). The goblin-eared boy matches his portrait: bright ginger hair on the freckled face, ears tinged goblin green, a grey-brown homespun vest over an undyed linen shirt. Child 3 (behind the bookcase) is dark-haired in a moss-green vest; Rosebud wears madder rose; child 4 is flaxen-haired in woad blue. Pictures: his talk before/after (portrait beside him), the boy at your pose with cage 1 hoisted, and the other three in their cages."
+        created: 2026-11-25T11:23:03
+        revision: c03b8f0e30ec17be54efa73de81084be
+        pictures: [.oymap/pins/pictures/p5-r4.png, .oymap/pins/pictures/p5-r4-2.png, .oymap/pins/pictures/p5-r4-3.png, .oymap/pins/pictures/p5-r4-4.png, .oymap/pins/pictures/p5-r4-5.png]

@@ -656,9 +656,11 @@ def objects_yml():
     guard('guard_throne_e', 'throne_room', (448, 5504), 180)
     guard('guard_easttower', 'east_tower_base', (2304, 5632), 270)
     monsters.append({'id': 'monster:fire_dragon', 'room': 'room:dragon_pit', 'monster': 11642, 'at': F(3456, -5120),
-                     'facing': 90, 'hostile': True, 'group': 40,
+                     'facing': 90, 'hostile': True, 'group': 40, 'leash': 768,
                      'notes': "The caged Fire Dragon (11642, level 75, Dragons C): optional, behind the warden's "
-                              "portcullis at the foot of a stair 160 wide (its body 476 across, 487 high)."})
+                              "portcullis at the foot of a stair 160 wide (its body 476 across, 487 high). D-154 "
+                              "(XD-07 p1): leashed 768 to its hoard, so it stops short of the stair's mouth and goes "
+                              "home when the party leaves, instead of waiting at the mouth."})
 
     decos = []
 

@@ -105,3 +105,10 @@ The plates' `top_surface` is `{texture: xpfvent, size: [128, 128], fit: true}` (
 `fit` lays it once over the 192 plate, and since merge point 42 once over its underside too). Rebuilt and installed
 ~02:00 through the stage (all stage tests pass); the 18 `textures.feature_repeated` errors are gone: the assets_dev
 audit is 0 errors, 0 warnings. MAW reserve rewritten, `xeen_balance.py --check` passes.
+
+## 2026-11-25, xeen-fb4-dungeon6: the test plate's lid
+
+The "254 glass face" (dungeon5's last `floor.lid` on P1) was the test plate's own bottom: the plate straddles the
+Crucible's halves (east top z 256, west z + 2) and was sunk SINK under the west half's top, so its bottom lay 2 under
+the east half's. `gen.py` `crucible()`: base z - SINK (its top unchanged). `floor.lid` 3 -> 2 (the gate's lintel and
+gables, out of reach); 9/9 playtests; installed, MAW reserve.

@@ -43,8 +43,10 @@ rooms:
     outline: [[608, 3200], [1120, 3200], [1120, 3456], [608, 3456]]
     floor: 0
     steep_floor: true
-    ceiling: 768
+    ceiling: 1024
     theme: theme:open_sky
+    bands:
+      - {height: 832, surface: {texture: ch1b1, size: [128, 256]}}
     platforms:
       - {id: platform:breach_ledge, at: [864, 3248], size: [512, 96], rise: 224, surface: {texture: ch1b1, size: [128, 256]}, top_surface: {texture: ch1b1, size: [128, 256]}, notes: The fallen stone level with the breach's sill.}
       - {id: platform:breach_heap, at: [864, 3376], size: [512, 160], rise: 224, surface: {texture: ch1b1, size: [128, 256], uneven: true}, top_surface: {texture: ch1b1, size: [128, 256], uneven: true}, top_slope: {to: 480, toward: north}, notes: The heap of fallen stone rising away under the sky.}

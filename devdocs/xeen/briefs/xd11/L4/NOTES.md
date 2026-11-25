@@ -48,7 +48,7 @@ hearth and 4 coil crowns pulse), 33 wall torches and sconces. Light sources 0.64
 | Who | Row | Level | How | At load (6 boots) |
 |---|---|---|---|---|
 | Flying Feet | 11600 | 18 | slot 1 `Xeen Construct`, 9 markers tier **a**, [2, 3]: foyer 2, athanor 2, coils, east landing, reagent store, still, poison garden | 23.3 |
-| Guardian | 11601 | 24 | slot 1, 6 markers tier **b**: west landing, energy lab, magic lab, top landing, library, roof | 15.3 |
+| Guardian | 11601 | 24 | slot 1, 6 markers tier **b**: west landing, energy lab, magic lab, top landing, library, the Stairway to Heaven's foot (was the roof: it saw X8's landing, 2026-11-25) | 15.3 |
 | Sorceress | 11180 | 30 | placed, group 1, two each: magic lab, quarters, library, study, observatory | 10 |
 | **Head Sorceress** | 11185 | 32 | placed by the Magic Brew's dais, group 2, `carries: librarian_key` (12260) | 1 |
 
@@ -107,8 +107,8 @@ Guardian-like stand-in (S lane's bindings).
 
 ## Exits (both linked)
 
-The arrival is just inside the enchanted door (`start`: (-1408, -1792, 0) facing north); X3's door and the way back from
-X8 both arrive there.
+The arrival is just inside the enchanted door (`start`: (-1408, -1792, 0) facing north); X3's door arrives there. The
+way back from X8 (its gated stair of cloud, D-151) lands on the roof at (1536, 1152, 2560) facing south.
 
 - **`exit:x3_door` to `xeen_x3.odm`** (linked in session 3, X3 installed by A5): the enchanted door is an `exits`
   object `exit:enchanted_door` on the door room's south wall (Celeste's carved door `hwm2d`, 192 by 384) with an `exit`
@@ -426,3 +426,12 @@ The room-filling beds `sound:tower_bed` take `pan: false` (D-48); the point soun
   drops 0, tests 20/20 from assets_dev (`output/studio_cal/a8_s26/run/xd11/t023137`). Build warning "Pandorian Box"
   (MP42 chest naming) kept: the original Xeen name.
 - Captures: `output/studio_cal/a8_s29/shots/xd11_before.jpg`, `xd11_after.jpg` (tour `a8_s29/tours/xd11.yml`).
+
+## 2026-11-25, agent xeen-fb4-dungeon2 (D-151)
+
+- The way back from X8: X8's High Magic stair of cloud (`evt:down_stair_landing`, gated as the way up: qbit 111240 or
+  111260) lands the party on this roof at (1536, 1152, 2560) facing south, by the cloud stair.
+- The roof's tier-b spawn marker (`spawn:roof_1` at (0, -512)) saw that landing across the open roof
+  (`check_arrivals.py` arrival.hot) and no roof spot was hidden from it: it moved to the foot of the Stairway to Heaven
+  (`spawn:stairway_1`, (-1728, 1664, 1920); `dress.py` SPAWNS_B). Rebuilt, installed, baked; playtests 5/5, audit 0
+  errors, arrivals 0 errors.

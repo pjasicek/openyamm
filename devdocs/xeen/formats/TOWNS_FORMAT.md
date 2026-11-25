@@ -62,6 +62,8 @@ npcs:
                              # King, Plague Cultist); none where the name carries one (a rank or form of address
                              # first, Princess Roxanne, Brother Cael; or a word of the title in the name, Miller Dunn).
                              # npc.txt's Title column (the talk reads "{name}, {title}") and house_data's Title
+    sex: male                # male or female; required on every house owner: the house greets in a stock MM6-MM8
+                             # voice of that sex, silent where the kind has none (D-165; gen_towns VOICES)
     profession: Smith        # a name from engine npc_professions.txt: the person's role; the npc row carries it only
     hireling: false          # with `hireling: true` (else the engine offers Join and titles the talk "<name> the
                              # <profession>"); named people are no hirelings, the talk's title is the name
@@ -158,7 +160,7 @@ columns of `devdocs/xeen/lanes/TABLES.md` (the engine's), the world's rows only:
 | File | Rows |
 | --- | --- |
 | `house_data.txt` | one per house (not mirrors); typeIndex column 1 = the engine house_rules row (shops, guilds, training) or 0; Map = the map's map_id; Picture = the video stem; proprietor portrait = 10000 + owner id; column 17 the training cap |
-| `house_animations.txt` | one per house: residents (comma list), video, `enter_sound` (Enter Sound), the kind's sound base, proprietor portrait |
+| `house_animations.txt` | one per house: residents (comma list), video, `enter_sound` (Enter Sound), the sound base of the kind's voice of the owner's `sex` (D-165: `VOICES`, each a pair of the engine's house_animations whose proprietor portrait gives the voice's sex; 0 where the kind has none), proprietor portrait |
 | `house_movies.txt`, `house_exits.txt` | header only (the video stem is given directly; no extra exits yet) |
 | `npc.txt` | one per NPC: portrait, house (a proprietor lives in the house only when he teaches, has topics or `talks: true`; that resident has the proprietor's portrait, and the engine shows the two as one person once A1's F1 change lands: until then the house screen lists him twice, feedback F1 2026-11-21), profession (hirelings only), greeting id, topic slots, the map key in Notes, the title in the trailing Title column (written once the engine header has it, D-21) |
 | `npc_greet.txt` | one per NPC with a greeting |
@@ -189,6 +191,9 @@ entrance on the outdoor map whose event moves the party into the dungeon holding
 - every route lands at an arrival some file names; a route's qbit name is registered in A3's quest file (a wait);
 - every title follows D-21 (section 1, `title:`);
 - every tavern off X1 fills packs to at least 14 days (its Val: `price:`, else its `was` row's; D-29);
+- every house greets in a voice of its owner's sex (D-165; `gen_towns.voice_errors()` on the installed
+  house_animations, also `gen_towns.py --check-voices`), and every `VOICES` pair is an engine house_animations row
+  with a greeting sound file;
 - every named resident has a portrait file (`npc<10000 + id>.png`) and a profession, a teacher offer or a greeting;
 - residences per town against WORLD_DESIGN §5; services per town against its role;
 - teacher offers against `teachers_plan.yml` (every offer in the plan is in a town file and the other way round; the

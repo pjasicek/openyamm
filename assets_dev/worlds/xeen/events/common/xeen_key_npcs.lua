@@ -7,12 +7,13 @@
 XeenKeyNpcs = {}
 -- map name (map_stats, as evt.GetCurrentMapName() gives it) -> {actor index, ...}; the comment names each figure
 XeenKeyNpcs.maps = {
-    ["Castleview Vale"] = {29, 30, 31, 32},  -- xeen_d1: 29 Yog; 30 Joe; 31 Justine; 32 Luna
+    ["Castleview Vale"] = {44, 45, 46, 47},  -- xeen_d1: 44 Yog; 45 Joe; 46 Justine; 47 Luna
     ["Sprite Forest and Ogre Pass"] = {22},  -- xeen_d2: 22 Graalg
     ["Sandcaster and the Aging Forest"] = {32},  -- xeen_d3: 32 Cornelius
     ["Lakeside and Blackfang"] = {19, 20, 21, 22},  -- xeen_d4: 19 Naomi; 20 Slibo; 21 Ector; 22 Leafpoint
     ["Desert of Doom"] = {6},  -- xeen_d5: 6 Gurodel
     ["The Forbidden Zone"] = {44, 45},  -- xeen_d6: 44 Ambrose; 45 Tethered Griffin
+    ["Castleview Sewer"] = {12},  -- xeen_dd01: 12 Felix
     ["Ellinger's Tower"] = {0},  -- xeen_dd02: 0 Ellinger
     ["Western Tower of Mok"] = {35, 40},  -- xeen_dd05: 35 Humble the Cleric; 40 Pious the Cleric
     ["Southern Tower"] = {29},  -- xeen_dd06: 29 The Master Thief
@@ -36,6 +37,7 @@ XeenKeyNpcs.maps = {
     ["Desert of the Sphinx"] = {4, 5, 6},  -- xeen_x6: 4 Arie; 5 Saul; 6 The Summer Druid
     ["Mount Firestone"] = {10},  -- xeen_x7: 10 Sablewing
     ["Clouds of Xeen"] = {39},  -- xeen_x9: 39 Slick the Gamemaster
+    ["Witch Tower"] = {0, 1, 2, 3},  -- xeen_xd04: 0 Goblin-eared boy; 1 Goblin-eared girl; 2 Goblin-eared boy; 3 Goblin-eared girl
     ["Darzog's Tower"] = {6},  -- xeen_xd12: 6 Crodo
     ["Shangri-La"] = {0, 1},  -- xeen_xd17: 0 Lacey; 1 Stumpy
     ["Ninja Pagoda"] = {24},  -- xeen_xd22: 24 Shinobu

@@ -190,7 +190,7 @@ HEIGHT_POINTS = [
     ([46, 41], 1900, "the eyrie's mouth"),
     ([42, 47], 1500, 'the eyrie path under the crags'),
     ([40, 53], 1350, "Carlawna's hut"),
-    ([24, 55], 1350, 'the barbarian camp'),
+    ([28, 53], 1350, 'the barbarian camp'),   # D-142: 4 east, 2 north
     ([20, 60], 1150, 'the X6 arrival'),
     ([36, 62], 1200, 'the west fork'),
     ([48, 66.5], 1350, "the obelisk's knoll"),
@@ -278,7 +278,7 @@ ROADS = [
     ('link:druid_path', [[30, 61.2], [27, 66], [26, 69]], 'lane', None),
     ('link:falls_path', [[69, 57.5], [73, 55], [76, 51], [77, 48]], 'lane', None),
     ('link:quintain_track', [[62.5, 76], [62, 84], [60, 92], [57, 100], [56, 102]], 'lane', None),
-    ('link:barbarian_track', [[28, 61], [26, 57.5], [24.5, 56]], 'lane', None),
+    ('link:barbarian_track', [[28, 61], [29, 57.5], [28.5, 55.5]], 'lane', None),
 ]
 
 # ---------------------------------------------------------------- buildings and plots
@@ -327,7 +327,7 @@ ASP_HOUSES = [  # 4172 Sarah Slither open from day one; 4178-4186 open with q-c5
     (4180, [1.5, 1], [37.8, 88.8], 'n', 'timber'),
     (4181, [1, 1], [43.6, 88.8], 'n', 'plaster'),
     (4182, [1.5, 1], [45, 88.8], 'n', 'poor'),
-    (4183, [1, 1], [46.5, 86.0], 'w', 'grey'),
+    (4183, [1, 1], [46.5, 86.0], 'n', 'grey'),   # F67 p12 (2026-11-25): its door onto the Asp road's end, not sideways
     (4184, [1, 1], [47.2, 88.8], 'n', 'poor'),
     (4185, [1, 1.5], [44.8, 79.8], 's', 'poor'),
     (4186, [1.5, 1.5], [35.4, 90.2], 'e', 'timber'),
@@ -390,7 +390,7 @@ POINTS = [
     ('poi:carlawna', [40.4, 54.3], None, "Carlawna (4303) at her hut's door."),
     ('poi:falagar', [100, 62.3], None, "Falagar (4304) at his hut's door."),
     ('poi:joe_caravan', [87.5, 87], None, 'Joe the Merchant (4320) at his wagon on the river road.'),
-    ('poi:barbarian_camp', [24, 55], None, None),
+    ('poi:barbarian_camp', [28, 53], None, None),
     ('poi:nystor_landing', [81.5, 101], None, None),
     ('poi:autumn_druid', [26, 70], None, 'The Autumn Druid (4321) in her ring of stones.'),
     ('poi:asp_well', ASP_WELL, None, None),
@@ -463,11 +463,34 @@ AREAS = [
     ('pop:pair_west_knights', 1, 1, [[52, 70], [55, 70], [55, 73], [52, 73]],
      '... and a knight band nearer Burlock Cross (one marker each: the pair is a downs marker and a fields marker).'),
 ]
+# D-142 / D-157 (2026-11-25, F64): the sketch's encounter areas are circle markers (x, y, count, r), each pack at
+# its spot inside its AREAS polygon above (the places the studio had drawn from the polygons), so gen.py can hold them
+# to D-142 (common/d142.py enforce: 4,096 from the edge arrivals and the dungeon exits, centres 1,024 from every road,
+# lane and path) and print each move. The polygons stay the populations' ranges (the plan's words).
+MARKERS = {
+    'pop:range_west': [(26, 48, 1, 0.5), (27, 35, 1, 0.5), (31, 47, 1, 0.5), (33, 38, 1, 0.5),
+                       (39, 38, 1, 0.5), (22, 44, 1, 0.5), (23, 47, 1, 0.5), (39, 46, 2, 1)],
+    'pop:range_east': [(87, 33, 1, 0.5), (75, 38, 1, 0.5), (103, 38, 1, 0.5), (101, 34, 1, 0.5),
+                       (94, 44, 1, 0.5), (103, 36, 1, 0.5), (84, 48, 1, 0.5), (105, 40, 1, 0.5),
+                       (76, 46, 1, 0.5)],
+    'pop:red_hills': [(105, 89, 2, 1), (109, 90, 1, 0.5), (98, 82, 1, 0.5), (103, 81, 1, 0.5),
+                      (103, 103, 1, 0.5), (104, 108, 1, 0.5), (105, 105, 1, 0.5)],
+    'pop:south_fields': [(68, 84, 1, 0.5), (56, 98, 1, 0.5), (71, 87, 1, 0.5), (44, 98, 1, 0.5),
+                         (62, 104, 1, 0.5), (67, 93, 1, 0.5), (59, 108, 1, 0.5), (72, 104, 1, 0.5),
+                         (57, 106, 1, 0.5)],
+    'pop:west_downs': [(32, 85, 1, 0.5), (22, 102, 1, 0.5), (22, 98, 1, 0.5),   # x 22: 768 off the bounds (F63)
+                       (29, 108, 1, 0.5)],
+    'pop:pair_river_road': [(90, 101, 2, 1)],
+    'pop:pair_firestone_road': [(92, 73, 2, 1)],
+    'pop:pair_west_ogres': [(40, 64, 1, 0.5)],
+    'pop:pair_west_knights': [(53, 72, 1, 0.5)],
+}
+assert all(sum(m[2] for m in MARKERS[a[0]]) == a[2] for a in AREAS), 'MARKERS and AREAS disagree on a count'
 # Placed hostiles (monster id, at, count, spread, group, note)
 ACTORS = [
-    ('11100', [24, 55], 4, 2, 1, 'Barbarians 14 at the camp to burn.'),
-    ('11101', [25, 56], 1, 1, 1, 'A Sardaj Warrior 20.'),
-    ('11102', [23.5, 54], 1, 0, 1, 'The Barbarian Chief 28 by the chest.'),
+    ('11100', [28, 53], 4, 2, 1, 'Barbarians 14 at the camp to burn.'),
+    ('11101', [29, 54], 1, 1, 1, 'A Sardaj Warrior 20.'),
+    ('11102', [27.5, 52], 1, 0, 1, 'The Barbarian Chief 28 by the chest.'),
     ('11060', [106, 86], 3, 2, 2, "Ogres 18 at their camp in the hollow."),
     ('11061', [107, 87], 1, 1, 2, 'An Ogre Brute 22.'),
     ('11140', [56, 103], 3, 2, 3, "Jousters 14 at the renegade knights' camp."),
@@ -616,7 +639,11 @@ def sketch():
 
     areas = []
     for aid, slot, count, poly, note in AREAS:
-        areas.append({'id': aid, 'count': count, 'slot': slot, 'polygon': poly, 'notes': note})
+        for i, (x, y, n, r) in enumerate(MARKERS[aid], 1):
+            a = {'id': aid, 'index': i, 'kind': 'encounter', 'count': n, 'slot': slot, 'circle': {'at': [x, y], 'r': r}}
+            if i == 1:
+                a['notes'] = note
+            areas.append(a)
     for aid, poly, note in KEEP_CLEAR:
         a = {'id': aid, 'kind': 'keep_clear', 'polygon': poly}
         if note:

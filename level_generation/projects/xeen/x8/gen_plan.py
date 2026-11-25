@@ -95,6 +95,14 @@ def plan_l2():
     return plan
 
 
+# The roofs the arrival stairs lead back down to (x, y, z, direction in degrees): XD-04's roof (floor 2560, the cloud
+# stair on its west wall at x -7296), XD-11's roof (floor 2560, the cloud steps platform:cloud_top at (1536, 1600)).
+# Open: XD-11's roof spawn marker spawn:roof_1 (0, -512) sees this landing (check_arrivals.py arrival.hot): move it
+# out of sight at XD-11's next rebuild (the stairway below sees the library's Sorceresses, no better).
+WITCH_TOWER_ROOF = (-6784, 448, 2560, 0)
+HIGH_MAGIC_ROOF = (1536, 1152, 2560, 270)
+
+
 def project(level):
     p = load('L1', 'project.yml')
     p['map_stats'].pop('slots', None)
@@ -104,12 +112,22 @@ def project(level):
     ]
     p['map_stats']['bolster'] = 'LowerToEqual'
     for n in p['neighbours']:
+        # F62 (the player's pins 2026-11-25, X8 p3 and p6: "is it intended that you can't go back to the tower?"):
+        # the foot of each arrival stair leads back down to the tower it came from (evt:down_*, gen_objects.py).
         if n['id'] == 'roof:witch_tower':
-            n['notes'] = ("One way up: XD-04's cloud stair arrives at the head of the Witch Clouds' stair "
-                          "(objects.yml start). There is no way back down but falling.")
+            n.pop('listed_only', None)
+            n['arrival'] = list(WITCH_TOWER_ROOF[:3])
+            n['direction'] = WITCH_TOWER_ROOF[3]
+            n['notes'] = ("XD-04's cloud stair arrives at the head of the Witch Clouds' stair (objects.yml start); the "
+                          "stair's foot leads back down to the Witch Tower's roof by the cloud stair, facing away "
+                          "from it (F62).")
         if n['id'] == 'roof:high_magic':
-            n['notes'] = ("One way up: XD-11's Stairway to Heaven arrives at the head of the High Magic Clouds' "
-                          "stair, by explicit coordinates in XD-11's exit (NOTES.md, Arrivals).")
+            n.pop('listed_only', None)
+            n['arrival'] = list(HIGH_MAGIC_ROOF[:3])
+            n['direction'] = HIGH_MAGIC_ROOF[3]
+            n['notes'] = ("XD-11's Stairway to Heaven arrives at the head of the High Magic Clouds' stair, by explicit "
+                          "coordinates in XD-11's exit (NOTES.md, Arrivals); the stair's foot leads back down to the "
+                          "Tower of High Magic's roof in front of the cloud steps, facing away from them (F62).")
         if n['id'] == 'fall:x1':
             n['arrival'] = [11264, -7936, 1618]
             n['direction'] = 308

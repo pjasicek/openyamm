@@ -853,8 +853,13 @@ light_by['light:hall_day']['height'] = 64      # over the roof patch's top (768)
 # The breach in the north wall's east end: the corner fell outward; rubble heaped outside it under the open sky.
 BREACH = (608, 3200, 1120, 3456)
 RECTS['room:breach'] = BREACH
-room('room:breach', 'The breach', BREACH, floor=0, ceiling=768, theme='theme:open_sky', ambient=18, steep_floor=True,
-     space='room:great_hall',
+# F58/F60 (the player's pin XD-13 p1, 2026-11-25, "z-fighting": a flat white face beside a pillar): the breach's walls
+# were sky from the floor up, and from the heap (a jump from the rubble) the sky below the eye drew as the preset's
+# flat fog. The fallen corner's own walls now stand in ruin stone to 352 over the heap's top (BREACH_WALL), the sky
+# only above them and overhead (tools/xeen/check_parapet_gaps.py `sky.low`).
+BREACH_WALL = 832   # 80 over the stage-2 plug's top (752) too
+room('room:breach', 'The breach', BREACH, floor=0, ceiling=1024, theme='theme:open_sky', ambient=18, steep_floor=True,
+     space='room:great_hall', bands=[{'height': BREACH_WALL, 'surface': RUIN}],
      platforms=[block('platform:breach_ledge', [864, 3248], [512, 96], 224, RUIN, RUIN,
                       "The fallen stone level with the breach's sill."),
                 block('platform:breach_heap', [864, 3376], [512, 160], 224, dict(RUIN, uneven=True), dict(RUIN, uneven=True),

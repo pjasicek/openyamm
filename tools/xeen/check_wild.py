@@ -12,12 +12,17 @@
 - `wild.campfire` (error): every campfire decoration of the sketch (common/wild.py FIRES) has an event, and the
   generated food-and-ring event (wild.CAMPFIRE_LUA) runs once (`once: true`); without it the fire refills forever.
 
+- `rim.hull_step` (warning until each map's next rebuild, F60 X5 p4, 2026-11-25): a long hull piece (`xeen_hull4`,
+  2,048 wide) over land varying more than common/rim.py HULL_STEP (128) along its span: rim.py now builds four short
+  pieces there, each on its own land.
+
   python3 tools/xeen/check_wild.py [--assets ROOT] [--maps xeen_x1,...] [--check]
 """
 from __future__ import annotations
 
 import argparse
 import json
+import math
 import re
 import sys
 from pathlib import Path
@@ -36,6 +41,7 @@ OUTDOOR = ['x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'd1', 'd2', 'd3', 'd4', 'd5
 def check(key, assets: Path, cache: Path):
     stem = 'xeen_' + key
     findings = []
+    warnings = []
     sketch = yaml.safe_load((ROOT / 'devdocs' / 'xeen' / 'briefs' / key / 'L4' / 'sketch.yml').read_text())
     lua = (assets / 'worlds' / 'xeen' / 'events' / 'maps' / (stem + '.lua')).read_text()
     data = check_faces.export_map(assets / 'worlds' / 'xeen' / 'maps' / (stem + '.odm'), assets, cache)
@@ -69,7 +75,17 @@ def check(key, assets: Path, cache: Path):
                     continue
                 findings.append(('rim.pit', 'land below 320 at cell (%d, %d), height %d, away from the rim sea'
                                  % (gx, gy, h)))
+    import rim  # noqa: E402 (common/rim.py: HULL_STEP, PIECE_LONG)
     for thing in sketch.get('structures') or []:
+        if thing.get('kind') == 'decoration' and str(thing.get('decoration', '')).startswith('xeen_hull4'):
+            cx, cy = thing['at']
+            along = abs(math.sin(math.radians(float(thing.get('turn', 0))))) < 0.5   # faces n/s: runs along x
+            half = rim.PIECE_LONG / 2.0
+            lands = [terrain.height(*wild.W(cx + f * half, cy) if along else wild.W(cx, cy + f * half))
+                     for f in (-1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1)]
+            if max(lands) - min(lands) > rim.HULL_STEP:
+                warnings.append(('rim.hull_step', '%s (%s) at %s: the land under its span runs %d-%d'
+                                 % (thing['id'], thing['decoration'], thing['at'], min(lands), max(lands))))
         if thing.get('kind') == 'building':
             for part in thing.get('parts') or []:
                 if isinstance(part, dict) and part.get('posts') and part.get('effects') \
@@ -83,7 +99,7 @@ def check(key, assets: Path, cache: Path):
                     if isinstance(effect, dict) and 'a ring in the ashes' in str(effect.get('lua') or '')]
         if fire_lua and thing.get('once') is not True:
             findings.append(('wild.campfire', '%s: the campfire event is not `once: true`' % thing['id']))
-    return findings
+    return findings, warnings
 
 
 def edge_distance(polygon, x, y):
@@ -112,7 +128,12 @@ def main() -> int:
     keys = [m.replace('xeen_', '') for m in args.maps.split(',')] if args.maps else OUTDOOR
     total = 0
     for key in keys:
-        findings = check(key, Path(args.assets), Path(args.cache))
+        findings, warnings = check(key, Path(args.assets), Path(args.cache))
+        for rule, text in warnings[:3]:
+            print('xeen_%s warn %s: %s' % (key, rule, text))
+        if warnings:
+            print('xeen_%s: %d warning(s) rim.hull_step (until the map is rebuilt with common/rim.py HULL_STEP)'
+                  % (key, len(warnings)))
         rules = {}
         for rule, text in findings:
             rules[rule] = rules.get(rule, 0) + 1

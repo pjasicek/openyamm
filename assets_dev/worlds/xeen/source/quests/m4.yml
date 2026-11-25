@@ -67,6 +67,20 @@ npcs:
             do: [{set: children_home}, {gold: 500}]
           - text: "The witches catch children and turn them into goblins. They keep the ones they haven't turned yet in cages in the tower. Bring them home if you can."
 
+  4053:              # the Goblin-eared boy in cage 1 (A4: towns/x1.yml, house none; XD-04's monster:child_1, D-155)
+    topics:
+      - n: 4
+        label: Ears
+        states:          # mirrors the cage_1 hook; child_rescued_1 first in both, so the cure and its 200 are given once
+          - when: {qbit: child_rescued_1}
+            text: "Round ears! Pink ones! Mum's going to cry anyway."
+          - when: {all: [{qbit: boy_waiting}, {item: alacorn}]}
+            text: "You touch the Alacorn to his ears: they shrink back, pink and round. He whoops and runs for home."
+            do: [{set: child_rescued_1}, {xp: 200}, {lua: "evt.SetMonGroupBit(11, MonsterBits.Invisible, 1)"}]   # the boy, as evt:cage_1 hides him
+          - when: {qbit: boy_waiting}
+            text: "Not going home with these. The witches' Alacorn cures anything. It's on a pedestal on the plank bridge over the cauldron shaft, three floors up. Bring it and touch my ears with it."
+          - text: "Get me out! The warden's keys, the big ring. He keeps it in his strongbox, there by his table. Then I'll tell you about my ears."
+
 hooks:
   tower_door:
     map: X1
@@ -83,8 +97,8 @@ hooks:
         text: "You touch the Alacorn to his ears: they shrink back, pink and round. He whoops and runs for home."
         do: [{set: child_rescued_1}, {xp: 200}]
       - when: {qbit: boy_waiting}
-        text: "'I'm not going home with goblin ears!' The boy will not budge. 'They say the witches' Alacorn cures anything. It's up top, over the cauldron.'"
-      - text: "The ring turns the lock and the cage rattles up its chain. The boy steps out and stops: 'Not with these ears. Mum would die. The witches' Alacorn could cure them. It's up top, over the cauldron.'"
+        text: "'I'm not going home with goblin ears!' The boy will not budge. 'The witches' Alacorn cures anything. It's on a pedestal on the plank bridge over the cauldron shaft, three floors up.'"
+      - text: "The ring turns the lock and the cage rattles up its chain. The boy steps out and stops: 'Not with these ears. Mum would die. The witches' Alacorn could cure them. It's on a pedestal on the plank bridge over the cauldron shaft, three floors up.'"
         do: [{set: boy_waiting}]
   cage_2:
     map: XD-04

@@ -100,20 +100,20 @@ houses:
 
 npcs:
   # ---- Sandcaster's services ----
-  - {id: 5201, name: Rashid, title: Bladesmith, profession: Smith, teaches: [{skill: Dagger, mastery: master}], greet: ["A dagger is a sword that has learned to be discreet.", "Something sharp?"]}
-  - {id: 5202, name: Zubaida, title: Armourer, profession: Armorer, greet: ["Brass scale: it shines, it turns a blade, and it cooks you at noon.", "A fitting?"]}
-  - {id: 5203, name: Aladdin, title: Lamp Cleaner, profession: Merchant, greet: ["Lamps cleaned, lamps sold. If anything comes out, that's extra.", "Rub one?"], source: "MAPS D3: Aladdin the Lamp Cleaner"}
-  - {id: 5204, name: Omar the Peddler, title: Remedy Seller, profession: Alchemist, greet: ["Vulture Repellant! Guaranteed! Results may vary.", "It didn't work? Odd."], source: "MAPS D3: the Vulture Repellant stall"}
-  - {id: 5205, name: High Priestess Samira, profession: Healer, greet: ["The sun fails, and still we pray to it. Habit.", "Be healed."]}
-  - {id: 5206, name: Hakim, title: Innkeeper, profession: Cook, greet: ["Water is dearer than wine here. I charge accordingly.", "Thirsty?"]}
-  - {id: 5207, name: Barticus, title: Master of the Gym, profession: Instructor, greet: ["Lift, run, lift again. Eighty levels of it, if you can stand.", "Again!"]}
-  - {id: 5208, name: Yusuf, title: Mind Guildmaster, profession: Spell Master, greet: ["The wizards took the quarter. We kept the guild. Small mercies.", "Think on it."]}
-  - {id: 5209, name: Layla, title: Spirit Guildmistress, profession: Healer, talks: true, greet: ["Spirit is what's left when the wizards take everything else.", "Peace."]}
-  - {id: 5210, name: Nasir, title: Light Guildmaster, profession: Spell Master, teaches: [{skill: Light Magic, mastery: master}], greet: ["A small sun, but ours. Light is learned slowly here.", "Let there be light."]}
-  - {id: 5211, name: Caravan Master Idris, profession: Trader, greet: ["Castleview, and Lakeside when the coven lets us through.", "Where to?"]}
+  - {id: 5201, name: Rashid, sex: male, title: Bladesmith, profession: Smith, teaches: [{skill: Dagger, mastery: master}], greet: ["A dagger is a sword that has learned to be discreet.", "Something sharp?"]}
+  - {id: 5202, name: Zubaida, sex: female, title: Armourer, profession: Armorer, greet: ["Brass scale: it shines, it turns a blade, and it cooks you at noon.", "A fitting?"]}
+  - {id: 5203, name: Aladdin, sex: male, title: Lamp Cleaner, profession: Merchant, greet: ["Lamps cleaned, lamps sold. If anything comes out, that's extra.", "Rub one?"], source: "MAPS D3: Aladdin the Lamp Cleaner"}
+  - {id: 5204, name: Omar the Peddler, sex: male, title: Remedy Seller, profession: Alchemist, greet: ["Vulture Repellant! Guaranteed! Results may vary.", "It didn't work? Odd."], source: "MAPS D3: the Vulture Repellant stall"}
+  - {id: 5205, name: High Priestess Samira, sex: female, profession: Healer, greet: ["The sun fails, and still we pray to it. Habit.", "Be healed."]}
+  - {id: 5206, name: Hakim, sex: male, title: Innkeeper, profession: Cook, greet: ["Water is dearer than wine here. I charge accordingly.", "Thirsty?"]}
+  - {id: 5207, name: Barticus, sex: male, title: Master of the Gym, profession: Instructor, greet: ["Lift, run, lift again. Eighty levels of it, if you can stand.", "Again!"]}
+  - {id: 5208, name: Yusuf, sex: male, title: Mind Guildmaster, profession: Spell Master, greet: ["The wizards took the quarter. We kept the guild. Small mercies.", "Think on it."]}
+  - {id: 5209, name: Layla, sex: female, title: Spirit Guildmistress, profession: Healer, talks: true, greet: ["Spirit is what's left when the wizards take everything else.", "Peace."]}
+  - {id: 5210, name: Nasir, sex: male, title: Light Guildmaster, profession: Spell Master, teaches: [{skill: Light Magic, mastery: master}], greet: ["A small sun, but ours. Light is learned slowly here.", "Let there be light."]}
+  - {id: 5211, name: Caravan Master Idris, sex: male, profession: Trader, greet: ["Castleview, and Lakeside when the coven lets us through.", "Where to?"]}
   # ---- the wizard quarter ----
-  - {id: 5212, name: Magus Ferrante, title: Master of the Guild of Night, profession: Spell Master, greet: ["Xenoc kept us under lock. Now you hold the key. Do not insult it.", "Mind your tongue."]}
-  - {id: 5213, name: Esmeralda, title: Purveyor of Esoterica, profession: Enchanter, greet: ["Everything here is magic. Some of it even works.", "Look, don't touch."]}
+  - {id: 5212, name: Magus Ferrante, sex: male, title: Master of the Guild of Night, profession: Spell Master, greet: ["Xenoc kept us under lock. Now you hold the key. Do not insult it.", "Mind your tongue."]}
+  - {id: 5213, name: Esmeralda, sex: female, title: Purveyor of Esoterica, profession: Enchanter, greet: ["Everything here is magic. Some of it even works.", "Look, don't touch."]}
   - {id: 5214, name: Mindwright Orsolo, title: Wizard of the Mind, profession: Psychic, teaches: [{skill: Mind Magic, mastery: grandmaster}], greet: ["You are thinking that I am rude. I am thinking it too.", "Think louder."]}
   - {id: 5215, name: Appraiser Quince, profession: Scholar, teaches: [{skill: Identify Item, mastery: grandmaster}], greet: ["I can tell you what it is, who made it, and how much you overpaid.", "Show me."]}
   - {id: 5216, name: Alchemist Morvenna, title: Wizard of the Alembic, profession: Alchemist, teaches: [{skill: Alchemy, mastery: grandmaster}], greet: ["Black potions, white potions. The rest is details.", "Bring me something to boil."]}
@@ -142,11 +142,11 @@ npcs:
   - {id: 5238, name: Date Farmer Yara, profession: Farmer, greet: ["Dates from the river palms. Sweeter than the wizards.", "Date?"]}
   - {id: 5239, name: Well Keeper Omid, profession: Laborer, greet: ["Deepest well in the city. Something at the bottom hums.", "Drink?"]}
   # ---- the Crossroads ----
-  - {id: 5240, name: Fat Marwan, title: Food Seller, profession: Cook, greet: ["Six roads meet here, and all of them are hungry.", "Kebab?"]}
-  - {id: 5241, name: Selima, title: Robe Seller, profession: Tailor, greet: ["Robes for wizards, robes for pilgrims. Same robe, different price.", "Try one on."]}
-  - {id: 5242, name: Jamila, title: Necklace Seller, profession: Merchant, greet: ["Every necklace protects against something. Mostly poverty: mine.", "Pretty, no?"]}
-  - {id: 5243, name: Bashir, title: Belt Seller, profession: Merchant, greet: ["A good belt holds up more than your trousers.", "Belt?"]}
-  - {id: 5244, name: Kadir, title: Boot Seller, profession: Cobbler, greet: ["Six roads. You'll need boots for all of them.", "Boots?"]}
+  - {id: 5240, name: Fat Marwan, sex: male, title: Food Seller, profession: Cook, greet: ["Six roads meet here, and all of them are hungry.", "Kebab?"]}
+  - {id: 5241, name: Selima, sex: female, title: Robe Seller, profession: Tailor, greet: ["Robes for wizards, robes for pilgrims. Same robe, different price.", "Try one on."]}
+  - {id: 5242, name: Jamila, sex: female, title: Necklace Seller, profession: Merchant, greet: ["Every necklace protects against something. Mostly poverty: mine.", "Pretty, no?"]}
+  - {id: 5243, name: Bashir, sex: male, title: Belt Seller, profession: Merchant, greet: ["A good belt holds up more than your trousers.", "Belt?"]}
+  - {id: 5244, name: Kadir, sex: male, title: Boot Seller, profession: Cobbler, greet: ["Six roads. You'll need boots for all of them.", "Boots?"]}
   - {id: 5245, name: Caleb, title: Inventor, profession: Tinker, talks: true, greet: ["Gargoyles took my magnifying glass. Destroy their lair and I'll show you what it magnifies.", "The glass?"]}
   # ---- the Aging Forest and the desert edge ----
   - {id: 5246, name: Thaddeus, title: Fountain Keeper, profession: Mystic, talks: true, greet: ["The Fountain of Youth runs dry without the Jewel of Ages. Thieves took it, and sold it on to who knows whom.", "The Jewel?"]}

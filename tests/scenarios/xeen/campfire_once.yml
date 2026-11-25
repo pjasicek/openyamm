@@ -2,7 +2,7 @@
 # Every campfire of the outdoor maps gets its event from level_generation/projects/xeen/common/wild.py with
 # `once: true`, a map variable of its own; evt.ChangeEvent(0) does nothing on a studio thing. X1's first orc
 # campfire (event 83, map variable 8 in devdocs/xeen/briefs/x1/L4/ids.lock.yml): the first click gives food, the
-# second gives none, and none after a save and load either.
+# second gives none, nor do presses of Space on it, and none after a save and load either.
 #   build/game/openyamm --headless-run-scenario tests/scenarios/xeen/campfire_once.yml --scenario-no-color
 id: xeen.campfire_once
 title: "Xeen: a campfire feeds the party once, also after a reload"
@@ -25,6 +25,16 @@ steps:
   - play_lua: {source: "if mapvar(8) ~= 1 then error('the first click did not mark the fire used') end"}
   - console: {line: "lua SetValue(Food, 50)", expect_contains: "Lua ran."}
   - execute_event: {id: 83}
+  - assert: {food: 50}
+  # Space on the fire, as a player does it (Discord, 2026-11-25: "farmed by holding / spamming Space"): nothing more.
+  - set_pose: {map: xeen_x1.odm, x: -17408, y: 17760, z: 1632, yaw: 1.5708, pitch: -0.3}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.3}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.3}
   - assert: {food: 50}
   - reload: {}
   - execute_event: {id: 83}

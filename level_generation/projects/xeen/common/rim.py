@@ -45,6 +45,11 @@ DECK_MARGIN = 96                        # the spillway plate beyond the water ea
 # decks would otherwise close the notch; no corner piece beside it. A sand or lava fall's gap (decorations pouring from
 # the lip, no spillway: D-114) holds plain kerbless faces (`xeen_hullf`, burnt `xeen_hullfbn`) instead of nothing.
 NOTCH_RUN = 6.0
+# F60 X5 p4 (2026-11-25, agent xeen-fb4-outdoor2): a piece stands on the land at its middle, so a long piece over land
+# that varies along its span hung its ends over a dip or buried them in a rise (162 long pieces on the 13 maps varied
+# more than 160; X5's fen fell 600 under one). A long piece over land varying more than HULL_STEP along its span (the
+# installed map's land, as common/wild.py reads it) is four short pieces, each on its own land.
+HULL_STEP = 128
 
 
 def studio_reads_void():
@@ -182,6 +187,19 @@ def hull_pieces(sketch, key):
     pieces = []
     count = 0
     notch_ends = set()
+    terrain = None
+    try:
+        import wild  # noqa: E402 (beside this file)
+        terrain = wild._export('xeen_%s' % key)
+    except Exception:       # no installed map yet (a first build): long pieces as before
+        terrain = None
+
+    def uneven(p0, p1):
+        if not terrain:
+            return False
+        lands = [wild._terrain_at(terrain, p0[0] + (p1[0] - p0[0]) * f - nx * 0.25, p0[1] + (p1[1] - p0[1]) * f - ny * 0.25)
+                 for f in (0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1)]
+        return max(lands) - min(lands) > HULL_STEP
     for a, b, (nx, ny) in edges:
         length = math.dist(a, b)
         ux, uy = (b[0] - a[0]) / length, (b[1] - a[1]) / length
@@ -199,6 +217,9 @@ def hull_pieces(sketch, key):
                                       (a[0] + ux * (at + size), a[1] + uy * (at + size))) < reach
                     for f, reach, _ in falls):
                 size = PIECE_SHORT      # short pieces up to the fall's sides
+            if size == PIECE_LONG and uneven((a[0] + ux * at, a[1] + uy * at),
+                                             (a[0] + ux * (at + size), a[1] + uy * (at + size))):
+                size = PIECE_SHORT      # F60: short pieces over uneven land, each on its own land
             mid = at + size / 2.0
             cx, cy = a[0] + ux * mid + nx * INTO, a[1] + uy * mid + ny * INTO
             s0 = (a[0] + ux * at, a[1] + uy * at)

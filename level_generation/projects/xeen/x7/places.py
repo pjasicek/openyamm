@@ -94,25 +94,11 @@ def asked_way(message, ask, way):
     return dict(way)
 
 
-def asked_first(message, ask, d):
-    """D-72 item 3 for a question behind its own condition: the condition and else stay; the effects open with one
-    Yes/No prompt with buttons (the look followed by the source question, no SetMessage before it). Yes (step 1) runs
-    the effects; No and Escape stay."""
-    prompt = message + ' ' + ask
-    gate = {'lua': 'if continueStep ~= 1 then if continueStep == nil then AskChoiceWithAnswerSteps(eventId, 3, %s, '
-                   '{{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}}) end return end' % lua_str(prompt)}
-    return dict(d, effects=[gate] + list(d['effects']))
-
-
-def reflector(name, message):
-    """A Reflector (M37): one Yes/No prompt with buttons, the look of the disc and the source's question joined (D-65 B1:
-    a message before a question drops the question's own text; D-66 item 6: yes/no answers are buttons); Yes calls A3's
-    hook, No does nothing."""
-    ask = message + ' Reflector. Activate?'
-    return [{'lua': 'if continueStep == 1 then %s return end' % hook_lua(name)},
-            {'lua': 'if continueStep ~= nil then return end'},
-            {'lua': 'AskChoiceWithAnswerSteps(eventId, 3, %s, {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})'
-                    % lua_str(ask)}]
+def reflector(name):
+    """A Reflector (M37), D-144 (F69b): a click calls A3's hook, whose line goes on the status line (`status: true`:
+    before M36 its fail text, then once its experience, after that its else text). The source's "Reflector. Activate?"
+    was a free Yes/No whose No changed nothing. As X1's, X5's and X6's Reflectors."""
+    return [hook(name)]
 
 
 def msg(text):
@@ -179,10 +165,19 @@ WATCH = [[64.6, 79.6], [70.4, 79.6], [70.4, 85.4], [64.6, 85.4]]
 WATCH_GATE = (64.6, 82.5)
 PAY_CHEST = (68.6, 85.1)
 SABLE_CAVE = (77.0, 90.0)
-SABLEWING = (76.35, 90.05)   # D-91 (A5 s29): under his shelter's overhang (was 75.6, 90.1 before the mouth)
+SABLEWING = (76.3, 90.05)   # D-91 (A5 s29): under his shelter's overhang (was 75.6, 90.1 before the mouth); F63
+# (2026-11-25, check_spawn_clear): 76.35 stood 141 from the shelter's solid face (152 for his radius)
 SABLE_FIRE, SABLE_POT, SABLE_BONES = (76.15, 89.72), (76.22, 89.6), (76.45, 90.38)   # D-91: under the overhang
 OUTPOST = (31.0, 86.0)
 OUTPOST_FIRE = (31.0, 86.2)
+OUTPOST_BONES = [('7dec18', (29.0, 86.6)), ('sklplrev', (33.2, 87.2)), ('dec19', (32.4, 84.0))]
+# D-152 (2026-11-25): what shows once the outpost is burnt (X5's outpost: MM8's stumps as charred stakes, D2's embers)
+OUTPOST_CHAR = [('dec24x', OUTPOST_FIRE), ('stump5a', (29.7, 85.2)), ('stump5a', (32.4, 85.3)),
+                ('dec24x', (30.4, 87.4)), ('stump5a', (30.9, 87.9))]
+OUTPOST_GONE = (['thing:outpost_hide_%d' % (i + 1) for i in range(3)] + ['thing:outpost_fire']
+                + ['thing:outpost_bones_%d' % (i + 1) for i in range(len(OUTPOST_BONES))])
+OUTPOST_BURN = ' '.join(['HideThing("%s")' % t for t in OUTPOST_GONE]
+                        + ['ShowThing("thing:outpost_char_%d")' % (i + 1) for i in range(len(OUTPOST_CHAR))])
 SHRINE = (52.2, 98.2)
 WELL_SPEED = (28.1, 102.1)
 SPRING = (94.0, 84.1)
@@ -346,23 +341,27 @@ def south(S):
     S(deco('thing:sable_fire', '7dec02', SABLE_FIRE, title='A small fire'))
     S(deco('thing:sable_pot', '7dec03', SABLE_POT))
     S(deco('thing:sable_bones', 'dec29', SABLE_BONES))
-    # the orc outpost (source E2): hides on poles round a fire; burns once (A3's x7.orc_outpost); its chest one spot
+    # the orc outpost (source E2): hides on poles round a fire; burns once (A3's x7.orc_outpost); its chest one spot.
+    # D-144 (F69b): a click on the fire burns it (the source's "You have found an Orc Outpost. Put it to the torch?",
+    # aaze0018:3, was a free Yes/No whose No changed nothing); the hook's line on the status line. D-152: the hides,
+    # the fire and the bones go, charred stakes and cold embers show (OUTPOST_CHAR), and their click gives A3's else
+    # text ("Charred stakes and cold ash."), which describes what is drawn. evt:outpost_state keeps it on every load.
     burnt = ['thing:outpost_hide_1', 'thing:outpost_hide_2', 'thing:outpost_hide_3']
     for i, (at, size, turn) in enumerate([((29.6, 84.9), [512, 640], 20), ((32.6, 85.0), [512, 640], -15),
                                           ((30.2, 87.6), [640, 512], 80)]):
         S({'id': burnt[i], 'kind': 'tent', 'at': list(at), 'size': size, 'height': 352, 'open': True, 'turn': turn,
            'title': 'Orc hides on poles'})
-    hide_lua = ' '.join('HideThing("%s")' % b for b in burnt)
     S(deco('thing:outpost_fire', '7dec02', OUTPOST_FIRE, title='The orc outpost',
-           **asked_first('Hides stretched on poles round a fire pit, bones and filth everywhere.',
-                         'You have found an Orc Outpost. Put it to the torch?',
-                         {'condition': {'not': {'qbit': 'outpost_burned'}},
-                          'effects': [{'lua': 'if %s then %s end' % (hook_lua('x7.orc_outpost'), hide_lua)}],
-                          'else_effects': [hook('x7.orc_outpost')]}),
+           condition={'not': {'qbit': 'outpost_burned'}},
+           effects=[{'lua': 'if %s then %s end' % (hook_lua('x7.orc_outpost'), OUTPOST_BURN)}],
+           else_effects=[hook('x7.orc_outpost')],
            notes='Source E2 (xeen/aaze0018:3-4); A3 x7.orc_outpost: once, 500 experience, outpost_burned (116160).'))
+    for i, (d, at) in enumerate(OUTPOST_CHAR):
+        kw = {'title': 'The burnt outpost', 'effects': [hook('x7.orc_outpost')]} if i == 0 else {}
+        S(deco('thing:outpost_char_%d' % (i + 1), d, at, hidden=True, **kw))
     S({'id': 'thing:outpost_chest', 'kind': 'chest', 'at': list(OUTPOST_CHEST), 'title': "The orcs' loot",
        'chest': {'level': 1, 'random_items': 2}, 'notes': 'D-40 changes 1 and 5: level 1; one spot with the outpost.'})
-    for i, (d, at) in enumerate([('7dec18', (29.0, 86.6)), ('sklplrev', (33.2, 87.2)), ('dec19', (32.4, 84.0))]):
+    for i, (d, at) in enumerate(OUTPOST_BONES):
         S(deco('thing:outpost_bones_%d' % (i + 1), d, at))
     # the Shrine of Fire on its knoll (source E2; D-40 question 2: daily, a temporary Fire resistance)
     S({'id': 'thing:shrine_fire_house', 'kind': 'building', 'at': [51.4, 97.4], 'size': [1.6, 1.6], 'kit': 'plaster',
@@ -433,8 +432,7 @@ def north(S):
         S(deco('thing:island_rock_%d' % (i + 1), d, at))
     S({'id': 'thing:fire_reflector', 'kind': 'obelisk', 'at': list(REFLECTOR), 'height': 384, 'sides': 8,
        'title': 'Fire Reflector',
-       'effects': reflector('m37.reflector_fire', 'A disc of red crystal on a stone stem, turned toward the heat off '
-                            'the mountain.'),
+       'effects': reflector('m37.reflector_fire'),
        'notes': "Original line: xeen/aaze0021:0; M37 after M36 (A3's m37.reflector_fire)."})
 
 
@@ -511,9 +509,10 @@ def doors(S):
              'notes': "FD-04 (A7, phase 6; Q-F1, Q-F2): A3's q-f1.tower_door (the Key to the Dragon Tower, 12376; "
                       'D-57 Q23), then sealed until FD-04 exists. Two leaves (chb1dl, mirrored).'}
     S(gate4)
-    # XD-05's back gate in the hillside (opened from inside: x1-tam.back_gate sets 110051)
+    # XD-05's back gate in the hillside (opened from inside: x1-tam.back_gate sets 110051). D-170 (2026-11-25): 416
+    # deep, its top (2432) ends 8 over the hillside rising through it (448 laid its back 23 on the land: it flickered)
     gate5 = {'id': 'thing:xd05_gate', 'kind': 'doorway', 'at': list(BACK_GATE), 'facing': 'w', 'width': 384,
-             'height': 384, 'depth': 448, 'leaves': 2, 'floor': LD.GATE_H, 'hood': 64,
+             'height': 384, 'depth': 416, 'leaves': 2, 'floor': LD.GATE_H, 'hood': 64,
              'textures': {'door': 'chb1dl', 'wall': RED_ROCK}, 'title': "The Orc Caves' back gate"}
     if DUNGEON['xd05'] and INSIDE['xd05']:
         gate5.update({'condition': {'qbit': 'orc_back_gate'}, 'into': {'map': 'xeen_xd05.blv',
@@ -600,7 +599,8 @@ def events():
          'notes': 'Once a day: the hot spring (an HP restoration; the shrine and the cairn are daily for the party by '
                   'Xeen.usedToday, D-70).'},
         {'id': 'evt:outpost_state', 'trigger': 'load', 'condition': {'qbit': 'outpost_burned'},
-         'effects': [{'hide': ['thing:outpost_hide_1', 'thing:outpost_hide_2', 'thing:outpost_hide_3']}],
+         'effects': [{'hide': list(OUTPOST_GONE)},
+                     {'show': ['thing:outpost_char_%d' % (i + 1) for i in range(len(OUTPOST_CHAR))]}],
          'notes': 'x7.orc_outpost: the burnt outpost stays burnt (outpost_burned 116160).'},
         {'id': 'evt:cleft_state', 'trigger': 'load', 'condition': {'qbit': 'cleft_open'},
          'effects': [{'hide': fall}, {'show': spoil}], 'else_effects': [{'show': fall}, {'hide': spoil}],

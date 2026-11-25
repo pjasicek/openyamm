@@ -48,6 +48,7 @@ import planes_design as PD  # noqa: E402
 import planes_geom as PG  # noqa: E402
 sys.path.insert(0, str(ROOT / 'level_generation/projects/xeen/common/planes'))
 import pieces as PC  # noqa: E402
+import spans as SP  # noqa: E402
 
 BRIEF = ROOT / 'devdocs/xeen/briefs/p4'
 WORLD = ROOT / 'assets_dev/worlds/xeen'
@@ -328,6 +329,7 @@ def stubs(sid):
 
 # ------------------------------------------------------------------------------------------------ the colonnades
 INTO = 192
+SINK = 4               # the test's plate, the dais: sunk into the top they lie on (X8's, F62: no lid)
 
 
 def link_cut(l):
@@ -337,18 +339,24 @@ def link_cut(l):
     return (p[0] - ux * INTO, p[1] - uy * INTO), (q[0] + ux * INTO, q[1] + uy * INTO), d
 
 
+def link_spans(l):
+    """F62 (2026-11-25): the walk level across each terrace until past its rim, sloping between (SP.link_spans; it
+    sloped straight from inside one to inside the other and rose through the lower one's top or dipped under the
+    higher one's: check_floor_cross floor.cross)."""
+    a, b, _ = link_cut(l)
+    return SP.link_spans(a, b, FLOOR_OF[l['a']] + 4, FLOOR_OF[l['b']] + 4, l['width'],
+                         [tuple(v) for v in TOPS[l['a']]], [tuple(v) for v in TOPS[l['b']]])
+
+
 def walk_z(l, t):
-    za, zb = FLOOR_OF[l['a']] + 4, FLOOR_OF[l['b']] + 4
-    return za + (zb - za) * t
+    """The walk's top at t along the rim-to-rim line (link_ends)."""
+    p, q = PL.link_ends(l)
+    return slab_z(l, (p[0] + (q[0] - p[0]) * t, p[1] + (q[1] - p[1]) * t))
 
 
 def slab_z(l, pt):
-    """The walk slab's top at pt (the slab runs from link_cut's a to b)."""
-    a, b, _ = link_cut(l)
-    za, zb = FLOOR_OF[l['a']] + 4, FLOOR_OF[l['b']] + 4
-    L = math.hypot(b[0] - a[0], b[1] - a[1])
-    s = ((pt[0] - a[0]) * (b[0] - a[0]) + (pt[1] - a[1]) * (b[1] - a[1])) / (L * L)
-    return int(round(za + (zb - za) * s))
+    """The walk slab's top at pt (the slabs run from link_cut's a to b, link_spans)."""
+    return int(round(SP.span_top(link_spans(l), pt)))
 
 
 def flight(pid, edge, normal, along, z_top, width=384, first=-56):
@@ -379,10 +387,16 @@ def colonnades():
         za, zb = FLOOR_OF[l['a']] + 4, FLOOR_OF[l['b']] + 4
         lid = key(l['id'])
         veil = l.get('gate')
-        out.append(slab(f'platform:{lid}', a, b, za, zb, l['width'], MARBLE, FLAGS, min(za, zb) - FLOOR,
-                        bottom=ROCK,
-                        notes=(f"{l['id']}: the colonnade on the drowned temple's wall top, {int(d):,} rim to rim, "
-                               f"rising {zb - za}; marble from the bed.")))
+        spans = link_spans(l)
+        ids = [f'platform:{lid}'] if len(spans) == 1 else (
+            [f'platform:{lid}_a', f'platform:{lid}', f'platform:{lid}_b'] if len(spans) == 3 else
+            ([f'platform:{lid}_a', f'platform:{lid}'] if spans[0][2] == spans[0][3] else
+             [f'platform:{lid}', f'platform:{lid}_b']))
+        for pid, (sp, sq, z0, z1) in zip(ids, spans):
+            out.append(slab(pid, sp, sq, z0, z1, l['width'], MARBLE, FLAGS, min(z0, z1) - FLOOR, bottom=ROCK,
+                            notes=(f"{l['id']}: the colonnade on the drowned temple's wall top, {int(d):,} rim to "
+                                   f"rim, rising {zb - za}; marble from the bed; level over each terrace (F62).")
+                            if pid == f'platform:{lid}' else None))
         p, q = PL.link_ends(l)
         L = math.hypot(q[0] - p[0], q[1] - p[1])
         u = ((q[0] - p[0]) / L, (q[1] - p[1]) / L)
@@ -530,7 +544,7 @@ def court():
                      notes=("The Veil (gate:sleeper): a falling sheet of water across the colonnade's head; solid "
                             "until qbit 111767, then passable and hidden (evt:gate_open, evt:passed_load).")))
     # the test's floor (S's pedestal beside it)
-    out.append(block('platform:test_plate', TEST_PLATE, (256, 256), ARENA_FL, 4, MARBLE, FLAGS,
+    out.append(block('platform:test_plate', TEST_PLATE, (256, 256), ARENA_FL - SINK, 4 + SINK, MARBLE, FLAGS,
                      notes="The test's floor before S's pedestal (poi:test): stepping on asks 'Accept the test of Water?'."))
     return out
 
@@ -559,11 +573,11 @@ def grotto():
                     bottom=ROCK_DARK, notes="The sea arch's span over the Grotto (hanging; nothing stands on it)."))
     # the shelf of shell and stone under the couch (S's couch and sleeper on it)
     sp = PLACE['poi:sleeper']['at']
-    out.append(block('platform:shelf', sp, (768, 512), CHAMBER_FL, 40, MARBLE, CORAL, facing=0,
+    out.append(block('platform:shelf', sp, (768, 512), CHAMBER_FL - SINK, 40 + SINK, MARBLE, CORAL, facing=0,
                      notes="The raised shelf of shell and stone under the sleeper's couch (S: the couch, blocked)."))
     OBSTACLES.add('platform:shelf')
     dp = DAIS
-    out.append(prism('platform:dais', ring(dp[0], dp[1], 224, 12), CHAMBER_FL, 8, MARBLE, FLAGS,
+    out.append(prism('platform:dais', ring(dp[0], dp[1], 224, 12), CHAMBER_FL - SINK, 8 + SINK, MARBLE, FLAGS,
                      notes="The return dais (exit:dais): shown once the Water Sleeper is awake (qbit 111763)."))
     return out
 
@@ -679,7 +693,7 @@ def wreck():
                 'platform:deck_step2', 'platform:breach_sill'):
         OBSTACLES.add(pid)
     # the ship's log on the deck (planes.log)
-    out.append(block('platform:log', LOG, (96, 72), DECK_TOP, 44, PLANKS, MAST, facing=SHIP_FACING,
+    out.append(block('platform:log', LOG, (96, 72), DECK_TOP - SINK, 44 + SINK, PLANKS, MAST, facing=SHIP_FACING,
                      notes="The ship's log on its sea chest (poi:log, planes.log)."))
     return out
 
@@ -765,7 +779,10 @@ def wave_plates():
     for i, c in enumerate(WAVES):
         sid = PL.space_of(c)
         z = FLOOR_OF[sid]
-        out.append(block(f'platform:wave{i + 1}', c, (192, 192), z - 3, 7, MARBLE, SPRAY,
+        # F62: a plate on a walk's level landing stands 4 over it (it lay in the landing's plane: geometry.coplanar)
+        d = SP.deck_top([e for e in colonnades() if '_col' not in e['id'] and '_steps' not in e['id']], c, 96, FLOOR)
+        top = max(z, d if d is not None else z) + 4
+        out.append(block(f'platform:wave{i + 1}', c, (192, 192), z - 3, top - (z - 3), MARBLE, SPRAY,
                          notes="A freezing wave (D-58 P4, the source's nine): a PressurePlate face, xpwspray, planes.wave."
                          if i == 0 else None))
     return out

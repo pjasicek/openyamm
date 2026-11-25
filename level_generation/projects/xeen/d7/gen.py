@@ -106,9 +106,19 @@ def rim_distance(poly, p):
     return best
 
 
+SINK = 4               # how far a block standing on the ground is sunk into it (X8's 8 would meet the hatches' foot)
+
+
 def block(pid, at, size, z, rise, surface, top=None, facing=None, top_size=None, notes=None, **kw):
+    # F62 (X8 p8 "you get stuck here", ported 2026-11-25): every block hangs from the room's floor at -6,000, so the
+    # studio draws its bottom; a bottom lying on the cloud, a road or the paving is a ceiling at the party's feet. A
+    # block whose foot is the walkable top under its middle (height_at) is sunk SINK into it, its top where it was
+    # (tools/xeen/check_floor_cross.py floor.lid). Blocks on other blocks keep their foot (their sides would run on in
+    # the plane of the sides under them and flicker).
+    ground = height_at(at)
+    sink = SINK if ground is not None and abs(ground - z) < 1 else 0
     e = {'id': pid, 'at': [int(round(at[0])), int(round(at[1]))], 'size': [int(round(size[0])), int(round(size[1]))],
-         'base': int(round(z - FLOOR)), 'rise': int(round(rise)), 'surface': surface}
+         'base': int(round(z - sink - FLOOR)), 'rise': int(round(rise + sink)), 'surface': surface}
     if top:
         e['top_surface'] = top
     if facing is not None:
@@ -185,19 +195,89 @@ ROAD_INTO = 320
 BAND_W = 256
 
 
+def landing_end(poly, start, u, width, margin=24):
+    """Where a deck of `width` leaving `start` (on its island) along `u` is past the island across its whole width:
+    the point on the centre line `margin` beyond the furthest bit of cloud under the deck (X8's, F62)."""
+    ux, uy = u
+    nx, ny = -uy, ux
+    far = 0
+    for k in range(9):
+        o = (k / 8 - 0.5) * width
+        t = 0
+        while t < 20000:
+            if inside(poly, (start[0] + ux * t + nx * o, start[1] + uy * t + ny * o)):
+                far = max(far, t)
+            t += 8
+            if t > far + 2000:
+                break
+    far += margin
+    return (start[0] + ux * far, start[1] + uy * far)
+
+
+_SPANS = {}
+
+
+def link_spans(l):
+    """F62 (the player's pins 2026-11-25, X8 "bridge is clipping"; ported to D7 the same day): a deck sloping straight
+    from inside one island to inside the other dipped under the higher island's top before its rim (or under both,
+    where a bridge sags) and came out over the void. Each deck lies level at its island's height out to where it is
+    past that island across its whole width (`landing_end`, the rims are crooked) and slopes or sags only between.
+    Where the islands leave no room it lies level on the higher only. [(p, q, z0, z1)] from a to b."""
+    if l['id'] not in _SPANS:
+        _SPANS[l['id']] = _link_spans(l)
+    return _SPANS[l['id']]
+
+
+def _link_spans(l):
+    bridge = l['style'] == 'bridge'
+    a, b, d, (ux, uy) = link_cut(l, 160 if bridge else ROAD_INTO)
+    za8, zb8 = floor_of(l['a']) + 8, floor_of(l['b']) + 8
+    width = l['width']
+
+    def along(p, q):
+        return (q[0] - p[0]) * ux + (q[1] - p[1]) * uy
+    pa = landing_end(P[l['a']], a, (ux, uy), width)
+    pb = landing_end(P[l['b']], b, (-ux, -uy), width)
+    room = along(pa, pb) >= 64
+    if bridge:
+        p, q = (pa, pb) if room else (a, b)
+        sag = min(160, int(d / 25))
+        m = ((p[0] + q[0]) / 2, (p[1] + q[1]) / 2)
+        zm = (za8 + zb8) / 2 - sag
+        spans = [(p, m, za8, zm), (m, q, zm, zb8)]
+        return ([(a, pa, za8, za8)] if room else []) + spans + ([(pb, b, zb8, zb8)] if room else [])
+    if za8 == zb8:
+        return [(a, b, za8, zb8)]
+    if room:
+        return [(a, pa, za8, za8), (pa, pb, za8, zb8), (pb, b, zb8, zb8)]
+    if zb8 > za8 and along(a, pb) >= 64 and along(pb, b) >= 64:
+        return [(a, pb, za8, zb8), (pb, b, zb8, zb8)]
+    if za8 > zb8 and along(a, pa) >= 64 and along(pa, b) >= 64:
+        return [(a, pa, za8, za8), (pa, b, za8, zb8)]
+    return [(a, b, za8, zb8)]
+
+
+def span_top(spans, pt):
+    """The deck's top (as laid by link_spans) over the point's projection on the link's line, or None off its ends."""
+    for p, q, z0, z1 in spans:
+        dx, dy = q[0] - p[0], q[1] - p[1]
+        L2 = dx * dx + dy * dy
+        t = ((pt[0] - p[0]) * dx + (pt[1] - p[1]) * dy) / L2 if L2 else 0
+        if -1e-6 <= t <= 1 + 1e-6:
+            return z0 + (z1 - z0) * t
+    return None
+
+
 def links():
     platforms, beams = [], []
     for l in D.LINKS:
         za, zb = floor_of(l['a']), floor_of(l['b'])
         lid = key(l['id'])
+        spans = link_spans(l)
         if l['style'] == 'bridge':
             a, b, d, (ux, uy) = link_cut(l, 160)
-            za8, zb8 = za + 8, zb + 8
             width = l['width']
-            sag = min(160, int(d / 25))
-            m = ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2)
-            zm = (za8 + zb8) / 2 - sag
-            for k, (p, q, z0, z1) in enumerate(((a, m, za8, zm), (m, b, zm, zb8))):
+            for k, (p, q, z0, z1) in enumerate(spans):
                 platforms.append(platform_slab(f'platform:{lid}_{k + 1}', p, q, int(z0), int(z1), width, ROPE, PLANK,
                                                24, f"{l['id']}: rope bridge, {int(d)} rim to rim" if k == 0 else None))
                 nx, ny = -uy * (width / 2 - 8), ux * (width / 2 - 8)
@@ -211,18 +291,28 @@ def links():
         what = {'road': 'the Skyroad', 'causeway': 'a causeway', 'spur': 'a spur'}[l['style']]
         if lid == 'dragon_road':
             what = 'the dragon road'
-        platforms.append(platform_slab(f'platform:{lid}', a, b, za + 8, zb + 8, l['width'], CLOUD_SIDE, CLOUD_TOP,
-                                       192, f"{l['id']}: {what}, cloud, {int(d)} rim to rim, rising {zb - za}"))
+        for k, (p, q, z0, z1) in enumerate(spans):
+            platforms.append(platform_slab(f'platform:{lid}' if k == 0 else f'platform:{lid}_{k + 1}', p, q, z0, z1,
+                                           l['width'], CLOUD_SIDE, CLOUD_TOP, 192,
+                                           f"{l['id']}: {what}, cloud, {int(d)} rim to rim, rising {zb - za}"
+                                           if k == 0 else None))
         # the paved band down the middle (D-8; the lead, 2026-11-21: every road, spur and causeway, a third of its
         # width): on the road exactly over its slab (the same ends and slope, 6 over it), and on into each island 416
-        # further as a flat piece 6 over the island (not into Olympus: a causeway's band stops at the gate)
+        # further as a flat piece 6 over the island (not into Olympus: a causeway's band stops at the gate). 24 deep
+        # (F62: at 16 its bottom lay 2 under the island's top where the road runs into it, check_floor_cross floor.lid)
         bw = max(160, int(round(l['width'] / 3 / 32)) * 32)
-        L = math.hypot(b[0] - a[0], b[1] - a[1])
-        k = 8 / L                                     # 8 short of the slab's ends: no end face in the slab's plane
-        a8 = (a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k)
-        b8 = (b[0] - (b[0] - a[0]) * k, b[1] - (b[1] - a[1]) * k)
-        platforms.append(platform_slab(f'platform:{lid}_band', a8, b8, za + 14 + (zb - za) * k, zb + 14 - (zb - za) * k,
-                                       bw, FLAG, FLAG, 16, "The paved band of cloud-stone flags down the road's middle."))
+        for k, (p, q, z0, z1) in enumerate(spans):
+            L = math.hypot(q[0] - p[0], q[1] - p[1])
+            # 8 short of the road's two ends: no end face in the slab's plane; where two pieces meet, the band's joint
+            # lies 16 past the slab's (in its own piece's slope), so no band end shares a plane with a slab end
+            ka = 8 / L if k == 0 else 16 / L
+            kb = 8 / L if k == len(spans) - 1 else -16 / L
+            p8 = (p[0] + (q[0] - p[0]) * ka, p[1] + (q[1] - p[1]) * ka)
+            q8 = (q[0] - (q[0] - p[0]) * kb, q[1] - (q[1] - p[1]) * kb)
+            platforms.append(platform_slab(f'platform:{lid}_band' if k == 0 else f'platform:{lid}_band{k + 1}', p8, q8,
+                                           z0 + 6 + (z1 - z0) * ka, z1 + 6 - (z1 - z0) * kb, bw, FLAG, FLAG, 24,
+                                           "The paved band of cloud-stone flags down the road's middle."
+                                           if k == 0 else None))
         for end, pt, sgn, z, sid in (('a', a, -1, za, l['a']), ('b', b, 1, zb, l['b'])):
             if SPACE[sid]['kind'] == 'town':
                 continue
@@ -250,9 +340,8 @@ def height_at(pt):
         t = ((pt[0] - a[0]) * dx + (pt[1] - a[1]) * dy) / L2
         off = abs((pt[0] - a[0]) * dy - (pt[1] - a[1]) * dx) / math.sqrt(L2)
         if 0 <= t <= 1 and off <= l['width'] / 2:
-            za, zb = floor_of(l['a']) + 8, floor_of(l['b']) + 8
             band = 6 if off <= max(160, round(l['width'] / 3 / 32) * 32) / 2 else 0
-            return za + (zb - za) * t + band
+            return span_top(link_spans(l), pt) + band
     for s in D.SPACES:
         if inside(P[s['id']], pt):
             return s['floor']

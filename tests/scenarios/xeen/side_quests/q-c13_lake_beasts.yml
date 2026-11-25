@@ -50,13 +50,13 @@ steps:
   - play_lua: {source: "close()"}
   - assert: {map: xeen_x2.odm}
   - assert: {party_position: {x: -9779, y: 1272, radius: 160}}
-  # The three dragons, one by one beside their spawns (X2's scene since its 09:59 reinstall: (-20992, 8192),
-  # (-22784, 3072), (-18432, -3584); leash 1,024).
+  # The three dragons, one by one beside their spawns (X2's scene since D-142, 2026-11-25: (-22272, 6400),
+  # (-22272, 3072), (-18432, -3584); level_generation/projects/xeen/x2/gen.py LAKE_DRAGONS; leash 1,024).
   - assert: {actor_count: {monster_id: 11640, min: 3, max: 3}}
-  - set_pose: {map: xeen_x2.odm, x: -20392, y: 8192, z: 640, yaw: 3.1416, pitch: 0.0}
+  - set_pose: {map: xeen_x2.odm, x: -21680, y: 6400, z: 640, yaw: 3.1416, pitch: 0.0}
   - clear_hostiles: {radius: 1800, min: 1}
   - assert: {actor_count: {monster_id: 11640, max: 2}}
-  - set_pose: {map: xeen_x2.odm, x: -22184, y: 3072, z: 640, yaw: 3.1416, pitch: 0.0}
+  - set_pose: {map: xeen_x2.odm, x: -21680, y: 3072, z: 640, yaw: 3.1416, pitch: 0.0}
   - clear_hostiles: {radius: 1800, min: 1}
   - assert: {actor_count: {monster_id: 11640, max: 1}}
   - set_pose: {map: xeen_x2.odm, x: -17832, y: -3584, z: 640, yaw: 3.1416, pitch: 0.0}

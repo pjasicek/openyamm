@@ -434,7 +434,8 @@ cave-mouth mounds and must move; plaza/square arrivals rise 8–16 on rebuild); 
 3128/3129 (the stale Hesper case), runtime tests and 26 scenarios pass, studio 486/486, 0 stale bakes. No MM6–MM9 drawing changes.
 
 **Merge point 24 (2026-11-21; game and oymap 03:13:18):** leashed monsters stay inside their circle (flyers, swimmers and
-walkers; scenario `xeen/x2_lake_dragon_leash.yml`, D-54); D-55's glow-only drawing for worlds that declare `surfaceGlowContent:
+walkers; scenario `devdocs/xeen/briefs/x2/L4/playtest_lake_dragons_leash.yml`, D-54, D-175); D-55's glow-only drawing
+for worlds that declare `surfaceGlowContent:
 true` (Xeen's world.yml has it since 03:2x; MM6–MM8 read nothing new); a `cover` panel may stand over another panel; `dec24x`
 bound for dungeons; the cinematic fade cue takes `color: [r, g, b]`; the completion certificate waits for an open event window as
 well as the cinematic (every world; in MM9 it may appear one click later); P5 classed Dungeon M with 13 new textures. Unit

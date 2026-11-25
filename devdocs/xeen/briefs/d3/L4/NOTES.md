@@ -428,3 +428,17 @@ The review of the seventh session's tour (`tour/sheet2_*.jpg`) asked for five ch
   edge points); the others keep their places. Marker 8: (93, 45) to (90, 41), on the knoll's north-west foot, 3,278
   from the door (circle edge 2,766). Built spawn 18 at (13184, 12096), 3,610 from the door, hidden by the built land
   (51 of cover).
+
+## D-142, D-157, D-162, F59, F63 (2026-11-25, `xeen-fb4-outdoor3` sub-agent D)
+
+- `gen.py d142_enforce()` (common/d142.py, after markers()): 32 circles moved: the north start's mantis (3,678 <
+  4,096), seven wrath-hills circles off DD-07's door (2,067-4,035), the markers within 1,024 of a road, lane or path
+  (D-157; 0-932 before), and (F63, `hull_reason`) the circles whose markers could stand within 768 of the bounds or
+  the east rim's hull. A moved circle keeps markers()' rules, D-138's sight test and 8,192 from the D7 fall's landing
+  (D-54, `playtest_d7_fall`: a sand worm moved to 5,248 from it reached the party within 20 s). The fixed spots
+  (`FIXED_SPOTS`) are half-cell circles, so the outside-walls worm at (21, 24) stays. D3 is in `D142_EXITS`; no
+  kept groups.
+- F59: the crest crags 3, 4, 5, 8, 10, 11, 13 sink 64-288 below the slope under their feet and grow by as much, the
+  same tops (`places.py SINK`); `things.overhang` 0.
+- F58's ruin course: `faces.on_land` 10 → 3 (rim_watch gone; vespar_ruin 1, sc_guild_light 1 and the Wrath bridge's
+  deck left).

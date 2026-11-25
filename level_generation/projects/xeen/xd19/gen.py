@@ -633,7 +633,9 @@ def rooms_yml():
             x0, y0, x1, y1 = r['rect']
             x = x0 + 32 if side == 'west' else x1 - 32
             d['walls'] = [FlowDict(wall=side, surface=dict(STONE, sky=True), bands=False)]
-            d['parapets'] = [FlowDict(path=Flow([F(x, y0 + 32), F(x, y1 - 32)]), height=WALK_PARAPET, thickness=32,
+            # F60 (the player's pins 2026-11-25, XD-14's slots): the parapet runs from end wall to end wall; 32
+            # short of each it left a slot of sky from the floor up (tools/xeen/check_parapet_gaps.py).
+            d['parapets'] = [FlowDict(path=Flow([F(x, y0), F(x, y1)]), height=WALK_PARAPET, thickness=32,
                                       surface=STONE,
                                       notes="The outer parapet: the cloud sea and X9's sky beyond it (D-97).")]
         if rid in PILLARS:

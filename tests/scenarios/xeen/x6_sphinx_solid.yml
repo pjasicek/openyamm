@@ -1,0 +1,117 @@
+# X6's Northern Sphinx is solid (D-141, F61): xeen_sphinx_north binds `collision: model` with its LOD2 proxy
+# (worlds/xeen/models/decorations.yml, level_generation/decorations/xeen_sphinx_claude/scripts/collision_proxy.py), so
+# Map Studio raises a hidden copy of the proxy's triangles and the party walking into the paws and the haunch stops
+# outside the model instead of standing inside it (the player's pins X6 p7, p8 and p10, PLAYER_FEEDBACK_20261125).
+# Each walk starts 700 back from the pin along its yaw and walks forward into the model; the party is stopped by it
+# and may slide along it. Each asserted stop was measured on a scratch build (2026-11-25) and checked against the
+# LOD0 mesh: outside it at every height from 20 to 220 over the ground, 22 to 79 from its surface (camera included).
+#   build-xeen/game/openyamm --world xeen --map xeen_x6.odm --headless-run-scenario tests/scenarios/xeen/x6_sphinx_solid.yml --scenario-no-color
+id: xeen.x6.sphinx_solid
+title: 'X6: walking into the Northern Sphinx''s paws and haunch, the party stops outside the model'
+world: xeen
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x6.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- note: "p7: into the west forepaw from 700 back (the model's surface on this line at 8817, 9886)"
+- clear_hostiles:
+    radius: 6000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x6.odm
+      x: 8837
+      y: 9294
+      z: 1409
+      yaw_degrees: 92.0
+      pitch: 0
+    expect_stop:
+      map: xeen_x6.odm
+      x: 8789
+      y: 10693
+      z: 1409
+      yaw_degrees: 92.0
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 8925
+      y: 10167
+      radius: 120
+- note: "p7: slid off the west paw's inner face into the gap before the door, 38 from the model"
+- note: "p8: into the east forepaw from 700 back (the model's surface on this line at 9593, 9951)"
+- clear_hostiles:
+    radius: 6000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x6.odm
+      x: 9577
+      y: 9443
+      z: 1409
+      yaw_degrees: 88.2
+      pitch: 0
+    expect_stop:
+      map: xeen_x6.odm
+      x: 9622
+      y: 10842
+      z: 1409
+      yaw_degrees: 88.2
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 9587
+      y: 9811
+      radius: 120
+- note: "p8: stopped head on at the east paw, 34 to 59 from the model"
+- note: "p10: into the haunch from 700 back (the model's surface on this line at 9033, 16515)"
+- clear_hostiles:
+    radius: 6000
+- movement_segment:
+    input: forward
+    seconds: 4.0
+    actor_collision: true
+    actor_ai: false
+    start:
+      map: xeen_x6.odm
+      x: 9016
+      y: 17193
+      z: 1409
+      yaw_degrees: 271.4
+      pitch: 0
+    expect_stop:
+      map: xeen_x6.odm
+      x: 9050
+      y: 15793
+      z: 1409
+      yaw_degrees: 271.4
+      pitch: 0
+    loose_tolerance: true
+    tolerance_xy: 40000
+    tolerance_z: 8000
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    party_position:
+      x: 8336
+      y: 15550
+      radius: 120
+- note: "p10: slid west along the haunch's round, 22 to 79 from the model"

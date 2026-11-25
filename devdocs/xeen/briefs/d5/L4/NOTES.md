@@ -180,3 +180,19 @@ Rebuilt on merge point 41, installed with its bake 01:28. Rows 5036, 5047, 5052,
   empty zones, props, check_wild clean, D-85 0 / DIS 0 (as before). `gate_check.py` is a stale copy of D1's: not run.
 - Tests: walk x2 and hostility pass.
 - Generated twice (the rescue's return points from the first build's land, `XEEN_WILD_MAPS`), built, villagers placed, recorded (`agent:xeen-rimmap-c`), checked in a private hard-link root, installed with its bake, terrain weights, the minimap re-rendered and its void painted (`tools/xeen/void_minimap.py`). Scripts `output/xeen_rimmap_c/build.sh`, `install.sh`, `tests.sh`, `tours.py`; logs `output/xeen_rimmap_c/run_<key>/`; captures `output/xeen_rimmap_c/cap/<key>_after/` (day and night, against `output/xeen_rim/before/<key>/`).
+
+## D-142, D-157, D-162, F63 (2026-11-25, `xeen-fb4-outdoor3` sub-agent D)
+
+- L1's four polygon populations (sands and pyramid lizards, the cliff birds, the forest cyclopes) are fixed half-cell
+  circles at the spots the studio drew them on the map installed 2026-11-24 (`gen.py POLY_SPOTS`, scene spawns
+  0-36), so `d142_enforce()` (common/d142.py) can move them: 9 moved a cell or two (the west start's doom birds 3,584
+  < 4,096; DD-18's grate 4,087, DD-08's door 4,035, DD-25's door; five off a road, lane or path, 256-1,011 before).
+  D5 is in `D142_EXITS`; no kept groups.
+- F63: the eyrie's three griffins at spread 1.4 (the first stood 161 from the nest chest's face, 172 needed).
+- F58's ruin course: `faces.on_land` 10 → 2 (hill_shrine gone; the Last Water's basin left).
+- Left: `wall_check walls.open` on the Doom barrier at (98.05, 23.86) (the same on HEAD's map).
+- 2026-11-25 (agent xeen-fb4-outdoor4, installed with its bake): the Doom barrier's `walls.open` closed. The end frames
+  stand on the hull's line at y 24.2 and a walkable ledge (y 23.84-24.3) runs between the hull and the rim's cliff; it
+  went on past the east end (a 32-wide slot at (98.05, 23.86)). `thing:barrier_block`'s line runs on north to
+  y RIM_N - 0.8 at both ends, across the ledge into the cliff. `wall_check` 0, `towns.py --strict` 0 errors.
+  Left: `check_faces` on the broken pyramid (`faces.back_to_back` 1, `shell.open_edge` 1) and the basin's 2 `on_land`.

@@ -19,6 +19,24 @@ events:
   - id: evt:chest_star_charts
     preset: chest
     source: chest:star_charts
+  - id: evt:down_stair_landing
+    preset: script
+    source: platform:stair_landing_down
+    title: Tower of High Magic
+    condition: {lua: "XeenQuests.can(\"m13.cloud_stair_down\")"}
+    locked_text: Below the step the cloud thins over the Tower of High Magic. Its wards let down only those who hold the Enchanted Key from the Cave of Illusion.
+    effects:
+      - exit: roof:high_magic
+    notes: "F62 (the player's pins 2026-11-25, X8 p3/p6): the stair of cloud at the foot of the stair the party came up (a click) leads back down to the Tower of High Magic's roof (roof:high_magic); the exit preset's window, OK or Close. D-151: gated as the way up (the condition), else the refusal on the status line."
+  - id: evt:down_witch_landing
+    preset: script
+    source: platform:witch_landing_down
+    title: Witch Tower
+    condition: {qbit: 110046}
+    locked_text: "The clouds answer to the Head Witch. While she lives, they will not bear you down."
+    effects:
+      - exit: roof:witch_tower
+    notes: "F62 (the player's pins 2026-11-25, X8 p3/p6): the stair of cloud at the foot of the stair the party came up (a click) leads back down to the Witch Tower's roof (roof:witch_tower); the exit preset's window, OK or Close. D-151: gated as the way up (the condition), else the refusal on the status line."
   - id: evt:explorer
     preset: script
     source: deco:explorer_statue
@@ -64,8 +82,10 @@ events:
     effects:
       - hide: platform:nest_1
       - passable: platform:nest_1
+      - hide: deco:n1_bones
+      - hide: deco:n1_skull
       - lua: "XeenQuests.hook(\"x8-sky.nest_1\")"
-    notes: "poi:harpy_nests: a click burns the nest (F47, the player's pins 2026-11-24: no Yes/No for a quest goal; the source asked, xeen/aaze0025:5); A3's hook x8-sky.nest_1 (500 XP)."
+    notes: "poi:harpy_nests: a click burns the nest (F47, the player's pins 2026-11-24: no Yes/No for a quest goal; the source asked, xeen/aaze0025:5); A3's hook x8-sky.nest_1 (500 XP). D-145 (F62 p2): the bones and skull in its straw burn with it."
   - id: evt:nest_2
     preset: script
     source: platform:nest_2
@@ -73,8 +93,10 @@ events:
     effects:
       - hide: platform:nest_2
       - passable: platform:nest_2
+      - hide: deco:n2_bones
+      - hide: deco:n2_skull
       - lua: "XeenQuests.hook(\"x8-sky.nest_2\")"
-    notes: "poi:harpy_nests: a click burns the nest (F47, the player's pins 2026-11-24: no Yes/No for a quest goal; the source asked, xeen/aaze0025:5); A3's hook x8-sky.nest_2 (500 XP)."
+    notes: "poi:harpy_nests: a click burns the nest (F47, the player's pins 2026-11-24: no Yes/No for a quest goal; the source asked, xeen/aaze0025:5); A3's hook x8-sky.nest_2 (500 XP). D-145 (F62 p2): the bones and skull in its straw burn with it."
   - id: evt:nest_3
     preset: script
     source: platform:nest_3
@@ -82,8 +104,10 @@ events:
     effects:
       - hide: platform:nest_3
       - passable: platform:nest_3
+      - hide: deco:n3_bones
+      - hide: deco:n3_skull
       - lua: "XeenQuests.hook(\"x8-sky.nest_3\")"
-    notes: "poi:harpy_nests: a click burns the nest (F47, the player's pins 2026-11-24: no Yes/No for a quest goal; the source asked, xeen/aaze0025:5); A3's hook x8-sky.nest_3 (500 XP)."
+    notes: "poi:harpy_nests: a click burns the nest (F47, the player's pins 2026-11-24: no Yes/No for a quest goal; the source asked, xeen/aaze0025:5); A3's hook x8-sky.nest_3 (500 XP). D-145 (F62 p2): the bones and skull in its straw burn with it."
   - id: evt:offering_1
     preset: script
     source: deco:offering_1

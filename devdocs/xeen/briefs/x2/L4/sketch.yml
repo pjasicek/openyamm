@@ -43,18 +43,78 @@ heights:
       height: 768
       slope: 2
       notes: "The island's crown, level under the tower."
-    - polygon: [[79.075, 55.781], [79.075, 57.531], [81.325, 57.531], [81.325, 55.781]]
-      height: 664
+    - polygon: [[79.325, 55.781], [79.325, 57.531], [81.075, 57.531], [81.075, 55.781]]
+      height: 640
       slope: 2
       notes: "F48: the land meets Captain Nystor's pier's deck at its end (common/wild.py bridge_ends)"
-    - polygon: [[47.781, 61.625], [49.531, 61.625], [49.531, 59.375], [47.781, 59.375]]
-      height: 664
+    - polygon: [[78.98, 56.98], [79.02, 56.98], [79.02, 57.02], [78.98, 57.02]]
+      height: 640
+      notes: "D-170: the land under Captain Nystor's pier's deck (common/wild.py bridge_ends)"
+    - polygon: [[79.98, 55.98], [80.02, 55.98], [80.02, 56.02], [79.98, 56.02]]
+      height: 640
+      notes: "D-170: the land under Captain Nystor's pier's deck (common/wild.py bridge_ends)"
+    - polygon: [[79.98, 56.98], [80.02, 56.98], [80.02, 57.02], [79.98, 57.02]]
+      height: 640
+      notes: "D-170: the land under Captain Nystor's pier's deck (common/wild.py bridge_ends)"
+    - polygon: [[80.98, 55.98], [81.02, 55.98], [81.02, 56.02], [80.98, 56.02]]
+      height: 640
+      notes: "D-170: the land under Captain Nystor's pier's deck (common/wild.py bridge_ends)"
+    - polygon: [[80.98, 56.98], [81.02, 56.98], [81.02, 57.02], [80.98, 57.02]]
+      height: 640
+      notes: "D-170: the land under Captain Nystor's pier's deck (common/wild.py bridge_ends)"
+    - polygon: [[47.781, 61.375], [49.531, 61.375], [49.531, 59.625], [47.781, 59.625]]
+      height: 640
       slope: 2
       notes: "F48: the land meets Medin's jetty's deck at its end (common/wild.py bridge_ends)"
-    - polygon: [[34.219, 59.375], [32.469, 59.375], [32.469, 61.625], [34.219, 61.625]]
-      height: 664
-      slope: 2
-      notes: "F48: the land meets Island jetty's deck at its end (common/wild.py bridge_ends)"
+    - polygon: [[46.98, 60.98], [47.02, 60.98], [47.02, 61.02], [46.98, 61.02]]
+      height: 640
+      notes: "D-170: the land under Medin's jetty's deck (common/wild.py bridge_ends)"
+    - polygon: [[47.98, 59.98], [48.02, 59.98], [48.02, 60.02], [47.98, 60.02]]
+      height: 640
+      notes: "D-170: the land under Medin's jetty's deck (common/wild.py bridge_ends)"
+    - polygon: [[47.98, 60.98], [48.02, 60.98], [48.02, 61.02], [47.98, 61.02]]
+      height: 640
+      notes: "D-170: the land under Medin's jetty's deck (common/wild.py bridge_ends)"
+    - polygon: [[48.98, 59.98], [49.02, 59.98], [49.02, 60.02], [48.98, 60.02]]
+      height: 640
+      notes: "D-170: the land under Medin's jetty's deck (common/wild.py bridge_ends)"
+    - polygon: [[48.98, 60.98], [49.02, 60.98], [49.02, 61.02], [48.98, 61.02]]
+      height: 640
+      notes: "D-170: the land under Medin's jetty's deck (common/wild.py bridge_ends)"
+    - polygon: [[30.98, 38.98], [32.02, 38.98], [32.02, 41.02], [30.98, 41.02]]
+      height: 576
+      notes: "D-170: the land at The ogres' bridge's end, its lowest across it (common/wild.py bridge_ends)"
+    - polygon: [[35.98, 38.98], [36.02, 38.98], [36.02, 41.02], [35.98, 41.02]]
+      height: 576
+      notes: "D-170: the land at The ogres' bridge's end, its lowest across it (common/wild.py bridge_ends)"
+    - polygon: [[43, 20], [46, 20], [46, 23], [43, 23]]
+      height: 1184
+      slope: 1
+      notes: level land under Rangers' tent (common/level_pads.py)
+    - polygon: [[76, 77], [78, 77], [78, 79], [76, 79]]
+      height: 960
+      slope: 1
+      notes: level land under Holy well (common/level_pads.py)
+    - polygon: [[59, 28], [61, 28], [61, 30], [59, 30]]
+      height: 1088
+      slope: 1
+      notes: level land under Well (common/level_pads.py)
+    - polygon: [[69, 97], [72, 97], [72, 99], [69, 99]]
+      height: 1344
+      slope: 1
+      notes: level land under Well (common/level_pads.py)
+    - polygon: [[83, 78], [85, 78], [85, 80], [83, 80]]
+      height: 1120
+      slope: 1
+      notes: level land under Grave (common/level_pads.py)
+    - polygon: [[59, 98], [61, 98], [61, 100], [59, 100]]
+      height: 1088
+      slope: 1
+      notes: level land under thing:yak_dress_3 (common/level_pads.py)
+    - polygon: [[63, 98], [65, 98], [65, 100], [63, 100]]
+      height: 1088
+      slope: 1
+      notes: level land under thing:yak_dress_4 (common/level_pads.py)
   cuts:
     - polygon: [[53, 48.5], [78, 48.5], [78, 51], [53, 51]]
       floor: 640
@@ -176,7 +236,7 @@ roads:
     width: lane
     surface: dirt
   - link: link:lake_path
-    line: [[54.5, 61], [49, 61], [47.5, 61]]
+    line: [[54.5, 61], [51, 61], [50, 62], [47.5, 62]]
     width: lane
     surface: dirt
   - link: link:lair_path
@@ -321,7 +381,7 @@ points:
   - {id: poi:barok_hut, at: [44, 37]}
   - {id: poi:mirror, at: [62, 46]}
   - {id: poi:town_fountain, at: [64, 46]}
-  - {id: poi:sprite_eggs, at: [49, 87]}
+  - {id: poi:sprite_eggs, at: [44, 84]}
   - {id: poi:boulder, at: [38, 43]}
   - {id: poi:ads, at: [67, 45]}
   - {id: poi:wells, index: 1, at: [62, 40]}
@@ -446,37 +506,37 @@ areas:
     index: 1
     kind: encounter
     count: 2
-    circle: {at: [44, 21], r: 1}
+    circle: {at: [42, 24], r: 1}
   - id: pop:rangers
     index: 2
     kind: encounter
     count: 1
-    circle: {at: [50, 20], r: 1}
+    circle: {at: [51, 22], r: 1}
   - id: pop:rangers
     index: 3
     kind: encounter
     count: 2
-    circle: {at: [92, 21], r: 1.5}
+    circle: {at: [93, 22], r: 1.5}
   - id: pop:rangers
     index: 4
     kind: encounter
     count: 1
-    circle: {at: [85, 21], r: 1}
+    circle: {at: [91, 26], r: 1}
   - id: pop:rangers
     index: 5
     kind: encounter
     count: 2
-    circle: {at: [58, 20], r: 1.5}
+    circle: {at: [44, 28], r: 1.5}
   - id: pop:rangers
     index: 6
     kind: encounter
     count: 1
-    circle: {at: [71, 23], r: 1}
+    circle: {at: [79, 29], r: 1}
   - id: pop:rangers
     index: 7
     kind: encounter
     count: 1
-    circle: {at: [76, 21], r: 1}
+    circle: {at: [82, 29], r: 1}
   - id: pop:rangers
     index: 8
     kind: encounter
@@ -486,32 +546,32 @@ areas:
     index: 1
     kind: encounter
     count: 2
-    circle: {at: [97, 44], r: 1.5}
+    circle: {at: [99, 57], r: 1}
   - id: pop:ogres
     index: 1
     kind: encounter
     count: 2
-    circle: {at: [32, 42], r: 1.5}
+    circle: {at: [35, 36], r: 1.5}
   - id: pop:ogres
     index: 2
     kind: encounter
     count: 1
-    circle: {at: [25, 42], r: 1}
+    circle: {at: [33, 33], r: 1}
   - id: pop:ogres
     index: 3
     kind: encounter
     count: 2
-    circle: {at: [29, 32], r: 1.5}
+    circle: {at: [33, 26], r: 1.5}
   - id: pop:ogres
     index: 4
     kind: encounter
     count: 1
-    circle: {at: [24, 35], r: 1}
+    circle: {at: [36, 32], r: 1}
   - id: pop:ogres
     index: 5
     kind: encounter
     count: 2
-    circle: {at: [28, 21], r: 1}
+    circle: {at: [33, 22], r: 1}
   - id: pop:ogres
     index: 6
     kind: encounter
@@ -1406,7 +1466,7 @@ ground:
 structures:
   - id: thing:great_bridge
     kind: bridge
-    line: [[64, 47.96875], [64, 58.03125]]
+    line: [[64, 48.03125], [64, 57.96875]]
     height: 1024
     width: 1024
     thickness: 96
@@ -1554,7 +1614,7 @@ structures:
     house: 4063
   - id: thing:nystor_pier
     kind: bridge
-    line: [[80.2, 56.03125], [80.2, 52.7]]
+    line: [[80.2, 56.03125], [80.2, 52]]
     height: 672
     width: 384
     kerb: 0
@@ -1896,6 +1956,7 @@ structures:
   - id: thing:lair_dress_1
     kind: decoration
     at: [24.9, 31]
+    raise: -32
     decoration: cmpfyr00
     title: Campfire
     effects:
@@ -1908,6 +1969,7 @@ structures:
   - id: thing:lair_dress_3
     kind: decoration
     at: [22, 31.6]
+    raise: -27
     decoration: 7dec18
   - id: thing:lair_dress_4
     kind: decoration
@@ -1916,18 +1978,22 @@ structures:
   - id: thing:lair_dress_5
     kind: decoration
     at: [21.95, 30.15]
+    raise: -64
     decoration: sklplrev
   - id: thing:lair_dress_6
     kind: decoration
     at: [24.05, 30.15]
+    raise: -59
     decoration: sklplrev
   - id: thing:lair_dress_7
     kind: decoration
     at: [20.8, 29]
+    raise: -17
     decoration: rock26
   - id: thing:lair_dress_8
     kind: decoration
     at: [25.4, 28.8]
+    raise: -28
     decoration: rock12
   - id: thing:lair_dress_9
     kind: decoration
@@ -1936,6 +2002,7 @@ structures:
   - id: thing:lair_dress_10
     kind: decoration
     at: [24.8, 27.7]
+    raise: -77
     decoration: 7rock09
   - id: thing:river_boulder_1
     kind: decoration
@@ -2010,11 +2077,11 @@ structures:
     decoration: dec06
   - id: thing:yak_dress_3
     kind: decoration
-    at: [60.4, 98.6]
+    at: [60.3, 99.3]
     decoration: sklplrev
   - id: thing:yak_dress_4
     kind: decoration
-    at: [63.6, 98.6]
+    at: [63.7, 99.3]
     decoration: sklplrev
   - id: thing:yak_dress_5
     kind: decoration
@@ -2043,18 +2110,18 @@ structures:
     effects:
       - text: Medin rows you across to the island.
       - teleport:
-          to: [-14848, 1792, 768]
+          to: [-14899, 1971, 768]
           direction: 180
   - id: thing:island_jetty
     kind: bridge
-    line: [[33.96875, 60.5], [39, 60.5]]
+    line: [[35.531, 60], [39, 60]]
     height: 672
     width: 384
     textures: {deck: trim11_32}
     title: Island jetty
   - id: thing:island_boat
     kind: sign
-    at: [38.6, 61]
+    at: [38.6, 60.5]
     height: 192
     width: 128
     title: Medin's boat
@@ -2083,12 +2150,49 @@ structures:
     count: 6
     altar: [192, 128, 96]
   - id: thing:sprite_eggs
-    kind: decoration
-    at: [49.2, 87.3]
-    decoration: mushrm05
-    title: Sprite eggs
+    kind: platform
+    at: [44.5, 84]
+    height: 56
+    radius: 300
+    sides: 12
+    textures: {top: gkp1flr, wall: gkp1flr}
+    title: Sprite nest
     effects:
       - lua: "XeenQuests.hook(\"q-c17.nest\")"
+  - id: thing:sprite_nest_rim
+    kind: stone_ring
+    at: [44.5, 84]
+    same_event_as: thing:sprite_eggs
+    radius: 300
+    textures: {top: gkp1flr, wall: gkp1flr}
+    seed: 5
+    count: 14
+    stone: [112, 72, 140]
+    lintel: false
+  - id: thing:sprite_nest_twigs_1
+    kind: decoration
+    at: [45.252, 84.274]
+    decoration: 7dec16
+  - id: thing:sprite_nest_twigs_2
+    kind: decoration
+    at: [44.639, 84.788]
+    decoration: 7dec12
+  - id: thing:sprite_nest_twigs_3
+    kind: decoration
+    at: [43.887, 84.514]
+    decoration: 7dec16
+  - id: thing:sprite_nest_twigs_4
+    kind: decoration
+    at: [43.748, 83.726]
+    decoration: 7dec12
+  - id: thing:sprite_nest_twigs_5
+    kind: decoration
+    at: [44.361, 83.212]
+    decoration: 7dec16
+  - id: thing:sprite_nest_twigs_6
+    kind: decoration
+    at: [45.113, 83.486]
+    decoration: 7dec12
   - id: thing:sage_fountain
     kind: fountain
     at: [70, 86]
@@ -2387,6 +2491,7 @@ structures:
   - id: thing:rim_boulder_3
     kind: decoration
     at: [58, 103.3]
+    raise: -26
     decoration: rock12
   - id: thing:rim_boulder_4
     kind: decoration
@@ -2402,195 +2507,225 @@ structures:
     decoration: rock26
   - id: thing:hull_001
     kind: decoration
-    at: [2, 104.98]
+    at: [0.5, 104.98]
     turn: -180
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_002
     kind: decoration
-    at: [6, 104.98]
+    at: [3, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_003
     kind: decoration
-    at: [10, 104.98]
+    at: [7, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_004
     kind: decoration
-    at: [14, 104.98]
+    at: [11, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_005
     kind: decoration
-    at: [18, 104.98]
+    at: [15, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_006
     kind: decoration
-    at: [22, 104.98]
+    at: [19, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_007
     kind: decoration
-    at: [26, 104.98]
+    at: [23, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_008
     kind: decoration
-    at: [30, 104.98]
+    at: [27, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_009
     kind: decoration
-    at: [34, 104.98]
+    at: [31, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_010
     kind: decoration
-    at: [38, 104.98]
+    at: [35, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_011
     kind: decoration
-    at: [42, 104.98]
+    at: [37.5, 104.98]
     turn: -180
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_012
     kind: decoration
-    at: [46, 104.98]
+    at: [38.5, 104.98]
     turn: -180
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_013
     kind: decoration
-    at: [50, 104.98]
+    at: [41, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_014
     kind: decoration
-    at: [54, 104.98]
+    at: [45, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_015
     kind: decoration
-    at: [58, 104.98]
+    at: [49, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_016
     kind: decoration
-    at: [62, 104.98]
+    at: [53, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_017
     kind: decoration
-    at: [66, 104.98]
+    at: [57, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_018
     kind: decoration
-    at: [70, 104.98]
+    at: [61, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_019
     kind: decoration
-    at: [74, 104.98]
+    at: [65, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_020
     kind: decoration
-    at: [78, 104.98]
+    at: [69, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_021
     kind: decoration
-    at: [82, 104.98]
+    at: [73, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_022
     kind: decoration
-    at: [86, 104.98]
+    at: [77, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_023
     kind: decoration
-    at: [90, 104.98]
+    at: [81, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_024
     kind: decoration
-    at: [94, 104.98]
+    at: [85, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_025
     kind: decoration
-    at: [98, 104.98]
+    at: [87.5, 104.98]
     turn: -180
-    decoration: xeen_hull4
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_026
     kind: decoration
-    at: [102, 104.98]
+    at: [90, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_027
     kind: decoration
-    at: [106, 104.98]
+    at: [94, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_028
     kind: decoration
-    at: [110, 104.98]
+    at: [98, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_029
     kind: decoration
-    at: [114, 104.98]
+    at: [102, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_030
     kind: decoration
-    at: [118, 104.98]
+    at: [106, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_031
     kind: decoration
-    at: [122, 104.98]
+    at: [110, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_032
     kind: decoration
-    at: [126, 104.98]
+    at: [114, 104.98]
     turn: -180
     decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_033
+    kind: decoration
+    at: [118, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_034
+    kind: decoration
+    at: [122, 104.98]
+    turn: -180
+    decoration: xeen_hull4
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_035
+    kind: decoration
+    at: [124.5, 104.98]
+    turn: -180
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_036
+    kind: decoration
+    at: [125.5, 104.98]
+    turn: -180
+    decoration: xeen_hull1
+    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
+  - id: thing:hull_037
+    kind: decoration
+    at: [126.5, 104.98]
+    turn: -180
+    decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:shrine_electricity_altar
     kind: platform
@@ -2630,10 +2765,10 @@ actors:
   - {monster: "577", at: [61.34, 61], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
   - {monster: "608", at: [57.84, 42], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
   - {monster: "596", at: [72.59, 64], spread: 0, group: 47, hostile: false, notes: D-96 villager of Rivercity (villagers.yml)}
-  - {monster: "404", at: [63.2, 47.9], spread: 0, group: 51}
-  - {monster: "404", at: [64.8, 47.9], spread: 0, group: 51}
-  - {monster: "404", at: [63.2, 58.1], spread: 0, group: 51}
-  - {monster: "404", at: [64.8, 58.1], spread: 0, group: 51}
+  - {monster: "404", at: [63.35, 47.9], spread: 0, group: 51}
+  - {monster: "404", at: [64.65, 47.9], spread: 0, group: 51}
+  - {monster: "404", at: [63.35, 58.1], spread: 0, group: 51}
+  - {monster: "404", at: [64.65, 58.1], spread: 0, group: 51}
   - {monster: "404", at: [82.6, 43.8], spread: 0, group: 51}
   - {monster: "404", at: [52.9, 43.2], spread: 0, group: 51}
   - {monster: "404", at: [68.3, 60.9], spread: 0, group: 51}
@@ -2642,18 +2777,18 @@ actors:
   - {monster: "11131", at: [89.2, 25], count: 2, spread: 0.8, group: 60, hostile: true}
   - {monster: "11130", at: [46, 23.6], count: 3, spread: 1, group: 61, hostile: true}
   - {monster: "11131", at: [47.2, 23], count: 2, spread: 0.8, group: 61, hostile: true}
-  - {monster: "11061", at: [21.45, 34.4], count: 1, spread: 0, group: 62, hostile: true}
-  - {monster: "11061", at: [23.1, 35.45], count: 2, spread: 0.8, group: 62, hostile: true}
+  - {monster: "11061", at: [33, 28], count: 1, spread: 0, group: 62, hostile: true}
+  - {monster: "11061", at: [32, 32], count: 2, spread: 0.8, group: 62, hostile: true}
   - {monster: "11531", at: [57.5, 95.65], count: 3, spread: 1, group: 63, hostile: true}
   - {monster: "11531", at: [66.6, 101.6], count: 2, spread: 0.8, group: 63, hostile: true}
-  - {monster: "11640", at: [23, 48], count: 1, spread: 0, group: 80, hostile: true, leash: 1024, notes: One of Medin's three lake beasts.}
-  - {monster: "11640", at: [19.5, 58], count: 1, spread: 0, group: 80, hostile: true, leash: 768, notes: One of Medin's three lake beasts.}
+  - {monster: "11640", at: [20.5, 51.5], count: 1, spread: 0, group: 80, hostile: true, leash: 1024, notes: One of Medin's three lake beasts.}
+  - {monster: "11640", at: [20.5, 58], count: 1, spread: 0, group: 80, hostile: true, leash: 768, notes: One of Medin's three lake beasts.}
   - {monster: "11640", at: [28, 71], count: 1, spread: 0, group: 80, hostile: true, leash: 1024, notes: One of Medin's three lake beasts.}
-  - {monster: "11060", at: [30, 20], count: 1, spread: 0, group: 70, hostile: true}
+  - {monster: "11060", at: [30, 20.5], count: 1, spread: 0, group: 70, hostile: true}
   - {monster: "11530", at: [84, 69], count: 1, spread: 0, group: 71, hostile: true}
   - {monster: "11130", at: [100, 22], count: 1, spread: 0, group: 72, hostile: true}
   - {monster: "11530", at: [42, 90], count: 1, spread: 0, group: 73, hostile: true}
-  - {monster: "371", at: [56.8, 82.6], spread: 0, group: 52, npc: 4154}
+  - {monster: "371", at: [56.5, 81.8], spread: 0, group: 52, npc: 4154}
   - {monster: "270", at: [27, 102], spread: 0, group: 55, npc: 4155}
   - {monster: "11184", at: [72.3, 56], spread: 0, group: 54, hostile: true, hidden: true, notes: "Q-C2: the sorceresses' apprentice, shown by the strongbox."}
   - {monster: "11184", at: [72.7, 55.5], spread: 0, group: 54, hostile: true, hidden: true, notes: "Q-C2: the sorceresses' apprentice, shown by the strongbox."}

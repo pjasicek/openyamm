@@ -292,3 +292,30 @@ only the five chests: the style world's 7gt002 chest (95 faces) in place of MM6'
 moved. Installed, baked; audit 0 errors / 1 warning (ride.no_switch, as before), check_exits 0, check_drops 0; tests
 4 of 4 (20 of 20, output/studio_cal/a8_s26/run/dd01/c021833). Chest pictures:
 output/studio_cal/a8_s29/shots/dd01_chests.jpg (all four on the floor against a wall).
+
+## D-166: the sluice hinted and visible (agent `xeen-cv45`, 2026-11-25, issue #45; run files output/cv45/)
+
+- **The flooded water's click** (`evt:culvert_water`, status line, D-90): "The culvert to the Rat Queen's den is
+  flooded. Its sluice is worked from the sluice house, at the far north-west of the upper level." Valio's Rats topic
+  (`source/quests/q-d5.yml`, his first line and his "still alive" line) ends with the same two sentences; Felix's
+  greeting is unchanged. Tables rebuilt (`build_world.py`: npc_topic_text.txt and xeen_quests.lua only).
+- **The sluice lever** (`dress.py` `SLUICE_LEVER_AT`): moved from the north wall's far end (-1280, 2048) to the east
+  wall at (-896, 1600), 384 north of the iron door and in line with the gate, at twice the standard size (post 16 x 64,
+  arm 80 out, arm at 128); titled "Sluice" (was "Sluice lever"). Its lamp: `deco:torch_sluice_lever` (torch02 on the
+  east wall beside it, its own id so the other torches keep theirs) and `light:sluice_2` (radius 640, the lamp colour).
+  Seen from the west drain's arch and from the iron door (captures below). No grate or water front on the culvert mouth.
+- **Felix** (`monster:felix`, NPC 4958): on Picard the Aged's peaceful indoor row 11922 (xeen_sor1 xsor_g, the old
+  scholar's grey-brown robe and white hair; the Elder Druid's row likewise carries two NPCs), immobile, group 21, at
+  (-2990, -2720) by the west end of his bench; clicked, he talks (the bench still does). Not counted; key_npcs lists
+  him (actor 12). "Words needed 1" is done for Felix. The actors after him moved up one: Rooka 36 -> 37, Valio's
+  monster 46 -> 47 (`playtest_valio.yml`, `tests/scenarios/xeen/side_quests/q-d5_rooka.yml` follow).
+- **Tests:** `playtest.yml` stands just inside the iron door (-1000, 1152) facing the lever (460 away) and presses the
+  interact key: event 34, the gate drops, the culvert drains, the nest is reached through it; Felix is talked to by the
+  interact key on his body; Valio's topic and the water's line are asserted. `playtest_hostility.yml` counts Felix
+  (52 actors). All five 4 of 4 from assets_dev (189, 29, 23, 21, 20 asserts); Q-D5 side quest and story segment 45
+  pass (their culvert-line asserts updated).
+- **Checks:** audit 0 errors, 1 warning (`ride.no_switch`, as before); check_exits 0, check_drops 0, check_identity 0;
+  key_npcs 0 errors; check_actor_heights clean; MAW pack reserve rerun (51 of 51); xeen_balance --check ok;
+  stale_bakes 0. Installed (a8_rebuild b_122417) and baked straight after (12:26).
+- **Captures** `output/cv45/shots_dd01/` (looked at): the lever and its lamp from the iron door and from the arch,
+  close; Felix at his bench; the flooded culvert from the rat runs.

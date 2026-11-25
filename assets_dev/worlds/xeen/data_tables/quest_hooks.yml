@@ -907,7 +907,7 @@ m12.skull:
 m12.skull_deep:
   quest: M12
   map: XD-10
-  where: 'the deep skull alcoves behind the mirror maze''s mirage: the offer (5 gems, +3 once per member)'
+  where: 'the deep skull alcoves behind the mirror maze''s mirage: the offer (1 gem, +3 once per member; D-143)'
   sets: {}
   reads: {}
   gives: {}
@@ -917,8 +917,8 @@ m12.skull_deep:
 m12.skull_grotto:
   quest: M12
   map: XD-10
-  where: 'the great skull in the grotto, after the key is bought: the stat offer (10 gems, +5 to Might, Endurance or Accuracy,
-    once per member)'
+  where: 'the great skull in the grotto, after the key is bought: the stat offer (1 gem, +5 to Might, Endurance or Accuracy,
+    once per member; D-143)'
   sets: {}
   reads: {}
   gives: {}
@@ -948,14 +948,29 @@ m12.skull_sold:
 m12.skull_upper:
   quest: M12
   map: XD-10
-  where: 'the upper skull alcoves off the frost cavern, near the south mouth: the offer (the map asks Yes/No, then pays 3
-    gems and gives +2 to the clicking member once)'
+  where: 'the upper skull alcoves off the frost cavern, near the south mouth: the offer (the map asks Yes/No, then pays 1
+    gem and gives +2 to the clicking member once; D-143)'
   sets: {}
   reads: {}
   gives: {}
   needs: {}
   takes: {}
   call: XeenQuests.hook("m12.skull_upper")
+m13.cloud_stair_down:
+  quest: M13
+  map: X8
+  where: 'X8''s stair of cloud at the foot of the Tower of High Magic''s stair (evt:down_stair_landing) back down to XD-11''s
+    roof; X8 calls XeenQuests.can as the click''s condition, the refusal is its locked text. D-151: gated as the way up, else
+    Cloudreach''s long bridge lets a party skip M12'
+  sets: {}
+  reads: {}
+  gives: {}
+  needs: {}
+  takes: {}
+  call: XeenQuests.hook("m13.cloud_stair_down")
+  entrance: XD-11
+  sealed: 'D-151 (decider, 2026-11-25): the way down from Cloudreach onto the Tower of High Magic''s roof opens as the way
+    up (M12''s Enchanted Key bought, or M13 done)'
 m13.darzog_door:
   quest: M13
   map: X2
@@ -2810,7 +2825,7 @@ m35.untouchable:
 m37.reflector_air:
   quest: M37
   map: X6
-  where: the Air Reflector on the north-west rim corner (prompt 'Reflector. Activate?'; Yes calls the hook)
+  where: the Air Reflector on the north-west rim corner (a click calls the hook, D-144)
   sets: {air: 111740}
   reads: {}
   gives: {}
@@ -2821,7 +2836,7 @@ m37.reflector_air:
 m37.reflector_earth:
   quest: M37
   map: X5
-  where: the Earth Reflector on the south-west rim corner, in the Land of the Giants (prompt 'Reflector. Activate?')
+  where: the Earth Reflector on the south-west rim corner, in the Land of the Giants (a click calls the hook, D-144)
   sets: {earth: 111742}
   reads: {}
   gives: {}
@@ -2832,7 +2847,7 @@ m37.reflector_earth:
 m37.reflector_fire:
   quest: M37
   map: X7
-  where: the Fire Reflector on the north-east rim corner (prompt 'Reflector. Activate?')
+  where: the Fire Reflector on the north-east rim corner (a click calls the hook, D-144)
   sets: {fire: 111741}
   reads: {}
   gives: {}
@@ -2843,7 +2858,7 @@ m37.reflector_fire:
 m37.reflector_water:
   quest: M37
   map: X1
-  where: the Water Reflector on the south-east rim corner (prompt 'Reflector. Activate?')
+  where: the Water Reflector on the south-east rim corner (a click calls the hook, D-144)
   sets: {water: 111743}
   reads: {}
   gives: {}
@@ -4380,8 +4395,8 @@ q-c15.lair:
 q-c16.outpost:
   quest: Q-C16
   map: X5
-  where: 'the cyclops outpost in the Land of the Giants corner: the map asks "You have found the Cyclops'' outpost! Burn?"
-    and burns it (a destructible), then calls this'
+  where: 'the cyclops outpost in the Land of the Giants corner: a click on the tent burns it (D-144: the source''s "Burn?"
+    was a free Yes/No) and calls this'
   sets: {outpost_burnt: 112321}
   reads: {}
   gives: {}
@@ -4392,7 +4407,8 @@ q-c16.outpost:
 q-c17.nest:
   quest: Q-C17
   map: X2
-  where: 'the sprites'' nest in the south woods (built: thing:sprite_eggs)'
+  where: 'the sprites'' nest, a great mound of straw and twigs in the dry hollow at the heart of the south woods, west of
+    Danulf''s ring (built: thing:sprite_eggs, D-167)'
   sets: {sprite_eggs: 110206, faery_wand: 110205}
   reads: {}
   gives: {wand_of_faery_magic: 12310}
@@ -4474,14 +4490,17 @@ q-c20.statue_poison:
 q-c20.whistle:
   quest: Q-C20
   map: X1
-  where: the mud of Pitchfork Creek, upstream of the bridge
-  sets: {whistle_found: 112401}
+  where: 'Orothin''s whistle in the open in the mud at the north edge of Pitchfork Creek''s shallows, upstream of Vertigo
+    Bridge and west of the west gate: a ground item since D-167 (X1, 2026-11-25; it was a click on a rock, "Something in the
+    mud"), picked up like any item; no event calls this hook (it records that the map gives the whistle)'
+  sets: {}
   reads: {}
-  gives: {bone_whistle: 12308}
+  gives: {}
   needs: {}
   takes: {}
+  map_gives:
+    bone_whistle: {id: 12308, count: 1}
   call: XeenQuests.hook("q-c20.whistle")
-  once: true
 q-c21.phirna_plant:
   quest: Q-C21
   map: X1
@@ -8213,8 +8232,8 @@ x2.bank_chest:
 x3.ranger_camp:
   quest: null
   map: X3
-  where: 'the evil rangers'' camp in the marsh woods: the map asks "You have come upon an Evil Ranger camp. Destroy?" and
-    burns it (a destructible), then calls this'
+  where: 'the evil rangers'' camp in the marsh woods: a click on a tent burns it (D-144: the source''s "Destroy?" was a free
+    Yes/No) and calls this'
   sets: {ranger_camp: 116040}
   reads: {}
   gives: {}
@@ -8225,8 +8244,8 @@ x3.ranger_camp:
 x4.barbarian_camp:
   quest: null
   map: X4
-  where: 'the barbarian encampment on the savannah: the map asks "You have stumbled upon a Barbarian encampment. Burn?" and
-    burns it (a destructible), then calls this'
+  where: 'the barbarian encampment on the savannah: a click on a tent burns it (D-144: the source''s "Burn?" was a free Yes/No)
+    and calls this'
   sets: {barbarian_camp: 116060}
   reads: {}
   gives: {}
@@ -8334,8 +8353,8 @@ x7.idols:
 x7.orc_outpost:
   quest: null
   map: X7
-  where: the orc outpost in the south (the map asks the source's "You have found an Orc Outpost.  Put it to the torch?", aaze0018:3;
-    Yes calls this once; the outpost's chest is the map's)
+  where: the orc outpost in the south (a click on its fire burns it and calls this once, D-144/D-152; the source asked "You
+    have found an Orc Outpost.  Put it to the torch?", aaze0018:3; the outpost's chest is the map's)
   sets: {outpost_burned: 116160}
   reads: {}
   gives: {}
@@ -8508,8 +8527,8 @@ x9.nest_se:
 x9.nest_sw:
   quest: null
   map: X9
-  where: 'the roc nest on the south-west cloud (the source''s rookery): the map asks "Roc Nest. Destroy?" (xeen/aaze0027:0);
-    Yes calls this once (No: nothing); the nest burns and is gone'
+  where: 'the roc nest on the south-west cloud (the source''s rookery): a click burns it and calls this once (D-159: no question;
+    the source asked "Roc Nest. Destroy?", xeen/aaze0027:0); the nest and its bones are gone'
   sets: {nest_sw: 116220}
   reads: {}
   gives: {}

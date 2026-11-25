@@ -231,6 +231,13 @@ lights:
     at: [-1856, 1280]
     radius: 1152
     color: [150, 165, 130]
+  - id: light:sluice_2
+    room: room:sluice
+    at: [-992, 1664]
+    height: 224
+    radius: 640
+    color: [215, 180, 120]
+    notes: "D-166: the lamp over the sluice lever (the torch beside it)."
   - id: light:valio_1
     room: room:valio
     at: [-2240, -1728]
@@ -271,9 +278,11 @@ switches:
   - id: switch:sluice_lever
     room: room:sluice
     kind: lever
-    reach: 48
-    at: [-1280, 2048]
-    notes: The sluice lever on the north wall beside the gate.
+    reach: 80
+    at: [-896, 1600]
+    height: 128
+    size: [16, 64]
+    notes: "The sluice lever (D-166): twice the standard size, on the east wall beside the iron door, lit."
 chests:
   - id: chest:cellar
     room: room:cellar
@@ -397,6 +406,16 @@ monsters:
     facing: 270
     hostile: true
     group: 1
+  - id: monster:felix
+    room: room:felix
+    monster: 11922
+    at: [-2990, -2720]
+    facing: 90
+    hostile: false
+    group: 21
+    immobile: true
+    npc: 4958
+    notes: "Felix the Tinker (NPC 4958, D-166) by the west end of his bench, on Picard the Aged's peaceful row 11922 (an existing indoor body): clicked, he talks (monsters[].npc). Not counted."
   - id: monster:midden_dire_rat_1
     room: room:midden
     monster: 11393
@@ -826,6 +845,13 @@ decorations:
     wall: s
     along: 0.2
     height: 192
+  - id: deco:torch_sluice_lever
+    room: room:sluice
+    decoration: torch02
+    wall: e
+    along: 0.87
+    height: 192
+    notes: "D-166: the lamp beside the sluice lever."
 exits:
   - id: exit:hatch
     room: room:shaft_square
@@ -841,4 +867,4 @@ exits:
     surface: {texture: d1lggrt, size: [256, 256], scale: 1.25}
     to: exit:d1_outfall
     notes: "The outfall's iron grate onto the mill gorge (D1), barred until its bar is lifted."
-notes: "DD-01's contents, written by output/studio_cal/dd01/tools/dress.py: 7 doors, three movers (the culvert's water, the sluice gate, the floor grate), three levers (the sluice, the outfall bar, the grate's bolt), one ladder, five chests, 50 placed monsters (21 Dire Rats, 8 Vampire Bats, 10 Gremlins, 3 Saboteurs, 7 Wererats, Rooka) and Valio's hidden monster."
+notes: "DD-01's contents, written by output/studio_cal/dd01/tools/dress.py: 7 doors, three movers (the culvert's water, the sluice gate, the floor grate), three levers (the sluice, the outfall bar, the grate's bolt), one ladder, five chests, 50 placed monsters (21 Dire Rats, 8 Vampire Bats, 10 Gremlins, 3 Saboteurs, 7 Wererats, Rooka), Valio's hidden monster and Felix the Tinker (peaceful, npc 4958, D-166)."

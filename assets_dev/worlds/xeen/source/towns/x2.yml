@@ -164,19 +164,19 @@ houses:
 
 npcs:
   # ---- proprietors ----
-  - {id: 4101, name: Brann, title: Blacksmith, profession: Smith, greet: ["Rivercity Smithing. Paid up front; this is Rivercity.", "Back for an edge?"]}
-  - {id: 4102, name: Ragna, title: Armorer, profession: Armorer, greet: ["Armour. In this town you'll want it.", "Still alive. My work, I expect."]}
-  - {id: 4103, name: Mother Grizzle, greet: ["Into the Cauldron, dearies. Wands, rings, oddments.", "Back, dearies?"]}
-  - {id: 4104, name: Pip, title: Alchemist, profession: Alchemist, greet: ["The Bubbling Flask. Don't drink the green one.", "Something bubbling for you?"]}
-  - {id: 4105, name: Pennyworth, title: Banker, profession: Banker, greet: ["The Bank. Deposits welcome. Robbers less so.", "Your gold is where you left it."]}
-  - {id: 4106, name: Bull, title: Innkeep, greet: ["Bull's Tavern. Sit, drink, don't start anything.", "The usual?"]}
-  - {id: 4107, name: Knuckles, title: Instructor, profession: Instructor, greet: ["Street Fightin'. I'll train you to twenty-fifth level, if you live.", "Back for a beating?"]}
-  - {id: 4108, name: Deacon Coyne, title: Healer, profession: Healer, greet: ["Pray, pay, and be healed today.", "Coin first, then prayers."], source: "xeen/aaze0030:31"}
-  - {id: 4109, name: Hesper, title: Guildmistress, greet: ["The Guild of Body. Come in, all of you.", "Feeling well?"]}
-  - {id: 4110, name: Thaddeus, title: Guildmaster, greet: ["The Guild of Mind. Think before you touch anything.", "I thought you'd come."]}
-  - {id: 4111, name: Sister Amity, greet: ["The Guild of Spirit. Be welcome.", "Peace on you again."]}
-  - {id: 4112, name: Garrick, title: Stablemaster, profession: Horseman, greet: ["Royal Steeds. Coaches east to Vertigo.", "Saddled and ready."]}
-  - {id: 4113, name: Captain Nystor, talks: true, profession: Sailor, greet: ["I can give ya a boat ride to the Eastern shore, if ya be interested.", "Those Ogres are ruining me!"], source: "xeen/aaze0030:66, aaze0010:23"}
+  - {id: 4101, name: Brann, sex: male, title: Blacksmith, profession: Smith, greet: ["Rivercity Smithing. Paid up front; this is Rivercity.", "Back for an edge?"]}
+  - {id: 4102, name: Ragna, sex: female, title: Armorer, profession: Armorer, greet: ["Armour. In this town you'll want it.", "Still alive. My work, I expect."]}
+  - {id: 4103, name: Mother Grizzle, sex: female, greet: ["Into the Cauldron, dearies. Wands, rings, oddments.", "Back, dearies?"]}
+  - {id: 4104, name: Pip, sex: male, title: Alchemist, profession: Alchemist, greet: ["The Bubbling Flask. Don't drink the green one.", "Something bubbling for you?"]}
+  - {id: 4105, name: Pennyworth, sex: male, title: Banker, profession: Banker, greet: ["The Bank. Deposits welcome. Robbers less so.", "Your gold is where you left it."]}
+  - {id: 4106, name: Bull, sex: male, title: Innkeep, greet: ["Bull's Tavern. Sit, drink, don't start anything.", "The usual?"]}
+  - {id: 4107, name: Knuckles, sex: male, title: Instructor, profession: Instructor, greet: ["Street Fightin'. I'll train you to twenty-fifth level, if you live.", "Back for a beating?"]}
+  - {id: 4108, name: Deacon Coyne, sex: male, title: Healer, profession: Healer, greet: ["Pray, pay, and be healed today.", "Coin first, then prayers."], source: "xeen/aaze0030:31"}
+  - {id: 4109, name: Hesper, sex: female, title: Guildmistress, greet: ["The Guild of Body. Come in, all of you.", "Feeling well?"]}
+  - {id: 4110, name: Thaddeus, sex: male, title: Guildmaster, greet: ["The Guild of Mind. Think before you touch anything.", "I thought you'd come."]}
+  - {id: 4111, name: Sister Amity, sex: female, greet: ["The Guild of Spirit. Be welcome.", "Peace on you again."]}
+  - {id: 4112, name: Garrick, sex: male, title: Stablemaster, profession: Horseman, greet: ["Royal Steeds. Coaches east to Vertigo.", "Saddled and ready."]}
+  - {id: 4113, name: Captain Nystor, sex: male, talks: true, profession: Sailor, greet: ["I can give ya a boat ride to the Eastern shore, if ya be interested.", "Those Ogres are ruining me!"], source: "xeen/aaze0030:66, aaze0010:23"}
 
   # ---- residents north of the river ----
   - {id: 4114, name: Barlow, title: Bruiser, profession: Guard, teaches: [{skill: Mace, mastery: expert}], greet: ["A mace settles arguments. I'll show you how.", "Still arguing with people?"]}

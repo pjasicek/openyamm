@@ -1,5 +1,5 @@
 format: 1
-counter: 79
+counter: 95
 pins:
   - id: pin:p1
     text: npc stuck
@@ -590,3 +590,105 @@ pins:
     created: 2026-11-24T01:12:58
     status: open
     from: 20261124-011258-xeen_x1.yml
+  - id: pin:p28
+    text: stone flying
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [-421.243, 18429.396, 1708.019]
+      yaw_radians: 1.291
+      pitch_degrees: 22.188
+      heading_yaw_units: 421
+    picture: .oymap/pins/pictures/p28.png
+    author: user
+    created: 2026-11-24T12:43:13
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-124313-xeen_x1.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "F59: plain rocks on slopes sink to their rim's lowest land (common/level_pads.py auto); this boulder sits in the slope now."
+        created: 2026-11-25T09:40:36
+        revision: f354073d1289c4e078a328d9dfd6799d
+        status: resolved
+  - id: pin:p29
+    text: z-fighting
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [20717.32, -20708.277, 1025]
+      yaw_radians: 5.464
+      pitch_degrees: -12.805
+      heading_yaw_units: 1781
+    picture: .oymap/pins/pictures/p29.png
+    author: user
+    created: 2026-11-24T15:14:52
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor
+    from: 20261124-151452-xeen_x1.yml
+    replies:
+      - author: agent:xeen-fb4-outdoor
+        text: "Fixed by 3.3's rebuilt hull: no flicker at the pose and no face pair there (check_faces)."
+        created: 2026-11-25T09:40:35
+        revision: f354073d1289c4e078a328d9dfd6799d
+        status: resolved
+  - id: pin:p30
+    text: "if you can take the boat to Vertigo, why couldn't you take the boat back?"
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [-7625.263, 4842.179, 611.728]
+      yaw_radians: 0.135
+      pitch_degrees: -12.462
+      heading_yaw_units: 44
+    picture: .oymap/pins/pictures/p30.png
+    author: user
+    created: 2026-11-24T20:52:09
+    status: resolved
+    claimed_by: agent:xeen-fb4-outdoor3
+    from: 20261124-205209-xeen_x1.yml
+    replies:
+      - author: agent:xeen-fb4-engine
+        text: "Right: Nystor's boat sails Rivercity -> Vertigo creek (and -> X4's river landing after Q-C23) but no boat sails back; Vertigo only has the coach to Rivercity. Passed on: a return boat at each landing."
+        created: 2026-11-25T08:39:36
+        revision: 508eb8d6650a0a68f5dde24c7c333e92
+      - author: agent:xeen-fb4-town
+        text: "Coming: each landing gets its own boat back to Rivercity. At Vertigo's creek bank Nystor's mate Rudd sails on Monday, Wednesday, Friday and Sunday (1 day). At the upriver landing on the Burlock Savannah Marla sails on Tuesday and Saturday (2 days), once the ogres' boulders are dealt with. The town data is in; the mooring posts you click on are being added to both maps."
+        created: 2026-11-25T09:55:42
+        revision: b2f50542a4c4ba49af3ec183657bd204
+      - author: agent:xeen-fb4-outdoor2
+        text: "D-150 map part done: X1's creek bank has a short jetty and Nystor's mooring post, the door of Nystor's Landing (house 4042, back to Rivercity mon/wed/fri/sun, 1 day); X4's post opens house 4187 after Q-C23. X1 installed 09:59, X4 10:10; nystor_boats_back.yml passes. Left claimed by agent:xeen-fb4-engine (its claim) to resolve."
+        created: 2026-11-25T10:14:05
+        revision: b2f50542a4c4ba49af3ec183657bd204
+        pictures: [.oymap/pins/pictures/p30-r3.png]
+      - author: agent:xeen-fb4-outdoor3
+        text: "Done (D-150): Vertigo's creek bank has a short jetty with Nystor's mooring post. Click the post for Nystor's Landing, where Rudd, Nystor's mate, sails back to Rivercity on Monday, Wednesday, Friday and Sunday (1 day, 16 gold). The landing up the river on the Burlock Savannah (X4) has its own boat back on Tuesday and Saturday once the ogres' boulders are dealt with. Pictures: the post on the jetty, and the boat window."
+        created: 2026-11-25T11:13:30
+        revision: bf2ca75389eee171b5c84e0ec77746c0
+        status: resolved
+        pictures: [.oymap/pins/pictures/p30-r4.png, .oymap/pins/pictures/p30-r4-2.png]
+  - id: pin:p31
+    text: Vertigo has always the same Spell books
+    source: game
+    world: xeen
+    map: xeen_x1.odm
+    pose:
+      position: [-10370.024, 4333.851, 641]
+      yaw_radians: 4.564
+      pitch_degrees: -6.119
+      heading_yaw_units: 1488
+    picture: .oymap/pins/pictures/p31.png
+    author: user
+    created: 2026-11-24T20:52:56
+    status: resolved
+    claimed_by: agent:xeen-fb4-engine
+    from: 20261124-205256-xeen_x1.yml
+    replies:
+      - author: agent:xeen-fb4-engine
+        text: "As in MM6-MM8, a guild's shelf holds every spell of its rank: each of Vertigo's guilds teaches the first four spells of its school, so its shelf always shows those four (the paid New stock rerolls shops, not guilds). The higher spells are sold in the higher guilds elsewhere."
+        created: 2026-11-25T08:39:36
+        revision: 508eb8d6650a0a68f5dde24c7c333e92
+        status: resolved

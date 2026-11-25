@@ -55,7 +55,7 @@ rooms:
         surface: {texture: ctwl5, size: [256, 256], sky: true}
         bands: false
     parapets:
-      - path: [[-1376, -2272], [1376, -2272]]
+      - path: [[-1408, -2272], [1408, -2272]]
         height: 160
         thickness: 32
         surface: {texture: ctwl5, size: [256, 256]}
@@ -272,7 +272,7 @@ rooms:
         surface: {texture: ctwl5, size: [256, 256], sky: true}
         bands: false
     parapets:
-      - path: [[2336, 672], [3168, 672]]
+      - path: [[2304, 672], [3200, 672]]
         height: 160
         thickness: 32
         surface: {texture: ctwl5, size: [256, 256]}
@@ -290,7 +290,7 @@ rooms:
         surface: {texture: ctwl5, size: [256, 256], sky: true}
         bands: false
     parapets:
-      - path: [[544, 2144], [2784, 2144]]
+      - path: [[512, 2144], [2816, 2144]]
         height: 160
         thickness: 32
         surface: {texture: ctwl5, size: [256, 256]}

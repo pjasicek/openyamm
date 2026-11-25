@@ -492,7 +492,8 @@ def wall_stretches():
     return [
         ('ne', [[gx + 1.75, 44], [73, 44], [76, 47], [76, 61], [73, 64.5], [54.5, 64.5], [50, 60.5],
                 [50, JETTY_Y[1]]]),
-        ('nw', [[50, JETTY_Y[0]], [50, 47], [53, 44], [gx - 1.75, 44]]),
+        # D-170 (2026-11-25): 16 into the gatehouse's west tower (its end face lay back to back with the tower's side)
+        ('nw', [[50, JETTY_Y[0]], [50, 47], [53, 44], [gx - 1.75 + 1 / 32.0, 44]]),
     ]
 
 def check_roads():
@@ -536,6 +537,31 @@ _qalong = (_qa[0] / _ql, _qa[1] / _ql)
 GATES = [("the north gate", NORTH_GATE, (1.0, 0.0), (0.0, -1.0), 384),
          ("the Queen's Gate", QUEEN_GATE, _qalong, (-_qalong[1], _qalong[0]), 320)]
 TREE_WORDS = ('tree', 'swptree', 'bush')
+
+def d142_enforce(areas, town_doors, givers):
+    """D-142 / D-157 (2026-11-25, F64) for the encounter circles (common/d142.py): the edge arrivals and the start
+    4,096 from a marker's edge (5,888 for a slot that shoots or casts), every road, lane and path 1,024 from a marker's
+    centre. A failing circle moves to the nearest spot off the water, the keep-clear areas, 2,500 from Castleview's
+    doors and 5,120 from the talking givers (D-85, D1's range). Dungeon exits: D1 is in check_arrivals.D142_EXITS
+    (D-161): markers 4,096 / 5,888 from every exit arrival too; the rope's guards are placed groups, kept."""
+    sys.path.insert(0, _REPO_ROOT + '/level_generation/projects/xeen/common')
+    import d142
+    sys.path.pop(0)
+    l4 = os.path.join(BRIEFS, 'L4', 'sketch.yml')
+    keep = [[[45, 40], [53, 38.5], [74, 38.5], [80, 43], [80.5, 56], [79, 65], [73, 69], [53, 69], [45, 63]],
+            [[34, 62], [52, 62], [52, 79], [34, 79]], [[26, 57], [36, 57], [36, 67], [26, 67]],
+            [[82, 19], [96, 19], [96, 31], [82, 31]], [[29, 19], [48, 19], [48, 27.5], [29, 27.5]],
+            [[102, 55], [112, 55], [112, 65], [102, 65]]]   # build()'s keep_clear areas
+    base = d142.standard_ok(l4, land, keep_off=keep)
+
+    def ok(x, y, r):
+        return (base(x, y, r)
+                and min(math.hypot(x - d[2][0], y - d[2][1]) for d in town_doors) * 512 >= 2600
+                and all(math.hypot(x - g[0], y - g[1]) * 512 >= 5220 for g in givers.values())
+                and all(math.hypot(x - c[0], y - c[1]) >= 3 + r
+                        for c in list(ELECTRAPEDES) + [p[0] for p in GROVE_PACKS]))
+    d142.enforce('xeen_d1', areas, d142.road_cells(l4), {}, ok, giver_range=5120)
+
 
 def in_gate_lane(p, margin):
     """The gate whose lane holds p (cells) with `margin` cells beyond the opening's half width, else None."""
@@ -630,6 +656,19 @@ GREAT_CROWN_TURN = 11.25
 # members 2,000 or more from D7's rope landing, the step in from it and the rope's foot (was (49.8, 32.6): actor 12 at
 # 1,734 from entrance:d7_rope); the nearest flat place of the grove floor that far, 4.8 cells from the trunk
 ELECTRAPEDES = [(50.4, 31.6), (40.5, 35.5), (43.2, 33.2)]
+# D-161 (2026-11-25, D1's exits under D-142): the grove's arachnoid markers 3-7 (spawns 16-20) are placed packs of
+# Arachnoids and Queens (no Hunter: the shooters keep to markers past 5,888) in the grove's clearings, each member
+# 2,000 or more from the rope's landing and 4,096 or more from DD-10A's adit, both DD-05 arrivals and the pyramid;
+# 15 hostiles, the five markers' mean (2-4 each); kept for the rope only (`--kept-group 6..10`, NOTES). (at, count,
+# queens, group)
+GROVE_PACKS = [((40.0, 32.5), 3, 1, 6), ((40.5, 39.0), 3, 1, 7), ((44.5, 40.5), 3, 1, 8), ((52.5, 29.0), 3, 0, 9),
+               ((55.5, 30.0), 3, 0, 10)]
+# D-161: group 1's four saboteurs at the cut rope bridge's east end, on the east bank lane, past 4,096 (and a margin)
+# from DD-01's outfall arrival (were at its west end (77.6, 42.0): 3,033)
+SABOTEURS_AT = (86.6, 40.4)
+# Luna among her stones (thing:luna_ring at (30, 62), radius 448): F63 (2026-11-25, check_spawn_clear) she stood at
+# (30.6, 62.6), 435 from the middle, inside a stone; now in the ring's middle
+LUNA_AT = (30.0, 62.0)
 GROVE_ROPE_ARRIVAL = (48.0, 36.0)  # D7's return point (-8192, 14336, 1088), facing the tree (768)
 _ga = math.atan2(GROVE_ROPE_ARRIVAL[1] - GREAT_C[1], GROVE_ROPE_ARRIVAL[0] - GREAT_C[0])
 ROPE_AT = (round(GREAT_C[0] + math.cos(_ga) * 1000 / 512.0, 3), round(GREAT_C[1] + math.sin(_ga) * 1000 / 512.0, 3))
@@ -1037,7 +1076,7 @@ def build():
     POI_AT = {'poi:pyramid': PYRAMID_C, 'poi:gate_notice': (62.3, 43.25), 'poi:joe_stall': (66, 41),
               'poi:justine_camp': (57, 41), 'poi:broken_bridge': (81, 43), 'poi:burned_mill': (79, 46),
               'poi:acid_pond': (70, 34), 'poi:sardaj_camp': (88, 25), 'poi:yog': (89, 24),
-              'poi:great_tree': GREAT_TREE, 'poi:luna': (30.6, 62.6), 'poi:obelisk': (27, 76),
+              'poi:great_tree': GREAT_TREE, 'poi:luna': LUNA_AT, 'poi:obelisk': (27, 76),
               'poi:falista_hut': (46, 95), 'poi:prayer_shrine': (52, 90), 'poi:might_well': (100, 93),
               'poi:melon_patch': (82, 91), 'poi:melon_field': (64, 67.4), 'poi:shipwreck': (53, 83),
               'poi:besiegers_camp': (96, 63), 'poi:heretic_pack': (31.5, 31), 'poi:webbed_pack': (43, 38),
@@ -1069,13 +1108,15 @@ def build():
     # E2 the east road and the besiegers' camp (gremlins; seven placed round the trebuchet)
     markers('pop:east_road_camp', [(93, 56), (95, 57), (97, 68), (99, 70), (91, 73), (92, 75), (100, 54)], 1)
     # E3 the Dark Grove and the west heath (arachnoids)
-    markers('pop:grove_arachnoids', [(40, 30), (42, 31), (52, 30), (54, 31), (44, 40), (42, 39), (49, 29)], 2)
+    # D-161: the other five ((52, 30), (54, 31), (44, 40), (42, 39), (49, 29)) are the placed GROVE_PACKS
+    markers('pop:grove_arachnoids', [(40, 30), (42, 31)], 2)
     # F10 (2026-11-21): (29, 42) and (26, 34) moved to the rim headland's south slope; the pair nearest Luna (were
     # (29, 51), (33, 52): 5,503 / 5,578 from her, inside D-85's 5,888) moved north-west to (28.5, 49), (35, 50)
     markers('pop:west_heath', [(28, 40), (27, 50), (28.5, 49), (35, 50)], 2)
     # E4 the southern meadows (crawlers)
+    # F63 (2026-11-25, check_spawn_clear `spawn.at_hull`): (107, 88) put a marker 578 from the bounds: (105, 88)
     markers('pop:centipede_meadows', [(66, 92), (66, 84), (79, 96), (81, 97), (86, 92), (87, 94), (97, 86),
-                                      (99, 87), (107, 88), (77, 79)], 3)
+                                      (99, 87), (105, 88), (77, 79)], 3)
     # E5 the Gemstone foothills (crawlers)
     # F10: the pair (106, 32), (107, 34) moved to the south bank (pop:south_bank)
     markers('pop:foothills', [(100, 26), (102, 28), (104, 44)], 3)
@@ -1091,9 +1132,10 @@ def build():
     town_doors = [d for d in doors_out if d[0].startswith('building:cv_')]
     # D-85: no encounter circle's middle or placed pack within missile range (5,120) of an outdoor talking giver
     # (output/studio_cal/a6/s30/d85.py measures the built markers against 5,120 and 5,888)
-    givers = {'Joe': (66, 41.9), 'Justine': (57, 41.2), 'Luna': (30.6, 62.6), 'Yog': (89.2, 24)}
+    givers = {'Joe': (66, 41.9), 'Justine': (57, 41.2), 'Luna': LUNA_AT, 'Yog': (89.2, 24)}
+    d142_enforce(areas, town_doors, givers)
     for who, g in givers.items():
-        for c in [a['circle']['at'] for a in areas] + list(ELECTRAPEDES):
+        for c in [a['circle']['at'] for a in areas] + list(ELECTRAPEDES) + [p[0] for p in GROVE_PACKS]:
             if math.hypot(c[0] - g[0], c[1] - g[1]) * 512 < 5120:
                 raise SystemExit('D-85: monsters within 5,120 of %s: %s' % (who, c))
     for a in areas:
@@ -1152,7 +1194,8 @@ def build():
        'textures': {'wall': 'cswl128', 'window': 'csaro128', 'roof': 'csbr128', 'trim': 'cstr128', 'post_left': 'cswl128',
                     'post_right': 'cswl128'},
        'parts': slit_tower('tower_w', 0, 'e') + slit_tower('tower_e', 1152, 'w') + [
-           {'id': 'arch', 'at': [640, 128], 'size': [512, 768], 'bottom': 384, 'wall_height': 320, 'roof': 'flat',
+           # D-170 (2026-11-25): 16 into each tower (its end walls lay back to back with the towers' sides)
+           {'id': 'arch', 'at': [624, 128], 'size': [544, 768], 'bottom': 384, 'wall_height': 320, 'roof': 'flat',
             'battlements': True, 'windows': 'none'},
            {'id': 'crest_frame', 'at': [816, 136], 'size': [160, 32], 'bottom': 400, 'wall_height': 288,
             'roof': 'flat', 'windows': 'none', 'textures': {'wall': 'cstr128', 'roof': 'cstr128'}},
@@ -1168,13 +1211,14 @@ def build():
         256 high, so each leaf is 256 high (its picture once top to bottom, the spikes on the ground) and a fixed stone
         lintel at the passage's middle fills the `opening` above it."""
         half = width / 512.0 / 2
-        lw, ld = width / 512.0, 64 / 512.0
+        # D-170 (2026-11-25): the lintel 16 into the tower at each end (its ends lay back to back with the towers')
+        lw, ld = (width + 32) / 512.0, 64 / 512.0
         S({'id': 'thing:%s_lintel' % tag, 'kind': 'building', 'at': [round(mid[0] - lw / 2, 3), round(mid[1] - ld / 2, 3)],
            'size': [round(lw, 4), ld], 'turn': round(math.degrees(math.atan2(along[1], along[0])), 2), 'kit': 'grey',
            'door': 'none', 'floor': TOWN_H, 'title': title,
            'textures': {'wall': 'cswl128', 'roof': 'csbr128', 'trim': 'cstr128', 'post_left': 'cswl128',
                         'post_right': 'cswl128'},
-           'parts': [{'id': 'lintel', 'at': [0, 0], 'size': [width, 64], 'bottom': 256, 'wall_height': opening - 256,
+           'parts': [{'id': 'lintel', 'at': [0, 0], 'size': [width + 32, 64], 'bottom': 256, 'wall_height': opening - 256,
                       'roof': 'flat', 'windows': 'none'}]})
         for side, off in (('outer', 0.32), ('inner', -0.32)):
             c = (mid[0] + normal[0] * off, mid[1] + normal[1] * off)
@@ -1208,7 +1252,9 @@ def build():
     S({'id': 'thing:jetty_deck', 'kind': 'deck', 'outline': [[48.4, 52.6], [51.7, 52.6], [51.7, 55.8], [48.4, 55.8]],
        'level': TOWN_H + WALL_H + 16, 'kerb': 64, 'posts': 32, 'textures': {'deck': '7trimda'},
        'title': "Lucio's Jetty"})
-    S({'id': 'thing:jetty_pier', 'kind': 'bridge', 'line': [[48.5, 54.9], [45.9, 54.9]], 'width': 320,
+    # D-170 round (2026-11-25): the pier starts at the deck's west edge (48.4); from 48.5 its top lay on the deck's in
+    # one plane (check_faces faces.coplanar)
+    S({'id': 'thing:jetty_pier', 'kind': 'bridge', 'line': [[48.4, 54.9], [45.9, 54.9]], 'width': 320,
        'height': TOWN_H + WALL_H + 16, 'piers': 2, 'kerb': 48, 'textures': {'deck': '7trimda'},
        'title': "Lucio's Jetty", 'notes': "D-5.3: the jetty that ends in thin air, the celestial boats' mooring."})
     S({'id': 'thing:jetty_stair', 'kind': 'stairs', 'line': [[51.15, 58.9], [51.15, 55.8]], 'width': 256,
@@ -1387,10 +1433,26 @@ def build():
                                   'to you yet.')]
     S(outfall)
     # four plain street grates over the sewer (D-26): no event, not POIs
+    def platform_under(at, size):
+        """The platform placed so far whose (unturned) top holds a footprint `size` (map units) at `at` (cells)."""
+        for s in structures:
+            if s['kind'] != 'platform' or s.get('turn') or 'size' not in s or s.get('invisible'):
+                continue
+            if all(abs(at[k] - s['at'][k]) * 512 + size[k] / 2 <= s['size'][k] / 2 for k in (0, 1)):
+                return s
+        return None
+
     for i, at in enumerate([(57.5, 58.0), (NORTH_GATE[0], 45.5), (69.5, 58.0), (60.5, 56.5)]):
-        S({'id': 'thing:street_grate_%d' % (i + 1), 'kind': 'platform', 'at': list(at), 'size': [192, 128],
-           'height': 8, 'textures': {'top': 'xkportc', 'wall': 't09a02a'},
-           'notes': ['the guild row', 'the gate passage', 'by the temple', 'the market (the square)'][i]})
+        grate = {'id': 'thing:street_grate_%d' % (i + 1), 'kind': 'platform', 'at': list(at), 'size': [192, 128],
+                 'height': 8, 'textures': {'top': 'xkportc', 'wall': 't09a02a'},
+                 'notes': ['the guild row', 'the gate passage', 'by the temple', 'the market (the square)'][i]}
+        # issue #45 (2026-11-25, check_faces `faces.coplanar`): a grate over another platform (the market's on
+        # square_paving) had its top in the paving's plane and flickered: its top stands 4 over that platform's top
+        # (8 high, the least a platform takes: 4 of it sunk in the paving)
+        under = platform_under(at, grate['size'])
+        if under:
+            grate['raise'] = under.get('raise', 0) + under['height'] - 4
+        S(grate)
     S({'id': 'thing:acid_pond', 'kind': 'sign', 'at': [69.6, 35.0], 'height': 160, 'width': 128, 'title': 'The acid pond',
        'effects': [{'damage': {'amount': 20, 'kind': 'body'}},
                    msg('The acid pond is not water. It bites through boot leather.')]})
@@ -1398,7 +1460,9 @@ def build():
     # ---------------------------------------------------------------- east of the river
     S({'id': 'thing:east_bridge', 'kind': 'bridge', 'line': [[78.8, 60], [83.3, 60]], 'width': 448, 'rise': 96,
        'kerb': 96, 'textures': {'deck': 'csbr128', 'side': 'cswl128', 'pier': 'cswl128'}, 'title': 'The East Bridge'})
-    for i, (x, y) in enumerate([(86.5, 23.0), (90.0, 22.8)]):
+    # F59 (2026-11-25, town_fit `things.overhang`): the first tent at (86.5, 23.0) hung 578 over the gorge's lip
+    # (the land falls to 832 west of x 86 and north of y 23): on the camp's shelf at 1,536
+    for i, (x, y) in enumerate([(87.0, 23.9), (90.0, 22.8)]):
         S({'id': 'thing:sardaj_tent_%d' % (i + 1), 'kind': 'tent', 'at': [x, y], 'size': [896, 704], 'height': 384,
            'open': True, 'title': 'A Sardaj tent',
            # A6 s27 (D-72 rule 3): the source's question on Yes/No buttons, no message before it
@@ -1737,21 +1801,28 @@ def build():
         a = {'monster': str(row), 'at': list(at), 'count': count, 'spread': spread, 'group': group, 'hostile': True}
         a.update(kw)
         actors.append(a)
-    place(ROW['saboteur'], (77.6, 42.0), 4, 0.6, 1)                      # at the cut rope bridge's west end
+    place(ROW['saboteur'], SABOTEURS_AT, 4, 0.6, 1)                      # at the cut rope bridge's east end
     place(ROW['gremlin'], (96.0, 64.4), 4, 1.2, 2)                       # round the trebuchet
     place(ROW['gremlin_guard'], (97.6, 63.6), 2, 0.6, 2)
     place(ROW['saboteur'], (94.6, 61.4), 1, 0, 2)
     for i, at in enumerate(ELECTRAPEDES):                                # electrapedes round the great tree
         place(ROW['electrapede'], at, 3 if i == 0 else 2, 0.7, 3 + i)
+    for at, n, queens, group in GROVE_PACKS:                             # D-161: the grove's arachnoids
+        if n - queens:
+            place(ROW['arachnoid'], at, n - queens, 0.6, group)
+        if queens:
+            place(ROW['queen'], at, queens, 0.6, group)
     # the Sardaj (Q-D12): peaceful until q-d12.hostile or camp_burned (evt:sardaj)
-    for row, at, n in ((ROW['barbarian'], (88.0, 25.0), 7), (ROW['sardaj'], (89.4, 26.2), 3),
-                       (ROW['barbarian_chief'], (87.2, 24.0), 1)):
+    # F63 (2026-11-25, check_spawn_clear): the chief stood 64 from sardaj_tent_1's face (78 wanted); with the tent
+    # moved onto the shelf (87.0, 23.9) he and the seven barbarians (0.4 cell south) stand south of it
+    for row, at, n in ((ROW['barbarian'], (88.0, 25.4), 7), (ROW['sardaj'], (89.4, 26.2), 3),
+                       (ROW['barbarian_chief'], (87.2, 25.2), 1)):
         actors.append({'monster': str(row), 'at': list(at), 'count': n, 'spread': 1.4 if n > 1 else 0,
                        'group': SARDAJ_GROUP, 'hostile': False})
     actors.append({'monster': str(ROW['yog']), 'npc': 4953, 'at': [89.2, 24.0], 'spread': 0, 'group': SARDAJ_GROUP,
                    'hostile': False})
     use('q-d12.sardaj')
-    for npc, kind, at in ((4956, '361', (66.0, 41.9)), (4951, '377', (57.0, 41.2)), (4952, '517', (30.6, 62.6))):
+    for npc, kind, at in ((4956, '361', (66.0, 41.9)), (4951, '377', (57.0, 41.2)), (4952, '517', LUNA_AT)):
         actors.append({'monster': kind, 'npc': npc, 'at': list(at), 'spread': 0, 'group': 52})
     relations = [{'of': [517, 518, 519], 'toward': 'party', 'relation': 'friendly'}]
     events = [
@@ -1827,7 +1898,8 @@ def build():
     # about 1,000-1,400 high under the great tree's 3,200 trunk; kept clear of the arachnoids' and electrapedes'
     # clearings, a glade round the great tree, the webbed pack and the grove path
     DARK_WOOD = {'7tree04': 5, '7tree10': 3, 'tree28': 2, 'swptree2': 1, 'swptree4': 1, 'tree60': 1}
-    clearings = [tuple(a['circle']['at']) for a in areas if a['id'] == 'pop:grove_arachnoids']
+    clearings = [tuple(a['circle']['at']) for a in areas if a['id'] == 'pop:grove_arachnoids'] + \
+        [p[0] for p in GROVE_PACKS]
 
     def off_grove(p):
         return (any(math.hypot(p[0] - c[0], p[1] - c[1]) < 1.6 for c in clearings)

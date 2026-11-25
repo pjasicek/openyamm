@@ -16,6 +16,7 @@ LOCK = yaml.safe_load(open(L4 / 'ids.lock.yml'))
 for k, v in LOCK.get('events', {}).items():
     EV[k] = v
 CH = LOCK.get('chests', {})
+COGS = LOCK.get('decorations', {}) or {}  # evt.SetSprite takes the decoration's index
 
 
 def party(level=18):
@@ -85,7 +86,9 @@ def click_status(event, contains):
 def nest(k):
     return [{'play_lua': {'source': f'click({EV[f"evt:nest_{k}"]}); wait(0.5)'}},
             {'advance_runtime': {'seconds': 1}},
-            {'play_lua': {'source': f"close(); if not qbit({115020 + k}) then error('nest {k}: its bit is not set') end"}}]
+            {'play_lua': {'source': f"close(); if not qbit({115020 + k}) then error('nest {k}: its bit is not set') end"}}] + \
+        ([{'assert': {'sprite_hidden': [COGS[f'deco:n{k}_bones'], COGS[f'deco:n{k}_skull']]}}]
+         if f'deco:n{k}_bones' in COGS else [])  # D-145: the nest's bones and skull burn with it
 
 
 def loot(chest):
@@ -179,6 +182,40 @@ def fall(name, title, start, yaw, target_map, landing, damage, settle=0):
     return {'id': f'xeen.x8.l4.{name}', 'title': title, 'world': 'xeen', 'mode': 'faithful', 'steps': s}
 
 
+def down(name, iid, x, head, target_map, landing, qbit, refusal):
+    """F62 (X8 p3/p6): from a stair head down the arrival stair; its foot leads back to the tower's roof. D-151: first
+    without the gate's qbit (the refusal on the status line, still on X8), then with it."""
+    cx, cy = gen.ISLANDS[iid][0]
+    rim = gen.rim_point(gen.OUTLINES[iid], (x, cy), (x, cy - 10000))
+    foot = int(rim[1] - 192 * 7)
+    s = [{'new_game_flow': {'start_map': 'xeen_x8.blv', 'party': party()}},
+         {'setup_shortcut': {'kind': 'immortal', 'value': True}},
+         {'play_lua': {'source': 'wait(3); close()'}},
+         {'clear_hostiles': {'radius': 40000}},
+         {'movement_segment': {'input': 'forward', 'seconds': 0.2, 'actor_collision': True, 'actor_ai': True,
+                               'start': {'map': 'xeen_x8.blv', 'x': head[0], 'y': head[1], 'z': 0,
+                                         'yaw_degrees': 270, 'pitch': 0},
+                               'expect_stop': {'map': 'xeen_x8.blv', 'x': head[0], 'y': head[1], 'z': 0,
+                                               'yaw_degrees': 270, 'pitch': 0},
+                               'loose_tolerance': True, 'tolerance_xy': 400, 'tolerance_z': 100}},
+         {'walk_to': {'x': x, 'y': foot - 40, 'radius': 32, 'timeout_seconds': 30, 'close_dialogs': False,
+                      'z': -256, 'z_tolerance': 64}},
+         {'advance_runtime': {'seconds': 1.0}},
+         {'play_lua': {'source': f'click({EV["evt:down_" + iid]}); wait(0.5); local s = tostring(status()); '
+                                 f'if not string.find(s, [[{refusal}]], 1, true) then error("status line: " .. s) end'}},
+         {'assert': {'map': 'xeen_x8.blv'}},
+         {'lua_event': {'source': f'SetQBit(QBit({qbit}))'}},
+         {'play_lua': {'source': f'click({EV["evt:down_" + iid]}); wait(0.5)'}},
+         {'assert': {'dialog': {'active': True}}},
+         {'select_topic': {'match_label': 'OK'}},
+         {'advance_runtime': {'seconds': 1.5, 'follow_map_move': True}},
+         {'assert': {'map': target_map}},
+         {'assert': {'party_position': {'x': landing[0], 'y': landing[1], 'radius': 200,
+                                        'z_min': landing[2] - 64, 'z_max': landing[2] + 64}}}]
+    return {'id': f'xeen.x8.l4.{name}', 'title': f'Cloudreach (X8): the foot of the {iid} stair leads back to '
+            f'{target_map} (F62)', 'world': 'xeen', 'mode': 'faithful', 'steps': s}
+
+
 def hostility():
     kinds = [go.HARPY, go.HAG, go.QUEEN, go.FEET, go.GUARD, go.GOLEM]
     s = [{'new_game_flow': {'start_map': 'xeen_x8.blv', 'party': party()}},
@@ -234,6 +271,15 @@ if __name__ == '__main__':
                                                                   go.X3_LANDING[2]), False),
               "# The west zone's fall (D-6.4, X3 installed): off the Magic stair landing's west edge; set down in\n"
               "# X3's lagoon east of the Tower of High Magic's islet, at the surface, no damage.\n")
+    import gen_plan
+    write('playtest_down.yml', down('down', 'witch_landing', 11520, go.WITCH_ARRIVAL, 'xeen_xd04.blv',
+                                    gen_plan.WITCH_TOWER_ROOF, 110046, 'While she lives'),
+          '# F62 (the player\'s pins 2026-11-25, X8 p3): down the Witch Clouds\' stair, its foot leads back to the\n'
+          '# Witch Tower\'s roof (XD-04).\n')
+    write('playtest_down_west.yml', down('down_west', 'stair_landing', -10752, go.MAGIC_ARRIVAL, 'xeen_xd11.blv',
+                                         gen_plan.HIGH_MAGIC_ROOF, 111240, 'Its wards let down only'),
+          '# F62 (X8 p6): down the High Magic Clouds\' stair, its foot leads back to the Tower of High Magic\'s roof\n'
+          '# (XD-11).\n')
     write('playtest_hostility.yml', hostility(),
           '# Hostility check of Cloudreach (X8): every kind hostile to the party, none fighting another (the\n'
           '# world\'s relations.yml).\n')

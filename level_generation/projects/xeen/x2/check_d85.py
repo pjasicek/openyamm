@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """D-85 and D-87 checks of a built outdoor Xeen map (A5, 2026-11-21).
 
-Usage: check_d85.py <scene.yml> [giver_limit] [--kept SUBSTR ...] [--kept-group N ...]
+Usage: check_d85.py <scene.yml> [giver_limit] [--kept SUBSTR ...] [--kept-group N ...] [--kept-giver NPC ...]
+                    [--sketch L4/sketch.yml]
 
 --kept: an arrival whose labels contain SUBSTR is reported as KEPT, not ERROR (a breach waiting on a decider, named in
 the map's NOTES). No map uses it now.
 --kept-group: placed hostile actors of actor group N are reported as KEPT, not ERROR, near an arrival (every other
 marker and actor still counts there). X2's temple guards, group 63, by D-88: the XD-06 exit's only way in is past them.
+--kept-giver: the talking NPC with this npc id is reported as KEPT, not ERROR, for hostiles within giver_limit (a ranged
+disabler within 5,888 still errs). X5's Mayor Randon, NPC 4502, by D-87.1: he stands among Q-C6's waves, unkillable.
 
 D-85: no hostile spawn marker or placed hostile within `giver_limit` (default 5,888 = missile range 5,120 + 768) of a
 talking NPC (npc_id). X6 passes 5,120: D-87 (4) keeps melee and damage-only kinds in the 5,120-5,888 band.
@@ -23,6 +26,13 @@ D-15's first-fight buffer, counting spawn markers (D-133, 2026-11-24): no hostil
 hostile, or a scene spawn marker whose slot can roll such a row) within 2,000 (2D, less the marker's radius) of an
 arrival point (tools/xeen/check_arrivals.py `first_fight`; the 2,000-6,000 band's upper end and D-11.2's town buffer
 stay with each map's own measure). --kept-group keeps its placed actors here too. Exit 1 on any ERROR.
+D-142 (2026-11-25): the floor depends on the arrival's kind (check_arrivals.arrival_kind): an edge arrival or a new
+game's start 4,096, 5,888 if any row the marker or actor can roll shoots or casts (ERROR; never kept), and the same at
+dungeon exits of the maps rebuilt under D-142 (check_arrivals.D142_EXITS; the others: ERROR within 2,000, WARN up to
+the floor); town arrivals 2,000. WARN when an edge arrival or the start has no fight within D-15's 8,192 (not for a
+start that shares its point with a town arrival, D-158), and for every spawn marker whose centre stands within 1,024
+of a road, lane or path's centreline (the sketch's `roads`, D-157; --sketch, default the map's
+devdocs/xeen/briefs/<key>/L4/sketch.yml).
 """
 import json
 import math
@@ -164,14 +174,18 @@ def arrival_points(scene, scene_path, stem, map_file, map_id):
 
 
 def main():
-    args, kept, kept_groups = [], [], set()
+    args, kept, kept_groups, kept_givers, sketch = [], [], set(), set(), None
     argv = sys.argv[1:]
     while argv:
         a = argv.pop(0)
         if a == '--kept':
             kept.append(argv.pop(0))
+        elif a == '--sketch':
+            sketch = Path(argv.pop(0))
         elif a == '--kept-group':
             kept_groups.add(int(argv.pop(0)))
+        elif a == '--kept-giver':
+            kept_givers.add(int(argv.pop(0)))
         else:
             args.append(a)
     scene_path = Path(args[0]).resolve()
@@ -227,19 +241,32 @@ def main():
         d, name, _ = ds[0]
         dis = [x for x in ds if x[2]]
         err = d < limit or (dis and dis[0][0] < RANGE)
-        bad += bool(err)
+        held = err and g['npc_id'] in kept_givers and not (dis and dis[0][0] < RANGE)
+        bad += bool(err and not held)
         print('%s npc %d actor %d at (%d, %d): nearest %s %.0f; within %d: %s; nearest disabler %s' % (
-            'ERROR' if err else 'ok', g['npc_id'], g['actor_index'], gp[0], gp[1], name, d, limit,
+            'KEPT' if held else 'ERROR' if err else 'ok', g['npc_id'], g['actor_index'], gp[0], gp[1], name, d, limit,
             [n for dd, n, _ in ds if dd < limit], '%s %.0f' % (dis[0][1], dis[0][0]) if dis else '-'))
     world = check_arrivals.World(str(ROOT / 'assets_dev'))
     for names, p in arrival_points(scene, scene_path, stem, map_file, map_id):
-        close = check_arrivals.first_fight(world, scene, map_file, p, kept_groups)
+        kind = check_arrivals.arrival_kind(world, names, map_file)
+        close = check_arrivals.first_fight(world, scene, map_file, p, kept_groups, kind)
         for h in close:
-            err = not h['kept']
+            err = not h['kept'] and h['level'] == 'error'
             bad += err
-            print('%s first fight (D-15, D-133) at arrival (%d, %d) [%s]: %s %s group %s at (%d, %d) %d (2D)' % (
-                'ERROR' if err else 'KEPT', p[0], p[1], ', '.join(names), h['id'], h['name'], h['group'],
-                h['at'][0], h['at'][1], h['distance']))
+            print('%s first fight (D-15, D-133, D-142) at %s arrival (%d, %d) [%s]: %s %s group %s at (%d, %d) %d '
+                  '(2D) < %d%s' % ('KEPT' if h['kept'] else 'ERROR' if err else 'WARN', kind, p[0], p[1],
+                                   ', '.join(names), h['id'], h['name'], h['group'], h['at'][0], h['at'][1],
+                                   h['distance'], h['floor'], ' (shoots or casts)' if h['ranged'] else ''))
+        # D-158 (2026-11-25): a start in a town that shares its point with a town arrival (X1's Vertigo) takes D-15
+        # (2)'s "no upper limit" and keeps D-142's floors: no warning for the band's upper end
+        town_start = kind == 'start' and any(check_arrivals.arrival_kind(world, [n], map_file) == 'town'
+                                             for n in names)
+        if kind in ('edge', 'start') and not town_start:
+            nf = check_arrivals.nearest_fight(world, scene, map_file, p)
+            if nf is None or nf[0] > check_arrivals.FIRST_FIGHT_BAND:
+                print('WARN first fight (D-15, D-142) at %s arrival (%d, %d) [%s]: nearest %s, past the band\'s %d' % (
+                    kind, p[0], p[1], ', '.join(names), '%s %.0f' % (nf[1]['id'], nf[0]) if nf else '-',
+                    check_arrivals.FIRST_FIGHT_BAND))
         ds = near(p, hostile)
         waived = [x for x in ds if x[2] and x[1].endswith(' kept') and x[0] < RANGE]
         dis = [x for x in ds if x[2] and not x[1].endswith(' kept')]
@@ -256,6 +283,16 @@ def main():
                     print('    %6.0f %s (%s)' % (dd, n, w))
         for dd, n, w in waived:
             print('    KEPT %6.0f %s (%s)' % (dd, n, w))
+    key = stem[5:] if stem.startswith('xeen_') else stem
+    sketch = sketch or ROOT / 'devdocs/xeen/briefs' / key / 'L4/sketch.yml'
+    if sketch.exists():
+        roads = check_arrivals.sketch_roads(str(sketch))
+        for s, link, d in check_arrivals.road_setbacks(scene, roads):
+            print('WARN road setback (D-142, D-157): spawn %d slot %d at (%d, %d) %d from the road, lane or path %s (< %d)' % (
+                s['spawn_index'], s['index'], s['position']['x'], s['position']['y'], d, link,
+                check_arrivals.ROAD_SETBACK))
+    else:
+        print('WARN road setback (D-142): no sketch %s' % sketch)
     print('%s: %d errors' % (stem, bad))
     return 1 if bad else 0
 

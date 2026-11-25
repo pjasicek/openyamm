@@ -22,7 +22,7 @@ scenarios=(
     tests/scenarios/xeen/d4_same_map_ferry.yml
     tests/scenarios/xeen/d6_ambrose_flight.yml
     tests/scenarios/xeen/dd12_plate_after_load.yml
-    tests/scenarios/xeen/x2_lake_dragon_leash.yml
+    devdocs/xeen/briefs/x2/L4/playtest_lake_dragons_leash.yml
     tests/scenarios/xeen/x2_fall_damage.yml
     tests/scenarios/xeen/dd17_belt_forward_held.yml
     tests/scenarios/equip_carried_item.yml

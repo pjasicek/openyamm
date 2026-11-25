@@ -292,7 +292,9 @@ GATE_HOUSE = {GATE_W: (41.5, 44.5), GATE_N: (52.5, 38), GATE_E: (62.5, 46.5), GA
 MAIN = [[41.5, 44], [46.5, 44], [47.5, 43], [51, 43], [52, 44], [57, 44], [57, 46], [62.5, 46]]
 NORTH_ST = [[51, 43], [51, 40], [52, 39], [52, 38]]
 SOUTH_ST = [[52, 44], [52, 49.5]]
-GUILD_LANE = [[42, 55], [59, 55]]
+# D-170 (2026-11-25): the guild lane's last cell is 58 (it ended in cell 59, whose bed held node (60, 55), the culvert
+# ditch's west bank, at 640 over the revetment's top: gen.py CULVERT `bank`)
+GUILD_LANE = [[42, 55], [58.5, 55]]
 WEST_ROAD = [[41.5, 44], [38.5, 44], [38.5, 46], [0, 46]]   # to the map edge, as shipped roads to neighbours
 NORTH_ROAD = [[52, 38], [52, 35], [54, 33], [59, 33], [60, 32], [65, 27], [67, 25], [69, 23], [69, 0]]   # to the map edge
 ORCHARD_ROAD = [[62.5, 46], [63.5, 46], [66, 43.5], [73, 43.5], [73, 45.5], [81, 45.5]]

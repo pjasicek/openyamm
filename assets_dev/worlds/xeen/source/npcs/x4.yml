@@ -26,7 +26,8 @@ hooks:
     text: "Asp-->"
   barbarian_camp:
     map: X4
-    where: "the barbarian encampment on the savannah: the map asks \"You have stumbled upon a Barbarian encampment. Burn?\" and burns it (a destructible), then calls this"
+    status: true   # D-144: the camp burns on a click, its line on the status line
+    where: "the barbarian encampment on the savannah: a click on a tent burns it (D-144: the source's \"Burn?\" was a free Yes/No) and calls this"
     sets: [barbarian_camp]
     once: true
     do: [{lua: "evt.PlaySoundName(\"xeen_fire_ignite\")"}]

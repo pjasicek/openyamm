@@ -65,7 +65,7 @@ steps:
   - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
   - assert: {qbit_set: [113100]}
   - assert: {autonote: {id: 4450}}
-  # The overflow stair, the deep cistern, the rat runs: the culvert is flooded to its roof.
+  # The overflow stair, the deep cistern, the rat runs: the culvert is flooded; its line names the sluice house (D-166).
   - walk_to: {x: -2040, y: -1728, z: 0, radius: 48, timeout_seconds: 20, close_dialogs: true}
   - play_lua: {source: "open_door(16, 7)"}
   - walk_to: {x: -1600, y: -1728, z: 0, radius: 64, timeout_seconds: 20, clear_hostiles: 2500, close_dialogs: true}
@@ -83,7 +83,7 @@ steps:
         status()
         click(9); wait(0.5)
         local seen = status()
-        if not string.find(seen, "flooded to its roof", 1, true) then error("the culvert said: " .. seen) end
+        if not string.find(seen, "worked from the sluice house", 1, true) then error("the culvert said: " .. seen) end
   # Back up to the jammed sluice: its lever shuts the gate and the culvert drains.
   - walk_to: {x: 600, y: -4100, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
   - walk_to: {x: -1152, y: -4000, z: -512, radius: 64, timeout_seconds: 30, close_dialogs: true}
@@ -114,9 +114,9 @@ steps:
   - walk_to: {x: 1280, y: -2496, z: -512, radius: 64, timeout_seconds: 20, close_dialogs: true}
   - walk_to: {x: 1280, y: -1600, z: -420, z_tolerance: 150, radius: 64, timeout_seconds: 20, close_dialogs: true}
   - walk_to: {x: 2100, y: -1408, z: -240, z_tolerance: 80, radius: 64, timeout_seconds: 20, clear_hostiles: 1200, close_dialogs: true}
-  # Rooka (actor 36) struck down: rooka_slain, 3,000 XP each from the hook and 204 from her kill (level 24: 816 / 4).
+  # Rooka (actor 37 since Felix's body, D-166) struck down: rooka_slain, 3,000 XP each from the hook and 204 from her kill (level 24: 816 / 4).
   - play_lua: {source: "if qbit(113101) then error('rooka_slain set before her death') end; for i = 0, 3 do remember('xp' .. i, experience(i)) end"}
-  - damage_actor: {actor_index: 36, amount: 100000}
+  - damage_actor: {actor_index: 37, amount: 100000}
   - advance_runtime: {seconds: 3, present_dialogs: true}
   - play_lua:
       source: |
@@ -161,7 +161,7 @@ steps:
         -- the chest: its 300 gold and T2 random treasure (more gold, items: random, so only the gold's floor).
         if gold_gain < 300 then error("Valio's chest gave " .. gold_gain .. " gold and " .. items_gain .. " items") end
         log("Q-D5 done: chest " .. gold_gain .. " gold and " .. items_gain .. " item")
-  - assert: {actor_visible: {actor_index: 46, monster_id: 11193, hidden: true}}
+  - assert: {actor_visible: {actor_index: 47, monster_id: 11193, hidden: true}}
   # Back to the hatch's ladder and up into Castleview's square.
   - walk_to: {x: -2880, y: -1728, z: 0, radius: 64, timeout_seconds: 20, close_dialogs: true}
   - walk_to: {x: -2880, y: -200, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}

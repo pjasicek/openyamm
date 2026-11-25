@@ -141,6 +141,8 @@ steps:
 - play_lua:
     source: close(); wait(0.5); close()
 - note: 'The curtain stilled: through it and up the Stair of Wind into the Sleeper''s Aerie.'
+- clear_hostiles:
+    radius: 40000
 - walk_to:
     x: 3968
     y: -1698
@@ -211,6 +213,8 @@ steps:
     actor_visible:
       actor_index: 8
       dead: true
+- clear_hostiles:
+    radius: 40000
 - walk_to:
     x: 3968
     y: -1698

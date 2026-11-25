@@ -556,7 +556,10 @@ SQUARE_ARRIVAL = (73.0, 89.5)     # lakeside_square: the mirror's and Town Porta
 DOCK_ARRIVAL = (73.0, 82.0)       # lakeside_dock: the jetty's foot, facing south (the town)
 JETTY = [[72.0, 82.2], [72.0, 79.2]]
 JETTY_END = (72.0, 79.6)          # the signature view: 17,600 from the keep
-ISLE_JETTY = [[72.6, 73.3], [72.6, 75.8]]
+# D-174 (xeen-fb4-outdoor9): the land end on node line 72 (as installed since D-170, 71.97): from 73.3 common/wild.py
+# (water only where the sketch has water) stopped the end on row 73, shore nodes the studio holds at the lake's
+# 1056, and the deck stood 67 over the land beyond (town_fit bridges.step)
+ISLE_JETTY = [[72.6, 72.0], [72.6, 75.8]]
 ISLE_ARRIVAL = (72.0, 72.0)       # isle_landing: the jetty's head on the Isle, facing north (the tower)
 ISLE_BOAT = (73.4, 73.6)          # A4's poi:isle_boat (cells 73, 74): Tern's sign and the Isle Ferry's door
 ISLE_TOWER = (72.0, 68.0)         # DD-12's ruined round tower, its door south
@@ -1102,7 +1105,10 @@ def build():
           'notes': "m25.blackfang_gate: never opens (DD-14 is entered by the griffin from D6, m25.flight)."}
     S(gh)
     # ---------------------------------------------------------------- the north and the uplands
-    S({'id': 'thing:snow_bridge', 'kind': 'bridge', 'line': SNOW_BRIDGE, 'width': 320, 'rise': 32, 'kerb': 48,
+    # D-170 (2026-11-25): the river falls 64 a cell under the bridge (its water nodes at x 59 stand 1280 and 1216, and the
+    # studio levels no terrace on water), so the deck humps 64 to stand 12 over the water under its north edge; its
+    # ends stand 16 over the flat pads common/wild.py lays at their lowest land (it lay on the water at rise 32)
+    S({'id': 'thing:snow_bridge', 'kind': 'bridge', 'line': SNOW_BRIDGE, 'width': 320, 'rise': 64, 'kerb': 48,
        'textures': {'deck': '7trimda'}, 'title': 'The Snow River bridge'})
     S({'id': 'thing:resilience_fountain', 'kind': 'fountain', 'at': [100.0, 38.0], 'title': 'Fountain of Great Resilience',
        'tiers': [[64, 24]], 'textures': {'wall': 'hkm2bs'},

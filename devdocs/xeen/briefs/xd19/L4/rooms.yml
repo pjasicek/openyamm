@@ -965,7 +965,7 @@ rooms:
         surface: {texture: gnecwal1, size: [256, 256], sky: true}
         bands: false
     parapets:
-      - path: [[5088, 1632], [5088, 4448]]
+      - path: [[5088, 1600], [5088, 4480]]
         height: 160
         thickness: 32
         surface: {texture: gnecwal1, size: [256, 256]}
@@ -983,7 +983,7 @@ rooms:
         surface: {texture: gnecwal1, size: [256, 256], sky: true}
         bands: false
     parapets:
-      - path: [[5088, -2688], [5088, 288]]
+      - path: [[5088, -2720], [5088, 320]]
         height: 160
         thickness: 32
         surface: {texture: gnecwal1, size: [256, 256]}
@@ -1001,7 +1001,7 @@ rooms:
         surface: {texture: gnecwal1, size: [256, 256], sky: true}
         bands: false
     parapets:
-      - path: [[-5088, 1632], [-5088, 4448]]
+      - path: [[-5088, 1600], [-5088, 4480]]
         height: 160
         thickness: 32
         surface: {texture: gnecwal1, size: [256, 256]}
@@ -1019,7 +1019,7 @@ rooms:
         surface: {texture: gnecwal1, size: [256, 256], sky: true}
         bands: false
     parapets:
-      - path: [[-5088, -2688], [-5088, 288]]
+      - path: [[-5088, -2720], [-5088, 320]]
         height: 160
         thickness: 32
         surface: {texture: gnecwal1, size: [256, 256]}

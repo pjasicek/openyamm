@@ -422,7 +422,7 @@ views:
   - {id: view:signature, at: [63, 56], height: 180, look: [74, 71], purpose: "MU-4 signature view, from the causeway head on the lagoon's north shore, looking south-east: the stone causeway runs out across the water to the Tower of High Magic on its rock (right); Mirabeth's rock in the middle distance; across the lagoon Nightshadow's dark roofs and spire in a grey bank of mist under a low sky (left)."}
 actors:
   - {monster: "11131", at: [27.5, 34], count: 4, spread: 2, group: 1, hostile: true, notes: Evil Rangers 12 round the fire.}
-  - {monster: "11132", at: [28.5, 33], count: 2, spread: 1, group: 1, hostile: true, notes: Elite Rangers 18.}
+  - {monster: "11132", at: [29, 35.4], count: 2, spread: 0.6, group: 1, hostile: true, notes: Elite Rangers 18.}
   - {monster: "11130", at: [26, 35.5], count: 1, spread: 0, group: 1, hostile: true, notes: An Evil Archer 8 on watch.}
   - {monster: "11310", at: [100, 94], count: 2, spread: 1, group: 2, hostile: true, notes: Bat Queens 10 in the dead trees below the churchyard.}
   - {monster: "11311", at: [101, 95], count: 2, spread: 1, group: 2, hostile: true, notes: Vampire Bats 14.}

@@ -111,6 +111,39 @@ def roll(x, y):
          + 50 * math.sin((x - 1.7 * y) / 2.3))
     return w * v
 
+# D-142 (F64, 2026-11-25): the markers of the L1 polygons (gen_l1.AREAS less FIRST_SPOTS) at the spots the studio
+# drew them on the map installed 2026-11-24 (scene spawns 0-42, to whole cells), one circle each; common/d142.py
+# moves the failing ones
+POLY_SPOT_R = 0.5
+POLY_SPOTS = {
+    'pop:bogwood_things': [(33, 35), (25, 36), (23, 21)],
+    'pop:bogwood_toads': [(36, 24), (38, 32)],
+    'pop:fen_things': [(50, 72), (34, 69), (36, 73), (42, 63)],
+    'pop:fen_toads': [(30, 60)],
+    'pop:gloomwood_dead': [(41, 87), (41, 89), (40, 93), (20, 88), (29, 89),
+                           (33, 101), (54, 100), (51, 95), (44, 82), (33, 93),
+                           (27, 100), (50, 80)],
+    'pop:shore_things': [(98, 97), (107, 96), (62, 101), (89, 100), (84, 98),
+                         (90, 94), (90, 92)],
+    'pop:shore_dead': [(82, 100), (83, 94)],
+    'pop:crow_toads': [(71, 21), (87, 21)],   # a cell in from the bounds (spawn.at_hull)
+    'pop:crow_foot': [(92, 32), (94, 31)],
+}
+
+
+def d142_enforce(areas):
+    """D-142's and D-157's moves for the encounter circles (common/d142.py): edge arrivals, the start and the dungeon
+    exits (X3 is in check_arrivals.D142_EXITS) 4,096 from a marker, every road, lane and path 1,024."""
+    sys.path.insert(0, _REPO_ROOT + '/level_generation/projects/xeen/common')
+    import d142
+    sys.path.pop(0)
+    l4 = os.path.join(BRIEFS, 'L4', 'sketch.yml')
+    keep = [q[2] for q in G.QUIET if q[1] == 'keep_clear'] + [[[31, 81], [37, 81], [37, 84], [31, 84]]]
+    ok = d142.standard_ok(l4, height, keep_off=keep)
+    slots = {pid: slot for pid, slot, _, _, _, _ in G.AREAS}   # every FIRST_SPOTS population is one of these
+    d142.enforce('xeen_x3', areas, d142.road_cells(l4), lambda pid: slots.get(pid), ok)
+
+
 def height(x, y):
     h = 960.0
     # the land rises gently north toward the savannah (X4's edge at 1,300)
@@ -480,6 +513,10 @@ def build():
          'notes': "Ebenezer's camp."},
         {'polygon': [[63, 67], [66, 67], [66, 71], [63, 71]], 'height': 1000, 'slope': 1,
          'notes': "The Tower's islet, level under the tower."},
+        # F58 (2026-11-25, check_faces faces.on_land): the fallen watchtower's plot (97-99, 25-26) left the hill's
+        # node row 24 inside its north rim, so the ruin's stone course lay on the rising land there
+        {'polygon': [[96, 24], [100, 24], [100, 27], [96, 27]], 'height': 2688, 'slope': 1,
+         'notes': 'Level land under the fallen watchtower.'},
     ]
     heights = {
         'points': [{'at': [102, 22], 'h': 3450, 'notes': "the Crow's Crown, the map's high point"}],
@@ -563,8 +600,13 @@ def build():
         first = G.FIRST_SPOTS.get(pid, [])
         n = count - len(first)
         k = 1
-        if n > 0:
-            areas.append({'id': pid, 'index': k, 'count': n, 'polygon': poly,
+        # D-142 (F64, 2026-11-25): the polygon's markers as fixed circles at the spots the studio had drawn them
+        # (POLY_SPOTS), so that common/d142.py can move the ones too near an arrival or a road
+        spots = POLY_SPOTS.get(pid, [])
+        assert len(spots) == max(n, 0), (pid, n, len(spots))
+        for at in spots:
+            areas.append({'id': pid, 'index': k, 'kind': 'encounter', 'count': 1,
+                          'circle': {'at': list(at), 'r': POLY_SPOT_R},
                           'notes': '%s %s: %s' % (key, G.AREA_NAMES[key], notes)})
             k += 1
         for at in first:
@@ -577,6 +619,7 @@ def build():
         areas.append({'id': qid, 'kind': kind, 'polygon': poly, 'notes': notes})
     areas.append({'id': 'zone:tomb', 'kind': 'keep_clear', 'polygon': [[31, 81], [37, 81], [37, 84], [31, 84]],
                   'notes': "The tomb door's step: no marker within 2 cells of the door (L1)."})
+    d142_enforce(areas)
     sk['areas'] = areas
     sk['views'] = l1_sketch['views']
     # ---------------------------------------------------------------- structures
@@ -610,18 +653,15 @@ def build():
     for i, (at, start) in enumerate(zip(DIALS, DIAL_START)):
         k = i + 1
         var = 'x3_dial_%d' % k
-        # the source's own question (aaze0029:12-23: "The sundial is set to N.  Turn?"); while all three read 9 the
-        # map sets q-c7.dials_set (112142), and clears it when one is turned off 9 (A3's rule)
+        # D-159 (D-144's rule): the source's "The sundial is set to N.  Turn?" (aaze0029:12-23) was a free Yes/No, so
+        # a click turns the dial one step and says where it stands; while all three read 9 the map sets
+        # q-c7.dials_set (112142), and clears it when one is turned off 9 (A3's rule)
         check = ('if evt.GetMapVar("x3_dial_1", %d) == 9 and evt.GetMapVar("x3_dial_2", %d) == 9 and '
                  'evt.GetMapVar("x3_dial_3", %d) == 9 then SetQBit(QBit(112142)) else ClearQBit(QBit(112142)) end'
                  % tuple(DIAL_START))
-        lua = ('local v = evt.GetMapVar("%s", %d) '
-               'if continueStep == 2 then v = v %% 12 + 1 evt.SetMapVar("%s", v) %s '
-               'evt.StatusText(tr("The sundial is set to {reading}.", {reading = v})) return end '
-               'if continueStep ~= nil then return end '
-               'AskChoiceWithAnswerSteps(eventId, 3, tr("The sundial is set to {reading}.  Turn?", {reading = v}), '
-               '{{Answer = "Yes", Step = 2}, {Answer = "No", Step = 3}})' % (   # D-72 (A5 s30): Yes/No buttons
-                   var, start, var, check))
+        lua = ('local v = evt.GetMapVar("%s", %d) %% 12 + 1 evt.SetMapVar("%s", v) %s '
+               'evt.StatusText(tr("You turn the sundial. It is set to {reading}.", {reading = v}))'
+               % (var, start, var, check))
         S(deco('thing:sundial_%d' % k, 'ped02', at, title='Sundial', effects=[{'lua': lua}]))
     S(sign('thing:dial_plinth_1', (DIALS[0][0], DIALS[0][1] - 0.4), 'Plinth', hook('q-c7.clue_stitch'), height=96,
            width=128))
@@ -781,14 +821,13 @@ def build():
     # ---- the Bogwood: the evil rangers' camp (x3.ranger_camp: "You have come upon an Evil Ranger camp.  Destroy?",
     # aaze0012:3-4), two tents, the fire, the chest
     rx, ry = RANGER_CAMP
-    camp_lua = ('if continueStep == 2 then evt.StatusText("You ruin their food, burn their tents, and poison their '
-                'water.") XeenQuests.hook("x3.ranger_camp") HideThing("thing:ranger_tent_1") '
-                'HideThing("thing:ranger_tent_2") return end '
-                'if continueStep ~= nil then return end '
-                'if IsQBitSet(QBit(%d)) then evt.StatusText("Only ashes and charred poles are left of the rangers\' '
+    # D-144 (F69b): a click destroys it, the hook's line ("You ruin their food ...") on the status line; the source's
+    # question was a free Yes/No whose No changed nothing (no cost, no war or peace)
+    camp_lua = ('if IsQBitSet(QBit(%d)) then evt.StatusText("Only ashes and charred poles are left of the rangers\' '
                 'camp.") return end '
-                'AskChoiceWithAnswerSteps(eventId, 3, "You have come upon an Evil Ranger camp.  Destroy?", '
-                '{{Answer = "Yes", Step = 2}, {Answer = "No", Step = 3}})' % RANGER_QBIT)   # D-72 (A5 s30): buttons
+                'XeenQuests.hook("x3.ranger_camp") HideThing("thing:ranger_tent_1") HideThing("thing:ranger_tent_2") '
+                'HideThing("thing:ranger_bones")'
+                % RANGER_QBIT)
     for k, (dx, dy, turn) in enumerate([(-1.3, -0.8, 0), (1.0, -1.1, 30)]):
         S({'id': 'thing:ranger_tent_%d' % (k + 1), 'kind': 'tent', 'at': [rx + dx, ry + dy], 'size': [768, 640],
            'height': 352, 'open': True, 'turn': turn, 'title': "Evil Ranger camp", 'effects': [{'lua': camp_lua}]})
@@ -892,7 +931,8 @@ def build():
                        'notes': n})
     actors.append({'monster': '350', 'npc': 4202, 'at': list(MIRABETH), 'spread': 0, 'group': MIRABETH_GROUP,
                    'notes': "Mirabeth (A4's NPC 4202) on her rock, Q-C12; hidden once q-c12.done (112240)."})
-    for i, at in enumerate([(81.0, 34.6), (83.7, 31.9), (79.9, 32.4)]):
+    # F63 (2026-11-25, check_spawn_clear spawn.in_model): the third stood at (79.9, 32.4), inside the keep of stage 2
+    for i, at in enumerate([(81.0, 34.6), (83.7, 31.9), (80.4, 34.0)]):
         actors.append({'monster': ['359', '362', '368'][i], 'at': list(at), 'spread': 0, 'group': WORKER_GROUP,
                        'notes': "Ebenezer's workmen at the ruin."})
     # Nightshadow's and Ebenezer's camp's people: D-96's villagers (villagers.yml, villagers_spots.yml)
@@ -918,8 +958,8 @@ def build():
                      {'set': {'var': {'map_var': 'food_tree_3'}, 'value': 0}}],
          'notes': 'The food trees bear again each day.'},
         {'id': 'evt:ranger_camp_state', 'trigger': 'load', 'condition': {'qbit': RANGER_QBIT},
-         'effects': [{'hide': ['thing:ranger_tent_1', 'thing:ranger_tent_2']}],
-         'notes': 'x3.ranger_camp: the burnt camp stays burnt.'},
+         'effects': [{'hide': ['thing:ranger_tent_1', 'thing:ranger_tent_2', 'thing:ranger_bones']}],
+         'notes': 'x3.ranger_camp: the burnt camp stays burnt (D-152: its bones gone with it).'},
         # D-11.1: Nightshadow's fog lifts and an overcast stays once Count Draco is dead. Neither is saved, so the load
         # event sets them; q-c7.done is set in XD-24 (A3's q-c7.draco), never on this map, so no fade is needed here
         {'id': 'evt:nightshadow_dawn', 'trigger': 'load', 'condition': {'qbit': 'nightshadow_liberated'},

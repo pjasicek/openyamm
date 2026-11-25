@@ -267,7 +267,7 @@ steps:
     map: xeen_x7.odm
     x: 9805
     y: -19610
-    z: 1834
+    z: 1882
     yaw: 0.0
     pitch: 0.0
 - advance_runtime:
@@ -348,46 +348,18 @@ steps:
     seconds: 0.5
 - clear_hostiles:
     radius: 4000
-- note: '"You have found an Orc Outpost. Put it to the torch?" (xeen/aaze0018:3) after the look, Yes/No buttons (D-72): No
-    leaves it standing'
-- play_lua:
-    source: click(22); wait(0.5)
-- advance_runtime:
-    seconds: 0.3
-    present_dialogs: true
-- assert:
-    dialog:
-      active: true
-      text_contains: You have found an Orc Outpost. Put it to the torch?
-- answer_input:
-    text: 'No'
-- advance_runtime:
-    seconds: 0.5
-- play_lua:
-    source: wait(0.3); close(); wait(0.3)
-- play_lua:
-    source: if qbit(116160) then error("No burned the outpost") end
-- note: '"You have found an Orc Outpost. Put it to the torch?" (xeen/aaze0018:3): Yes'
-- play_lua:
-    source: click(22); wait(0.5)
-- advance_runtime:
-    seconds: 0.3
-    present_dialogs: true
-- assert:
-    dialog:
-      active: true
-      text_contains: You have found an Orc Outpost. Put it to the torch?
-- answer_input:
-    text: 'Yes'
+- note: 'D-144: a click burns the outpost (the hook''s line on the status line)'
+- execute_event:
+    id: 22
 - advance_runtime:
     seconds: 0.5
 - play_lua:
     source: local s = status(); local w = close(); wait(0.3); if s == '' and not w then error('no text shown') end
 - play_lua:
     source: if not qbit(116160) then error("x7.outpost_burned not set") end
-- note: 'Burnt: A3''s else text'
+- note: 'D-152: burnt, the charred stakes: A3''s else text'
 - execute_event:
-    id: 22
+    id: 73
 - advance_runtime:
     seconds: 0.5
 - play_lua:
@@ -1313,7 +1285,7 @@ steps:
 - walk_to:
     x: 17203
     y: 9626
-    z: 3012
+    z: 3025
     z_tolerance: 600
     radius: 160
     timeout_seconds: 90
@@ -1367,18 +1339,9 @@ steps:
     timeout_seconds: 90
     clear_hostiles: 3000
     close_dialogs: true
-- note: '"Reflector. Activate?" Yes: before M36 the hook''s fail text'
-- play_lua:
-    source: click(37); wait(0.5)
-- advance_runtime:
-    seconds: 0.3
-    present_dialogs: true
-- assert:
-    dialog:
-      active: true
-      text_contains: Reflector. Activate?
-- answer_input:
-    text: 'Yes'
+- note: 'D-144: a click, before M36 the hook''s fail text on the status line'
+- execute_event:
+    id: 37
 - advance_runtime:
     seconds: 0.5
 - play_lua:
@@ -1403,7 +1366,7 @@ steps:
     radius: 4000
 - note: A3's else text again (the burn does not repeat)
 - execute_event:
-    id: 22
+    id: 73
 - advance_runtime:
     seconds: 0.5
 - play_lua:

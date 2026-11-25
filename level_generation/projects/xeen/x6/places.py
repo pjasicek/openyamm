@@ -52,9 +52,9 @@ SANDFALL_LIVE = 'xeen_sandfall' in _DECOS or os.environ.get('X6_SANDFALL_LIVE') 
 SANDFALLS = [(25.3, 92.0), (28.5, 92.0), (31.7, 92.0)]
 # lane S's sphinx models (xeen_sphinx_north row 4010, xeen_sphinx_south row 4011; the contract
 # level_generation/decorations/xeen_sphinx_claude/integration/sphinx_collision.yml): when both are bound, the masses go;
-# a minimal carrier block keeps each door (its front in the door plane, the rest inside the model's breast), the
-# models stand at S's origins turned to their facings (`turn` is clockwise: facing = -turn), and closed barriers on
-# S's body and head rings keep the party out of the meshes (the decorations have no collision).
+# a minimal carrier block keeps each door (its front 8 inside the door plane, the rest inside the model's breast), the
+# models stand at S's origins turned to their facings (`turn` is clockwise: facing = -turn). D-141 (F61): the models
+# are solid by their own LOD2 proxies (worlds/xeen/models/decorations.yml `collision_model`), no barrier rings.
 SPHINX_MODELS_LIVE = (('xeen_sphinx_north' in _DECOS and 'xeen_sphinx_south' in _DECOS)
                       if os.environ.get('X6_SPHINX_MODELS') not in ('0', '1')
                       else os.environ.get('X6_SPHINX_MODELS') == '1')
@@ -97,25 +97,11 @@ def asked_way(message, ask, way):
     return dict(way)
 
 
-def asked_first(message, ask, d):
-    """D-72 item 3 for a question behind its own condition: the condition and else stay; the effects open with one
-    Yes/No prompt with buttons (the look followed by the source question, no SetMessage before it). Yes (step 1) runs
-    the effects; No and Escape stay."""
-    prompt = message + ' ' + ask
-    gate = {'lua': 'if continueStep ~= 1 then if continueStep == nil then AskChoiceWithAnswerSteps(eventId, 3, %s, '
-                   '{{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}}) end return end' % lua_str(prompt)}
-    return dict(d, effects=[gate] + list(d['effects']))
-
-
-def reflector(name, message):
-    """A Reflector (M37): one Yes/No prompt with buttons, the look of the disc and the source's question joined (D-65 B1:
-    a message before a question drops the question's own text; D-66 item 6: yes/no answers are buttons); Yes calls A3's
-    hook, No does nothing."""
-    ask = message + ' Reflector. Activate?'
-    return [{'lua': 'if continueStep == 1 then %s return end' % hook_lua(name)},
-            {'lua': 'if continueStep ~= nil then return end'},
-            {'lua': 'AskChoiceWithAnswerSteps(eventId, 3, %s, {{Answer = "Yes", Step = 1}, {Answer = "No", Step = 2}})'
-                    % lua_str(ask)}]
+def reflector(name):
+    """A Reflector (M37), D-144 (F69b): a click calls A3's hook, whose line goes on the status line (`status: true`:
+    before M36 its fail text, then once its experience, after that its else text). The source's "Reflector. Activate?"
+    was a free Yes/No whose No changed nothing."""
+    return [hook(name)]
 
 
 def msg(text):
@@ -429,11 +415,16 @@ def coach_yard(S):
                 'facing the yard (A7).'})
     for i, at in enumerate([(88.45, 93.85), (88.45, 96.15)]):
         S(deco('thing:arena_torch_%d' % (i + 1), 'dec06', at))
-    S({'id': 'thing:warzone_coach_wagon', 'kind': 'tent', 'at': [87.2, 93.0], 'size': [640, 1152], 'height': 384,
+    # D-174 (xeen-fb4-outdoor9): the coach and the barrels stand on the yard's level floor (rows 92-96, YARD_H): at
+    # y 93.0 the coach's north end and at 91.9 the barrels stood on the rise to the cliff (row 91), which only an auto
+    # pad cutting that rise by 672 levelled
+    S({'id': 'thing:warzone_coach_wagon', 'kind': 'tent', 'at': [87.2, 93.6], 'size': [640, 1152], 'height': 384,
        'open': False, 'title': "Gorm's coach",
        'notes': 'The Warzone coach (A4 4305): a closed coach standing by the cliff (dressing, no click).'})
     for i, (d, at) in enumerate([('haybale2', (83.5, 97.6)), ('haybale2', (83.85, 97.65)),
-                                 ('bigbarel', (86.85, 92.2)), ('smlbarel', (87.15, 92.2))]):   # clear of the coach
+                                 ('bigbarel', (86.8, 92.1)), ('smlbarel', (87.15, 92.1))]):   # clear of the coach
+        # F66 (X6 p3, 2026-11-25): at y 92.2 the barrels (drawn 47 and 36 wide in radius) showed through the coach
+        # wagon's plank wall (y 92.375); now a third of a cell further north (D-174: 92.1, the coach's wall 92.475)
         S(deco('thing:yard_prop_%d' % (i + 1), d, at))
     S({'id': 'thing:yard_trough', 'kind': 'platform', 'at': [85.6, 97.6], 'size': [640, 160], 'height': 96,
        'textures': {'top': 'wtrtyl', 'wall': 'chb1'}, 'title': 'Water trough'})
@@ -475,10 +466,11 @@ def northern_sphinx(S):
          'roof': 'vault', 'ridge_along': 'ns', 'windows': 'none'},
     ]
     if SPHINX_MODELS_LIVE:
-        # the carrier (S: x -380..380, 200 behind the plane, z 0..640): 768 wide for the door's bays, front on y 44.0
-        # (s16 look: the narrowest the door's bays allow (96 each side), about the model frame's cornice width)
-        parts = [{'id': 'breast', 'at': [u(82.0) - 288, v(44.0) - 200], 'size': [576, 200], 'wall_height': 612,
-                  'walls': {'s': ['wall', ['door', 384], 'wall']}, 'roof': 'flat', 'windows': 'none'}]
+        # D-141 (F61 p9: the carrier stood through the model's sides): the opening (384 x 512, S's contract) plus 16 a
+        # side and on top, its ends hidden in the model's jambs; front 8 behind the door plane, inside the reveal (S:
+        # -16..52); 200 deep
+        parts = [{'id': 'breast', 'at': [u(82.0) - 208, v(44.0) - 8 - 200], 'size': [416, 200], 'wall_height': 528,
+                  'walls': {'s': [['wall', 16], ['door', 384], ['wall', 16]]}, 'roof': 'flat', 'windows': 'none'}]
     way = dungeon_way('xd15', 'q-c9.door', 'The amulet glows, and the stone doors grind a finger\'s width and '
                                            'stop. Something inside is not ready. (Not open yet.)',
                       stir='xeen_sphinx_stir')
@@ -527,9 +519,10 @@ def southern_sphinx(S):
          'wall_height': 576, 'roof': 'flat', 'windows': 'none', 'textures': dict(SPHINX_HEAD)},
     ]
     if SPHINX_MODELS_LIVE:
-        # the carrier (S: across -300..300, 200 behind the plane, z 0..520): front on x 39.5, the door's bays 140/320/140
-        parts = [{'id': 'breast', 'at': [u(39.5) - 200, v(84.0) - 256], 'size': [200, 512], 'wall_height': 520,
-                  'walls': {'e': ['wall', ['door', 320], 'wall']}, 'roof': 'flat', 'windows': 'none'}]
+        # D-141 (F61 p13: the door stood proud of the body): the opening (320 x 448, S's contract) plus 16 a side and
+        # on top; front 8 behind the door plane on x 39.5, inside the reveal (S: -16..44); 200 deep
+        parts = [{'id': 'breast', 'at': [u(39.5) - 8 - 200, v(84.0) - 176], 'size': [200, 352], 'wall_height': 464,
+                  'walls': {'e': [['wall', 16], ['door', 320], ['wall', 16]]}, 'roof': 'flat', 'windows': 'none'}]
     door = {'part': 'breast', 'wall': 'e', 'bay': 1, 'leaves': 2, 'title': 'The Southern Sphinx',
             **dungeon_way('fd02', 'm40.sphinx_door', "The jaw opens on a stair full of sand. It will take more than "
                                                      "an amulet to dig it out. (Not open yet.)"),
@@ -546,20 +539,14 @@ def southern_sphinx(S):
 
 
 def sphinx_model(S, key, sid, title):
-    """Lane S's sphinx decoration at its contract origin, turned to its facing, with closed barriers on its body ring
-    (from under the land to the model's top) and its head ring (the nemes's overhang, from below its section)."""
+    """Lane S's sphinx decoration at its contract origin, turned to its facing. D-141 (F61): solid by its binding's
+    `collision: model` (the LOD2 proxy); the closed barrier rings on S's body and head outlines are gone."""
     c = yaml.safe_load(open(SPHINX_CONTRACT))[key]
     turn = (-c['facing']) % 360
     turn = turn - 360 if turn > 180 else turn
     S(deco(sid, c['decoration'], c['origin_cells'], turn=turn, title=title,
            notes="Lane S's %s (row %d): origin the door threshold's middle, facing %d (turn %d)."
                  % (c['decoration'], c['row'], c['facing'], turn)))
-    top = c['rings']['body']['top_of_mesh_inside'] + 50
-    head_from = {'north': 1200, 'south': 550}[key]
-    for ring, bottom in (('body', -64), ('head', head_from)):
-        S({'id': '%s_%s' % (sid.replace('thing:', 'thing:barrier_'), ring), 'kind': 'barrier', 'closed': True,
-           'line': [[round(x, 3), round(y, 3)] for x, y in c['rings'][ring]['cells']], 'bottom': bottom,
-           'height': top, 'notes': "Lane S's %s ring of %s (sphinx_collision.yml)." % (ring, c['decoration'])})
 
 
 def basenji(S):
@@ -656,13 +643,14 @@ def devices(S):
        'kit': 'plaster', 'door': 'none', 'title': 'The Shrine of Energy', 'textures': dict(FIELD),
        'parts': [{'id': 's', 'at': [96, 96], 'size': [627, 627], 'wall_height': 352, 'posts': 32, 'roof': 'hip',
                   'roof_pitch': 38, 'windows': 'none'}]})
+    # D-144 (F69b, X6 p5): a click, its line on the status line; the source's "Shrine of Energy. Pray?" was a free
+    # Yes/No whose No changed nothing
     S(deco('thing:shrine_energy', 'dec64', (28.0, 54.0), title='Shrine of Energy',
-           **asked_first('A pedestal crackling with blue sparks under an open roof.', 'Shrine of Energy. Pray?',
-                         once_per_character('shrine_energy',
-                                            [{'add': {'var': 'AirResistance', 'value': 5}},
-                                             {'text': 'Lightning runs over your skin and is gone. (+5 Air '
-                                                      'resistance, permanent)'}],
-                                            [{'text': 'The sparks crackle, but leave you alone.'}])),
+           **once_per_character('shrine_energy',
+                                [{'add': {'var': 'AirResistance', 'value': 5}},
+                                 {'text': 'Lightning runs over your skin and is gone. (+5 Air resistance, '
+                                          'permanent)'}],
+                                [{'text': 'The sparks crackle, but leave you alone.'}]),
            notes='Original line: xeen/aaze0001:0; +5 Air resistance (D-4), once per character (player bit 11331).'))
     # the sun stones: a ring of red standing stones the Summer Druid keeps (A3's x6.sun_stones, once a day)
     S({'id': 'thing:sun_stones', 'kind': 'stone_ring', 'at': [69.0, 103.0], 'radius': 640, 'count': 7,
@@ -679,8 +667,7 @@ def devices(S):
     # the Air Reflector on the rock spit where the rims meet (A3's m37.reflector_air)
     S({'id': 'thing:air_reflector', 'kind': 'obelisk', 'at': [26.4, 26.4], 'height': 384, 'sides': 8,
        'title': 'Air Reflector',
-       'effects': reflector('m37.reflector_air', 'A disc of pale crystal on a stone stem, turned toward the wind off '
-                            'the edge.'),
+       'effects': reflector('m37.reflector_air'),
        'notes': 'Original line: xeen/aaze0001:17 ("Reflector. Activate?"); M37 after M36 (A3).'})
 
 
@@ -689,7 +676,9 @@ def finds(S):
     # a wagon the dunes swallowed, a worm's hole beside it
     S({'id': 'thing:swallowed_wagon', 'kind': 'tent', 'at': [93.0, 31.4], 'size': [512, 960], 'height': 288,
        'open': False, 'turn': 20, 'title': 'A half-buried wagon'})
-    S({'id': 'thing:wagon_strongbox', 'kind': 'crate', 'at': [94.3, 32.7], 'title': "The wagon's strongbox",
+    # xeen-fb4-outdoor3 (2026-11-25): the strongbox beside the wagon on its 1,920 pad; at (94.3, 32.7) its own pad
+    # (1,792) cut into the wagon's footprint, which hung 42 over it (town_fit things.overhang)
+    S({'id': 'thing:wagon_strongbox', 'kind': 'crate', 'at': [95.0, 30.6], 'title': "The wagon's strongbox",
        'chest': {'level': 3, 'random_items': 3},
        'effects': [{'text': 'Half a wagon sticks out of the dune. Beside it, a hole wide as a door, still settling.'}]})
     # the werewolves' den under the castle's east wall

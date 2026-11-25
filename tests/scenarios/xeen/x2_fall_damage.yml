@@ -1,9 +1,9 @@
 # Xeen (A6, D7's fall probes, 2026-11-21): a fall from exactly 850 over the ground did no damage on D5, D1 and D2 (and on
 # X2 under X9's falls) while D4 and D6 took a third: the last falling step stopped within the 1-unit snap band above
-# the ground and the party stood without landing. Two falls onto entrance:x9_fall (ground 768): from 850 and from 858
-# above, each about a third of every member's HP (D-6.2). Same-map {keepHeight = true} keeps the height (merge point
-# 26). The island's landing event opens a window; it is closed before the second fall. Needs assets_dev's Xeen world
-# (git-ignored). A1.
+# the ground and the party stood without landing. Two falls onto entrance:x9_fall (ground 768, the island's crown; D-174
+# put it back after the 2026-11-25 rebuilds had dipped it to 736): from 850 and from 858 above, each about a third of
+# every member's HP (D-6.2). Same-map {keepHeight = true} keeps the height (merge point 26). The island's landing event
+# opens a window; it is closed before the second fall. Needs assets_dev's Xeen world (git-ignored). A1.
 id: xeen.x2.fall_damage_same_height
 title: 'X2: falls of the same height do the same damage wherever the last step stops (a third of HP from 850)'
 world: xeen

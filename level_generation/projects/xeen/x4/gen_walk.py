@@ -11,7 +11,7 @@ screen; the walk says so in a note. Dungeons not installed in the root are passe
 Route: a new game on Asp's square (the build's start); the rule stone, the pedestals (a wrong touch undone, then the
 solution: q-c5.pedestals, qbit 112101), Asp's mirror (fogged until q-c5.done), the undercroft stair into XD-25, Adam
 and Eve, Asp's services; the south edge west of x 0 into X3 (D-11.6, edge_spans) and back; the Autumn Druid; the
-barbarian camp (No, then Yes: x4.barbarian_camp, qbit 116060); Burlock: the mirror, the well, the herald, the six
+barbarian camp (a click: x4.barbarian_camp, qbit 116060); Burlock: the mirror, the well, the herald, the six
 services, the castle gate into XD-07; the lists' challenge (refused under Might 30); the Olympian Fountain; the eyrie
 into XD-26, Carlawna's hut; the renegades' camp; the ogres' camp; XD-02's west adit refused, then with qbit 110020
 entered; Falagar's hut; Joe; the south edge to X2 accepted.
@@ -263,23 +263,19 @@ else:
 # ---------------------------------------------------------------- the west: the Autumn Druid, the barbarian camp
 go(28, 72, "The Autumn Druid's grove")
 npc(4321, (26.6, 71.0), 'The Autumn Druid in her ring (Q-C1, T1-C)')
-go(28, 58.5, 'The barbarian camp (x4.barbarian_camp)')
+go(29, 57.5, 'The barbarian camp (x4.barbarian_camp)')
 add({'clear_hostiles': {'radius': 3000}})
 tent = ev['evt:thing:barbarian_tent_1']
-CAMP_ASK = 'You have stumbled upon a Barbarian encampment. Burn?'   # D-72: one Yes/No prompt with buttons
+# D-144 (F69b): a click burns it, the hook's line on the status line (no question)
 add({'play_lua': {'source': 'click(%d); wait(0.5)' % tent}})
 add({'advance_runtime': {'seconds': 0.3, 'present_dialogs': True}})
-add({'assert': {'dialog': {'active': True, 'text_contains': CAMP_ASK}}})
-add({'answer_input': {'text': 'No'}})
-add({'advance_runtime': {'seconds': 1}})
-add({'play_lua': {'source': 'close()\nif qbit(116060) then error("the camp burnt on No") end'}})
-add({'play_lua': {'source': 'click(%d); wait(0.5)' % tent}})
-add({'advance_runtime': {'seconds': 0.3, 'present_dialogs': True}})
-add({'assert': {'dialog': {'active': True, 'text_contains': CAMP_ASK}}})
-add({'answer_input': {'text': 'Yes'}})
-add({'advance_runtime': {'seconds': 1}})
-add({'play_lua': {'source': 'close(); wait(0.3); close()\nif not qbit(116060) then error("barbarian_camp not set") end'}})
-event('evt:thing:barbarian_tent_2', 'Burnt: the other tents say so', dialog=False)
+add({'assert': {'dialog': {'active': False}}})
+add({'play_lua': {'source': 'local s = tostring(status())\n'
+                            'if not string.find(s, "The encampment burns", 1, true) then error("status line: " .. s) end\n'
+                            'if not qbit(116060) then error("barbarian_camp not set") end'}})
+event('evt:thing:barbarian_tent_2', 'Burnt: the other tents say so (D-152: what is drawn)', dialog=False,
+      check='local s = tostring(status()) if not string.find(s, "Scorched planks", 1, true) then '
+            'error("status line: " .. s) end')
 # ---------------------------------------------------------------- the desert road west: X6 (A2's edge_spans row)
 X6_ROW = 'xeen_x6.odm' in open(os.path.join(ROOT, 'worlds/xeen/data_tables/map_stats.txt'), encoding='latin-1').read()
 if X6_ROW:
@@ -344,6 +340,18 @@ go(57.0, 99.5, "The renegade knights' camp")
 add({'clear_hostiles': {'radius': 3000}})
 event('evt:thing:knight_tent_1', "The renegades' pavilions burn (+1,500)")
 mv('knights_camp_burnt', 1)
+# ---------------------------------------------------------------- Nystor's landing: the boat back (D-150, house 4187)
+if 4187 in HOUSES and 'evt:thing:nystor_post' in ev:
+    go(83.0, 100.4, "Nystor's landing: the mooring post is the door of the boat back to Rivercity (D-150)")
+    event('evt:thing:nystor_post', "Before Q-C23 (qbit 112461): the post's closed line in a window")
+    add({'setup_shortcut': {'kind': 'set_qbit', 'id': 112461, 'value': True}})
+    add({'execute_event': {'id': ev['evt:thing:nystor_post']}})
+    add({'advance_runtime': {'seconds': 0.5}})
+    add({'note': "After Q-C23: the post opens Nystor's Landing (the boats house, route 434 to Rivercity)"})
+    add({'assert': {'dialog': {'active': True}}})
+    add({'press_action': {'action': 'cancel_dialog'}})
+    add({'advance_runtime': {'seconds': 0.3}})
+    add({'setup_shortcut': {'kind': 'set_qbit', 'id': 112461, 'value': False}})
 # ---------------------------------------------------------------- the east: the ogres, XD-02's adit, Falagar, Joe
 go(104.0, 89.5, "The ogres' camp in the red hills")
 add({'clear_hostiles': {'radius': 3000}})

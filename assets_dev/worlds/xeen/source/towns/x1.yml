@@ -291,23 +291,34 @@ houses:
     name: Joe's Exterminations
     residents: [4045]
 
+  # ---- the boat back (D-150: a dock you land at is a dock you leave from) ----
+  - id: 4042
+    door: thing:nystor_post   # D-150: the mooring post on a short jetty at vertigo_creek (the X1 map lane draws both)
+    was: 486
+    kind: boats
+    name: Nystor's Landing
+    owner: 4054
+    routes:
+      - {id: 433, to: rivercity_dock, days: [mon, wed, fri, sun], travel_days: 1}   # route 403's days and time, back
+    note: "D-150: Nystor's mate Rudd takes the party back to Rivercity from the creek bank where the Captain's boat lands (route 403)."
+
 npcs:
   # ---- proprietors ----
-  - {id: 4001, name: Norman, title: Blacksmith, profession: Smith, greet: ["Norman's Ironworks. If it's sharp, I made it.", "Back for more steel?"]}
-  - {id: 4002, name: Gudrun, title: Armorer, profession: Armorer, greet: ["Mind the slime on your boots. Armour?", "Still in one piece, I see. Good."]}
-  - {id: 4003, name: Gunther, title: Mayor, talks: true, profession: Noble, greet: ["Welcome to Vertigo. Sadly, most of the population has left because the town is infested with pests.", "My favorite citizens, I'm always glad to see you."], source: "xeen/aaze0028:1, :5"}
-  - {id: 4004, name: Gilbert, title: Hexer, greet: ["Gilbert's Hexes. No refunds on curses.", "Ah, customers who survived."]}
-  - {id: 4005, name: Lady Geraldine, greet: ["Sit anywhere that isn't sticky.", "The usual table, then."]}
-  - {id: 4006, name: Mortimer, title: Banker, profession: Banker, greet: ["The Bank of Vertigo. Your gold is safer here than in Joe's hands.", "Deposits on the left, complaints nowhere."]}
-  - {id: 4007, name: Bartleby, title: Innkeeper, greet: ["Adventurers stop here between disasters. Looking for company?", "More friends for you upstairs."]}
-  - {id: 4008, name: Rosalind, title: Alchemist, profession: Alchemist, greet: ["Philters, tonics, cures. Slime remover is extra.", "Back already? Something must have bitten you."]}
-  - {id: 4009, name: Brother Silas, profession: Healer, greet: ["Welcome to the Slime Temple. The name was not our idea.", "Bless you. Wipe your feet."]}
-  - {id: 4011, name: Calder, title: Guildmaster, greet: ["The Fire Guild of Vertigo. Open to all, and mind the curtains.", "Warm to see you."]}
-  - {id: 4012, name: Wynna, title: Guildmistress, greet: ["The Air Guild. Close the door, the scrolls blow away.", "Ah, the breeze is back."]}
-  - {id: 4013, name: Marina, title: Guildmistress, greet: ["The Water Guild of Vertigo. The creek is ours too, sadly.", "Welcome back."]}
-  - {id: 4014, name: Dunstan, title: Guildmaster, greet: ["The Earth Guild. Solid ground, solid spells.", "Still standing? Good."]}
-  - {id: 4015, name: Thylon, title: Instructor, profession: Instructor, greet: ["Thylon's Training. I can take you to tenth level, no further.", "Ready to sweat?"]}
-  - {id: 4016, name: Hob, title: Stablemaster, profession: Horseman, greet: ["Coaches to Rivercity, three days a week.", "The horses remember you."]}
+  - {id: 4001, name: Norman, sex: male, title: Blacksmith, profession: Smith, greet: ["Norman's Ironworks. If it's sharp, I made it.", "Back for more steel?"]}
+  - {id: 4002, name: Gudrun, sex: female, title: Armorer, profession: Armorer, greet: ["Mind the slime on your boots. Armour?", "Still in one piece, I see. Good."]}
+  - {id: 4003, name: Gunther, sex: male, title: Mayor, talks: true, profession: Noble, greet: ["Welcome to Vertigo. Sadly, most of the population has left because the town is infested with pests.", "My favorite citizens, I'm always glad to see you."], source: "xeen/aaze0028:1, :5"}
+  - {id: 4004, name: Gilbert, sex: male, title: Hexer, greet: ["Gilbert's Hexes. No refunds on curses.", "Ah, customers who survived."]}
+  - {id: 4005, name: Lady Geraldine, sex: female, greet: ["Sit anywhere that isn't sticky.", "The usual table, then."]}
+  - {id: 4006, name: Mortimer, sex: male, title: Banker, profession: Banker, greet: ["The Bank of Vertigo. Your gold is safer here than in Joe's hands.", "Deposits on the left, complaints nowhere."]}
+  - {id: 4007, name: Bartleby, sex: male, title: Innkeeper, greet: ["Adventurers stop here between disasters. Looking for company?", "More friends for you upstairs."]}
+  - {id: 4008, name: Rosalind, sex: female, title: Alchemist, profession: Alchemist, greet: ["Philters, tonics, cures. Slime remover is extra.", "Back already? Something must have bitten you."]}
+  - {id: 4009, name: Brother Silas, sex: male, profession: Healer, greet: ["Welcome to the Slime Temple. The name was not our idea.", "Bless you. Wipe your feet."]}
+  - {id: 4011, name: Calder, sex: male, title: Guildmaster, greet: ["The Fire Guild of Vertigo. Open to all, and mind the curtains.", "Warm to see you."]}
+  - {id: 4012, name: Wynna, sex: female, title: Guildmistress, greet: ["The Air Guild. Close the door, the scrolls blow away.", "Ah, the breeze is back."]}
+  - {id: 4013, name: Marina, sex: female, title: Guildmistress, greet: ["The Water Guild of Vertigo. The creek is ours too, sadly.", "Welcome back."]}
+  - {id: 4014, name: Dunstan, sex: male, title: Guildmaster, greet: ["The Earth Guild. Solid ground, solid spells.", "Still standing? Good."]}
+  - {id: 4015, name: Thylon, sex: male, title: Instructor, profession: Instructor, greet: ["Thylon's Training. I can take you to tenth level, no further.", "Ready to sweat?"]}
+  - {id: 4016, name: Hob, sex: male, title: Stablemaster, profession: Horseman, greet: ["Coaches to Rivercity, three days a week.", "The horses remember you."]}
 
   # ---- residents of the town ----
   - {id: 4018, name: Tobias Miller, profession: Miller, greet: ["The slimes got into the flour again.", "Mind the sacks."]}
@@ -349,3 +360,9 @@ npcs:
   - {id: 4050, name: Plague Cult member, profession: Follower of Baa, house: none, place: "X1 streets (A5)", greet: ["The end is near.", "The end is near."], source: "xeen/aaze0028:18"}
   - {id: 4051, name: Plague Cult member, profession: Follower of Baa, house: none, place: "X1 streets (A5)", greet: ["The plague is upon us.", "The plague is upon us."], source: "xeen/aaze0028:19"}
   - {id: 4052, name: Plague Cult member, profession: Follower of Baa, house: none, place: "X1 streets (A5)", greet: ["Slime lords shall rule.", "Slime lords shall rule."], source: "xeen/aaze0028:21"}
+
+  # ---- XD-04, the Witch Tower (D-155) ----
+  - {id: 4053, name: Goblin-eared boy, title: Toad Meadow Child, profession: Child, house: none, place: "XD-04, in cage 1 of the warden's lodge (A7's monster:child_1, placed name 416); cured with the Alacorn (m4.cage_1 or his Ears topic) he runs home", greet: ["Don't stare at my ears!", "Still goblin ears. Still not going home."]}
+
+  # ---- Nystor's Landing, the boat back to Rivercity (D-150) ----
+  - {id: 4054, name: Rudd, sex: male, title: Nystor's Mate, profession: Sailor, greet: ["The Captain brings them up the creek. I row them back down. Rivercity, four days a week.", "Back to Rivercity?"]}

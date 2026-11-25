@@ -551,7 +551,13 @@ def rooms_yml():
 
 # Placed monsters: room -> group, [(row, (x, y), facing)]; 30 (D-9.3, D-39 Q2).
 PLACED = [
-    ('well_foot', 10, [(ADEPT, (-256, -192), 180), (ADEPT, (0, 256), 180), (ADEPT, (0, -256), 180)]),
+    # D-132 (xeen-fb4-dungeon6, 2026-11-25): from the well's foot every post but its very middle sees a railed window
+    # above with a thin shot over its sill (check_ledge_shots.py; 48 off the middle already grazes one), and the middle
+    # is in the arrival's sight through the door hall's arch (check_arrivals.py): the well's three adepts keep the
+    # gallery round it instead, by the east arch and the north one. An entry's fourth field is its room when not the
+    # group's.
+    ('well_foot', 10, [(ADEPT, (0, 704), 270, 'ring1'), (ADEPT, (640, 320), 180, 'ring1'),
+                       (ADEPT, (640, -320), 180, 'ring1')]),
     ('ring1', 11, [(ADEPT, (640, 640), 180), (ADEPT, (640, -640), 180)]),
     ('commons', 12, [(ADEPT, (-384, -1400), 90), (ADEPT, (384, -1400), 90)]),
     ('ring2', 13, [(ADEPT, (0, -736), 180), (ADEPT, (736, 320), 180), (MAGUS, (-640, 704), 0)]),
@@ -668,8 +674,9 @@ def objects_yml():
     ]
     monsters = []
     for rid, group, ms in PLACED:
-        for n, (mon, at, facing) in enumerate(ms, 1):
-            monsters.append({'id': f'monster:{rid}_{n}', 'room': f'room:{rid}', 'monster': mon, 'at': F(*at),
+        for n, (mon, at, facing, *room_of) in enumerate(ms, 1):
+            monsters.append({'id': f'monster:{rid}_{n}', 'room': f'room:{room_of[0] if room_of else rid}',
+                             'monster': mon, 'at': F(*at),
                              'facing': facing, 'hostile': True, 'group': group})
 
     decos = []
@@ -883,6 +890,11 @@ def wiring_yml():
     e(id='evt:vat', preset='text', source='platform:vat', title='Bubbling Vat',
       text="The Bubbling Vat. It smells of copper and burnt sugar. Nobody is drinking from it.",
       notes="dark/aaze0068:0: the vat is dressing (D-39 Q3); the source's ageing water is not given.")
+    # F65 (2026-11-25): the vat's pot (cauld00, MMerge's stat cauldron) would give a stat on its own first click
+    # (tools/xeen/check_self_acting_decos.py); it shows the vat's text instead.
+    e(id='evt:vat_pot', preset='text', source='deco:vat', title='Bubbling Vat',
+      text="The Bubbling Vat. It smells of copper and burnt sugar. Nobody is drinking from it.",
+      notes="As evt:vat, on the pot that stands on the bench (D-39 Q3: no stat).")
     # The disc (state:disc_lever)
     disc_sound = snd('xeen_lift', DISC[0], DISC[1], 960)
     e(id='evt:disc_top', preset='switch', source='switch:disc_top', title='Lever', toggles=['lift:disc'],
@@ -988,7 +1000,7 @@ PLAN_SPACES = [
                                "Quiet (D-11.3). Wall sconces; the well's foot through an arch.", None),
     ('well_foot', 'room', 'M', "The levitation well: an open shaft from the ground floor to the slate cone, railed "
                                 "windows on every floor, light falling from the cone; the floating disc rides it from "
-                                "the top floor to the foot. Three adepts float in the light.", None),
+                                "the top floor to the foot. Its adepts keep the gallery round its foot.", None),
     ('ring1', 'corridor', 'M', "The ground floor's gallery round the well's north, east and south sides.", None),
     ('commons', 'room', 'M', "A refectory and reading room: the long table, lore books on shelves.", None),
     ('store', 'room', 'S', "A dead end with a chest: reagents in jars, sacks and barrels in clumps (a storeroom).",
@@ -1025,9 +1037,10 @@ PLAN_SPACES = [
 def plan_yml(level):
     pop = {}
     for rid, group, ms in PLACED:
-        for mon, _, _ in ms:
-            pop.setdefault(rid, {}).setdefault(mon, 0)
-            pop[rid][mon] += 1
+        for mon, _, _, *room_of in ms:
+            where = room_of[0] if room_of else rid
+            pop.setdefault(where, {}).setdefault(mon, 0)
+            pop[where][mon] += 1
     spaces = []
     for sid, kind, size, purpose, chest in PLAN_SPACES:
         r = ROOMS[sid]

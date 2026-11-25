@@ -4,6 +4,9 @@ import geo
 from geo import S_
 
 DIRE, VBAT, GREM, SAB, WERE, ROOKA, VALIO = 11393, 11311, 11020, 11021, 11400, 11403, 11193
+# D-166 (2026-11-25): Felix the Tinker (NPC 4958) on an existing peaceful indoor body: Picard the Aged's row (FD-02's
+# old scholar, xeen_sor1 skin xsor_g: grey-brown robe, white hair), as the Elder Druid's row carries two NPCs
+FELIX, FELIX_NPC, FELIX_GROUP = 11922, 4958, 21
 NAME = {DIRE: 'dire_rat', VBAT: 'vampire_bat', GREM: 'gremlin', SAB: 'saboteur', WERE: 'wererat', ROOKA: 'rooka',
         VALIO: 'valio'}
 VALIO_GROUP = 20
@@ -63,10 +66,16 @@ def movers():
     ]
 
 
+SLUICE_LEVER_AT = [-896, 1600]
+
+
 def switches():
     return [
-        {'id': 'switch:sluice_lever', 'room': R('sluice'), 'kind': 'lever', 'at': [-1280, 2048], 'reach': 48,
-         'notes': "The sluice lever on the north wall beside the gate."},
+        # D-166 (issue #45): the 8 x 8 x 32 post on the north wall was not seen; twice the standard lever (post 16 x
+        # 64, arm 80 out) on the east wall in line with the gate, 384 north of the iron door, under its own lamp
+        {'id': 'switch:sluice_lever', 'room': R('sluice'), 'kind': 'lever', 'at': SLUICE_LEVER_AT, 'reach': 80,
+         'size': [16, 64], 'height': 128,
+         'notes': "The sluice lever (D-166): twice the standard size, on the east wall beside the iron door, lit."},
         {'id': 'switch:outfall_bar', 'room': R('outfall'), 'kind': 'lever', 'at': [4096, -4608], 'reach': 48,
          'notes': "The outfall grate's bar, on the tunnel's north wall by the grate."},
         {'id': 'switch:grate_bolt', 'room': R('cellar'), 'kind': 'lever', 'at': [4960, 32], 'height': 256,
@@ -143,6 +152,10 @@ def monsters():
     out.append({'id': 'monster:valio', 'room': R('valio'), 'monster': VALIO, 'at': [-2240, -1680], 'facing': 90,
                 'hostile': True, 'group': VALIO_GROUP, 'hidden': True,
                 'notes': "Valio Magnus (11193, 45), placed hidden: shown, hostile, once valio_angered (113104) is set (q-d5.valio_angry). A trap (D-1.2): not counted."})
+    # last, so the scene's actor indices before it (Valio 46) stay
+    out.append({'id': 'monster:felix', 'room': R('felix'), 'monster': FELIX, 'at': [-2990, -2720], 'facing': 90,
+                'hostile': False, 'group': FELIX_GROUP, 'immobile': True, 'npc': FELIX_NPC,
+                'notes': "Felix the Tinker (NPC 4958, D-166) by the west end of his bench, on Picard the Aged's peaceful row 11922 (an existing indoor body): clicked, he talks (monsters[].npc). Not counted."})
     return out
 
 
@@ -189,6 +202,9 @@ def decorations():
     for i, (room, wall, along) in enumerate(TORCHES):
         out.append({'id': f'deco:torch_{i}', 'room': R(room), 'decoration': 'torch02', 'wall': wall, 'along': along,
                     'height': 192})
+    # D-166: the sluice lever's lamp, beside it on the east wall (its own id, so the torches keep their numbers)
+    out.append({'id': 'deco:torch_sluice_lever', 'room': R('sluice'), 'decoration': 'torch02', 'wall': 'e',
+                'along': 0.87, 'height': 192, 'notes': "D-166: the lamp beside the sluice lever."})
     return out
 
 
@@ -227,6 +243,8 @@ def lights():
             add(room, c, r, col)
     add('felix', [-2880, -2752], 600, LAMP, height=160, notes="Felix's lantern on his bench.",
         pulse={'intensity': [0.8, 1.0], 'radius': [560, 620], 'frequency': 0.5})
+    add('sluice', [SLUICE_LEVER_AT[0] - 96, SLUICE_LEVER_AT[1] + 64], 640, LAMP, height=224,
+        notes="D-166: the lamp over the sluice lever (the torch beside it).")
     add('valio', [-2240, -1792], 500, LAMP, height=128, notes="A candle stub by Valio's bed.",
         pulse={'intensity': [0.7, 1.0], 'radius': [450, 520], 'frequency': 0.7})
     return L
@@ -284,7 +302,7 @@ def objects():
              'surface': dict(geo.GRATE), 'to': 'exit:d1_outfall',
              'notes': "The outfall's iron grate onto the mill gorge (D1), barred until its bar is lifted."},
         ],
-        'notes': "DD-01's contents, written by output/studio_cal/dd01/tools/dress.py: 7 doors, three movers (the culvert's water, the sluice gate, the floor grate), three levers (the sluice, the outfall bar, the grate's bolt), one ladder, five chests, 50 placed monsters (21 Dire Rats, 8 Vampire Bats, 10 Gremlins, 3 Saboteurs, 7 Wererats, Rooka) and Valio's hidden monster.",
+        'notes': "DD-01's contents, written by output/studio_cal/dd01/tools/dress.py: 7 doors, three movers (the culvert's water, the sluice gate, the floor grate), three levers (the sluice, the outfall bar, the grate's bolt), one ladder, five chests, 50 placed monsters (21 Dire Rats, 8 Vampire Bats, 10 Gremlins, 3 Saboteurs, 7 Wererats, Rooka), Valio's hidden monster and Felix the Tinker (peaceful, npc 4958, D-166).",
     }
 
 
@@ -297,7 +315,9 @@ SLUICE_SHUT = ("You throw your weight on the lever. Gears grind, crack and spit 
                "The gate drops shut, the channel stills, and somewhere below you water drains away with a long gurgle.")
 SLUICE_OPEN = ("You heave the lever back. The sluice gate lifts and the town's water pours through it again; below, the "
                "old culvert floods to its roof.")
-FLOODED = "The old culvert is flooded to its roof. Somewhere above, the town's sluice is pouring into it."
+# D-166 (issue #45): the flooded water's click names the sluice house (status line, D-90); Valio's Rats topic says it
+FLOODED = ("The culvert to the Rat Queen's den is flooded. Its sluice is worked from the sluice house, at the far "
+           "north-west of the upper level.")
 BOLTED_ABOVE = "The grate is bolted from above. You hear the town over your head."
 BOLTED_BELOW = "The grate is bolted from below."
 BOLT_DRAWN = "You draw the rusty bolt. The grate above the ladder scrapes aside onto the drain's walk."
@@ -326,7 +346,7 @@ def events():
               'notes': "Say why the party is here (M16: the rats' nest; Q-D5's Rooka), on the first arrival only (arrived_once 117000)."})
     for k, op, kind, s, n in DOORS:
         E.append({'id': f'evt:door_{k}', 'preset': 'door', 'source': f'door:{k}', 'title': 'Door'})
-    E.append({'id': 'evt:sluice_lever', 'preset': 'switch', 'source': 'switch:sluice_lever', 'title': 'Sluice lever',
+    E.append({'id': 'evt:sluice_lever', 'preset': 'switch', 'source': 'switch:sluice_lever', 'title': 'Sluice',
               'toggles': ['mover:water', 'mover:sluice_gate'],
               'effects': [{'lua': 'if IsAtLeast(MapVar(sluice_shut), 1) then SetValue(MapVar(sluice_shut), 0) '
                                   f'evt.SimpleMessage("{SLUICE_OPEN}") else SetValue(MapVar(sluice_shut), 1) '
@@ -335,7 +355,7 @@ def events():
     E.append({'id': 'evt:culvert_water', 'preset': 'switch', 'source': 'mover:water', 'title': 'Flooded culvert',
               'condition': {'not': {'map_var': 'sluice_shut'}}, 'effects': [{'text': FLOODED}],
               'locked_text': "The culvert lies drained.",
-              'notes': "The flooded culvert refuses the party while the sluice runs (Felix's hint names the sluice)."})
+              'notes': "The flooded culvert refuses the party while the sluice runs; its line names the sluice house (D-166), as Felix's and Valio's do."})
     E.append({'id': 'evt:grate_bolt', 'preset': 'switch', 'source': 'switch:grate_bolt', 'title': 'Bolt',
               'condition': {'not': {'map_var': 'grate_open'}}, 'opens': ['mover:grate'], 'sets': {'map_var': 'grate_open'},
               'effects': [{'text': BOLT_DRAWN}], 'locked_text': "The bolt is drawn; the grate lies open above the ladder.",

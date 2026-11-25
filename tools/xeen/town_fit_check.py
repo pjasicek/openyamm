@@ -31,15 +31,20 @@ draws it (wall_check.py's terrain and models). Errors:
   top at 1040; the "cut path strip" of pin p6).
 - `things.overhang` (X3 p3, 2026-11-24): the land under a free-standing portal (a mirror's dais), fountain or well
   falls more than OVERHANG under the model's lowest point: its plinth or dais hangs over a slope (Newcastle's mirror
-  at the head of the gate ramp, whose road bed cut into the terrace beside it).
+  at the head of the gate ramp, whose road bed cut into the terrace beside it). F59 (2026-11-25) adds tents,
+  platforms, obelisks, crates, stone rings and models: Freeda's tent and the troll camp's off a hillside (X5 p3, p8),
+  the sky-crack ledge over Gargoyle Peak (X4 p8).
+- `decorations.slope` (F59, 2026-11-25): a placed decoration (radius SLOPE_RADIUS or more) stands more than SLOPE_GAP
+  over the land under its rim: a boulder off a slope over its shadow (X1 p28), a skull pile (X4 p7), the face tree.
 - `actors.over_water` (F24): a walking actor (a row that neither flies nor swims, not `hostile: true`) placed over a
   water tile, on a bridge or a shore: its home is over the creek; it wanders back, steps off the bridge's side into
   the water and sticks against the rail (Vertigo Bridge's guards, pin p1).
 
 - `bridges.step` (F48): a bridge's or pier's deck ends more than BRIDGE_STEP over (or under) the land or the deck
   just beyond its end: a step the party cannot climb (The Great Bridge, the causeway, pins X2 p4, X3 p7) or a deck
-  buried in a bank (Medin's jetty, X2 p10). An end over water (a pier's head) is not looked at, nor a deck that ends
-  in the air by design (D1's Lucio's Jetty, D-5.3: kept in town_fit_kept.yml).
+  buried in a bank (Medin's jetty, X2 p10). An end over water (a pier's head: a water tile, or the sketch's water
+  body or river, whose bed the studio levels to the surface, X2 p12) is not looked at, nor a deck that ends in the air
+  by design (D1's Lucio's Jetty, D-5.3: kept in town_fit_kept.yml).
 - `houses.jammed` (F49): a house (a building with a door) stands less than HOUSE_GAP from another building, or less
   than WALL_GAP from a wall that stands over its floor, or runs into either: walls through walls, a plinth sticking out, a lane too narrow to
   walk (Joe's shop and warehouse, X1 p21; the quay houses against the terrace wall, X2 p2). Measured from the house's
@@ -70,6 +75,7 @@ import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import wall_check as W  # noqa: E402
+import deco_footprint  # noqa: E402
 import xeenlib  # noqa: E402
 
 HOLLOW_REACH = 96        # a hollow this deep under a wall's face is one a body walks into
@@ -86,6 +92,7 @@ STEP = 48
 BRIDGE_STEP = 32         # a deck's end this far over or under what is beyond it
 HOUSE_GAP = 128          # a house this near another building is jammed (a body of 74 cannot pass; reads as one lump)
 PROP_INTO = 8            # a decoration's disc this far into a model's face
+CONTAINERS = ('barrel', 'cask', 'keg', 'crate', 'sack', 'box', 'bucket')   # measured by their model's width too
 WALL_FLUSH = 32          # ... unless it backs onto the wall within this (flush)
 WALL_GAP = 96            # ... this near a wall standing over its floor: a slot behind it, or the wall runs into it
 
@@ -278,6 +285,29 @@ def _up_z(models, p, top=None):
     return best
 
 
+def sketch_wet(sketch, p):
+    """A world point inside the sketch's water: a body's polygon or a river's band (common/wild.py `_wet`). A pier's
+    head over a river's edge can read a shore tile that is not a water tile (X2 p12, Nystor's pier)."""
+    x, y = W.world_to_cell(*p)
+    water = sketch.get('water') or {}
+    for body in water.get('bodies') or []:
+        poly = body.get('polygon') or []
+        inside = False
+        for (x1, y1), (x2, y2) in zip(poly, poly[1:] + poly[:1]):
+            if (y1 > y) != (y2 > y) and x < x1 + (y - y1) * (x2 - x1) / (y2 - y1):
+                inside = not inside
+        if inside:
+            return True
+    for river in water.get('rivers') or []:
+        line, half = river.get('line') or [], (river.get('width_cells') or 1) * 0.5
+        for (x1, y1), (x2, y2) in zip(line, line[1:]):
+            dx, dy = x2 - x1, y2 - y1
+            t = max(0.0, min(1.0, ((x - x1) * dx + (y - y1) * dy) / max(dx * dx + dy * dy, 1e-9)))
+            if math.hypot(x1 + t * dx - x, y1 + t * dy - y) <= half:
+                return True
+    return False
+
+
 def check_bridges(mp, errors, listing):
     for tid, s in mp.things.items():
         if s.get('kind') != 'bridge' or tid not in mp.models or len(s.get('line') or []) < 2:
@@ -293,7 +323,7 @@ def check_bridges(mp, errors, listing):
                 inside = end - u * 40 + side * offset
                 beyond = end + u * 24 + side * offset
                 deck = _up_z(mp.models[tid], inside)
-                if deck is None or bool(mp.terrain.blocked(*beyond)[0]):
+                if deck is None or bool(mp.terrain.blocked(*beyond)[0]) or sketch_wet(mp.sketch, beyond):
                     break             # no deck there (a rope bridge), or the end is over water: a pier's head
                 land = float(mp.terrain.ground(*beyond))
                 floor = _up_z(others, beyond, deck + BRIDGE_STEP + 16)
@@ -315,13 +345,20 @@ PLATFORM_SAMPLE = 64
 
 
 OVERHANG = 24
-OVERHANG_KINDS = ('portal', 'fountain', 'well')   # buildings carry plinths and lintels over gaps on purpose
+# buildings carry plinths and lintels over gaps on purpose; F59 (2026-11-25) adds every free-standing thing that has
+# a foot of its own: a tent off a hillside (Freeda's, the troll camp's), a platform (a ledge) over a peak, a stone ring
+OVERHANG_KINDS = ('portal', 'fountain', 'well', 'tent', 'platform', 'obelisk', 'crate', 'stone_ring', 'model')
+SLOPE_GAP = 24            # a placed decoration's z this far over the land under its rim (F59: a boulder off a slope)
+SLOPE_RADIUS = 32         # decorations smaller than this (flowers, bones, bottles) are not looked at
+SLOPE_RING = 0.75         # where under the decoration the land is read (a share of its radius)
 
 
 def check_overhangs(mp, errors, listing):
     for tid, s in mp.things.items():
         if s.get('kind') not in OVERHANG_KINDS or tid not in mp.models or s.get('hidden'):
             continue
+        if float(s.get('raise', 0) or 0) > OVERHANG:
+            continue          # set on something on purpose (X4's pedestal caps on their pedestals)
         for m in mp.models[tid]:
             bottom = float(m.lo[2])
             worst = None
@@ -330,6 +367,8 @@ def check_overhangs(mp, errors, listing):
                     if m.hull is not None and not W.in_polygon((x, y), m.hull):
                         continue
                     drop = bottom - float(mp.terrain.ground(x, y))
+                    if drop > OVERHANG and bool(mp.terrain.blocked(np.array([x]), np.array([y]))[0][0]):
+                        continue      # over water: a culvert's cap, a quay's lintel span the water on purpose
                     if drop > OVERHANG and (worst is None or drop > worst[0]):
                         worst = (drop, x, y)
             if listing:
@@ -338,6 +377,61 @@ def check_overhangs(mp, errors, listing):
                 errors.append(('things.overhang', mp.stem, tid, 'the land falls %d under its foot at cell %.2f, %.2f: '
                                'it hangs over a slope' % (worst[0], *W.world_to_cell(worst[1], worst[2]))))
                 break
+
+
+def scene_decorations(mp):
+    """{(x, y): [(name, z)]} of the built map's decorations (its scene.yml beside the .odm)."""
+    out = {}
+    scene = Path(str(mp.odm_path)[:-4] + '.scene.yml')
+    if not scene.exists():
+        return out
+    data = yaml.load(scene.read_text(), Loader=getattr(yaml, 'CSafeLoader', yaml.SafeLoader)) or {}
+    for e in data.get('entities') or []:
+        pos = e.get('position') or {}
+        out.setdefault((int(pos.get('x', 0)), int(pos.get('y', 0))), []).append((str(e.get('name', '')).lower(),
+                                                                               float(pos.get('z', 0))))
+    return out
+
+
+def check_slopes(mp, errors, listing):
+    """`decorations.slope` (F59, 2026-11-25): a placed decoration of some size stands more than SLOPE_GAP over the
+    land under its rim: the studio stands it on the land at its middle (or its lowest `decoration_feet`), so on a
+    slope its downhill side hangs over its shadow (X1 p28's boulder, X4 p7's skull pile, X5 p6's face tree). Fixed by
+    `common/wild.py slope_fit()`: a set piece (titled or clicked) gets a level pad, the rest sink to their rim."""
+    sizes = decoration_sizes()
+    placed = scene_decorations(mp)
+    for tid, s in mp.things.items():
+        if s.get('kind') != 'decoration' or 'at' not in s or s.get('hidden'):
+            continue
+        name = str(s.get('decoration', '')).lower()
+        # 2026-11-25 (xeen-fb4-outdoor2): the drawn footprint (deco_footprint: the model's extent, else the table's
+        # radius), as common/level_pads.py sinks and pads by: decoration_data's collision radius overstated the drawn
+        # size of a model (X1's stump5a: radius 96, drawn 49) and the two never agreed. A flat piece on its pole (a
+        # flag, a banner: drawn less than 16 thick) stands at its middle.
+        reach, thick = deco_footprint.footprint(name)
+        radius = reach if reach > 0 else sizes.get(name, (0.0, 0.0))[0]
+        if radius < SLOPE_RADIUS or radius > 384 or 'tree' in name or name.startswith('xeen_') or 0 < thick < 16:
+            continue
+        p = world(s['at'])
+        z = None
+        for dx in (-1, 0, 1):
+            for dy in (-1, 0, 1):
+                for n, zz in placed.get((int(round(p[0])) + dx, int(round(p[1])) + dy), []):
+                    if n == name:
+                        z = zz
+        if z is None:
+            continue
+        angles = np.linspace(0, 2 * np.pi, 12, endpoint=False)
+        ring = [float(mp.terrain.ground(p[0] + math.cos(a) * radius * SLOPE_RING,
+                                        p[1] + math.sin(a) * radius * SLOPE_RING)) for a in angles]
+        if z - float(mp.terrain.ground(p[0], p[1])) > 16:
+            continue          # stands on something (a wall walk, a deck), not on the land
+        gap = z - min(ring)
+        if listing:
+            print('  %s %s %s: %+d over its rim\'s lowest land' % (mp.stem, tid, name, gap))
+        if gap > SLOPE_GAP:
+            errors.append(('decorations.slope', mp.stem, tid, '%s (radius %d) stands %d over the land under its rim at '
+                           'cell %.2f, %.2f: it hangs off a slope' % (name, radius, gap, *s['at'])))
 
 
 def check_platforms(mp, errors, listing):
@@ -519,6 +613,10 @@ def check_props(mp, errors, listing):
         if s.get('kind') != 'decoration' or 'at' not in s or s.get('against'):
             continue
         radius, height = sizes.get(str(s.get('decoration', '')).lower(), (0.0, 0.0))
+        # F66 (2026-11-25): a decoration drawn as a 3D model is as wide as its model (deco_footprint), which the
+        # table's collision radius can understate (X6 p3's barrels through the coach's wall)
+        if any(w in deco_footprint.description(s.get('decoration', '')) for w in CONTAINERS):
+            radius = max(radius, deco_footprint.footprint(s.get('decoration', ''))[1])
         if radius < 16:
             continue
         p = world(s['at'])
@@ -742,6 +840,7 @@ class FitMap(W.Map):
         super().__init__(stem, odm, sketch)
         from map_export import parse_odm_file
         odm = Path(odm) if odm else xeenlib.WORLD / 'maps' / f'{stem}.odm'
+        self.odm_path = odm
         payload = parse_odm_file(odm)['payload']
         self.records = payload['bmodels']
         self.tiles = np.array(payload['tile_map']).reshape(128, 128)
@@ -766,6 +865,7 @@ def check_map(stem, odm=None, sketch=None, listing=False):
     check_props(mp, errors, listing)
     check_platforms(mp, errors, listing)
     check_overhangs(mp, errors, listing)
+    check_slopes(mp, errors, listing)
     return errors
 
 

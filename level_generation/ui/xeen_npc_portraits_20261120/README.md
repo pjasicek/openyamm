@@ -170,3 +170,12 @@ One portrait, cell 1 of `raw/sheet47_v1.png`: 4158 Sparrow the Pit Fighter, Rive
 Unarmed Expert in Martial Training beside Flint (`x2.yml`, D-73): a wiry woman about thirty-five, a sharp face with a
 sly half-smile and a scar through one eyebrow, short dark hair, a faded red sleeveless vest, straw dummies in a wooden
 hall behind. Same method as batch 14 (variant ids 94158-94160, not NPCs), the default 3x4 grid. 427 portraits in all.
+
+## Batch 16 (2026-11-25, agent xeen-fb4-town): the goblin-eared boy, Rudd, Marla
+
+Three portraits from row 1 of `raw/sheet48_v1.png` (one Codex worker, the default 3x4 grid of `sheets.yml`'s
+`sheet48`: four rows of the three): 4053 the Goblin-eared boy, the half-turned child in XD-04's cage 1 (`x1.yml`,
+D-155: a freckled sulking boy with large green goblin ears, cage bars and green candlelight behind), 4054 Rudd, Nystor's
+mate at Vertigo's creek landing (`x1.yml`, D-150) and 4346 Marla, his river pilot at X4's upriver landing (`x4.yml`,
+D-150). The worker drew unrelated new faces in rows 2-4 instead of second takes: not used. Review:
+[review/contact_batch16.png](review/contact_batch16.png). 430 portraits in all.

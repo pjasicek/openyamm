@@ -1,0 +1,26 @@
+format: 1
+counter: 4
+pins:
+  - id: pin:p1
+    text: z-fighting
+    source: game
+    world: xeen
+    map: xeen_xd13.blv
+    pose:
+      position: [1081.481, 3336.075, 288.12]
+      yaw_radians: 4.723
+      pitch_degrees: -54.211
+      heading_yaw_units: 1540
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-24T22:20:29
+    status: resolved
+    claimed_by: agent:xeen-fb4-dungeon2
+    from: 20261124-222029-xeen_xd13.yml
+    replies:
+      - author: agent:xeen-fb4-dungeon2
+        text: "Not flicker: the breach's walls were drawn as sky from the floor up, and from the rubble heap the sky below your eye showed as the sky's flat fog colour. The fallen corner now has ruin-stone walls to well above the heap, with the sky only above them and overhead. The same check (sky.low) found no other Xeen dungeon with this fault."
+        created: 2026-11-25T09:01:17
+        revision: e0ff0d012af893f3de1cc1890e9303b5
+        status: resolved
+        pictures: [.oymap/pins/pictures/p1-r1.png]

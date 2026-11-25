@@ -250,17 +250,24 @@ PULLED_TEXT = ("You set your feet and heave on the chain. The bronze plug comes 
                "sump; somewhere below, stone gates grind open.")
 HANGS_TEXT = "The plug hangs free on its chain. Below the window the reservoir lies empty."
 GATE_TEXT = "The stone sluice gate is shut fast. Water presses against it from the other side."
-NOTICE_TEXT = ("A board, the words scratched deep: 'THE SKULLS TAKE GEMS, NOT GOLD. THE GREAT ONE AT THE BOTTOM WANTS "
-               "TEN FOR HIS KEY - KEEP TEN. THE ECHO CAVE PAST THE GUARDIANS' POST KEEPS SOME. THE PLUG IN THE SLUICE "
-               "LETS THE WATER OUT, IF YOU ARE STRONG.'")
+NOTICE_TEXT = ("A board, the words scratched deep: 'THE SKULLS TAKE GEMS, NOT GOLD: ONE A HEAD FOR THEIR GIFTS. THE GREAT "
+               "ONE AT THE BOTTOM WANTS TEN FOR HIS KEY - KEEP TEN. THE ECHO CAVE PAST THE GUARDIANS' POST KEEPS SOME. "
+               "THE PLUG IN THE SLUICE LETS THE WATER OUT, IF YOU ARE STRONG.'")
 
+# D-143 (F69a, the player's pin XD-10 p1 "3 gems for +3 is not a good exchange"): every skull's gift costs 1 gem a
+# member (was 3 and 5); the great skull's stat offer 1 (was 10); its key stays 10 gems (D-1.6).
 SKULL_DEALS = {
     # key: (bit, price, stat selector, rise, offer hook, stat name, the skull's words on a sale)
-    'luck': (11236, 3, 'BaseLuck', 2, 'm12.skull_upper', 'Luck'),
-    'personality': (11237, 3, 'BasePersonality', 2, 'm12.skull_upper', 'Personality'),
-    'intellect': (11238, 5, 'BaseIntellect', 3, 'm12.skull_deep', 'Intellect'),
-    'speed': (11239, 5, 'BaseSpeed', 3, 'm12.skull_deep', 'Speed'),
+    'luck': (11236, 1, 'BaseLuck', 2, 'm12.skull_upper', 'Luck'),
+    'personality': (11237, 1, 'BasePersonality', 2, 'm12.skull_upper', 'Personality'),
+    'intellect': (11238, 1, 'BaseIntellect', 3, 'm12.skull_deep', 'Intellect'),
+    'speed': (11239, 1, 'BaseSpeed', 3, 'm12.skull_deep', 'Speed'),
 }
+GREAT_PRICE = 1
+
+
+def gems(n):
+    return 'one gem' if n == 1 else f'{n} gems'
 
 
 def skull_lua(key):
@@ -274,7 +281,7 @@ def skull_lua(key):
         f'    if Xeen.payGems({price}) then',
         f'        AddValue({var}, {rise})',
         f'        SetPlayerBit(PlayerBit({bit}))',
-        f'        evt.SimpleMessage("The skull\'s jaw clacks shut on {price} of your gems. +{rise} {stat} (permanent).")',
+        f'        evt.SimpleMessage("The skull\'s jaw clacks shut on {gems(price)}. +{rise} {stat} (permanent).")',
         '    else',
         '        XeenQuests.hook("m12.skull_poor")',
         '    end',
@@ -288,7 +295,7 @@ def skull_lua(key):
         '    return',
         'end',
         f'XeenQuests.hook("{hook}")',
-        f'AskChoiceWithAnswerSteps(eventId, 3, "{price} gems for +{rise} {stat}?", {{{{Answer = "Yes", Step = 1}}, {{Answer = "No", Step = 2}}}})',
+        f'AskChoiceWithAnswerSteps(eventId, 3, "{gems(price).capitalize()} for +{rise} {stat}?", {{{{Answer = "Yes", Step = 1}}, {{Answer = "No", Step = 2}}}})',
     ])
 
 
@@ -302,7 +309,7 @@ GREAT_LUA = "\n".join([
     '    return',
     'end',
     'if continueStep ~= nil and continueStep >= 1 and continueStep <= 3 then',
-    '    if Xeen.payGems(10) then',
+    f'    if Xeen.payGems({GREAT_PRICE}) then',
     '        local stat = tr("Might")',
     '        if continueStep == 1 then',
     '            AddValue(BaseMight, 5)',
@@ -314,7 +321,7 @@ GREAT_LUA = "\n".join([
     '            stat = tr("Accuracy")',
     '        end',
     '        SetPlayerBit(PlayerBit(11240))',
-    '        evt.SimpleMessage(tr("The great skull takes ten of your gems and grins wider. +5 {stat} (permanent).",',
+    '        evt.SimpleMessage(tr("The great skull takes one of your gems and grins wider. +5 {stat} (permanent).",',
     '            {stat = stat}))',
     '    else',
     '        XeenQuests.hook("m12.skull_poor")',
@@ -324,12 +331,12 @@ GREAT_LUA = "\n".join([
     'if continueStep ~= nil then',
     '    return',
     'end',
-    'if Xeen.gemCount() < 10 then',
+    f'if Xeen.gemCount() < {GREAT_PRICE} then',
     '    XeenQuests.hook("m12.skull_poor")',
     '    return',
     'end',
     'XeenQuests.hook("m12.skull_grotto")',
-    'AskChoiceWithAnswerSteps(eventId, 5, "Ten gems for +5 to Might, Endurance or Accuracy?", {{Answer = "Might", Step = 1}, '
+    'AskChoiceWithAnswerSteps(eventId, 5, "One gem for +5 to Might, Endurance or Accuracy?", {{Answer = "Might", Step = 1}, '
     '{Answer = "Endurance", Step = 2}, {Answer = "Accuracy", Step = 3}})',
 ])
 
@@ -382,7 +389,7 @@ def events():
                   'notes': f"poi:skulls: {title}, once per character (player bit {SKULL_DEALS[key][0]}); A3's hooks for the words."})
     E.append({'id': 'evt:skull_great', 'preset': 'script', 'source': 'deco:skull_great', 'title': 'Great skull',
               'lua': GREAT_LUA,
-              'notes': "goal:enchanted_key: A3's hook m12.skull (10 gems: the Enchanted Key, qbit 111240, 1,500 XP); after it one question with three answers (D-18's cheaper option): +5 Might, Endurance or Accuracy for 10 gems, once per character (bit 11240)."})
+              'notes': "goal:enchanted_key: A3's hook m12.skull (10 gems: the Enchanted Key, qbit 111240, 1,500 XP); after it one question with three answers (D-18's cheaper option): +5 Might, Endurance or Accuracy for 1 gem, once per character (bit 11240, D-143)."})
     E.append({'id': 'evt:chest_cache', 'preset': 'chest', 'source': 'chest:cache', 'title': 'Chest',
               'effects': [{'lua': 'if not IsQBitSet(QBit(110642)) then SetQBit(QBit(110642)) evt.SetHeldItem(240, {bonus = 10}) '
                                   'evt.StatusText("A flask of red draught lies on top.") end'}],

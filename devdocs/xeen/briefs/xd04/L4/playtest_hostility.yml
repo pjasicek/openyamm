@@ -94,22 +94,22 @@ steps:
       min: 1
 - assert:
     actor_count:
-      monster_id: 439
+      monster_id: 11930
       hostile: true
       max: 0
 - assert:
     actor_count:
-      monster_id: 430
+      monster_id: 11931
       hostile: true
       max: 0
 - assert:
     actor_count:
-      monster_id: 433
+      monster_id: 11932
       hostile: true
       max: 0
 - assert:
     actor_count:
-      monster_id: 442
+      monster_id: 11933
       hostile: true
       max: 0
 - note: 'Kinds of the map side by side, nearer each other than the party (a monster takes the nearest of its foes): they must
@@ -172,21 +172,21 @@ steps:
       max: 0
 - assert:
     actor_count:
-      monster_id: 439
+      monster_id: 11930
       hurt: true
       max: 0
 - assert:
     actor_count:
-      monster_id: 430
+      monster_id: 11931
       hurt: true
       max: 0
 - assert:
     actor_count:
-      monster_id: 433
+      monster_id: 11932
       hurt: true
       max: 0
 - assert:
     actor_count:
-      monster_id: 442
+      monster_id: 11933
       hurt: true
       max: 0

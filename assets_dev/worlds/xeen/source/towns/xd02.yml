@@ -17,4 +17,4 @@ houses:
     hook: m3.dwarf_shop
     closed_text: "The smithy is barred. Behind the door, someone is sharpening something and swearing at the Mad Clan."
 npcs:
-  - {id: 5701, name: Grimbold, title: Dwarf Smith, profession: Smith, teaches: [{skill: Repair Item, mastery: master}], greet: ["The Clan King's dead and the mine is ours again. What needs mending?", "Back for an edge?"]}
+  - {id: 5701, name: Grimbold, sex: male, title: Dwarf Smith, profession: Smith, teaches: [{skill: Repair Item, mastery: master}], greet: ["The Clan King's dead and the mine is ours again. What needs mending?", "Back for an edge?"]}
