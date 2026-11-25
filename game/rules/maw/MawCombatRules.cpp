@@ -494,11 +494,13 @@ std::pair<double, double> powerAndVitality(
         * mawPartyHitChance(mawFullMeleeAttack(character, rows), reference, rules.blessHitSkill(character), model)
         * delay.damageMultiplier * std::max(crit.chance, 1.0));
 
-    double fullHealth = character.maxHealth;
+    // The worn maximum (items, buffs), as MAW's GetMaxHP and getMaxMana; the base maximum would leave out items'
+    // Endurance and HP.
+    double fullHealth = sheet.health.maximum;
 
     if (character.hasSkill("ManaShield") && !character.rulesetState.manaShieldDisabled)
     {
-        fullHealth += character.maxSpellPoints
+        fullHealth += sheet.spellPoints.maximum
             * mawRound(mawManaShieldEfficiency(skillLevel(character, "ManaShield")) * 100) / 100;
     }
 
