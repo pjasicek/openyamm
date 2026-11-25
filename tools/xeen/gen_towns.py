@@ -477,7 +477,8 @@ class Generator:
                 raise TownError(f'roster {entry["id"]}: no face {entry["face"]} in character_data.txt')
             row = [''] * len(header)
             row[0], row[1], row[2] = str(entry['id']), entry['name'], entry['class'].lower()
-            row[3], row[4], row[5] = str(entry['born']), str(entry['face']), face[3]
+            # Picture counts from 0 (the engine shows row Picture + 1); face is the 1-based row id.
+            row[3], row[4], row[5] = str(entry['born']), str(entry['face'] - 1), face[3]
             row[6], row[7] = str(entry.get('experience', 0)), str(entry.get('level', 1))
             for offset, stat in enumerate(stats):
                 row[8 + offset] = str(entry['stats'][stat])
