@@ -1,0 +1,11 @@
+format_version: 1
+kind: "indoor_scene_overlay"
+source:
+  geometry_file: "6d05.blv"
+# Face 664 is the east door into Snergle's chamber, which never opens. Its original event 31 ("The door will not
+# budge") lacked the clickable flag, so a click did nothing and players took it for a broken key door (GitHub issue
+# #45). The flag is set as on the real key door (face 1245, event 9).
+initial_state:
+  face_attribute_overrides:
+    - face_index: 664
+      legacy_attributes: 2181300736

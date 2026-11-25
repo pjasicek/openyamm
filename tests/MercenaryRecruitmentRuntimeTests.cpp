@@ -330,3 +330,36 @@ TEST_CASE("Mercenary recruitment finds the tavern of an MM7 map whose house map 
     REQUIRE(houseId.has_value());
     CHECK_EQ(*houseId, 245u);
 }
+
+TEST_CASE("An Adventurer's Inn recruit on an MM7 face shows that row's own portrait art")
+{
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+
+    // Picture 49 is character_data.txt row 50, an MM7 male face whose art is 7pc01-*, not PC50-*.
+    const OpenYAMM::Game::CharacterDollEntry *pDoll = gameData.characterDollTable.getCharacter(50);
+    REQUIRE(pDoll != nullptr);
+    REQUIRE_EQ(pDoll->facePicturesPrefix, "7pc01-");
+
+    OpenYAMM::Game::RosterEntry rosterEntry = {};
+    rosterEntry.id = 401;
+    rosterEntry.name = "Arturius";
+    rosterEntry.className = "Paladin";
+    rosterEntry.pictureId = 49;
+    rosterEntry.voiceId = static_cast<int32_t>(pDoll->defaultVoiceId);
+    rosterEntry.might = 16;
+
+    REQUIRE(harness.party().addAdventurersInnMember(rosterEntry, 0));
+    REQUIRE_EQ(harness.party().adventurersInnMembers().size(), 1u);
+    CHECK_EQ(harness.party().adventurersInnMembers().front().character.portraitTextureName, "7pc01-01");
+
+    const size_t memberCount = harness.party().members().size();
+    REQUIRE(harness.party().hireAdventurersInnMember(0));
+    REQUIRE_EQ(harness.party().members().size(), memberCount + 1);
+    const OpenYAMM::Game::Character &recruit = harness.party().members().back();
+    CHECK_EQ(recruit.characterDataId, 50u);
+    CHECK_EQ(recruit.portraitTextureName, "7pc01-01");
+    CHECK_EQ(recruit.sexId, pDoll->defaultSex);
+    CHECK_EQ(recruit.voiceId, static_cast<int32_t>(pDoll->defaultVoiceId));
+}

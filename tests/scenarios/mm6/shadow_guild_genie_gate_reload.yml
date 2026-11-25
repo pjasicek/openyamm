@@ -1,0 +1,33 @@
+id: mm6.shadow_guild_genie_gate_reload
+title: "Shadow Guild: a reload resets the genie gate, as in MM6"
+world: mm6
+mode: faithful
+tags: [mm6, content]
+steps:
+  # The original on-load event 2 clears the puzzle (MapVar 2-18) on every load, saves included. The gate screen's blue
+  # texture (face 1078) is saved in OpenYAMM but not in MM6, so 6d08_mmmerge.lua puts the wall texture back with the
+  # reset; after a reload the gate is closed and looks closed (GitHub issue #45).
+  - new_game_flow: {start_map: oute3.odm}
+  - load_map: {map: 6d08.blv}
+  - advance_runtime: {seconds: 0.5}
+  - lua_event: {source: "SetValue(MapVar(5),1) SetValue(MapVar(8),1) SetValue(MapVar(11),1) SetValue(MapVar(14),1) SetValue(MapVar(17),1)"}
+  - execute_event: {id: 24}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      state_dump_map_var: {index: 18, value: 1}
+  - clear_hostiles: {}
+  - execute_event: {id: 26}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      party_position: {x: 8832, y: -4992, radius: 200}
+  - set_pose: {map: 6d08.blv, x: 2816, y: 3968, z: 1, yaw_degrees: 90}
+  - advance_runtime: {seconds: 0.5}
+  - save_game: {name: sg_gate}
+  - load_game: sg_gate
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      state_dump_map_var: {index: 18, value: 0}
+  - execute_event: {id: 26}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      party_position: {x: 2816, y: 3968, radius: 200}

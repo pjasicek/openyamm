@@ -1,0 +1,25 @@
+id: mm6.shadow_guild_spike_pit
+title: "Shadow Guild: the opened trapdoor drops the party into the spike pit"
+world: mm6
+mode: faithful
+tags: [mm6, content]
+steps:
+  # Event 1 opens door 1 and slides the trapdoor (door 2) aside over the spike pit (room 33). Face 373, the floor
+  # portal into the pit, must stay a floor: an overlay that made it a ceiling left no sector over the hole and the
+  # party stopped at an invisible wall (GitHub issue #45).
+  - new_game_flow: {start_map: oute3.odm}
+  - load_map: {map: 6d08.blv}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 6000}
+  - execute_event: {id: 1}
+  - advance_runtime: {seconds: 4}
+  - assert:
+      mechanism: {id: 2, state: closed}
+  - assert:
+      mechanism: {id: 1, state: closed}
+  - set_pose: {map: 6d08.blv, x: -1408, y: 120, z: 0, yaw_degrees: 270}
+  - advance_runtime: {seconds: 0.5}
+  - press_action: {action: forward, seconds: 1.5}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      party_position: {x: -1408, y: -300, radius: 600, z_max: -300}

@@ -8330,7 +8330,10 @@ TEST_CASE("mm6 remaining mmmerge delta overlays port map event fixes")
     }
 }
 
-TEST_CASE("mm6 shadow guild scene applies spike trap facet type fixup")
+// Face 373 is the floor portal into the spike pit under the trapdoor. A scene overlay once made it a ceiling (type 5);
+// the floor lookup then found no sector over the opened pit and the party stopped at an invisible wall (GitHub issue
+// #45, tests/scenarios/mm6/shadow_guild_spike_pit.yml).
+TEST_CASE("mm6 shadow guild spike pit portal stays a floor")
 {
     const OpenYAMM::Tests::RegressionMapLoader &mapLoader = requireRegressionMapLoader();
     const OpenYAMM::Game::MapAssetInfo *pLoadedMap = loadCachedIndoorMapWithCompanionOptions(
@@ -8346,7 +8349,7 @@ TEST_CASE("mm6 shadow guild scene applies spike trap facet type fixup")
     REQUIRE(pLoadedMap != nullptr);
     REQUIRE(pLoadedMap->indoorMapData.has_value());
     REQUIRE_GT(pLoadedMap->indoorMapData->faces.size(), 373u);
-    CHECK_EQ(pLoadedMap->indoorMapData->faces[373].facetType, 5);
+    CHECK_EQ(pLoadedMap->indoorMapData->faces[373].facetType, 3);
 }
 
 TEST_CASE("mm6 indoor stair floor facets clear imported untouchable flag")

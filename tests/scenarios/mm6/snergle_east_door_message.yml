@@ -1,0 +1,15 @@
+id: mm6.snergle_east_door_message
+title: "Snergle's Caverns: the east chamber door answers a click"
+world: mm6
+mode: faithful
+tags: [mm6, content]
+steps:
+  # The east door into Snergle's chamber (face 664) never opens; its original event 31 says "The door will not budge".
+  # 6d05_1.scene.yml makes the face clickable so a click shows that instead of nothing (GitHub issue #45).
+  - new_game_flow: {start_map: oute3.odm}
+  - load_map: {map: 6d05.blv}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 20000}
+  - press_interact:
+      pose: {map: 6d05.blv, x: 2176, y: 9000, z: 257, yaw_degrees: 90, pitch_degrees: 0}
+      expect: {kind: event_target, triggered_event: 31}

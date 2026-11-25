@@ -1031,6 +1031,16 @@ void applyCharacterIdentityFromDollTable(Character &member, const CharacterDollT
     {
         member.raceId = static_cast<uint32_t>(pEntry->raceId);
     }
+
+    // A roster recruit's portrait is named PC<row>-01 from its picture id, but MM7 faces and some MM8 rows store their
+    // art under the row's own prefix (7pc01-, pc31-): use the row's art, as party creation does.
+    const std::string derivedTextureName = portraitTextureNameFromPictureId(member.characterDataId - 1);
+
+    if (!pEntry->facePicturesPrefix.empty()
+        && toLowerCopy(member.portraitTextureName) == toLowerCopy(derivedTextureName))
+    {
+        member.portraitTextureName = portraitTextureNameFromCharacterDollEntry(*pEntry);
+    }
 }
 
 void applyCharacterDollIdentity(Character &member, const CharacterDollTable *pCharacterDollTable, bool forceVoice)
