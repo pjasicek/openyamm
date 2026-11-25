@@ -240,6 +240,9 @@ class LindisfarneMonastery(dungeon.Hooks):
                 actor["held_items"] = [{"model": f"worlds/mm9/models/{tool[0]}.glb", "node": f"Socket_{tool[1]}"}]
             if rude:
                 actor["mm9_rude_id"] = rude
+            # Abbot Leffery gives the relic quest's reward: no hit or spell reaches him (MM9 let him be killed).
+            if script == "npc283.scr":
+                actor["mm9_can_receive_damage"] = False
             actor["immobile"] = immobile
             self.actor[name], self.object[name], self.rude[name] = actor["actor_index"], o["index"], rude
             if group == GROUP_ROBERT:
