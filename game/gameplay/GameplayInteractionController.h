@@ -32,6 +32,8 @@ public:
         GameplayWorldHoverRequest hoverRequest = {};
         // Autonotes, for the effects of events the party has learned (Orange Barrel (+2 Intellect)).
         const GameplayScreenRuntime *pScreenRuntime = nullptr;
+        // A click's reach: a usable face, decoration or mechanism beyond it is not named.
+        float interactionDepth = 512.0f;
     };
 
     struct HoverStateResult
@@ -180,7 +182,8 @@ public:
         const HeldItemWorldInteractionInput &input);
     static std::optional<std::string> resolveHoverStatusText(
         const GameplayHoverStatusPayload &payload,
-        bool heldItemActive);
+        bool heldItemActive,
+        float interactionDepth);
     static WorldInteractionPointerPolicy resolveWorldInteractionPointerPolicy(
         const WorldInteractionPointerPolicyInput &input);
     // The Space target: what is under the crosshair (or cursor) when Space can use it, otherwise the world's screen

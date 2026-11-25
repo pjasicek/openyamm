@@ -4770,6 +4770,15 @@ int scenarioPlayHeld(lua_State *pLuaState)
     return 1;
 }
 
+// hover(): the status line the hover shows for what is under the crosshair ("" when it names nothing).
+int scenarioPlayHover(lua_State *pLuaState)
+{
+    ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
+    const std::string text = play.pContext->runtimeDriver->centerHoverStatusText();
+    lua_pushlstring(pLuaState, text.data(), text.size());
+    return 1;
+}
+
 int scenarioPlayTakeChest(lua_State *pLuaState)
 {
     ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
@@ -4898,8 +4907,9 @@ bool runPlayLua(
     luaL_requiref(pLuaState, LUA_TABLIBNAME, luaopen_table, 1);
     luaL_requiref(pLuaState, LUA_MATHLIBNAME, luaopen_math, 1);
     lua_settop(pLuaState, 0);
-    const std::array<std::pair<const char *, lua_CFunction>, 28> functions = {{
+    const std::array<std::pair<const char *, lua_CFunction>, 29> functions = {{
         {"clear_hostiles", scenarioPlayClearHostiles}, {"party", scenarioPlayParty}, {"held", scenarioPlayHeld},
+        {"hover", scenarioPlayHover},
         {"stow", scenarioPlayStow}, {"conditions", scenarioPlayConditions},
         {"item_count", scenarioPlayItemCount}, {"pack_items", scenarioPlayPackItems},
         {"classes", scenarioPlayClasses}, {"experience", scenarioPlayExperience}, {"gold", scenarioPlayGold},

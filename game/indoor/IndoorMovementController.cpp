@@ -1440,6 +1440,51 @@ IndoorFloorSample IndoorMovementController::sampleSupportedFloor(
     return bestSample;
 }
 
+bool IndoorMovementController::floorFaceTopsSolid(
+    const std::vector<IndoorVertex> &vertices,
+    IndoorFaceGeometryCache &geometryCache,
+    const IndoorFaceGeometryData &floor
+) const
+{
+    if (m_pIndoorMapData == nullptr || floor.sectorId >= m_pIndoorMapData->sectors.size())
+    {
+        return false;
+    }
+
+    std::vector<uint8_t> &states = m_runtimeGeometryCache.floorFaceTopsSolidStates;
+
+    if (states.size() != m_pIndoorMapData->faces.size())
+    {
+        states.assign(m_pIndoorMapData->faces.size(), 0);
+    }
+
+    if (floor.faceIndex >= states.size())
+    {
+        return false;
+    }
+
+    if (states[floor.faceIndex] == 0)
+    {
+        bool topsSolid = false;
+
+        for (uint16_t wallFaceId : m_pIndoorMapData->sectors[floor.sectorId].wallFaceIds)
+        {
+            const IndoorFaceGeometryData *pWall =
+                geometryCache.geometryForFace(*m_pIndoorMapData, vertices, wallFaceId);
+
+            if (pWall != nullptr && indoorFaceRunsDownFromFloorEdge(floor, *pWall))
+            {
+                topsSolid = true;
+                break;
+            }
+        }
+
+        states[floor.faceIndex] = topsSolid ? 2 : 1;
+    }
+
+    return states[floor.faceIndex] == 2;
+}
+
 IndoorFloorSample IndoorMovementController::sampleSupportedFloorOnFace(
     const std::vector<IndoorVertex> &vertices,
     IndoorFaceGeometryCache &geometryCache,
@@ -2693,10 +2738,12 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
         // body: stand on it. The original engine samples the floor a body radius over the feet and takes the nearest;
         // the sample at the feet kept a sloped floor running on under a buried slab (MM9 terrain under the sunken end
         // of a bridge deck: Ravensford's moat bridge, the Isle of Ashes' bridge ramp), and the body walked on inside
-        // the slab until its underside met the terrain and trapped it. Trigger faces are not stood on this way (the
-        // MM9 converter's invisible trigger plates a few units over a floor fired again), nor mover faces, whose
-        // support has its own rules: monsters lifted onto a sunken door's 20-unit top were not carried as it rose and
-        // held it open (Ruined Temple door 34).
+        // the slab until its underside met the terrain and trapped it. Trigger faces laid as bare sheets are not
+        // stood on this way (the MM9 converter's invisible trigger plates a few units over a floor fired again), but a
+        // trigger face that tops a solid is: a plate block sunk into the floor (Xeen's Plane of Water test plate, 4
+        // over the arena floor that runs on under it) was otherwise walked inside and fired only on some approaches
+        // (D-174). Nor mover faces, whose support has its own rules: monsters lifted onto a sunken door's 20-unit
+        // top were not carried as it rose and held it open (Ruined Temple door 34).
         if (floor.hasFloor
             && state.grounded
             && !flying
@@ -2740,9 +2787,11 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
                     static_cast<uint16_t>(overlappingFloor.faceIndex))
                     != m_runtimeGeometryCache.mechanismSupportFaceIds.end();
 
-                if (moverFace
-                    || (pOverlappingGeometry != nullptr
-                        && (pOverlappingGeometry->attributes & TriggerFaceAttributes) != 0))
+                const bool triggerSheet = pOverlappingGeometry != nullptr
+                    && (pOverlappingGeometry->attributes & TriggerFaceAttributes) != 0
+                    && !floorFaceTopsSolid(vertices, geometryCache, *pOverlappingGeometry);
+
+                if (moverFace || triggerSheet)
                 {
                     windowTop = overlappingFloor.height - CoplanarFloorHeightTolerance;
                     continue;

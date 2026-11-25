@@ -574,6 +574,7 @@ add_executable(openyamm_runtime_tests
     OutdoorClassicMechanismTests.cpp
     MonsterModifierWorldTests.cpp
     StealingInputRuntimeTests.cpp
+    HoverReachTests.cpp
     MapStateResetRuntimeTests.cpp
     MawMm9ShopRuntimeTests.cpp
     CoopNetTests.cpp

@@ -4475,6 +4475,109 @@ double LoweredOutdoorMap::groundHeightAt(double x, double y) const
                             : northWest + shareY * (southWest - northWest) + shareX * (southEast - southWest);
 }
 
+std::array<double, 2> LoweredOutdoorMap::groundRangeUnder(const std::vector<std::array<double, 2>> &world) const
+{
+    std::array<double, 2> range = {std::numeric_limits<double>::infinity(),
+        -std::numeric_limits<double>::infinity()};
+
+    if (world.empty())
+    {
+        return {0.0, 0.0};
+    }
+
+    // In sketch cells (y south). The ground is flat on each cell's two triangles, so its extremes over the polygon
+    // lie at the polygon's corners, where its edges cross a cell's lines or its north-west to south-east diagonal,
+    // or at the nodes inside it.
+    std::vector<std::array<double, 2>> cells;
+
+    for (const std::array<double, 2> &point : world)
+    {
+        cells.push_back({point[0] / OutdoorCellSize + Nodes / 2, Nodes / 2 - point[1] / OutdoorCellSize});
+    }
+
+    const auto take = [&](double x, double y)
+    {
+        const double height = groundHeightAt(x, y);
+        range = {std::min(range[0], height), std::max(range[1], height)};
+    };
+    double west = cells[0][0];
+    double east = cells[0][0];
+    double north = cells[0][1];
+    double south = cells[0][1];
+
+    for (size_t index = 0; index < cells.size(); ++index)
+    {
+        const std::array<double, 2> &a = cells[index];
+        const std::array<double, 2> &b = cells[(index + 1) % cells.size()];
+        west = std::min(west, a[0]);
+        east = std::max(east, a[0]);
+        north = std::min(north, a[1]);
+        south = std::max(south, a[1]);
+        take(a[0], a[1]);
+        // Crossings of x = k, y = k and x - y = k along the edge.
+        const auto crossings = [&](double from, double to)
+        {
+            if (std::fabs(to - from) < 1.0e-12)
+            {
+                return;
+            }
+
+            for (double k = std::ceil(std::min(from, to)); k <= std::floor(std::max(from, to)); k += 1.0)
+            {
+                const double share = (k - from) / (to - from);
+                take(a[0] + (b[0] - a[0]) * share, a[1] + (b[1] - a[1]) * share);
+            }
+        };
+        crossings(a[0], b[0]);
+        crossings(a[1], b[1]);
+        crossings(a[0] - a[1], b[0] - b[1]);
+    }
+
+    for (int y = static_cast<int>(std::ceil(north)); y <= static_cast<int>(std::floor(south)); ++y)
+    {
+        for (int x = static_cast<int>(std::ceil(west)); x <= static_cast<int>(std::floor(east)); ++x)
+        {
+            bool inside = false;
+
+            for (size_t index = 0, previous = cells.size() - 1; index < cells.size(); previous = index++)
+            {
+                const std::array<double, 2> &a = cells[index];
+                const std::array<double, 2> &b = cells[previous];
+
+                if ((a[1] > y) != (b[1] > y) && x < a[0] + (y - a[1]) * (b[0] - a[0]) / (b[1] - a[1]))
+                {
+                    inside = !inside;
+                }
+            }
+
+            if (inside)
+            {
+                take(x, y);
+            }
+        }
+    }
+
+    return range;
+}
+
+double outdoorClearOfLand(const LoweredOutdoorMap &lowered, const std::vector<std::array<double, 2>> &world,
+    double top, double highest)
+{
+    if (lowered.samples.empty())
+    {
+        return top;
+    }
+
+    const std::array<double, 2> land = lowered.groundRangeUnder(world);
+
+    if (land[1] <= top - OutdoorClearOver + 1.0e-6 || land[0] >= top + OutdoorClearUnder - 1.0e-6)
+    {
+        return top;
+    }
+
+    return land[1] + OutdoorClearOver <= highest ? land[1] + OutdoorClearOver : land[0] - OutdoorClearUnder;
+}
+
 double LoweredOutdoorMap::decorationGroundAt(const std::string &name, double cellX, double cellY, int facing) const
 {
     const auto feet = decorationFeet.find(name);

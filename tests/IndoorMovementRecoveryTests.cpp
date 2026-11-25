@@ -911,4 +911,124 @@ TEST_CASE("monsters wedged against a tunnel's sloped side leave the crease and w
     }
 }
 
+namespace
+{
+// An arena floor (z 0) and a 256 by 256 trigger plate 4 over it at x 100..356, y -128..128. `solid`: the plate tops a
+// block sunk 4 into the floor, with four sides (the Xeen studio's sunk plate, P4's test plate, D-174); else a bare
+// invisible sheet (the MM9 converter's invisible trigger plates).
+IndoorMapData arenaWithPlate(bool solid)
+{
+    IndoorMapData map;
+    map.vertices = {
+        {-600, -512, 0}, {900, -512, 0}, {900, 512, 0}, {-600, 512, 0},
+        {100, -128, 4}, {356, -128, 4}, {356, 128, 4}, {100, 128, 4},
+        {100, -128, -4}, {356, -128, -4}, {356, 128, -4}, {100, 128, -4}
+    };
+    IndoorFace floor;
+    floor.vertexIndices = {0, 1, 2, 3};
+    floor.facetType = 3;
+    floor.roomNumber = 1;
+    IndoorFace plate;
+    plate.vertexIndices = {4, 5, 6, 7};
+    plate.facetType = 3;
+    plate.roomNumber = 1;
+    plate.cogTriggered = 11;
+    plate.attributes = faceAttributeBit(FaceAttribute::PressurePlate) | faceAttributeBit(FaceAttribute::TriggerByTouch)
+        | (solid ? 0u : faceAttributeBit(FaceAttribute::Invisible));
+    map.faces = {floor, plate};
+    std::vector<uint16_t> walls;
+
+    if (solid)
+    {
+        const std::array<std::array<uint16_t, 4>, 4> sides = {{
+            {8, 9, 5, 4}, {9, 10, 6, 5}, {10, 11, 7, 6}, {11, 8, 4, 7}
+        }};
+
+        for (const std::array<uint16_t, 4> &corners : sides)
+        {
+            IndoorFace side;
+            side.vertexIndices = {corners[0], corners[1], corners[2], corners[3]};
+            side.facetType = 1;
+            side.roomNumber = 1;
+            walls.push_back(static_cast<uint16_t>(map.faces.size()));
+            map.faces.push_back(side);
+        }
+    }
+
+    map.sectors.resize(2);
+    IndoorSector &sector = map.sectors[1];
+    sector.minX = -600;
+    sector.maxX = 900;
+    sector.minY = -512;
+    sector.maxY = 512;
+    sector.minZ = -4;
+    sector.maxZ = 512;
+    sector.floorFaceIds = {0, 1};
+    sector.wallFaceIds = walls;
+    for (uint16_t faceId = 0; faceId < map.faces.size(); ++faceId)
+    {
+        sector.faceIds.push_back(faceId);
+    }
+    sector.nonBspFaceIds = sector.faceIds;
+    sector.floorCount = static_cast<uint16_t>(sector.floorFaceIds.size());
+    sector.wallCount = static_cast<uint16_t>(sector.wallFaceIds.size());
+    sector.faceCount = sector.nonBspFaceCount = static_cast<uint16_t>(sector.faceIds.size());
+    return map;
+}
+
+// Walks the party from 320 away towards the plate's middle at `yawDegrees` (0: from the west) and on past it; whether
+// it ever stood on the plate (face 1), as the pressure plate's trigger reads it.
+bool walkAcrossPlateStandsOnIt(const IndoorMapData &map, float yawDegrees)
+{
+    std::optional<MapDeltaData> delta = MapDeltaData{};
+    std::optional<EventRuntimeState> events = EventRuntimeState{};
+    IndoorMovementController controller(map, &delta, &events);
+    controller.setSlopeRule(IndoorSlopeRule::Party);
+    const IndoorBodyDimensions body = {};
+    const float yaw = yawDegrees * 3.14159265f / 180.0f;
+    const float directionX = std::cos(yaw);
+    const float directionY = std::sin(yaw);
+    IndoorMoveState state = controller.initializeStateFromEyePosition(
+        228.0f - 320.0f * directionX, -320.0f * directionY, body.height, body);
+    REQUIRE(state.grounded);
+    bool stoodOnPlate = false;
+
+    for (int step = 0; step < 192; ++step)
+    {
+        state = controller.resolveMove(state, body, 384.0f * directionX, 384.0f * directionY, false, 1.0f / 128.0f,
+            nullptr, std::nullopt, true, nullptr, false, false, 480.0f, 0.0f, false, false, false, false, false,
+            1280.0f);
+        stoodOnPlate = stoodOnPlate || (state.grounded && state.supportFaceIndex == 1);
+    }
+
+    return stoodOnPlate;
+}
+}
+
+TEST_CASE("a trigger plate sunk into the floor is stood on from every side; a bare trigger sheet is not")
+{
+    const IndoorMapData solid = arenaWithPlate(true);
+    const IndoorMapData sheet = arenaWithPlate(false);
+    IndoorFaceGeometryCache solidCache(solid.faces.size());
+    IndoorFaceGeometryCache sheetCache(sheet.faces.size());
+    const IndoorFaceGeometryData *pSolidTop = solidCache.geometryForFace(solid, solid.vertices, 1);
+    const IndoorFaceGeometryData *pSide = solidCache.geometryForFace(solid, solid.vertices, 2);
+    const IndoorFaceGeometryData *pFloor = solidCache.geometryForFace(solid, solid.vertices, 0);
+    REQUIRE(pSolidTop != nullptr);
+    REQUIRE(pSide != nullptr);
+    REQUIRE(pFloor != nullptr);
+    CHECK(indoorFaceRunsDownFromFloorEdge(*pSolidTop, *pSide));
+    CHECK_FALSE(indoorFaceRunsDownFromFloorEdge(*pFloor, *pSide));
+    CHECK_FALSE(indoorFaceRunsDownFromFloorEdge(*pSolidTop, *pFloor));
+
+    // The arena floor runs on under the plate: a floor sample at the feet takes it, and the party used to walk on
+    // inside the 4-high block without standing on its top (Xeen P4's test of Water fired only from some sides).
+    for (float yawDegrees : {0.0f, 45.0f, 90.0f, 135.0f, 180.0f, 225.0f, 270.0f, 315.0f, 17.0f, 166.0f})
+    {
+        CAPTURE(yawDegrees);
+        CHECK(walkAcrossPlateStandsOnIt(solid, yawDegrees));
+        CHECK_FALSE(walkAcrossPlateStandsOnIt(sheet, yawDegrees));
+    }
+}
+
 TEST_SUITE_END();

@@ -917,6 +917,64 @@ TEST_CASE("swept indoor sphere hits cylinder before destination overlap")
     CHECK(std::fabs(hit->normal.y) < TestEpsilon);
 }
 
+// A body touching a cylinder slides round it: the slide the movement takes from the contact's normal runs along the
+// cylinder, and float rounding in that projection must not count as a move into it (XD-14's kennel pit, 2026-11-25:
+// a werewolf against a bone pile met it again at no distance on every slide and stood there for good).
+TEST_CASE("swept indoor sphere slides along a touched cylinder")
+{
+    constexpr float Pi = 3.14159265f;
+    const IndoorSweptCylinder cylinder = makeCylinder(2776.0f, 1440.0f, -64.0f, 20.0f, 40.0f);
+    const float combinedRadius = 32.0f + cylinder.radius;
+    int blockedSlides = 0;
+
+    for (int angleIndex = 0; angleIndex < 720; ++angleIndex)
+    {
+        const float angle = 2.0f * Pi * float(angleIndex) / 720.0f;
+        const IndoorSweptSphere sphere = makeSphere(cylinder.baseCenter.x + std::cos(angle) * combinedRadius,
+            cylinder.baseCenter.y + std::sin(angle) * combinedRadius, -24.0f, 32.0f, 40.0f);
+        const bx::Vec3 normal = {std::cos(angle), std::sin(angle), 0.0f};
+
+        for (const bx::Vec3 &want : {bx::Vec3{-0.87f, -0.5f, 0.0f}, bx::Vec3{0.3f, 0.95f, 0.0f}})
+        {
+            if (want.x * normal.x + want.y * normal.y >= 0.0f)
+            {
+                continue;
+            }
+
+            const std::optional<IndoorSweptCylinderHit> hit =
+                sweepIndoorSphereAgainstCylinder(sphere, want, 5.0f, cylinder, 0.0f);
+            REQUIRE(hit.has_value());
+            const bx::Vec3 slide = projectIndoorVelocityAlongPlane(
+                {want.x * 5.0f, want.y * 5.0f, 0.0f}, hit->normal, 0.89f);
+
+            if (slide.x * slide.x + slide.y * slide.y < 0.01f)
+            {
+                continue;
+            }
+
+            if (sweepIndoorSphereAgainstCylinder(sphere, slide, 2.0f, cylinder, 0.0f).has_value())
+            {
+                ++blockedSlides;
+            }
+        }
+    }
+
+    CHECK_EQ(blockedSlides, 0);
+}
+
+TEST_CASE("swept indoor sphere touching a cylinder still stops a move into it")
+{
+    const IndoorSweptCylinder cylinder = makeCylinder(100.0f, 0.0f, 0.0f, 30.0f, 120.0f);
+    const IndoorSweptSphere sphere = makeSphere(50.0f, 0.0f, 40.0f, 20.0f, 40.0f);
+    // One degree into the cylinder from the tangent.
+    const float inward = std::sin(3.14159265f / 180.0f);
+    const std::optional<IndoorSweptCylinderHit> hit =
+        sweepIndoorSphereAgainstCylinder(sphere, {inward, 1.0f, 0.0f}, 10.0f, cylinder, 0.0f);
+
+    REQUIRE(hit.has_value());
+    CHECK(hit->moveDistance < TestEpsilon);
+}
+
 TEST_CASE("swept indoor body cylinder hit rejects vertical miss")
 {
     const IndoorSweptCylinder cylinder = makeCylinder(100.0f, 0.0f, 220.0f, 30.0f, 60.0f);

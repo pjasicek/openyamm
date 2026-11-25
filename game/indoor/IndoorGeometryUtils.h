@@ -203,6 +203,9 @@ IndoorPortalSectorTrace traceIndoorLineThroughPortalSectors(
     int portalLimit
 );
 float calculateIndoorFaceHeight(const IndoorFaceGeometryData &geometry, float x, float y);
+// Whether `side` is a side of the solid that `floor` tops: it holds both ends of one of the floor's outline edges and
+// reaches down below that edge (a block sunk into a floor). A sheet laid over a floor has no such face.
+bool indoorFaceRunsDownFromFloorEdge(const IndoorFaceGeometryData &floor, const IndoorFaceGeometryData &side);
 bool isIndoorCylinderBlockedByFace(
     const IndoorFaceGeometryData &geometry,
     float x,

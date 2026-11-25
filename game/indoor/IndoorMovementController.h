@@ -255,6 +255,13 @@ private:
         std::optional<int16_t> preferredSectorId,
         const std::vector<uint8_t> *pFaceExclusionMask
     ) const;
+    // Whether a floor face tops a solid: a wall of its sector runs down from one of its edges
+    // (indoorFaceRunsDownFromFloorEdge). Remembered per face until the runtime cache is invalidated.
+    bool floorFaceTopsSolid(
+        const std::vector<IndoorVertex> &vertices,
+        IndoorFaceGeometryCache &geometryCache,
+        const IndoorFaceGeometryData &floor
+    ) const;
     IndoorFloorSample sampleSupportedFloorOnFace(
         const std::vector<IndoorVertex> &vertices,
         IndoorFaceGeometryCache &geometryCache,
@@ -305,6 +312,8 @@ private:
         std::vector<uint16_t> mechanismSupportFaceIds;
         std::vector<std::vector<uint16_t>> sectorMechanismSupportFaceIds;
         std::vector<uint16_t> invisibleSupportRampFaceIds;
+        // floorFaceTopsSolid's answers by face: 0 not asked yet, 1 no, 2 yes.
+        std::vector<uint8_t> floorFaceTopsSolidStates;
         IndoorFaceGeometryCache geometryCache;
         // Narrows floor queries to the faces near a point (attached to geometryCache by refreshRuntimeGeometryCache):
         // a region's open air is one sector of 25 000 floors (devdocs/mm9_rework/BLV_GEOMETRY_COSTS.md, E2).

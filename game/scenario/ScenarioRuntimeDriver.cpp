@@ -1909,6 +1909,32 @@ uint32_t ScenarioRuntimeDriver::heldCursorItemId()
     return held.active ? held.item.objectDescriptionId : 0;
 }
 
+std::string ScenarioRuntimeDriver::centerHoverStatusText()
+{
+    IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
+
+    if (pWorldRuntime == nullptr)
+    {
+        return {};
+    }
+
+    const GameplayScreenRuntime &screenRuntime =
+        ScenarioGameApplicationAccess::gameSession(m_application).gameplayScreenRuntime();
+    const GameSettings &settings = screenRuntime.settingsSnapshot();
+    GameplayInteractionController::HoverStateInput input = {};
+    input.allowHover = true;
+    input.currentTickNanoseconds = 1;
+    input.refreshIntervalNanoseconds = 0;
+    input.pScreenRuntime = &screenRuntime;
+    input.interactionDepth = static_cast<float>(std::clamp(settings.keyboardInteractionDepth, 32, 4096));
+    input.hoverRequest = GameplayWorldHoverRequest{
+        .probeKind = GameplayWorldHoverProbeKind::Standard,
+        .primaryPickRequest = buildCenterPickRequest(),
+        .updateTickNanoseconds = 1,
+    };
+    return GameplayInteractionController::updateHoverState(input, pWorldRuntime).statusText;
+}
+
 bool ScenarioRuntimeDriver::takeAllFromOpenChest(std::string &failure)
 {
     IGameplayWorldRuntime *pWorldRuntime = worldRuntime();

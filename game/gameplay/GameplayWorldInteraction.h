@@ -32,6 +32,9 @@ struct GameplayWorldPickRequest
     bx::Vec3 eye = {0.0f, 0.0f, 0.0f};
     bool hasRay = false;
     bool ignoreActors = false;
+    // A Use looks through decorations without an event (torches, bones), as MM6-MM8's click does; the hover still
+    // names them. Outdoor interaction picks always skip them (DecorationPickMode::Interaction).
+    bool ignoreDecorationsWithoutEvent = false;
 };
 
 struct GameplayWorldPickRequestInput

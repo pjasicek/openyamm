@@ -1417,6 +1417,181 @@ private:
     }
 
     // A wall along a line: its top is level, `height` above the highest ground under it, and can be walked.
+    // D-170: whether a free end of a wall (a gate's leaf), at `end` with its line running out of the wall along `way`
+    // (a unit vector), lies against an upright face of another solid that covers it: the cheek of a gate in another
+    // wall (D3's south gate), the end of another wall meeting it head on (a double gate's two leaves), or a
+    // building's wall (D1's north gate between the gatehouse's towers). Its own end face would lie back to back with
+    // that face and flicker; it is not made.
+    bool wallEndCovered(const YAML::Node &self, const Point2 &end, const Point2 &way, double low, double high,
+        double width) const
+    {
+        constexpr double Near = 1.0;
+        const auto pointsOf = [](const YAML::Node &node, const char *pKey)
+        {
+            std::vector<Point2> points;
+            const YAML::Node list = childOf(node, pKey);
+
+            for (size_t index = 0; list.IsDefined() && list.IsSequence() && index < list.size(); ++index)
+            {
+                Point2 cell = {0.0, 0.0};
+
+                if (!pointOf(list[index], cell))
+                {
+                    return std::vector<Point2>{};
+                }
+
+                points.push_back(toWorld(cell));
+            }
+
+            return points;
+        };
+        const auto dot = [](const Point2 &a, const Point2 &b)
+        {
+            return a[0] * b[0] + a[1] * b[1];
+        };
+        const YAML::Node structures = childOf(m_project.document(SketchFile), "structures");
+
+        for (size_t index = 0; structures.IsDefined() && structures.IsSequence() && index < structures.size(); ++index)
+        {
+            const YAML::Node other = structures[index];
+
+            if (textOf(other, "kind") != "wall" || textOf(other, "id") == textOf(self, "id"))
+            {
+                continue;
+            }
+
+            const std::vector<Point2> line = pointsOf(other, "line");
+            const double thickness = numberOr(other, "thickness", 128.0);
+            // The other wall's top (as raiseWall sets it) and whether its faces are upright all the way.
+            double otherTop = -1.0e18;
+
+            for (size_t point = 0; point + 1 < line.size(); ++point)
+            {
+                const int steps = std::max(1, static_cast<int>(lengthOf(line[point], line[point + 1]) / 256.0));
+
+                for (int step = 0; step <= steps; ++step)
+                {
+                    otherTop = std::max(otherTop, groundAt({line[point][0] + (line[point + 1][0] - line[point][0])
+                        * step / steps, line[point][1] + (line[point + 1][1] - line[point][1]) * step / steps}));
+                }
+            }
+
+            otherTop += numberOr(other, "raise", 0.0) + numberOr(other, "height", 384.0);
+            const bool upright = numberOr(other, "batter", 0.0) <= 0.0 && textOf(other, "top") != "follow";
+
+            if (line.size() < 2 || flagOf(other, "closed") || !upright || otherTop < high - Near
+                || thickness < width - Near)
+            {
+                // A ring has no free ends, and a lower, thinner or battered end does not cover this one; gates
+                // are looked at below.
+            }
+            else
+            {
+                // Another wall's free end meeting this one head on, as thick and as high or more.
+                for (const bool last : {false, true})
+                {
+                    const Point2 &tip = last ? line.back() : line.front();
+                    const Point2 &before = last ? line[line.size() - 2] : line[1];
+                    const double length = lengthOf(before, tip);
+                    const Point2 otherWay = {(tip[0] - before[0]) / length, (tip[1] - before[1]) / length};
+
+                    if (lengthOf(tip, end) < Near && dot(way, otherWay) < -0.999)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            const YAML::Node gates = childOf(other, "gates");
+            const size_t stretches = flagOf(other, "closed") ? line.size() : line.size() - 1;
+
+            for (size_t gate = 0; line.size() >= 2 && gates.IsDefined() && gates.IsSequence() && gate < gates.size();
+                 ++gate)
+            {
+                Point2 cell = {0.0, 0.0};
+
+                if (!pointOf(childOf(gates[gate], "at"), cell))
+                {
+                    continue;
+                }
+
+                const Point2 place = toWorld(cell);
+                const double gateWidth = numberOr(gates[gate], "width", 384.0);
+
+                // A leaf no thicker and no higher than the wall (over the gate's head the cheek's plane runs inside
+                // the wall's mass: the arch's spandrels, the lintel).
+                if (!upright || thickness < width - Near || high > otherTop + Near)
+                {
+                    continue;
+                }
+
+                for (size_t stretch = 0; stretch < stretches; ++stretch)
+                {
+                    const Point2 &from = line[stretch];
+                    const Point2 &to = line[(stretch + 1) % line.size()];
+                    const double length = lengthOf(from, to);
+                    const Point2 along = {(to[0] - from[0]) / length, (to[1] - from[1]) / length};
+                    const double at = dot({place[0] - from[0], place[1] - from[1]}, along);
+
+                    if (std::fabs(dot(way, along)) < 0.999 || at < 0.0 || at > length)
+                    {
+                        continue;
+                    }
+
+                    for (const double cheek : {at - gateWidth * 0.5, at + gateWidth * 0.5})
+                    {
+                        const Point2 offset = {end[0] - from[0], end[1] - from[1]};
+
+                        if (std::fabs(dot(offset, along) - cheek) < Near
+                            && std::fabs(offset[0] * along[1] - offset[1] * along[0]) <= thickness * 0.5 + Near)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        // A building's wall square to the line, from under the wall's lowest ground to over its top.
+        for (const OutdoorBuildingPlan &building : m_lowered.buildings)
+        {
+            for (const OutdoorPartPlan &part : building.parts)
+            {
+                const double partLow = building.base + part.bottom - (part.bottom == 0.0 ? building.foundation : 0.0);
+
+                if (partLow > low + Near || building.base + part.bottom + part.wallHeight < high - Near)
+                {
+                    continue;
+                }
+
+                for (size_t corner = 0; corner < part.outline.size(); ++corner)
+                {
+                    const Point2 &from = part.outline[corner];
+                    const Point2 &to = part.outline[(corner + 1) % part.outline.size()];
+                    const double length = lengthOf(from, to);
+
+                    if (length < 1.0)
+                    {
+                        continue;
+                    }
+
+                    const Point2 along = {(to[0] - from[0]) / length, (to[1] - from[1]) / length};
+                    const Point2 offset = {end[0] - from[0], end[1] - from[1]};
+                    const double at = dot(offset, along);
+
+                    // Square to the edge, on it, both of the end's corners within it.
+                    if (std::fabs(dot(way, along)) < 0.001 && std::fabs(offset[0] * along[1] - offset[1] * along[0])
+                        < Near && at - width * 0.5 > -Near && at + width * 0.5 < length + Near)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
     void raiseWall(const YAML::Node &node, OutdoorModelBuilder &builder)
     {
         std::vector<Point2> line;
@@ -1510,6 +1685,16 @@ private:
         }
 
         const double top = highest + height;
+        // D-170: a free end against another solid's upright face gets no end face of its own (wallEndCovered).
+        const auto wayOut = [](const Point2 &tip, const Point2 &before)
+        {
+            const double length = std::max(lengthOf(before, tip), 1.0e-9);
+            return Point2{(tip[0] - before[0]) / length, (tip[1] - before[1]) / length};
+        };
+        const bool startCovered = !closed && batter <= 0.0 && !follow && wallEndCovered(node, line.front(),
+            wayOut(line.front(), line[1]), lowest, top, thickness);
+        const bool endCovered = !closed && batter <= 0.0 && !follow && wallEndCovered(node, line.back(),
+            wayOut(line.back(), line[line.size() - 2]), lowest, top, thickness);
         const double foot = lowest - 64.0;
         // Batch O-H: `passage_along`: a way through the wall along its line from end to end, its floor at `floor`
         // (map units), `width` across, `height` to a flat ceiling (Erathia's Fort Riverstride: the road at 1088 east
@@ -1862,8 +2047,9 @@ private:
 
                 if (until - cursor > 1.0)
                 {
-                    piece(cursor, until, foot, (index == 0 && !closed && gate == 0) || gate > 0,
-                        (index + 1 == stretches && !closed && gate == own.size()) || gate < own.size(), false);
+                    piece(cursor, until, foot, (index == 0 && !closed && gate == 0 && !startCovered) || gate > 0,
+                        (index + 1 == stretches && !closed && gate == own.size() && !endCovered) || gate < own.size(),
+                        false);
                 }
 
                 if (gate < own.size())
@@ -4280,14 +4466,18 @@ private:
             const OutdoorModelPoint headLeft = {head[0] - side[0], head[1] - side[1], ground + rise};
             const double base = ground - 64.0;
             builder.addSurface({footRight, headRight, headLeft, footLeft}, top, m_event);
-            builder.addSurface({{footLeft[0], footLeft[1], base}, {headLeft[0], headLeft[1], base}, headLeft,
-                footLeft}, stone, m_event);
-            builder.addSurface({{headRight[0], headRight[1], base}, {footRight[0], footRight[1], base}, footRight,
-                headRight}, stone, m_event);
-            builder.addSurface({{headLeft[0], headLeft[1], base}, {headRight[0], headRight[1], base}, headRight,
-                headLeft}, stone, m_event);
-            builder.addSurface({{footRight[0], footRight[1], base}, {footLeft[0], footLeft[1], base}, footLeft,
-                footRight}, stone, m_event);
+            // The sides run round the top's outline as a prism's do (counter-clockwise seen from above), so each
+            // looks out: the collision is one-sided, and sides wound inward let the party walk in through a cheek
+            // (X4 p11, D-160).
+            const std::array<OutdoorModelPoint, 4> rim = {footRight, headRight, headLeft, footLeft};
+
+            for (size_t corner = 0; corner < rim.size(); ++corner)
+            {
+                const OutdoorModelPoint &from = rim[corner];
+                const OutdoorModelPoint &to = rim[(corner + 1) % rim.size()];
+                builder.addSurface({{from[0], from[1], base}, {to[0], to[1], base}, to, from}, stone, m_event);
+            }
+
             return;
         }
 
@@ -4310,9 +4500,15 @@ private:
             const Point2 near = {line.front()[0] + along[0] * from, line.front()[1] + along[1] * from};
             const Point2 far = {line.front()[0] + along[0] * to, line.front()[1] + along[1] * to};
             const size_t first = faceCount();
-            builder.addPrism({{near[0] + side[0], near[1] + side[1]}, {far[0] + side[0], far[1] + side[1]},
-                {far[0] - side[0], far[1] - side[1]}, {near[0] - side[0], near[1] - side[1]}}, ground - 64.0,
-                ground + rise * (step + 1) / steps, stone, treads, "", m_event);
+            const std::vector<Point2> outline = {{near[0] + side[0], near[1] + side[1]},
+                {far[0] + side[0], far[1] + side[1]}, {far[0] - side[0], far[1] - side[1]},
+                {near[0] - side[0], near[1] - side[1]}};
+            // D-170: a tread the land under it reaches (a flight up a hillside, its top flush with the land above:
+            // X1's lane steps, X5's monastery stair) stands 4 over that land, up to 4 under the next tread; else
+            // it lies 8 under the land, buried in the hill.
+            const double treadTop = ground + rise * (step + 1) / steps;
+            const double top = outdoorClearOfLand(m_lowered, outline, treadTop, treadTop + rise / steps - 4.0);
+            builder.addPrism(outline, std::min(ground - 64.0, top - 32.0), top, stone, treads, "", m_event);
 
             // The riser: the step's wall that looks down the flight.
             for (size_t face = first; face < faceCount(); ++face)

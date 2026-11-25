@@ -9215,7 +9215,8 @@ private:
     // and water; with `takesRoomStep` (a block that stands on the room's floor and rises less than a step from it)
     // also the room's step event when it runs none of its own: a landing on a heap in the room is a step in the room
     // (A7's DD-11B clay drop). Not a higher platform, a hanging one or a level: a sky map's clouds and XD-12's
-    // balcony stand in rooms whose floor is the fall below. Empty for plain floor.
+    // balcony stand in rooms whose floor is the fall below; nor a clicked block, whose top stays clicked. Empty for
+    // plain floor.
     std::optional<FloorPart> featureFloorPart(
         const std::string &featureId, const std::string &roomId, bool takesRoomStep) const
     {
@@ -22525,10 +22526,13 @@ private:
             // already. So is the top of a low block on the floor of a room that runs a step event (featureFloorPart).
             const std::map<std::string, FloorPart>::const_iterator part =
                 box.featureId.empty() ? m_floorParts.end() : m_floorParts.find(box.featureId);
-            // (The game steps the party up at most 50, IndoorMovementController's MaximumRise.)
+            // (The game steps the party up at most 50, IndoorMovementController's MaximumRise.) A clicked block keeps
+            // its click on its top: the room's step event would take the top away from it and leave only the sides
+            // to click (XD-26's Great nest, 24 high, F65).
             const bool lowOnFloor = !box.hasBottom && top - standing <= 50.0 && floorKind(box.featureId) != "level";
             const std::optional<FloorPart> lidPart = box.plate ? std::nullopt
-                : featureFloorPart(box.featureId, room.id, box.partOfRoom && !box.passable && lowOnFloor);
+                : featureFloorPart(box.featureId, room.id,
+                    box.partOfRoom && !box.passable && lowOnFloor && box.eventId <= 0);
             // (Or whose top alone an effect changes: `set_texture` with `face: top`.)
             const bool partLid = lidPart.has_value();
             const bool ownLid = partLid || (box.topCog > 0 && !box.plate);
@@ -22578,6 +22582,13 @@ private:
                 if (partLid)
                 {
                     m_floorPartNodes.push_back({lidNode.name, *lidPart});
+                }
+
+                // A clicked block's top built apart (its texture changed alone, or a water floor on it) is clicked
+                // as the block, unless its floor runs a step event of its own (XD-23's fire pit, F65).
+                if (box.eventId > 0 && (!partLid || lidPart->eventId <= 0))
+                {
+                    m_clickedLids[lidNode.name] = box.eventId;
                 }
             }
             else if (box.plate)
@@ -23138,10 +23149,22 @@ private:
             surface.id = part.first.substr(part.first.find('_') + 1);
             surface.sourceNodeName = part.first;
 
+            const std::map<std::string, int>::const_iterator clickedLid = m_clickedLids.find(part.first);
+
             if (part.second.eventId > 0)
             {
                 surface.trigger = Editor::EditorIndoorGeometrySurfaceTriggerMetadata{
                     static_cast<uint16_t>(part.second.eventId), "pressure_plate"};
+            }
+            else if (clickedLid != m_clickedLids.end())
+            {
+                surface.trigger = Editor::EditorIndoorGeometrySurfaceTriggerMetadata{
+                    static_cast<uint16_t>(clickedLid->second), "click"};
+
+                if (m_touchEventIds.contains(clickedLid->second))
+                {
+                    surface.flags.push_back("touch");
+                }
             }
 
             if (part.second.lava)
@@ -23199,6 +23222,21 @@ private:
             if ((!box.partOfRoom || box.eventId > 0) && !box.plate)
             {
                 addSurface(box.nodeName, box.eventId, 0);
+            }
+        }
+
+        // The clicked tops built apart that are no floor part (a top whose texture an effect changes alone).
+        for (const std::pair<const std::string, int> &lid : m_clickedLids)
+        {
+            const bool floorPart = std::any_of(m_floorPartNodes.begin(), m_floorPartNodes.end(),
+                [&lid](const std::pair<std::string, FloorPart> &part)
+                {
+                    return part.first == lid.first;
+                });
+
+            if (!floorPart)
+            {
+                addSurface(lid.first, lid.second, 0);
             }
         }
 
@@ -23630,6 +23668,8 @@ private:
     std::map<std::string, FloorPart> m_floorParts;
     // The nodes built for them, for the metadata.
     std::vector<std::pair<std::string, FloorPart>> m_floorPartNodes;
+    // Tops of clicked blocks built as nodes of their own, with the block's event (the tops keep the click).
+    std::map<std::string, int> m_clickedLids;
 };
 
 void readTable(const YAML::Node &document, const char *pKey, std::map<std::string, int> &table)

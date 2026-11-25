@@ -4,6 +4,7 @@
 #include "core/OutdoorRoofCover.h"
 
 #include <algorithm>
+#include <functional>
 #include <array>
 #include <cmath>
 #include <limits>
@@ -2557,6 +2558,33 @@ TEST_CASE("forms: a ramp is one sloping slab; a doorway reaches back into the sl
     {
         return face.polygonType == 4 && face.planeNormalZ > 46340;
     }) == 1);
+    // D-160 (X4 p11): every face looks out of the slab (the collision is one-sided; cheeks wound inward let the
+    // party walk in through them), each side straight out from the middle.
+    const double middleX = (ramp.minX + ramp.maxX) * 0.5;
+    const double middleY = (ramp.minY + ramp.maxY) * 0.5;
+    const double middleZ = (ramp.minZ + ramp.maxZ) * 0.5;
+    size_t sides = 0;
+
+    for (const Game::OutdoorBModelFace &face : ramp.faces)
+    {
+        double x = 0.0;
+        double y = 0.0;
+        double z = 0.0;
+
+        for (const uint16_t index : face.vertexIndices)
+        {
+            x += ramp.vertices[index].x;
+            y += ramp.vertices[index].y;
+            z += ramp.vertices[index].z;
+        }
+
+        const double count = static_cast<double>(face.vertexIndices.size());
+        CHECK(face.planeNormalX * (x / count - middleX) + face.planeNormalY * (y / count - middleY)
+            + face.planeNormalZ * (z / count - middleZ) > 0.0);
+        sides += std::abs(face.planeNormalZ) < 64 ? 1 : 0;
+    }
+
+    CHECK(sides == 4);
     // The doorway: its frame 256 deep behind the front, its hood 512 before it; the door stays one face.
     const Game::OutdoorBModel &den = things.models[1];
     CHECK(den.maxY - den.minY == 256 + 512);
@@ -11544,4 +11572,139 @@ TEST_CASE("void audit: a hull decoration's hidden collision over the void is no 
     const std::vector<AuditFinding> findings = auditVoid(map);
     REQUIRE(findings.size() == 1);
     CHECK(findings[0].message.find("thing:crate") != std::string::npos);
+}
+
+namespace
+{
+// D-170: every level upward face of a model stands 4 or more over the land under it or lies 8 or more under it.
+size_t facesOnLand(const Game::OutdoorBModel &model, const LoweredOutdoorMap &lowered)
+{
+    size_t found = 0;
+
+    for (const Game::OutdoorBModelFace &face : model.faces)
+    {
+        if (face.planeNormalZ < 65470 || face.vertexIndices.size() < 3)
+        {
+            continue;
+        }
+
+        std::vector<std::array<double, 2>> outline;
+        double z = 0.0;
+
+        for (const uint16_t index : face.vertexIndices)
+        {
+            outline.push_back({double(model.vertices[index].x), double(model.vertices[index].y)});
+            z += model.vertices[index].z;
+        }
+
+        z /= static_cast<double>(face.vertexIndices.size());
+        const std::array<double, 2> land = lowered.groundRangeUnder(outline);
+        found += land[1] > z - 4.0 + 0.5 && land[0] < z + 8.0 - 0.5 ? 1 : 0;
+    }
+
+    return found;
+}
+
+// The project of `thingsOf` lowered, its land then changed by `shape`, and its structures raised.
+OutdoorThings thingsOnLand(const std::string &more, LoweredOutdoorMap &lowered,
+    const std::function<void(LoweredOutdoorMap &)> &shape)
+{
+    const Project project = buildingProject("      - {building: building:home, at: [40, 40], facing: s}\n", more);
+    std::vector<ProjectIssue> issues;
+    REQUIRE(lowerOutdoorProject(project, lowered, issues));
+    shape(lowered);
+    IdsLock ids;
+    OutdoorThings things;
+    std::vector<std::string> warnings;
+    OutdoorEventWords words(project, {}, ids, issues);
+    raiseOutdoorThings(project, lowered, {}, ids, words, things, issues, warnings);
+    REQUIRE(issues.empty());
+    return things;
+}
+}
+
+TEST_CASE("D-170: the land under a sample range: corners, crossings and nodes inside; the rule over or under it")
+{
+    LoweredOutdoorMap lowered = loweredOf(LevelLand);
+    // A node at (64, 64), world (0, 0), raised 64 over the level 640.
+    lowered.samples[static_cast<size_t>(64) * OutdoorNodeCount + 64] += 2;
+    const std::array<double, 2> around = lowered.groundRangeUnder({{-256, -256}, {256, -256}, {256, 256}, {-256, 256}});
+    CHECK(around[0] == doctest::Approx(640.0));
+    CHECK(around[1] == doctest::Approx(704.0));
+    // A face at 660 over it is lifted 4 over its highest land; one at 600 under the level land stays.
+    CHECK(outdoorClearOfLand(lowered, {{-256, -256}, {256, -256}, {256, 256}, {-256, 256}}, 660.0)
+        == doctest::Approx(708.0));
+    CHECK(outdoorClearOfLand(lowered, {{-256, -256}, {256, -256}, {256, 256}, {-256, 256}}, 632.0)
+        == doctest::Approx(632.0));
+    CHECK(outdoorClearOfLand(lowered, {{1024, 1024}, {1280, 1024}, {1280, 1280}}, 648.0) == doctest::Approx(648.0));
+    // Kept under a limit, it lies 8 under the lowest land instead.
+    CHECK(outdoorClearOfLand(lowered, {{-256, -256}, {256, -256}, {256, 256}, {-256, 256}}, 660.0, 690.0)
+        == doctest::Approx(632.0));
+}
+
+TEST_CASE("D-170: a porch's slab stands 4 over the land that rises to it beyond the plot")
+{
+    const Project project = buildingProject("      - {building: building:home, at: [40, 40], facing: s, "
+        "parts: [{id: body, at: [64, 64], size: [896, 512], porches: [{wall: s, depth: 128, height: 224, posts: 24, "
+        "floor: 16}]}]}\n");
+    LoweredOutdoorMap lowered;
+    std::vector<ProjectIssue> issues;
+    REQUIRE(lowerOutdoorProject(project, lowered, issues));
+    REQUIRE(lowered.buildings.size() == 1);
+    // The land beyond the levelled plot rises south of it (row 42 at 704): under the porch (rows 41.125 to 41.375)
+    // from 648 to 664, through the slab at 656 (the floor 640 and 16).
+    for (int x = 36; x <= 44; ++x)
+    {
+        lowered.samples[static_cast<size_t>(42) * OutdoorNodeCount + x] = 22;
+    }
+
+    const Game::OutdoorBModel unclear = raiseOutdoorBuilding(lowered.buildings[0]);
+    CHECK(facesOnLand(unclear, lowered) > 0);
+    const Game::OutdoorBModel house = raiseOutdoorBuilding(lowered.buildings[0], nullptr, &lowered);
+    CHECK(facesOnLand(house, lowered) == 0);
+    CHECK(house.faces.size() == unclear.faces.size());
+}
+
+TEST_CASE("D-170: a tread the hillside reaches stands 4 over it or lies 8 under it")
+{
+    LoweredOutdoorMap lowered;
+    const OutdoorThings things = thingsOnLand("structures:\n"
+        "  - {id: thing:flight, kind: stairs, line: [[50, 50], [52, 50]], rise: 256, tread: 32, width: 256}\n",
+        lowered, [](LoweredOutdoorMap &land)
+    {
+        // The hill climbs with the flight, its top flush with the last tread (896).
+        for (int y = 49; y <= 51; ++y)
+        {
+            land.samples[static_cast<size_t>(y) * OutdoorNodeCount + 51] = 24;
+            land.samples[static_cast<size_t>(y) * OutdoorNodeCount + 52] = 28;
+            land.samples[static_cast<size_t>(y) * OutdoorNodeCount + 53] = 28;
+        }
+    });
+    REQUIRE(things.models.size() == 1);
+    CHECK(facesOnLand(things.models[0], lowered) == 0);
+    CHECK(things.models[0].maxZ <= 896 + 32);
+}
+
+TEST_CASE("D-170: a gate's leaves make no end faces against the gate's cheeks or each other; a free end keeps one")
+{
+    LoweredOutdoorMap lowered;
+    const OutdoorThings things = thingsOnLand("structures:\n"
+        "  - {id: thing:gatehouse, kind: wall, line: [[48, 50], [50.4, 50]], height: 448, thickness: 192, "
+        "gates: [{at: [49.2, 50], width: 256, height: 320}]}\n"
+        "  - {id: thing:leaf_l, kind: wall, line: [[48.95, 50.1], [49.2, 50.1]], height: 256, thickness: 32}\n"
+        "  - {id: thing:leaf_r, kind: wall, line: [[49.2, 50.1], [49.45, 50.1]], height: 256, thickness: 32}\n"
+        "  - {id: thing:free, kind: wall, line: [[55, 50], [55.5, 50]], height: 256, thickness: 32}\n",
+        lowered, [](LoweredOutdoorMap &) {});
+    REQUIRE(things.models.size() == 4);
+    const auto ends = [](const Game::OutdoorBModel &model)
+    {
+        return std::count_if(model.faces.begin(), model.faces.end(), [](const Game::OutdoorBModelFace &face)
+        {
+            return std::abs(face.planeNormalX) > 65000;
+        });
+    };
+    CHECK(things.models[1].name == "thing:leaf_l");
+    CHECK(ends(things.models[1]) == 0);
+    CHECK(ends(things.models[2]) == 0);
+    CHECK(ends(things.models[3]) == 2);
 }

@@ -3907,8 +3907,10 @@ private:
 class PartRaiser
 {
 public:
-    PartRaiser(OutdoorModelBuilder &builder, OutdoorBuildingPlan &building, size_t partIndex)
+    PartRaiser(OutdoorModelBuilder &builder, OutdoorBuildingPlan &building, size_t partIndex,
+        const LoweredOutdoorMap *pLand)
         : m_builder(builder)
+        , m_pLand(pLand)
         , m_building(building)
         , m_partIndex(partIndex)
         , m_part(building.parts[partIndex])
@@ -4479,7 +4481,7 @@ private:
     std::vector<RuinPiece> ruinPieces(size_t wall, std::vector<double> &cuts) const
     {
         const OutdoorRuinPlan &ruin = m_part.ruin;
-        // The lowest row's bays: their heights (0: gone).
+        // The lowest row's bays: their heights (0, or one course over a foundation: gone).
         const std::vector<double> lowEdges = bayEdgesOf(m_part, wall, false);
         std::vector<double> standing(lowEdges.size() - 1, 0.0);
         const auto doorAt = [&](int row, size_t bay)
@@ -4497,13 +4499,27 @@ private:
             return -1;
         };
 
+        // A gone bay over a foundation keeps one stone course: a cap at the floor itself would lie on the levelled
+        // land and flicker (P4 feedback F58, the ruins' footings).
+        constexpr double RuinCourse = 8.0;
+        const double goneHeight = m_building.foundation > 0.0 && m_part.bottom == 0.0 ? RuinCourse : 0.0;
+
         for (size_t bay = 0; bay < standing.size(); ++bay)
         {
             const bool door = doorAt(0, bay) >= 0;
             const double height = ruin.low + (ruin.high - ruin.low) * chance(static_cast<uint32_t>(wall),
                 static_cast<uint32_t>(bay), 1);
             standing[bay] = door ? std::max(height, std::min(m_part.wallHeight, RowHeight))
-                : chance(static_cast<uint32_t>(wall), static_cast<uint32_t>(bay), 2) < ruin.gaps ? 0.0 : height;
+                : chance(static_cast<uint32_t>(wall), static_cast<uint32_t>(bay), 2) < ruin.gaps ? goneHeight : height;
+
+            // D-170: the course's cap stands 4 over the land under it where the land beyond the levelled plot
+            // rises to it (D3's roadside ruin), never lower than the course.
+            if (goneHeight > 0.0 && standing[bay] == goneHeight && ruin.thickness > 0.0)
+            {
+                standing[bay] = std::max(goneHeight, clearOfLand({onWall(wall, lowEdges[bay]),
+                    onWall(wall, lowEdges[bay + 1]), onWall(wall, lowEdges[bay + 1], ruin.thickness),
+                    onWall(wall, lowEdges[bay], ruin.thickness)}, m_floor + goneHeight) - m_floor);
+            }
         }
 
         // How high the wall stands over a stretch: the least of the lowest row's bays it covers.
@@ -5628,6 +5644,13 @@ private:
         return m_part.textures.contains(role) ? m_part.textures.at(role) : texture(fallback);
     }
 
+    // D-170: the height a level top over `outline` stands at so that it does not lie on the land (outdoorClearOfLand,
+    // never sunk: a porch's slab is walked on, a ruin's course is its footing).
+    double clearOfLand(const std::vector<Point2> &outline, double top) const
+    {
+        return m_pLand == nullptr ? top : outdoorClearOfLand(*m_pLand, outline, top);
+    }
+
     // The foot of what stands on the ground: down into it by the foundation, as the walls' base course.
     double groundFoot() const
     {
@@ -5960,8 +5983,10 @@ private:
                     at(frontTo, front + thick)}, trim, m_nameEvent);
             }
 
-            // The slab's top: over the part's foot, or over the land under the building's plinth.
-            const double slab = (porch.floorFromLand ? m_floor - m_building.plinth : m_floor) + porch.floor;
+            // The slab's top: over the part's foot, or over the land under the building's plinth; and 4 over the
+            // land under it where that rises to it beyond the plot (D-170: X3's temple, D3's Guild of Light).
+            const double slab = clearOfLand({wallFrom, frontFrom, frontTo, wallTo},
+                (porch.floorFromLand ? m_floor - m_building.plinth : m_floor) + porch.floor);
 
             if (porch.floor > 0.0)
             {
@@ -8326,6 +8351,7 @@ private:
     }
 
     OutdoorModelBuilder &m_builder;
+    const LoweredOutdoorMap *m_pLand;
     OutdoorBuildingPlan &m_building;
     const size_t m_partIndex;
     const OutdoorPartPlan &m_part;
@@ -8484,7 +8510,8 @@ std::vector<double> outdoorBayEdges(const OutdoorPartPlan &part, size_t wall, bo
     return edges;
 }
 
-Game::OutdoorBModel raiseOutdoorBuilding(OutdoorBuildingPlan &plan, const OutdoorWallTiles *pWallTiles)
+Game::OutdoorBModel raiseOutdoorBuilding(OutdoorBuildingPlan &plan, const OutdoorWallTiles *pWallTiles,
+    const LoweredOutdoorMap *pLand)
 {
     Game::OutdoorBModel model;
     model.name = plan.id;
@@ -8496,7 +8523,7 @@ Game::OutdoorBModel raiseOutdoorBuilding(OutdoorBuildingPlan &plan, const Outdoo
     for (size_t part = 0; part < plan.parts.size(); ++part)
     {
         const size_t from = model.faces.size();
-        PartRaiser(builder, plan, part).raise();
+        PartRaiser(builder, plan, part, pLand).raise();
 
         for (size_t face = from; face < model.faces.size(); ++face)
         {

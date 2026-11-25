@@ -852,7 +852,13 @@ std::optional<IndoorSweptCylinderHit> sweepIndoorSphereAgainstCylinderWithNormal
 
     if (horizontalC <= 0.0f)
     {
-        if (horizontalB >= 0.0f)
+        // Touching (or inside), only a move into the cylinder is stopped. A slide along it, projected from this
+        // contact's normal, leaves a rounding residue that may point inward; counted as a move into it, that met the
+        // cylinder again at no distance on every slide and held the body there (XD-14's kennel pit, a werewolf
+        // pressed against a bone pile on the bank).
+        const float tangentTolerance = CollisionEpsilon * combinedRadius;
+
+        if (horizontalB >= -tangentTolerance)
         {
             return std::nullopt;
         }

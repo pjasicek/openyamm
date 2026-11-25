@@ -14921,6 +14921,38 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
         }
     }
 
+    // A decoration a click can use: its own event, a light it toggles, or an interactive decoration's state.
+    const auto entityHasInteraction =
+        [this, &eventRuntimeState](size_t entityIndex, uint16_t eventIdSecondary)
+        {
+            if (eventIdSecondary != 0)
+            {
+                return true;
+            }
+
+            if (!eventRuntimeState.has_value())
+            {
+                return false;
+            }
+
+            if (m_pIndoorMapData && m_indoorDecorationBillboardSet
+                && indoorDecorationLightToggleTarget(*m_pIndoorMapData,
+                    m_indoorDecorationBillboardSet->decorationTable, entityIndex,
+                    &*eventRuntimeState) != nullptr)
+            {
+                return true;
+            }
+
+            return resolveIndoorInteractiveDecorationBinding(
+                m_indoorInteractiveDecorationDecorVarIndicesByEntity,
+                m_indoorInteractiveDecorationBaseEventIdsByEntity,
+                m_indoorInteractiveDecorationEventCountsByEntity,
+                m_indoorInteractiveDecorationHideWhenClearedByEntity,
+                m_indoorInteractiveDecorationFixedEventByEntity,
+                entityIndex).has_value();
+        };
+    const bool skipDecorationsWithoutEvent = pPickRequest != nullptr && pPickRequest->ignoreDecorationsWithoutEvent;
+
     // Entities drawn by a 3D decoration model pick through its triangles below, not this coarse box.
     std::vector<uint8_t> entityHasModel(indoorMapData.entities.size(), 0);
     if (m_indoorDecorationBillboardSet && !m_decorationModels.empty())
@@ -14938,7 +14970,8 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
     for (size_t entityIndex = 0; entityIndex < indoorMapData.entities.size(); ++entityIndex)
     {
         const IndoorEntity &entity = indoorMapData.entities[entityIndex];
-        if (entityHasModel[entityIndex] != 0)
+        if (entityHasModel[entityIndex] != 0
+            || (skipDecorationsWithoutEvent && !entityHasInteraction(entityIndex, entity.eventIdSecondary)))
         {
             continue;
         }
@@ -15018,33 +15051,9 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
             };
 
         const auto decorationHasInteraction =
-            [this, &eventRuntimeState](const DecorationBillboard &billboard)
+            [&entityHasInteraction](const DecorationBillboard &billboard)
             {
-                if (billboard.eventIdSecondary != 0)
-                {
-                    return true;
-                }
-
-                if (!eventRuntimeState.has_value())
-                {
-                    return false;
-                }
-
-                if (m_pIndoorMapData && m_indoorDecorationBillboardSet
-                    && indoorDecorationLightToggleTarget(*m_pIndoorMapData,
-                        m_indoorDecorationBillboardSet->decorationTable, billboard.entityIndex,
-                        &*eventRuntimeState) != nullptr)
-                {
-                    return true;
-                }
-
-                return resolveIndoorInteractiveDecorationBinding(
-                    m_indoorInteractiveDecorationDecorVarIndicesByEntity,
-                    m_indoorInteractiveDecorationBaseEventIdsByEntity,
-                    m_indoorInteractiveDecorationEventCountsByEntity,
-                    m_indoorInteractiveDecorationHideWhenClearedByEntity,
-                    m_indoorInteractiveDecorationFixedEventByEntity,
-                    billboard.entityIndex).has_value();
+                return entityHasInteraction(billboard.entityIndex, billboard.eventIdSecondary);
             };
 
         const auto decorationHasHint =
@@ -15159,7 +15168,8 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
                 continue;
             }
 
-            if (!decorationHasInteraction(billboard) && !decorationHasHint(billboard))
+            const bool hasInteraction = decorationHasInteraction(billboard);
+            if (!hasInteraction && (skipDecorationsWithoutEvent || !decorationHasHint(billboard)))
             {
                 continue;
             }

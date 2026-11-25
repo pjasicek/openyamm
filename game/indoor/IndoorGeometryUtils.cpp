@@ -1322,6 +1322,43 @@ float calculateIndoorFaceHeight(const IndoorFaceGeometryData &geometry, float x,
             / geometry.normal.z;
 }
 
+bool indoorFaceRunsDownFromFloorEdge(const IndoorFaceGeometryData &floor, const IndoorFaceGeometryData &side)
+{
+    // Map vertices are whole units; a studio block's side repeats its top's corners.
+    constexpr float SharedVertexTolerance = 0.5f;
+    constexpr float BelowEdgeTolerance = 1.0f;
+
+    if (side.faceIndex == floor.faceIndex || side.isPortal || floor.vertices.size() < 3)
+    {
+        return false;
+    }
+
+    const auto sideHolds = [&](const bx::Vec3 &point)
+    {
+        return std::any_of(side.vertices.begin(), side.vertices.end(), [&](const bx::Vec3 &vertex)
+        {
+            return std::fabs(vertex.x - point.x) <= SharedVertexTolerance
+                && std::fabs(vertex.y - point.y) <= SharedVertexTolerance
+                && std::fabs(vertex.z - point.z) <= SharedVertexTolerance;
+        });
+    };
+
+    const size_t count = floor.vertices.size();
+
+    for (size_t index = 0; index < count; ++index)
+    {
+        const bx::Vec3 &start = floor.vertices[index];
+        const bx::Vec3 &end = floor.vertices[(index + 1) % count];
+
+        if (side.minZ < std::min(start.z, end.z) - BelowEdgeTolerance && sideHolds(start) && sideHolds(end))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool isIndoorCylinderBlockedByFace(
     const IndoorFaceGeometryData &geometry,
     float x,

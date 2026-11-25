@@ -298,6 +298,8 @@ public:
     bool answerHouseBankInput(const std::string &text, std::string &failure);
     // The item on the cursor (0: none).
     uint32_t heldCursorItemId();
+    // The status line the hover shows for what is under the crosshair (empty: none), with the crosshair's reach.
+    std::string centerHoverStatusText();
     // The open chest's Take All: false when no chest is open.
     bool takeAllFromOpenChest(std::string &failure);
     // The Immortal cheat for this run only: settings.ini is not written.

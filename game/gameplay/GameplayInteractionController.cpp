@@ -44,7 +44,6 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr float NearHoverStatusDistance = 1024.0f;
 constexpr float ActorHoverStatusDistance = 8192.0f;
 // A hovered item within reach reads "Get <name>", as the native status bar does (depth 0x200).
 constexpr float WorldItemGetStatusDistance = 512.0f;
@@ -63,6 +62,21 @@ constexpr uint32_t FireArrowProjectileObjectId = 550;
 constexpr uint32_t ThrowingDaggerProjectileObjectId = 307;
 constexpr uint32_t ThrowingAxeProjectileObjectId = 309;
 constexpr uint32_t BlasterProjectileObjectId = 555;
+
+// The pick a Use (and the smart click's choice) acts on: it looks through decorations without an event.
+GameplayWorldPickRequest usePickRequest(const GameplayWorldPickRequest &request)
+{
+    GameplayWorldPickRequest useRequest = request;
+    useRequest.ignoreDecorationsWithoutEvent = true;
+    return useRequest;
+}
+
+// How far a click reaches: the crosshair's (keyboard) depth or the cursor's (mouse) depth, as the settings clamp them.
+float hoverInteractionDepth(const GameSettings &settings, bool crosshair)
+{
+    const int configuredDepth = crosshair ? settings.keyboardInteractionDepth : settings.mouseInteractionDepth;
+    return static_cast<float>(std::clamp(configuredDepth, 32, 4096));
+}
 
 // "Orange Barrel (+2 Intellect)", "Drink from the Fountain (+50 Might (Temporary))": the effect of the hovered event
 // once the party has the autonote recording it.
@@ -1933,7 +1947,8 @@ GameplayInteractionController::HoverStateResult GameplayInteractionController::u
     appendLearnedEventEffect(payload, *pWorldRuntime, input.pScreenRuntime);
     resolveWorldItemHoverName(payload, *pWorldRuntime, input.pScreenRuntime);
     const bool heldItemActive = input.pScreenRuntime != nullptr && input.pScreenRuntime->heldInventoryItem().active;
-    const std::optional<std::string> statusText = resolveHoverStatusText(payload, heldItemActive);
+    const std::optional<std::string> statusText =
+        resolveHoverStatusText(payload, heldItemActive, input.interactionDepth);
     result.hitKind = payload.worldHit.kind;
     result.worldHit = payload.worldHit;
     result.eventTargetStatusText = payload.eventTargetStatusText;
@@ -2164,7 +2179,8 @@ GameplayInteractionController::updateHeldItemWorldInteraction(
 
 std::optional<std::string> GameplayInteractionController::resolveHoverStatusText(
     const GameplayHoverStatusPayload &payload,
-    bool heldItemActive)
+    bool heldItemActive,
+    float interactionDepth)
 {
     const GameplayWorldHit &hit = payload.worldHit;
 
@@ -2212,13 +2228,18 @@ std::optional<std::string> GameplayInteractionController::resolveHoverStatusText
         return std::nullopt;
     }
 
+    // A face, decoration or mechanism a click can use is named only within the click's reach, as MM7 shows its
+    // hints within 0x200 (D-153); a decoration without an event (a torch, bones) keeps its name at any distance.
+    // (Indoor decorations are Entity targets, outdoor ones Decoration targets.)
     const GameplayWorldEventTargetKind targetKind = hit.eventTarget->targetKind;
-    const bool requireNearHover =
+    const bool decoration =
+        targetKind == GameplayWorldEventTargetKind::Entity || targetKind == GameplayWorldEventTargetKind::Decoration;
+    const bool requireReach =
         targetKind == GameplayWorldEventTargetKind::Surface
-        || targetKind == GameplayWorldEventTargetKind::Entity
-        || targetKind == GameplayWorldEventTargetKind::Mechanism;
+        || targetKind == GameplayWorldEventTargetKind::Mechanism
+        || (decoration && hit.eventTarget->nameEventId != 0);
 
-    if (requireNearHover && hit.eventTarget->distance > NearHoverStatusDistance)
+    if (requireReach && hit.eventTarget->distance >= interactionDepth)
     {
         return std::nullopt;
     }
@@ -2230,7 +2251,7 @@ GameplayWorldHit GameplayInteractionController::pickKeyboardUseTarget(
     IGameplayWorldRuntime &worldRuntime,
     const GameplayWorldPickRequest &request)
 {
-    GameplayWorldHit hit = worldRuntime.pickMouseInteractionTarget(request);
+    GameplayWorldHit hit = worldRuntime.pickMouseInteractionTarget(usePickRequest(request));
 
     if (worldRuntime.canActivateWorldHit(hit, GameplayInteractionMethod::Keyboard))
     {
@@ -2436,6 +2457,8 @@ GameplayInteractionController::updateWorldInteractionFrame(
         pendingSpellHoverInput.currentTickNanoseconds = currentTickNanoseconds;
         pendingSpellHoverInput.refreshIntervalNanoseconds = HoverInspectRefreshNanoseconds;
         pendingSpellHoverInput.pScreenRuntime = &runtime;
+        pendingSpellHoverInput.interactionDepth =
+            hoverInteractionDepth(runtime.settingsSnapshot(), pointerPolicy.useCenterGameplayPoint);
         pendingSpellHoverInput.hoverRequest =
             GameplayWorldHoverRequest{
                 .probeKind = GameplayWorldHoverProbeKind::PendingSpell,
@@ -2729,6 +2752,8 @@ GameplayInteractionController::updateWorldInteractionFrame(
     standardHoverInput.currentTickNanoseconds = currentTickNanoseconds;
     standardHoverInput.refreshIntervalNanoseconds = HoverInspectRefreshNanoseconds;
     standardHoverInput.pScreenRuntime = &runtime;
+    standardHoverInput.interactionDepth =
+        hoverInteractionDepth(runtime.settingsSnapshot(), pointerPolicy.useCenterGameplayPoint);
     standardHoverInput.hoverRequest =
         GameplayWorldHoverRequest{
             .probeKind = GameplayWorldHoverProbeKind::Standard,
@@ -2850,7 +2875,10 @@ GameplayInteractionController::updateWorldInteractionFrame(
         else if (smartClick == SmartClick::None)
         {
             // A steal click (Ctrl) stays an attack, which the steal then holds back until the button is released.
-            const GameplayWorldHit hit = stealPressed ? GameplayWorldHit{} : pickCurrentHit();
+            // The choice looks through decorations without an event, as the Use it may become does.
+            const GameplayWorldHit hit = stealPressed || pWorldRuntime == nullptr
+                ? GameplayWorldHit{}
+                : pWorldRuntime->pickMouseInteractionTarget(usePickRequest(currentInteractionPickRequest));
             const bool usable = hit.hasHit
                 && pWorldRuntime != nullptr
                 && pWorldRuntime->canActivateWorldHit(hit, GameplayInteractionMethod::Keyboard);
@@ -2925,7 +2953,8 @@ GameplayInteractionController::updateWorldInteractionFrame(
                     .screenHeight = input.screenHeight,
                     .includeRay = true,
                 });
-        keyboardActivationHit = pWorldRuntime->pickMouseInteractionTarget(keyboardActivationPickRequest);
+        keyboardActivationHit =
+            pWorldRuntime->pickMouseInteractionTarget(usePickRequest(keyboardActivationPickRequest));
     }
 
     const KeyboardActivationInteractionResult keyboardActivationResult =

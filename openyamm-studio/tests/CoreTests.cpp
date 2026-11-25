@@ -9751,6 +9751,65 @@ TEST_CASE("a chest's other lid, a platform's top changed alone, a decoration's p
         .find("there is no decoration deco:none") != std::string::npos);
 }
 
+TEST_CASE("F65: a clicked block's top built apart (its texture changed alone, a water floor) keeps the click")
+{
+    // XD-23's fire pit (`set_texture` on its top) and XD-02's pools (a water floor on the basin's top): the top is a
+    // node of its own, and was built without the block's event, so only the rim clicked.
+    const std::string rooms =
+        "rooms:\n"
+        "  - id: room:a\n"
+        "    outline: [[0, 0], [1024, 0], [1024, 1024], [0, 1024]]\n"
+        "    floor: 0\n"
+        "    ceiling: 384\n"
+        "    platforms:\n"
+        "      - {id: platform:pit, at: [256, 768], size: [128, 128], rise: 24, surface: {texture: pitside, "
+        "size: [64, 64]}, top_surface: {texture: pittop, size: [128, 128]}}\n"
+        "      - {id: platform:pool, at: [768, 768], size: [128, 128], rise: 28, surface: {texture: poolside, "
+        "size: [64, 64]}, top_surface: {texture: pooltop, size: [128, 128]}}\n"
+        "      - {id: platform:step, at: [768, 256], size: [128, 128], rise: 28, surface: {texture: stepside, "
+        "size: [64, 64]}, top_surface: {texture: steptop, size: [128, 128]}}\n";
+    const std::string objects =
+        "format: 0\nstart: {room: room:a, at: [128, 128]}\n"
+        "floors:\n"
+        "  - {id: floor:pool, of: platform:pool, kind: water}\n";
+    const std::string wiring =
+        "format: 0\nevents:\n"
+        "  - {id: evt:pit, preset: script, source: platform:pit, title: Fire pit,\n"
+        "     effects: [{set_texture: {of: platform:pit, to: pitside, face: top}}]}\n"
+        "  - {id: evt:pool, preset: text, source: platform:pool, text: Cold.}\n"
+        "  - {id: evt:stepon, preset: text, trigger: step, source: platform:step, text: Wet.}\n";
+    const BuiltPlaced built = buildPlaced(rooms, objects, {}, CardText, wiring);
+    INFO(issueText(built));
+    REQUIRE(built.built);
+    const uint32_t clickable = OpenYAMM::Game::faceAttributeBit(OpenYAMM::Game::FaceAttribute::Clickable);
+    std::map<std::string, std::set<int>> events;
+    std::map<std::string, bool> clicked;
+    std::map<std::string, bool> water;
+
+    for (const OpenYAMM::Game::IndoorFace &face : built.map.faces)
+    {
+        events[face.textureName].insert(face.cogTriggered);
+        clicked[face.textureName] = clicked[face.textureName] || (face.attributes & clickable) != 0;
+        water[face.textureName] = water[face.textureName]
+            || OpenYAMM::Game::hasFaceAttribute(face.attributes, OpenYAMM::Game::FaceAttribute::Fluid);
+    }
+
+    // The pit: sides and top run one event, and the top keeps its own cog for the texture change.
+    REQUIRE(events.contains("pittop"));
+    CHECK(events["pittop"].size() == 1);
+    CHECK(*events["pittop"].begin() > 0);
+    CHECK(events["pittop"] == events["pitside"]);
+    CHECK(clicked["pittop"]);
+    // The pool: its water top clicked as the basin, and still water.
+    CHECK(events["pooltop"] == events["poolside"]);
+    CHECK(*events["pooltop"].begin() > 0);
+    CHECK(clicked["pooltop"]);
+    CHECK(water["pooltop"]);
+    // A platform that runs a step event (one object, one event): its top is walked onto, not clicked.
+    CHECK(*events["steptop"].begin() > 0);
+    CHECK_FALSE(clicked["steptop"]);
+}
+
 TEST_CASE("DD-13: a decoration with `hidden: true` starts away, and `show`/`hide` with its id bring it and take it")
 {
     const std::string rooms =
