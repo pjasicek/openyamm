@@ -358,12 +358,13 @@ jobs:
           python-version: "3.12"
 
       # GCC 13 for C++20; its libstdc++ is linked statically. SDL needs the headers of every display and audio backend
-      # it loads at runtime; a missing one would silently drop that backend (checked below).
+      # it loads at runtime; a missing one would silently drop that backend (checked below). Launchpad's PPA answers
+      # many downloads with 503 at busy times (2026-11-25: two failed runs), so apt retries each file.
       - name: Install the toolchain and SDL backend headers
         run: |
           sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-          sudo apt-get update
-          sudo apt-get install --no-install-recommends -y gcc-13 g++-13 ninja-build pkg-config \
+          sudo apt-get -o Acquire::Retries=20 update
+          sudo apt-get -o Acquire::Retries=20 install --no-install-recommends -y gcc-13 g++-13 ninja-build pkg-config \
             libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxi-dev libxss-dev libxfixes-dev libxkbcommon-dev \
             libwayland-dev libwayland-bin wayland-protocols libdecor-0-dev libegl-dev libgl-dev libgles-dev \
             libdrm-dev libgbm-dev libasound2-dev libpulse-dev libpipewire-0.3-dev libdbus-1-dev libudev-dev \
