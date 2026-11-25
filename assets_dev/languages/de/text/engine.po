@@ -61655,6 +61655,11 @@ msgstr "Meister Lernen"
 msgid "Grand Master Learning"
 msgstr "Großmeister Lernen"
 
+# machine translation (Claude), review
+#: assets_dev/engine/data_tables/npc_topic.txt:508
+msgid "Signal"
+msgstr "Signal"
+
 # imported from GR (MMMerge localization)
 #: assets_dev/engine/data_tables/npc_topic.txt:509
 msgid "Dragon Flies"
@@ -99746,369 +99751,368 @@ msgid "OpenYAMM {version} is ready. Restart to play it."
 msgstr "OpenYAMM {version} ist bereit. Startet neu, um es zu spielen."
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:10048
-msgid "test party"
-msgstr "Testgruppe"
-
-# machine translation (Claude), review
-#: game/app/GameApplication.cpp:10536
+#: game/app/GameApplication.cpp:10466
 msgid "Say: {text}"
 msgstr "Sagen: {text}"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:10740
+#: game/app/GameApplication.cpp:10670
 msgid "Answer: {answer}_"
 msgstr "Antwort: {answer}_"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:12585
+#: game/app/GameApplication.cpp:12515
 msgid "immortal"
 msgstr "unsterblich"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:12586
+#: game/app/GameApplication.cpp:12516
 msgid "unlimited mana"
 msgstr "unbegrenzte Zauberpunkte"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:12587
+#: game/app/GameApplication.cpp:12517
 msgid "start flying"
 msgstr "fliegend starten"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:12588
+#: game/app/GameApplication.cpp:12518
 msgid "turbo movement"
 msgstr "Turbo-Bewegung"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:12589
+#: game/app/GameApplication.cpp:12519
 msgid "movement speed"
 msgstr "Bewegungstempo"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:12590
+#: game/app/GameApplication.cpp:12520
 msgid "time scale"
 msgstr "Zeitfaktor"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:13854
+#: game/app/GameApplication.cpp:13778
 msgid "Fast mode is not available in a co-op game."
 msgstr "Der schnelle Modus ist in einem Koop-Spiel nicht verfügbar."
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:13882
+#: game/app/GameApplication.cpp:13806
 msgid "Fast mode ({speed}x)"
 msgstr "Schneller Modus ({speed}x)"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:13883
+#: game/app/GameApplication.cpp:13807
 msgid "Normal mode (1x)"
 msgstr "Normaler Modus (1x)"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14120
+#: game/app/GameApplication.cpp:14044
 msgid "{name}: here"
 msgstr "{name}: hier"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14154 game/app/GameApplication.cpp:15662
+#: game/app/GameApplication.cpp:14078 game/app/GameApplication.cpp:15586
 msgid "away"
 msgstr "abwesend"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14286
+#: game/app/GameApplication.cpp:14210
 msgid "Travel to {place}?"
 msgstr "Nach {place} reisen?"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14287
+#: game/app/GameApplication.cpp:14211
 msgid ""
 "With the party: the other players are asked, and everyone goes when all agree."
 msgstr ""
 "Mit der Gruppe: Die anderen Spieler werden gefragt, und alle reisen, sobald alle zustimmen."
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14289
+#: game/app/GameApplication.cpp:14213
 msgid ""
 "Alone: you leave their game for now and travel in your own. The Multiplayer menu brings you back."
 msgstr ""
 "Allein: Ihr verlasst ihr Spiel vorerst und reist in Eurem eigenen. Das Mehrspieler-Menü bringt Euch zurück."
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14292
+#: game/app/GameApplication.cpp:14216
 msgid "Travel with the Party"
 msgstr "Mit der Gruppe reisen"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14293 game/app/GameApplication.cpp:14356
+#: game/app/GameApplication.cpp:14217 game/app/GameApplication.cpp:14280
 msgid "Go Alone"
 msgstr "Allein gehen"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14294 game/app/GameApplication.cpp:14366
+#: game/app/GameApplication.cpp:14218 game/app/GameApplication.cpp:14290
 msgid "Cancel the Trip"
 msgstr "Reise abbrechen"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14298
+#: game/app/GameApplication.cpp:14222
 msgid "Everyone agreed to travel to {place}."
 msgstr "Alle haben der Reise nach {place} zugestimmt."
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14299
+#: game/app/GameApplication.cpp:14223
 msgid "Waiting for the host to arrive there ..."
 msgstr "Warte, bis der Host dort ankommt ..."
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/dialogue.yml:553 game/app/GameApplication.cpp:14300 game/events/EventDialogContent.cpp:1365
+#: assets_dev/engine/ui/gameplay/dialogue.yml:553 game/app/GameApplication.cpp:14224 game/events/EventDialogContent.cpp:1365
 #: game/ui/screens/LoadGameScreen.cpp:837 game/ui/screens/MainMenuScreen.cpp:565 game/ui/screens/MainMenuScreen.cpp:803
 #: game/ui/screens/MainMenuScreen.cpp:825
 msgid "OK"
 msgstr "OK"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14306
+#: game/app/GameApplication.cpp:14230
 msgid "You want to travel to {place}."
 msgstr "Ihr wollt nach {place} reisen."
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14307
+#: game/app/GameApplication.cpp:14231
 msgid "{name} wants to travel to {place}."
 msgstr "{name} will nach {place} reisen."
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14313
+#: game/app/GameApplication.cpp:14237
 msgid "The trip takes {days} day and costs each player {gold} gold."
 msgid_plural "The trip takes {days} days and costs each player {gold} gold."
 msgstr[0] "Die Reise dauert {days} Tag und kostet jeden Spieler {gold} Gold."
 msgstr[1] "Die Reise dauert {days} Tage und kostet jeden Spieler {gold} Gold."
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14316
+#: game/app/GameApplication.cpp:14240
 msgid "The trip takes {days} day and {food} food from each player."
 msgid_plural "The trip takes {days} days and {food} food from each player."
 msgstr[0] "Die Reise dauert {days} Tag und kostet jeden Spieler {food} Nahrung."
 msgstr[1] "Die Reise dauert {days} Tage und kostet jeden Spieler {food} Nahrung."
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14341
+#: game/app/GameApplication.cpp:14265
 msgid "{name}: proposed it"
 msgstr "{name}: hat sie vorgeschlagen"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14342
+#: game/app/GameApplication.cpp:14266
 msgid "{name}: agreed"
 msgstr "{name}: stimmt zu"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14343
+#: game/app/GameApplication.cpp:14267
 msgid "{name}: has not answered"
 msgstr "{name}: hat noch nicht geantwortet"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14346
+#: game/app/GameApplication.cpp:14270
 msgid "The world waits while the players decide."
 msgstr "Die Welt wartet, während die Spieler entscheiden."
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14350 game/events/EventDialogContent.cpp:1288 game/gameplay/GameplayDialogController.cpp:2029
-#: game/gameplay/GameplayInteractionController.cpp:333 game/ui/GameplayStatisticsScreen.cpp:1173 game/ui/GameplayWebOfWorlds.cpp:551
-#: game/ui/GameplayWebOfWorlds.cpp:657
+#: game/app/GameApplication.cpp:14274 game/events/EventDialogContent.cpp:1288 game/gameplay/GameplayDialogController.cpp:2029
+#: game/gameplay/GameplayInteractionController.cpp:347 game/ui/GameplayStatisticsScreen.cpp:1173
 msgid "Travel"
 msgstr "Reisen"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14351
+#: game/app/GameApplication.cpp:14275
 msgid "Stay Here"
 msgstr "Hierbleiben"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14361
+#: game/app/GameApplication.cpp:14285
 msgid "Travel Anyway"
 msgstr "Trotzdem reisen"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14371
+#: game/app/GameApplication.cpp:14295
 msgid "Stay Here After All"
 msgstr "Doch hierbleiben"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14377
+#: game/app/GameApplication.cpp:14301
 msgid "Drop Out"
 msgstr "Aussteigen"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14407
+#: game/app/GameApplication.cpp:14331
 msgid "Another player wants to rest. Press the Rest key to agree."
 msgstr ""
 "Ein anderer Spieler möchte ruhen. Drückt die Ruhen-Taste, um zuzustimmen."
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14408
+#: game/app/GameApplication.cpp:14332
 msgid "Another player wants to wait. Press the Rest key to agree."
 msgstr ""
 "Ein anderer Spieler möchte warten. Drückt die Ruhen-Taste, um zuzustimmen."
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14436
+#: game/app/GameApplication.cpp:14360
 msgid ""
 "You are down. Another player can heal or raise you. In {seconds} s {key} returns you to where you arrived."
 msgstr ""
 "Ihr seid am Boden. Ein anderer Spieler kann Euch heilen oder wiederbeleben. In {seconds} s bringt Euch {key} dorthin zurück, wo Ihr angekommen seid."
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14439
+#: game/app/GameApplication.cpp:14363
 msgid ""
 "You are down. Another player can heal or raise you, or press {key} to return to where you arrived."
 msgstr ""
 "Ihr seid am Boden. Ein anderer Spieler kann Euch heilen oder wiederbeleben, oder drückt {key}, um dorthin zurückzukehren, wo Ihr angekommen seid."
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14900
+#: game/app/GameApplication.cpp:14824
 msgid "{warning} Press again to load."
 msgstr "{warning} Zum Laden erneut drücken."
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14914
+#: game/app/GameApplication.cpp:14838
 msgid "You can't save here!"
 msgstr "Hier könnt Ihr nicht speichern!"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14961
+#: game/app/GameApplication.cpp:14885
 msgid "Asked the host to save the game"
 msgstr "Der Host wurde gebeten, das Spiel zu speichern"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:14962
+#: game/app/GameApplication.cpp:14886
 msgid "Only the host can save a co-op game"
 msgstr "Nur der Host kann ein Koop-Spiel speichern"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:15000
+#: game/app/GameApplication.cpp:14924
 msgid "Not enough food: saving here costs {food}"
 msgstr "Nicht genug Nahrung: Speichern kostet hier {food} Nahrung"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:15054
+#: game/app/GameApplication.cpp:14978
 msgid "Quick save failed!"
 msgstr "Schnellspeichern fehlgeschlagen!"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:15084
+#: game/app/GameApplication.cpp:15008
 msgid "Game Saved! {food} food ({left} left)"
 msgstr "Spiel gespeichert! {food} Nahrung verbraucht (noch {left})"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:659 game/app/GameApplication.cpp:15086
+#: assets_dev/engine/data_tables/english/Global.txt:659 game/app/GameApplication.cpp:15010
 msgid "Game Saved!"
 msgstr "Spiel gespeichert"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:15214
+#: game/app/GameApplication.cpp:15138
 msgid ""
 "this save was made on {map}, a map that is not installed (a mod that brought it may be off)"
 msgstr ""
 "dieser Spielstand wurde auf {map} angelegt, einer Karte, die nicht installiert ist (eine Mod, die sie mitbrachte, ist vielleicht aus)"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:1529
+#: game/app/GameApplication.cpp:1528
 msgid "{map} has changed since this save: it starts afresh"
 msgstr ""
 "{map} hat sich seit diesem Spielstand geändert: Die Karte beginnt von vorn"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:15465
+#: game/app/GameApplication.cpp:15389
 msgid "The {ruleset} ruleset does not allow that change."
 msgstr "Das Regelwerk {ruleset} erlaubt diese Änderung nicht."
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:15478
+#: game/app/GameApplication.cpp:15402
 msgid "Only a party of one adventurer can become a solo run."
 msgstr ""
 "Nur eine Gruppe aus einem einzigen Abenteurer kann zum Solodurchgang werden."
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:15544
+#: game/app/GameApplication.cpp:15468
 msgid "{world} - Day {day}"
 msgstr "{world} - Tag {day}"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:15648
+#: game/app/GameApplication.cpp:15572
 msgid "you"
 msgstr "Ihr"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:15661
+#: game/app/GameApplication.cpp:15585
 msgid "the host"
 msgstr "Host"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:15663
+#: game/app/GameApplication.cpp:15587
 msgid "loading the map"
 msgstr "lädt die Karte"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:15745
+#: game/app/GameApplication.cpp:15669
 msgid "That is no name for a file"
 msgstr "Das ist kein gültiger Dateiname"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:16121
+#: game/app/GameApplication.cpp:16045
 msgid "debug start"
 msgstr "Debug-Start"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:16279
+#: game/app/GameApplication.cpp:16203
 msgid "god lich party"
 msgstr "Gott-Lich-Gruppe"
 
 # machine translation (Claude), review
 #: assets_dev/engine/ui/gameplay/settings_interface.yml:502 assets_dev/engine/ui/gameplay/statistics.yml:50 assets_dev/engine/ui/menu/settings_catalog.yml:246
 #: assets_dev/engine/ui/menu/settings_catalog.yml:252 assets_dev/engine/ui/menu/settings_catalog.yml:258 assets_dev/engine/ui/menu/settings_catalog.yml:264
-#: game/app/GameApplication.cpp:18209 game/ui/screens/LoadGameScreen.cpp:1293 game/ui/screens/NewGameScreenPartySheet.cpp:1489
+#: game/app/GameApplication.cpp:18133 game/ui/screens/LoadGameScreen.cpp:1293 game/ui/screens/NewGameScreenPartySheet.cpp:1489
 #: game/ui/screens/NewGameScreenPartySheet.cpp:2303
 msgid "Party"
 msgstr "Gruppe"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:18490
+#: game/app/GameApplication.cpp:18414
 msgid "Dimension Door destinations unavailable"
 msgstr "Ziele der Dimensionstür nicht verfügbar"
 
 # machine translation (Claude), review
-#: assets_dev/engine/data_tables/english/Global.txt:740 game/app/GameApplication.cpp:18501
+#: assets_dev/engine/data_tables/english/Global.txt:740 game/app/GameApplication.cpp:18425
 msgid "You feel high magic presence here."
 msgstr "Ihr spürt hier die Gegenwart hoher Magie."
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:18629
+#: game/app/GameApplication.cpp:18553
 msgid "Certificate saved in the certificates folder"
 msgstr "Urkunde im Ordner certificates gespeichert"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:19090 game/ui/screens/ArcomageScreen.cpp:1295
+#: game/app/GameApplication.cpp:19014 game/ui/screens/ArcomageScreen.cpp:1295
 msgid "You have won {gold} gold!"
 msgstr "Ihr habt {gold} Goldstücke gewonnen!"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:643 game/app/GameApplication.cpp:19091
+#: assets_dev/engine/data_tables/english/Global.txt:643 game/app/GameApplication.cpp:19015
 msgid "You won!"
 msgstr "Ihr habt gewonnen!"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:644 game/app/GameApplication.cpp:19096
+#: assets_dev/engine/data_tables/english/Global.txt:644 game/app/GameApplication.cpp:19020
 msgid "You lost!"
 msgstr "Ihr habt verloren!"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:642 game/app/GameApplication.cpp:19130
+#: assets_dev/engine/data_tables/english/Global.txt:642 game/app/GameApplication.cpp:19054
 msgid "A tie!"
 msgstr "Unentschieden!"
 
 # machine translation (Claude), review
-#: game/app/GameApplication.cpp:3109
+#: game/app/GameApplication.cpp:3108
 msgid "debug console"
 msgstr "Debug-Konsole"
+
+# machine translation (Claude), review
+#: game/app/GameApplication.cpp:9978
+msgid "test party"
+msgstr "Testgruppe"
 
 # machine translation (Claude), review
 #: game/app/GameUpdater.cpp:27
@@ -100539,7 +100543,7 @@ msgid "History"
 msgstr "Geschichte"
 
 # machine translation (Claude), review
-#: game/app/KeyboardBindings.cpp:67 game/gameplay/GameplayInteractionController.cpp:273 game/ui/screens/NewGameScreenPartySheet.cpp:1926
+#: game/app/KeyboardBindings.cpp:67 game/gameplay/GameplayInteractionController.cpp:287 game/ui/screens/NewGameScreenPartySheet.cpp:1926
 msgid "Use"
 msgstr "Benutzen"
 
@@ -100636,7 +100640,7 @@ msgstr[0] "{count} Tag"
 msgstr[1] "{count} Tage"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/monster_data.txt:409 game/content/CompletionCertificates.cpp:305 game/gameplay/GameplayPartyOverlayInputController.cpp:3802
+#: assets_dev/engine/data_tables/monster_data.txt:409 game/content/CompletionCertificates.cpp:305 game/gameplay/GameplayPartyOverlayInputController.cpp:3734
 #: game/gameplay/StoryTextFormatter.cpp:24
 msgid "Adventurer"
 msgstr "Abenteurer"
@@ -100715,7 +100719,7 @@ msgid "Hard"
 msgstr "Schwer"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/menu/settings_catalog.yml:737 game/content/RulesetOptions.cpp:24 game/rules/maw/MawItemRules.cpp:2750
+#: assets_dev/engine/ui/menu/settings_catalog.yml:737 game/content/RulesetOptions.cpp:24 game/rules/maw/MawItemRules.cpp:2740
 msgid "Hell"
 msgstr "Hölle"
 
@@ -100758,8 +100762,8 @@ msgstr "Progression: {progression}"
 #: assets_dev/engine/data_tables/english/Global.txt:156 assets_dev/engine/data_tables/english/potion.txt:22 assets_dev/engine/data_tables/english/potnotes.txt:22
 #: assets_dev/engine/rulesets/maw/tables/english/potion.txt:22 assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:22 assets_dev/engine/ui/menu/settings_catalog.yml:755
 #: game/content/RulesetOptions.cpp:34 game/gameplay/GameMechanics.cpp:2662 game/party/SkillData.cpp:425
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11187 game/ui/GameplayPartyOverlayRenderer.cpp:11839 game/ui/GameplayPartyOverlayRenderer.cpp:1677
-#: game/ui/GameplayPartyOverlayRenderer.cpp:8916
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11168 game/ui/GameplayPartyOverlayRenderer.cpp:11820 game/ui/GameplayPartyOverlayRenderer.cpp:1676
+#: game/ui/GameplayPartyOverlayRenderer.cpp:8897
 msgid "None"
 msgstr "Kein"
 
@@ -101102,7 +101106,7 @@ msgstr[1] ""
 "Ein anderer Spieler möchte nach {place} reisen: {days} Tage und {food} Nahrung von jedem Spieler."
 
 # machine translation (Claude), review
-#: game/events/EventDialogContent.cpp:1327 game/gameplay/HouseInteraction.cpp:2149
+#: game/events/EventDialogContent.cpp:1327 game/gameplay/HouseInteraction.cpp:2204
 msgid "It will take {days} day to travel to {place}."
 msgid_plural "It will take {days} days to travel to {place}."
 msgstr[0] "Die Reise nach {place} dauert {days} Tag."
@@ -101131,11 +101135,11 @@ msgstr "Zurücksetzen"
 # machine translation (Claude), review
 #: assets_dev/engine/ui/gameplay/alchemy_bench.yml:346 assets_dev/engine/ui/gameplay/alchemy_bench.yml:714 assets_dev/engine/ui/gameplay/chest.yml:478
 #: assets_dev/engine/ui/gameplay/dialogue.yml:343 assets_dev/engine/ui/gameplay/journal.yml:1020 assets_dev/engine/ui/gameplay/lloyds_beacon.yml:165
-#: assets_dev/engine/ui/gameplay/loot_summary.yml:131 assets_dev/engine/ui/gameplay/town_portal.yml:346 game/events/EventDialogContent.cpp:1383
+#: assets_dev/engine/ui/gameplay/loot_summary.yml:131 assets_dev/engine/ui/gameplay/town_portal.yml:196 game/events/EventDialogContent.cpp:1383
 #: game/ui/GameplayAlchemyBenchRenderer.cpp:660 game/ui/GameplayBattleOrders.cpp:2335 game/ui/GameplayCraftingBenchRenderer.cpp:522
 #: game/ui/GameplayJournalTrainers.cpp:808 game/ui/GameplayLootSummaryRenderer.cpp:403 game/ui/GameplayQuickItems.cpp:1335
 #: game/ui/GameplayQuickItems.cpp:510 game/ui/GameplaySoloBarSelector.cpp:868 game/ui/GameplayTransportSchedule.cpp:810
-#: game/ui/GameplayWebOfWorlds.cpp:552 game/ui/GameplayWebOfWorlds.cpp:658 game/ui/screens/NewGameScreenPartySheet.cpp:1564
+#: game/ui/screens/NewGameScreenPartySheet.cpp:1564
 msgid "Close"
 msgstr "Schließen"
 
@@ -101175,7 +101179,7 @@ msgid "Join"
 msgstr "Anschließen"
 
 # machine translation (Claude), review
-#: game/events/EventDialogContent.cpp:1912 game/gameplay/GameplayDialogController.cpp:4474
+#: game/events/EventDialogContent.cpp:1912 game/gameplay/GameplayDialogController.cpp:4476
 msgid "You already have enough followers."
 msgstr "Ihr habt bereits genug Begleiter."
 
@@ -101200,7 +101204,7 @@ msgid "NPC interaction UI is not implemented yet."
 msgstr "Die Oberfläche für NPC-Interaktionen ist noch nicht umgesetzt."
 
 # machine translation (Claude), review
-#: game/events/EventDialogContent.cpp:225 game/gameplay/GameplayInteractionController.cpp:250
+#: game/events/EventDialogContent.cpp:225 game/gameplay/GameplayInteractionController.cpp:264
 msgid "Talk"
 msgstr "Sprechen"
 
@@ -101318,7 +101322,7 @@ msgid "{stat} +{amount} (Permanent)"
 msgstr "{stat} +{amount} (Permanent)"
 
 # machine translation (Claude), review
-#: game/events/EventRuntime.cpp:10997
+#: game/events/EventRuntime.cpp:11016
 msgid "+{experience} experience"
 msgstr "+{experience} Erfahrung"
 
@@ -101404,7 +101408,7 @@ msgid "{affix} {monster}"
 msgstr "{monster} ({affix})"
 
 # machine translation (Claude), review
-#: game/gameplay/ArenaRuntime.cpp:168 game/gameplay/GameplayDialogController.cpp:4795
+#: game/gameplay/ArenaRuntime.cpp:168 game/gameplay/GameplayDialogController.cpp:4797
 msgid "The Arena is unavailable here."
 msgstr "Die Arena ist hier nicht verfügbar."
 
@@ -101471,7 +101475,7 @@ msgstr "Heute kein Armageddon mehr möglich"
 
 # machine translation (Claude), review
 #: game/gameplay/BountyHuntRuntime.cpp:442 game/gameplay/BountyHuntRuntime.cpp:450 game/gameplay/BountyHuntRuntime.cpp:553
-#: game/gameplay/GameplayDialogController.cpp:1507 game/gameplay/GameplayDialogController.cpp:2556 game/gameplay/HouseInteraction.cpp:2507
+#: game/gameplay/GameplayDialogController.cpp:1507 game/gameplay/GameplayDialogController.cpp:2556 game/gameplay/HouseInteraction.cpp:2562
 msgid "The bounty office is unavailable right now."
 msgstr "Das Kopfgeldbüro ist derzeit nicht verfügbar."
 
@@ -101502,21 +101506,21 @@ msgid "You have already claimed this bounty."
 msgstr "Ihr habt dieses Kopfgeld bereits eingestrichen."
 
 # machine translation (Claude), review
-#: game/gameplay/CorpseLootRuntime.cpp:159 game/gameplay/CorpseLootRuntime.cpp:175 game/gameplay/GameplayInteractionController.cpp:553
-#: game/gameplay/GameplayInteractionController.cpp:632 game/indoor/IndoorWorldRuntime.cpp:17256 game/indoor/IndoorWorldRuntime.cpp:20202
-#: game/indoor/IndoorWorldRuntime.cpp:833 game/items/ItemRuntime.cpp:358 game/outdoor/OutdoorInteractionController.cpp:183
-#: game/outdoor/OutdoorInteractionController.cpp:5040 game/outdoor/OutdoorWorldRuntime.cpp:18362 game/ui/GameplayCraftingBenchRenderer.cpp:294
+#: game/gameplay/CorpseLootRuntime.cpp:159 game/gameplay/CorpseLootRuntime.cpp:175 game/gameplay/GameplayInteractionController.cpp:567
+#: game/gameplay/GameplayInteractionController.cpp:646 game/indoor/IndoorWorldRuntime.cpp:17250 game/indoor/IndoorWorldRuntime.cpp:20194
+#: game/indoor/IndoorWorldRuntime.cpp:833 game/items/ItemRuntime.cpp:358 game/outdoor/OutdoorInteractionController.cpp:182
+#: game/outdoor/OutdoorInteractionController.cpp:5031 game/outdoor/OutdoorWorldRuntime.cpp:18349 game/ui/GameplayCraftingBenchRenderer.cpp:294
 msgid "item"
 msgstr "Gegenstand"
 
 # machine translation (Claude), review
-#: game/gameplay/CorpseLootRuntime.cpp:163 game/gameplay/GameplayInteractionController.cpp:554 game/indoor/IndoorWorldRuntime.cpp:17257
-#: game/indoor/IndoorWorldRuntime.cpp:834 game/outdoor/OutdoorInteractionController.cpp:191 game/outdoor/OutdoorWorldRuntime.cpp:18363
+#: game/gameplay/CorpseLootRuntime.cpp:163 game/gameplay/GameplayInteractionController.cpp:568 game/indoor/IndoorWorldRuntime.cpp:17251
+#: game/indoor/IndoorWorldRuntime.cpp:834 game/outdoor/OutdoorInteractionController.cpp:190 game/outdoor/OutdoorWorldRuntime.cpp:18350
 msgid "You found an item ({item})!"
 msgstr "Ihr habt einen Gegenstand ({item}) gefunden!"
 
 # machine translation (Claude), review
-#: game/gameplay/CorpseLootRuntime.cpp:166 game/outdoor/OutdoorInteractionController.cpp:187
+#: game/gameplay/CorpseLootRuntime.cpp:166 game/outdoor/OutdoorInteractionController.cpp:186
 msgid "You found {gold} gold and an item ({item})!"
 msgstr "Ihr habt {gold} Goldstücke und einen Gegenstand ({item}) gefunden!"
 
@@ -101539,10 +101543,10 @@ msgstr "({item}) und {gold} Goldstücke"
 
 # imported from GR (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:566 game/gameplay/CorpseLootRuntime.cpp:643 game/gameplay/GameplayHeldItemController.cpp:312
-#: game/gameplay/GameplayInteractionController.cpp:794 game/gameplay/GameplayPartyOverlayInputController.cpp:2002 game/gameplay/GameplayPartyOverlayInputController.cpp:4187
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:4286 game/gameplay/GameplayPartyOverlayInputController.cpp:4320 game/gameplay/GameplayPartyOverlayInputController.cpp:4401
+#: game/gameplay/GameplayInteractionController.cpp:808 game/gameplay/GameplayPartyOverlayInputController.cpp:1934 game/gameplay/GameplayPartyOverlayInputController.cpp:4119
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:4218 game/gameplay/GameplayPartyOverlayInputController.cpp:4252 game/gameplay/GameplayPartyOverlayInputController.cpp:4333
 #: game/gameplay/GameplayScreenRuntime.cpp:1922 game/gameplay/GameplayScreenRuntime.cpp:3014 game/gameplay/GameplayScreenRuntime.cpp:3048
-#: game/indoor/IndoorWorldRuntime.cpp:17243 game/outdoor/OutdoorWorldRuntime.cpp:18349
+#: game/indoor/IndoorWorldRuntime.cpp:17237 game/outdoor/OutdoorWorldRuntime.cpp:18336
 msgid "Pack is Full!"
 msgstr "Taschen sind voll!"
 
@@ -101557,7 +101561,7 @@ msgid "Petrified"
 msgstr "Versteinert"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:61 game/gameplay/GameMechanics.cpp:1726 game/ui/GameplayPartyOverlayRenderer.cpp:11765
+#: assets_dev/engine/data_tables/english/Global.txt:61 game/gameplay/GameMechanics.cpp:1726 game/ui/GameplayPartyOverlayRenderer.cpp:11746
 msgid "Dead"
 msgstr "Tot"
 
@@ -101567,7 +101571,7 @@ msgid "Unconscious"
 msgstr "Bewußtlos"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:165 game/gameplay/GameMechanics.cpp:1736 game/ui/GameplayPartyOverlayRenderer.cpp:11771
+#: assets_dev/engine/data_tables/english/Global.txt:165 game/gameplay/GameMechanics.cpp:1736 game/ui/GameplayPartyOverlayRenderer.cpp:11752
 msgid "Paralyzed"
 msgstr "Gelähmt"
 
@@ -101582,7 +101586,7 @@ msgid "Insane"
 msgstr "Wahnsinnig"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:7 game/gameplay/GameMechanics.cpp:1751 game/ui/GameplayPartyOverlayRenderer.cpp:11775
+#: assets_dev/engine/data_tables/english/Global.txt:7 game/gameplay/GameMechanics.cpp:1751 game/ui/GameplayPartyOverlayRenderer.cpp:11756
 msgid "Afraid"
 msgstr "Verängstigt"
 
@@ -101630,8 +101634,8 @@ msgstr ""
 "{name} kann bis Stufe {level} trainieren. {name} benötigt noch {experience} Erfahrungspunkte für Stufe {next}."
 
 # machine translation (Claude), review
-#: game/gameplay/GameMechanics.cpp:2656 game/gameplay/GameMechanics.cpp:2791 game/ui/GameplayPartyOverlayRenderer.cpp:3442
-#: game/ui/GameplayPartyOverlayRenderer.cpp:9303
+#: game/gameplay/GameMechanics.cpp:2656 game/gameplay/GameMechanics.cpp:2791 game/ui/GameplayPartyOverlayRenderer.cpp:3441
+#: game/ui/GameplayPartyOverlayRenderer.cpp:9284
 msgid "N/A"
 msgstr "k. A."
 
@@ -101765,65 +101769,65 @@ msgid "The party carries only one of those."
 msgstr "Die Gruppe trägt nur eines davon bei sich."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayCombatController.cpp:1429 game/gameplay/GameplayCombatController.cpp:1491
+#: game/gameplay/GameplayCombatController.cpp:1427 game/gameplay/GameplayCombatController.cpp:1489
 msgid "{attacker} inflicts {damage} points killing {target}"
 msgstr "{attacker} verursacht {damage} Punkte Schaden und tötet {target}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayCombatController.cpp:1438 game/gameplay/GameplayCombatController.cpp:1515
+#: game/gameplay/GameplayCombatController.cpp:1436 game/gameplay/GameplayCombatController.cpp:1513
 msgid "{attacker} shoots {target} for {damage} points"
 msgstr ""
 "{attacker} schießt auf {target} und verursacht {damage} Punkte Schaden"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayCombatController.cpp:1502
+#: game/gameplay/GameplayCombatController.cpp:1500
 msgid "{attacker} paralyzes {target}"
 msgstr "{attacker} lähmt {target}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayCombatController.cpp:1507
+#: game/gameplay/GameplayCombatController.cpp:1505
 msgid "{attacker} stuns {target}"
 msgstr "{attacker} betäubt {target}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayCombatController.cpp:1519
+#: game/gameplay/GameplayCombatController.cpp:1517
 msgid "{attacker} hits {target} for {damage} damage"
 msgstr "{attacker} trifft {target} und verursacht {damage} Punkte Schaden"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayCombatController.cpp:1701
+#: game/gameplay/GameplayCombatController.cpp:1699
 msgid "A monster"
 msgstr "Ein Monster"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayCombatController.cpp:1751
+#: game/gameplay/GameplayCombatController.cpp:1749
 msgid "party"
 msgstr "Gruppe"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayCombatController.cpp:1754
+#: game/gameplay/GameplayCombatController.cpp:1752
 msgid "monster"
 msgstr "Monster"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayCombatController.cpp:1844
+#: game/gameplay/GameplayCombatController.cpp:1842
 msgid "{count} monster"
 msgid_plural "{count} monsters"
 msgstr[0] "{count} Monster"
 msgstr[1] "{count} Monster"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayCombatController.cpp:1997
+#: game/gameplay/GameplayCombatController.cpp:1995
 msgid "{name} covers the blow"
 msgstr "{name} fängt den Schlag ab"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayCombatController.cpp:1998
+#: game/gameplay/GameplayCombatController.cpp:1996
 msgid "{name} covers {covered}"
 msgstr "{name} deckt {covered}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayCombatController.cpp:2154 game/gameplay/GameplayCombatController.cpp:2230
+#: game/gameplay/GameplayCombatController.cpp:2152 game/gameplay/GameplayCombatController.cpp:2228
 msgid "{name} evades damage"
 msgstr "{name} weicht Angriff aus"
 
@@ -101838,14 +101842,14 @@ msgid "The Adventurer's Inn is empty."
 msgstr "Der Gasthof zum Abenteurer ist leer."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayDialogController.cpp:1716 game/gameplay/GameplayDialogController.cpp:1837 game/gameplay/GameplayDialogController.cpp:4266
-#: game/gameplay/GameplayDialogController.cpp:4320 game/gameplay/GameplayDialogController.cpp:4770 game/gameplay/GameplayDialogController.cpp:4856
+#: game/gameplay/GameplayDialogController.cpp:1716 game/gameplay/GameplayDialogController.cpp:1837 game/gameplay/GameplayDialogController.cpp:4268
+#: game/gameplay/GameplayDialogController.cpp:4322 game/gameplay/GameplayDialogController.cpp:4772 game/gameplay/GameplayDialogController.cpp:4858
 msgid "That topic does not have an event yet."
 msgstr "Dieses Thema hat noch kein Ereignis."
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:564 game/gameplay/GameplayDialogController.cpp:1732 game/gameplay/HouseInteraction.cpp:1862
-#: game/gameplay/HouseInteraction.cpp:2032
+#: assets_dev/engine/data_tables/english/Global.txt:564 game/gameplay/GameplayDialogController.cpp:1732 game/gameplay/HouseInteraction.cpp:1917
+#: game/gameplay/HouseInteraction.cpp:2087
 msgid "Sorry, come back another day"
 msgstr "Tut mir leid, kommt an einem anderen Tag wieder"
 
@@ -101876,7 +101880,7 @@ msgid "Training"
 msgstr "Training"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayDialogController.cpp:2028 game/gameplay/GameplayDialogController.cpp:2184 game/gameplay/HouseInteraction.cpp:1573
+#: game/gameplay/GameplayDialogController.cpp:2028 game/gameplay/GameplayDialogController.cpp:2184 game/gameplay/HouseInteraction.cpp:1611
 msgid "Train"
 msgstr "Trainieren"
 
@@ -102024,8 +102028,8 @@ msgid "Bounty"
 msgstr "Kopfgeld"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayDialogController.cpp:2272 game/gameplay/GameplayDialogController.cpp:2674 game/gameplay/GameplayDialogController.cpp:4662
-#: game/gameplay/HouseInteraction.cpp:2044 game/gameplay/HouseInteraction.cpp:2697 game/ui/GameplayTransportSchedule.cpp:374
+#: game/gameplay/GameplayDialogController.cpp:2272 game/gameplay/GameplayDialogController.cpp:2674 game/gameplay/GameplayDialogController.cpp:4664
+#: game/gameplay/HouseInteraction.cpp:2099 game/gameplay/HouseInteraction.cpp:2774 game/ui/GameplayTransportSchedule.cpp:374
 msgid "You don't have enough gold."
 msgstr "Ihr habt nicht genug Gold."
 
@@ -102070,13 +102074,13 @@ msgid "Here is your {item}. Try not to lose it again."
 msgstr "Hier, nehmt: {item}. Passt diesmal besser darauf auf."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayDialogController.cpp:2667 game/gameplay/HouseInteraction.cpp:1984 game/gameplay/HouseInteraction.cpp:2007
-#: game/gameplay/HouseInteraction.cpp:2024
+#: game/gameplay/GameplayDialogController.cpp:2667 game/gameplay/HouseInteraction.cpp:2039 game/gameplay/HouseInteraction.cpp:2062
+#: game/gameplay/HouseInteraction.cpp:2079
 msgid "That route is not available."
 msgstr "Diese Route ist nicht verfügbar."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayDialogController.cpp:2684 game/gameplay/HouseInteraction.cpp:2055
+#: game/gameplay/GameplayDialogController.cpp:2684 game/gameplay/HouseInteraction.cpp:2110
 msgid "You don't have enough food to wait {days} day."
 msgid_plural "You don't have enough food to wait {days} days."
 msgstr[0] "Ihr habt nicht genug Nahrung, um {days} Tag zu warten."
@@ -102141,7 +102145,7 @@ msgid "Sorry, come back another day."
 msgstr "Tut mir leid, kommt an einem anderen Tag wieder."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayDialogController.cpp:3260 game/gameplay/HouseInteraction.cpp:1811
+#: game/gameplay/GameplayDialogController.cpp:3260 game/gameplay/HouseInteraction.cpp:1866
 msgid "Schedule"
 msgstr "Fahrplan"
 
@@ -102178,33 +102182,33 @@ msgstr ""
 "Seid gegrüßt. Ich bin {name}, ein {impression} {class}. Ich würde gern die Welt sehen und das Abenteuer kosten, doch allein zu gehen wäre töricht. Vielleicht könnte ich Euch begleiten?"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayDialogController.cpp:3928 game/gameplay/GameplayDialogController.cpp:3961
+#: game/gameplay/GameplayDialogController.cpp:3930 game/gameplay/GameplayDialogController.cpp:3963
 msgid "That companion is not ready to join yet."
 msgstr "Dieser Gefährte ist noch nicht bereit, sich anzuschließen."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayDialogController.cpp:4006
+#: game/gameplay/GameplayDialogController.cpp:4008
 msgid "You travel alone: nobody joins a solo run."
 msgstr "Ihr reist allein: Niemand schließt sich einem Solodurchgang an."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayDialogController.cpp:4037
+#: game/gameplay/GameplayDialogController.cpp:4039
 msgid "{name} waits at the Adventurer's Inn."
 msgstr "{name} wartet im Gasthof zum Abenteurer."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayDialogController.cpp:4050 game/gameplay/GameplayDialogController.cpp:4122
+#: game/gameplay/GameplayDialogController.cpp:4052 game/gameplay/GameplayDialogController.cpp:4124
 msgid "Recruitment is not available for this companion yet."
 msgstr "Für diesen Gefährten ist die Anwerbung noch nicht möglich."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayDialogController.cpp:4065 game/gameplay/GameplayDialogController.cpp:4136 game/gameplay/GameplayPartyOverlayInputController.cpp:3829
+#: game/gameplay/GameplayDialogController.cpp:4067 game/gameplay/GameplayDialogController.cpp:4138 game/gameplay/GameplayPartyOverlayInputController.cpp:3761
 msgid "{name} joined the party."
 msgstr "{name} hat sich der Gruppe angeschlossen."
 
 # imported from GR (MMMerge localization)
 #: assets_dev/engine/data_tables/npc_topic_text.txt:2388 assets_dev/engine/data_tables/npc_topic_text.txt:367 assets_dev/engine/data_tables/npc_topic_text.txt:5045
-#: game/gameplay/GameplayDialogController.cpp:4276 game/gameplay/GameplayDialogController.cpp:4330
+#: game/gameplay/GameplayDialogController.cpp:4278 game/gameplay/GameplayDialogController.cpp:4332
 msgid "You're already a member of this guild."
 msgstr "Ihr seid schon ein Mitglied dieser Gilde."
 
@@ -102215,62 +102219,62 @@ msgstr "Ihr seid schon ein Mitglied dieser Gilde."
 #: assets_dev/engine/events/Global.lua:3309 assets_dev/engine/events/Global.lua:3374 assets_dev/engine/events/Global.lua:3439
 #: assets_dev/engine/events/Global.lua:3504 assets_dev/engine/events/Global.lua:3569 assets_dev/engine/events/Global.lua:3634
 #: assets_dev/engine/events/Global.lua:3699 assets_dev/engine/events/Global.lua:3764 assets_dev/engine/events/Global.lua:3829
-#: assets_dev/engine/events/Global.lua:5071 game/gameplay/GameplayDialogController.cpp:4337
+#: assets_dev/engine/events/Global.lua:5071 game/gameplay/GameplayDialogController.cpp:4339
 msgid "You don't have enough gold!"
 msgstr "Ihr habt nicht genügend Goldstücke!"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayDialogController.cpp:4386 game/gameplay/GameplayDialogController.cpp:4461
+#: game/gameplay/GameplayDialogController.cpp:4388 game/gameplay/GameplayDialogController.cpp:4463
 msgid "That follower is not available."
 msgstr "Dieser Begleiter ist nicht verfügbar."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayDialogController.cpp:4394
+#: game/gameplay/GameplayDialogController.cpp:4396
 msgid "I will join you."
 msgstr "Ich schließe mich Euch an."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayDialogController.cpp:4466
+#: game/gameplay/GameplayDialogController.cpp:4468
 msgid "{name} is already following you."
 msgstr "{name} folgt Euch bereits."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayDialogController.cpp:4487 game/gameplay/MasteryTeacherDialog.cpp:614
+#: game/gameplay/GameplayDialogController.cpp:4489 game/gameplay/MasteryTeacherDialog.cpp:614
 msgid "You do not have enough gold."
 msgstr "Ihr habt nicht genug Gold."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayDialogController.cpp:4519
+#: game/gameplay/GameplayDialogController.cpp:4521
 msgid "{name} joined the followers."
 msgstr "{name} hat sich dem Gefolge angeschlossen."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayDialogController.cpp:4590
+#: game/gameplay/GameplayDialogController.cpp:4592
 msgid "{name} left the followers."
 msgstr "{name} hat das Gefolge verlassen."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayDialogController.cpp:4592
+#: game/gameplay/GameplayDialogController.cpp:4594
 msgid "The follower"
 msgstr "Der Begleiter"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:63 game/gameplay/GameplayDialogController.cpp:5592 game/gameplay/HouseInteraction.cpp:1646
+#: assets_dev/engine/data_tables/english/Global.txt:63 game/gameplay/GameplayDialogController.cpp:5594 game/gameplay/HouseInteraction.cpp:1701
 msgid "Deposit"
 msgstr "Einlage"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:247 game/gameplay/GameplayDialogController.cpp:5593 game/gameplay/HouseInteraction.cpp:1650
+#: assets_dev/engine/data_tables/english/Global.txt:247 game/gameplay/GameplayDialogController.cpp:5595 game/gameplay/HouseInteraction.cpp:1705
 msgid "Withdraw"
 msgstr "Zurückziehen"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayDialogController.cpp:5596 game/gameplay/HouseInteraction.cpp:1145
+#: game/gameplay/GameplayDialogController.cpp:5598 game/gameplay/HouseInteraction.cpp:1183
 msgid "Balance: {gold}"
 msgstr "Kontostand: {gold}"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:115 game/gameplay/GameplayDialogController.cpp:5599
+#: assets_dev/engine/data_tables/english/Global.txt:115 game/gameplay/GameplayDialogController.cpp:5601
 msgid "How Much?"
 msgstr "Wieviel?"
 
@@ -102285,84 +102289,84 @@ msgid "You can't rest in turn-based mode!"
 msgstr "Ihr könnten im Rundenmodus nicht rasten!"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:1509
+#: game/gameplay/GameplayInteractionController.cpp:1523
 msgid "{talent} is ready in {seconds} s"
 msgstr "{talent} ist in {seconds} s bereit"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:1514
+#: game/gameplay/GameplayInteractionController.cpp:1528
 msgid "{talent} needs a full rage bar"
 msgstr "{talent} erfordert eine volle Wutleiste"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:1605 game/gameplay/GameplayInteractionController.cpp:1670 game/gameplay/GameplayInteractionController.cpp:1770
-#: game/gameplay/GameplayInteractionController.cpp:1816
+#: game/gameplay/GameplayInteractionController.cpp:1619 game/gameplay/GameplayInteractionController.cpp:1684 game/gameplay/GameplayInteractionController.cpp:1784
+#: game/gameplay/GameplayInteractionController.cpp:1830
 msgid "Nothing in reach"
 msgstr "Nichts in Reichweite"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:1645 game/gameplay/GameplayInteractionController.cpp:1685
+#: game/gameplay/GameplayInteractionController.cpp:1659 game/gameplay/GameplayInteractionController.cpp:1699
 msgid "{talent} needs the bow drawn"
 msgstr "{talent} erfordert den gezogenen Bogen"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:1678
+#: game/gameplay/GameplayInteractionController.cpp:1692
 msgid "{name}: Binding Circle"
 msgstr "{name}: Bannkreis"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:1720
+#: game/gameplay/GameplayInteractionController.cpp:1734
 msgid "Charge needs a target"
 msgstr "Ansturm braucht ein Ziel"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:1728 game/rules/maw/MawClassRules.cpp:1137
+#: game/gameplay/GameplayInteractionController.cpp:1742 game/rules/maw/MawClassRules.cpp:1137
 msgid "Out of range"
 msgstr "Außer Reichweite"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:1747
+#: game/gameplay/GameplayInteractionController.cpp:1761
 msgid "Cannot move there"
 msgstr "Kein Weg dorthin"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:1816
+#: game/gameplay/GameplayInteractionController.cpp:1830
 msgid "No monster has noticed you"
 msgstr "Kein Monster hat Euch bemerkt"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:1830
+#: game/gameplay/GameplayInteractionController.cpp:1844
 msgid "{name}: {talent}"
 msgstr "{name}: {talent}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:1837
+#: game/gameplay/GameplayInteractionController.cpp:1851
 msgid "{name}: Spell Surge"
 msgstr "{name}: Zauberwoge"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:2185
+#: game/gameplay/GameplayInteractionController.cpp:2201
 msgid "Get {item}"
 msgstr "{item} nehmen"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:2191
+#: game/gameplay/GameplayInteractionController.cpp:2207
 msgid "{text} [missing 3D model for item {id} - please report]"
 msgstr "{text} [3D-Modell für Gegenstand {id} fehlt – bitte melden]"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:252
+#: game/gameplay/GameplayInteractionController.cpp:266
 msgid "Pick Up"
 msgstr "Aufheben"
 
 # machine translation (Claude), review
 #: assets_dev/engine/rulesets/maw/ruleset.yml:51 assets_dev/engine/ui/gameplay/settings_gameplay.yml:502 assets_dev/engine/ui/menu/settings_catalog.yml:102
-#: game/gameplay/GameplayInteractionController.cpp:254
+#: game/gameplay/GameplayInteractionController.cpp:268
 msgid "Loot"
 msgstr "Beute"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:256
+#: game/gameplay/GameplayInteractionController.cpp:270
 msgid "Open Chest"
 msgstr "Truhe öffnen"
 
@@ -102383,113 +102387,113 @@ msgstr "Truhe öffnen"
 #: assets_dev/engine/data_tables/house_data.txt:444 assets_dev/engine/data_tables/house_data.txt:445 assets_dev/engine/data_tables/house_data.txt:446
 #: assets_dev/engine/data_tables/house_data.txt:447 assets_dev/engine/data_tables/house_data.txt:448 assets_dev/engine/data_tables/house_data.txt:449
 #: assets_dev/engine/data_tables/house_data.txt:450 assets_dev/engine/data_tables/house_data.txt:451 assets_dev/engine/data_tables/house_data.txt:453
-#: game/gameplay/GameplayInteractionController.cpp:258
+#: game/gameplay/GameplayInteractionController.cpp:272
 msgid "Enter"
 msgstr "Betreten"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:260
+#: game/gameplay/GameplayInteractionController.cpp:274
 msgid "Open Door"
 msgstr "Tür öffnen"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:262
+#: game/gameplay/GameplayInteractionController.cpp:276
 msgid "Press"
 msgstr "Drücken"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:264
+#: game/gameplay/GameplayInteractionController.cpp:278
 msgid "Use Lever"
 msgstr "Hebel betätigen"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:268
+#: game/gameplay/GameplayInteractionController.cpp:282
 msgid "Drop Item"
 msgstr "Gegenstand ablegen"
 
 # imported from fix_de.po
 #: assets_dev/engine/data_tables/english/Global.txt:82 assets_dev/engine/ui/gameplay/adventurers_inn.yml:96 assets_dev/engine/ui/gameplay/character.yml:230
-#: assets_dev/engine/ui/gameplay/quick_reference.yml:37 assets_dev/engine/ui/gameplay/statistics.yml:70 game/gameplay/GameplayInteractionController.cpp:328
+#: assets_dev/engine/ui/gameplay/quick_reference.yml:37 assets_dev/engine/ui/gameplay/statistics.yml:70 game/gameplay/GameplayInteractionController.cpp:342
 msgid "Exit"
 msgstr "Verlassen"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:338
+#: game/gameplay/GameplayInteractionController.cpp:352
 msgid "Passage"
 msgstr "Durchgang"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:343
+#: game/gameplay/GameplayInteractionController.cpp:357
 msgid "Teleport"
 msgstr "Teleporter"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:348
+#: game/gameplay/GameplayInteractionController.cpp:362
 msgid "Use Switch"
 msgstr "Schalter betätigen"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:353
+#: game/gameplay/GameplayInteractionController.cpp:367
 msgid "Use Elevator"
 msgstr "Aufzug benutzen"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:358
+#: game/gameplay/GameplayInteractionController.cpp:372
 msgid "Use Pedestal"
 msgstr "Podest benutzen"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/decoration_data.txt:10 game/gameplay/GameplayInteractionController.cpp:363
+#: assets_dev/engine/data_tables/decoration_data.txt:10 game/gameplay/GameplayInteractionController.cpp:377
 msgid "Fountain"
 msgstr "Brunnen"
 
 # imported from GR (MMMerge localization)
-#: game/gameplay/GameplayInteractionController.cpp:368
+#: game/gameplay/GameplayInteractionController.cpp:382
 msgid "Well"
 msgstr "Quelle"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/npc_topic.txt:1316 game/gameplay/GameplayInteractionController.cpp:373
+#: assets_dev/engine/data_tables/npc_topic.txt:1316 game/gameplay/GameplayInteractionController.cpp:387
 msgid "Shrine"
 msgstr "Schrein"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:378
+#: game/gameplay/GameplayInteractionController.cpp:392
 msgid "Obelisk"
 msgstr "Obelisk"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:383
+#: game/gameplay/GameplayInteractionController.cpp:397
 msgid "Boost"
 msgstr "Stärkung"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:388
+#: game/gameplay/GameplayInteractionController.cpp:402
 msgid "Read"
 msgstr "Lesen"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:411
+#: game/gameplay/GameplayInteractionController.cpp:425
 msgid "{action} ({target})"
 msgstr "{action} ({target})"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:475
+#: game/gameplay/GameplayInteractionController.cpp:489
 msgid "Pick"
 msgstr "Nehmen"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:571
+#: game/gameplay/GameplayInteractionController.cpp:585
 msgid "Drop {item}"
 msgstr "{item} ablegen"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:603 game/gameplay/GameplayInteractionController.cpp:612
+#: game/gameplay/GameplayInteractionController.cpp:617 game/gameplay/GameplayInteractionController.cpp:626
 msgid "Can't drop {item}"
 msgstr "{item} kann nicht abgelegt werden"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayInteractionController.cpp:616
+#: game/gameplay/GameplayInteractionController.cpp:630
 msgid "Dropped {item}"
 msgstr "{item} abgelegt"
 
@@ -102505,8 +102509,8 @@ msgid "potion"
 msgstr "Trank"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:114 game/party/Party.cpp:1926 game/party/Party.cpp:1962
-#: game/party/Party.cpp:7188 game/party/Party.cpp:7512
+#: game/gameplay/GameplayItemService.cpp:114 game/party/Party.cpp:1936 game/party/Party.cpp:1972
+#: game/party/Party.cpp:7203 game/party/Party.cpp:7527
 msgid "Nothing to repair."
 msgstr "Nichts zu reparieren."
 
@@ -102531,7 +102535,7 @@ msgid "Crafted {count} times"
 msgstr "{count}-mal hergestellt"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:126 game/party/Party.cpp:1932 game/party/Party.cpp:1977
+#: game/gameplay/GameplayItemService.cpp:126 game/party/Party.cpp:1942 game/party/Party.cpp:1987
 msgid "Repaired {item}."
 msgstr "{item} repariert."
 
@@ -102654,13 +102658,13 @@ msgstr "Die Erhaltungstränke sind vorrätig"
 
 # imported from GR (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:449 game/gameplay/GameplayItemService.cpp:40 game/gameplay/GameplayScreenController.cpp:811
-#: game/gameplay/HouseServiceRuntime.cpp:2452 game/party/Party.cpp:7106 game/party/Party.cpp:7430
+#: game/gameplay/HouseServiceRuntime.cpp:2452 game/party/Party.cpp:7121 game/party/Party.cpp:7445
 msgid "Identify Failed"
 msgstr "Identifizierung gescheitert"
 
 # imported from GR (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:451 game/gameplay/GameplayItemService.cpp:41 game/gameplay/GameplayScreenController.cpp:827
-#: game/gameplay/HouseServiceRuntime.cpp:2577 game/party/Party.cpp:7202 game/party/Party.cpp:7526
+#: game/gameplay/HouseServiceRuntime.cpp:2577 game/party/Party.cpp:7217 game/party/Party.cpp:7541
 msgid "Repair Failed"
 msgstr "Reparatur gescheitert"
 
@@ -102675,9 +102679,9 @@ msgid "Unknown scroll spell"
 msgstr "Unbekannter Schriftrollenzauber"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:74 game/party/Party.cpp:7078 game/party/Party.cpp:7174
-#: game/party/Party.cpp:7268 game/party/Party.cpp:7333 game/party/Party.cpp:7402
-#: game/party/Party.cpp:7498 game/party/Party.cpp:7589 game/party/Party.cpp:7651
+#: game/gameplay/GameplayItemService.cpp:74 game/party/Party.cpp:7093 game/party/Party.cpp:7189
+#: game/party/Party.cpp:7283 game/party/Party.cpp:7348 game/party/Party.cpp:7417
+#: game/party/Party.cpp:7513 game/party/Party.cpp:7604 game/party/Party.cpp:7666
 msgid "Unavailable."
 msgstr "Nicht verfügbar."
 
@@ -102692,8 +102696,8 @@ msgid "No {item} left"
 msgstr "{item}: nichts mehr übrig"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:83 game/gameplay/GameplayItemService.cpp:95 game/party/Party.cpp:1913
-#: game/party/Party.cpp:1940 game/party/Party.cpp:7092 game/party/Party.cpp:7416
+#: game/gameplay/GameplayItemService.cpp:83 game/gameplay/GameplayItemService.cpp:95 game/party/Party.cpp:1923
+#: game/party/Party.cpp:1950 game/party/Party.cpp:7107 game/party/Party.cpp:7431
 msgid "Already identified."
 msgstr "Bereits identifiziert."
 
@@ -102703,8 +102707,8 @@ msgid "Put down the held item first"
 msgstr "Legt zuerst den gehaltenen Gegenstand ab"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayItemService.cpp:106 game/gameplay/GameplayItemService.cpp:88 game/party/Party.cpp:1918
-#: game/party/Party.cpp:1954
+#: game/gameplay/GameplayItemService.cpp:106 game/gameplay/GameplayItemService.cpp:88 game/party/Party.cpp:1928
+#: game/party/Party.cpp:1964
 msgid "Identified {item}."
 msgstr "{item} identifiziert."
 
@@ -102746,298 +102750,298 @@ msgid "Save name already exists."
 msgstr "Dieser Spielstandname existiert bereits."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1018
-msgid "Dimension Door to {destination}"
-msgstr "Dimensionstür nach {destination}"
-
-# machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1019
-msgid "Town Portal to {destination}"
-msgstr "Stadtportal nach {destination}"
-
-# machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1193
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:1125
 msgid "Recall to {location}"
 msgstr "Zurück nach {location}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1201
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:1133
 msgid "current location"
 msgstr "aktueller Ort"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1209
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:1141
 msgid "Set {location} over {previous}"
 msgstr "{location} statt {previous} setzen"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1214
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:1146
 msgid "Set beacon to {location}"
 msgstr "Leuchtfeuer auf {location} setzen"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1295
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:1227
 msgid "Setting beacon"
 msgstr "Leuchtfeuer wird gesetzt"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1767 game/gameplay/GameplayPartyOverlayInputController.cpp:1823 game/gameplay/GameplaySpellService.cpp:128
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:1699 game/gameplay/GameplayPartyOverlayInputController.cpp:1755 game/gameplay/GameplaySpellService.cpp:128
 #: game/gameplay/GameplaySpellService.cpp:178
 msgid "Spell not learned"
 msgstr "Zauber nicht erlernt"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1778 game/ui/GameplayJournalAuras.cpp:200
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:1710 game/ui/GameplayJournalAuras.cpp:200
 msgid "Spell {id}"
 msgstr "Zauber {id}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1813
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:1745
 msgid "Can't set attack spell"
 msgstr "Angriffszauber kann nicht festgelegt werden"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1813
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:1745
 msgid "Can't set quick spell"
 msgstr "Schnellzauber kann nicht festgelegt werden"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:2237
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:2169
 msgid "Crafting materials"
 msgstr "Handwerksmaterialien"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:2238
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:2170
 msgid "Potions and reagents"
 msgstr "Tränke und Reagenzien"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:2239
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:2171
 msgid "Quest items"
 msgstr "Aufgabengegenstände"
 
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:2240
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:2172
 msgid "New loot"
 msgstr ""
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:2248
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:2180
 msgid "Put the item down first."
 msgstr "Legt den Gegenstand zuerst ab."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:2311
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:2243
 msgid "{skill} disabled"
 msgstr "{skill} deaktiviert"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:2311
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:2243
 msgid "{skill} enabled"
 msgstr "{skill} aktiviert"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:2332
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:2264
 msgid "Elementalist rotation disabled"
 msgstr "Elementalist-Rotation deaktiviert"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:2332
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:2264
 msgid "Elementalist rotation enabled"
 msgstr "Elementalist-Rotation aktiviert"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3530
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3462
 msgid "Elementalist rotation"
 msgstr "Elementaristen-Rotation"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3534
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3466
 msgid "Tab {tab} (Shift+{key})"
 msgstr "Reiter {tab} (Shift+{key})"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3715
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3647
 msgid "Select an item"
 msgstr "Wählt einen Gegenstand"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3834
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3766
 msgid "Can't hire adventurer."
 msgstr "Abenteurer kann nicht angeheuert werden."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3862
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3794
 msgid "To confirm {name} dismissal press the button again..."
 msgstr "Drückt den Knopf erneut, um {name} zu entlassen..."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3873
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3805
 msgid "{name} dismissed."
 msgstr "{name} entlassen."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3877
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3809
 msgid "Dismissal failed."
 msgstr "Entlassen fehlgeschlagen."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3914
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3846
 msgid "Crafting materials sorted"
 msgstr "Handwerksmaterialien sortiert"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3915
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3847
 msgid "Potions and reagents sorted"
 msgstr "Tränke und Reagenzien sortiert"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3916
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3848
 msgid "Quest items sorted"
 msgstr "Aufgabengegenstände sortiert"
 
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3917
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3849
 msgid "New loot sorted"
 msgstr ""
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3936 game/gameplay/GameplayPartyOverlayInputController.cpp:3947
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3868 game/gameplay/GameplayPartyOverlayInputController.cpp:3879
 msgid "Not enough room to sort."
 msgstr "Nicht genug Platz zum Sortieren."
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3937
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3869
 msgid "All bags of the party sorted"
 msgstr "Alle Beutel der Gruppe sortiert"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3938
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3870
 msgid "All inventories have been sorted"
 msgstr "Alle Inventare wurden sortiert"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3939
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3871
 msgid "All of {name}'s bags sorted"
 msgstr "Alle Beutel von {name} sortiert"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3941
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3873
 msgid "Inventory sorted"
 msgstr "Inventar sortiert"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:4070 game/gameplay/GameplayPartyOverlayInputController.cpp:4114 game/gameplay/GameplayPartyOverlayInputController.cpp:4212
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:4525
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:4002 game/gameplay/GameplayPartyOverlayInputController.cpp:4046 game/gameplay/GameplayPartyOverlayInputController.cpp:4144
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:4457
 msgid "Can't do that"
 msgstr "Das geht nicht"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:4093
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:4025
 msgid "Only an implant fits there"
 msgstr "Dort passt nur ein Implantat"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:4094
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:4026
 msgid "Cybernetics has not opened that socket"
 msgstr "Kybernetik hat diesen Steckplatz nicht freigeschaltet"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:4170
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:4102
 msgid "Can't equip that item there"
 msgstr "Dieser Gegenstand kann dort nicht angelegt werden"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:4269
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:4201
 msgid "Can't equip that item"
 msgstr "Dieser Gegenstand kann nicht angelegt werden"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:114 assets_dev/engine/data_tables/english/Global.txt:99 game/gameplay/GameplayPartyOverlayInputController.cpp:487
-#: game/ui/GameplayHudOverlaySupport.cpp:478 game/ui/GameplayPartyOverlayRenderer.cpp:2192
+#: assets_dev/engine/data_tables/english/Global.txt:114 assets_dev/engine/data_tables/english/Global.txt:99 game/gameplay/GameplayPartyOverlayInputController.cpp:486
+#: game/ui/GameplayHudOverlaySupport.cpp:478 game/ui/GameplayPartyOverlayRenderer.cpp:2191
 msgid "Grand"
 msgstr "Groß"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:500 game/ui/GameplayHudOverlaySupport.cpp:505 game/ui/GameplayHudOverlaySupport.cpp:566
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2205
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:499 game/ui/GameplayHudOverlaySupport.cpp:505 game/ui/GameplayHudOverlaySupport.cpp:566
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2204
 msgid "{skill} {mastery}"
 msgstr "{skill} {mastery}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:539
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:538
 msgid "The party's crafting materials (Shift+B)"
 msgstr "Die Handwerksmaterialien der Gruppe (Shift+B)"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:540
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:539
 msgid "The party's potions, bottles and reagents"
 msgstr "Die Tränke, Flaschen und Reagenzien der Gruppe"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:541
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:540
 msgid "The party's quest items"
 msgstr "Die Aufgabengegenstände der Gruppe"
 
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:542
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:541
 msgid "New loot: what you leave here is trash"
 msgstr ""
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:558
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:557
 msgid "{skill} {level} to {next}: {cost} skill point"
 msgid_plural "{skill} {level} to {next}: {cost} skill points"
 msgstr[0] "{skill} {level} auf {next}: {cost} Fertigkeitspunkt"
 msgstr[1] "{skill} {level} auf {next}: {cost} Fertigkeitspunkte"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:573
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:572
 msgid "{skills} and {skill}"
 msgstr "{skills} und {skill}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:577
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:576
 msgid "{text} ({cost}, shared with {skills})"
 msgstr "{text} ({cost}, geteilt mit {skills})"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:585
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:584
 msgid "{text}, you have {points}"
 msgstr "{text}, Ihr habt {points}"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:595
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:594
 msgid "{name} is on: click to switch it off"
 msgstr "{name} ist an: Klicken schaltet aus"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:596
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:595
 msgid "{name} is off: click to switch it on"
 msgstr "{name} ist aus: Klicken schaltet ein"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:599
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:598
 msgid "{text} ({key})"
 msgstr "{text} ({key})"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1038 game/gameplay/GameplayPartyOverlayInputController.cpp:1233 game/gameplay/GameplayPartyOverlayInputController.cpp:1359
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:794 game/ui/GameplayWebOfWorlds.cpp:987
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:1165 game/gameplay/GameplayPartyOverlayInputController.cpp:1291 game/gameplay/GameplayPartyOverlayInputController.cpp:793
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:995
 msgid "Spell cancelled"
 msgstr "Zauber abgebrochen"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:815
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:814
 msgid "Dimension Door"
 msgstr "Dimensionstür"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:631 assets_dev/engine/ui/gameplay/actor_inspect.yml:161 game/gameplay/GameplayPartyOverlayInputController.cpp:820
+#: assets_dev/engine/data_tables/english/Global.txt:631 assets_dev/engine/ui/gameplay/actor_inspect.yml:161 game/gameplay/GameplayPartyOverlayInputController.cpp:819
 msgid "Spell"
 msgstr "Zauber"
 
 # machine translation (Claude), review
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:834
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:833
 msgid "Town Portal destinations unavailable"
 msgstr "Keine Ziele für Stadtportal verfügbar"
+
+# machine translation (Claude), review
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:975
+msgid "Dimension Door to {destination}"
+msgstr "Dimensionstür nach {destination}"
+
+# machine translation (Claude), review
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:976
+msgid "Town Portal to {destination}"
+msgstr "Stadtportal nach {destination}"
 
 # machine translation (Claude), review
 #: game/gameplay/GameplaySaveLoadUiSupport.cpp:34
@@ -103364,67 +103368,67 @@ msgid "  LMB cast  Esc cancel"
 msgstr "  LMT: zaubern  Esc: abbrechen"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1012
+#: game/gameplay/HouseInteraction.cpp:1050
 msgid "Selected: no character"
 msgstr "Ausgewählt: kein Charakter"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1015
+#: game/gameplay/HouseInteraction.cpp:1053
 msgid "Selected: {name} the {class}"
 msgstr "Ausgewählt: {name}, {class}"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1022
+#: game/gameplay/HouseInteraction.cpp:1060
 msgid "Welcome to {house}"
 msgstr "Willkommen in {house}"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/npc_topic_text.txt:365 game/gameplay/HouseInteraction.cpp:1139 game/gameplay/HouseInteraction.cpp:1702
+#: assets_dev/engine/data_tables/npc_topic_text.txt:365 game/gameplay/HouseInteraction.cpp:1177 game/gameplay/HouseInteraction.cpp:1757
 msgid "You must be a member of this guild to study here."
 msgstr "Um hier zu studieren, müßt Ihr ein Mitglied dieser Gilde sein."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1154 game/gameplay/HouseInteraction.cpp:1347
+#: game/gameplay/HouseInteraction.cpp:1192 game/gameplay/HouseInteraction.cpp:1385
 msgid "No skills are available here for this character."
 msgstr "Hier gibt es für diesen Charakter keine Fertigkeiten zu lernen."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1173
+#: game/gameplay/HouseInteraction.cpp:1211
 msgid "Choose an Arcomage option."
 msgstr "Wählt eine Arcomage-Option."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1334
+#: game/gameplay/HouseInteraction.cpp:1372
 msgid "Learn {skill} for {price} gold"
 msgstr "{skill} lernen für {price} Goldstücke"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:203 game/gameplay/HouseInteraction.cpp:1364
+#: assets_dev/engine/data_tables/english/Global.txt:203 game/gameplay/HouseInteraction.cpp:1402
 msgid "Sell"
 msgstr "Verkaufen"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1369
+#: game/gameplay/HouseInteraction.cpp:1407
 msgid "This house does not buy equipment."
 msgstr "Hier wird keine Ausrüstung angekauft."
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:116 game/gameplay/HouseInteraction.cpp:1379
+#: assets_dev/engine/data_tables/english/Global.txt:116 game/gameplay/HouseInteraction.cpp:1417
 msgid "Identify"
 msgstr "Identifizieren"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1386
+#: game/gameplay/HouseInteraction.cpp:1424
 msgid "This house cannot identify items."
 msgstr "Hier können keine Gegenstände identifiziert werden."
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:182 game/gameplay/HouseInteraction.cpp:1396
+#: assets_dev/engine/data_tables/english/Global.txt:182 game/gameplay/HouseInteraction.cpp:1434
 msgid "Repair"
 msgstr "Reparieren"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1401
+#: game/gameplay/HouseInteraction.cpp:1439
 msgid "This house cannot repair items."
 msgstr "Hier können keine Gegenstände repariert werden."
 
@@ -103433,61 +103437,61 @@ msgstr "Hier können keine Gegenstände repariert werden."
 #: assets_dev/engine/ui/gameplay/settings_controls.yml:260 assets_dev/engine/ui/gameplay/settings_game.yml:260 assets_dev/engine/ui/gameplay/settings_game.yml:299
 #: assets_dev/engine/ui/gameplay/settings_gameplay.yml:260 assets_dev/engine/ui/gameplay/settings_interface.yml:260 assets_dev/engine/ui/gameplay/settings_keyboard.yml:260
 #: assets_dev/engine/ui/gameplay/settings_updates.yml:260 assets_dev/engine/ui/gameplay/settings_video.yml:260 assets_dev/engine/ui/menu/settings_catalog.yml:27
-#: game/gameplay/HouseInteraction.cpp:1430 game/ui/screens/LoadGameScreen.cpp:1283 game/ui/screens/MainMenuLootFilter.cpp:407
+#: game/gameplay/HouseInteraction.cpp:1468 game/ui/screens/LoadGameScreen.cpp:1283 game/ui/screens/MainMenuLootFilter.cpp:407
 msgid "Rules"
 msgstr "Regeln"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:625 game/gameplay/HouseInteraction.cpp:1438
+#: assets_dev/engine/data_tables/english/Global.txt:625 game/gameplay/HouseInteraction.cpp:1476
 msgid "Victory Conditions"
 msgstr "Siegbedingungen"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:624 game/gameplay/HouseInteraction.cpp:1448
+#: assets_dev/engine/data_tables/english/Global.txt:624 game/gameplay/HouseInteraction.cpp:1486
 msgid "Play"
 msgstr "Spielen"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1479
+#: game/gameplay/HouseInteraction.cpp:1517
 msgid "Heal {price} gold"
 msgstr "Heilen für {price} Goldstücke"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1489
+#: game/gameplay/HouseInteraction.cpp:1527
 msgid "Donate {price} gold"
 msgstr "{price} Goldstücke spenden"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:163 game/gameplay/HouseInteraction.cpp:1498 game/gameplay/HouseInteraction.cpp:1549
-#: game/gameplay/HouseInteraction.cpp:1637 game/gameplay/HouseInteraction.cpp:1687 game/gameplay/HouseInteraction.cpp:1700
-#: game/gameplay/HouseInteraction.cpp:1753 game/gameplay/HouseInteraction.cpp:1874
+#: assets_dev/engine/data_tables/english/Global.txt:163 game/gameplay/HouseInteraction.cpp:1536 game/gameplay/HouseInteraction.cpp:1587
+#: game/gameplay/HouseInteraction.cpp:1692 game/gameplay/HouseInteraction.cpp:1742 game/gameplay/HouseInteraction.cpp:1755
+#: game/gameplay/HouseInteraction.cpp:1808 game/gameplay/HouseInteraction.cpp:1929
 msgid "Learn Skills"
 msgstr "Fertigkeit erlernen"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1511
+#: game/gameplay/HouseInteraction.cpp:1549
 msgid "Rent room for {price} gold"
 msgstr "Zimmer mieten für {price} Goldstücke"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1525
+#: game/gameplay/HouseInteraction.cpp:1563
 msgid "Fill packs to {days} days for {price} gold"
 msgid_plural "Fill packs to {days} days for {price} gold"
 msgstr[0] "Vorräte auf {days} Tag auffüllen für {price} Goldstücke"
 msgstr[1] "Vorräte auf {days} Tage auffüllen für {price} Goldstücke"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1540 game/gameplay/HouseInteraction.cpp:2360
+#: game/gameplay/HouseInteraction.cpp:1578 game/gameplay/HouseInteraction.cpp:2415
 msgid "Your packs are already full enough."
 msgstr "Eure Vorräte reichen bereits aus."
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:614 game/gameplay/HouseInteraction.cpp:1556
+#: assets_dev/engine/data_tables/english/Global.txt:614 game/gameplay/HouseInteraction.cpp:1594
 msgid "Play Arcomage"
 msgstr "Arcomage spielen"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1590 game/gameplay/HouseInteraction.cpp:2583
+#: game/gameplay/HouseInteraction.cpp:1628 game/gameplay/HouseInteraction.cpp:2635
 msgid ""
 "With your skills, you should be working here as a teacher\n"
 "\n"
@@ -103498,238 +103502,242 @@ msgstr ""
 "Tut mir leid, aber wir können Euch nicht ausbilden."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1597 game/gameplay/HouseInteraction.cpp:2592
+#: game/gameplay/HouseInteraction.cpp:1635 game/gameplay/HouseInteraction.cpp:2644
 msgid "You need {experience} more experience to train to level {level}"
 msgstr ""
 "Ihr benötigt noch {experience} Erfahrungspunkte, um für Stufe {level} zu trainieren"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1604
+#: game/gameplay/HouseInteraction.cpp:1642
 msgid "Train to level {level} for {price} gold"
 msgstr "Für Stufe {level} trainieren für {price} Goldstücke"
 
+#: game/gameplay/HouseInteraction.cpp:1675
+msgid "Train {levels} levels to level {level} for {price} gold"
+msgstr ""
+
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1630
+#: game/gameplay/HouseInteraction.cpp:1685
 msgid "Forget talents (free)"
 msgstr "Talente vergessen (kostenlos)"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1666
+#: game/gameplay/HouseInteraction.cpp:1721
 msgid "Buy"
 msgstr "Kaufen"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:137 game/gameplay/HouseInteraction.cpp:1671
+#: assets_dev/engine/data_tables/english/Global.txt:137 game/gameplay/HouseInteraction.cpp:1726
 msgid "Buy Standard"
 msgstr "Standard kaufen"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:155 game/gameplay/HouseInteraction.cpp:1673
+#: assets_dev/engine/data_tables/english/Global.txt:155 game/gameplay/HouseInteraction.cpp:1728
 msgid "Buy Special"
 msgstr "Spezial kaufen"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1678
+#: game/gameplay/HouseInteraction.cpp:1733
 msgid "Display Equipment"
 msgstr "Ausrüstung anzeigen"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1718
+#: game/gameplay/HouseInteraction.cpp:1773
 msgid "Buy Air Spells"
 msgstr "Luftzauber kaufen"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1718
+#: game/gameplay/HouseInteraction.cpp:1773
 msgid "Buy Fire Spells"
 msgstr "Feuerzauber kaufen"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1719
+#: game/gameplay/HouseInteraction.cpp:1774
 msgid "Buy Earth Spells"
 msgstr "Erdzauber kaufen"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1719
+#: game/gameplay/HouseInteraction.cpp:1774
 msgid "Buy Water Spells"
 msgstr "Wasserzauber kaufen"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1720
+#: game/gameplay/HouseInteraction.cpp:1775
 msgid "Buy Mind Spells"
 msgstr "Geisteszauber kaufen"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1720
+#: game/gameplay/HouseInteraction.cpp:1775
 msgid "Buy Spirit Spells"
 msgstr "Seelenzauber kaufen"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1721
+#: game/gameplay/HouseInteraction.cpp:1776
 msgid "Buy Body Spells"
 msgstr "Körperzauber kaufen"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1721
+#: game/gameplay/HouseInteraction.cpp:1776
 msgid "Buy Light Spells"
 msgstr "Lichtzauber kaufen"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1722
+#: game/gameplay/HouseInteraction.cpp:1777
 msgid "Buy Dark Spells"
 msgstr "Dunkelzauber kaufen"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1743
+#: game/gameplay/HouseInteraction.cpp:1798
 msgid "Buy Spellbooks"
 msgstr "Zauberbücher kaufen"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1775
+#: game/gameplay/HouseInteraction.cpp:1830
 msgid "Current Fine: {fine} gold"
 msgstr "Aktuelle Strafe: {fine} Goldstücke"
 
 # imported from fix_de.po
-#: assets_dev/engine/data_tables/english/Global.txt:606 assets_dev/engine/data_tables/npc_topic.txt:1066 game/gameplay/HouseInteraction.cpp:1783
+#: assets_dev/engine/data_tables/english/Global.txt:606 assets_dev/engine/data_tables/npc_topic.txt:1066 game/gameplay/HouseInteraction.cpp:1838
 msgid "Pay Fine"
 msgstr "Strafe zahlen"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1790 game/gameplay/HouseInteraction.cpp:2484 game/gameplay/HouseInteraction.cpp:2522
+#: game/gameplay/HouseInteraction.cpp:1845 game/gameplay/HouseInteraction.cpp:2539 game/gameplay/HouseInteraction.cpp:2577
 msgid "You do not owe a fine."
 msgstr "Ihr habt keine offene Strafe."
 
 # imported from GR (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:607 assets_dev/engine/data_tables/npc_topic.txt:1065 assets_dev/engine/data_tables/npc_topic.txt:1716
-#: game/gameplay/HouseInteraction.cpp:1794
+#: game/gameplay/HouseInteraction.cpp:1849
 msgid "Bounty Hunt"
 msgstr "Kopfgeldjagd"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/npc_topic.txt:1416 game/gameplay/HouseInteraction.cpp:1805
+#: assets_dev/engine/data_tables/npc_topic.txt:1416 game/gameplay/HouseInteraction.cpp:1860
 msgid "Price Fixing"
 msgstr "Preise festsetzen"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1845
+#: game/gameplay/HouseInteraction.cpp:1900
 msgid "{days} day to {place} for {price} gold"
 msgid_plural "{days} days to {place} for {price} gold"
 msgstr[0] "{days} Tag nach {place} für {price} Goldstücke"
 msgstr[1] "{days} Tage nach {place} für {price} Goldstücke"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1955
+#: game/gameplay/HouseInteraction.cpp:2010
 msgid "This house refuses service after the theft."
 msgstr "Nach dem Diebstahl werdet Ihr hier nicht mehr bedient."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1956
+#: game/gameplay/HouseInteraction.cpp:2011
 msgid "This house refuses service because of your reputation."
 msgstr "Wegen Eures Rufs werdet Ihr hier nicht bedient."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:1990 game/gameplay/HouseInteraction.cpp:1998 game/ui/GameplayTransportSchedule.cpp:369
+#: game/gameplay/HouseInteraction.cpp:2045 game/gameplay/HouseInteraction.cpp:2053 game/ui/GameplayTransportSchedule.cpp:369
 msgid "Travel is unavailable right now."
 msgstr "Reisen ist derzeit nicht möglich."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2142
+#: game/gameplay/HouseInteraction.cpp:2197
 msgid "You wait {days} day for the ship."
 msgid_plural "You wait {days} days for the ship."
 msgstr[0] "Ihr wartet {days} Tag auf das Schiff."
 msgstr[1] "Ihr wartet {days} Tage auf das Schiff."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2144
+#: game/gameplay/HouseInteraction.cpp:2199
 msgid "You wait {days} day for the coach."
 msgid_plural "You wait {days} days for the coach."
 msgstr[0] "Ihr wartet {days} Tag auf die Kutsche."
 msgstr[1] "Ihr wartet {days} Tage auf die Kutsche."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2211
+#: game/gameplay/HouseInteraction.cpp:2266
 msgid "Healing is not offered here."
 msgstr "Hier wird keine Heilung angeboten."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2219 game/gameplay/HouseInteraction.cpp:2670
+#: game/gameplay/HouseInteraction.cpp:2274 game/gameplay/HouseInteraction.cpp:2747
 msgid "No character is selected."
 msgstr "Kein Charakter ausgewählt."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2228
+#: game/gameplay/HouseInteraction.cpp:2283
 msgid "The temple staff cannot treat {name}'s condition."
 msgstr "Die Tempeldiener können den Zustand von {name} nicht behandeln."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2233
+#: game/gameplay/HouseInteraction.cpp:2288
 msgid "The temple staff says {name} is already well."
 msgstr "Die Tempeldiener sagen, {name} sei bereits gesund."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2242
+#: game/gameplay/HouseInteraction.cpp:2297
 msgid "You need {price} gold for healing."
 msgstr "Ihr benötigt {price} Goldstücke für die Heilung."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2263
+#: game/gameplay/HouseInteraction.cpp:2318
 msgid "The temple restores {name} for {price} gold."
 msgstr "Der Tempel heilt {name} für {price} Goldstücke."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2273
+#: game/gameplay/HouseInteraction.cpp:2328
 msgid "Donations are not accepted here."
 msgstr "Hier werden keine Spenden angenommen."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2281
+#: game/gameplay/HouseInteraction.cpp:2336
 msgid "You need {price} gold to donate here."
 msgstr "Ihr benötigt {price} Goldstücke, um hier zu spenden."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2327 game/gameplay/HouseInteraction.cpp:2429
+#: game/gameplay/HouseInteraction.cpp:2382 game/gameplay/HouseInteraction.cpp:2484
 msgid "Thank You"
 msgstr "Vielen Dank"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2341
+#: game/gameplay/HouseInteraction.cpp:2396
 msgid "You need {price} gold to rent a room."
 msgstr "Ihr benötigt {price} Goldstücke, um ein Zimmer zu mieten."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2372
+#: game/gameplay/HouseInteraction.cpp:2427
 msgid "You need {price} gold for provisions."
 msgstr "Ihr benötigt {price} Goldstücke für Proviant."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2381
+#: game/gameplay/HouseInteraction.cpp:2436
 msgid "The innkeeper fills your packs to {days} days."
 msgid_plural "The innkeeper fills your packs to {days} days."
 msgstr[0] "Der Wirt füllt Eure Vorräte auf {days} Tag auf."
 msgstr[1] "Der Wirt füllt Eure Vorräte auf {days} Tage auf."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2395
-msgid "You need {price} gold for a drink."
-msgstr "Ihr benötigt {price} Goldstücke für ein Getränk."
-
-# imported from GR (MMMerge localization)
-#: assets_dev/engine/rulesets/maw/events/maps/outb1_maw.lua:44 game/gameplay/HouseInteraction.cpp:2402
-msgid "Refreshing!"
-msgstr "Erfrischend!"
-
-# machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2422
-msgid "You need {price} gold for a tip."
-msgstr "Ihr benötigt {price} Goldstücke für ein Trinkgeld."
-
-# machine translation (Claude), review
 #: game/gameplay/HouseInteraction.cpp:244
 msgid "{name} is in no condition to do anything"
 msgstr "{name} ist nicht in der Verfassung, etwas zu tun"
 
+# machine translation (Claude), review
+#: game/gameplay/HouseInteraction.cpp:2450
+msgid "You need {price} gold for a drink."
+msgstr "Ihr benötigt {price} Goldstücke für ein Getränk."
+
+# imported from GR (MMMerge localization)
+#: assets_dev/engine/rulesets/maw/events/maps/outb1_maw.lua:44 game/gameplay/HouseInteraction.cpp:2457
+msgid "Refreshing!"
+msgstr "Erfrischend!"
+
+# machine translation (Claude), review
+#: game/gameplay/HouseInteraction.cpp:2477
+msgid "You need {price} gold for a tip."
+msgstr "Ihr benötigt {price} Goldstücke für ein Trinkgeld."
+
 # imported from GR (MMMerge localization)
 # address made plural (Claude)
-#: assets_dev/engine/data_tables/npc_topic_text.txt:5043 game/gameplay/HouseInteraction.cpp:2448
+#: assets_dev/engine/data_tables/npc_topic_text.txt:5043 game/gameplay/HouseInteraction.cpp:2503
 msgid ""
 "Well, If Loretta's got a new scheme, count me in!\n"
 "But you better get all the other companies to sign up!"
@@ -103737,112 +103745,112 @@ msgstr ""
 "Nun, wenn Loretta ein neue Preisschema hat, dann könnt Ihr auf mich zählen! Aber Ihr überzeugt besser erst noch die anderen Gesellschaften!"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2474
+#: game/gameplay/HouseInteraction.cpp:2529
 msgid "Your current fine is {fine} gold."
 msgstr "Eure aktuelle Strafe beträgt {fine} Goldstücke."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2490
+#: game/gameplay/HouseInteraction.cpp:2545
 msgid "You need {fine} gold to pay your fine."
 msgstr "Ihr benötigt {fine} Goldstücke, um Eure Strafe zu bezahlen."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2498
+#: game/gameplay/HouseInteraction.cpp:2553
 msgid "Your fine has been paid."
 msgstr "Eure Strafe wurde bezahlt."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2539
+#: game/gameplay/HouseInteraction.cpp:2594
 msgid "You have served one year in prison."
 msgstr "Ihr habt ein Jahr im Kerker abgesessen."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2552
+#: game/gameplay/HouseInteraction.cpp:2607
 msgid "{name} forgets every talent; the points are free again."
 msgstr "{name} vergisst alle Talente; die Punkte sind wieder frei."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2564
+#: game/gameplay/HouseInteraction.cpp:2620
 msgid "No character is selected for training."
 msgstr "Kein Charakter für das Training ausgewählt."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2600
+#: game/gameplay/HouseInteraction.cpp:2664
 msgid "You need {price} gold for training."
 msgstr "Ihr benötigt {price} Goldstücke für das Training."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2614
+#: game/gameplay/HouseInteraction.cpp:2685
 msgid "Training is not available right now."
 msgstr "Training ist derzeit nicht möglich."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2651
+#: game/gameplay/HouseInteraction.cpp:2728
 msgid "{name} is now level {level} and has earned {points} skill points!"
 msgstr ""
 "{name} hat Stufe {level} erreicht und erhält {points} zusätzliche Fertigkeitspunkte!"
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2662 game/gameplay/HouseInteraction.cpp:2705
+#: game/gameplay/HouseInteraction.cpp:2739 game/gameplay/HouseInteraction.cpp:2782
 msgid "That lesson is not available."
 msgstr "Diese Lektion ist nicht verfügbar."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2683
+#: game/gameplay/HouseInteraction.cpp:2760
 msgid "{name} cannot learn {skill} here."
 msgstr "{name} kann {skill} hier nicht lernen."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2711
+#: game/gameplay/HouseInteraction.cpp:2788
 msgid "{name} learns {skill} for {price} gold."
 msgstr "{name} lernt {skill} für {price} Goldstücke."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2727
+#: game/gameplay/HouseInteraction.cpp:2804
 msgid "This service is not implemented yet."
 msgstr "Dieser Dienst ist noch nicht umgesetzt."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2744
+#: game/gameplay/HouseInteraction.cpp:2821
 msgid "The ledger is not sold here."
 msgstr "Das Hauptbuch wird hier nicht verkauft."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2766
+#: game/gameplay/HouseInteraction.cpp:2843
 msgid ""
 "Arcomage uses the house deck. Build your tower, destroy theirs, or win on resources."
 msgstr ""
 "Arcomage wird mit dem Deck des Hauses gespielt. Baut Euren Turm, zerstört den gegnerischen oder siegt durch Ressourcen."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2773
+#: game/gameplay/HouseInteraction.cpp:2850
 msgid ""
 "Arcomage victory conditions depend on the inn. This tavern flow is not implemented yet."
 msgstr ""
 "Die Siegbedingungen für Arcomage hängen vom Gasthaus ab. Dieser Tavernenablauf ist noch nicht umgesetzt."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2779
+#: game/gameplay/HouseInteraction.cpp:2856
 msgid "Arcomage play is not implemented yet."
 msgstr "Arcomage-Partien sind noch nicht umgesetzt."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2799
+#: game/gameplay/HouseInteraction.cpp:2876
 msgid "You are not carrying any gold."
 msgstr "Ihr tragt kein Gold bei Euch."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2803
+#: game/gameplay/HouseInteraction.cpp:2880
 msgid "Deposited {gold} gold."
 msgstr "{gold} Goldstücke eingezahlt."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2814
+#: game/gameplay/HouseInteraction.cpp:2891
 msgid "You do not have any gold in the bank."
 msgstr "Ihr habt kein Gold in der Bank."
 
 # machine translation (Claude), review
-#: game/gameplay/HouseInteraction.cpp:2818
+#: game/gameplay/HouseInteraction.cpp:2895
 msgid "Withdrew {gold} gold."
 msgstr "{gold} Goldstücke abgehoben."
 
@@ -104006,7 +104014,7 @@ msgstr "Dieser Gegenstand ist nicht verfügbar."
 
 # machine translation (Claude), review
 #: engine/Localization.h:58 game/gameplay/HouseServiceRuntime.cpp:1833 game/gameplay/HouseServiceRuntime.cpp:1890
-#: game/gameplay/HouseServiceRuntime.cpp:2438 game/gameplay/HouseServiceRuntime.cpp:2563 game/party/Party.cpp:5013
+#: game/gameplay/HouseServiceRuntime.cpp:2438 game/gameplay/HouseServiceRuntime.cpp:2563 game/party/Party.cpp:5027
 msgid "Not enough gold."
 msgstr "Nicht genug Gold."
 
@@ -104049,9 +104057,9 @@ msgstr[1] "{count} Gegenstände für {gold} Gold verkauft."
 
 # machine translation (Claude), review
 #: game/gameplay/HouseServiceRuntime.cpp:2263 game/gameplay/HouseServiceRuntime.cpp:2379 game/gameplay/HouseServiceRuntime.cpp:2504
-#: game/party/Party.cpp:7062 game/party/Party.cpp:7158 game/party/Party.cpp:7252
-#: game/party/Party.cpp:7317 game/party/Party.cpp:7385 game/party/Party.cpp:7481
-#: game/party/Party.cpp:7572 game/party/Party.cpp:7634
+#: game/party/Party.cpp:7077 game/party/Party.cpp:7173 game/party/Party.cpp:7267
+#: game/party/Party.cpp:7332 game/party/Party.cpp:7400 game/party/Party.cpp:7496
+#: game/party/Party.cpp:7587 game/party/Party.cpp:7649
 msgid "No item there."
 msgstr "Dort ist kein Gegenstand."
 
@@ -104157,7 +104165,7 @@ msgid "Become {mastery} in {skill} for {price} gold"
 msgstr "{mastery} in {skill} werden für {price} Goldstücke"
 
 # machine translation (Claude), review
-#: game/gameplay/MasteryTeacherDialog.cpp:652
+#: game/gameplay/MasteryTeacherDialog.cpp:653
 msgid "{name} is now a {mastery} in {skill}."
 msgstr "{name} ist jetzt {mastery} in {skill}."
 
@@ -104167,7 +104175,7 @@ msgid "You found {gold} gold (followers take {share})!"
 msgstr "Ihr habt {gold} Goldstücke gefunden (Gefolgsleute erhalten {share})!"
 
 # machine translation (Claude), review
-#: game/gameplay/NpcFollowerRuntime.cpp:423 game/indoor/IndoorWorldRuntime.cpp:17211 game/outdoor/OutdoorWorldRuntime.cpp:18317
+#: game/gameplay/NpcFollowerRuntime.cpp:423 game/indoor/IndoorWorldRuntime.cpp:17205 game/outdoor/OutdoorWorldRuntime.cpp:18304
 msgid "You found {gold} gold!"
 msgstr "Ihr habt {gold} Goldstücke gefunden!"
 
@@ -104188,33 +104196,33 @@ msgid "You are burning!"
 msgstr "Ihr brennt!"
 
 # machine translation (Claude), review
-#: game/indoor/IndoorWorldRuntime.cpp:17171 game/outdoor/OutdoorWorldRuntime.cpp:18277
+#: game/indoor/IndoorWorldRuntime.cpp:17165 game/outdoor/OutdoorWorldRuntime.cpp:18264
 msgid "You need Stealing skill."
 msgstr "Ihr benötigt die Fertigkeit Stehlen."
 
 # machine translation (Claude), review
-#: game/indoor/IndoorWorldRuntime.cpp:17182 game/outdoor/OutdoorWorldRuntime.cpp:18288
+#: game/indoor/IndoorWorldRuntime.cpp:17176 game/outdoor/OutdoorWorldRuntime.cpp:18275
 msgid "Too far away."
 msgstr "Zu weit entfernt."
 
 # machine translation (Claude), review
-#: game/indoor/IndoorWorldRuntime.cpp:17184 game/outdoor/OutdoorWorldRuntime.cpp:18290
+#: game/indoor/IndoorWorldRuntime.cpp:17178 game/outdoor/OutdoorWorldRuntime.cpp:18277
 msgid "Nothing to steal."
 msgstr "Nichts zu stehlen."
 
 # machine translation (Claude), review
-#: game/indoor/IndoorWorldRuntime.cpp:17186 game/outdoor/OutdoorWorldRuntime.cpp:18292
+#: game/indoor/IndoorWorldRuntime.cpp:17180 game/outdoor/OutdoorWorldRuntime.cpp:18279
 msgid "Caught stealing!"
 msgstr "Beim Stehlen erwischt!"
 
 # machine translation (Claude), review
-#: game/indoor/IndoorWorldRuntime.cpp:17187 game/outdoor/OutdoorWorldRuntime.cpp:18293
+#: game/indoor/IndoorWorldRuntime.cpp:17181 game/outdoor/OutdoorWorldRuntime.cpp:18280
 msgid "Failed to steal."
 msgstr "Diebstahl misslungen."
 
 # machine translation (Claude), review
-#: game/indoor/IndoorWorldRuntime.cpp:23466 game/indoor/IndoorWorldRuntime.cpp:24219 game/outdoor/OutdoorWorldRuntime.cpp:17462
-#: game/outdoor/OutdoorWorldRuntime.cpp:22262
+#: game/indoor/IndoorWorldRuntime.cpp:23458 game/indoor/IndoorWorldRuntime.cpp:24211 game/outdoor/OutdoorWorldRuntime.cpp:17449
+#: game/outdoor/OutdoorWorldRuntime.cpp:22248
 msgid "Another player is using this"
 msgstr "Ein anderer Spieler benutzt dies gerade"
 
@@ -104650,7 +104658,7 @@ msgstr "Physisch"
 #: assets_dev/engine/data_tables/monster_data.txt:78 assets_dev/engine/data_tables/monster_data.txt:79 assets_dev/engine/rulesets/maw/patches/monster_data.txt:18
 #: assets_dev/engine/rulesets/maw/patches/monster_data.txt:236 assets_dev/engine/ui/gameplay/actor_inspect.yml:197 assets_dev/engine/ui/gameplay/character.yml:970
 #: game/mm9/Mm9HirelingHud.cpp:39 game/rules/maw/MawClassRules.cpp:86 game/rules/maw/MawItemRules.cpp:2315
-#: game/rules/maw/MawItemRules.cpp:2750 game/rules/maw/MawItemRules.cpp:397 game/ui/GameplayHudOverlaySupport.cpp:369
+#: game/rules/maw/MawItemRules.cpp:2740 game/rules/maw/MawItemRules.cpp:397 game/ui/GameplayHudOverlaySupport.cpp:369
 #: game/ui/GameplayStatisticsScreen.cpp:62 game/ui/HouseShopLedger.cpp:61
 msgid "Fire"
 msgstr "Feuer"
@@ -104793,14 +104801,14 @@ msgstr "Magie"
 
 # machine translation (Claude), review
 #: game/outdoor/OutdoorGameView.cpp:722 game/ui/GameplayCraftingBenchRenderer.cpp:58 game/ui/GameplayHudOverlaySupport.cpp:2442
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2682 game/ui/GameplayPartyOverlayRenderer.cpp:6572
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2681 game/ui/GameplayPartyOverlayRenderer.cpp:6553
 msgid "Not identified"
 msgstr "Nicht identifiziert"
 
 # machine translation (Claude), review
 #: game/outdoor/OutdoorGameView.cpp:826 game/outdoor/OutdoorGameView.cpp:841 game/outdoor/OutdoorGameView.cpp:857
 #: game/outdoor/OutdoorGameView.cpp:878 game/outdoor/OutdoorGameView.cpp:881 game/ui/GameplayHudOverlaySupport.cpp:2437
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2749
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2748
 msgid "Broken"
 msgstr "Defekt"
 
@@ -104811,7 +104819,7 @@ msgstr "Angriff: +{attack}   Schaden: {damage}"
 
 # machine translation (Claude), review
 #: game/outdoor/OutdoorGameView.cpp:831 game/outdoor/OutdoorGameView.cpp:846 game/outdoor/OutdoorGameView.cpp:854
-#: game/outdoor/OutdoorGameView.cpp:875 game/ui/GameplayPartyOverlayRenderer.cpp:2749
+#: game/outdoor/OutdoorGameView.cpp:875 game/ui/GameplayPartyOverlayRenderer.cpp:2748
 msgid "Broken   {detail}"
 msgstr "Defekt   {detail}"
 
@@ -104826,7 +104834,7 @@ msgid "Charges: {charges}"
 msgstr "Ladungen: {charges}"
 
 # machine translation (Claude), review
-#: game/outdoor/OutdoorGameView.cpp:874 game/ui/GameplayPartyOverlayRenderer.cpp:2769 game/ui/GameplayPartyOverlayRenderer.cpp:2875
+#: game/outdoor/OutdoorGameView.cpp:874 game/ui/GameplayPartyOverlayRenderer.cpp:2768 game/ui/GameplayPartyOverlayRenderer.cpp:2874
 msgid "Armor: +{armor}"
 msgstr "Rüstung: +{armor}"
 
@@ -104846,58 +104854,58 @@ msgid "{minutes}m"
 msgstr "{minutes} Min."
 
 # machine translation (Claude), review
-#: game/party/Party.cpp:5007 game/party/Party.cpp:5019
+#: game/party/Party.cpp:5021 game/party/Party.cpp:5033
 msgid "No skills can be reset."
 msgstr "Es gibt keine Fertigkeiten zum Zurücksetzen."
 
 # machine translation (Claude), review
-#: game/party/Party.cpp:5025
+#: game/party/Party.cpp:5040
 msgid "{name}'s skills were reset: {points} skill points."
 msgstr ""
 "Die Fertigkeiten von {name} wurden zurückgesetzt: {points} Fertigkeitspunkte."
 
 # machine translation (Claude), review
-#: game/party/Party.cpp:6590
+#: game/party/Party.cpp:6605
 msgid "Stored with the potions and reagents"
 msgstr "Bei den Tränken und Reagenzien verstaut"
 
 # machine translation (Claude), review
-#: game/party/Party.cpp:6591
+#: game/party/Party.cpp:6606
 msgid "Stored with the crafting materials"
 msgstr "Bei den Handwerksmaterialien verstaut"
 
 # machine translation (Claude), review
-#: game/party/Party.cpp:6592
+#: game/party/Party.cpp:6607
 msgid "Stored with the quest items"
 msgstr "Bei den Aufgabengegenständen verstaut"
 
 # machine translation (Claude), review
-#: game/party/Party.cpp:6601
+#: game/party/Party.cpp:6616
 msgid "Only potions, bottles and reagents go here"
 msgstr "Hierher gehören nur Tränke, Flaschen und Reagenzien"
 
 # machine translation (Claude), review
-#: game/party/Party.cpp:6602
+#: game/party/Party.cpp:6617
 msgid "Only crafting materials go here"
 msgstr "Hierher gehören nur Handwerksmaterialien"
 
 # machine translation (Claude), review
-#: game/party/Party.cpp:6603
+#: game/party/Party.cpp:6618
 msgid "Only quest items go here"
 msgstr "Hierher gehören nur Aufgabengegenstände"
 
 # machine translation (Claude), review
-#: game/party/Party.cpp:6702 game/party/Party.cpp:6703 game/party/Party.cpp:6740
+#: game/party/Party.cpp:6717 game/party/Party.cpp:6718 game/party/Party.cpp:6755
 msgid "cannot equip"
 msgstr "nicht anlegbar"
 
 # machine translation (Claude), review
-#: game/party/Party.cpp:6717
+#: game/party/Party.cpp:6732
 msgid "Level {level} required"
 msgstr "Stufe {level} erforderlich"
 
 # machine translation (Claude), review
-#: game/party/Party.cpp:8080
+#: game/party/Party.cpp:8095
 msgid "An equipped relic exacts its weekly price"
 msgstr "Ein angelegtes Relikt fordert seinen wöchentlichen Tribut"
 
@@ -105267,7 +105275,7 @@ msgstr "Vergeltung"
 
 # imported from GR (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:436 game/party/SkillData.cpp:419 game/rules/SoloTalents.cpp:489
-#: game/rules/maw/MawItemRules.cpp:3499 game/ui/GameplayAlchemyBenchView.cpp:398 game/ui/GameplayHudOverlaySupport.cpp:1807
+#: game/rules/maw/MawItemRules.cpp:3489 game/ui/GameplayAlchemyBenchView.cpp:398 game/ui/GameplayHudOverlaySupport.cpp:1807
 #: game/ui/GameplayJournalAuras.cpp:101 game/ui/GameplayJournalTrainers.cpp:63 game/ui/screens/NewGameScreenPartySheet.cpp:83
 #: game/ui/screens/PartyCreationSheet.cpp:18
 msgid "Expert"
@@ -105276,14 +105284,14 @@ msgstr "Experte"
 # imported from GR (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:435 assets_dev/engine/data_tables/english/class.txt:26 assets_dev/engine/data_tables/monster_data.txt:310
 #: assets_dev/engine/data_tables/npc_topic.txt:815 assets_dev/engine/data_tables/npc_topic.txt:816 game/party/SkillData.cpp:421
-#: game/rules/SoloTalents.cpp:489 game/rules/maw/MawItemRules.cpp:3499 game/ui/GameplayAlchemyBenchView.cpp:400
+#: game/rules/SoloTalents.cpp:489 game/rules/maw/MawItemRules.cpp:3489 game/ui/GameplayAlchemyBenchView.cpp:400
 #: game/ui/GameplayHudOverlaySupport.cpp:1808 game/ui/GameplayJournalAuras.cpp:102 game/ui/GameplayJournalTrainers.cpp:63
 #: game/ui/screens/NewGameScreenPartySheet.cpp:84 game/ui/screens/PartyCreationSheet.cpp:19
 msgid "Master"
 msgstr "Meister"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:228 game/party/SkillData.cpp:423 game/rules/maw/MawItemRules.cpp:3499
+#: assets_dev/engine/data_tables/english/Global.txt:228 game/party/SkillData.cpp:423 game/rules/maw/MawItemRules.cpp:3489
 #: game/ui/GameplayAlchemyBenchView.cpp:402 game/ui/GameplayJournalAuras.cpp:102 game/ui/screens/NewGameScreenPartySheet.cpp:84
 #: game/ui/screens/PartyCreationSheet.cpp:19
 msgid "Grandmaster"
@@ -105518,7 +105526,7 @@ msgstr "Platten"
 #: assets_dev/engine/data_tables/items.txt:319 assets_dev/engine/data_tables/items.txt:419 assets_dev/engine/data_tables/potion_effects.yml:80
 #: assets_dev/engine/data_tables/spells.txt:19 assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:34 game/rules/LootFilter.cpp:59
 #: game/rules/maw/MawClassSpells.cpp:43 game/ui/GameplayBuffHud.cpp:21 game/ui/GameplayBuffHud.h:154
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11791 game/ui/GameplayPartyOverlayRenderer.cpp:2650
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11772 game/ui/GameplayPartyOverlayRenderer.cpp:2649
 msgid "Shield"
 msgstr "Schild"
 
@@ -106292,7 +106300,7 @@ msgstr "Feueraura"
 #: assets_dev/engine/data_tables/items.txt:231 assets_dev/engine/data_tables/items.txt:307 assets_dev/engine/data_tables/items.txt:407
 #: assets_dev/engine/data_tables/potion_effects.yml:64 assets_dev/engine/data_tables/spells.txt:6 assets_dev/engine/rulesets/maw/tables/english/potion.txt:30
 #: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:30 game/rules/maw/MawClassSpells.cpp:38 game/ui/GameplayBuffHud.cpp:21
-#: game/ui/GameplayBuffHud.h:156 game/ui/GameplayPartyOverlayRenderer.cpp:11789 game/ui/GameplayPartyOverlayRenderer.cpp:2645
+#: game/ui/GameplayBuffHud.h:156 game/ui/GameplayPartyOverlayRenderer.cpp:11770 game/ui/GameplayPartyOverlayRenderer.cpp:2644
 msgid "Haste"
 msgstr "Eile"
 
@@ -106365,7 +106373,7 @@ msgstr "Stadtportal"
 #: assets_dev/engine/data_tables/english/spells.txt:37 assets_dev/engine/data_tables/items.txt:1137 assets_dev/engine/data_tables/items.txt:1237
 #: assets_dev/engine/data_tables/items.txt:1837 assets_dev/engine/data_tables/items.txt:1943 assets_dev/engine/data_tables/items.txt:335
 #: assets_dev/engine/data_tables/items.txt:435 assets_dev/engine/data_tables/spells.txt:36 game/rules/maw/MawClassSpells.cpp:53
-#: game/ui/GameplayPartyOverlayRenderer.cpp:5772 game/ui/GameplayStatisticsScreen.cpp:1119
+#: game/ui/GameplayPartyOverlayRenderer.cpp:5753 game/ui/GameplayStatisticsScreen.cpp:1119
 msgid "Lloyd's Beacon"
 msgstr "Leuchtfeuer"
 
@@ -106406,57 +106414,57 @@ msgid "Mass Distortion"
 msgstr "Schwerezauber"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCombatRules.cpp:2844
+#: game/rules/maw/MawCombatRules.cpp:2846
 msgid "Cheat Death!"
 msgstr "Dem Tod getrotzt!"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCombatRules.cpp:2876
+#: game/rules/maw/MawCombatRules.cpp:2878
 msgid "Legendary power saves you from lethal damage"
 msgstr "Legendäre Macht bewahrt Euch vor tödlichem Schaden"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCombatRules.cpp:2910
+#: game/rules/maw/MawCombatRules.cpp:2912
 msgid "Divine Protection saves you from lethal damage"
 msgstr "Göttlicher Schutz bewahrt Euch vor tödlichem Schaden"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCombatRules.cpp:3067
+#: game/rules/maw/MawCombatRules.cpp:3069
 msgid "Repaired"
 msgstr "Repariert"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCombatRules.cpp:3236
+#: game/rules/maw/MawCombatRules.cpp:3238
 msgid "{name}'s poison effect expired"
 msgstr "Die Giftwirkung von {name} ist abgeklungen"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCombatRules.cpp:3265
+#: game/rules/maw/MawCombatRules.cpp:3267
 msgid "Disintegrated"
 msgstr "Desintegriert"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCombatRules.cpp:4404
+#: game/rules/maw/MawCombatRules.cpp:4406
 msgid "(CRIT!)"
 msgstr "(KRIT!)"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCombatRules.cpp:4408
+#: game/rules/maw/MawCombatRules.cpp:4410
 msgid "{attacker} hits for a total of {damage} points!"
 msgstr "{attacker} verursacht insgesamt {damage} Punkte Schaden!"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCombatRules.cpp:4414
+#: game/rules/maw/MawCombatRules.cpp:4416
 msgid "{attacker} inflicts {damage} points killing {target}!"
 msgstr "{attacker} verursacht {damage} Punkte Schaden und tötet {target}!"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCombatRules.cpp:4419
+#: game/rules/maw/MawCombatRules.cpp:4421
 msgid "{attacker} hits {target} for {damage} points!"
 msgstr "{attacker} trifft {target} und verursacht {damage} Punkte Schaden!"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCombatRules.cpp:4419
+#: game/rules/maw/MawCombatRules.cpp:4421
 msgid "{attacker} shoots {target} for {damage} points!"
 msgstr ""
 "{attacker} schießt auf {target} und verursacht {damage} Punkte Schaden!"
@@ -106631,7 +106639,7 @@ msgid "Add a first enchantment"
 msgstr "Erste Verzauberung hinzufügen"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCraftingRules.cpp:338 game/rules/maw/MawItemRules.cpp:2771
+#: game/rules/maw/MawCraftingRules.cpp:338 game/rules/maw/MawItemRules.cpp:2761
 msgid "Item Bonus Power: {power}/{cap}"
 msgstr "Bonusmacht des Gegenstands: {power}/{cap}"
 
@@ -106666,7 +106674,7 @@ msgid "Works on weapons, armour and jewellery only"
 msgstr "Wirkt nur auf Waffen, Rüstungen und Schmuck"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawCraftingRules.cpp:519 game/rules/maw/MawItemRules.cpp:3378
+#: game/rules/maw/MawCraftingRules.cpp:519 game/rules/maw/MawItemRules.cpp:3368
 msgid "Identify the item first"
 msgstr "Identifiziert zuerst den Gegenstand"
 
@@ -107006,195 +107014,189 @@ msgstr "Noch nichts erschlagen"
 
 # machine translation (Claude), review
 #: game/rules/maw/MawItemRules.cpp:2491 game/ui/GameplayHudOverlaySupport.cpp:1303 game/ui/GameplayHudOverlaySupport.cpp:1440
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2798 game/ui/GameplayPartyOverlayRenderer.cpp:2810
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2797 game/ui/GameplayPartyOverlayRenderer.cpp:2809
 msgid "Power: {power}"
 msgstr "Macht: {power}"
 
-#: game/rules/maw/MawItemRules.cpp:2499
-msgid "Adds {count} drink"
-msgid_plural "Adds {count} drinks"
-msgstr[0] ""
-msgstr[1] ""
-
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2526
+#: game/rules/maw/MawItemRules.cpp:2516
 msgid "{stat}: Immune"
 msgstr "{stat}: Immun"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2556
+#: game/rules/maw/MawItemRules.cpp:2546
 msgid "Slows its target on hit"
 msgstr "Verlangsamt sein Ziel bei einem Treffer"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/special_item_enchants.txt:20 game/rules/maw/MawItemRules.cpp:2556
+#: assets_dev/engine/data_tables/special_item_enchants.txt:20 game/rules/maw/MawItemRules.cpp:2546
 msgid "Vampiric"
 msgstr "des Vampirfluchs"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2563
+#: game/rules/maw/MawItemRules.cpp:2553
 msgid "Adds {minimum}-{maximum} {kind} damage to every hit"
 msgstr "Fügt jedem Treffer {minimum}-{maximum} Schaden ({kind}) hinzu"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2563
+#: game/rules/maw/MawItemRules.cpp:2553
 msgid "Adds {minimum}-{maximum} {kind} damage to every hit, slows"
 msgstr ""
 "Fügt jedem Treffer {minimum}-{maximum} Schaden ({kind}) hinzu, verlangsamt"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2570
+#: game/rules/maw/MawItemRules.cpp:2560
 msgid "{kind} damage on hit"
 msgstr "Schaden bei Treffer: {kind}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2570
+#: game/rules/maw/MawItemRules.cpp:2560
 msgid "{kind} damage on hit, slows"
 msgstr "Schaden bei Treffer: {kind}, verlangsamt"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2580
+#: game/rules/maw/MawItemRules.cpp:2570
 msgid "x{factor} damage vs {kind}"
 msgstr "x{factor} Schaden gegen {kind}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2587
+#: game/rules/maw/MawItemRules.cpp:2577
 msgid "+50% skill in {skill}"
 msgstr "+50% auf Fertigkeit {skill}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2599
+#: game/rules/maw/MawItemRules.cpp:2589
 msgid "Regenerates Hit Points"
 msgstr "Regeneriert Trefferpunkte"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2604
+#: game/rules/maw/MawItemRules.cpp:2594
 msgid "Regenerates Spell Points"
 msgstr "Regeneriert Zauberpunkte"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/special_item_enchants.txt:63 game/rules/maw/MawItemRules.cpp:2609
+#: assets_dev/engine/data_tables/special_item_enchants.txt:63 game/rules/maw/MawItemRules.cpp:2599
 msgid "Swift"
 msgstr "Wind -"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2622
+#: game/rules/maw/MawItemRules.cpp:2612
 msgid "Artifact level: {level}"
 msgstr "Artefaktstufe: {level}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2640
+#: game/rules/maw/MawItemRules.cpp:2630
 msgid "Quality bonus: +{percent}%"
 msgstr "Qualitätsbonus: +{percent}%"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2687
+#: game/rules/maw/MawItemRules.cpp:2677
 msgid "{stat} +X"
 msgstr "{stat} +X"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2715
+#: game/rules/maw/MawItemRules.cpp:2705
 msgid "Current bonus Damage: {percent}%"
 msgstr "Aktueller Bonusschaden: {percent}%"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2721
+#: game/rules/maw/MawItemRules.cpp:2711
 msgid "Current Reduction: {percent}%"
 msgstr "Aktuelle Reduktion: {percent}%"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2728
+#: game/rules/maw/MawItemRules.cpp:2718
 msgid "Grows with its wearer up to level {level}"
 msgstr "Wächst mit seinem Träger bis Stufe {level}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2741
+#: game/rules/maw/MawItemRules.cpp:2731
 msgid "Attack speed: {speed}"
 msgstr "Angriffsgeschwindigkeit: {speed}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2750
+#: game/rules/maw/MawItemRules.cpp:2740
 msgid "Flame"
 msgstr "Flamme"
 
 # machine translation (Claude), review
 #: assets_dev/engine/data_tables/english/spells.txt:12 assets_dev/engine/data_tables/items.txt:1114 assets_dev/engine/data_tables/items.txt:1214
 #: assets_dev/engine/data_tables/items.txt:1814 assets_dev/engine/data_tables/items.txt:1916 assets_dev/engine/data_tables/items.txt:312
-#: assets_dev/engine/data_tables/items.txt:412 assets_dev/engine/data_tables/spells.txt:11 game/rules/maw/MawItemRules.cpp:2750
+#: assets_dev/engine/data_tables/items.txt:412 assets_dev/engine/data_tables/spells.txt:11 game/rules/maw/MawItemRules.cpp:2740
 msgid "Inferno"
 msgstr "Inferno"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2753
+#: game/rules/maw/MawItemRules.cpp:2743
 msgid "{aura} Aura: adds {damage} Fire Damage to any attack"
 msgstr "Aura ({aura}): fügt jedem Angriff {damage} Feuerschaden hinzu"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2760
+#: game/rules/maw/MawItemRules.cpp:2750
 msgid "Vampiric Aura: damage done will restore player HP."
 msgstr "Vampiraura: Verursachter Schaden stellt TP des Charakters wieder her."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2764
+#: game/rules/maw/MawItemRules.cpp:2754
 msgid "Item level: {level}"
 msgstr "Gegenstandsstufe: {level}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2773
+#: game/rules/maw/MawItemRules.cpp:2763
 msgid "Item Bonus Power: {power}"
 msgstr "Bonuskraft des Gegenstands: {power}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:2782
+#: game/rules/maw/MawItemRules.cpp:2772
 msgid "Level required: {level}"
 msgstr "Benötigte Stufe: {level}"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:3067
+#: game/rules/maw/MawItemRules.cpp:3057
 msgid "The rift it led to is gone."
 msgstr "Der Riss, zu dem es führte, ist verschwunden."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:3090
+#: game/rules/maw/MawItemRules.cpp:3080
 msgid ""
 "The portal does not know the way back: leave the rift by its own way out."
 msgstr ""
 "Das Portal kennt den Rückweg nicht: Verlasst den Riss durch seinen eigenen Ausgang."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:3116
+#: game/rules/maw/MawItemRules.cpp:3106
 msgid ""
 "The rift in {map} is still open. Clear it, or ask the one who gave you its map to close it."
 msgstr ""
 "Der Riss in {map} ist noch offen. Säubert ihn, oder bittet den, der Euch seine Karte gab, ihn zu schließen."
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:3372
+#: game/rules/maw/MawItemRules.cpp:3362
 msgid "Not enough disarm skill"
 msgstr "Fertigkeit Fallenentschärfen zu niedrig"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:3479
+#: game/rules/maw/MawItemRules.cpp:3469
 msgid "{name}: {change}%"
 msgstr "{name}: {change}%"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:452 game/rules/maw/MawItemRules.cpp:3482
+#: assets_dev/engine/data_tables/english/Global.txt:452 game/rules/maw/MawItemRules.cpp:3472
 msgid "Power"
 msgstr "Macht"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:3483 game/rules/maw/MawSkillRules.cpp:1899 game/rules/maw/MawSkillRules.cpp:931
+#: game/rules/maw/MawItemRules.cpp:3473 game/rules/maw/MawSkillRules.cpp:1899 game/rules/maw/MawSkillRules.cpp:931
 msgid "Vitality"
 msgstr "Vitalität"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:3498
+#: game/rules/maw/MawItemRules.cpp:3488
 msgid "Novice"
 msgstr "Novize"
 
 # machine translation (Claude), review
-#: game/rules/maw/MawItemRules.cpp:3502
+#: game/rules/maw/MawItemRules.cpp:3492
 msgid "You need at least {mastery} skill in {school} Magic to open the book"
 msgstr ""
 "Ihr benötigt mindestens {mastery} in {school}-Magie, um das Buch zu öffnen"
@@ -108471,7 +108473,7 @@ msgid "Alchemy Bench"
 msgstr "Alchimietisch"
 
 # machine translation (Claude), review
-#: game/ui/GameplayAlchemyBenchRenderer.cpp:220 game/ui/GameplayPartyOverlayRenderer.cpp:10116
+#: game/ui/GameplayAlchemyBenchRenderer.cpp:220 game/ui/GameplayPartyOverlayRenderer.cpp:10097
 msgid "Workbench"
 msgstr "Werkbank"
 
@@ -109560,8 +109562,8 @@ msgstr "Regeneration (Trank)"
 #: assets_dev/engine/data_tables/items.txt:1782 assets_dev/engine/data_tables/items.txt:1850 assets_dev/engine/data_tables/items.txt:1958
 #: assets_dev/engine/data_tables/items.txt:233 assets_dev/engine/data_tables/items.txt:348 assets_dev/engine/data_tables/items.txt:448
 #: assets_dev/engine/data_tables/potion_effects.yml:72 assets_dev/engine/data_tables/spells.txt:51 assets_dev/engine/rulesets/maw/tables/english/potion.txt:32
-#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:32 game/ui/GameplayBuffHud.cpp:17 game/ui/GameplayPartyOverlayRenderer.cpp:11795
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2660
+#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:32 game/ui/GameplayBuffHud.cpp:17 game/ui/GameplayPartyOverlayRenderer.cpp:11776
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2659
 msgid "Bless"
 msgstr "Segen"
 
@@ -109569,8 +109571,8 @@ msgstr "Segen"
 #: assets_dev/engine/data_tables/english/Global.txt:224 assets_dev/engine/data_tables/english/spells.txt:53 assets_dev/engine/data_tables/items.txt:1151
 #: assets_dev/engine/data_tables/items.txt:1251 assets_dev/engine/data_tables/items.txt:1851 assets_dev/engine/data_tables/items.txt:1959
 #: assets_dev/engine/data_tables/items.txt:1960 assets_dev/engine/data_tables/items.txt:349 assets_dev/engine/data_tables/items.txt:449
-#: assets_dev/engine/data_tables/spells.txt:52 game/ui/GameplayBuffHud.cpp:17 game/ui/GameplayPartyOverlayRenderer.cpp:11797
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2665
+#: assets_dev/engine/data_tables/spells.txt:52 game/ui/GameplayBuffHud.cpp:17 game/ui/GameplayPartyOverlayRenderer.cpp:11778
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2664
 msgid "Fate"
 msgstr "Schicksal"
 
@@ -109587,7 +109589,7 @@ msgstr "Bewahrung"
 #: assets_dev/engine/data_tables/english/Global.txt:231 assets_dev/engine/data_tables/english/spells.txt:81 assets_dev/engine/data_tables/items.txt:1177
 #: assets_dev/engine/data_tables/items.txt:1277 assets_dev/engine/data_tables/items.txt:1877 assets_dev/engine/data_tables/items.txt:1991
 #: assets_dev/engine/data_tables/items.txt:375 assets_dev/engine/data_tables/items.txt:475 assets_dev/engine/data_tables/spells.txt:80
-#: game/ui/GameplayBuffHud.cpp:18 game/ui/GameplayPartyOverlayRenderer.cpp:11787 game/ui/GameplayPartyOverlayRenderer.cpp:2640
+#: game/ui/GameplayBuffHud.cpp:18 game/ui/GameplayPartyOverlayRenderer.cpp:11768 game/ui/GameplayPartyOverlayRenderer.cpp:2639
 msgid "Hammerhands"
 msgstr "Hammerhand"
 
@@ -109595,7 +109597,7 @@ msgstr "Hammerhand"
 #: assets_dev/engine/data_tables/english/Global.txt:232 assets_dev/engine/data_tables/english/spells.txt:105 assets_dev/engine/data_tables/items.txt:1199
 #: assets_dev/engine/data_tables/items.txt:1299 assets_dev/engine/data_tables/items.txt:1899 assets_dev/engine/data_tables/items.txt:2017
 #: assets_dev/engine/data_tables/items.txt:397 assets_dev/engine/data_tables/items.txt:497 assets_dev/engine/data_tables/spells.txt:104
-#: game/ui/GameplayBuffHud.cpp:19 game/ui/GameplayPartyOverlayRenderer.cpp:11785 game/ui/GameplayPartyOverlayRenderer.cpp:2635
+#: game/ui/GameplayBuffHud.cpp:19 game/ui/GameplayPartyOverlayRenderer.cpp:11766 game/ui/GameplayPartyOverlayRenderer.cpp:2634
 msgid "Pain Reflection"
 msgstr "Schmerzreflektion"
 
@@ -109625,15 +109627,15 @@ msgstr "Vampirfluch"
 #: assets_dev/engine/data_tables/items.txt:232 assets_dev/engine/data_tables/items.txt:353 assets_dev/engine/data_tables/items.txt:453
 #: assets_dev/engine/data_tables/potion_effects.yml:68 assets_dev/engine/data_tables/spells.txt:56 assets_dev/engine/rulesets/maw/tables/english/potion.txt:31
 #: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:31 game/ui/GameplayBuffHud.cpp:21 game/ui/GameplayBuffHud.h:155
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11799 game/ui/GameplayPartyOverlayRenderer.cpp:2670
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11780 game/ui/GameplayPartyOverlayRenderer.cpp:2669
 msgid "Heroism"
 msgstr "Heldentum"
 
 # imported from GR (MMMerge localization)
 #: assets_dev/engine/data_tables/english/Global.txt:445 assets_dev/engine/data_tables/english/potion.txt:36 assets_dev/engine/data_tables/english/potnotes.txt:36
 #: assets_dev/engine/data_tables/items.txt:237 assets_dev/engine/data_tables/potion_effects.yml:87 assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:36
-#: game/ui/GameplayBuffHud.cpp:22 game/ui/GameplayBuffHud.h:136 game/ui/GameplayPartyOverlayRenderer.cpp:11793
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2655
+#: game/ui/GameplayBuffHud.cpp:22 game/ui/GameplayBuffHud.h:136 game/ui/GameplayPartyOverlayRenderer.cpp:11774
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2654
 msgid "Stoneskin"
 msgstr "Steinhaut"
 
@@ -109932,7 +109934,7 @@ msgid "Packs"
 msgstr "Gepäck"
 
 # machine translation (Claude), review
-#: game/ui/GameplayCraftingBenchRenderer.cpp:180 game/ui/GameplayPartyOverlayRenderer.cpp:10167
+#: game/ui/GameplayCraftingBenchRenderer.cpp:180 game/ui/GameplayPartyOverlayRenderer.cpp:10148
 msgid "Search items"
 msgstr "Gegenstände suchen"
 
@@ -110484,7 +110486,7 @@ msgid "Recovery time: N/A"
 msgstr "Erholungszeit: k. A."
 
 # machine translation (Claude), review
-#: game/ui/GameplayHudOverlaySupport.cpp:2561 game/ui/GameplayPartyOverlayRenderer.cpp:11298
+#: game/ui/GameplayHudOverlaySupport.cpp:2561 game/ui/GameplayPartyOverlayRenderer.cpp:11279
 msgid "Rotation"
 msgstr "Rotation"
 
@@ -110515,12 +110517,12 @@ msgstr[0] "{value} Sekunde"
 msgstr[1] "{value} Sekunden"
 
 # machine translation (Claude), review
-#: game/ui/GameplayHudOverlaySupport.cpp:328 game/ui/GameplayPartyOverlayRenderer.cpp:11491
+#: game/ui/GameplayHudOverlaySupport.cpp:328 game/ui/GameplayPartyOverlayRenderer.cpp:11472
 msgid "Level: {value}"
 msgstr "Stufe: {value}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayHudOverlaySupport.cpp:329 game/ui/GameplayPartyOverlayRenderer.cpp:8888
+#: game/ui/GameplayHudOverlaySupport.cpp:329 game/ui/GameplayPartyOverlayRenderer.cpp:8869
 msgid "Hit Points : {value}"
 msgstr "Trefferpunkte : {value}"
 
@@ -110530,7 +110532,7 @@ msgid "Armor Class : {value}"
 msgstr "Rüstungsklasse : {value}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayHudOverlaySupport.cpp:334 game/ui/GameplayPartyOverlayRenderer.cpp:8890
+#: game/ui/GameplayHudOverlaySupport.cpp:334 game/ui/GameplayPartyOverlayRenderer.cpp:8871
 msgid "Condition: {condition}"
 msgstr "Zustand: {condition}"
 
@@ -111224,7 +111226,7 @@ msgstr "Kontinent"
 #: assets_dev/engine/data_tables/english/Global.txt:134 assets_dev/engine/ui/gameplay/character.yml:1222 assets_dev/engine/ui/gameplay/character.yml:1301
 #: assets_dev/engine/ui/gameplay/character.yml:1315 assets_dev/engine/ui/gameplay/character.yml:1341 assets_dev/engine/ui/gameplay/character.yml:1385
 #: assets_dev/engine/ui/gameplay/character.yml:802 assets_dev/engine/ui/gameplay/quick_reference.yml:65 game/ui/GameplayJournalProgress.cpp:805
-#: game/ui/GameplayPartyOverlayRenderer.cpp:12253 game/ui/screens/NewGameScreen.cpp:2275
+#: game/ui/GameplayPartyOverlayRenderer.cpp:12234 game/ui/screens/NewGameScreen.cpp:2275
 msgid "Level"
 msgstr "Stufe"
 
@@ -111402,7 +111404,7 @@ msgstr ""
 "Ihr habt {known} der {count} Ausbilder auf {continent} gefunden. Das Verzeichnis der Lehrer nennt sie alle: Fragt in einer beliebigen Taverne auf {continent} danach."
 
 # machine translation (Claude), review
-#: game/ui/GameplayJournalTrainers.cpp:69 game/ui/GameplayPartyOverlayRenderer.cpp:2553 game/ui/screens/NewGameScreenPartySheet.cpp:94
+#: game/ui/GameplayJournalTrainers.cpp:69 game/ui/GameplayPartyOverlayRenderer.cpp:2552 game/ui/screens/NewGameScreenPartySheet.cpp:94
 msgctxt "mastery letter"
 msgid "E"
 msgstr "E"
@@ -111414,7 +111416,7 @@ msgid "G"
 msgstr "G"
 
 # machine translation (Claude), review
-#: game/ui/GameplayJournalTrainers.cpp:70 game/ui/GameplayPartyOverlayRenderer.cpp:2551 game/ui/screens/NewGameScreenPartySheet.cpp:96
+#: game/ui/GameplayJournalTrainers.cpp:70 game/ui/GameplayPartyOverlayRenderer.cpp:2550 game/ui/screens/NewGameScreenPartySheet.cpp:96
 msgctxt "mastery letter"
 msgid "M"
 msgstr "M"
@@ -111622,32 +111624,32 @@ msgid "Esc leave"
 msgstr "Esc verlassen"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:10129
+#: game/ui/GameplayPartyOverlayRenderer.cpp:10110
 msgid "Drop"
 msgstr "Ablegen"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:10168
+#: game/ui/GameplayPartyOverlayRenderer.cpp:10149
 msgid "Search items (ring might luck|speed)"
 msgstr "Gegenstände suchen (Ring Stärke Glück|Schnelligkeit)"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:10711
+#: game/ui/GameplayPartyOverlayRenderer.cpp:10692
 msgid "Death Count: {count}"
 msgstr "Tode: {count}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:10715
+#: game/ui/GameplayPartyOverlayRenderer.cpp:10696
 msgid "the {class}"
 msgstr ", {class}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:10720
+#: game/ui/GameplayPartyOverlayRenderer.cpp:10701
 msgid "Skill Points: {points}"
 msgstr "Fertigkeitspunkte: {points}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:10738
+#: game/ui/GameplayPartyOverlayRenderer.cpp:10719
 msgid ""
 "HP {health}/{maximumHealth}\n"
 "SP {spellPoints}/{maximumSpellPoints}"
@@ -111656,106 +111658,106 @@ msgstr ""
 "ZP {spellPoints}/{maximumSpellPoints}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11146
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11127
 msgid "Select item target  LMB cast  Esc cancel"
 msgstr "Ziel-Gegenstand wählen  LMT zaubern  Esc abbrechen"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11435
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11416
 msgid "Name: {name}"
 msgstr "Name: {name}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11441
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11422
 msgid "Class: {class}"
 msgstr "Klasse: {class}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11448
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11429
 msgid "HP: {value}"
 msgstr "TP: {value}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11454
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11435
 msgid "AC: {value}"
 msgstr "RK: {value}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11460
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11441
 msgid "Attack: {value}"
 msgstr "Angriff: {value}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11466
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11447
 msgid "Shoot: {value}"
 msgstr "Schießen: {value}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11472
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11453
 msgid "Skills: {value}"
 msgstr "Fertigkeiten: {value}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11478
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11459
 msgid "Cond: {value}"
 msgstr "Zust.: {value}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11484
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11465
 msgid "QSpell: {value}"
 msgstr "S-Zauber: {value}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11497
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11478
 msgid "SP: {value}"
 msgstr "ZP: {value}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11503 game/ui/GameplayPartyOverlayRenderer.cpp:11509
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11484 game/ui/GameplayPartyOverlayRenderer.cpp:11490
 msgid "Dmg: {value}"
 msgstr "Schdn: {value}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11515
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11496
 msgid "Points: {value}"
 msgstr "Punkte: {value}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11759
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11740
 msgid "{effect} {duration}"
 msgstr "{effect} {duration}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11769
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11750
 msgid "Stunned"
 msgstr "Betäubt"
 
 # imported from GR (MMMerge localization)
 #: assets_dev/engine/data_tables/english/spells.txt:40 assets_dev/engine/data_tables/items.txt:1139 assets_dev/engine/data_tables/items.txt:1239
 #: assets_dev/engine/data_tables/items.txt:1839 assets_dev/engine/data_tables/items.txt:1945 assets_dev/engine/data_tables/items.txt:337
-#: assets_dev/engine/data_tables/items.txt:437 assets_dev/engine/data_tables/spells.txt:39 game/ui/GameplayPartyOverlayRenderer.cpp:11773
+#: assets_dev/engine/data_tables/items.txt:437 assets_dev/engine/data_tables/spells.txt:39 game/ui/GameplayPartyOverlayRenderer.cpp:11754
 msgid "Slow"
 msgstr "Verlangsamen"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:595 game/ui/GameplayPartyOverlayRenderer.cpp:11777
+#: assets_dev/engine/data_tables/english/Global.txt:595 game/ui/GameplayPartyOverlayRenderer.cpp:11758
 msgid "Shrunk"
 msgstr "Geschrumpft"
 
 # imported from GR (MMMerge localization)
 #: assets_dev/engine/data_tables/english/spells.txt:106 assets_dev/engine/data_tables/items.txt:1200 assets_dev/engine/data_tables/items.txt:1300
 #: assets_dev/engine/data_tables/items.txt:1900 assets_dev/engine/data_tables/items.txt:2018 assets_dev/engine/data_tables/items.txt:398
-#: assets_dev/engine/data_tables/items.txt:498 assets_dev/engine/data_tables/spells.txt:105 game/ui/GameplayPartyOverlayRenderer.cpp:11779
+#: assets_dev/engine/data_tables/items.txt:498 assets_dev/engine/data_tables/spells.txt:105 game/ui/GameplayPartyOverlayRenderer.cpp:11760
 msgid "Dark Grasp"
 msgstr "Griff der Finsternis"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11804
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11785
 msgid "Casting {spell}"
 msgstr "Zaubert {spell}"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:594 game/ui/GameplayPartyOverlayRenderer.cpp:11811
+#: assets_dev/engine/data_tables/english/Global.txt:594 game/ui/GameplayPartyOverlayRenderer.cpp:11792
 msgid "Charmed"
 msgstr "Verzaubert"
 
@@ -111763,44 +111765,44 @@ msgstr "Verzaubert"
 #: assets_dev/engine/data_tables/english/Global.txt:611 assets_dev/engine/data_tables/english/spells.txt:69 assets_dev/engine/data_tables/items.txt:1166
 #: assets_dev/engine/data_tables/items.txt:1266 assets_dev/engine/data_tables/items.txt:1866 assets_dev/engine/data_tables/items.txt:1978
 #: assets_dev/engine/data_tables/items.txt:364 assets_dev/engine/data_tables/items.txt:464 assets_dev/engine/data_tables/spells.txt:68
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11814
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11795
 msgid "Berserk"
 msgstr "Berserker"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:610 game/ui/GameplayPartyOverlayRenderer.cpp:11817
+#: assets_dev/engine/data_tables/english/Global.txt:610 game/ui/GameplayPartyOverlayRenderer.cpp:11798
 msgid "Enslaved"
 msgstr "Versklavt"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11820
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11801
 msgid "Controlled"
 msgstr "Kontrolliert"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11823
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11804
 msgid "Reanimated"
 msgstr "Reanimiert"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2334
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2333
 msgid "{cost} pts"
 msgstr "{cost} Pkt."
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2549
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2548
 msgctxt "mastery letter"
 msgid "GM"
 msgstr "GM"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2555 game/ui/screens/NewGameScreenPartySheet.cpp:92
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2554 game/ui/screens/NewGameScreenPartySheet.cpp:92
 msgctxt "mastery letter"
 msgid "N"
 msgstr "N"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2593
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2592
 msgid "{spell} {mastery}{level}"
 msgstr "{spell} {mastery}{level}"
 
@@ -111808,7 +111810,7 @@ msgstr "{spell} {mastery}{level}"
 #: assets_dev/engine/data_tables/english/Global.txt:613 assets_dev/engine/data_tables/english/spells.txt:94 assets_dev/engine/data_tables/items.txt:1189
 #: assets_dev/engine/data_tables/items.txt:1289 assets_dev/engine/data_tables/items.txt:1889 assets_dev/engine/data_tables/items.txt:2005
 #: assets_dev/engine/data_tables/items.txt:387 assets_dev/engine/data_tables/items.txt:487 assets_dev/engine/data_tables/spells.txt:93
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11781 game/ui/GameplayPartyOverlayRenderer.cpp:2625
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11762 game/ui/GameplayPartyOverlayRenderer.cpp:2624
 msgid "Day of Protection"
 msgstr "Tag des Schutzes"
 
@@ -111816,311 +111818,311 @@ msgstr "Tag des Schutzes"
 #: assets_dev/engine/data_tables/english/Global.txt:612 assets_dev/engine/data_tables/english/spells.txt:95 assets_dev/engine/data_tables/items.txt:1190
 #: assets_dev/engine/data_tables/items.txt:1290 assets_dev/engine/data_tables/items.txt:1890 assets_dev/engine/data_tables/items.txt:2006
 #: assets_dev/engine/data_tables/items.txt:388 assets_dev/engine/data_tables/items.txt:488 assets_dev/engine/data_tables/spells.txt:94
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11783 game/ui/GameplayPartyOverlayRenderer.cpp:2630
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11764 game/ui/GameplayPartyOverlayRenderer.cpp:2629
 msgid "Hour of Power"
 msgstr "Stunde der Macht"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:146 assets_dev/engine/ui/gameplay/character.yml:1363 game/ui/GameplayPartyOverlayRenderer.cpp:2706
+#: assets_dev/engine/data_tables/english/Global.txt:146 assets_dev/engine/ui/gameplay/character.yml:1363 game/ui/GameplayPartyOverlayRenderer.cpp:2705
 #: game/ui/screens/PartyCreationSheet.cpp:114
 msgid "Misc"
 msgstr "Sonstiges"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2762
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2761
 msgid "Shoot: +{bonus}   Damage: {minimum}-{maximum}"
 msgstr "Schießen: +{bonus}   Schaden: {minimum}-{maximum}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2764
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2763
 msgid "Attack: +{bonus}   Damage: {minimum}-{maximum}"
 msgstr "Angriff: +{bonus}   Schaden: {minimum}-{maximum}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2794
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2793
 msgid "Power: {power}   Uses: {uses}"
 msgstr "Macht: {power}   Nutzungen: {uses}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2824
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2823
 msgid "Attack: +{bonus}   Damage: {damage}"
 msgstr "Angriff: +{bonus}   Schaden: {damage}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2838
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2837
 msgid "Shoot: +{bonus}   Damage: {damage}"
 msgstr "Schießen: +{bonus}   Schaden: {damage}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2855
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2854
 msgid "Charges: {current}/{maximum}"
 msgstr "Ladungen: {current}/{maximum}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2898
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2897
 msgid "Duration:"
 msgstr "Dauer:"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2904
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2903
 msgid "{count}:yr"
 msgstr "{count}:J"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2910
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2909
 msgid "{count}:mo"
 msgstr "{count}:Mo"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2916
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2915
 msgid "{count}:dy"
 msgstr "{count}:T"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2922
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2921
 msgid "{count}:hr"
 msgstr "{count}:Std"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2928
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2927
 msgid "{count}:mn"
 msgstr "{count}:Min"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/quick_reference.yml:299 game/ui/GameplayPartyOverlayRenderer.cpp:3513
+#: assets_dev/engine/ui/gameplay/quick_reference.yml:299 game/ui/GameplayPartyOverlayRenderer.cpp:3512
 msgid "Fame: {fame}"
 msgstr "Ruhm: {fame}"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/quick_reference.yml:286 game/ui/GameplayPartyOverlayRenderer.cpp:3514
+#: assets_dev/engine/ui/gameplay/quick_reference.yml:286 game/ui/GameplayPartyOverlayRenderer.cpp:3513
 msgid "Reputation: {reputation}"
 msgstr "Ruf: {reputation}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:3906
+#: game/ui/GameplayPartyOverlayRenderer.cpp:3905
 msgid "Press Input"
 msgstr "Taste drücken"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/video_options.yml:32 game/ui/GameplayPartyOverlayRenderer.cpp:4102
+#: assets_dev/engine/ui/gameplay/video_options.yml:32 game/ui/GameplayPartyOverlayRenderer.cpp:4101
 msgid "COLOR GRADING"
 msgstr "FARBKORREKTUR"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/video_options.yml:47 game/ui/GameplayPartyOverlayRenderer.cpp:4108
+#: assets_dev/engine/ui/gameplay/video_options.yml:47 game/ui/GameplayPartyOverlayRenderer.cpp:4107
 msgid "Cinematic grading: Off"
 msgstr "Filmische Farbkorrektur: Aus"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:4108
+#: game/ui/GameplayPartyOverlayRenderer.cpp:4107
 msgid "Cinematic grading: On"
 msgstr "Filmische Farbgebung: An"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:4111
+#: game/ui/GameplayPartyOverlayRenderer.cpp:4110
 msgid "Strength: {strength}%"
 msgstr "Intensität: {strength}%"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:75 assets_dev/engine/data_tables/npc_topic.txt:1346 game/ui/GameplayPartyOverlayRenderer.cpp:4349
-#: game/ui/GameplayPartyOverlayRenderer.cpp:5859
+#: assets_dev/engine/data_tables/english/Global.txt:75 assets_dev/engine/data_tables/npc_topic.txt:1346 game/ui/GameplayPartyOverlayRenderer.cpp:4348
+#: game/ui/GameplayPartyOverlayRenderer.cpp:5840
 msgid "Empty"
 msgstr "Leer"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:177 game/ui/GameplayPartyOverlayRenderer.cpp:4942
+#: assets_dev/engine/data_tables/english/Global.txt:177 game/ui/GameplayPartyOverlayRenderer.cpp:4941
 msgid "Current Quests"
 msgstr "Aktuelle Aufgaben"
 
 # machine translation (Claude), review
 #: assets_dev/engine/ui/gameplay/journal.yml:165 assets_dev/engine/ui/gameplay/journal.yml:327 assets_dev/engine/ui/gameplay/settings_gameplay.yml:553
-#: assets_dev/engine/ui/menu/settings_catalog.yml:133 game/ui/GameplayPartyOverlayRenderer.cpp:5026
+#: assets_dev/engine/ui/menu/settings_catalog.yml:133 game/ui/GameplayPartyOverlayRenderer.cpp:5025
 msgid "Story"
 msgstr "Geschichte"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/journal.yml:947 game/ui/GameplayPartyOverlayRenderer.cpp:5033
+#: assets_dev/engine/ui/gameplay/journal.yml:947 game/ui/GameplayPartyOverlayRenderer.cpp:5032
 msgid "Trainers"
 msgstr "Lehrer"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:5059
+#: game/ui/GameplayPartyOverlayRenderer.cpp:5058
 msgid "Search notes"
 msgstr "Notizen durchsuchen"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:5121
+#: game/ui/GameplayPartyOverlayRenderer.cpp:5120
 msgid "No notes match \"{search}\"."
 msgstr "Keine Notiz passt zu „{search}“."
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:22 game/ui/GameplayPartyOverlayRenderer.cpp:5631 game/ui/GameplayPartyOverlayRenderer.cpp:5858
+#: assets_dev/engine/data_tables/english/Global.txt:22 game/ui/GameplayPartyOverlayRenderer.cpp:5612 game/ui/GameplayPartyOverlayRenderer.cpp:5839
 msgid "Available"
 msgstr "Verfügbar"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/lloyds_beacon.yml:145 game/ui/GameplayPartyOverlayRenderer.cpp:5805
+#: assets_dev/engine/ui/gameplay/lloyds_beacon.yml:145 game/ui/GameplayPartyOverlayRenderer.cpp:5786
 msgid "Set"
 msgstr "Setzen"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/lloyds_beacon.yml:125 game/ui/GameplayPartyOverlayRenderer.cpp:5816
+#: assets_dev/engine/ui/gameplay/lloyds_beacon.yml:125 game/ui/GameplayPartyOverlayRenderer.cpp:5797
 msgid "Recall"
 msgstr "Zurückkehren"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:5847
+#: game/ui/GameplayPartyOverlayRenderer.cpp:5828
 msgid "Beacon {number}"
 msgstr "Leuchtfeuer {number}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:5859
+#: game/ui/GameplayPartyOverlayRenderer.cpp:5840
 msgid "Set beacon here"
 msgstr "Leuchtfeuer hier setzen"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:5867
+#: game/ui/GameplayPartyOverlayRenderer.cpp:5848
 msgid "{duration} remaining"
 msgstr "Noch {duration}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:6348
+#: game/ui/GameplayPartyOverlayRenderer.cpp:6329
 msgid "Select {spell}"
 msgstr "{spell} wählen"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:6522
+#: game/ui/GameplayPartyOverlayRenderer.cpp:6503
 msgid "Set: {set} ({equipped}/{required}, active)"
 msgstr "Set: {set} ({equipped}/{required}, aktiv)"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:6523
+#: game/ui/GameplayPartyOverlayRenderer.cpp:6504
 msgid "Set: {set} ({equipped}/{required}, inactive)"
 msgstr "Set: {set} ({equipped}/{required}, inaktiv)"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:6536
+#: game/ui/GameplayPartyOverlayRenderer.cpp:6517
 msgid "Special: {enchantment}"
 msgstr "Spezial: {enchantment}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:6548
+#: game/ui/GameplayPartyOverlayRenderer.cpp:6529
 msgid "Mod: {mod}"
 msgstr "Mod: {mod}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:6571
+#: game/ui/GameplayPartyOverlayRenderer.cpp:6552
 msgid "Broken item"
 msgstr "Kaputter Gegenstand"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:7065
+#: game/ui/GameplayPartyOverlayRenderer.cpp:7046
 msgid "Type: {type}"
 msgstr "Typ: {type}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:723 game/ui/GameplayPartyOverlayRenderer.cpp:729 game/ui/GameplayPartyOverlayRenderer.cpp:734
-msgid "x: {x}  y: {y}"
-msgstr "x: {x}  y: {y}"
-
-# machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:7233
+#: game/ui/GameplayPartyOverlayRenderer.cpp:7214
 msgid "Value: {value}"
 msgstr "Wert: {value}"
 
+# machine translation (Claude), review
+#: game/ui/GameplayPartyOverlayRenderer.cpp:722 game/ui/GameplayPartyOverlayRenderer.cpp:728 game/ui/GameplayPartyOverlayRenderer.cpp:733
+msgid "x: {x}  y: {y}"
+msgstr "x: {x}  y: {y}"
+
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:654 game/ui/GameplayPartyOverlayRenderer.cpp:7249
+#: assets_dev/engine/data_tables/english/Global.txt:654 game/ui/GameplayPartyOverlayRenderer.cpp:7230
 msgid "Hardened"
 msgstr "Gehärtet"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:190 game/ui/GameplayPartyOverlayRenderer.cpp:7249
+#: assets_dev/engine/data_tables/english/Global.txt:190 game/ui/GameplayPartyOverlayRenderer.cpp:7230
 msgid "Stolen"
 msgstr "Gestohlen"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:7376
+#: game/ui/GameplayPartyOverlayRenderer.cpp:7357
 msgid "Skill bonus: +{bonus}"
 msgstr "Fertigkeitsbonus: +{bonus}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:7673
+#: game/ui/GameplayPartyOverlayRenderer.cpp:7654
 msgid "Skill bonus:"
 msgstr "Fertigkeitsbonus:"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:783
+#: game/ui/GameplayPartyOverlayRenderer.cpp:782
 msgid "Right-click the map to add your own note"
 msgstr "Rechtsklick auf die Karte, um eine eigene Notiz hinzuzufügen"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:525 game/ui/GameplayPartyOverlayRenderer.cpp:8070
+#: assets_dev/engine/data_tables/english/Global.txt:525 game/ui/GameplayPartyOverlayRenderer.cpp:8051
 msgid "SP Cost"
 msgstr "ZP-Kosten"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:8889
+#: game/ui/GameplayPartyOverlayRenderer.cpp:8870
 msgid "Spell Points : {value}"
 msgstr "Zauberpunkte : {value}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:8891
+#: game/ui/GameplayPartyOverlayRenderer.cpp:8872
 msgid "Quick Spell: {spell}"
 msgstr "Schnellzauber: {spell}"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:8902
+#: game/ui/GameplayPartyOverlayRenderer.cpp:8883
 msgid "Active Spells:"
 msgstr "Aktive Zauber:"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:9233
+#: game/ui/GameplayPartyOverlayRenderer.cpp:9214
 msgid "INF"
 msgstr "UNB"
 
 # machine translation (Claude), review
-#: game/ui/GameplayPartyOverlayRenderer.cpp:9312
+#: game/ui/GameplayPartyOverlayRenderer.cpp:9293
 msgid "Awards earned: {count}"
 msgstr "Erhaltene Titel: {count}"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:88 game/ui/GameplayPartyOverlayRenderer.cpp:955
+#: assets_dev/engine/data_tables/english/Global.txt:88 game/ui/GameplayPartyOverlayRenderer.cpp:954
 msgid "Potion Notes"
 msgstr "Tranknotizen"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:746 assets_dev/engine/ui/gameplay/journal.yml:783 game/ui/GameplayPartyOverlayRenderer.cpp:957
+#: assets_dev/engine/data_tables/english/Global.txt:746 assets_dev/engine/ui/gameplay/journal.yml:783 game/ui/GameplayPartyOverlayRenderer.cpp:956
 msgid "Fountains"
 msgstr "Brunnen"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:11 game/ui/GameplayPartyOverlayRenderer.cpp:959
+#: assets_dev/engine/data_tables/english/Global.txt:11 game/ui/GameplayPartyOverlayRenderer.cpp:958
 msgid "Obelisk Notes"
 msgstr "Obelisknotizen"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:144 game/ui/GameplayPartyOverlayRenderer.cpp:961
+#: assets_dev/engine/data_tables/english/Global.txt:144 game/ui/GameplayPartyOverlayRenderer.cpp:960
 msgid "Seer Notes"
 msgstr "Sehernotizen"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:749 game/ui/GameplayPartyOverlayRenderer.cpp:963
+#: assets_dev/engine/data_tables/english/Global.txt:749 game/ui/GameplayPartyOverlayRenderer.cpp:962
 msgid "Miscellaneous"
 msgstr "Sonstiges"
 
 # imported from GR (MMMerge localization)
-#: assets_dev/engine/data_tables/english/Global.txt:750 game/ui/GameplayPartyOverlayRenderer.cpp:965
+#: assets_dev/engine/data_tables/english/Global.txt:750 game/ui/GameplayPartyOverlayRenderer.cpp:964
 msgid "Teacher Locations"
 msgstr "Ausbilder"
 
 # machine translation (Claude), review
-#: assets_dev/engine/ui/gameplay/journal.yml:988 game/ui/GameplayPartyOverlayRenderer.cpp:967
+#: assets_dev/engine/ui/gameplay/journal.yml:988 game/ui/GameplayPartyOverlayRenderer.cpp:966
 msgid "Arcomage"
 msgstr "Arcomage"
 
 # machine translation (Claude), review
 #: assets_dev/engine/data_tables/items.txt:751 assets_dev/engine/data_tables/items.txt:752 assets_dev/engine/ui/gameplay/journal.yml:206
-#: assets_dev/engine/ui/gameplay/journal.yml:365 game/ui/GameplayPartyOverlayRenderer.cpp:970
+#: assets_dev/engine/ui/gameplay/journal.yml:365 game/ui/GameplayPartyOverlayRenderer.cpp:969
 msgid "Notes"
 msgstr "Notizen"
 
@@ -113376,71 +113378,6 @@ msgstr "Rundenmodus"
 #: game/ui/GameplayUiRenderer.cpp:72
 msgid "Breath"
 msgstr "Atem"
-
-#: game/ui/GameplayWebOfWorlds.cpp:1001
-msgid "The beacon does not answer"
-msgstr ""
-
-#: game/ui/GameplayWebOfWorlds.cpp:491
-msgid "Known worlds (Town Portal)"
-msgstr ""
-
-#: game/ui/GameplayWebOfWorlds.cpp:492
-msgid "Cleansed"
-msgstr ""
-
-#: game/ui/GameplayWebOfWorlds.cpp:492
-msgid "Infested"
-msgstr ""
-
-# machine translation (Claude), review
-#: assets_dev/engine/data_tables/npc_topic.txt:508 game/ui/GameplayWebOfWorlds.cpp:493
-msgid "Signal"
-msgstr "Signal"
-
-#: game/ui/GameplayWebOfWorlds.cpp:537
-msgid "UNREACHABLE"
-msgstr ""
-
-#: game/ui/GameplayWebOfWorlds.cpp:572
-msgid "CLEANSED"
-msgstr ""
-
-#: game/ui/GameplayWebOfWorlds.cpp:572
-msgid "INFESTED"
-msgstr ""
-
-#: game/ui/GameplayWebOfWorlds.cpp:574
-msgid "THREAT"
-msgstr ""
-
-#: game/ui/GameplayWebOfWorlds.cpp:594
-msgid "Purged"
-msgstr ""
-
-#: game/ui/GameplayWebOfWorlds.cpp:635
-msgid "Beacons"
-msgstr ""
-
-#: assets_dev/engine/ui/gameplay/town_portal.yml:326 game/ui/GameplayWebOfWorlds.cpp:755 game/ui/GameplayWebOfWorlds.cpp:829
-msgid "Web of Worlds"
-msgstr ""
-
-#: game/ui/GameplayWebOfWorlds.cpp:842
-msgid "{signal}: unreachable"
-msgstr ""
-
-#: game/ui/GameplayWebOfWorlds.cpp:846
-msgid "Travel to {planet}: {beacon}"
-msgstr ""
-
-#: game/ui/GameplayWebOfWorlds.cpp:852
-msgid "No beacon is lit on {planet}"
-msgstr ""
-
-#: game/ui/GameplayWebOfWorlds.cpp:857
-msgid "Town Portal: {world}"
-msgstr ""
 
 # machine translation (Claude), review
 #: game/ui/HouseShopLedger.cpp:101
