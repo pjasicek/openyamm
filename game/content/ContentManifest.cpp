@@ -843,6 +843,17 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
         }
     }
 
+    if (const YAML::Node lootPoolNode = root["lootPool"])
+    {
+        if (!lootPoolNode.IsScalar() || lootPoolNode.as<std::string>().empty())
+        {
+            errorMessage = "world.yml lootPool must be a package id";
+            return false;
+        }
+
+        manifest.lootPool = toLowerCopy(lootPoolNode.as<std::string>());
+    }
+
     const YAML::Node dependenciesNode = root["dependencies"];
     if (dependenciesNode)
     {

@@ -192,6 +192,28 @@ TEST_CASE("MM6-MM8 maps roll only the merged base's equipment unless MM9 loot in
     CHECK(rolled("mm9") == std::set<uint32_t>{1, 2, 3});
 }
 
+TEST_CASE("a world whose items join the merged base (world.yml lootPool: engine) keeps the merged base's pool")
+{
+    // A mod adding items to mm7 (package mm7) would otherwise give MM7 a pool of its own: its shops would stock only
+    // the mod's equipment, and its random loot would no longer follow "MM9 loot in MM6-MM8".
+    std::vector<std::vector<std::string>> rows = ItemRows;
+    rows.push_back(itemRow("9", "Mod Sword", "Weapon", "0", "mm7"));
+    const std::filesystem::path root = OPENYAMM_SOURCE_DIR;
+    Engine::AssetFileSystem fs;
+    REQUIRE(fs.initialize(root, root / "assets_dev", Engine::AssetScaleTier::X1));
+    ItemTable table;
+    REQUIRE(table.load(fs, rows, {}));
+    CHECK(table.lootPoolsForWorld("mm7") == std::vector<std::string>{"mm7"});
+
+    table.setWorldLootPools({{"MM7", "Engine"}});
+    CHECK(table.lootPoolsForWorld("mm7") == std::vector<std::string>{"engine"});
+    CHECK(table.lootPoolsForWorld("mm9") == std::vector<std::string>{"mm9"});
+    const std::vector<std::string> pools = table.lootPoolsForWorld("mm7");
+    // The merged base's sword is stocked again; the mod's own sword, outside that pool, is not.
+    CHECK(ItemGenerator::shopPoolAllows(*table.get(1), pools));
+    CHECK_FALSE(ItemGenerator::shopPoolAllows(*table.get(9), pools));
+}
+
 TEST_CASE("an artifact or relic rolls only in its own world")
 {
     const ItemTable table = loadTable({});

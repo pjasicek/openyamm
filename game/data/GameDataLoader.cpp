@@ -5104,6 +5104,19 @@ bool GameDataLoader::loadItemTable(const Engine::AssetFileSystem &assetFileSyste
 
     m_itemTable.setWorldDependencies(std::move(worldDependencies));
 
+    // A world whose items join another pool (world.yml lootPool: engine, a mod's items in mm7) keeps that pool.
+    std::unordered_map<std::string, std::string> worldLootPools;
+
+    for (const WorldManifest &manifest : mountedWorlds)
+    {
+        if (!manifest.lootPool.empty())
+        {
+            worldLootPools[manifest.id] = manifest.lootPool;
+        }
+    }
+
+    m_itemTable.setWorldLootPools(std::move(worldLootPools));
+
     ItemModelBindings groundModels;
     std::string groundModelError;
 
