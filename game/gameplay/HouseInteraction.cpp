@@ -921,6 +921,44 @@ int trainingCost(const HouseEntry &houseEntry, const Party &party, int effective
     return PriceCalculator::trainingPrice(pTrainee, partyMerchantMember(&party), pricedHouse, effectiveReputation);
 }
 
+// Every level the active member's experience pays for at once, up to the hall's cap, and the gold all of them cost:
+// each level is priced at the level it is trained from, as clicking Train that many times would.
+struct TrainingToMaxPlan
+{
+    uint32_t levels = 0;
+    uint32_t targetLevel = 0;
+    int64_t price = 0;
+};
+
+TrainingToMaxPlan trainingToMaxPlan(const HouseEntry &houseEntry, const Party &party, int trainingCap,
+    int effectiveReputation)
+{
+    TrainingToMaxPlan plan;
+    const Character *pMember = party.activeMember();
+
+    if (pMember == nullptr)
+    {
+        return plan;
+    }
+
+    Character trainee = *pMember;
+    const Character *pMerchant = partyMerchantMember(&party);
+
+    while ((trainingCap <= 0 || trainee.level < static_cast<uint32_t>(trainingCap))
+        && trainee.experience >= party.rules().experience.experienceForNextLevel(trainee.level))
+    {
+        HouseEntry pricedHouse = houseEntry;
+        pricedHouse.priceMultiplier =
+            party.rules().skills.trainingPriceMultiplier(trainee, houseEntry.priceMultiplier);
+        plan.price += PriceCalculator::trainingPrice(&trainee, pMerchant, pricedHouse, effectiveReputation);
+        ++trainee.level;
+        ++plan.levels;
+    }
+
+    plan.targetLevel = trainee.level;
+    return plan;
+}
+
 std::optional<uint64_t> trainingExperienceShortfall(const Party &party, const Character &member)
 {
     const uint64_t requiredExperience = party.rules().experience.experienceForNextLevel(member.level);
@@ -1621,7 +1659,24 @@ std::vector<HouseActionOption> buildHouseActionOptions(
             train.disabledReason = trainingUnavailableReason;
         }
 
+        const bool trainAvailableNow = train.enabled;
         options.push_back(std::move(train));
+
+        // When the experience pays for more than one level, one row trains them all.
+        if (trainAvailableNow && pParty != nullptr)
+        {
+            const TrainingToMaxPlan plan = trainingToMaxPlan(houseEntry, *pParty,
+                pParty->rules().experience.trainingLevelCap(houseEntry.trainingMaxLevel),
+                effectiveReputationForWorld(pWorldRuntime));
+
+            if (plan.levels >= 2)
+            {
+                options.push_back(makeOption(HouseActionId::TrainingTrainActiveMemberToMax,
+                    Engine::tr("Train {levels} levels to level {level} for {price} gold",
+                        {{"levels", plan.levels}, {"level", plan.targetLevel}, {"price", plan.price}}),
+                    isHouseOpenNow, closedReason));
+            }
+        }
 
         // A solo run's talents can be forgotten here for free (only MAW solo runs ever learn any).
         if (pParty != nullptr && pParty->activeMember() != nullptr && !pParty->activeMember()->talentRanks.empty())
@@ -2556,6 +2611,7 @@ HouseActionResult performHouseAction(
         }
 
         case HouseActionId::TrainingTrainActiveMember:
+        case HouseActionId::TrainingTrainActiveMemberToMax:
         {
             Character *pMember = party.activeMember();
 
@@ -2571,11 +2627,7 @@ HouseActionResult performHouseAction(
                 return result;
             }
 
-            const int price = trainingCost(
-                houseEntry,
-                party,
-                effectiveReputationForWorld(pWorldRuntime));
-
+            const int effectiveReputation = effectiveReputationForWorld(pWorldRuntime);
             const int trainingCap = party.rules().experience.trainingLevelCap(houseEntry.trainingMaxLevel);
 
             if (trainingCap > 0 && pMember->level >= static_cast<uint32_t>(trainingCap))
@@ -2595,6 +2647,18 @@ HouseActionResult performHouseAction(
                 return result;
             }
 
+            // Training to the maximum is the same as clicking Train once per level: each level costs its own price
+            // and its own training round (time and rest), so the outcome does not depend on the row picked.
+            uint32_t levelsToTrain = 1;
+            int64_t price = trainingCost(houseEntry, party, effectiveReputation);
+
+            if (action.id == HouseActionId::TrainingTrainActiveMemberToMax)
+            {
+                const TrainingToMaxPlan plan = trainingToMaxPlan(houseEntry, party, trainingCap, effectiveReputation);
+                levelsToTrain = plan.levels;
+                price = plan.price;
+            }
+
             if (party.gold() < price)
             {
                 result.messages.push_back(Engine::tr("You need {price} gold for training.", {{"price", price}}));
@@ -2606,44 +2670,57 @@ HouseActionResult performHouseAction(
             uint32_t newLevel = 0;
             uint32_t skillPointsEarned = 0;
 
-            if (!party.trainActiveMember(
-                    trainingCap > 0 ? static_cast<uint32_t>(trainingCap) : 0,
-                    newLevel,
-                    skillPointsEarned))
+            for (uint32_t trained = 0; trained < levelsToTrain; ++trained)
             {
-                result.messages.push_back(Engine::tr("Training is not available right now."));
-                result.soundType = HouseSoundType::TrainingCantTrain;
-                return result;
-            }
+                const int levelPrice = trainingCost(houseEntry, party, effectiveReputation);
+                uint32_t levelSkillPoints = 0;
 
-            party.addGold(-price, GoldReason::Training);
-            bool trainingRoundAdvanced = true;
-
-            if (pWorldRuntime != nullptr)
-            {
-                EventRuntimeState *pEventRuntimeState = pWorldRuntime->eventRuntimeState();
-
-                if (pEventRuntimeState != nullptr)
+                if (!party.trainActiveMember(
+                        trainingCap > 0 ? static_cast<uint32_t>(trainingCap) : 0,
+                        newLevel,
+                        levelSkillPoints))
                 {
-                    trainingRoundAdvanced = recordOeTrainingLevel(
-                        pEventRuntimeState->dialogueState,
-                        houseEntry.id,
-                        party.activeMemberIndex(),
-                        party.memberCount());
+                    if (trained == 0)
+                    {
+                        result.messages.push_back(Engine::tr("Training is not available right now."));
+                        result.soundType = HouseSoundType::TrainingCantTrain;
+                        return result;
+                    }
+
+                    newLevel = pMember->level;
+                    break;
                 }
-            }
 
-            if (trainingRoundAdvanced)
-            {
-                party.restAndHealAll();
+                skillPointsEarned += levelSkillPoints;
+                party.addGold(-levelPrice, GoldReason::Training);
+                bool trainingRoundAdvanced = true;
 
-                // With other players in the world the clock is everyone's: training takes no time ("Time").
-                if (pWorldRuntime != nullptr && !pWorldRuntime->sharedWithOtherPlayers())
+                if (pWorldRuntime != nullptr)
                 {
-                    const float trainingMinutes = party.rules().experience.trainingDurationMinutes(
-                        oeTrainingDurationMinutes(houseEntry, pWorldRuntime->gameMinutes()));
-                    pWorldRuntime->advanceGameMinutes(trainingMinutes);
-                    party.advanceTimedStates(trainingMinutes * 60.0f);
+                    EventRuntimeState *pEventRuntimeState = pWorldRuntime->eventRuntimeState();
+
+                    if (pEventRuntimeState != nullptr)
+                    {
+                        trainingRoundAdvanced = recordOeTrainingLevel(
+                            pEventRuntimeState->dialogueState,
+                            houseEntry.id,
+                            party.activeMemberIndex(),
+                            party.memberCount());
+                    }
+                }
+
+                if (trainingRoundAdvanced)
+                {
+                    party.restAndHealAll();
+
+                    // With other players in the world the clock is everyone's: training takes no time ("Time").
+                    if (pWorldRuntime != nullptr && !pWorldRuntime->sharedWithOtherPlayers())
+                    {
+                        const float trainingMinutes = party.rules().experience.trainingDurationMinutes(
+                            oeTrainingDurationMinutes(houseEntry, pWorldRuntime->gameMinutes()));
+                        pWorldRuntime->advanceGameMinutes(trainingMinutes);
+                        party.advanceTimedStates(trainingMinutes * 60.0f);
+                    }
                 }
             }
 

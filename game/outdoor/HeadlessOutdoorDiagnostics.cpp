@@ -3970,6 +3970,7 @@ bool executeDialogActionInScenario(
 
             const bool suppressDialogueMessages =
                 option.id == HouseActionId::TrainingTrainActiveMember
+                || option.id == HouseActionId::TrainingTrainActiveMemberToMax
                 || option.id == HouseActionId::TempleDonate;
 
             for (const std::string &message : result.messages)

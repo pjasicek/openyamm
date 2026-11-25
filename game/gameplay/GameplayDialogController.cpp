@@ -3758,6 +3758,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
 
             const bool suppressDialogueMessages =
                 option.id == HouseActionId::TrainingTrainActiveMember
+                || option.id == HouseActionId::TrainingTrainActiveMemberToMax
                 || option.id == HouseActionId::TempleDonate;
 
             for (const std::string &message : houseResult.messages)
@@ -3771,7 +3772,8 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             }
 
             if (houseResult.succeeded
-                && option.id == HouseActionId::TrainingTrainActiveMember)
+                && (option.id == HouseActionId::TrainingTrainActiveMember
+                    || option.id == HouseActionId::TrainingTrainActiveMemberToMax))
             {
                 playSpeechReaction(
                     context,

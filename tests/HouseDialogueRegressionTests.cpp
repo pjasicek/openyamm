@@ -4954,6 +4954,56 @@ TEST_CASE("dwi training service stays open after success")
         OpenYAMM::Game::GameMechanics::calculateEffectiveCharacterMaxSpellPoints(*pOtherMember));
 }
 
+TEST_CASE("dwi training service trains every affordable level from one row")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+
+    OpenYAMM::Game::Character *pMember = harness.party().activeMember();
+    REQUIRE(pMember != nullptr);
+    pMember->level = 1;
+    pMember->experience = 50000;
+    const uint32_t startSkillPoints = pMember->skillPoints;
+
+    // 50000 experience pays for levels 2..10, but this hall teaches only up to level 5.
+    const uint32_t expectedLevel = 5;
+    uint32_t expectedSkillPoints = 0;
+    for (uint32_t level = 2; level <= expectedLevel; ++level)
+    {
+        expectedSkillPoints += 5 + level / 10;
+    }
+
+    const std::string rowPrefix = "Train 4 levels to level 5 for ";
+    const OpenYAMM::Game::EventDialogContent &poorDialog = harness.openHouseDialog(TrainingHallHouseId);
+    const std::optional<size_t> poorIndex = findActionIndexByLabelPrefix(poorDialog, rowPrefix);
+    REQUIRE(poorIndex.has_value());
+    CHECK(findActionIndexByLabelPrefix(poorDialog, "Train to level 2 for ").has_value());
+    const std::string label = poorDialog.actions[*poorIndex].label;
+    const int price = std::stoi(label.substr(rowPrefix.size()));
+    CHECK_EQ(price, 10 + 20 + 30 + 40);
+
+    // Without the gold for all of them it trains none.
+    harness.party().addGold(price - 1 - harness.party().gold());
+    harness.executeAndPresent(*poorIndex);
+    CHECK_EQ(pMember->level, 1);
+    CHECK_EQ(harness.party().gold(), price - 1);
+
+    harness.party().addGold(1);
+    const OpenYAMM::Game::EventDialogContent &dialog = harness.openHouseDialog(TrainingHallHouseId);
+    const std::optional<size_t> maxIndex = findActionIndexByLabelPrefix(dialog, rowPrefix);
+    REQUIRE(maxIndex.has_value());
+    harness.executeAndPresent(*maxIndex);
+
+    CHECK_EQ(pMember->level, expectedLevel);
+    CHECK_EQ(pMember->skillPoints, startSkillPoints + expectedSkillPoints);
+    CHECK_EQ(harness.party().gold(), 0);
+
+    // At the hall's cap only the single row is left, saying so.
+    const OpenYAMM::Game::EventDialogContent &afterDialog = harness.openHouseDialog(TrainingHallHouseId);
+    CHECK_FALSE(findActionIndexByLabelPrefix(afterDialog, "Train ").has_value());
+    CHECK(findActionIndexByLabelPrefix(afterDialog, "With your skills").has_value());
+}
+
 TEST_CASE("dwi training service uses OE parallel training rounds per house visit")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();

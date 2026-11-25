@@ -73,6 +73,8 @@ enum class HouseActionId : uint32_t
     BuyTeacherLedger,
     // A training hall forgets the active member's talents (a MAW solo run's respec, devdocs/solo_action/TALENTS.md).
     TrainingResetTalents,
+    // Train the active member every level its experience pays for, one Train per level.
+    TrainingTrainActiveMemberToMax,
 };
 
 enum class HouseSoundType : uint32_t
