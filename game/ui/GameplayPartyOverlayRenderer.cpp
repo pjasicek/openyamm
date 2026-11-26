@@ -253,7 +253,8 @@ void submitItemTintOverlay(
     float width,
     float height,
     bool rotatedCounterClockwise,
-    uint32_t colorAbgr)
+    uint32_t colorAbgr,
+    const GameplayResolvedHudLayoutElement *pClip = nullptr)
 {
     if (colorAbgr == 0xffffffffu)
     {
@@ -265,6 +266,19 @@ void submitItemTintOverlay(
 
     if (!bgfx::isValid(tintedTextureHandle) || tintedTextureHandle.idx == texture.textureHandle.idx)
     {
+        return;
+    }
+
+    if (pClip != nullptr)
+    {
+        GameplayHudBatchQuad quad;
+        quad.textureHandle = tintedTextureHandle;
+        quad.x = x;
+        quad.y = y;
+        quad.width = width;
+        quad.height = height;
+        GameplayHudOverlaySupport::clipHudQuad(quad, pClip);
+        context.gameplayUiRuntime().submitHudQuadBatch(std::span<const GameplayHudBatchQuad>(&quad, 1));
         return;
     }
 
@@ -10882,7 +10896,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             // (a pouch's tab) names the rows it shows as `clipTop` and `clipBottom` on screen: items outside them are
             // left out and one across an edge is cut there.
             const auto renderBagItems =
-                [&context, &searchQuery, pCharacter, characterSourceIndex, inspectedCharacterCanAct](
+                [&context, &searchQuery, pCharacter, characterSourceIndex, inspectedCharacterCanAct, width](
                     const std::vector<InventoryItem> &items,
                     const InventoryGridMetrics &gridMetrics,
                     uint8_t bag,
@@ -10929,35 +10943,40 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                                 * pItemDefinition->inventoryDrawScale;
                         const InventoryItemScreenRect itemRect =
                             computeInventoryItemScreenRect(gridMetrics, item, itemWidth, itemHeight);
-                        const bool cut = clipTop && clipBottom
-                            && (itemRect.y < *clipTop || itemRect.y + itemRect.height > *clipBottom);
+                        // An icon reaching past the rows shown (a tall icon, one overhanging its cells at the
+                        // top or bottom row) draws with its glow and tint like any other, cut at them by a scissor.
+                        GameplayResolvedHudLayoutElement rowsShown = {};
+                        const GameplayResolvedHudLayoutElement *pClip = nullptr;
 
-                        if (cut)
+                        if (clipTop && clipBottom
+                            && (itemRect.y < *clipTop || itemRect.y + itemRect.height > *clipBottom))
                         {
-                            // The part of the icon inside the rows shown, without the glow and the tint.
-                            const float top = std::max(itemRect.y, *clipTop);
-                            const float bottom = std::min(itemRect.y + itemRect.height, *clipBottom);
-
-                            if (bottom > top && itemRect.height > 0.0f)
-                            {
-                                context.gameplayUiRuntime().submitHudTexturedQuad(itemTexture->textureHandle,
-                                    itemRect.x, top, itemRect.width, bottom - top, 0.0f,
-                                    (top - itemRect.y) / itemRect.height, 1.0f, (bottom - itemRect.y) / itemRect.height);
-                            }
+                            rowsShown.width = float(width);
+                            rowsShown.y = *clipTop;
+                            rowsShown.height = *clipBottom - *clipTop;
+                            pClip = &rowsShown;
                         }
-                        else if (searchQuery
+
+                        if (searchQuery
                             && !ItemSearch::matches(*searchQuery,
                                 GameplayHudOverlaySupport::itemSearchText(context, item, pCharacter)))
                         {
                             GameplayHudOverlaySupport::renderSearchDimmedItem(
-                                context, *itemTexture, itemRect.x, itemRect.y, itemRect.width, itemRect.height);
+                                context, *itemTexture, itemRect.x, itemRect.y, itemRect.width, itemRect.height, pClip);
                         }
                         else
                         {
                             GameplayHudOverlaySupport::renderItemRarityGlow(context, item, *itemTexture, itemRect.x,
-                                itemRect.y, itemRect.width, itemRect.height, gridMetrics.scale);
-                            context.submitHudTexturedQuad(
-                                *itemTexture, itemRect.x, itemRect.y, itemRect.width, itemRect.height);
+                                itemRect.y, itemRect.width, itemRect.height, gridMetrics.scale, pClip);
+                            GameplayHudBatchQuad icon;
+                            icon.textureHandle = itemTexture->textureHandle;
+                            icon.x = itemRect.x;
+                            icon.y = itemRect.y;
+                            icon.width = itemRect.width;
+                            icon.height = itemRect.height;
+                            GameplayHudOverlaySupport::clipHudQuad(icon, pClip);
+                            context.gameplayUiRuntime().submitHudQuadBatch(
+                                std::span<const GameplayHudBatchQuad>(&icon, 1));
                             submitItemTintOverlay(
                                 context,
                                 *itemTexture,
@@ -10966,7 +10985,8 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                                 itemRect.width,
                                 itemRect.height,
                                 false,
-                                itemTintColorAbgr(&item, pItemDefinition, characterScreenTintContext(context)));
+                                itemTintColorAbgr(&item, pItemDefinition, characterScreenTintContext(context)),
+                                pClip);
                         }
 
                         if (inspectedCharacterCanAct)

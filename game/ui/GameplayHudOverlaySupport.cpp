@@ -1916,7 +1916,8 @@ void GameplayHudOverlaySupport::renderItemRarityGlow(
     float y,
     float width,
     float height,
-    float scale)
+    float scale,
+    const GameplayResolvedHudLayoutElement *pClip)
 {
     const ItemRules &rules = gameRulesFor(context.partyReadOnly()).items;
     const std::string &mode = context.settingsSnapshot().rarityGlow;
@@ -1989,6 +1990,7 @@ void GameplayHudOverlaySupport::renderItemRarityGlow(
             quad.width = width;
             quad.height = height;
             quad.tintAbgr = (ring.alpha << 24) | 0x00ffffffu;
+            clipHudQuad(quad, pClip);
         }
     }
 
@@ -2463,7 +2465,8 @@ void GameplayHudOverlaySupport::renderSearchDimmedItem(
     float x,
     float y,
     float width,
-    float height)
+    float height,
+    const GameplayResolvedHudLayoutElement *pClip)
 {
     GameplayHudBatchQuad quad;
     quad.textureHandle = icon.textureHandle;
@@ -2472,7 +2475,24 @@ void GameplayHudOverlaySupport::renderSearchDimmedItem(
     quad.width = width;
     quad.height = height;
     quad.tintAbgr = 0x5cffffffu;
+    clipHudQuad(quad, pClip);
     context.gameplayUiRuntime().submitHudQuadBatch(std::span<const GameplayHudBatchQuad>(&quad, 1));
+}
+
+void GameplayHudOverlaySupport::clipHudQuad(GameplayHudBatchQuad &quad, const GameplayResolvedHudLayoutElement *pClip)
+{
+    if (pClip == nullptr)
+    {
+        return;
+    }
+
+    const float clipX = std::max(0.0f, std::round(pClip->x));
+    const float clipY = std::max(0.0f, std::round(pClip->y));
+    quad.clipped = true;
+    quad.scissorX = uint16_t(clipX);
+    quad.scissorY = uint16_t(clipY);
+    quad.scissorWidth = uint16_t(std::max(0.0f, std::round(pClip->x + pClip->width) - clipX));
+    quad.scissorHeight = uint16_t(std::max(0.0f, std::round(pClip->y + pClip->height) - clipY));
 }
 
 void GameplayHudOverlaySupport::renderPouchIcon(
@@ -2591,18 +2611,7 @@ void GameplayHudOverlaySupport::renderSkillSwitchGem(
     quad.y = std::round(centerY - quadHeight * 0.5f);
     quad.width = std::round(quadWidth);
     quad.height = std::round(quadHeight);
-
-    if (pClip != nullptr)
-    {
-        const float clipX = std::max(0.0f, std::round(pClip->x));
-        const float clipY = std::max(0.0f, std::round(pClip->y));
-        quad.clipped = true;
-        quad.scissorX = uint16_t(clipX);
-        quad.scissorY = uint16_t(clipY);
-        quad.scissorWidth = uint16_t(std::max(0.0f, std::round(pClip->x + pClip->width) - clipX));
-        quad.scissorHeight = uint16_t(std::max(0.0f, std::round(pClip->y + pClip->height) - clipY));
-    }
-
+    clipHudQuad(quad, pClip);
     context.gameplayUiRuntime().submitHudQuadBatch(std::span<const GameplayHudBatchQuad>(&quad, 1));
 }
 } // namespace OpenYAMM::Game

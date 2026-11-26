@@ -15,6 +15,7 @@ class Party;
 struct Character;
 struct InventoryItem;
 enum class ItemPouch : uint8_t;
+struct GameplayHudBatchQuad;
 struct GameplayHudTextureHandle;
 struct GameplayResolvedHudLayoutElement;
 struct InventoryPouchViewState;
@@ -62,7 +63,8 @@ public:
 
     // A glow around an item's icon in the colour the rules give its name (MAW's rarities, none for Common), else teal for
     // an artifact, relic or special item, drawn just before the icon: its silhouette in that colour in two rings around
-    // it. The rarity_glow setting: always, while the Show Item Rarity key is held, or never.
+    // it, clipped to pClip when given. The rarity_glow setting: always, while the Show Item Rarity key is held, or
+    // never.
     // showsCraftPreview: whether item popups add, in grey, what crafting would add to the item next (rules with
     // crafting: MAW). The craft_preview setting: always, while the Show Craftable Stats key is held, or never.
     static bool showsCraftPreview(GameplayScreenRuntime &context);
@@ -74,7 +76,8 @@ public:
         float y,
         float width,
         float height,
-        float scale);
+        float scale,
+        const GameplayResolvedHudLayoutElement *pClip = nullptr);
 
     // The inventory page shows the bag overview (InventoryBagOverview): a ruleset with several bags, desktop, a party
     // member (not the Adventurers' Inn roster) and no bag zoomed; a spell picking an inventory item shows the open bag
@@ -164,14 +167,17 @@ public:
         const GameplayScreenRuntime &context,
         const InventoryItem &item,
         const Character *pViewer);
-    // Draws an inventory icon faded, for an item the search leaves out.
+    // Draws an inventory icon faded, for an item the search leaves out, clipped to pClip when given.
     static void renderSearchDimmedItem(
         GameplayScreenRuntime &context,
         const GameplayHudTextureHandle &icon,
         float x,
         float y,
         float width,
-        float height);
+        float height,
+        const GameplayResolvedHudLayoutElement *pClip = nullptr);
+    // Cuts the quad to pClip on screen (a scissor); nothing when pClip is null.
+    static void clipHudQuad(GameplayHudBatchQuad &quad, const GameplayResolvedHudLayoutElement *pClip);
     // A pouch's icon (the crafting pouch's hammer, the alchemy pouch's potion, the quest pouch's key, the loot pouch's
     // leather pouch) in the square at x, y.
     static void renderPouchIcon(GameplayScreenRuntime &context, ItemPouch pouch, float x, float y, float size);
