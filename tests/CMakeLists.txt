@@ -578,6 +578,7 @@ add_executable(openyamm_runtime_tests
     MapStateResetRuntimeTests.cpp
     MawMm9ShopRuntimeTests.cpp
     CoopNetTests.cpp
+    HeldKeyRepeatTests.cpp
 )
 
 target_include_directories(openyamm_runtime_tests PRIVATE

@@ -1140,7 +1140,18 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
                     .hasReadyMember = config.hasReadyMember,
                     .turnBased = context.turnBasedCombatRuntime().active(),
                     .fastRepeat = context.settingsSnapshot().fastAttackRepeat,
+                    // Asked only while the key is held: a scan of the members, nothing more.
+                    .quickRecoveryMember = isQuickCastPressed && context.party() != nullptr
+                        ? context.party()->quickRecoveryReadyMember(
+                              GameplayActionController::HeldActionRepeatDebounceSeconds)
+                        : std::nullopt,
                 });
+
+        // A quick member's own cast between the repeats (the user, 2026-11-26): it is the one who casts.
+        if (quickCastDecision.quickRecoveryMember && context.party() != nullptr)
+        {
+            context.party()->setActiveMemberIndex(*quickCastDecision.quickRecoveryMember);
+        }
 
         if (quickCastDecision.shouldBeginQuickCast)
         {

@@ -1041,6 +1041,10 @@ public:
     const Character *member(size_t memberIndex) const;
     Character *member(size_t memberIndex);
     bool canSelectMemberInGameplay(size_t memberIndex) const;
+    // The held Attack and Quick Cast keys' fast lane (the user, 2026-11-26): the first member who can act now and
+    // whose last recovery (recoveryTotalSeconds) was shorter than repeatSeconds, the held-key repeat; none in
+    // turn-based play is the caller's rule. Everyone else keeps the repeat.
+    std::optional<size_t> quickRecoveryReadyMember(float repeatSeconds) const;
     bool hasSelectableMemberInGameplay() const;
     bool hasActableMember() const;
     bool setActiveMemberIndex(size_t memberIndex);

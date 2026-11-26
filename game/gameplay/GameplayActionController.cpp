@@ -1465,6 +1465,17 @@ GameplayActionController::QuickCastActionDecision GameplayActionController::upda
             || (!config.turnBased && (quickSpellState.castRepeating || config.fastRepeat)
                 && readyMemberTransitionWhileHeld));
 
+    // A quick member between the repeats: it acts, and the repeat the others keep stays where it is.
+    if (!pressedThisFrame && !repeatReady && config.quickRecoveryMember && !config.turnBased
+        && config.quickCastPressed && quickSpellState.castLatch && (quickSpellState.castRepeating || config.fastRepeat))
+    {
+        quickSpellState.attackFallbackRequested = false;
+        return QuickCastActionDecision{
+            .shouldBeginQuickCast = true,
+            .quickRecoveryMember = config.quickRecoveryMember,
+        };
+    }
+
     if (pressedThisFrame || repeatReady)
     {
         quickSpellState.attackFallbackRequested = false;
@@ -1529,6 +1540,17 @@ GameplayActionController::AttackActionDecision GameplayActionController::updateA
                 && readyMemberTransitionWhileHeld));
 
     quickSpellState.attackFallbackRequested = false;
+
+    // A quick member between the repeats: it acts, and the repeat the others keep stays where it is.
+    if (!pressedThisFrame && !repeatReady && config.quickRecoveryMember && !config.turnBased && config.attackPressed
+        && attackActionState.inspectLatch && (attackActionState.inspectRepeating || config.fastRepeat))
+    {
+        return AttackActionDecision{
+            .shouldAttemptAttack = true,
+            .pressedThisFrame = false,
+            .quickRecoveryMember = config.quickRecoveryMember,
+        };
+    }
 
     if (pressedThisFrame || repeatReady)
     {

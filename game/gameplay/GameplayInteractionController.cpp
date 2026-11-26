@@ -2995,7 +2995,17 @@ GameplayInteractionController::updateWorldInteractionFrame(
                 .hasReadyMember = hasReadyMember,
                 .turnBased = runtime.turnBasedCombatRuntime().active(),
                 .fastRepeat = runtime.settingsSnapshot().fastAttackRepeat,
+                // Asked only while the key is held: a scan of the members, nothing more.
+                .quickRecoveryMember = worldAttackPressed && pParty != nullptr
+                    ? pParty->quickRecoveryReadyMember(GameplayActionController::HeldActionRepeatDebounceSeconds)
+                    : std::nullopt,
             });
+
+    // A quick member's own attack between the repeats (the user, 2026-11-26): it is the one who acts.
+    if (attackActionDecision.quickRecoveryMember && pWorldRuntime != nullptr && pWorldRuntime->party() != nullptr)
+    {
+        pWorldRuntime->party()->setActiveMemberIndex(*attackActionDecision.quickRecoveryMember);
+    }
 
     const auto runPartyAttack = [&](const GameplayActionController::AttackActionDecision &decision, bool swingShown)
     {

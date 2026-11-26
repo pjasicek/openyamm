@@ -7899,6 +7899,23 @@ bool Party::canSelectMemberInGameplay(size_t memberIndex) const
     return GameMechanics::canSelectInGameplay(*pMember);
 }
 
+std::optional<size_t> Party::quickRecoveryReadyMember(float repeatSeconds) const
+{
+    for (size_t memberIndex = 0; memberIndex < m_members.size(); ++memberIndex)
+    {
+        const Character &member = m_members[memberIndex];
+        const float recovery = member.recoveryTotalSeconds;
+
+        if (recovery > 0.0f && recovery < repeatSeconds && member.recoverySecondsRemaining <= 0.0f
+            && canSelectMemberInGameplay(memberIndex))
+        {
+            return memberIndex;
+        }
+    }
+
+    return std::nullopt;
+}
+
 bool Party::hasSelectableMemberInGameplay() const
 {
     for (size_t memberIndex = 0; memberIndex < m_members.size(); ++memberIndex)

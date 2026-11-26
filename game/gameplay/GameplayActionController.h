@@ -47,11 +47,17 @@ public:
         bool turnBased = false;
         // The Fast attack repeat setting: the first repeat comes after the short interval, not the key-repeat pause.
         bool fastRepeat = false;
+        // A ready member whose last recovery was shorter than the held-key repeat (HeldActionRepeatDebounceSeconds,
+        // Party::quickRecoveryReadyMember): while the key repeats in real time it acts as soon as it has recovered,
+        // without moving the repeat the other members keep (the user, 2026-11-26).
+        std::optional<size_t> quickRecoveryMember;
     };
 
     struct QuickCastActionDecision
     {
         bool shouldBeginQuickCast = false;
+        // The cast is quickRecoveryMember's own: the caller makes it the active member first.
+        std::optional<size_t> quickRecoveryMember;
     };
 
     struct AttackActionConfig
@@ -63,12 +69,18 @@ public:
         bool turnBased = false;
         // The Fast attack repeat setting: the first repeat comes after the short interval, not the key-repeat pause.
         bool fastRepeat = false;
+        // A ready member whose last recovery was shorter than the held-key repeat (HeldActionRepeatDebounceSeconds,
+        // Party::quickRecoveryReadyMember): while the key repeats in real time it acts as soon as it has recovered,
+        // without moving the repeat the other members keep (the user, 2026-11-26).
+        std::optional<size_t> quickRecoveryMember;
     };
 
     struct AttackActionDecision
     {
         bool shouldAttemptAttack = false;
         bool pressedThisFrame = false;
+        // The attack is quickRecoveryMember's own: the caller makes it the active member first.
+        std::optional<size_t> quickRecoveryMember;
     };
 
     struct WorldPoint
