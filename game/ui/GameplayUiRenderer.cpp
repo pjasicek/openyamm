@@ -1388,7 +1388,9 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
         const bool levitateBuffIcon = normalizedRoleId == "outdoorlevitatebufficon";
         const bool waterWalkBuffIcon = normalizedRoleId == "outdoorwaterwalkbufficon";
         const bool fleetFootBuffIcon = normalizedRoleId == "outdoorfleetfootbufficon";
-        const bool movementIcon = flyBuffIcon || levitateBuffIcon || waterWalkBuffIcon || fleetFootBuffIcon;
+        const bool lavaWalkBuffIcon = normalizedRoleId == "outdoorlavawalkbufficon";
+        const bool movementIcon =
+            flyBuffIcon || levitateBuffIcon || waterWalkBuffIcon || fleetFootBuffIcon || lavaWalkBuffIcon;
         if (movementIcon)
         {
             const std::vector<GameplayMovementIndicator> indicators = gameplayMovementIndicators(party);
@@ -1406,15 +1408,16 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
                 continue;
             }
 
-            // Fly animates while flying, Water Walk while on water, Levitate (MM8's sp109) and Fleet Foot (MM9's
-            // winged boot) while they last.
+            // Fly animates while flying, Water Walk while on water, Levitate (MM8's sp109), Fleet Foot (MM9's
+            // winged boot) and Lava Walk (Hesper's burning feet) while they last.
             const IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime();
-            const bool moving = levitateBuffIcon || fleetFootBuffIcon
+            const bool moving = levitateBuffIcon || fleetFootBuffIcon || lavaWalkBuffIcon
                 || (pWorldRuntime != nullptr
                     && (flyBuffIcon ? pWorldRuntime->partyIsActivelyFlyingForHud()
                                     : pWorldRuntime->partyIsWalkingOnWaterForHud()));
             const char *pAnimationName = levitateBuffIcon ? "sp109"
                 : fleetFootBuffIcon                       ? "fleetfoot"
+                : lavaWalkBuffIcon                        ? "lavawalk"
                 : flyBuffIcon                             ? "spell21"
                                                           : "spell27";
             const std::optional<std::string> animationFrame =

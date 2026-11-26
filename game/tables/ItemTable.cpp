@@ -1,6 +1,7 @@
 #include "game/tables/ItemTable.h"
 #include "game/items/ItemEnchantTables.h"
 #include "engine/ImageAssetLoader.h"
+#include "engine/Localization.h"
 #include "game/party/SkillData.h"
 #include "game/party/CharacterState.h"
 #include "game/tables/MergedBaseTables.h"
@@ -53,6 +54,214 @@ uint32_t itemSlayingKindFlags(const ItemContentEffect &effect)
     }
 
     return kinds;
+}
+
+namespace
+{
+constexpr std::array<std::string_view, ImplantEffectCount> ImplantEffectNames = {"intellect_personality", "berserk",
+    "converter", "max_health", "max_sp", "all_stats", "siphon", "recovery", "fire_resistance", "armor_class", "reflect",
+    "projectile_speed", "accuracy"};
+
+// "+5" for a gain, "-3" for a cost.
+std::string signedPercentText(float percent)
+{
+    return (percent < 0.0f ? "-" : "+") + implantPercentText(std::fabs(percent));
+}
+}
+
+std::optional<ImplantEffect> parseImplantEffect(std::string_view name)
+{
+    for (size_t index = 0; index < ImplantEffectNames.size(); ++index)
+    {
+        if (ImplantEffectNames[index] == name)
+        {
+            return ImplantEffect(index);
+        }
+    }
+
+    return std::nullopt;
+}
+
+bool implantEffectMayBeNegative(ImplantEffect effect)
+{
+    return effect == ImplantEffect::AllStats || effect == ImplantEffect::MaxHealth
+        || effect == ImplantEffect::MaxSpellPoints;
+}
+
+uint32_t implantStageKills(const ImplantDefinition &implant, uint32_t stage, float evolveFactor)
+{
+    const uint32_t kills = stage >= 2 ? implant.stageTwoKills : 0;
+    return uint32_t(std::lround(double(kills) * double(std::max(evolveFactor, 0.0f))));
+}
+
+uint32_t implantStage(const ImplantDefinition &implant, uint32_t kills, float evolveFactor)
+{
+    return kills >= implantStageKills(implant, 2, evolveFactor) ? 2 : 1;
+}
+
+std::string implantStageName(uint32_t stage)
+{
+    return stage >= 2 ? "II" : "I";
+}
+
+float implantEffectPercent(const ImplantShare &share, uint32_t stage, int effectLevel)
+{
+    const size_t index = stage >= 2 ? 1 : 0;
+    const int level = std::clamp(effectLevel, 0, ImplantEffectLevelCap);
+    return share.basePercent[index] + share.perLevelPercent[index] * float(level);
+}
+
+namespace
+{
+// A per cent with `decimals` decimals at most, trailing zeros dropped; the small epsilon rounds a half that float
+// arithmetic left just below it (29.05) up, as the player expects.
+std::string roundedPercentText(float percent, int decimals)
+{
+    if (percent < 0.0f)
+    {
+        return "-" + roundedPercentText(-percent, decimals);
+    }
+
+    long scale = 1;
+
+    for (int digit = 0; digit < decimals; ++digit)
+    {
+        scale *= 10;
+    }
+
+    const long scaled = std::lround(double(percent) * double(scale) + 1e-3);
+    std::string text = std::to_string(scaled / scale);
+    std::string fraction = decimals > 0 ? std::to_string(scaled % scale) : std::string();
+    fraction.insert(0, size_t(decimals) - fraction.size(), '0');
+
+    while (!fraction.empty() && fraction.back() == '0')
+    {
+        fraction.pop_back();
+    }
+
+    return fraction.empty() ? text : text + "." + fraction;
+}
+}
+
+std::string implantPercentText(float percent)
+{
+    return roundedPercentText(percent, 1);
+}
+
+std::string implantRateText(float percent)
+{
+    const float size = std::fabs(percent);
+    const int magnitude = size > 0.0f ? int(std::floor(std::log10(double(size)) + 1e-6)) : 0;
+    return roundedPercentText(percent, std::max(0, 2 - magnitude));
+}
+
+std::string implantEffectText(ImplantEffect effect, float percent, uint8_t exceptStats)
+{
+    const std::string amount = implantPercentText(percent);
+    const std::string signedAmount = signedPercentText(percent);
+
+    switch (effect)
+    {
+        case ImplantEffect::IntellectPersonality:
+            return Engine::tr("+{percent} % of total Intellect and Personality", {{"percent", amount}});
+        case ImplantEffect::BerserkDamage:
+            return Engine::tr("+{percent} % damage while an enemy is in melee reach, which drains 5 % of maximum hit "
+                "points and spell points each second", {{"percent", amount}});
+        case ImplantEffect::Converter:
+            return Engine::tr("{percent} % of each other attribute converted into your highest", {{"percent", amount}});
+        case ImplantEffect::MaxHealth:
+            return Engine::tr("{percent} % of total hit points", {{"percent", signedAmount}});
+        case ImplantEffect::MaxSpellPoints:
+            return Engine::tr("{percent} % of total spell points", {{"percent", signedAmount}});
+        case ImplantEffect::AllStats:
+        {
+            if (exceptStats == 0)
+            {
+                return Engine::tr("{percent} % of all seven attributes", {{"percent", signedAmount}});
+            }
+
+            constexpr std::array<std::string_view, 7> StatDisplayNames = {Engine::trNoop("Might"),
+                Engine::trNoop("Intellect"), Engine::trNoop("Personality"), Engine::trNoop("Endurance"),
+                Engine::trNoop("Accuracy"), Engine::trNoop("Speed"), Engine::trNoop("Luck")};
+            std::string spared;
+
+            for (size_t stat = 0; stat < StatDisplayNames.size(); ++stat)
+            {
+                if ((exceptStats & (1u << stat)) != 0)
+                {
+                    spared += (spared.empty() ? "" : ", ") + Engine::tr(StatDisplayNames[stat]);
+                }
+            }
+
+            return Engine::tr("{percent} % of every attribute except {stats}",
+                {{"percent", signedAmount}, {"stats", spared}});
+        }
+        case ImplantEffect::Siphon:
+            return Engine::tr("{percent} % of damage dealt returns as hit points and spell points over 2 seconds",
+                {{"percent", amount}});
+        case ImplantEffect::Recovery:
+            return Engine::tr("{percent} % shorter recovery", {{"percent", amount}});
+        case ImplantEffect::FireResistance:
+            return Engine::tr("+{percent} % of total fire resistance", {{"percent", amount}});
+        case ImplantEffect::ArmorClass:
+            return Engine::tr("+{percent} % of total armour class", {{"percent", amount}});
+        case ImplantEffect::Reflect:
+            return Engine::tr("{percent} % chance to send a missile back at its shooter", {{"percent", amount}});
+        case ImplantEffect::ProjectileSpeed:
+            return Engine::tr("+{percent} % speed of your missiles and spells", {{"percent", amount}});
+        case ImplantEffect::Accuracy:
+            return Engine::tr("+{percent} % of total Accuracy", {{"percent", amount}});
+    }
+
+    return {};
+}
+
+int implantShareOf(int total, float percent)
+{
+    if (total <= 0 || percent == 0.0f)
+    {
+        return 0;
+    }
+
+    // The small epsilon keeps a share that is whole on paper (18 % of 100) from rounding down through float error.
+    const int size = int(std::floor(double(total) * double(std::fabs(percent)) / 100.0 + 1e-6));
+    return percent < 0.0f ? -size : size;
+}
+
+float implantRecoveryCut(float factor, float recoveryPercent)
+{
+    return factor * (1.0f - std::clamp(recoveryPercent, 0.0f, 100.0f) / 100.0f);
+}
+
+float implantRecoveryFactor(float product)
+{
+    return std::clamp(product, ImplantMinimumRecoveryFactor, 1.0f);
+}
+
+std::array<int, 7> implantConverterChanges(const std::array<int, 7> &totals, float percent)
+{
+    std::array<int, 7> changes = {};
+    size_t highest = 0;
+
+    for (size_t index = 1; index < totals.size(); ++index)
+    {
+        if (totals[index] > totals[highest])
+        {
+            highest = index;
+        }
+    }
+
+    for (size_t index = 0; index < totals.size(); ++index)
+    {
+        if (index != highest)
+        {
+            const int share = implantShareOf(totals[index], percent);
+            changes[index] -= share;
+            changes[highest] += share;
+        }
+    }
+
+    return changes;
 }
 
 namespace
@@ -207,7 +416,8 @@ bool isSupportedContentEffectFlag(const std::string &flag)
     // Hesper's numbered flags: a share of spell (Resonator) or ordinary weapon (Coupler) damage strikes raised
     // shields as Kreegan energy; a melee floor of <ticks>; melee recovery <percent> faster; a Workshop mod's weapon
     // damage to shields <percent> higher (ShieldDamage).
-    for (const char *pPrefix : {"Resonator", "Coupler", "MeleeAttackFloor", "MeleeRecovery", "ShieldDamage"})
+    for (const char *pPrefix :
+        {"Resonator", "Coupler", "MeleeAttackFloor", "MeleeRecovery", "ShieldDamage"})
     {
         const std::string prefix = pPrefix;
         std::string number = flag.size() > prefix.size() && flag.rfind(prefix, 0) == 0 ? flag.substr(prefix.size())
@@ -1058,6 +1268,204 @@ bool ItemTable::loadWorkshopModRows(const std::vector<std::vector<std::string>> 
     }
 
     return true;
+}
+
+bool ItemTable::loadImplantRows(const std::vector<std::vector<std::string>> &rows, std::string &errorMessage)
+{
+    m_implants.clear();
+    // The columns by the header row's names (DECISIONS H-91), so a later column moves nothing. One row per part of an
+    // implant; empty maw_ cells take Standard's value.
+    std::unordered_map<std::string, size_t> columns;
+    const auto column = [&columns](const std::vector<std::string> &row, const char *pName)
+    {
+        const auto found = columns.find(pName);
+        return found != columns.end() ? getCell(row, found->second) : std::string();
+    };
+    const auto share = [&column](const std::vector<std::string> &row, const char *pPrefix, const ImplantShare *pFallback)
+    {
+        ImplantShare values = pFallback != nullptr ? *pFallback : ImplantShare{};
+        const std::string prefix = pPrefix;
+        const std::array<std::string, 4> names = {
+            prefix + "base_i", prefix + "per_level_i", prefix + "base_ii", prefix + "per_level_ii"};
+        const std::array<float *, 4> targets = {&values.basePercent[0], &values.perLevelPercent[0],
+            &values.basePercent[1], &values.perLevelPercent[1]};
+
+        for (size_t index = 0; index < names.size(); ++index)
+        {
+            const std::string cell = column(row, names[index].c_str());
+
+            if (!cell.empty() || pFallback == nullptr)
+            {
+                *targets[index] = parseFloat(cell);
+            }
+        }
+
+        return values;
+    };
+
+    for (const std::vector<std::string> &row : rows)
+    {
+        const std::string idCell = getCell(row, 0);
+
+        if (toLowerCopy(idCell) == "item_id")
+        {
+            columns.clear();
+
+            for (size_t index = 0; index < row.size(); ++index)
+            {
+                columns[toLowerCopy(getCell(row, index))] = index;
+            }
+
+            for (const char *pName : {"socket", "effect", "base_i", "per_level_i", "base_ii", "per_level_ii"})
+            {
+                if (!columns.contains(pName))
+                {
+                    errorMessage = std::string("implants table has no '") + pName + "' column";
+                    return false;
+                }
+            }
+
+            continue;
+        }
+
+        // A generator's "#" note.
+        if (idCell.empty() || std::isdigit(static_cast<unsigned char>(idCell.front())) == 0)
+        {
+            continue;
+        }
+
+        if (columns.empty())
+        {
+            errorMessage = "implants table has no header row";
+            return false;
+        }
+
+        const uint32_t itemId = parseUint32(idCell);
+        const ItemDefinition *pItem = get(itemId);
+
+        if (pItem == nullptr || pItem->equipStat != "Implant")
+        {
+            errorMessage = "implant row " + idCell + " names no Implant item";
+            return false;
+        }
+
+        const std::optional<ImplantSocket> socket = parseImplantSocket(toLowerCopy(column(row, "socket")));
+        const std::optional<ImplantEffect> effect = parseImplantEffect(toLowerCopy(column(row, "effect")));
+
+        if (!socket)
+        {
+            errorMessage = "implant " + idCell + ": unknown socket '" + column(row, "socket") + "'";
+            return false;
+        }
+
+        if (!effect)
+        {
+            errorMessage = "implant " + idCell + ": unknown effect '" + column(row, "effect") + "'";
+            return false;
+        }
+
+        ImplantComponent component = {};
+        component.effect = *effect;
+        component.standard = share(row, "", nullptr);
+        component.maw = share(row, "maw_", &component.standard);
+
+        for (const ImplantShare *pShare : {&component.standard, &component.maw})
+        {
+            for (size_t stage = 0; stage < ImplantStageCount; ++stage)
+            {
+                if (!implantEffectMayBeNegative(*effect)
+                    && (pShare->basePercent[stage] < 0.0f || pShare->perLevelPercent[stage] < 0.0f))
+                {
+                    errorMessage = "implant " + idCell + ": only all_stats, max_health and max_sp may be negative";
+                    return false;
+                }
+            }
+        }
+
+        for (const std::string &name : splitPipeSeparated(toLowerCopy(column(row, "except"))))
+        {
+            const auto found = std::find(ImplantStatNames.begin(), ImplantStatNames.end(), name);
+
+            if (found == ImplantStatNames.end() || *effect != ImplantEffect::AllStats)
+            {
+                errorMessage = "implant " + idCell + ": except '" + name + "' (a primary stat, all_stats only)";
+                return false;
+            }
+
+            component.exceptStats |= uint8_t(1u << size_t(found - ImplantStatNames.begin()));
+        }
+
+        const uint32_t stageTwoKills =
+            column(row, "evolve_ii").empty() ? 250 : parseUint32(column(row, "evolve_ii"));
+        const uint32_t evolveSoundId = parseUint32(column(row, "evolve_sound"));
+        const uint32_t fitSoundId = parseUint32(column(row, "fit_sound"));
+        const uint32_t removeSoundId = parseUint32(column(row, "remove_sound"));
+
+        if (stageTwoKills == 0)
+        {
+            errorMessage = "implant " + idCell + ": stage II needs kills";
+            return false;
+        }
+
+        if (pItem->contentEffect.skillBonuses.contains("Implants"))
+        {
+            errorMessage = "implant " + idCell + " raises Implants itself";
+            return false;
+        }
+
+        const auto [found, created] = m_implants.try_emplace(itemId);
+        ImplantDefinition &implant = found->second;
+
+        if (created)
+        {
+            implant.socket = *socket;
+            implant.stageTwoKills = stageTwoKills;
+            implant.evolveSoundId = evolveSoundId;
+            implant.fitSoundId = fitSoundId;
+            implant.removeSoundId = removeSoundId;
+        }
+        else if (implant.socket != *socket || implant.stageTwoKills != stageTwoKills
+            || implant.evolveSoundId != evolveSoundId || implant.fitSoundId != fitSoundId
+            || implant.removeSoundId != removeSoundId)
+        {
+            errorMessage = "implant " + idCell + ": its rows disagree on socket, evolve_ii or a sound";
+            return false;
+        }
+
+        implant.components.push_back(component);
+    }
+
+    // A package that brings implants rows needs one for each of its Implant items (an older package without the table,
+    // such as Hesper's October stage, keeps unfittable Implant items).
+    std::unordered_set<std::string> implantPackages;
+
+    for (const auto &[itemId, implant] : m_implants)
+    {
+        implantPackages.insert(get(itemId)->packageId);
+    }
+
+    for (const ItemDefinition &item : m_entries)
+    {
+        if (item.itemId != 0 && item.equipStat == "Implant" && implantPackages.contains(item.packageId)
+            && !m_implants.contains(item.itemId))
+        {
+            errorMessage = "Implant item " + std::to_string(item.itemId) + " has no implants row";
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool ItemTable::implantsAvailable() const
+{
+    return !m_implants.empty();
+}
+
+const ImplantDefinition *ItemTable::implant(uint32_t itemId) const
+{
+    const auto found = m_implants.find(itemId);
+    return found != m_implants.end() ? &found->second : nullptr;
 }
 
 const WorkshopModDefinition *ItemTable::workshopMod(uint16_t modId) const

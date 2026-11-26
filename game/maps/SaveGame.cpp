@@ -26,7 +26,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 203;
+constexpr uint32_t SaveVersion = 205;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -362,6 +362,13 @@ constexpr uint32_t SaveVersionRegeneratingDamage = 201;
 constexpr uint32_t SaveVersionLootPouch = 202;
 // The original facing of an outdoor runtime spawn, retained independently of its combat heading.
 constexpr uint32_t SaveVersionOutdoorSpawnYaw = 203;
+// Hesper's Implants (devdocs/hesper/IMPLANTS_SPEC.md 2): six implant sockets by ImplantSocket; versions 134-203 saved
+// four positional sockets, which are read and dropped (their ids now name other Hesper items). And the party buff
+// LavaWalk (after FleetFoot); older saves have one party buff fewer.
+constexpr uint32_t SaveVersionImplantSockets = 204;
+// Evolving implants (DECISIONS H-83): an item's implant kill count, and sockets that hold whole items (version 204 held
+// item ids, which load as items with no kills).
+constexpr uint32_t SaveVersionImplantEvolution = 205;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -1407,6 +1414,7 @@ void writeValue(BinaryWriter &writer, const InventoryItem &value)
     writeValue(writer, value.hardened);
     writeValue(writer, value.rulesetFields);
     writeValue(writer, value.workshopModId);
+    writeValue(writer, value.implantKills);
 }
 
 bool readValue(BinaryReader &reader, InventoryItem &value)
@@ -1430,7 +1438,8 @@ bool readValue(BinaryReader &reader, InventoryItem &value)
         && readValue(reader, value.temporaryBonusRemainingSeconds)
         && (reader.version() < SaveVersionHardenedItems || readValue(reader, value.hardened))
         && (reader.version() < SaveVersionItemRulesetFields || readValue(reader, value.rulesetFields))
-        && (reader.version() < SaveVersionWorkshopMods || readValue(reader, value.workshopModId));
+        && (reader.version() < SaveVersionWorkshopMods || readValue(reader, value.workshopModId))
+        && (reader.version() < SaveVersionImplantEvolution || readValue(reader, value.implantKills));
 }
 
 void writeValue(BinaryWriter &writer, const LloydBeacon &value)
@@ -1947,6 +1956,50 @@ bool readNarrowTalentRanks(BinaryReader &reader, std::unordered_map<std::string,
     return true;
 }
 
+// Six items since SaveVersionImplantEvolution, six item ids since SaveVersionImplantSockets (loaded as items with no
+// kills); the four positional sockets of versions 134-203 are dropped (Hesper's October stage: their ids now name other
+// items), so such a save loads with empty sockets.
+bool readCharacterImplants(BinaryReader &reader, std::array<InventoryItem, ImplantSocketCount> &implants)
+{
+    implants = {};
+
+    if (reader.version() >= SaveVersionImplantEvolution)
+    {
+        return readValue(reader, implants);
+    }
+
+    if (reader.version() >= SaveVersionImplantSockets)
+    {
+        std::array<uint32_t, ImplantSocketCount> itemIds = {};
+
+        if (!readValue(reader, itemIds))
+        {
+            return false;
+        }
+
+        for (size_t socket = 0; socket < ImplantSocketCount; ++socket)
+        {
+            implants[socket].objectDescriptionId = itemIds[socket];
+        }
+
+        return true;
+    }
+
+    std::array<uint32_t, 4> positional = {};
+
+    if (!readValue(reader, positional))
+    {
+        return false;
+    }
+
+    if (std::any_of(positional.begin(), positional.end(), [](uint32_t itemId) { return itemId != 0; }))
+    {
+        std::cerr << "Save: dropped implants of the four-socket layout (version " << reader.version() << ")\n";
+    }
+
+    return true;
+}
+
 bool readValue(BinaryReader &reader, Character &value)
 {
     // Before battle orders the attack spell sat after the quick spell.
@@ -2020,7 +2073,7 @@ bool readValue(BinaryReader &reader, Character &value)
         && (reader.version() < SaveVersionQuickItemSlots || readValue(reader, value.quickItemSlots))
         && (reader.version() < SaveVersionSoloRun || readValue(reader, value.actionBar))
         && (reader.version() < SaveVersionSpellbookSchool || readValue(reader, value.spellbookSchool))
-        && (reader.version() < SaveVersionCharacterImplants || readValue(reader, value.implants))
+        && (reader.version() < SaveVersionCharacterImplants || readCharacterImplants(reader, value.implants))
         && (reader.version() < SaveVersionConditionExpiry || readValue(reader, value.conditionExpireGameMinutes))
         && (reader.version() < SaveVersionPlaythroughStatistics || readValue(reader, value.statsMemberId))
         && (reader.version() < SaveVersionBattleOrders || readValue(reader, value.battleOrders))
@@ -2223,8 +2276,9 @@ bool readWorldCompletions(BinaryReader &reader, Party::Snapshot &value)
 // Older saves store only the character buffs that existed before the potion buffs.
 bool readPartyBuffs(BinaryReader &reader, std::array<PartyBuffState, PartyBuffCount> &partyBuffs)
 {
-    const size_t storedCount =
-        reader.version() < SaveVersionFleetFootBuff ? size_t(PartyBuffId::FleetFoot) : PartyBuffCount;
+    const size_t storedCount = reader.version() < SaveVersionFleetFootBuff ? size_t(PartyBuffId::FleetFoot)
+        : reader.version() < SaveVersionImplantSockets                       ? size_t(PartyBuffId::LavaWalk)
+                                                                              : PartyBuffCount;
 
     for (size_t buffIndex = 0; buffIndex < storedCount; ++buffIndex)
     {

@@ -913,11 +913,13 @@ int standardHealAmount(SkillMastery mastery, uint32_t skillLevel)
     return 5 + perPoint * static_cast<int>(skillLevel);
 }
 
-// A rolled damage spell's damage after the caster's own share: Hesper's item effects (item_effects spell_damage_pct)
-// and the world's Hum (Party::spellDamagePercentFor, 100 without one).
+// A rolled damage spell's damage after the caster's own share: Hesper's item effects (item_effects spell_damage_pct),
+// its Berserker's Seed while a hostile is in melee reach (DECISIONS H-91) and the world's Hum
+// (Party::spellDamagePercentFor, 100 without one).
 int casterSpellDamage(const Party &party, const Character &caster, int damage)
 {
-    const int percent = caster.spellDamagePercent;
+    const int percent = caster.spellDamagePercent
+        + (caster.implantBerserkActive ? int(std::lround(caster.implantBerserkDamagePercent)) : 0);
     damage = percent != 0 ? std::max(0, damage + damage * percent / 100) : damage;
     const int humPercent = party.spellDamagePercentFor(caster);
     return humPercent < 100 ? damage * humPercent / 100 : damage;

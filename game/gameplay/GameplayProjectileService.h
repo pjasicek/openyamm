@@ -278,6 +278,9 @@ public:
         float spawnForwardOffset = 0.0f;
         int16_t sectorId = -1;
         bool allowInstantImpact = false;
+        // The wearer's missiles and spells fly faster (Hesper's Kinetic Coil, Character::projectileSpeedPercent): the
+        // speed times this, the flight time divided by it, so the range stays. 1: as defined; not saved.
+        float speedMultiplier = 1.0f;
     };
 
     struct ProjectileSpawnResult

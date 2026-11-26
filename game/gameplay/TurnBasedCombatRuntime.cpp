@@ -786,12 +786,18 @@ bool TurnBasedCombatRuntime::applyPlayerAction(Party &party, size_t memberIndex,
         return false;
     }
 
-    const int requestedRecoveryTicks = std::max(
-        MinimumPlayerRecoveryTicks,
-        recoverySecondsToTicks(
-            m_memberTurnRecoverySeconds[std::min(memberIndex, MaximumTrackedMembers - 1)] > 0.0f
-                ? m_memberTurnRecoverySeconds[std::min(memberIndex, MaximumTrackedMembers - 1)]
-                : recoverySeconds));
+    // Hesper's Reflex Mesh and Adrenaline Gland cut the wearer's recovery and its 30-tick floor alike (DECISIONS H-91;
+    // the factor never takes the floor below 1 tick). 1 for everyone else.
+    Character *pMember = party.combatant(memberIndex);
+    const float implantFactor = pMember != nullptr ? pMember->implantRecoveryFactor : 1.0f;
+    const int minimumRecoveryTicks =
+        std::max(1, static_cast<int>(std::lround(float(MinimumPlayerRecoveryTicks) * implantFactor)));
+    const float turnRecoverySeconds =
+        m_memberTurnRecoverySeconds[std::min(memberIndex, MaximumTrackedMembers - 1)] > 0.0f
+            ? m_memberTurnRecoverySeconds[std::min(memberIndex, MaximumTrackedMembers - 1)]
+            : recoverySeconds;
+    const int requestedRecoveryTicks =
+        std::max(minimumRecoveryTicks, recoverySecondsToTicks(turnRecoverySeconds * implantFactor));
     m_queue[*queueIndex].initiative = requestedRecoveryTicks;
     m_actorActionTimerTicks = 0.0f;
     m_loggedReadyMemberIndex.reset();
@@ -801,7 +807,6 @@ bool TurnBasedCombatRuntime::applyPlayerAction(Party &party, size_t memberIndex,
         m_memberTurnRecoverySeconds[memberIndex] = 0.0f;
     }
 
-    Character *pMember = party.combatant(memberIndex);
     if (pMember != nullptr)
     {
         pMember->recoverySecondsRemaining = 0.0f;

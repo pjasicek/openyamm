@@ -69,6 +69,8 @@ enum class ScenarioStepKind
     QuickLoad,
     UseItem,
     EquipItem,
+    // fit_implant: {item_id, member_index, socket, expect}: Hesper's implants (Party::fitImplant).
+    FitImplant,
     TurnBasedTurns,
     RightClickPortrait,
     CastSpell,

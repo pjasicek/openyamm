@@ -454,6 +454,10 @@ public:
     // Wears the first pack item of this id that any member carries (the wearer's own bag first) on the member in the
     // slot, under the game's wearing rules; a refused item stays where it was.
     bool equipCarriedItem(size_t memberIndex, uint32_t itemId, EquipmentSlot slot, std::string &failure);
+    // Fits the first pack item of this id any member carries into the member's implant socket (Party::fitImplant, as
+    // the implants overlay does); a refused implant stays where it was and `result` says why.
+    bool fitCarriedImplant(size_t memberIndex, uint32_t itemId, ImplantSocket socket, Party::ImplantFitResult &result,
+        std::string &failure);
     // Right-clicks the target member's portrait with the carrier's first pack item of this id under the cursor,
     // through the live input path (on the inventory page when `inventoryOpen`). By default the press lands on the
     // portrait and a scroll's text must close with the release; with `releaseOverPortrait` (Modern controls) the

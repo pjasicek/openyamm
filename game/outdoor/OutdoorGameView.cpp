@@ -3812,6 +3812,7 @@ void OutdoorGameView::shutdown()
     GameplayUiController::CharacterScreenState &characterScreen = screenRuntime.characterScreen();
     characterScreen.open = false;
     characterScreen.dollJewelryOverlayOpen = false;
+    characterScreen.dollImplantsOverlayOpen = false;
     characterScreen.adventurersInnRosterOverlayOpen = false;
     characterScreen.page = CharacterPage::Inventory;
     characterScreen.source = CharacterScreenSource::Party;

@@ -1905,3 +1905,17 @@ TEST_CASE("co-op net: ending a connection that is still being made is told, and 
     CHECK_FALSE(socket.pollEvent(event));
     CHECK((socket.peerAddress(second) == nobody));
 }
+
+// Hesper's LavaWalk party buff (DECISIONS H-59) travels in the co-op vitals as every party buff does.
+TEST_CASE("co-op net: the vitals carry the LavaWalk party buff")
+{
+    Party party;
+    party.applyPartyBuff(PartyBuffId::LavaWalk, 1800.0f, 0, 0, 0, SkillMastery::None, 0);
+    const Party::Snapshot snapshot = party.snapshot();
+    const CharacterVitals vitals = takeCharacterVitals(snapshot);
+    CHECK_EQ(vitals.partyBuffSeconds[size_t(PartyBuffId::LavaWalk)], doctest::Approx(1800.0f));
+    Party::Snapshot guest = withoutCharacterVitals(snapshot);
+    CHECK_NE(guest.partyBuffs[size_t(PartyBuffId::LavaWalk)].remainingSeconds, doctest::Approx(1800.0f));
+    REQUIRE(applyCharacterVitals(guest, vitals));
+    CHECK_EQ(guest.partyBuffs[size_t(PartyBuffId::LavaWalk)].remainingSeconds, doctest::Approx(1800.0f));
+}

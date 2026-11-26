@@ -53,7 +53,7 @@ SKILL_IDS = [
     'LightMagic', 'DarkMagic', 'DarkElfAbility', 'VampireAbility', 'DragonAbility', 'IdentifyItem', 'Merchant',
     'RepairItem', 'Bodybuilding', 'Meditation', 'Perception', 'Regeneration', 'DisarmTraps', 'Dodging', 'Unarmed',
     'IdentifyMonster', 'Armsmaster', 'Stealing', 'Alchemy', 'Learning', 'Throwing', 'EnergyGuns', 'EnergyBlades',
-    'ShieldTech', 'Hacking', 'Cover', 'ManaShield', 'Enlightenment', 'Retaliation', 'Cybernetics',
+    'ShieldTech', 'Hacking', 'Cover', 'ManaShield', 'Enlightenment', 'Retaliation', 'Implants',
 ]
 # SkillData.cpp DisplaySkillNames, with MAW's skillNames (Learning shows as Ascension).
 DISPLAY_NAMES = {

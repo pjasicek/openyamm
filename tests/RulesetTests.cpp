@@ -10,6 +10,7 @@
 #include "game/events/ScriptedEventProgram.h"
 #include "game/items/ItemEnchantTables.h"
 #include "game/maps/SaveGame.h"
+#include "game/maps/SaveSections.h"
 #include "game/rules/LootFilter.h"
 #include "game/tables/ClassSkillTable.h"
 #include "game/tables/SpellTable.h"
@@ -623,9 +624,106 @@ void eraseMonsterHealthPlayers(std::vector<uint8_t> &bytes)
 
 // Saves before version 192 end the party without its pouches: cuts the empty counts of the crafting, alchemy and quest
 // pouches, the waiting given items' (version 199) that follows them and the loot pouch's (202) after that. Called on the save as written, before anything else is cut.
-void erasePartyPouches(std::vector<uint8_t> &bytes, const OpenYAMM::Game::GameSaveData &save)
+void erasePartyPouches(std::vector<uint8_t> &bytes, const OpenYAMM::Game::GameSaveData &save, size_t cutBefore = 0)
 {
-    eraseEmptyCounts(bytes, partyPouchesOffset(save), OpenYAMM::Game::ItemPouchCount + 1);
+    eraseEmptyCounts(bytes, partyPouchesOffset(save) - cutBefore, OpenYAMM::Game::ItemPouchCount + 1);
+}
+
+// Saves before version 205 keep no implant kill count on their items (InventoryItem::implantKills): cuts its four bytes
+// from every item the save holds, found by a probe save whose items carry markers. The first cut, on the save as written.
+void eraseItemImplantKills(std::vector<uint8_t> &bytes, const OpenYAMM::Game::GameSaveData &save)
+{
+    OpenYAMM::Game::GameSaveData probe = save;
+    uint32_t marker = 0x7e570001u;
+    std::vector<uint32_t> markers;
+    const auto mark = [&marker, &markers](OpenYAMM::Game::InventoryItem &item)
+    {
+        item.implantKills = marker;
+        markers.push_back(marker++);
+    };
+    const auto markCharacter = [&mark](OpenYAMM::Game::Character &character)
+    {
+        for (OpenYAMM::Game::InventoryItem &item : character.implants)
+        {
+            mark(item);
+        }
+
+        for (OpenYAMM::Game::InventoryItem &item : character.inventory)
+        {
+            mark(item);
+        }
+    };
+    mark(probe.heldInventoryItem);
+
+    for (std::vector<OpenYAMM::Game::InventoryItem> &pouch : probe.party.pouches)
+    {
+        for (OpenYAMM::Game::InventoryItem &item : pouch)
+        {
+            mark(item);
+        }
+    }
+
+    for (OpenYAMM::Game::InventoryItem &item : probe.party.waitingGivenItems)
+    {
+        mark(item);
+    }
+
+    for (OpenYAMM::Game::InventoryItem &item : probe.party.campaign.questPouch)
+    {
+        mark(item);
+    }
+
+    for (OpenYAMM::Game::Character &member : probe.party.members)
+    {
+        markCharacter(member);
+    }
+
+    for (OpenYAMM::Game::Mm9PartyHireling &hireling : probe.party.mm9Hirelings)
+    {
+        markCharacter(hireling.character);
+    }
+
+    const std::filesystem::path path = makeTemporaryRoot("implant_kill_probe").replace_extension(".oysav");
+    std::string error;
+    REQUIRE_MESSAGE(OpenYAMM::Game::saveGameDataToPath(path, probe, error), error);
+    const std::vector<uint8_t> probeBytes = readBytes(path);
+    std::filesystem::remove(path);
+    REQUIRE_EQ(probeBytes.size(), bytes.size());
+    std::vector<size_t> offsets;
+
+    for (const uint32_t value : markers)
+    {
+        offsets.push_back(findValue(probeBytes, value));
+    }
+
+    std::sort(offsets.rbegin(), offsets.rend());
+
+    for (const size_t offset : offsets)
+    {
+        REQUIRE(std::all_of(bytes.begin() + static_cast<std::ptrdiff_t>(offset),
+            bytes.begin() + static_cast<std::ptrdiff_t>(offset + sizeof(uint32_t)),
+            [](uint8_t byte) { return byte == 0; }));
+        eraseBytes(bytes, offset, sizeof(uint32_t));
+    }
+}
+
+// An empty implant socket as saves before version 205 hold it in a character: an item without its kill count.
+size_t oldEmptyImplantItemSize()
+{
+    return OpenYAMM::Game::SaveSections::encode(OpenYAMM::Game::InventoryItem{}).size() - sizeof(uint32_t);
+}
+
+// Saves before version 204 have one party buff fewer: cuts minimalSave's last (Lava Walk, empty), after Fleet Foot's
+// time left, spell id, skill level, mastery, power and caster.
+void eraseLavaWalkBuff(std::vector<uint8_t> &bytes)
+{
+    constexpr size_t BuffSize = sizeof(float) + 2 * sizeof(uint32_t)
+        + sizeof(std::underlying_type_t<OpenYAMM::Game::SkillMastery>) + sizeof(int) + sizeof(uint32_t);
+    const size_t offset = findValue(bytes, FleetFootBuffMarker) + BuffSize;
+    REQUIRE(offset + BuffSize <= bytes.size());
+    REQUIRE(std::all_of(bytes.begin() + static_cast<std::ptrdiff_t>(offset),
+        bytes.begin() + static_cast<std::ptrdiff_t>(offset + BuffSize), [](uint8_t byte) { return byte == 0; }));
+    eraseBytes(bytes, offset, BuffSize);
 }
 
 // Saves before version 181 have no solo run: cuts the ruleset's last byte (the solo flag, before the name, the preview
@@ -635,7 +733,21 @@ void erasePartyPouches(std::vector<uint8_t> &bytes, const OpenYAMM::Game::GameSa
 // with an older version, while the playthrough is still in the summary.
 void eraseSoloRun(std::vector<uint8_t> &bytes, const OpenYAMM::Game::GameSaveData &save)
 {
-    erasePartyPouches(bytes, save);
+    eraseItemImplantKills(bytes, save);
+    // The characters' items, whose kill counts were cut, come before the pouches.
+    size_t characterItems = 0;
+
+    for (const OpenYAMM::Game::Character &member : save.party.members)
+    {
+        characterItems += member.implants.size() + member.inventory.size();
+    }
+
+    for (const OpenYAMM::Game::Mm9PartyHireling &hireling : save.party.mm9Hirelings)
+    {
+        characterItems += hireling.character.implants.size() + hireling.character.inventory.size();
+    }
+
+    erasePartyPouches(bytes, save, characterItems * sizeof(uint32_t));
     eraseMonsterHealthPlayers(bytes);
     constexpr size_t HeaderSize = 8 + sizeof(uint32_t);
     constexpr size_t PlaythroughSize = sizeof(uint64_t) + sizeof(double);
@@ -670,9 +782,15 @@ void eraseSoloRun(std::vector<uint8_t> &bytes, const OpenYAMM::Game::GameSaveDat
     {
         const size_t offset = static_cast<size_t>(it - bytes.begin()) + QuickSlotsSize;
         eraseBytes(bytes, offset, BarSize);
-        // After the bar: the spellbook page, the implants, the condition expiry times, the empty statistics id, the
-        // empty battle orders, their fallback byte, the empty upkeep list, then the empty talent ranks' count.
-        const size_t talentsOffset = offset + sizeof(int32_t) + sizeof(OpenYAMM::Game::Character::implants)
+        // After the bar: the spellbook page, then the implants: saves before version 204 have four item ids, not six
+        // items.
+        constexpr size_t OldImplantsSize = 4 * sizeof(uint32_t);
+        const size_t implantsOffset = offset + sizeof(int32_t);
+        eraseBytes(bytes, implantsOffset, OpenYAMM::Game::ImplantSocketCount * oldEmptyImplantItemSize());
+        bytes.insert(bytes.begin() + static_cast<std::ptrdiff_t>(implantsOffset), OldImplantsSize, uint8_t(0));
+        // Then the condition expiry times, the empty statistics id, the empty battle orders, their fallback byte, the
+        // empty upkeep list, then the empty talent ranks' count.
+        const size_t talentsOffset = offset + sizeof(int32_t) + OldImplantsSize
             + sizeof(OpenYAMM::Game::Character::conditionExpireGameMinutes) + sizeof(uint64_t) + sizeof(uint64_t)
             + sizeof(uint8_t) + sizeof(uint64_t);
         REQUIRE(talentsOffset + sizeof(uint64_t) <= bytes.size());
@@ -691,6 +809,34 @@ void eraseSoloRun(std::vector<uint8_t> &bytes, const OpenYAMM::Game::GameSaveDat
         ++found;
     }
     REQUIRE_EQ(found, characters);
+    // Last, so that the offsets worked out from the save above still hold.
+    eraseLavaWalkBuff(bytes);
+}
+
+// Saves from version 181 to 203: every character's four implant ids, not six items, after its action bar and spellbook
+// page, and one party buff fewer (eraseLavaWalkBuff). Called last, after the cuts whose offsets come from the save
+// (and after eraseItemImplantKills, the first).
+void eraseImplantSocketsAndLavaWalk(std::vector<uint8_t> &bytes, const OpenYAMM::Game::GameSaveData &save)
+{
+    constexpr size_t QuickSlotsSize = OpenYAMM::Game::QuickItemSlotCount * (sizeof(uint32_t) + sizeof(uint8_t));
+    constexpr size_t SlotSize = sizeof(uint8_t) + sizeof(uint32_t) + sizeof(uint32_t) + sizeof(uint8_t);
+    constexpr size_t BarSize = OpenYAMM::Game::ActionBarSlotCount * SlotSize;
+    constexpr size_t OldImplantsSize = 4 * sizeof(uint32_t);
+    std::vector<uint8_t> pattern(QuickSlotsSize + BarSize, uint8_t(0));
+    pattern.insert(pattern.end(), sizeof(int32_t), uint8_t(0xff));
+    const size_t characters = save.party.members.size() + save.party.mm9Hirelings.size();
+    size_t found = 0;
+    auto it = bytes.begin();
+    while (found < characters && (it = std::search(it, bytes.end(), pattern.begin(), pattern.end())) != bytes.end())
+    {
+        const size_t offset = static_cast<size_t>(it - bytes.begin()) + pattern.size();
+        eraseBytes(bytes, offset, OpenYAMM::Game::ImplantSocketCount * oldEmptyImplantItemSize());
+        bytes.insert(bytes.begin() + static_cast<std::ptrdiff_t>(offset), OldImplantsSize, uint8_t(0));
+        it = bytes.begin() + static_cast<std::ptrdiff_t>(offset + OldImplantsSize);
+        ++found;
+    }
+    REQUIRE_EQ(found, characters);
+    eraseLavaWalkBuff(bytes);
 }
 
 // Saves before version 162 have no map layout identities: cuts minimalSave's two, for a save stamped older.
@@ -838,6 +984,41 @@ void moveSummaryToLegacyPlaces(
     const size_t sceneKindEnd = HeaderSize + sizeof(OpenYAMM::Game::SceneKind);
     bytes.insert(bytes.begin() + static_cast<std::ptrdiff_t>(sceneKindEnd), map.begin(), map.end());
 }
+}
+
+TEST_CASE("an outdoor spawn keeps its original and combat headings when saved, including the older single-heading save")
+{
+    using namespace OpenYAMM::Game;
+    GameSaveData save = minimalSave();
+    auto &actors = save.outdoorWorld.mapActors;
+    actors.resize(2);
+    actors[0].spawnedAtRuntime = true;
+    actors[0].spawnYawRadians = 1.2345678f;
+    actors[0].yawRadians = -2.2222f;
+    actors[1].yawRadians = 2.75f;
+    const auto path = makeTemporaryRoot("outdoor_spawn_heading").replace_extension(".oysav");
+    std::string error;
+    REQUIRE_MESSAGE(saveGameDataToPath(path, save, error), error);
+    auto restored = loadGameDataFromPath(path, error);
+    REQUIRE_MESSAGE(restored.has_value(), error);
+    REQUIRE_EQ(restored->outdoorWorld.mapActors.size(), 2);
+    CHECK(restored->outdoorWorld.mapActors[0].spawnYawRadians == actors[0].spawnYawRadians);
+    CHECK(restored->outdoorWorld.mapActors[0].yawRadians == actors[0].yawRadians);
+    CHECK(restored->outdoorWorld.mapActors[1].yawRadians == actors[1].yawRadians);
+
+    auto bytes = readBytes(path);
+    eraseItemImplantKills(bytes, save);
+    eraseBytes(bytes, findValue(bytes, actors[0].spawnYawRadians), sizeof(float));
+    eraseImplantSocketsAndLavaWalk(bytes, save);
+    const uint32_t oldVersion = 202;
+    std::memcpy(bytes.data() + 8, &oldVersion, sizeof(oldVersion));
+    writeBytes(path, bytes);
+    restored = loadGameDataFromPath(path, error);
+    REQUIRE_MESSAGE(restored.has_value(), error);
+    REQUIRE_EQ(restored->outdoorWorld.mapActors.size(), 2);
+    CHECK(restored->outdoorWorld.mapActors[0].spawnYawRadians == actors[0].yawRadians);
+    CHECK(restored->outdoorWorld.mapActors[1].yawRadians == actors[1].yawRadians);
+    std::filesystem::remove(path);
 }
 
 TEST_CASE("saves written before rulesets load as the Standard ruleset")
@@ -1888,10 +2069,14 @@ TEST_CASE("saves of version 192 load their two pouches, with an empty quest pouc
     save.party.pouches[size_t(ItemPouch::Alchemy)] = {potion, potion};
     REQUIRE(OpenYAMM::Game::saveGameDataToPath(path, save, error));
     std::vector<uint8_t> bytes = readBytes(path);
+    // The three pouch items as written, with their kill counts (205), which are cut first.
+    const size_t pouchItemsSize = bytes.size() - emptySize;
+    eraseItemImplantKills(bytes, save);
     // The quest pouch's empty count follows the two pouches' counts and their three items, the waiting given items'
     // (version 199) follows it and the loot pouch's (202) ends the party.
-    eraseEmptyCounts(bytes, pouchesOffset + 2 * sizeof(uint64_t) + (bytes.size() - emptySize), 3);
+    eraseEmptyCounts(bytes, pouchesOffset + 2 * sizeof(uint64_t) + pouchItemsSize - 3 * sizeof(uint32_t), 3);
     eraseMonsterHealthPlayers(bytes);
+    eraseImplantSocketsAndLavaWalk(bytes, save);
     const uint32_t previousVersion = 192;
     std::memcpy(bytes.data() + 8, &previousVersion, sizeof(previousVersion));
     writeBytes(path, bytes);
@@ -1929,8 +2114,11 @@ TEST_CASE("saves keep the items an event gave that wait for room")
     const std::filesystem::path path = makeTemporaryRoot("waiting_given").replace_extension(".oysav");
     REQUIRE(OpenYAMM::Game::saveGameDataToPath(path, older, error));
     std::vector<uint8_t> bytes = readBytes(path);
+    // The items' kill counts (205) first; none lies before the pouches in this save.
+    eraseItemImplantKills(bytes, older);
     // The waiting given items' empty count after the crafting, alchemy and quest pouches', and the loot pouch's (202).
     eraseEmptyCounts(bytes, pouchesOffset + 3 * sizeof(uint64_t), 2);
+    eraseImplantSocketsAndLavaWalk(bytes, older);
     const uint32_t previousVersion = 198;
     std::memcpy(bytes.data() + 8, &previousVersion, sizeof(previousVersion));
     writeBytes(path, bytes);

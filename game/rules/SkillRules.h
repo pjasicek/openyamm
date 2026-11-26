@@ -17,6 +17,8 @@ class IGameplayWorldRuntime;
 class ItemTable;
 class Party;
 struct Character;
+struct ImplantComponent;
+struct ImplantShare;
 struct IdentifyMonsterReveal;
 
 // A skill's right-click popup: its description and its Novice to Grandmaster lines (an empty line is not shown).
@@ -119,6 +121,14 @@ public:
     virtual std::vector<std::pair<std::string, std::array<uint32_t, 3>>> teacherlessMasteryLadders() const;
     // The base skill level a teacher wants for a mastery. Standard: 4, 7 and 10.
     virtual uint32_t masteryRequiredLevel(const std::string &canonicalSkill, SkillMastery mastery) const;
+    // The level an implant's per-level shares count (DECISIONS H-91): the Implants level with its item bonuses, at
+    // most ImplantEffectLevelCap (50), in every ruleset; 0 without the skill.
+    int implantEffectLevel(const Character &character) const;
+    // What an implant's stage II threshold is multiplied by (DECISIONS H-83, H-91). Standard: 1; MAW: its balance
+    // file's implants.evolve_factor (3: 250 -> 750).
+    virtual float implantEvolveFactor() const;
+    // The values of an implant part these rules use (H-91): Standard's; MAW's the table's maw_ columns.
+    virtual const ImplantShare &implantShare(const ImplantComponent &component) const;
     // What a teacher asks for a mastery. Standard: the topic's or the default price, `standardCost`.
     virtual int masteryTeacherCost(
         const Character &character,

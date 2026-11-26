@@ -1,0 +1,26 @@
+# Hesper's Implants (devdocs/hesper/IMPLANTS_SPEC.md) exist only while a mounted world provides the `implants` table.
+# On the plain assets_dev root (no Hesper, as v3.4 ships) the character screen offers no implants button or overlay,
+# and neither the console nor a script can teach the skill.
+id: implants_hidden_without_hesper
+title: Without Hesper the Implants skill, button and overlay do not exist
+world: mm7
+mode: faithful
+tags: [implants, hesper, regression]
+steps:
+  - new_game_flow:
+      start_map: 7out01.odm
+  - assert: {implants_shown: {member_index: 0, value: false}}
+  - console: {line: "skill set Implants 4 E", expect_refusal: "Unknown skill"}
+  - console: {line: "skill set cybernetics 4 E", expect_refusal: "Unknown skill"}
+  - lua_event:
+      source: |
+        assert(not evt.SetPlayerSkill(0, "Implants", 4, 2), "teaching Implants is refused")
+        assert(evt.GetPlayerSkill(0, "Implants") == 0, "nobody has Implants")
+        assert(evt.MasteryRequiredLevel == nil, "mastery levels are not asked of scripts (no Implants masteries)")
+        assert(not evt.CanPlayerLearnSkill(0, "Implants", 1), "no class can learn Implants")
+        evt.SetGlobalVar("implants_gate_checked", 1)
+  - assert: {state_dump_named_global_var: {name: implants_gate_checked, value: 1}}
+  - assert: {implants_shown: {member_index: 0, value: false}}
+  - save_game: {name: implants_gate}
+  - load_game: {name: implants_gate}
+  - assert: {implants_shown: {member_index: 0, value: false}}

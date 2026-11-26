@@ -299,6 +299,7 @@ void OutdoorPartyRuntime::syncSpellMovementStatesFromPartyBuffs()
     m_movementDriver.setFeatherFallActive(m_party.hasPartyBuff(PartyBuffId::FeatherFall));
     m_movementDriver.setWaterWalkActive(m_party.hasPartyBuff(PartyBuffId::WaterWalk));
     m_movementDriver.setLevitateActive(m_party.hasPartyBuff(PartyBuffId::Levitate));
+    m_movementDriver.setLavaWalkActive(m_party.hasPartyBuff(PartyBuffId::LavaWalk));
     m_movementDriver.setFlyingAvailable(
         m_party.hasPartyBuff(PartyBuffId::Fly) || m_debugFlyingOverride || m_underwater);
 }

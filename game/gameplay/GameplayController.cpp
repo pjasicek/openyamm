@@ -122,6 +122,8 @@ bool GameplayController::advanceTurnBasedGameMinutes(float minutes)
     m_pRuntime->advanceTurnBasedGameMinutes(minutes);
     party.advanceTimedStates(minutes * 60.0f);
     party.updateRegeneration(equivalentRealSeconds);
+    // Hesper's Berserker's drain and Siphoner's payments: one party turn counts as one second (DECISIONS H-91).
+    party.updateImplantTimers(1.0f);
 
     IGameplayWorldRuntime *pWorldRuntime = m_pSession != nullptr ? m_pSession->activeWorldRuntime() : nullptr;
 

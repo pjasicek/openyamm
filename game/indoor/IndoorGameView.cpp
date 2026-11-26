@@ -287,7 +287,8 @@ CharacterSkillUiData buildCharacterSkillUiData(const Character *pCharacter)
 
     for (const auto &[canonicalName, skill] : pCharacter->skills)
     {
-        if (shownSkillNames.contains(canonicalName))
+        // A skill not in this game's content (Implants without Hesper) is kept, unseen.
+        if (shownSkillNames.contains(canonicalName) || !skillAvailable(canonicalName))
         {
             continue;
         }

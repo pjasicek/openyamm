@@ -16240,6 +16240,15 @@ void IndoorWorldRuntime::notifyMonsterKilledEventHooks(size_t actorIndex, int16_
     }
 
     recordMonsterDeathStatistics(party(), m_pMonsterTable, monsterId, killedByParty);
+
+    // Hesper's evolving implants (H-83): a party-credited kill counts 1 (Hesper's script adds a boss's 9).
+    if (killedByParty && party() != nullptr)
+    {
+        for (std::string &line : party()->creditImplantKills(1))
+        {
+            pEventRuntimeState->statusMessages.push_back(std::move(line));
+        }
+    }
     markRuntimeBountyHuntMonsterKilled(*this, monsterId, m_pMonsterTable,
         pMapDeltaData != nullptr && actorIndex < pMapDeltaData->actors.size()
             ? pMapDeltaData->actors[actorIndex].rulesetFacts
@@ -17740,6 +17749,9 @@ bool IndoorWorldRuntime::castPartySpellProjectile(const GameplayPartySpellProjec
     spawnRequest.sourceKind = GameplayProjectileService::ProjectileState::SourceKind::Party;
     spawnRequest.sourceId = request.casterMemberIndex + 1;
     spawnRequest.sourcePartyMemberIndex = request.casterMemberIndex;
+    // Hesper's Kinetic Coil: the wearer's spells fly faster.
+    spawnRequest.speedMultiplier =
+        implantProjectileSpeedMultiplier(m_pParty != nullptr ? m_pParty->member(request.casterMemberIndex) : nullptr);
     spawnRequest.definition = buildIndoorGameplayProjectileDefinition(definition, objectSpriteFrameIndex);
     if (request.effectSoundIdOverride > 0)
     {
@@ -22211,6 +22223,9 @@ bool IndoorWorldRuntime::spawnPartyAttackProjectile(const GameplayPartyAttackPro
     spawnRequest.sourceKind = GameplayProjectileService::ProjectileState::SourceKind::Party;
     spawnRequest.sourceId = static_cast<uint32_t>(request.sourcePartyMemberIndex + 1);
     spawnRequest.sourcePartyMemberIndex = static_cast<uint32_t>(request.sourcePartyMemberIndex);
+    // Hesper's Kinetic Coil: the wearer's missiles fly faster.
+    spawnRequest.speedMultiplier = implantProjectileSpeedMultiplier(
+        m_pParty != nullptr ? m_pParty->member(request.sourcePartyMemberIndex) : nullptr);
     spawnRequest.definition = buildIndoorGameplayProjectileDefinition(definition, objectSpriteFrameIndex);
     spawnRequest.damage = request.damage;
     spawnRequest.attackBonus = request.attackBonus;

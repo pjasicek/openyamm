@@ -2137,6 +2137,14 @@ void GameSession::updateGameplay(
                 pParty->setSpellMovementMultiplier(pFleetFoot != nullptr
                     ? fleetFootSpeedMultiplier(pFleetFoot->power, partyHasGreenAlert(*pWorldRuntime))
                     : 1.0f);
+
+                // Hesper's Berserker's Seed works while a hostile is in melee reach: tested a few times a second, and
+                // only while a member wears one.
+                if (pParty->implantMeleeReachCheckDue(deltaSeconds))
+                {
+                    pParty->setHostileInMeleeReach(partyHasHostileInMeleeReach(*pWorldRuntime));
+                }
+
                 updateLentAuras(deltaSeconds);
 
                 // A zero step applies the auras at once, so turn-based frames leave them to the turn.

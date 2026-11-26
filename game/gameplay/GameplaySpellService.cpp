@@ -1069,6 +1069,7 @@ bool GameplaySpellService::tryOpenSelectionUi(
         runtime.closeSpellbookOverlay();
         runtime.characterScreen().open = true;
         runtime.characterScreen().dollJewelryOverlayOpen = false;
+        runtime.characterScreen().dollImplantsOverlayOpen = false;
         runtime.characterScreen().adventurersInnRosterOverlayOpen = false;
         runtime.characterScreen().source = GameplayUiController::CharacterScreenSource::Party;
         runtime.characterScreen().sourceIndex = request.casterMemberIndex;

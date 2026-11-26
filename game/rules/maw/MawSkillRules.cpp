@@ -1,4 +1,5 @@
 #include "game/rules/maw/MawSkillRules.h"
+#include "game/tables/ItemTable.h"
 #include "engine/Localization.h"
 
 #include "game/gameplay/GameMechanics.h"
@@ -366,7 +367,8 @@ bool MawSkillRules::resetSkills(Character &character) const
     {
         const std::string canonical = canonicalSkillName(skill.name);
 
-        if (skill.level == 0 || isTechnologySkill(canonical))
+        // Taught-only skills (technology, Implants) keep their levels through a respec and refund nothing.
+        if (skill.level == 0 || isTaughtOnlySkill(canonical))
         {
             continue;
         }
@@ -1642,6 +1644,16 @@ uint32_t MawSkillRules::masteryRequiredLevel(const std::string &canonicalSkill, 
     }
 
     return mawMasteryRequiredLevel(skillMode(), mastery);
+}
+
+float MawSkillRules::implantEvolveFactor() const
+{
+    return float(m_rules.mapLevels().implantScale().evolveFactor);
+}
+
+const ImplantShare &MawSkillRules::implantShare(const ImplantComponent &component) const
+{
+    return component.maw;
 }
 
 SkillMastery MawSkillRules::masteryCap(

@@ -14498,6 +14498,13 @@ bool OutdoorWorldRuntime::spawnSpellProjectile(
     spawnRequest.sourceKind = projectileSourceKindFromSpellSource(request.sourceKind);
     spawnRequest.sourceId = request.sourceId;
     spawnRequest.sourcePartyMemberIndex = request.sourcePartyMemberIndex;
+
+    // Hesper's Kinetic Coil: the wearer's spells fly faster.
+    if (spawnRequest.sourceKind == ProjectileState::SourceKind::Party && m_pParty != nullptr)
+    {
+        spawnRequest.speedMultiplier =
+            implantProjectileSpeedMultiplier(m_pParty->member(request.sourcePartyMemberIndex));
+    }
     spawnRequest.sourceMonsterId = request.sourceMonsterId;
     spawnRequest.fromSummonedMonster = request.fromSummonedMonster;
     spawnRequest.ability = request.ability;
@@ -19221,6 +19228,18 @@ bool OutdoorWorldRuntime::setMapActorDead(size_t actorIndex, bool isDead, bool e
     if (!wasDead && isDead && m_pMonsterTable != nullptr)
     {
         recordMonsterDeathStatistics(party(), m_pMonsterTable, actor.monsterId, actor.killedByParty);
+
+        // Hesper's evolving implants (H-83): a party-credited kill counts 1 (Hesper's script adds a boss's 9).
+        if (actor.killedByParty && party() != nullptr)
+        {
+            for (std::string &line : party()->creditImplantKills(1))
+            {
+                if (m_eventRuntimeState)
+                {
+                    m_eventRuntimeState->statusMessages.push_back(std::move(line));
+                }
+            }
+        }
         markRuntimeBountyHuntMonsterKilled(
             *this, actor.monsterId, m_pMonsterTable, actor.rulesetFacts, actor.killedByParty);
         actor.killedByParty = false;
@@ -24654,6 +24673,10 @@ bool OutdoorWorldRuntime::spawnPartyProjectile(const PartyProjectileRequest &req
     spawnRequest.sourceKind = ProjectileState::SourceKind::Party;
     spawnRequest.sourceId = request.sourcePartyMemberIndex + 1;
     spawnRequest.sourcePartyMemberIndex = request.sourcePartyMemberIndex;
+
+    // Hesper's Kinetic Coil: the wearer's missiles and spells fly faster.
+    spawnRequest.speedMultiplier = implantProjectileSpeedMultiplier(
+        m_pParty != nullptr ? m_pParty->member(request.sourcePartyMemberIndex) : nullptr);
     spawnRequest.definition = buildGameplayProjectileDefinition(definition, objectSpriteFrameIndex);
 
     spawnRequest.damage = request.damage;

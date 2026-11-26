@@ -377,7 +377,7 @@ TEST_CASE("Obsidian buffs sort all active effects by expiry with stable ties")
     party.restoreSnapshot(snapshot);
     const auto buffs = sortedGameplayBuffs(party);
     REQUIRE(buffs.size() == PartyBuffCount);
-    CHECK(buffs.front() == PartyBuffId::FleetFoot);
+    CHECK(buffs.front() == PartyBuffId::LavaWalk);
     CHECK(buffs.back() == PartyBuffId::TorchLight);
     snapshot.partyBuffs[0].remainingSeconds = 1;
     snapshot.partyBuffs[1].remainingSeconds = 1;
@@ -399,7 +399,7 @@ TEST_CASE("Obsidian ordinary party buffs keep their panels or movement indicator
         snapshot.partyBuffs[i].remainingSeconds = 1;
         const GameplayBuffHudDefinition &definition = GameplayBuffHudDefinitions[i];
         if (i == size_t(PartyBuffId::Fly) || i == size_t(PartyBuffId::WaterWalk) || i == size_t(PartyBuffId::Levitate)
-            || i == size_t(PartyBuffId::FleetFoot))
+            || i == size_t(PartyBuffId::FleetFoot) || i == size_t(PartyBuffId::LavaWalk))
         {
             CHECK(definition.presentation == GameplayBuffPresentation::Movement);
             CHECK(gameplayBuffPanelLayoutId(definition.presentation) == nullptr);

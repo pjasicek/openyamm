@@ -2559,7 +2559,9 @@ CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(
             + resolveArmorSkillBonus(character, equippedItems)
             + dragonArmorBonus
             + character.permanentBonuses.armorClass;
-    const int armorActual = std::max(0, armorBase + character.magicalBonuses.armorClass);
+    // Hesper's Chitin Graft: per cent of the total, last (DECISIONS H-91).
+    const int armorTotal = std::max(0, armorBase + character.magicalBonuses.armorClass);
+    const int armorActual = armorTotal + implantShareOf(armorTotal, character.implantArmorClassPercent);
     summary.armorClass = makeSheetValue(std::max(0, armorBase), armorActual);
 
     const int levelBonus = character.levelModifier + character.equippedLevelBonus;
@@ -2605,9 +2607,11 @@ CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(
         + equippedItemBonuses.resistances.body
         + skillResistances.body;
 
-    const int fireActual = fireBase
+    // Hesper's Ember Lattice: per cent of the total, last; nothing of 0 or less (DECISIONS H-91).
+    const int fireTotal = fireBase
         + character.magicalBonuses.resistances.fire
         - equippedItemBonuses.resistances.fire;
+    const int fireActual = fireTotal + implantShareOf(fireTotal, character.implantFireResistancePercent);
     const int airActual = airBase
         + character.magicalBonuses.resistances.air
         - equippedItemBonuses.resistances.air;
@@ -2829,6 +2833,15 @@ CharacterAttackProfile GameMechanics::buildCharacterAttackProfile(
     {
         scale(profile.rangedMinDamage, character.rangedDamagePercent);
         scale(profile.rangedMaxDamage, character.rangedDamagePercent);
+    }
+    // Hesper's Berserker's Seed: all the wearer's damage while a hostile is in melee reach (DECISIONS H-91).
+    if (character.implantBerserkActive)
+    {
+        const int berserk = int(std::lround(character.implantBerserkDamagePercent));
+        scale(profile.meleeMinDamage, berserk);
+        scale(profile.meleeMaxDamage, berserk);
+        scale(profile.rangedMinDamage, berserk);
+        scale(profile.rangedMaxDamage, berserk);
     }
 
     // A world's own weapon enchantments (Hesper's): more to shields (with the rest at most +100 %) and to bodies

@@ -805,6 +805,12 @@ void IndoorPartyRuntime::update(
 
 bool IndoorPartyRuntime::burningHere(const IndoorBodyDimensions &body) const
 {
+    // Hesper's Lava Walk: neither a lava floor nor a lava volume burns the party.
+    if (m_party.hasPartyBuff(PartyBuffId::LavaWalk))
+    {
+        return false;
+    }
+
     // A lava volume (scene water_volumes, liquid lava: MM9's Kato liquid, Drangheim Prison's Lava0) burns whoever is
     // in it, as a lava floor does; Levitate does not lift the party out of it.
     if (waterActive())

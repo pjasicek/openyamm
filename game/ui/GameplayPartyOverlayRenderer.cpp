@@ -2427,7 +2427,8 @@ CharacterSkillUiData buildCharacterSkillUiData(
     {
         const std::string &canonicalName = ignoredSkillName;
 
-        if (shownSkillNames.contains(canonicalName))
+        // A skill not in this game's content (Implants without Hesper) is kept, unseen.
+        if (shownSkillNames.contains(canonicalName) || !skillAvailable(canonicalName))
         {
             continue;
         }
@@ -6458,11 +6459,18 @@ void GameplayPartyOverlayRenderer::renderItemInspectOverlay(GameplayScreenRuntim
         && pItemState != nullptr
         && !pItemState->identified
         && ItemRuntime::requiresIdentification(*pItemDefinition);
-    const std::string itemName = ItemRuntime::displayName(
+    const ImplantDefinition *pInspectedImplant = context.itemTable()->implant(pItemDefinition->itemId);
+    // An implant's name carries its stage (DECISIONS H-83).
+    const std::string baseItemName = ItemRuntime::displayName(
         resolvedItemState,
         *pItemDefinition,
         context.standardItemEnchantTable(),
         context.specialItemEnchantTable());
+    const std::string itemName = pInspectedImplant != nullptr
+        ? Engine::tr("{item} {stage}", {{"item", baseItemName},
+              {"stage", implantStageName(implantStage(*pInspectedImplant, resolvedItemState.implantKills,
+                  boundGameRules().skills.implantEvolveFactor()))}})
+        : baseItemName;
     const std::string itemType =
         showBrokenOnly || showUnidentifiedOnly
             ? std::string {}
@@ -6550,6 +6558,76 @@ void GameplayPartyOverlayRenderer::renderItemInspectOverlay(GameplayScreenRuntim
             context.specialItemEnchantTable(),
             pViewer,
             GameplayHudOverlaySupport::showsCraftPreview(context));
+
+        // Hesper's implants (DECISIONS H-91): the effect at its stage and the viewer's Implants, how it grows, stage
+        // II's (dimmed until reached), the kills to it and the viewer's own Implants.
+        if (const ImplantDefinition *pImplant = context.itemTable()->implant(pItemDefinition->itemId))
+        {
+            const CharacterSkill *pSkill = pViewer != nullptr ? pViewer->findSkill("Implants") : nullptr;
+            const int effectLevel = pViewer != nullptr ? boundGameRules().skills.implantEffectLevel(*pViewer) : 0;
+            const float evolveFactor = boundGameRules().skills.implantEvolveFactor();
+            const uint32_t stage = implantStage(*pImplant, resolvedItemState.implantKills, evolveFactor);
+            const size_t stageIndex = stage >= 2 ? 1 : 0;
+
+            // Each part on one line: what it does now and how it grows (a cost grows downwards). Kept short: an implant
+            // of three parts must still leave room for its description.
+            for (const ImplantComponent &component : pImplant->components)
+            {
+                const ImplantShare &share = boundGameRules().skills.implantShare(component);
+                const bool cost = share.basePercent[stageIndex] < 0.0f || share.perLevelPercent[stageIndex] < 0.0f;
+                const std::string effect = implantEffectText(
+                    component.effect, implantEffectPercent(share, stage, effectLevel), component.exceptStats);
+                const std::string base = implantRateText(std::fabs(share.basePercent[stageIndex]));
+                const std::string perLevel = implantRateText(std::fabs(share.perLevelPercent[stageIndex]));
+                ItemInspectLine line;
+                line.text = cost
+                    ? Engine::tr("{effect} (-{base} % - {perLevel} % per level)",
+                          {{"effect", effect}, {"base", base}, {"perLevel", perLevel}})
+                    : Engine::tr("{effect} ({base} % + {perLevel} % per level)",
+                          {{"effect", effect}, {"base", base}, {"perLevel", perLevel}});
+                line.color = 0xe4c793;
+                rulesetLines.push_back(line);
+            }
+
+            ItemInspectLine progress;
+            progress.text = stage >= ImplantStageCount
+                ? Engine::tr("Fully evolved")
+                : Engine::tr("Kills: {kills} / {needed} to {stage}",
+                    {{"kills", int64_t(resolvedItemState.implantKills)},
+                        {"needed", int64_t(implantStageKills(*pImplant, stage + 1, evolveFactor))},
+                        {"stage", implantStageName(stage + 1)}});
+            progress.color = stage >= ImplantStageCount ? 0xe4c793 : 0xe5dcc7;
+            rulesetLines.push_back(progress);
+
+            // Stage II's parts, dimmed, on one line.
+            if (stage < ImplantStageCount)
+            {
+                std::string effects;
+
+                for (const ImplantComponent &component : pImplant->components)
+                {
+                    const ImplantShare &share = boundGameRules().skills.implantShare(component);
+                    effects += (effects.empty() ? "" : "; ")
+                        + implantEffectText(component.effect, implantEffectPercent(share, 2, effectLevel),
+                            component.exceptStats);
+                }
+
+                ItemInspectLine next;
+                next.text = Engine::tr("Stage II: {effect}", {{"effect", effects}});
+                next.color = 0x8a8478;
+                rulesetLines.push_back(next);
+            }
+
+            if (pSkill != nullptr)
+            {
+                ItemInspectLine own;
+                own.text = Engine::tr("Your Implants: {level} (counts up to {cap})",
+                    {{"level", int64_t(pSkill->level)}, {"cap", int64_t(ImplantEffectLevelCap)}});
+                own.color = 0xe5dcc7;
+                rulesetLines.push_back(own);
+            }
+        }
+
         ownRulesetLineCount = rulesetLines.size();
 
         if (pViewer != nullptr)
@@ -8939,6 +9017,160 @@ void GameplayPartyOverlayRenderer::renderCharacterDetailOverlay(GameplayScreenRu
     }
 }
 
+// Hesper's implants overlay (devdocs/hesper/IMPLANTS_SPEC.md 3.2), drawn as the jewelry one: the reading surface, the
+// body schematic, then each socket as a round brass rim: a closed socket sealed by an iris, the skill that opens it
+// named below; an open one plain, with a fitted implant's icon in its opening (no colour circles: the user, DECISIONS
+// H-91; the stage shows in the name and the inspect popup).
+// The rim's opening is the socket's layout rect (the hit area); the rim is drawn larger, centred on it. A fitted
+// implant is inspectable like any item.
+void renderImplantsOverlay(GameplayScreenRuntime &context, const GameplayResolvedHudLayoutElement &panel,
+    const Character &character, int width, int height)
+{
+    GameplayUiSkin::renderPanel(context, panel, false, 0.45f, 134);
+    GameplayUiRuntime &runtime = context.gameplayUiRuntime();
+
+    if (const std::optional<GameplayResolvedHudLayoutElement> body =
+            context.resolveHudLayoutElement("CharacterDollImplantsBody", width, height, 0, 0))
+    {
+        const UiLayoutManager::LayoutElement *pBodyLayout = context.findHudLayoutElement("CharacterDollImplantsBody");
+        const std::optional<GameplayHudTextureHandle> texture = pBodyLayout != nullptr
+            ? runtime.ensureHudTextureLoaded(pBodyLayout->primaryAsset)
+            : std::nullopt;
+
+        if (texture)
+        {
+            context.submitHudTexturedQuad(*texture, body->x, body->y, body->width, body->height);
+        }
+    }
+
+    const std::optional<GameplayHudTextureHandle> rims[] = {
+        runtime.ensureHudTextureLoaded("obsidian_implant_socket_locked"),
+        runtime.ensureHudTextureLoaded("obsidian_implant_socket_open")};
+    constexpr float RimScale = 1.5f;
+    constexpr float IconScale = 0.85f;
+
+    struct SocketView
+    {
+        GameplayResolvedHudLayoutElement rect;
+        bool open = false;
+        const ItemDefinition *pImplant = nullptr;
+        std::optional<GameplayHudTextureHandle> icon;
+        const InventoryItem *pFitted = nullptr;
+    };
+
+    std::array<std::optional<SocketView>, ImplantSocketCount> sockets;
+
+    for (size_t socket = 0; socket < ImplantSocketCount; ++socket)
+    {
+        const std::optional<GameplayResolvedHudLayoutElement> slot = context.resolveHudLayoutElement(
+            "CharacterDollImplant" + std::string(ImplantSocketDisplayNames[socket]) + "Slot", width, height, 0, 0);
+
+        if (!slot)
+        {
+            continue;
+        }
+
+        SocketView view;
+        view.rect = *slot;
+        view.open = character.implantSocketOpen(ImplantSocket(socket));
+        const uint32_t itemId = character.implants[socket].objectDescriptionId;
+        view.pImplant = itemId != 0 && context.itemTable() != nullptr ? context.itemTable()->get(itemId) : nullptr;
+        view.icon = view.pImplant != nullptr ? runtime.ensureItemIconTextureLoaded(view.pImplant->iconName)
+                                             : std::nullopt;
+        view.pFitted = &character.implants[socket];
+        sockets[socket] = view;
+    }
+
+    const auto centred = [](const GameplayResolvedHudLayoutElement &rect, float scale, bgfx::TextureHandle texture)
+    {
+        GameplayHudBatchQuad quad;
+        quad.textureHandle = texture;
+        quad.width = rect.width * scale;
+        quad.height = rect.height * scale;
+        quad.x = rect.x + (rect.width - quad.width) * 0.5f;
+        quad.y = rect.y + (rect.height - quad.height) * 0.5f;
+        return quad;
+    };
+
+    // Passes, so each texture's quads draw together: the rims, the implants, the labels.
+    std::vector<GameplayHudBatchQuad> quads;
+
+    for (const std::optional<SocketView> &view : sockets)
+    {
+        const std::optional<GameplayHudTextureHandle> &rim = view ? rims[view->open ? 1 : 0] : rims[0];
+
+        if (view && rim)
+        {
+            quads.push_back(centred(view->rect, RimScale, rim->textureHandle));
+        }
+    }
+
+    runtime.submitHudQuadBatch(quads);
+
+    for (const std::optional<SocketView> &view : sockets)
+    {
+        if (!view || !view->icon || view->icon->width <= 0 || view->icon->height <= 0)
+        {
+            continue;
+        }
+
+        const GameplayResolvedHudLayoutElement &slot = view->rect;
+        const float fit = std::min(slot.width * IconScale / float(view->icon->width),
+            slot.height * IconScale / float(view->icon->height));
+        const float iconWidth = float(view->icon->width) * fit;
+        const float iconHeight = float(view->icon->height) * fit;
+        const float iconX = slot.x + (slot.width - iconWidth) * 0.5f;
+        const float iconY = slot.y + (slot.height - iconHeight) * 0.5f;
+        context.submitHudTexturedQuad(*view->icon, iconX, iconY, iconWidth, iconHeight);
+        // Right-click inspects it like any item.
+        GameplayRenderedInspectableHudItem inspectable = {};
+        inspectable.objectDescriptionId = view->pImplant->itemId;
+        // The fitted item itself, so the inspect popup reads its kills and stage.
+        inspectable.hasItemState = true;
+        inspectable.itemState = *view->pFitted;
+        inspectable.textureName = view->icon->textureName;
+        inspectable.textureUsesItemIconTransparency = true;
+        inspectable.x = iconX;
+        inspectable.y = iconY;
+        inspectable.width = iconWidth;
+        inspectable.height = iconHeight;
+        context.addRenderedInspectableHudItem(inspectable);
+    }
+
+    for (size_t socket = 0; socket < ImplantSocketCount; ++socket)
+    {
+        const std::optional<SocketView> &view = sockets[socket];
+
+        if (!view || view->open || view->icon)
+        {
+            continue;
+        }
+
+        // A sealed socket (an implant fitted, the skill not known) names the skill that opens it, in small ivory just
+        // below its rim (H-87, H-91): a 72-unit line centred on the socket, moved inside the panel's frame at the
+        // edges; a longer translation shrinks to fit, never clipped.
+        const GameplayResolvedHudLayoutElement &slot = view->rect;
+        constexpr float LabelWidth = 72.0f;
+        constexpr float LabelHeight = 9.0f;
+        constexpr float FrameInset = 7.0f;
+        UiLayoutManager::LayoutElement label;
+        label.fontName = "Arrus";
+        label.textColorAbgr = 0xffc8dde6u;
+        label.textAlignX = UiLayoutManager::TextAlignX::Center;
+        label.textAlignY = UiLayoutManager::TextAlignY::Middle;
+        const std::string labelText = Engine::tr("Implants");
+        const float naturalWidth = context.measureHudTextWidth(label.fontName, labelText);
+        GameplayResolvedHudLayoutElement labelRect = slot;
+        labelRect.width = LabelWidth * slot.scale;
+        labelRect.height = LabelHeight * slot.scale;
+        labelRect.x = std::clamp(slot.x + (slot.width - labelRect.width) * 0.5f, panel.x + FrameInset * slot.scale,
+            panel.x + panel.width - FrameInset * slot.scale - labelRect.width);
+        labelRect.y = slot.y + slot.height * (RimScale + 1.0f) * 0.5f - 2.0f * slot.scale;
+        label.textScale = std::clamp(LabelWidth / std::max(1.0f, naturalWidth), 0.3f, 0.6f);
+        context.renderLayoutLabel(label, labelRect, labelText, false);
+    }
+}
+
 struct CharacterOverlayFrameData
 {
     const Character *pCharacter = nullptr;
@@ -9393,9 +9625,13 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
     const std::string paperdollTextureName =
         "character_paperdoll_composite_" + std::to_string(characterSourceIndex);
     std::string paperdollContentSignature;
+    // Hesper's implants overlay covers the paperdoll as the jewelry one does (only for a character it shows for).
+    const bool implantsOverlayShown =
+        characterScreen.dollImplantsOverlayOpen && pCharacter != nullptr && pCharacter->showsImplantSockets();
+    const bool dollOverlayOpen = characterScreen.dollJewelryOverlayOpen || implantsOverlayShown;
     const bool useNativePaperdollComposite =
         !isAdventurersInnRoster
-        && !characterScreen.dollJewelryOverlayOpen
+        && !dollOverlayOpen
         && pCharacter != nullptr
         && pCharacterDollEntry != nullptr
         && pCharacterDollType != nullptr;
@@ -10279,50 +10515,6 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                     context.submitHudTexturedQuad(*slotFill, slot->x, slot->y, slot->width, slot->height);
                 }
             }
-            // The Augment row: Cybernetics opens the sockets left to right; the implants' icons fit their sockets.
-            if (pCharacter != nullptr && pCharacter->showsImplantSockets() && slotBorder && slotFill)
-            {
-                const std::optional<GameplayHudTextureHandle> closedFill =
-                    context.gameplayUiRuntime().ensureSolidHudTextureLoaded("__obsidian_implant_closed__", 0xff0a0d0bu);
-                for (size_t socket = 0; socket < pCharacter->implants.size(); ++socket)
-                {
-                    const std::string socketId = "CharacterDollImplant" + std::to_string(socket + 1) + "Slot";
-                    const std::optional<GameplayResolvedHudLayoutElement> slot =
-                        context.resolveHudLayoutElement(socketId, width, height, 0, 0);
-                    if (!slot)
-                    {
-                        continue;
-                    }
-                    const bool open = socket < pCharacter->implantSocketCount();
-                    context.submitHudTexturedQuad(*slotBorder, slot->x - slot->scale, slot->y - slot->scale,
-                        slot->width + 2 * slot->scale, slot->height + 2 * slot->scale);
-                    context.submitHudTexturedQuad(open || !closedFill ? *slotFill : *closedFill,
-                        slot->x, slot->y, slot->width, slot->height);
-                    const ItemDefinition *pImplant = pCharacter->implants[socket] != 0 && context.itemTable() != nullptr
-                        ? context.itemTable()->get(pCharacter->implants[socket]) : nullptr;
-                    const std::optional<GameplayHudTextureHandle> icon = pImplant != nullptr
-                        ? context.gameplayUiRuntime().ensureItemIconTextureLoaded(pImplant->iconName) : std::nullopt;
-                    if (icon && icon->width > 0 && icon->height > 0)
-                    {
-                        const float fit = std::min(slot->width / float(icon->width), slot->height / float(icon->height));
-                        const float iconWidth = float(icon->width) * fit;
-                        const float iconHeight = float(icon->height) * fit;
-                        const float iconX = slot->x + (slot->width - iconWidth) * 0.5f;
-                        const float iconY = slot->y + (slot->height - iconHeight) * 0.5f;
-                        context.submitHudTexturedQuad(*icon, iconX, iconY, iconWidth, iconHeight);
-                        // Right-click inspects it like any item.
-                        GameplayRenderedInspectableHudItem inspectable = {};
-                        inspectable.objectDescriptionId = pImplant->itemId;
-                        inspectable.textureName = icon->textureName;
-                        inspectable.textureUsesItemIconTransparency = true;
-                        inspectable.x = iconX;
-                        inspectable.y = iconY;
-                        inspectable.width = iconWidth;
-                        inspectable.height = iconHeight;
-                        context.addRenderedInspectableHudItem(inspectable);
-                    }
-                }
-            }
             continue;
         }
         if (normalizedLayoutId == "charactermagnifybutton")
@@ -10330,6 +10522,32 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             const bool hover = context.isPointerInsideResolvedElement(*resolved, characterMouseX, characterMouseY);
             GameplayUiSkin::renderIconButton(context, *resolved, pLayout->primaryAsset, hover,
                 hover && isLeftMousePressed, characterScreen.dollJewelryOverlayOpen);
+            continue;
+        }
+        // Hesper's implants overlay and its button: nothing at all for a character without the skill or an implant,
+        // so other worlds' character screens are unchanged.
+        if (normalizedLayoutId == "characterimplantsbutton")
+        {
+            if (pCharacter != nullptr && pCharacter->showsImplantSockets())
+            {
+                const bool hover = context.isPointerInsideResolvedElement(*resolved, characterMouseX, characterMouseY);
+                GameplayUiSkin::renderIconButton(context, *resolved, pLayout->primaryAsset, hover,
+                    hover && isLeftMousePressed, implantsOverlayShown);
+            }
+
+            continue;
+        }
+        if (normalizedLayoutId == "characterdollimplantsbody")
+        {
+            continue;
+        }
+        if (normalizedLayoutId == "characterdollimplantsoverlaypanel")
+        {
+            if (implantsOverlayShown)
+            {
+                renderImplantsOverlay(context, *resolved, *pCharacter, width, height);
+            }
+
             continue;
         }
 

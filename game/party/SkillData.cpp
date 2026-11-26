@@ -168,7 +168,7 @@ const std::array<std::string, 49> CanonicalSkillNames = {
     "ManaShield",
     "Enlightenment",
     "Retaliation",
-    "Cybernetics",
+    "Implants",
 };
 
 const std::vector<std::string> WeaponSheetSkillNames = {
@@ -191,8 +191,14 @@ const std::vector<std::string> MiscSheetSkillNames = {
     "Meditation", "Merchant", "Perception", "RepairItem", "Stealing",
 };
 
+// The Misc group while a world provides implants (implantsAvailable).
+const std::vector<std::string> MiscSheetSkillNamesWithImplants = {
+    "Alchemy", "Armsmaster", "Bodybuilding", "IdentifyItem", "IdentifyMonster", "Learning", "DisarmTraps",
+    "Meditation", "Merchant", "Perception", "RepairItem", "Stealing", "Implants",
+};
+
 const std::vector<std::string> TechnologySheetSkillNames = {
-    "EnergyGuns", "EnergyBlades", "ShieldTech", "Hacking", "Cybernetics",
+    "EnergyGuns", "EnergyBlades", "ShieldTech", "Hacking",
 };
 
 const std::unordered_map<std::string, std::string> ClassAliases = {
@@ -244,6 +250,7 @@ const std::unordered_map<std::string, std::string> SkillAliases = {
     {"identifymonster", "IdentifyMonster"},
     {"lightmagic", "LightMagic"},
     {"darkmagic", "DarkMagic"},
+    {"cybernetics", "Implants"},
 };
 
 const std::unordered_map<std::string, std::string_view> DisplayClassNames = {
@@ -300,9 +307,13 @@ const std::unordered_map<std::string, std::string_view> DisplaySkillNames = {
     // Shown under their own names; listed so that the extractor finds them (no table names them).
     {"Enlightenment", Engine::trNoop("Enlightenment")},
     {"Retaliation", Engine::trNoop("Retaliation")},
+    {"Implants", Engine::trNoop("Implants")},
 };
 
 std::map<std::string, std::string> RulesetDisplaySkillNames;
+
+// Set once per data load (GameDataLoader): a mounted world provides the implants table.
+bool ImplantsAvailable = false;
 
 std::unordered_map<std::string, std::string> buildCanonicalClassLookup()
 {
@@ -457,14 +468,33 @@ std::optional<uint32_t> skillIdForSkillName(const std::string &skillName)
 bool isTechnologySkill(const std::string &skillName)
 {
     const std::optional<uint32_t> skillId = skillIdForSkillName(skillName);
-    return skillId
-        && ((*skillId >= FirstTechnologySkillId && *skillId < FirstRulesetSkillId) || *skillId == CyberneticsSkillId);
+    return skillId && *skillId >= FirstTechnologySkillId && *skillId < FirstRulesetSkillId;
 }
 
 bool isRulesetSkill(const std::string &skillName)
 {
     const std::optional<uint32_t> skillId = skillIdForSkillName(skillName);
-    return skillId && *skillId >= FirstRulesetSkillId && *skillId < CyberneticsSkillId;
+    return skillId && *skillId >= FirstRulesetSkillId && *skillId < ImplantsSkillId;
+}
+
+void setImplantsAvailable(bool available)
+{
+    ImplantsAvailable = available;
+}
+
+bool implantsAvailable()
+{
+    return ImplantsAvailable;
+}
+
+bool skillAvailable(const std::string &skillName)
+{
+    return ImplantsAvailable || canonicalSkillName(skillName) != "Implants";
+}
+
+bool isTaughtOnlySkill(const std::string &skillName)
+{
+    return isTechnologySkill(skillName) || canonicalSkillName(skillName) == "Implants";
 }
 
 const std::vector<std::string> &skillSheetGroupSkillNames(SkillSheetGroup group)
@@ -478,7 +508,7 @@ const std::vector<std::string> &skillSheetGroupSkillNames(SkillSheetGroup group)
         case SkillSheetGroup::Armor:
             return ArmorSheetSkillNames;
         case SkillSheetGroup::Misc:
-            return MiscSheetSkillNames;
+            return ImplantsAvailable ? MiscSheetSkillNamesWithImplants : MiscSheetSkillNames;
         case SkillSheetGroup::Technology:
             return TechnologySheetSkillNames;
     }

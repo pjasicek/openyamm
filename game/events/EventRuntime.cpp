@@ -1229,7 +1229,9 @@ std::optional<std::string> skillNameForEvtVariable(EvtVariable variableId)
         case EvtVariable::EnergyBladesSkill: return "EnergyBlades";
         case EvtVariable::ShieldTechSkill: return "ShieldTech";
         case EvtVariable::HackingSkill: return "Hacking";
-        case EvtVariable::CyberneticsSkill: return "Cybernetics";
+        // Implants exist only with a world that provides them: without, the variable names no skill.
+        case EvtVariable::ImplantsSkill:
+            return implantsAvailable() ? std::optional<std::string>("Implants") : std::nullopt;
         default: return std::nullopt;
     }
 }
@@ -1529,18 +1531,27 @@ bool characterHasLearnedSkill(const Character &member, const std::string &skillN
 // Sets a canonical skill to the level and mastery, or removes it when either is zero; returns whether the member
 // learned the skill by it.
 bool setCharacterSkillValue(
-    const Party *pParty,
+    Party *pParty,
     Character &member,
     const std::string &skillName,
     uint32_t level,
     SkillMastery mastery)
 {
     const ClassMultiplierTable *pClassMultiplierTable = pParty != nullptr ? pParty->classMultiplierTable() : nullptr;
+    // Implants' level and mastery decide what the fitted implants give: their bonuses are rebuilt at once.
+    const auto rebuildImplants = [pParty, &skillName]()
+    {
+        if (pParty != nullptr && skillName == "Implants")
+        {
+            pParty->rebuildMagicalBonusesFromBuffs();
+        }
+    };
 
     if (level == 0 || mastery == SkillMastery::None)
     {
         member.skills.erase(skillName);
         GameMechanics::refreshCharacterBaseResources(member, false, pClassMultiplierTable);
+        rebuildImplants();
         return false;
     }
 
@@ -1550,6 +1561,7 @@ bool setCharacterSkillValue(
     skill.level = level;
     skill.mastery = mastery;
     GameMechanics::refreshCharacterBaseResources(member, false, pClassMultiplierTable);
+    rebuildImplants();
     return !hadLearnedSkill;
 }
 
@@ -2291,7 +2303,7 @@ EventRuntime::VariableRef EventRuntime::decodeVariable(uint64_t rawId)
         case EvtVariable::EnergyBladesSkill:
         case EvtVariable::ShieldTechSkill:
         case EvtVariable::HackingSkill:
-        case EvtVariable::CyberneticsSkill:
+        case EvtVariable::ImplantsSkill:
             variable.kind = VariableKind::Skill;
             break;
 
@@ -8661,7 +8673,8 @@ int luaGetPlayerSkill(lua_State *pLuaState)
     const std::optional<size_t> memberIndex = luaMemberIndexArgument(pLuaState, 1);
     const Character *pMember = pParty != nullptr && memberIndex ? pParty->member(*memberIndex) : nullptr;
     const char *pSkillName = luaL_checkstring(pLuaState, 2);
-    const CharacterSkill *pSkill = pMember != nullptr ? pMember->findSkill(pSkillName) : nullptr;
+    const CharacterSkill *pSkill =
+        pMember != nullptr && skillAvailable(pSkillName) ? pMember->findSkill(pSkillName) : nullptr;
     lua_pushinteger(pLuaState, pSkill != nullptr ? static_cast<lua_Integer>(pSkill->level) : 0);
     lua_pushinteger(pLuaState, pSkill != nullptr ? static_cast<lua_Integer>(pSkill->mastery) : 0);
     return 2;
@@ -8678,13 +8691,22 @@ int luaSetPlayerSkill(lua_State *pLuaState)
     const SkillMastery mastery =
         static_cast<SkillMastery>(std::clamp(static_cast<int>(luaL_checkinteger(pLuaState, 4)), 0, 4));
 
-    if (pMember == nullptr || skillName.empty())
+    // Implants cannot be taught while no world provides them (skillAvailable).
+    if (pMember == nullptr || skillName.empty() || !skillAvailable(skillName))
     {
         lua_pushboolean(pLuaState, 0);
         return 1;
     }
 
-    setCharacterSkillValue(pParty, *pMember, skillName, level, mastery);
+    // A skill the member learns by it shows the learned portrait effect, as the EVT skill variables'.
+    if (setCharacterSkillValue(pParty, *pMember, skillName, level, mastery))
+    {
+        if (EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState))
+        {
+            queuePortraitFxRequest(*pRuntimeState, PortraitFxEventKind::QuestComplete, pParty, {*memberIndex});
+        }
+    }
+
     lua_pushboolean(pLuaState, 1);
     return 1;
 }
@@ -9725,9 +9747,49 @@ int luaApplyPartyPrimaryStatBuff(lua_State *pLuaState)
     return 0;
 }
 
-// evt.RemovePartyBuff("Fly"): ends a party buff by its name (PartyBuffId's names: Fly, Levitate, WaterWalk,
-// FeatherFall, ...). Returns whether it was on. D-36's bat storm beats a flying party out of the sky with it.
-int luaRemovePartyBuff(lua_State *pLuaState)
+// evt.AddStatUntilRest("Might", 40): adds amount (may be negative) to the temporary event bonus of a primary stat
+// (Might, Intellect, Personality, Endurance, Speed, Accuracy or Luck) of the members evt.ForPlayer selected, kept in
+// [-255, 255] and cleared at rest. The MightBonus-style variables clamp at 0 (MM6 scripts rely on it); this does not.
+int luaAddStatUntilRest(lua_State *pLuaState)
+{
+    static constexpr std::array<std::pair<const char *, int CharacterStatBonuses::*>, 7> Stats = {{
+        {"Might", &CharacterStatBonuses::might}, {"Intellect", &CharacterStatBonuses::intellect},
+        {"Personality", &CharacterStatBonuses::personality}, {"Endurance", &CharacterStatBonuses::endurance},
+        {"Speed", &CharacterStatBonuses::speed}, {"Accuracy", &CharacterStatBonuses::accuracy},
+        {"Luck", &CharacterStatBonuses::luck},
+    }};
+    const std::string name = luaL_checkstring(pLuaState, 1);
+    const int amount = static_cast<int>(luaL_checkinteger(pLuaState, 2));
+    const auto found = std::find_if(Stats.begin(), Stats.end(),
+        [&name](const std::pair<const char *, int CharacterStatBonuses::*> &entry) { return name == entry.first; });
+
+    if (found == Stats.end())
+    {
+        return luaL_error(pLuaState, "AddStatUntilRest: unknown stat '%s'", name.c_str());
+    }
+
+    Party *pParty = writableParty(pLuaState);
+
+    if (pParty == nullptr)
+    {
+        return 0;
+    }
+
+    for (size_t memberIndex : selectedTargetMemberIndices(pLuaState))
+    {
+        if (Character *pMember = pParty->member(memberIndex))
+        {
+            int &bonus = pMember->temporaryEventBonuses.*(found->second);
+            bonus = std::clamp(bonus + amount, -255, 255);
+        }
+    }
+
+    pParty->rebuildMagicalBonusesFromBuffs();
+    return 0;
+}
+
+// A party buff by its name (PartyBuffId's names: Fly, Levitate, WaterWalk, FeatherFall, ..., LavaWalk).
+std::optional<PartyBuffId> partyBuffByName(const std::string &name)
 {
     static constexpr std::array<std::pair<const char *, PartyBuffId>, PartyBuffCount> Names = {{
         {"TorchLight", PartyBuffId::TorchLight}, {"WizardEye", PartyBuffId::WizardEye},
@@ -9741,22 +9803,108 @@ int luaRemovePartyBuff(lua_State *pLuaState)
         {"Shield", PartyBuffId::Shield}, {"Heroism", PartyBuffId::Heroism}, {"Haste", PartyBuffId::Haste},
         {"Immolation", PartyBuffId::Immolation}, {"Glamour", PartyBuffId::Glamour},
         {"Levitate", PartyBuffId::Levitate}, {"FleetFoot", PartyBuffId::FleetFoot},
+        {"LavaWalk", PartyBuffId::LavaWalk},
     }};
-    const std::string name = luaL_checkstring(pLuaState, 1);
     const auto found = std::find_if(Names.begin(), Names.end(),
         [&name](const std::pair<const char *, PartyBuffId> &entry) { return name == entry.first; });
+    return found != Names.end() ? std::optional<PartyBuffId>(found->second) : std::nullopt;
+}
 
-    if (found == Names.end())
+// evt.ApplyPartyBuff("LavaWalk", seconds): gives the party a buff by its name for that many game seconds (no spell, no
+// caster; a longer one already on is kept). Hesper's Ember Skin font gives LavaWalk with it.
+int luaApplyPartyBuff(lua_State *pLuaState)
+{
+    const std::string name = luaL_checkstring(pLuaState, 1);
+    const std::optional<PartyBuffId> buff = partyBuffByName(name);
+
+    if (!buff)
+    {
+        return luaL_error(pLuaState, "ApplyPartyBuff: unknown party buff '%s'", name.c_str());
+    }
+
+    const float seconds = float(std::max<lua_Number>(0, luaL_checknumber(pLuaState, 2)));
+
+    if (Party *pParty = writableParty(pLuaState))
+    {
+        pParty->applyPartyBuff(*buff, seconds, 0, 0, 0, SkillMastery::None, 0);
+    }
+
+    return 0;
+}
+
+// evt.CreditImplantKills(kills): more kills for the party's fitted implants (DECISIONS H-83: Hesper's bosses and uniques
+// count 10, the engine having counted 1); shows a line for each implant that evolves. Nothing without implants.
+int luaCreditImplantKills(lua_State *pLuaState)
+{
+    const lua_Integer kills = luaL_checkinteger(pLuaState, 1);
+    Party *pParty = writableParty(pLuaState);
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+
+    if (pParty != nullptr && kills > 0)
+    {
+        for (std::string &line : pParty->creditImplantKills(uint32_t(kills)))
+        {
+            if (pRuntimeState != nullptr)
+            {
+                pRuntimeState->statusMessages.push_back(std::move(line));
+            }
+        }
+    }
+
+    return 0;
+}
+
+// evt.ImplantKills(member, socket): the kills of the implant in a member's socket ("cranial" ... "neural") and its
+// stage (1-3); 0, 0 for an empty socket. Read only.
+int luaImplantKills(lua_State *pLuaState)
+{
+    const Party *pParty = readableParty(pLuaState);
+    const std::optional<size_t> memberIndex = luaMemberIndexArgument(pLuaState, 1);
+    const std::optional<ImplantSocket> socket = parseImplantSocket(luaL_checkstring(pLuaState, 2));
+    const Character *pMember = pParty != nullptr && memberIndex ? pParty->member(*memberIndex) : nullptr;
+    const InventoryItem *pImplant =
+        pMember != nullptr && socket && pMember->implants[size_t(*socket)].objectDescriptionId != 0
+        ? &pMember->implants[size_t(*socket)]
+        : nullptr;
+    lua_pushinteger(pLuaState, pImplant != nullptr ? lua_Integer(pImplant->implantKills) : 0);
+    lua_pushinteger(pLuaState, pImplant != nullptr ? lua_Integer(pParty->implantStage(*pImplant)) : 0);
+    return 2;
+}
+
+// evt.HasPartyBuff("LavaWalk"): whether the party buff of that name is on.
+int luaHasPartyBuff(lua_State *pLuaState)
+{
+    const std::string name = luaL_checkstring(pLuaState, 1);
+    const std::optional<PartyBuffId> buff = partyBuffByName(name);
+
+    if (!buff)
+    {
+        return luaL_error(pLuaState, "HasPartyBuff: unknown party buff '%s'", name.c_str());
+    }
+
+    const Party *pParty = readableParty(pLuaState);
+    lua_pushboolean(pLuaState, pParty != nullptr && pParty->hasPartyBuff(*buff) ? 1 : 0);
+    return 1;
+}
+
+// evt.RemovePartyBuff("Fly"): ends a party buff by its name (partyBuffByName). Returns whether it was on. D-36's bat
+// storm beats a flying party out of the sky with it.
+int luaRemovePartyBuff(lua_State *pLuaState)
+{
+    const std::string name = luaL_checkstring(pLuaState, 1);
+    const std::optional<PartyBuffId> buff = partyBuffByName(name);
+
+    if (!buff)
     {
         return luaL_error(pLuaState, "RemovePartyBuff: unknown party buff '%s'", name.c_str());
     }
 
     Party *pParty = writableParty(pLuaState);
-    const bool wasOn = pParty != nullptr && pParty->hasPartyBuff(found->second);
+    const bool wasOn = pParty != nullptr && pParty->hasPartyBuff(*buff);
 
     if (wasOn)
     {
-        pParty->clearPartyBuff(found->second);
+        pParty->clearPartyBuff(*buff);
     }
 
     lua_pushboolean(pLuaState, wasOn ? 1 : 0);
@@ -10581,6 +10729,10 @@ void registerEventBindings(LuaSessionCache &session)
         luaSetPersistentItemMechanismVariant);
     registerLuaFunction(pLuaState, "ApplyPartyPrimaryStatBuff", luaApplyPartyPrimaryStatBuff);
     registerLuaFunction(pLuaState, "RemovePartyBuff", luaRemovePartyBuff);
+    registerLuaFunction(pLuaState, "ApplyPartyBuff", luaApplyPartyBuff);
+    registerLuaFunction(pLuaState, "HasPartyBuff", luaHasPartyBuff);
+    registerLuaFunction(pLuaState, "CreditImplantKills", luaCreditImplantKills);
+    registerLuaFunction(pLuaState, "ImplantKills", luaImplantKills);
     registerLuaFunction(pLuaState, "FaceExpression", luaFaceExpression);
     registerLuaFunction(pLuaState, "DamagePlayer", luaDamagePlayer);
     registerLuaFunction(pLuaState, "SetSnow", luaSetSnow);

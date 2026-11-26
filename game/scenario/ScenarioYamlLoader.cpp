@@ -42,7 +42,7 @@ const KeyList AssertKeys = {
     "chest_opened", "actor_dialog_started", "pressure_plate_triggered", "dialogue_canceled", "dialog",
     "input_prompt", "new_game_party_member", "new_game_party_skill", "qbit_set", "qbit_clear", "ruleset",
     "mechanism", "gold", "food", "game_hour", "charges", "dimension_door", "combat_log", "journal_map_note",
-    "quick_item_ring", "quick_item_popup", "water", "ai_trace", "autonote", "teacher_ledger", "sprite_hidden",
+    "quick_item_ring", "quick_item_popup", "implants_shown", "water", "ai_trace", "autonote", "teacher_ledger", "sprite_hidden",
     "sprite_shown",
     "chest_view", "party_position", "turn_based", "member_points", "light", "scripted_fog", "recovering_members",
     // recorded:
@@ -77,6 +77,7 @@ const std::vector<NestedKeys> AssertBlockKeys = {
     {"chest_view", {"open", "chest_id"}},
     {"party_position", {"x", "y", "radius", "z_min", "z_max", "facing", "facing_within"}},
     {"quick_item_popup", {"kind", "member_index"}},
+    {"implants_shown", {"member_index", "value"}},
     {"dimension_door", {"pending", "without_quest"}},
     {"light", {"key", "on"}},
     {"scripted_fog", {"active", "near", "far"}},
@@ -190,6 +191,7 @@ const std::vector<StepKeys> &stepKeyTable()
             "roll_level", "boss", "seed", "dimension_map", "legendary"}},
         {ScenarioStepKind::UseItem, {"item_id", "member_index", "expect"}},
         {ScenarioStepKind::EquipItem, {"item_id", "member_index", "slot"}},
+        {ScenarioStepKind::FitImplant, {"item_id", "member_index", "socket", "expect"}},
         {ScenarioStepKind::TurnBasedTurns, {"count", "max_seconds", "game_speed"}},
         {ScenarioStepKind::RightClickPortrait, {"item_id", "carrier_index", "member_index", "inventory", "release",
             "expect"}},
@@ -639,6 +641,12 @@ bool ScenarioYamlLoader::parseStepKind(const std::string &value, ScenarioStepKin
     if (value == "equip_item")
     {
         kind = ScenarioStepKind::EquipItem;
+        return true;
+    }
+
+    if (value == "fit_implant")
+    {
+        kind = ScenarioStepKind::FitImplant;
         return true;
     }
 

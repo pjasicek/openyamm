@@ -3522,6 +3522,57 @@ bool ScenarioRuntimeDriver::equipCarriedItem(
     return true;
 }
 
+bool ScenarioRuntimeDriver::fitCarriedImplant(
+    size_t memberIndex,
+    uint32_t itemId,
+    ImplantSocket socket,
+    Party::ImplantFitResult &result,
+    std::string &failure)
+{
+    Party *pParty = party();
+
+    if (pParty == nullptr || pParty->member(memberIndex) == nullptr)
+    {
+        failure = "fit_implant needs a party member " + std::to_string(memberIndex);
+        return false;
+    }
+
+    std::optional<BagItemRef> found = findCarriedItem(*pParty, memberIndex, itemId);
+
+    for (size_t carrier = 0; !found && carrier < pParty->memberCount(); ++carrier)
+    {
+        found = findCarriedItem(*pParty, carrier, itemId);
+    }
+
+    InventoryItem item;
+    const int bagCount = pParty->rules().items.bagCount(*pParty);
+
+    if (!found
+        || !InventoryBags::takeFromBag(*pParty, found->memberIndex, found->bag, bagCount, found->gridX, found->gridY,
+            item))
+    {
+        failure = "fit_implant: no member carries item " + std::to_string(itemId);
+        return false;
+    }
+
+    std::optional<InventoryItem> replaced;
+    result = pParty->fitImplant(memberIndex, socket, item, replaced);
+    std::optional<InventoryItem> displaced;
+
+    if (result != Party::ImplantFitResult::Fitted)
+    {
+        InventoryBags::placeInBag(
+            *pParty, found->memberIndex, found->bag, bagCount, item, found->gridX, found->gridY, displaced);
+    }
+    else if (replaced && !pParty->tryAutoPlaceItemInMemberInventory(found->memberIndex, *replaced))
+    {
+        failure = "fit_implant: no room for the replaced implant";
+        return false;
+    }
+
+    return true;
+}
+
 bool ScenarioRuntimeDriver::rightClickPortraitWithItem(
     size_t carrierIndex,
     size_t targetIndex,

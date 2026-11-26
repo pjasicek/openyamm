@@ -23,4 +23,9 @@ float nearestHostileDistanceToParty(const IGameplayWorldRuntime &worldRuntime);
 // The HUD's green state: no living, visible hostile within the world's engagement range or the yellow alert range,
 // whichever is shorter (MM9: 3800). MM9's Fleet Foot runs faster in it (game/party/WorldSpells.h).
 bool partyHasGreenAlert(const IGameplayWorldRuntime &worldRuntime);
+// A party blow's reach, as GameplayActionController's melee test measures it (edge distance, 407.2).
+constexpr float PartyMeleeReachDistance = 407.2f;
+// A living hostile actor (seen or not, visible or not) within a party blow's reach: Hesper's Berserker's Seed
+// (Party::setHostileInMeleeReach), asked a few times a second only while a member wears one.
+bool partyHasHostileInMeleeReach(const IGameplayWorldRuntime &worldRuntime);
 }

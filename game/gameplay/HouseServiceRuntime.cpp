@@ -2,7 +2,6 @@
 #include "engine/Localization.h"
 
 #include "game/gameplay/GameplayLootFilter.h"
-#include "game/gameplay/GameplayWorldItemPolicy.h"
 
 #include "game/gameplay/NpcFollowerRuntime.h"
 #include "game/gameplay/StealingRuntime.h"
@@ -498,9 +497,11 @@ std::vector<InventoryItem> generateStockItems(
 
     for (const ItemDefinition &entry : itemTable.entries())
     {
+        // Implants are never sold, whatever their flags (only scripts and placed chests give them).
         if (entry.itemId == 0
             || entry.name.empty()
             || entry.hasContentFlag("NoShop")
+            || entry.equipStat == "Implant"
             || !entry.availableInWorld(houseEntry.worldId)
             || !ItemGenerator::shopPoolAllows(entry, worldPools)
             || !predicate(entry))

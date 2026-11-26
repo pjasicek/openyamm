@@ -1157,6 +1157,7 @@ bool tryOpenAdventurersInnOverlay(GameplayDialogController::Context &context, ui
     GameplayUiController::CharacterScreenState &characterScreen = context.uiController.characterScreen();
     characterScreen.open = true;
     characterScreen.dollJewelryOverlayOpen = false;
+    characterScreen.dollImplantsOverlayOpen = false;
     characterScreen.adventurersInnRosterOverlayOpen = true;
     characterScreen.page = GameplayUiController::CharacterPage::Inventory;
     characterScreen.source = GameplayUiController::CharacterScreenSource::AdventurersInn;

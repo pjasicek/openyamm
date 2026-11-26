@@ -41,6 +41,10 @@ public:
     // OpenYAMM grants them at once, so a skill at its level cap is not stuck.
     void afterClassChanged(Character &character, const ClassSkillTable *pClassSkillTable) const override;
     uint32_t masteryRequiredLevel(const std::string &canonicalSkill, SkillMastery mastery) const override;
+    // The balance file's implants.evolve_factor (3 unless set): MAW's slower evolution, 250 -> 750 (DECISIONS H-91).
+    float implantEvolveFactor() const override;
+    // MAW's values of an implant part (the implants table's maw_ columns, H-91).
+    const ImplantShare &implantShare(const ImplantComponent &component) const override;
     SkillMastery masteryCap(
         const Character &character, const std::string &canonicalSkill, SkillMastery classCap) const override;
     SkillMastery promotedMasteryCap(

@@ -1969,6 +1969,12 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
                             static_cast<float>(appliedDamage) * pAttacker->vampiricHealFraction))));
                 }
 
+                // Hesper's Siphoner: its share of the blow's damage back as HP and SP over 2 s.
+                if (pAttacker->implantSiphonPercent > 0.0f && appliedDamage > 0)
+                {
+                    party.addImplantSiphon(actingMemberIndex, appliedDamage);
+                }
+
                 if (config.pWorldRuntime != nullptr)
                 {
                     config.pWorldRuntime->refreshWorldHover(config.worldInspectionRefreshRequest);

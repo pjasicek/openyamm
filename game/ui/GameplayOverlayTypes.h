@@ -485,6 +485,8 @@ enum class GameplayCharacterPointerTargetType
     BagOverviewItem,
     BagOverviewCell,
     MagnifyButton,
+    // Hesper's implants overlay toggle beside the magnifier (a character with Implants or an implant).
+    ImplantsButton,
     AdventurersInnHireButton,
     AdventurersInnScrollUpButton,
     AdventurersInnScrollDownButton,
@@ -498,8 +500,10 @@ enum class GameplayCharacterPointerTargetType
     InventoryCell,
     EquipmentSlot,
     DollPanel,
-    // An implant socket of the Augment row (implantSocket).
-    ImplantSocket
+    // An implant socket of the implants overlay (implantSocket: an ImplantSocket), and the rest of the open overlay
+    // under a held item (it goes to that implant's own socket).
+    ImplantSocket,
+    ImplantsPanel
 };
 
 struct GameplayCharacterPointerTarget

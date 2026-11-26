@@ -417,8 +417,9 @@ void applyDebugGodLichCharacter(
 
     for (const std::string &skillName : allCanonicalSkillNames())
     {
-        // The home-world debug Lich keeps the classic skills; `skill set` grants technology and ruleset skills.
-        if (!isTechnologySkill(skillName) && !isRulesetSkill(skillName))
+        // The home-world debug Lich keeps the classic skills; `skill set` grants technology, ruleset skills and
+        // Implants.
+        if (!isTaughtOnlySkill(skillName) && !isRulesetSkill(skillName))
         {
             character.skills[skillName] = {skillName, 200, SkillMastery::Grandmaster};
         }
@@ -1611,7 +1612,7 @@ std::vector<std::pair<std::string, uint32_t>> NewGameScreen::creationSkillMatrix
 
     for (const std::string &skill : allCanonicalSkillNames())
     {
-        if (isTechnologySkill(skill))
+        if (isTaughtOnlySkill(skill))
         {
             continue;
         }

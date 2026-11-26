@@ -805,7 +805,7 @@ bool OutdoorMovementDriver::drowningHere() const
 
 bool OutdoorMovementDriver::burningHere() const
 {
-    return m_state.supportOnBurning && !m_partyMovementState.flying && !m_levitateActive;
+    return m_state.supportOnBurning && !m_partyMovementState.flying && !m_levitateActive && !m_lavaWalkActive;
 }
 
 // The original's timed effects hurt at most once per call, and a turn's call (213 ticks) is longer than the damage
@@ -958,6 +958,11 @@ void OutdoorMovementDriver::setFeatherFallActive(bool active)
 void OutdoorMovementDriver::setLevitateActive(bool active)
 {
     m_levitateActive = active;
+}
+
+void OutdoorMovementDriver::setLavaWalkActive(bool active)
+{
+    m_lavaWalkActive = active;
 }
 
 void OutdoorMovementDriver::setSpeedMultiplier(float multiplier)

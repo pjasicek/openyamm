@@ -11,6 +11,7 @@
 #include "game/party/CharacterRulesetState.h"
 #include "game/party/PartyRulesetState.h"
 #include "game/party/CharacterState.h"
+#include "game/party/ImplantSocket.h"
 #include "game/party/InventoryItem.h"
 #include "game/party/PlaythroughStatisticsTypes.h"
 #include "game/party/QuickItemSlot.h"
@@ -108,9 +109,10 @@ struct Character
     uint32_t skillPoints = 0;
     // Raises technology skills only (Engrams add them); skill points cannot raise technology skills.
     uint32_t techPoints = 0;
-    // Implant item ids in the four sockets (0: empty). Cybernetics opens them: Novice one, Grandmaster all four
-    // (implantSocketCount). Hesper's implants; saved.
-    std::array<uint32_t, 4> implants = {};
+    // The implants by ImplantSocket (objectDescriptionId 0: empty), each with its kill count (InventoryItem::
+    // implantKills, DECISIONS H-83). The Implants skill opens all six from level 1 (implantSocketOpen, H-91).
+    // Hesper's implants; saved.
+    std::array<InventoryItem, ImplantSocketCount> implants = {};
     uint32_t might = 0;
     uint32_t intellect = 0;
     uint32_t personality = 0;
@@ -239,14 +241,43 @@ struct Character
     int meleeRecoveryReductionTicks = 0;
     int attackRecoveryReductionTicks = 0;
     float recoveryProgressMultiplier = 1.0f;
+    // Hesper's implants (DECISIONS H-91), runtime, rebuilt with the bonuses (Party::rebuildMagicalBonusesFromBuffs,
+    // which applies the stat, HP and SP shares itself): per cent more of the sheet's total armour class and fire
+    // resistance (GameMechanics::buildCharacterSheetSummary); Berserker's Seed's per cent more damage, dealt only while
+    // implantBerserkActive (Party::setHostileInMeleeReach, kept across rebuilds); Siphoner's per cent of damage dealt
+    // (Party::addImplantSiphon); the factor every recovery time is multiplied by (Reflex Mesh, Adrenaline Gland, the
+    // 30-tick floor included: Party::applyRecoveryToMember); per cent faster missiles and spells (Kinetic Coil); the
+    // per cent chance to send a physical missile back (Mirror Carapace).
+    float implantArmorClassPercent = 0.0f;
+    float implantFireResistancePercent = 0.0f;
+    float implantBerserkDamagePercent = 0.0f;
+    bool implantBerserkActive = false;
+    float implantSiphonPercent = 0.0f;
+    float implantRecoveryFactor = 1.0f;
+    float projectileSpeedPercent = 0.0f;
+    float reflectPercent = 0.0f;
+    // Siphoner's payments still running (HP and SP per second, seconds left) and the fractions of points they and
+    // Berserker's drain have not yet paid; runtime, not saved.
+    struct ImplantSiphonGrant
+    {
+        float healthPerSecond = 0.0f;
+        float spellPointsPerSecond = 0.0f;
+        float secondsLeft = 0.0f;
+    };
+    std::vector<ImplantSiphonGrant> implantSiphonGrants;
+    float implantSiphonHealthAccumulator = 0.0f;
+    float implantSiphonSpellAccumulator = 0.0f;
+    float implantDrainHealthAccumulator = 0.0f;
+    float implantDrainSpellAccumulator = 0.0f;
     std::unordered_map<std::string, int> itemSkillBonuses;
     std::unordered_map<std::string, int> hiredNpcSkillBonuses;
     std::unordered_set<std::string> equippedItemEffectFlags;
     std::array<std::optional<LloydBeacon>, 5> lloydsBeacons = {};
 
-    // Implant sockets Cybernetics opens: one per mastery (Novice 1, Grandmaster 4), none without the skill.
-    size_t implantSocketCount() const;
-    // The Augment row shows: the character has Cybernetics or an implant (never in MM6-MM8).
+    // The socket is open: the character has learned Implants (every socket from level 1, DECISIONS H-91).
+    bool implantSocketOpen(ImplantSocket socket) const;
+    // The implants overlay and its button show: the character has Implants or an implant fitted (never in MM6-MM9 or
+    // Xeen until a script teaches the skill).
     bool showsImplantSockets() const;
 
     bool addInventoryItem(const InventoryItem &item);
@@ -344,6 +375,9 @@ enum class PartyBuffId : uint8_t
     // MM9's Fleet Foot, cast from Fly's slot in a world whose world.yml says fleetFoot (game/party/WorldSpells.h):
     // the party runs faster. Its power is the speed in percent (125 is a quarter faster).
     FleetFoot,
+    // Hesper's Ember Skin (DECISIONS H-59): lava floors and lava volumes do not burn the party. Water Walk stays
+    // water-only.
+    LavaWalk,
     Count,
 };
 
@@ -401,6 +435,9 @@ struct PartyBuffState
         return remainingSeconds > 0.0f;
     }
 };
+
+// What a member's missiles' and spells' speed is multiplied by (Hesper's Kinetic Coil, no cap); 1 for none.
+float implantProjectileSpeedMultiplier(const Character *pMember);
 
 struct CharacterBuffState
 {
@@ -960,12 +997,39 @@ public:
         bool autoStoreDisplacedItem,
         std::optional<InventoryItem> &heldReplacement);
     std::optional<InventoryItem> equippedItem(size_t memberIndex, EquipmentSlot slot) const;
-    // Implant sockets (Character::implants, the Augment panel): fits an implant item (equip stat Implant) into one of
-    // the member's open sockets, handing back the implant it replaces in heldReplacement; false for a closed socket
-    // or an item that is not an implant. takeImplant empties a socket into item.
-    bool fitImplant(size_t memberIndex, size_t socket, const InventoryItem &item,
+    // Implant sockets (Character::implants, the implants overlay): fits an implant item (equip stat Implant with an
+    // implants row naming this socket) into the member's open socket, handing back the implant it replaces in
+    // heldReplacement; false for a closed socket, another socket's implant or an item that is not an implant.
+    // takeImplant empties a socket (open or not) into item.
+    enum class ImplantFitResult
+    {
+        Fitted,
+        NotImplant,
+        WrongSocket,
+        SocketClosed,
+    };
+    ImplantFitResult fitImplant(size_t memberIndex, ImplantSocket socket, const InventoryItem &item,
         std::optional<InventoryItem> &heldReplacement);
-    bool takeImplant(size_t memberIndex, size_t socket, InventoryItem &item);
+    bool takeImplant(size_t memberIndex, ImplantSocket socket, InventoryItem &item);
+    // The socket an implant item fits (its implants row), or nothing for any other item.
+    std::optional<ImplantSocket> implantSocketForItem(uint32_t itemId) const;
+    // Hesper's evolving implants (DECISIONS H-83, H-91): a party-credited kill counts `kills` (1; a Hesper boss or
+    // unique 10) for every implant in an open socket of a member who is not dead, stoned or eradicated. Returns a
+    // status line for each implant that reached stage II (and queues a sound).
+    std::vector<std::string> creditImplantKills(uint32_t kills);
+    // An implant's stage (1 or 2) as the active rules count it (Standard's thresholds, MAW's times evolve_factor); 1
+    // for any other item.
+    uint32_t implantStage(const InventoryItem &item) const;
+    // Berserker's Seed (H-91): whether a hostile is in melee reach. The session asks implantMeleeReachCheckDue each
+    // frame; it is true a few times a second and only while a member wears one (else it clears the state).
+    bool implantMeleeReachCheckDue(float deltaSeconds);
+    void setHostileInMeleeReach(bool inReach);
+    bool hostileInMeleeReach() const;
+    // Implants that run on time (H-91): Berserker's drain while a hostile is in reach (never below 1 HP or 0 SP) and
+    // Siphoner's payments. Real seconds while in play; one party turn counts as one second in turn-based combat.
+    void updateImplantTimers(float seconds);
+    // Siphoner: damage a member dealt (weapons, missiles, spells) starts a payment of its share as HP and as SP.
+    void addImplantSiphon(size_t memberIndex, int damage);
     const InventoryItem *memberInventoryItem(size_t memberIndex, uint8_t gridX, uint8_t gridY) const;
     InventoryItem *memberInventoryItemMutable(size_t memberIndex, uint8_t gridX, uint8_t gridY);
     uint32_t equippedItemId(size_t memberIndex, EquipmentSlot slot) const;
@@ -1301,6 +1365,11 @@ private:
     float m_rulesMovementMultiplier = 1.0f;
     float m_spellMovementMultiplier = 1.0f;
     float m_talentMovementMultiplier = 1.0f;
+    // Berserker's Seed (implantMeleeReachCheckDue): a member wears one, a hostile is in reach, the time since the
+    // last test; runtime.
+    bool m_implantBerserkWorn = false;
+    bool m_hostileInMeleeReach = false;
+    float m_implantMeleeReachSeconds = 0.0f;
     bool m_debugUnlimitedMana = false;
     std::vector<HiredNpcFollower> m_hiredNpcFollowers;
     // World configuration like m_pRules: not saved, not reset.

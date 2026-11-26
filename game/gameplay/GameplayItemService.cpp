@@ -240,6 +240,7 @@ void closeCharacterInventoryAfterPotionExplosion(GameplayScreenRuntime &runtime)
     GameplayUiController::CharacterScreenState &characterScreen = runtime.characterScreen();
     characterScreen.open = false;
     characterScreen.dollJewelryOverlayOpen = false;
+    characterScreen.dollImplantsOverlayOpen = false;
     characterScreen.adventurersInnRosterOverlayOpen = false;
     runtime.closeInventoryNestedOverlay();
     runtime.itemInspectOverlay() = {};
@@ -351,6 +352,7 @@ bool tryUseTravelItem(GameplayScreenRuntime &runtime, GameplayUiController::Held
     GameplayUiController::CharacterScreenState &characterScreen = runtime.characterScreen();
     characterScreen.open = false;
     characterScreen.dollJewelryOverlayOpen = false;
+    characterScreen.dollImplantsOverlayOpen = false;
     characterScreen.adventurersInnRosterOverlayOpen = false;
     runtime.closeInventoryNestedOverlay();
     return true;
@@ -780,6 +782,7 @@ bool GameplayItemService::tryUseHeldItemOnPartyMember(
         GameplayUiController::CharacterScreenState &characterScreen = m_session.gameplayScreenState().characterScreen();
         characterScreen.open = false;
         characterScreen.dollJewelryOverlayOpen = false;
+        characterScreen.dollImplantsOverlayOpen = false;
     }
 
     return true;
@@ -1162,6 +1165,7 @@ bool GameplayItemService::openWorkbenchForHeldMaterial(GameplayScreenRuntime &ru
     bench.crafting.searchActive = false;
     bench.crafting.clearResult();
     runtime.characterScreen().dollJewelryOverlayOpen = false;
+    runtime.characterScreen().dollImplantsOverlayOpen = false;
     return true;
 }
 

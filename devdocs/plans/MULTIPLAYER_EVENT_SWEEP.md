@@ -379,6 +379,8 @@ Uses include the helper that wraps the function and MM9's library call that ends
 
 | Function | Class | What the engine does today | Risk |
 | --- | --- | --- | --- |
+| `evt.ApplyPartyBuff` | b | Gives the event's party a party buff by name (Hesper's Ember Skin: LavaWalk). Added 2026-11-25 (lane KI). | low: the other players' parties get none (as a party potion) |
+| `evt.HasPartyBuff` | b | Reads the event's party's party buff by name. Added 2026-11-25 (lane KI). | none |
 | `evt.BeamToParty` | b | A beam to the party's place: the acting player's, the host's from a timer. `EventRuntime.cpp:6701` | cosmetic (not used) |
 | `evt.CanClassLearnSkill` | a | Reads the map, the calendar or a table. `EventRuntime.cpp:8587` | none |
 | `evt.CanFitWorkshopMod` | b | The event's party's member. `EventRuntime.cpp:6394` | none |

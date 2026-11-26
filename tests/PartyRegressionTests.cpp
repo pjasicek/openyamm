@@ -1774,7 +1774,7 @@ TEST_CASE("default party seed grants first member full spell access and preserve
     {
         const OpenYAMM::Game::CharacterSkill *pSkill = pMember->findSkill(skillName);
 
-        if (OpenYAMM::Game::isTechnologySkill(skillName) || OpenYAMM::Game::isRulesetSkill(skillName))
+        if (OpenYAMM::Game::isTaughtOnlySkill(skillName) || OpenYAMM::Game::isRulesetSkill(skillName))
         {
             CHECK(pSkill == nullptr);
             continue;

@@ -124,31 +124,8 @@ const ItemTable &itemTableWithHesperItems()
             "11305\thes_ration\tHesper Ration\t50\tN / A\tMisc\t0\t0\t4\t0\tRation\t0\t2\t0\t0\t0\tFood."
             "\thesper\thesper:item/ration\t\t\t4\teatFood\tparty\n");
         itemRows.insert(itemRows.end(), hesperRows.begin(), hesperRows.end());
-        // Three implants and their effects, as the design's tables have them.
-        const std::vector<std::vector<std::string>> implantRows = rowsFromText(
-            "11200\thes_dermal_1\tDermal Mesh I\t10000\tImplant\tMisc\t0\t0\t4\t15\tImplant\t0\t0\t0\t0\t0"
-            "\tImplant.\thesper\thesper:item/dermal_1\t\t\t4\t\tfamily:dermal\t\thesper:item_effect/dermal_1"
-            "\t\t0\t0\t1\t1\tneeds_art\n"
-            "11201\thes_dermal_2\tDermal Mesh II\t50000\tImplant\tMisc\t0\t0\t6\t35\tImplant\t0\t0\t0\t0\t0"
-            "\tImplant.\thesper\thesper:item/dermal_2\t\t\t6\t\tfamily:dermal\t\thesper:item_effect/dermal_2"
-            "\t\t0\t0\t1\t1\tneeds_art\n"
-            "11213\thes_damping_2\tDamping Weave II\t50000\tImplant\tMisc\t0\t0\t6\t35\tImplant\t0\t0\t0\t0\t0"
-            "\tImplant.\thesper\thesper:item/damping_2\t\t\t6\t\tfamily:damping\t\thesper:item_effect/damping_2"
-            "\t\t0\t0\t1\t1\tneeds_art\n"
-        );
-        itemRows.insert(itemRows.end(), implantRows.begin(), implantRows.end());
         ItemTable loaded = {};
         REQUIRE(loaded.load(assetFileSystem, itemRows, randomItemRows));
-        std::string error;
-        // Effect columns after the profile: armor_class is the tenth, energy_damage_taken_pct the 36th.
-        REQUIRE_MESSAGE(loaded.loadContentEffectRows(rowsFromText(
-            "11200\thesper:item_effect/dermal_1\t" "\t\t\t\t\t\t\t\t\t20\t\t\t\t\t\t\t\t\t\t"
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n"
-            "11201\thesper:item_effect/dermal_2\t" "\t\t\t\t\t\t\t\t\t40\t\t\t\t\t\t\t\t\t\t"
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\n"
-            "11213\thesper:item_effect/damping_2\t" "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
-            "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t-20\t\t\t\t\n"
-            ), error), error);
         return loaded;
     }();
     return table;
@@ -196,11 +173,14 @@ TEST_CASE("technology skills are appended after the classic skill ids")
     CHECK_EQ(skillNameForSkillId(43).value_or(""), "Hacking");
     CHECK_EQ(skillNameForSkillId(44).value_or(""), "Cover");
     CHECK_EQ(skillNameForSkillId(47).value_or(""), "Retaliation");
-    // Cybernetics, the fifth technology skill, came after MAW's skills.
-    CHECK_EQ(skillNameForSkillId(CyberneticsSkillId).value_or(""), "Cybernetics");
+    // Implants (once the technology skill Cybernetics) came after MAW's skills.
+    CHECK_EQ(skillNameForSkillId(ImplantsSkillId).value_or(""), "Implants");
     CHECK_FALSE(skillNameForSkillId(49).has_value());
-    CHECK(isTechnologySkill("Cybernetics"));
-    CHECK_FALSE(isRulesetSkill("Cybernetics"));
+    CHECK_FALSE(isTechnologySkill("Implants"));
+    CHECK_FALSE(isRulesetSkill("Implants"));
+    CHECK(isTaughtOnlySkill("Implants"));
+    CHECK(isTaughtOnlySkill("Hacking"));
+    CHECK_FALSE(isTaughtOnlySkill("Sword"));
     CHECK_FALSE(isTechnologySkill("Cover"));
     CHECK_EQ(displaySkillName("ManaShield"), "Mana Shield");
     CHECK_EQ(skillIdForSkillName("Energy Guns").value_or(0), 40u);
@@ -246,10 +226,10 @@ TEST_CASE("the sheet's skill groups are unchanged and Technology shows only with
     CHECK_EQ(skillSheetGroupSkillNames(SkillSheetGroup::Armor),
         std::vector<std::string>{"LeatherArmor", "ChainArmor", "PlateArmor", "Shield", "Dodging", "Cover", "Retaliation",
             "ManaShield"});
-    CHECK_EQ(skillSheetGroupSkillNames(SkillSheetGroup::Misc).size(), 12u);
+    CHECK_EQ(skillSheetGroupSkillNames(SkillSheetGroup::Misc).size(), implantsAvailable() ? 13u : 12u);
     CHECK_EQ(skillSheetGroupSkillNames(SkillSheetGroup::Magic).size(), 12u);
     CHECK_EQ(skillSheetGroupSkillNames(SkillSheetGroup::Technology),
-        std::vector<std::string>{"EnergyGuns", "EnergyBlades", "ShieldTech", "Hacking", "Cybernetics"});
+        std::vector<std::string>{"EnergyGuns", "EnergyBlades", "ShieldTech", "Hacking"});
 
     Character character = makeMember("Ada", "Knight");
     character.skills["Sword"] = {"Sword", 10, SkillMastery::Grandmaster};
@@ -583,49 +563,6 @@ TEST_CASE("energy weapon masteries: shields from Expert, exposed bodies and clea
     CHECK(blade.meleeShieldModifiers.shieldDamageMultiplier == doctest::Approx(1.25f));
     CHECK(blade.meleeShieldModifiers.cleave);
     CHECK_FALSE(blade.meleeShieldOverload);
-}
-
-TEST_CASE("implants: Cybernetics opens the sockets, the better of a family counts, bonuses grow 5 % a rank")
-{
-    const ItemTable &itemTable = itemTableWithHesperItems();
-    Party party = makeParty({makeMember("Ada", "Knight")}, 0);
-    party.setItemTable(&itemTable);
-    Character &member = *party.member(0);
-    const auto implant = [&itemTable](uint32_t itemId)
-    {
-        return ItemGenerator::makeInventoryItem(itemId, itemTable, ItemGenerationMode::Generic);
-    };
-    std::optional<InventoryItem> replaced;
-
-    // No Cybernetics: no socket.
-    CHECK_EQ(member.implantSocketCount(), 0u);
-    CHECK_FALSE(party.fitImplant(0, 0, implant(11201), replaced));
-    member.skills["Cybernetics"] = {"Cybernetics", 4, SkillMastery::Expert};
-    CHECK_EQ(member.implantSocketCount(), 2u);
-    CHECK_FALSE(party.fitImplant(0, 2, implant(11201), replaced));
-    // Not an implant.
-    CHECK_FALSE(party.fitImplant(0, 0, implant(11022), replaced));
-
-    const int armorClassBefore = member.magicalBonuses.armorClass;
-    REQUIRE(party.fitImplant(0, 0, implant(11200), replaced));
-    CHECK_FALSE(replaced.has_value());
-    // Dermal Mesh I: +20 armor class, +20 % at rank 4: 24.
-    CHECK_EQ(member.magicalBonuses.armorClass - armorClassBefore, 24);
-    // Mesh II in the second socket: only the better of the family counts (+40 x 1.2 = 48).
-    REQUIRE(party.fitImplant(0, 1, implant(11201), replaced));
-    CHECK_EQ(member.magicalBonuses.armorClass - armorClassBefore, 48);
-    // Replacing hands the old implant back.
-    REQUIRE(party.fitImplant(0, 0, implant(11213), replaced));
-    REQUIRE(replaced.has_value());
-    CHECK_EQ(replaced->objectDescriptionId, 11200u);
-    // Damping Weave II: -20 % Energy damage taken, x1.2: -24.
-    CHECK_EQ(member.energyDamageTakenPercent, -24);
-
-    InventoryItem taken = {};
-    REQUIRE(party.takeImplant(0, 1, taken));
-    CHECK_EQ(taken.objectDescriptionId, 11201u);
-    CHECK_EQ(member.magicalBonuses.armorClass, armorClassBefore);
-    CHECK_FALSE(party.takeImplant(0, 1, taken));
 }
 
 TEST_CASE("a world's loot.yml: its random items roll only from its classes, by treasure level")

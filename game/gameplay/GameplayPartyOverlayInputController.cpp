@@ -20,6 +20,8 @@
 #include "game/ui/GameplayHudOverlaySupport.h"
 #include "game/ui/InventoryBagOverview.h"
 #include "game/items/InventoryItemUseRuntime.h"
+#include "game/items/ItemGenerator.h"
+#include "game/items/ItemRuntime.h"
 #include "game/party/LloydsBeaconRuntime.h"
 #include "game/party/SpellIds.h"
 #include "game/party/SkillData.h"
@@ -542,6 +544,32 @@ std::string pouchHoverText(ItemPouch pouch)
                                       : Engine::tr("New loot: what you leave here is trash");
 }
 
+// A hovered implant socket: its implant's name, else the socket's name and, while closed, that Implants opens it.
+std::string implantSocketHoverText(GameplayScreenRuntime &context, const Character &character, ImplantSocket socket)
+{
+    const uint32_t itemId = character.implants[size_t(socket)].objectDescriptionId;
+    const ItemDefinition *pItem =
+        itemId != 0 && context.itemTable() != nullptr ? context.itemTable()->get(itemId) : nullptr;
+
+    if (pItem != nullptr)
+    {
+        // Its name with its stage (DECISIONS H-83).
+        const InventoryItem &fitted = character.implants[size_t(socket)];
+        const ImplantDefinition *pImplant = context.itemTable()->implant(itemId);
+        const std::string name = ItemRuntime::displayName(fitted, *pItem);
+        return pImplant != nullptr
+            ? Engine::tr("{item} {stage}", {{"item", name},
+                  {"stage", implantStageName(implantStage(*pImplant, fitted.implantKills,
+                      boundGameRules().skills.implantEvolveFactor()))}})
+            : name;
+    }
+
+    const std::string socketName = Engine::tr(ImplantSocketDisplayNames[size_t(socket)]);
+    return character.implantSocketOpen(socket)
+        ? Engine::tr("{socket} socket", {{"socket", socketName}})
+        : Engine::tr("{socket} socket: opens with the Implants skill", {{"socket", socketName}});
+}
+
 std::string skillRaiseCostHoverText(
     const Character &character,
     const std::string &canonicalSkill,
@@ -654,7 +682,8 @@ CharacterSkillUiData buildCharacterSkillUiData(
     {
         const std::string &canonicalName = ignoredSkillName;
 
-        if (shownSkillNames.contains(canonicalName))
+        // A skill not in this game's content (Implants without Hesper) is kept, unseen.
+        if (shownSkillNames.contains(canonicalName) || !skillAvailable(canonicalName))
         {
             continue;
         }
@@ -2239,6 +2268,7 @@ bool GameplayPartyOverlayInputController::openWorkbench(GameplayScreenRuntime &c
     bench.crafting.searchActive = false;
     bench.crafting.clearResult();
     screen.dollJewelryOverlayOpen = false;
+    screen.dollImplantsOverlayOpen = false;
     return true;
 }
 
@@ -2954,7 +2984,61 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 }
             }
 
-            if (!context.heldInventoryItem().active)
+            // Hesper's implants overlay: its button and, while it is open, its sockets and panel (nothing under it).
+            const bool implantsShown = pActiveCharacter != nullptr && pActiveCharacter->showsImplantSockets();
+            const bool implantsOpen = implantsShown && context.characterScreenReadOnly().dollImplantsOverlayOpen;
+
+            if (implantsShown)
+            {
+                const auto resolveLayout = [&context, screenWidth, screenHeight](const std::string &layoutId)
+                {
+                    const UiLayoutManager::LayoutElement *pLayout = context.findHudLayoutElement(layoutId);
+                    return pLayout != nullptr
+                        ? context.resolveHudLayoutElement(layoutId, screenWidth, screenHeight, pLayout->width,
+                            pLayout->height)
+                        : std::nullopt;
+                };
+                const std::optional<GameplayResolvedHudLayoutElement> button =
+                    resolveLayout("CharacterImplantsButton");
+
+                if (button && context.isPointerInsideResolvedElement(*button, pointerX, pointerY))
+                {
+                    return {GameplayCharacterPointerTargetType::ImplantsButton};
+                }
+
+                if (implantsOpen)
+                {
+                    for (size_t socket = 0; socket < ImplantSocketCount; ++socket)
+                    {
+                        const std::optional<GameplayResolvedHudLayoutElement> resolved = resolveLayout(
+                            "CharacterDollImplant" + std::string(ImplantSocketDisplayNames[socket]) + "Slot");
+
+                        if (resolved && context.isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                        {
+                            GameplayCharacterPointerTarget pointerTarget = {};
+                            pointerTarget.type = GameplayCharacterPointerTargetType::ImplantSocket;
+                            pointerTarget.page = context.characterScreenReadOnly().page;
+                            pointerTarget.implantSocket = uint8_t(socket);
+                            return pointerTarget;
+                        }
+                    }
+
+                    const std::optional<GameplayResolvedHudLayoutElement> panel =
+                        resolveLayout("CharacterDollImplantsOverlayPanel");
+
+                    if (panel && context.isPointerInsideResolvedElement(*panel, pointerX, pointerY))
+                    {
+                        GameplayCharacterPointerTarget pointerTarget = {};
+                        pointerTarget.type = !isReadOnlyAdventurersInnView && context.heldInventoryItem().active
+                            ? GameplayCharacterPointerTargetType::ImplantsPanel
+                            : GameplayCharacterPointerTargetType::None;
+                        pointerTarget.page = context.characterScreenReadOnly().page;
+                        return pointerTarget;
+                    }
+                }
+            }
+
+            if (!context.heldInventoryItem().active && !implantsOpen)
             {
                 for (auto it = context.renderedInspectableHudItems().rbegin();
                      it != context.renderedInspectableHudItems().rend();
@@ -3007,33 +3091,11 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 {"CharacterDollRing6Slot", EquipmentSlot::Ring6, true},
             };
 
-            // The Augment row's implant sockets (jewellery overlay, a character with Cybernetics or an implant).
-            if (!isReadOnlyAdventurersInnView && context.characterScreenReadOnly().dollJewelryOverlayOpen
-                && pActiveCharacter != nullptr && pActiveCharacter->showsImplantSockets())
-            {
-                for (uint8_t socket = 0; socket < pActiveCharacter->implants.size(); ++socket)
-                {
-                    const std::string socketId = "CharacterDollImplant" + std::to_string(socket + 1) + "Slot";
-                    const UiLayoutManager::LayoutElement *pLayout = context.findHudLayoutElement(socketId);
-                    const std::optional<GameplayResolvedHudLayoutElement> resolved = pLayout != nullptr
-                        ? context.resolveHudLayoutElement(socketId, screenWidth, screenHeight, pLayout->width,
-                            pLayout->height)
-                        : std::nullopt;
-
-                    if (resolved && context.isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
-                    {
-                        GameplayCharacterPointerTarget pointerTarget = {};
-                        pointerTarget.type = GameplayCharacterPointerTargetType::ImplantSocket;
-                        pointerTarget.page = context.characterScreenReadOnly().page;
-                        pointerTarget.implantSocket = socket;
-                        return pointerTarget;
-                    }
-                }
-            }
-
             for (const CharacterEquipmentSlotTarget &target : EquipmentSlotTargets)
             {
-                if (!isVisibleInCharacterDollOverlay(target.slot, context.characterScreenReadOnly().dollJewelryOverlayOpen))
+                if (implantsOpen
+                    || !isVisibleInCharacterDollOverlay(
+                        target.slot, context.characterScreenReadOnly().dollJewelryOverlayOpen))
                 {
                     continue;
                 }
@@ -3139,7 +3201,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 }
             }
 
-            if (!isReadOnlyAdventurersInnView && context.heldInventoryItem().active)
+            if (!isReadOnlyAdventurersInnView && context.heldInventoryItem().active && !implantsOpen)
             {
                 const UiLayoutManager::LayoutElement *pDollLayout = context.findHudLayoutElement("CharacterDollPanel");
 
@@ -3508,6 +3570,11 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                   {"key", int64_t(hoveredCharacterTarget.bagButton + 1)}})
         : hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::InventoryPouchButton
             ? pouchHoverText(ItemPouch(hoveredCharacterTarget.bagButton))
+        : hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::ImplantsButton
+            ? Engine::localize(displaySkillName("Implants"), "skill")
+        : hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::ImplantSocket
+                && pActiveCharacter != nullptr
+            ? implantSocketHoverText(context, *pActiveCharacter, ImplantSocket(hoveredCharacterTarget.implantSocket))
             : std::string());
 
     if (pParty != nullptr)
@@ -3709,6 +3776,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 if (isReadOnlyAdventurersInnView)
                 {
                     context.characterScreen().dollJewelryOverlayOpen = false;
+                    context.characterScreen().dollImplantsOverlayOpen = false;
                     context.characterScreen().adventurersInnRosterOverlayOpen = true;
                 }
                 else
@@ -3736,6 +3804,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 {
                     context.characterScreen().adventurersInnRosterOverlayOpen = false;
                     context.characterScreen().dollJewelryOverlayOpen = false;
+                    context.characterScreen().dollImplantsOverlayOpen = false;
                     context.characterScreen().page = GameplayUiController::CharacterPage::Inventory;
                 }
 
@@ -3842,6 +3911,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     if (pParty->dismissMemberToAdventurersInn(memberIndex))
                     {
                         context.characterScreen().dollJewelryOverlayOpen = false;
+                        context.characterScreen().dollImplantsOverlayOpen = false;
                         context.setStatusBarEvent(Engine::tr("{name} dismissed.", {{"name", dismissedName}}));
                     }
                     else
@@ -3940,6 +4010,15 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             if (target.type == GameplayCharacterPointerTargetType::MagnifyButton)
             {
                 context.characterScreen().dollJewelryOverlayOpen = !context.characterScreenReadOnly().dollJewelryOverlayOpen;
+                context.characterScreen().dollImplantsOverlayOpen = false;
+                return;
+            }
+
+            if (target.type == GameplayCharacterPointerTargetType::ImplantsButton)
+            {
+                context.characterScreen().dollImplantsOverlayOpen =
+                    !context.characterScreenReadOnly().dollImplantsOverlayOpen;
+                context.characterScreen().dollJewelryOverlayOpen = false;
                 return;
             }
 
@@ -4035,7 +4114,11 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
             // An implant socket: take its implant into the hand, or fit the held implant (the one it replaces into
             // the hand).
-            if (target.type == GameplayCharacterPointerTargetType::ImplantSocket)
+            // Hesper's implant sockets: a click with an empty hand takes the socket's implant, with an implant in hand
+            // fits it there (handing back the one it replaces); anywhere else on the open overlay the held implant
+            // goes to its own socket, as a ring finds a free ring slot.
+            if (target.type == GameplayCharacterPointerTargetType::ImplantSocket
+                || target.type == GameplayCharacterPointerTargetType::ImplantsPanel)
             {
                 if (!selectedPartyMemberCanAct)
                 {
@@ -4047,7 +4130,8 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 {
                     InventoryItem implant = {};
 
-                    if (pParty->takeImplant(memberIndex, target.implantSocket, implant))
+                    if (target.type == GameplayCharacterPointerTargetType::ImplantSocket
+                        && pParty->takeImplant(memberIndex, ImplantSocket(target.implantSocket), implant))
                     {
                         setHeldItem(implant);
                     }
@@ -4055,15 +4139,25 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     return;
                 }
 
+                const uint32_t heldItemId = context.heldInventoryItem().item.objectDescriptionId;
+                const std::optional<ImplantSocket> ownSocket = pParty->implantSocketForItem(heldItemId);
+                const ImplantSocket socket = target.type == GameplayCharacterPointerTargetType::ImplantSocket
+                    ? ImplantSocket(target.implantSocket)
+                    : ownSocket.value_or(ImplantSocket::Cranial);
                 std::optional<InventoryItem> replaced;
+                const Party::ImplantFitResult result =
+                    pParty->fitImplant(memberIndex, socket, context.heldInventoryItem().item, replaced);
 
-                if (!pParty->fitImplant(memberIndex, target.implantSocket, context.heldInventoryItem().item, replaced))
+                if (result != Party::ImplantFitResult::Fitted)
                 {
-                    const ItemDefinition *pHeld =
-                        context.itemTable()->get(context.heldInventoryItem().item.objectDescriptionId);
-                    context.setStatusBarEvent(pHeld == nullptr || pHeld->equipStat != "Implant"
+                    const std::string socketName = ownSocket
+                        ? Engine::tr(ImplantSocketDisplayNames[size_t(*ownSocket)])
+                        : std::string();
+                    context.setStatusBarEvent(result == Party::ImplantFitResult::NotImplant
                             ? Engine::tr("Only an implant fits there")
-                            : Engine::tr("Cybernetics has not opened that socket"));
+                            : result == Party::ImplantFitResult::WrongSocket
+                            ? Engine::tr("This implant belongs in the {socket} socket", {{"socket", socketName}})
+                            : Engine::tr("Learn Implants to open this socket"));
                     return;
                 }
 
@@ -4209,6 +4303,13 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
                 if (pItemDefinition == nullptr)
                 {
+                    return;
+                }
+
+                // An implant is never worn on the paperdoll: it goes into a socket of the implants overlay.
+                if (pItemDefinition->equipStat == "Implant")
+                {
+                    context.setStatusBarEvent(Engine::tr("Implants are fitted in the implants view"));
                     return;
                 }
 

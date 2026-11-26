@@ -4859,6 +4859,7 @@ bool GameDataLoader::loadItemTable(const Engine::AssetFileSystem &assetFileSyste
     std::vector<std::vector<std::string>> itemSetRows;
     std::vector<std::vector<std::string>> workshopModRows;
     std::vector<std::vector<std::string>> itemAliasRows;
+    std::vector<std::vector<std::string>> implantRows;
 
     for (const WorldManifest &manifest : mountedWorlds)
     {
@@ -4867,7 +4868,8 @@ bool GameDataLoader::loadItemTable(const Engine::AssetFileSystem &assetFileSyste
             if (contribution.table != "item_effects"
                 && contribution.table != "item_sets"
                 && contribution.table != "workshop_mods"
-                && contribution.table != "item_aliases")
+                && contribution.table != "item_aliases"
+                && contribution.table != "implants")
             {
                 continue;
             }
@@ -4914,6 +4916,10 @@ bool GameDataLoader::loadItemTable(const Engine::AssetFileSystem &assetFileSyste
             {
                 workshopModRows.insert(workshopModRows.end(), contributionRows.begin(), contributionRows.end());
             }
+            else if (contribution.table == "implants")
+            {
+                implantRows.insert(implantRows.end(), contributionRows.begin(), contributionRows.end());
+            }
             else
             {
                 itemAliasRows.insert(itemAliasRows.end(), contributionRows.begin(), contributionRows.end());
@@ -4932,11 +4938,15 @@ bool GameDataLoader::loadItemTable(const Engine::AssetFileSystem &assetFileSyste
     if (!m_itemTable.loadContentEffectRows(itemEffectRows, compositionError)
         || !m_itemTable.loadItemSetRows(itemSetRows, compositionError)
         || !m_itemTable.loadWorkshopModRows(workshopModRows, compositionError)
+        || !m_itemTable.loadImplantRows(implantRows, compositionError)
         || !m_itemTable.loadSourceAliasRows(itemAliasRows, compositionError))
     {
         std::cerr << "Failed to parse contributed item effects: " << compositionError << '\n';
         return false;
     }
+
+    // Hesper's Implants exist only while a mounted world provides them (decided once here, never per frame).
+    setImplantsAvailable(m_itemTable.implantsAvailable());
 
     for (const WorldManifest &manifest : mountedWorlds)
     {

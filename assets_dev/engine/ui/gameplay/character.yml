@@ -1884,35 +1884,76 @@ elements:
           width: 40
           height: 40
           notes: Jewelry overlay ring slot 6
-        - id: CharacterDollImplant1Slot
+      - id: CharacterDollImplantsOverlayPanel
+        anchor: top_right
+        width: 176
+        height: 345
+        z_index: 90
+        interactive: true
+        asset:
+          default: obsidian_reading_surface
+        notes: Hesper's implants overlay beside the jewelry one (devdocs/hesper/IMPLANTS_SPEC.md 3.1); opened by
+          CharacterImplantsButton, drawn only for a character with the Implants skill or an implant.
+        children:
+        - id: CharacterDollImplantsBody
           anchor: top_left
-          offset_x: 4
-          offset_y: 288
-          width: 30
-          height: 30
-          notes: Implant socket 1 (Hesper's Augment row; shown only for a character with Cybernetics or an implant). The
-            four sockets stay left of the magnifier button (x 137-170, y 277-327 here).
-        - id: CharacterDollImplant2Slot
+          offset_x: 0
+          offset_y: 0
+          width: 176
+          height: 345
+          asset:
+            default: obsidian_implants_body
+          notes: The body schematic behind the six sockets (drawn with the panel). Each socket's rect is its rim's
+            opening; the renderer draws the rim (obsidian_implant_socket_locked, or _open for an open socket, fitted
+            or not) 1.5x the rect, centred.
+        - id: CharacterDollImplantCranialSlot
           anchor: top_left
-          offset_x: 37
-          offset_y: 288
-          width: 30
-          height: 30
-          notes: Implant socket 2 (Hesper's Augment row; shown only for a character with Cybernetics or an implant)
-        - id: CharacterDollImplant3Slot
+          offset_x: 68
+          offset_y: 22
+          width: 40
+          height: 40
+          notes: Cranial implant socket (opens at Novice Implants). The rims (1.5x the slot) clear the buttons (x 100-170, y
+            277-327 here).
+        - id: CharacterDollImplantCardiacSlot
           anchor: top_left
-          offset_x: 70
-          offset_y: 288
-          width: 30
-          height: 30
-          notes: Implant socket 3 (Hesper's Augment row; shown only for a character with Cybernetics or an implant)
-        - id: CharacterDollImplant4Slot
+          offset_x: 68
+          offset_y: 112
+          width: 40
+          height: 40
+          notes: Cardiac implant socket (opens at Novice Implants). The rims (1.5x the slot) clear the buttons (x 100-170, y
+            277-327 here).
+        - id: CharacterDollImplantSpinalSlot
           anchor: top_left
-          offset_x: 103
-          offset_y: 288
-          width: 30
-          height: 30
-          notes: Implant socket 4 (Hesper's Augment row; shown only for a character with Cybernetics or an implant)
+          offset_x: 68
+          offset_y: 196
+          width: 40
+          height: 40
+          notes: Spinal implant socket (opens at Expert Implants). The rims (1.5x the slot) clear the buttons (x 100-170, y
+            277-327 here).
+        - id: CharacterDollImplantDermalSlot
+          anchor: top_left
+          offset_x: 14
+          offset_y: 132
+          width: 40
+          height: 40
+          notes: Dermal implant socket (opens at Expert Implants). The rims (1.5x the slot) clear the buttons (x 100-170, y
+            277-327 here).
+        - id: CharacterDollImplantOpticSlot
+          anchor: top_left
+          offset_x: 122
+          offset_y: 38
+          width: 40
+          height: 40
+          notes: Optic implant socket (opens at Master Implants). The rims (1.5x the slot) clear the buttons (x 100-170, y
+            277-327 here).
+        - id: CharacterDollImplantNeuralSlot
+          anchor: top_left
+          offset_x: 122
+          offset_y: 132
+          width: 40
+          height: 40
+          notes: Neural implant socket (opens at Grandmaster Implants). The rims (1.5x the slot) clear the buttons (x 100-170, y
+            277-327 here).
     - id: CharacterDollBowSlot
       anchor: top_left
       offset_x: 0
@@ -2023,3 +2064,18 @@ elements:
         highlighted: obsidian_action_magnifier
         selected: obsidian_action_magnifier
       notes: Magnifying glass toggle used by all four character views.
+    - id: CharacterImplantsButton
+      anchor: bottom_right
+      offset_x: -42
+      offset_y: -50
+      width: 33
+      height: 51
+      z_index: 95
+      interactive: true
+      asset:
+        default: obsidian_action_implants
+        pressed: obsidian_action_implants
+        highlighted: obsidian_action_implants
+        selected: obsidian_action_implants
+      notes: Hesper's implants overlay toggle, the magnifier's twin (same rect, same round plate, a 4-unit gap to its
+        left); drawn only for a character with the Implants skill or an implant.

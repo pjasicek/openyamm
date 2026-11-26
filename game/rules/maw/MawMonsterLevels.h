@@ -44,6 +44,17 @@ public:
         const std::string &challengeMode) const;
     // Whether MAW lists the map (it has a band): the maps the Journal's Progress tab counts.
     bool lists(const std::string &mapFileName) const;
+    // Hesper's Implants under MAW (a world balance file's `implants`): the stage II threshold is multiplied by
+    // evolveFactor (DECISIONS H-91: 250 -> 750). MAW's per-part values are the implants table's maw_ columns.
+    struct ImplantScale
+    {
+        double evolveFactor = 3.0;
+    };
+    const ImplantScale &implantScale() const;
+    // A world's placed boss rows (its balance file's opt-in `bosses: {row: health multiplier}`, Hesper's hp_x;
+    // DECISIONS H-86): MAW sizes a boss row like any monster of its level, so this multiplies its health once, when
+    // the actor is created (ActorRulesetFacts::bossHealthMultiplier). 1 for every other row.
+    double bossHealthMultiplier(int monsterId) const;
     bool isHorizontalStarterMap(const std::string &mapFileName) const;
     bool isMadnessStartingMap(const std::string &mapFileName) const;
     // A starting map where Hell's melee monsters gain no ranged attack (map_levels.yml `ranged_free_maps`, MAW's six of
@@ -78,6 +89,8 @@ private:
     std::unordered_set<std::string> m_madnessStartingMaps;
     std::unordered_set<std::string> m_rangedFreeMaps;
     std::unordered_map<std::string, int> m_madnessLevels;
+    ImplantScale m_implantScale;
+    std::unordered_map<int, double> m_bossHealth;
 };
 
 // What a map's monster levels depend on besides the monster table.

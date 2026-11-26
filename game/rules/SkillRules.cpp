@@ -3,6 +3,7 @@
 #include "engine/Localization.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/party/Party.h"
+#include "game/tables/ItemTable.h"
 #include "game/StringUtils.h"
 
 #include <algorithm>
@@ -84,6 +85,28 @@ uint32_t SkillRules::masteryRequiredLevel(const std::string &, SkillMastery mast
         default:
             return 0;
     }
+}
+
+int SkillRules::implantEffectLevel(const Character &character) const
+{
+    const CharacterSkill *pSkill = character.findSkill("Implants");
+
+    if (pSkill == nullptr || pSkill->level == 0)
+    {
+        return 0;
+    }
+
+    return std::clamp(int(pSkill->level) + character.skillBonus("Implants"), 0, ImplantEffectLevelCap);
+}
+
+float SkillRules::implantEvolveFactor() const
+{
+    return 1.0f;
+}
+
+const ImplantShare &SkillRules::implantShare(const ImplantComponent &component) const
+{
+    return component.standard;
 }
 
 int SkillRules::masteryTeacherCost(const Character &, const std::string &, SkillMastery, int standardCost) const

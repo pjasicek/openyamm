@@ -265,7 +265,10 @@ std::optional<InventoryItem> ItemGenerator::generateRandomInventoryItem(
     const std::function<bool(const ItemDefinition &)> filter =
         [&request, &callerFilter, pWorldLoot, &shopPool](const ItemDefinition &entry)
         {
-            return entry.availableInWorld(request.worldId) && shopPoolAllows(entry, shopPool)
+            // Implants never come from random loot or shops, whatever their flags: only scripts and placed chests
+            // give them (Hesper's Archive, bosses, vaults).
+            return entry.equipStat != "Implant" && entry.availableInWorld(request.worldId)
+                && shopPoolAllows(entry, shopPool)
                 && (!callerFilter || callerFilter(entry))
                 && (!request.boss || ItemEnchantRuntime::isEnchantable(entry))
                 && (pWorldLoot == nullptr || pWorldLoot->listedItemIds.contains(entry.itemId));

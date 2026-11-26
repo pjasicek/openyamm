@@ -670,6 +670,8 @@ public:
     {
         bool open = false;
         bool dollJewelryOverlayOpen = false;
+        // Hesper's implants overlay (opening it closes the jewelry one, and the other way round).
+        bool dollImplantsOverlayOpen = false;
         bool adventurersInnRosterOverlayOpen = false;
         // Several bags (MAW): the open bag fills the grid at full size instead of the four-bag overview (the 1-4
         // buttons and keys zoom, the overview button returns). Not saved.

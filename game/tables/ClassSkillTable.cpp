@@ -349,8 +349,21 @@ SkillMastery ClassSkillTable::getClassCap(const std::string &className, const st
     const std::string canonicalClass = canonicalClassName(className);
     const std::string canonicalSkill = canonicalSkillName(skillName);
 
-    // Technology skills are learned technology, not class talents: every class can reach Grandmaster.
-    if (isTechnologySkill(canonicalSkill))
+    // Implants exist only while a world provides them (skillAvailable): no class can learn them otherwise.
+    if (!skillAvailable(canonicalSkill))
+    {
+        return SkillMastery::None;
+    }
+
+    // Implants have no masteries (DECISIONS H-91): every class learns them, at Normal only.
+    if (canonicalSkill == "Implants")
+    {
+        return SkillMastery::Normal;
+    }
+
+    // Technology skills are taught, not class talents: every class can reach Grandmaster. No class card or mercenary
+    // lists them, nor Implants (isTaughtOnlySkill).
+    if (isTaughtOnlySkill(canonicalSkill))
     {
         return SkillMastery::Grandmaster;
     }

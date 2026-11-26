@@ -547,8 +547,8 @@ void applySkills(
     for (const std::string &skillName : allCanonicalSkillNames())
     {
         // Mercenaries are home-world hirelings: they never roll technology skills, nor a ruleset's own (MAW's Cover,
-        // Mana Shield, Enlightenment, Retaliation), which MAW's mercenaries never get either (OY-192).
-        if (isTechnologySkill(skillName) || isRulesetSkill(skillName))
+        // Mana Shield, Enlightenment, Retaliation), which MAW's mercenaries never get either (OY-192), nor Implants.
+        if (isTaughtOnlySkill(skillName) || isRulesetSkill(skillName))
         {
             continue;
         }

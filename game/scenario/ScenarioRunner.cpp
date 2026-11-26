@@ -5330,6 +5330,61 @@ bool runEquipItem(
     return true;
 }
 
+// fit_implant: {item_id, member_index, socket, expect}: fits a carried implant into the member's socket (cranial ...
+// neural); expect is fitted (the default), not_implant, wrong_socket or socket_closed.
+bool runFitImplant(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    if (!payloadIsMap(step, failures) || !ensureRuntimeDriver(context, failures))
+    {
+        return false;
+    }
+
+    const std::optional<ImplantSocket> socket = parseImplantSocket(step.payload["socket"].as<std::string>(""));
+    const std::string expect = step.payload["expect"].as<std::string>("fitted");
+    static constexpr std::array<std::pair<const char *, Party::ImplantFitResult>, 4> Results = {{
+        {"fitted", Party::ImplantFitResult::Fitted}, {"not_implant", Party::ImplantFitResult::NotImplant},
+        {"wrong_socket", Party::ImplantFitResult::WrongSocket},
+        {"socket_closed", Party::ImplantFitResult::SocketClosed},
+    }};
+    const auto expected = std::find_if(Results.begin(), Results.end(),
+        [&expect](const std::pair<const char *, Party::ImplantFitResult> &entry) { return expect == entry.first; });
+
+    if (!socket || expected == Results.end())
+    {
+        failures.push_back(stepLocation(step) + ": fit_implant needs a socket (cranial ... neural) and a known expect");
+        return false;
+    }
+
+    seedRuntimeDriverFromContext(context);
+    Party::ImplantFitResult fitResult = Party::ImplantFitResult::NotImplant;
+    std::string failure;
+
+    if (!context.runtimeDriver->fitCarriedImplant(step.payload["member_index"].as<size_t>(0),
+            step.payload["item_id"].as<uint32_t>(0), *socket, fitResult, failure))
+    {
+        failures.push_back(stepLocation(step) + ": " + failure);
+        return false;
+    }
+
+    syncContextFromRuntime(context);
+
+    if (fitResult != expected->second)
+    {
+        const auto actual = std::find_if(Results.begin(), Results.end(),
+            [fitResult](const std::pair<const char *, Party::ImplantFitResult> &entry)
+            {
+                return entry.second == fitResult;
+            });
+        failures.push_back(stepLocation(step) + ": fit_implant expected " + expect + ", got " + actual->first);
+        return false;
+    }
+
+    return true;
+}
+
 // right_click_portrait: {item_id, carrier_index, member_index, inventory, release, expect}: right-clicks the member's
 // portrait with the carrier's first pack item of the id under the cursor (on the inventory page when `inventory`).
 // A scroll's text must close with the release; with `release` (Modern controls: press on the crosshair, release on
@@ -6858,6 +6913,43 @@ bool assertQuickItemPopup(
     if (!success)
     {
         failures.push_back(stepLocation(step) + ": quick item popup is " + actual);
+    }
+
+    return success;
+}
+
+// assert implants_shown: {member_index, value}: whether the character screen offers the member Hesper's implants
+// button and overlay (Character::showsImplantSockets, which the renderer and the input both read; false while no world
+// provides implants).
+bool assertImplantsShown(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    const YAML::Node node = step.payload["implants_shown"];
+
+    if (!node)
+    {
+        return true;
+    }
+
+    if (!node.IsMap() || !ensureRuntimeDriver(context, failures))
+    {
+        failures.push_back(stepLocation(step) + ": implants_shown assertion requires a mapping");
+        return false;
+    }
+
+    seedRuntimeDriverFromContext(context);
+    const Party *pParty = context.runtimeDriver->party();
+    const Character *pMember = pParty != nullptr ? pParty->member(node["member_index"].as<size_t>(0)) : nullptr;
+    const bool actual = pMember != nullptr && pMember->showsImplantSockets();
+    const bool expected = node["value"].as<bool>(false);
+    const bool success = pMember != nullptr && actual == expected;
+    scenarioLogAssert(context, step, "implants_shown", expected ? "true" : "false", actual ? "true" : "false", success);
+
+    if (!success)
+    {
+        failures.push_back(stepLocation(step) + ": implants shown is " + (actual ? "true" : "false"));
     }
 
     return success;
@@ -12436,6 +12528,7 @@ bool runAssert(
     success = assertTeacherLedger(context, step, failures) && success;
     success = assertQuickItemRing(context, step, failures) && success;
     success = assertQuickItemPopup(context, step, failures) && success;
+    success = assertImplantsShown(context, step, failures) && success;
     success = assertDimensionDoor(context, step, failures) && success;
     success = assertLight(context, step, failures) && success;
     success = assertScriptedFog(context, step, failures) && success;
@@ -13104,6 +13197,9 @@ ScenarioRunResult ScenarioRunner::run(
             break;
         case ScenarioStepKind::EquipItem:
             stepSuccess = runEquipItem(context, step, result.failures);
+            break;
+        case ScenarioStepKind::FitImplant:
+            stepSuccess = runFitImplant(context, step, result.failures);
             break;
         case ScenarioStepKind::TurnBasedTurns:
             stepSuccess = runTurnBasedTurns(context, step, result.failures);

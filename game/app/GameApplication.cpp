@@ -8415,7 +8415,8 @@ void GameApplication::registerDebugConsoleCommands()
             {
                 const std::optional<uint32_t> readId = skillIdForSkillName(context.args[1]);
 
-                if (!readId)
+                // Implants exist only with a world that provides them (skillAvailable).
+                if (!readId || !skillAvailable(*skillNameForSkillId(*readId)))
                 {
                     return commandResult(false, "Unknown skill.");
                 }
@@ -8437,7 +8438,7 @@ void GameApplication::registerDebugConsoleCommands()
             const std::optional<uint32_t> skillId = skillIdForSkillName(context.args[1]);
             const std::optional<int32_t> level = parseInt32Argument(context.args[2]);
 
-            if (!skillId || !level || *level < 0)
+            if (!skillId || !level || *level < 0 || !skillAvailable(*skillNameForSkillId(*skillId)))
             {
                 return commandResult(false, "Unknown skill or invalid level.");
             }

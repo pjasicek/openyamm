@@ -163,7 +163,7 @@ void grantSkills(Character &character, const GameRules &rules, const ClassSkillT
     {
         const SkillMastery cap = classSkills.getEffectiveCap(character.className, character.raceId, skill);
 
-        if (cap == SkillMastery::None || isTechnologySkill(skill))
+        if (cap == SkillMastery::None || isTaughtOnlySkill(skill))
         {
             continue;
         }

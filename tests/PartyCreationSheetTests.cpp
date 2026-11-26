@@ -48,7 +48,7 @@ TEST_CASE("party creation sheet groups every classic and ruleset skill once")
 
     for (const std::string &skill : allCanonicalSkillNames())
     {
-        CHECK_MESSAGE(listed.contains(skill) == !isTechnologySkill(skill), skill);
+        CHECK_MESSAGE(listed.contains(skill) == !isTaughtOnlySkill(skill), skill);
     }
 }
 

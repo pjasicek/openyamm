@@ -53,87 +53,170 @@ bool potionExpiryWarningStarts(float previousRemainingSeconds, float remainingSe
         && remainingSeconds <= Party::PotionExpiryWarningSeconds;
 }
 
-// An implant's family (no two of a family add up): its set id `family:<name>`, else its canonical id's name without the
-// tier (dermal_2 -> dermal).
-std::string implantFamily(const ItemDefinition &item)
+// The fitted implants' shares (DECISIONS H-91): each part of each implant in its own open socket at its stage, the
+// rules' values (Standard's or MAW's) and the member's Implants effect level (capped at 50), summed by ImplantEffect;
+// the stat parts also per primary stat (ImplantStatNames' order); the Recovery parts as one time factor. All zero (the
+// factor 1) for a member without an implant.
+struct FittedImplants
 {
-    if (item.setId.rfind("family:", 0) == 0)
-    {
-        return item.setId.substr(7);
-    }
-    std::string name = item.canonicalId.substr(item.canonicalId.rfind('/') + 1);
-    const size_t separator = name.rfind('_');
-    if (separator != std::string::npos && separator + 1 < name.size()
-        && std::all_of(name.begin() + separator + 1, name.end(), [](char c) { return c >= '0' && c <= '9'; }))
-    {
-        name.resize(separator);
-    }
-    return name;
-}
+    std::array<float, ImplantEffectCount> percents = {};
+    std::array<float, 7> statPercents = {};
+    float recoveryFactor = 1.0f;
 
-// A numbered flag (Coupler30) with its number scaled; other flags unchanged.
-std::string scaledImplantFlag(const std::string &flag, float scale)
-{
-    for (const char *pPrefix : {"Coupler", "Resonator"})
+    float percent(ImplantEffect effect) const
     {
-        const std::string prefix = pPrefix;
-        if (flag.size() > prefix.size() && flag.rfind(prefix, 0) == 0)
-        {
-            return prefix + std::to_string(int(std::lround(float(std::stoi(flag.substr(prefix.size()))) * scale)));
-        }
+        return percents[size_t(effect)];
     }
-    return flag;
-}
+};
 
-// The installed implants' effects, the better of each family only, each bonus +5 % per Cybernetics rank.
-void applyImplants(Character &member, const ItemTable &itemTable)
+FittedImplants fittedImplants(const Character &member, const ItemTable &itemTable, const SkillRules &skillRules)
 {
-    std::unordered_map<std::string, const ItemDefinition *> bestOfFamily;
-    for (uint32_t itemId : member.implants)
+    FittedImplants fitted;
+
+    if (!implantsAvailable()
+        || std::all_of(member.implants.begin(), member.implants.end(),
+            [](const InventoryItem &item) { return item.objectDescriptionId == 0; }))
     {
-        const ItemDefinition *pItem = itemId != 0 ? itemTable.get(itemId) : nullptr;
-        if (pItem == nullptr)
+        return fitted;
+    }
+
+    const int level = skillRules.implantEffectLevel(member);
+    const float evolveFactor = skillRules.implantEvolveFactor();
+    float recoveryProduct = 1.0f;
+
+    for (size_t socket = 0; socket < ImplantSocketCount; ++socket)
+    {
+        const InventoryItem &item = member.implants[socket];
+        const ImplantDefinition *pImplant =
+            item.objectDescriptionId != 0 ? itemTable.implant(item.objectDescriptionId) : nullptr;
+
+        if (pImplant == nullptr || size_t(pImplant->socket) != socket
+            || !member.implantSocketOpen(ImplantSocket(socket)))
         {
             continue;
         }
-        const ItemDefinition *&pBest = bestOfFamily[implantFamily(*pItem)];
-        if (pBest == nullptr || pItem->itemId > pBest->itemId)
+
+        const uint32_t stage = implantStage(*pImplant, item.implantKills, evolveFactor);
+
+        for (const ImplantComponent &component : pImplant->components)
         {
-            pBest = pItem;
+            const float percent = implantEffectPercent(skillRules.implantShare(component), stage, level);
+            fitted.percents[size_t(component.effect)] += percent;
+
+            if (component.effect == ImplantEffect::Recovery)
+            {
+                recoveryProduct = implantRecoveryCut(recoveryProduct, percent);
+            }
+            else if (component.effect == ImplantEffect::AllStats)
+            {
+                for (size_t stat = 0; stat < fitted.statPercents.size(); ++stat)
+                {
+                    fitted.statPercents[stat] += (component.exceptStats & (1u << stat)) != 0 ? 0.0f : percent;
+                }
+            }
+            else if (component.effect == ImplantEffect::IntellectPersonality)
+            {
+                fitted.statPercents[1] += percent;
+                fitted.statPercents[2] += percent;
+            }
+            else if (component.effect == ImplantEffect::Accuracy)
+            {
+                fitted.statPercents[4] += percent;
+            }
         }
     }
-    const CharacterSkill *pCybernetics = member.findSkill("Cybernetics");
-    const float scale = 1.0f + 0.05f * float(pCybernetics != nullptr ? pCybernetics->level : 0);
-    const auto scaled = [scale](int value)
+
+    fitted.recoveryFactor = implantRecoveryFactor(recoveryProduct);
+    return fitted;
+}
+
+// The shares read where their totals are made (the sheet's armour class and fire resistance, recovery, damage,
+// missiles); stats, HP and SP are applied by applyImplantStats and applyImplantResources.
+void applyImplantShares(Character &member, const FittedImplants &fitted)
+{
+    member.implantArmorClassPercent = fitted.percent(ImplantEffect::ArmorClass);
+    member.implantFireResistancePercent = fitted.percent(ImplantEffect::FireResistance);
+    member.implantBerserkDamagePercent = fitted.percent(ImplantEffect::BerserkDamage);
+    member.implantSiphonPercent = fitted.percent(ImplantEffect::Siphon);
+    member.implantRecoveryFactor = fitted.recoveryFactor;
+    member.projectileSpeedPercent = fitted.percent(ImplantEffect::ProjectileSpeed);
+    member.reflectPercent = fitted.percent(ImplantEffect::Reflect);
+}
+
+// The stat shares, after every other bonus to the primary stats (H-91). Order: Converter first; then every other
+// stat share (Adrenaline Gland's cut, Neural Loom, Hunter's Eye) as per cent of the totals Converter leaves, added
+// together.
+void applyImplantStats(Character &member, const FittedImplants &fitted)
+{
+    const float converter = fitted.percent(ImplantEffect::Converter);
+
+    if (converter <= 0.0f
+        && std::all_of(fitted.statPercents.begin(), fitted.statPercents.end(),
+            [](float percent) { return percent == 0.0f; }))
     {
-        return int(std::lround(float(value) * scale));
+        return;
+    }
+
+    // Might, Intellect, Personality, Endurance, Accuracy, Speed, Luck (ImplantStatNames' order).
+    constexpr std::array<int CharacterStatBonuses::*, 7> Stats = {&CharacterStatBonuses::might,
+        &CharacterStatBonuses::intellect, &CharacterStatBonuses::personality, &CharacterStatBonuses::endurance,
+        &CharacterStatBonuses::accuracy, &CharacterStatBonuses::speed, &CharacterStatBonuses::luck};
+    const std::array<uint32_t, 7> base = {member.might, member.intellect, member.personality, member.endurance,
+        member.accuracy, member.speed, member.luck};
+    const auto totals = [&]()
+    {
+        std::array<int, 7> values = {};
+
+        for (size_t index = 0; index < values.size(); ++index)
+        {
+            values[index] =
+                int(base[index]) + member.permanentBonuses.*Stats[index] + member.magicalBonuses.*Stats[index];
+        }
+
+        return values;
     };
-    for (const auto &[family, pItem] : bestOfFamily)
+
+    if (converter > 0.0f)
     {
-        ItemContentEffect effect = pItem->contentEffect;
-        for (int *pValue : {&effect.might, &effect.intellect, &effect.personality, &effect.endurance, &effect.speed,
-                 &effect.accuracy, &effect.luck, &effect.maxHealth, &effect.maxSpellPoints, &effect.armorClass,
-                 &effect.meleeAttack, &effect.rangedAttack, &effect.meleeDamage, &effect.rangedDamage,
-                 &effect.allResistances, &effect.fireResistance, &effect.airResistance, &effect.waterResistance,
-                 &effect.earthResistance, &effect.mindResistance, &effect.bodyResistance, &effect.spiritResistance,
-                 &effect.weaponDamage, &effect.recoveryReductionTicks, &effect.energyResistance,
-                 &effect.personalShield, &effect.humPoints, &effect.rangedDamagePercent, &effect.meleeDamagePercent,
-                 &effect.spellDamagePercent, &effect.energyDamageTakenPercent, &effect.gunRecoveryReductionTicks,
-                 &effect.meleeRecoveryReductionTicks})
+        const std::array<int, 7> changes = implantConverterChanges(totals(), converter);
+
+        for (size_t index = 0; index < changes.size(); ++index)
         {
-            *pValue = scaled(*pValue);
+            member.magicalBonuses.*Stats[index] += changes[index];
         }
-        effect.shieldRegenDelaySeconds *= scale;
-        effect.healthRegenPerSecond *= scale;
-        effect.spellRegenPerSecond *= scale;
-        ItemEnchantRuntime::applyContentEffect(effect, member);
-        member.armorShieldPoints += effect.personalShield;
-        for (const std::string &flag : pItem->contentFlags)
-        {
-            member.equippedItemEffectFlags.insert(scaledImplantFlag(flag, scale));
-        }
+    }
+
+    const std::array<int, 7> converted = totals();
+
+    for (size_t index = 0; index < converted.size(); ++index)
+    {
+        member.magicalBonuses.*Stats[index] += implantShareOf(converted[index], fitted.statPercents[index]);
     }
 }
+
+// Kreegan Heart and Mana Gland (gains) and Adrenaline Gland's Standard cost: per cent of the maximum HP and SP every
+// other bonus has made (H-91).
+void applyImplantResources(Character &member, const FittedImplants &fitted,
+    const ClassMultiplierTable *pClassMultiplierTable)
+{
+    const float health = fitted.percent(ImplantEffect::MaxHealth);
+    const float spellPoints = fitted.percent(ImplantEffect::MaxSpellPoints);
+
+    if (health != 0.0f)
+    {
+        member.magicalBonuses.maxHealth += implantShareOf(
+            GameMechanics::calculateEffectiveCharacterMaxHealth(member, pClassMultiplierTable), health);
+    }
+
+    if (spellPoints != 0.0f)
+    {
+        member.magicalBonuses.maxSpellPoints += implantShareOf(
+            GameMechanics::calculateEffectiveCharacterMaxSpellPoints(member, pClassMultiplierTable), spellPoints);
+    }
+}
+
+// Berserker's Seed's melee reach test runs this often while a member wears one.
+constexpr float ImplantMeleeReachCheckSeconds = 0.25f;
 
 constexpr std::array<CharacterBuffId, 24> DispellableCharacterBuffs = {
     CharacterBuffId::Bless,
@@ -440,8 +523,9 @@ void grantAllSkills(Character &character, uint32_t level, SkillMastery mastery)
 
     for (const std::string &skillName : skillNames)
     {
-        // The home-world test party keeps the classic skills; `skill set` grants technology and ruleset skills.
-        if (!isTechnologySkill(skillName) && !isRulesetSkill(skillName))
+        // The home-world test party keeps the classic skills; `skill set` grants technology, ruleset skills and
+        // Implants.
+        if (!isTaughtOnlySkill(skillName) && !isRulesetSkill(skillName))
         {
             grantSeedSkill(character, skillName, level, mastery);
         }
@@ -1387,6 +1471,14 @@ void resetMagicalState(Character &member)
     member.spellRegenAccumulator = 0.0f;
     member.attackRecoveryReductionTicks = 0;
     member.recoveryProgressMultiplier = 1.0f;
+    // Hesper's implant shares (applyImplantShares); implantBerserkActive and Siphoner's payments run on.
+    member.implantArmorClassPercent = 0.0f;
+    member.implantFireResistancePercent = 0.0f;
+    member.implantBerserkDamagePercent = 0.0f;
+    member.implantSiphonPercent = 0.0f;
+    member.implantRecoveryFactor = 1.0f;
+    member.projectileSpeedPercent = 0.0f;
+    member.reflectPercent = 0.0f;
     member.itemSkillBonuses.clear();
     member.equippedItemEffectFlags.clear();
     member.equippedLevelBonus = 0;
@@ -1989,65 +2081,291 @@ bool repairEquippedItemInstance(EquippedItemRuntimeState &runtimeState, const It
 }
 }
 
-bool Party::fitImplant(size_t memberIndex, size_t socket, const InventoryItem &item,
+std::optional<ImplantSocket> Party::implantSocketForItem(uint32_t itemId) const
+{
+    const ImplantDefinition *pImplant = m_pItemTable != nullptr ? m_pItemTable->implant(itemId) : nullptr;
+    return pImplant != nullptr ? std::optional<ImplantSocket>(pImplant->socket) : std::nullopt;
+}
+
+Party::ImplantFitResult Party::fitImplant(size_t memberIndex, ImplantSocket socket, const InventoryItem &item,
     std::optional<InventoryItem> &heldReplacement)
 {
     Character *pMember = member(memberIndex);
     const ItemDefinition *pItem = m_pItemTable != nullptr ? m_pItemTable->get(item.objectDescriptionId) : nullptr;
+    const std::optional<ImplantSocket> itemSocket = implantSocketForItem(item.objectDescriptionId);
 
-    if (pMember == nullptr || pItem == nullptr || pItem->equipStat != "Implant"
-        || socket >= pMember->implantSocketCount())
+    if (pMember == nullptr || pItem == nullptr || pItem->equipStat != "Implant" || !itemSocket)
     {
-        return false;
+        return ImplantFitResult::NotImplant;
     }
 
+    if (*itemSocket != socket)
+    {
+        return ImplantFitResult::WrongSocket;
+    }
+
+    if (!pMember->implantSocketOpen(socket))
+    {
+        return ImplantFitResult::SocketClosed;
+    }
+
+    // The implant goes in whole, its kill count with it; the one it replaces comes back the same way.
     heldReplacement.reset();
+    InventoryItem &fitted = pMember->implants[size_t(socket)];
 
-    if (pMember->implants[socket] != 0)
+    if (fitted.objectDescriptionId != 0)
     {
-        heldReplacement =
-            ItemGenerator::makeInventoryItem(pMember->implants[socket], *m_pItemTable, ItemGenerationMode::Generic);
+        heldReplacement = fitted;
     }
 
-    pMember->implants[socket] = item.objectDescriptionId;
+    fitted = item;
+    fitted.gridX = 0;
+    fitted.gridY = 0;
     rebuildMagicalBonusesFromBuffs();
-    return true;
+
+    // The implant's own fit sound (its world's); none without one.
+    if (const ImplantDefinition *pImplant = m_pItemTable->implant(item.objectDescriptionId))
+    {
+        requestWorldSound(pImplant->fitSoundId);
+    }
+
+    return ImplantFitResult::Fitted;
 }
 
-bool Party::takeImplant(size_t memberIndex, size_t socket, InventoryItem &item)
+bool Party::takeImplant(size_t memberIndex, ImplantSocket socket, InventoryItem &item)
 {
     Character *pMember = member(memberIndex);
 
-    if (pMember == nullptr || socket >= pMember->implants.size() || pMember->implants[socket] == 0)
+    if (pMember == nullptr || pMember->implants[size_t(socket)].objectDescriptionId == 0)
     {
         return false;
     }
 
-    if (m_pItemTable == nullptr)
-    {
-        return false;
-    }
-
-    item = ItemGenerator::makeInventoryItem(pMember->implants[socket], *m_pItemTable, ItemGenerationMode::Generic);
-    pMember->implants[socket] = 0;
+    item = pMember->implants[size_t(socket)];
+    pMember->implants[size_t(socket)] = {};
     rebuildMagicalBonusesFromBuffs();
+
+    // The implant's own remove sound (its world's); none without one.
+    if (const ImplantDefinition *pImplant =
+            m_pItemTable != nullptr ? m_pItemTable->implant(item.objectDescriptionId) : nullptr)
+    {
+        requestWorldSound(pImplant->removeSoundId);
+    }
+
     return true;
+}
+
+uint32_t Party::implantStage(const InventoryItem &item) const
+{
+    const ImplantDefinition *pImplant =
+        m_pItemTable != nullptr ? m_pItemTable->implant(item.objectDescriptionId) : nullptr;
+    return pImplant != nullptr ? Game::implantStage(*pImplant, item.implantKills, rules().skills.implantEvolveFactor())
+                               : 1;
+}
+
+std::vector<std::string> Party::creditImplantKills(uint32_t kills)
+{
+    std::vector<std::string> evolved;
+
+    if (!implantsAvailable() || m_pItemTable == nullptr || kills == 0)
+    {
+        return evolved;
+    }
+
+    bool rebuild = false;
+    uint32_t evolveSoundId = 0;
+
+    for (Character &member : m_members)
+    {
+        if (isDeadOrEradicated(member) || member.conditions.test(size_t(CharacterCondition::Petrified)))
+        {
+            continue;
+        }
+
+        for (size_t socket = 0; socket < ImplantSocketCount; ++socket)
+        {
+            InventoryItem &implant = member.implants[socket];
+            const ItemDefinition *pItem = m_pItemTable->get(implant.objectDescriptionId);
+
+            if (implant.objectDescriptionId == 0 || pItem == nullptr
+                || !member.implantSocketOpen(ImplantSocket(socket)))
+            {
+                continue;
+            }
+
+            const uint32_t before = implantStage(implant);
+            implant.implantKills += kills;
+            const uint32_t after = implantStage(implant);
+
+            if (after > before)
+            {
+                rebuild = true;
+                const ImplantDefinition *pImplant = m_pItemTable->implant(implant.objectDescriptionId);
+                evolveSoundId = pImplant != nullptr && pImplant->evolveSoundId != 0 ? pImplant->evolveSoundId
+                                                                                     : evolveSoundId;
+                evolved.push_back(Engine::tr("{name}'s {implant} evolves to {stage}",
+                    {{"name", member.name}, {"implant", Engine::localize(pItem->name)},
+                        {"stage", implantStageName(after)}}));
+            }
+        }
+    }
+
+    if (rebuild)
+    {
+        rebuildMagicalBonusesFromBuffs();
+        // The implant's own evolve sound (its world's table), else the engine's chime.
+        if (evolveSoundId != 0)
+        {
+            requestWorldSound(evolveSoundId);
+        }
+        else
+        {
+            requestSound(SoundId::Chimes);
+        }
+    }
+
+    return evolved;
+}
+
+bool Party::implantMeleeReachCheckDue(float deltaSeconds)
+{
+    if (!m_implantBerserkWorn)
+    {
+        if (m_hostileInMeleeReach)
+        {
+            setHostileInMeleeReach(false);
+        }
+
+        return false;
+    }
+
+    m_implantMeleeReachSeconds -= std::max(0.0f, deltaSeconds);
+
+    if (m_implantMeleeReachSeconds > 0.0f)
+    {
+        return false;
+    }
+
+    m_implantMeleeReachSeconds = ImplantMeleeReachCheckSeconds;
+    return true;
+}
+
+void Party::setHostileInMeleeReach(bool inReach)
+{
+    m_hostileInMeleeReach = inReach;
+
+    for (Character &member : m_members)
+    {
+        member.implantBerserkActive = inReach && member.implantBerserkDamagePercent > 0.0f;
+    }
+}
+
+bool Party::hostileInMeleeReach() const
+{
+    return m_hostileInMeleeReach;
+}
+
+void Party::addImplantSiphon(size_t memberIndex, int damage)
+{
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr || damage <= 0 || pMember->implantSiphonPercent <= 0.0f)
+    {
+        return;
+    }
+
+    const float perSecond = float(damage) * pMember->implantSiphonPercent / 100.0f / ImplantSiphonSeconds;
+    pMember->implantSiphonGrants.push_back({perSecond, perSecond, ImplantSiphonSeconds});
+}
+
+void Party::updateImplantTimers(float seconds)
+{
+    if (seconds <= 0.0f || m_mirror)
+    {
+        return;
+    }
+
+    for (size_t memberIndex = 0; memberIndex < m_members.size(); ++memberIndex)
+    {
+        Character &member = m_members[memberIndex];
+
+        if (!member.implantBerserkActive && member.implantSiphonGrants.empty())
+        {
+            continue;
+        }
+
+        const bool blocked = isDeadOrEradicated(member)
+            || member.conditions.test(static_cast<size_t>(CharacterCondition::Petrified));
+
+        // Berserker's Seed: 5 % of maximum HP and SP per second while a hostile is in reach, never below 1 HP or
+        // 0 SP; the damage bonus stays on.
+        if (member.implantBerserkActive && !blocked && member.health > 0)
+        {
+            const float drain = ImplantBerserkDrainPercentPerSecond / 100.0f * seconds;
+            member.implantDrainHealthAccumulator += float(
+                GameMechanics::calculateEffectiveCharacterMaxHealth(member, m_pClassMultiplierTable)) * drain;
+            member.implantDrainSpellAccumulator += float(
+                GameMechanics::calculateEffectiveCharacterMaxSpellPoints(member, m_pClassMultiplierTable)) * drain;
+            const int health = int(member.implantDrainHealthAccumulator);
+            const int spellPoints = int(member.implantDrainSpellAccumulator);
+            member.implantDrainHealthAccumulator -= float(health);
+            member.implantDrainSpellAccumulator -= float(spellPoints);
+            member.health = member.health > 1 ? std::max(1, member.health - health) : member.health;
+            member.spellPoints = std::max(0, member.spellPoints - spellPoints);
+        }
+
+        // Siphoner: each payment runs evenly over its two seconds; the dead, the eradicated and stone take nothing.
+        for (Character::ImplantSiphonGrant &grant : member.implantSiphonGrants)
+        {
+            const float step = std::min(seconds, grant.secondsLeft);
+            grant.secondsLeft -= step;
+
+            if (!blocked)
+            {
+                member.implantSiphonHealthAccumulator += grant.healthPerSecond * step;
+                member.implantSiphonSpellAccumulator += grant.spellPointsPerSecond * step;
+            }
+        }
+
+        std::erase_if(member.implantSiphonGrants,
+            [](const Character::ImplantSiphonGrant &grant) { return grant.secondsLeft <= 0.0f; });
+        const int health = int(member.implantSiphonHealthAccumulator);
+        const int spellPoints = int(member.implantSiphonSpellAccumulator);
+
+        if (health > 0)
+        {
+            member.implantSiphonHealthAccumulator -= float(health);
+            member.health = std::min(
+                std::max(member.health, reachableMaximumHealth(memberIndex)), member.health + health);
+        }
+
+        if (spellPoints > 0)
+        {
+            member.implantSiphonSpellAccumulator -= float(spellPoints);
+            member.spellPoints = std::min(
+                std::max(member.spellPoints, reachableMaximumSpellPoints(memberIndex)), member.spellPoints + spellPoints);
+        }
+    }
+}
+
+float implantProjectileSpeedMultiplier(const Character *pMember)
+{
+    return pMember != nullptr ? 1.0f + std::max(0.0f, pMember->projectileSpeedPercent) / 100.0f : 1.0f;
 }
 
 bool Character::showsImplantSockets() const
 {
-    return findSkill("Cybernetics") != nullptr
-        || std::any_of(implants.begin(), implants.end(), [](uint32_t itemId) { return itemId != 0; });
+    return implantsAvailable()
+        && (findSkill("Implants") != nullptr
+            || std::any_of(implants.begin(), implants.end(),
+                [](const InventoryItem &item) { return item.objectDescriptionId != 0; }));
 }
 
-size_t Character::implantSocketCount() const
+bool Character::implantSocketOpen(ImplantSocket) const
 {
-    const CharacterSkill *pCybernetics = findSkill("Cybernetics");
-    if (pCybernetics == nullptr || pCybernetics->level == 0)
-    {
-        return 0;
-    }
-    return std::min<size_t>(implants.size(), size_t(std::max<int>(1, int(pCybernetics->mastery))));
+    // Every socket opens with the skill (no masteries, DECISIONS H-91); the socket kind only says what fits.
+    const CharacterSkill *pSkill = findSkill("Implants");
+    return implantsAvailable() && pSkill != nullptr && pSkill->level > 0;
 }
 
 bool Character::addInventoryItem(const InventoryItem &item)
@@ -8411,6 +8729,7 @@ void Party::updateRecovery(float deltaSeconds, float progressScale)
     }
 
     updateRegeneration(deltaSeconds);
+    updateImplantTimers(deltaSeconds);
 }
 
 void Party::updateRegeneration(float deltaSeconds)
@@ -8483,7 +8802,8 @@ bool Party::applyRecoveryToMember(size_t memberIndex, float recoverySeconds)
         return false;
     }
 
-    const float applied = std::max(0.0f, recoverySeconds);
+    // Hesper's Reflex Mesh and Adrenaline Gland shorten the whole recovery, its 30-tick floor too (DECISIONS H-91).
+    const float applied = std::max(0.0f, recoverySeconds) * pMember->implantRecoveryFactor;
     pMember->recoveryTotalSeconds = pMember->recoverySecondsRemaining > 0.0f
         ? std::max(pMember->recoveryTotalSeconds, applied) : applied;
     pMember->recoverySecondsRemaining = std::max(pMember->recoverySecondsRemaining, applied);
@@ -8624,6 +8944,7 @@ bool Party::clearDispellableBuffs()
              PartyBuffId::WaterWalk,
              PartyBuffId::Fly,
              PartyBuffId::FleetFoot,
+             PartyBuffId::LavaWalk,
              PartyBuffId::Invisibility,
              PartyBuffId::Stoneskin,
              PartyBuffId::DayOfGods,
@@ -8672,6 +8993,7 @@ bool Party::hasDispellableBuffs() const
              PartyBuffId::WaterWalk,
              PartyBuffId::Fly,
              PartyBuffId::FleetFoot,
+             PartyBuffId::LavaWalk,
              PartyBuffId::Invisibility,
              PartyBuffId::Stoneskin,
              PartyBuffId::DayOfGods,
@@ -9695,11 +10017,6 @@ void Party::rebuildMagicalBonusesFromBuffs()
             }
         }
 
-        for (Character &member : m_members)
-        {
-            applyImplants(member, *m_pItemTable);
-        }
-
         // An item the party carries with an effect on the whole party: in any bag of a member (the inventory shows
         // them all) or in a pouch.
         const auto applyCarriedEffects = [this](const std::vector<InventoryItem> &items)
@@ -9756,13 +10073,23 @@ void Party::rebuildMagicalBonusesFromBuffs()
         }
     }
 
+    m_implantBerserkWorn = false;
+
     for (Character &member : m_members)
     {
+        // Hesper's implants apply last, as per cent of the totals (DECISIONS H-91): all zero without one.
+        const FittedImplants fitted =
+            m_pItemTable != nullptr ? fittedImplants(member, *m_pItemTable, rules().skills) : FittedImplants{};
+        applyImplantShares(member, fitted);
+        member.implantBerserkActive = m_hostileInMeleeReach && member.implantBerserkDamagePercent > 0.0f;
+        m_implantBerserkWorn = m_implantBerserkWorn || member.implantBerserkDamagePercent > 0.0f;
         rules().skills.applyStatBonuses(member);
         rules().classes.applyPrimaryStatBonuses(member);
+        applyImplantStats(member, fitted);
         applyMagicalPrimaryStatResourceBonuses(member, m_pClassMultiplierTable);
         rules().classes.applyClassBonuses(member);
         rules().skills.applyResourceBonuses(member);
+        applyImplantResources(member, fitted, m_pClassMultiplierTable);
         clampCurrentResourcesToMaximum(member);
         // Emitters grow by a share per Shield Tech rank; armour, belts and implants add as they are.
         const CharacterSkill *pShieldTech = member.findSkill("ShieldTech");

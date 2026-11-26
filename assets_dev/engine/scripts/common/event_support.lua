@@ -191,12 +191,12 @@ support.varTag = support.varTag or {
     Invisible = 0x013A,
     ItemEquipped = 0x013B,
     Players = 0x013E,
-    -- OpenYAMM's technology skills (no EVT encoding).
+    -- OpenYAMM's technology skills and Implants (no EVT encoding).
     EnergyGunsSkill = 0x0140,
     EnergyBladesSkill = 0x0141,
     ShieldTechSkill = 0x0142,
     HackingSkill = 0x0143,
-    CyberneticsSkill = 0x0144,
+    ImplantsSkill = 0x0144,
 }
 
 support.houseId = support.houseId or {}
@@ -450,7 +450,7 @@ support.skills = support.skills or {
     EnergyBlades = 0x0141,
     ShieldTech = 0x0142,
     Hacking = 0x0143,
-    Cybernetics = 0x0144,
+    Implants = 0x0144,
 }
 
 support.skillCheck = support.skillCheck or {

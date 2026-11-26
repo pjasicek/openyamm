@@ -1,12 +1,14 @@
 #pragma once
 
 #include "engine/AssetFileSystem.h"
+#include "game/party/ImplantSocket.h"
 #include "game/tables/ItemModelBindings.h"
 
 #include <array>
 #include <cstdint>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -80,6 +82,92 @@ struct ItemContentEffect
     int meleeRecoveryReductionTicks = 0;
 };
 
+// Hesper's implants (DECISIONS H-91): what one part of an implant does, as a share (per cent) of its wearer's totals.
+// An implant has one or more parts (Adrenaline Gland: Recovery and a negative AllStats sparing Speed, in Standard also
+// a negative MaxHealth).
+enum class ImplantEffect : uint8_t
+{
+    // Neural Loom: more of total Intellect and Personality.
+    IntellectPersonality,
+    // Berserker's Seed: more damage dealt while a hostile is in melee reach, which drains HP and SP.
+    BerserkDamage,
+    // Converter: a share of the other six primary stats moved into the highest.
+    Converter,
+    // Kreegan Heart, Mana Gland (positive) and Adrenaline Gland's cost (negative): maximum HP and SP.
+    MaxHealth,
+    MaxSpellPoints,
+    // All seven primary stats (Adrenaline Gland's cost: negative).
+    AllStats,
+    // Siphoner: a share of all damage dealt back as HP and as SP over ImplantSiphonSeconds.
+    Siphon,
+    // Reflex Mesh, Adrenaline Gland: recovery time cut by the share (several parts multiply).
+    Recovery,
+    // Ember Lattice, Chitin Graft: more of total fire resistance and armour class.
+    FireResistance,
+    ArmorClass,
+    // Mirror Carapace: the chance to send a physical missile back at its shooter.
+    Reflect,
+    // Kinetic Coil: faster missiles and spells.
+    ProjectileSpeed,
+    // Hunter's Eye: more of total Accuracy.
+    Accuracy,
+};
+constexpr size_t ImplantEffectCount = size_t(ImplantEffect::Accuracy) + 1;
+
+// The implants table's effect names ("intellect_personality", "berserk", ...), by ImplantEffect.
+std::optional<ImplantEffect> parseImplantEffect(std::string_view name);
+// Only these parts may be negative (a cost).
+bool implantEffectMayBeNegative(ImplantEffect effect);
+// Stages I and II (H-91): II at the implant's kills, times the rules' evolve factor (MAW 3: 250 -> 750).
+constexpr uint32_t ImplantStageCount = 2;
+// The Implants level an implant's per-level share counts at most, in every ruleset (H-91).
+constexpr int ImplantEffectLevelCap = 50;
+// Siphoner pays its share out evenly over this time; Berserker's Seed drains this per cent of maximum HP and SP per
+// second.
+constexpr float ImplantSiphonSeconds = 2.0f;
+constexpr float ImplantBerserkDrainPercentPerSecond = 5.0f;
+
+struct ImplantDefinition;
+
+// One ruleset's values of an implant part: per stage (I, II) the per cent at Implants 0 and per level.
+struct ImplantShare
+{
+    std::array<float, ImplantStageCount> basePercent = {};
+    std::array<float, ImplantStageCount> perLevelPercent = {};
+};
+
+// An implant's stage (1 or 2) at its kill count, its threshold multiplied by the rules' evolve factor, and the kills a
+// stage needs (0 for stage 1).
+uint32_t implantStage(const ImplantDefinition &implant, uint32_t kills, float evolveFactor);
+uint32_t implantStageKills(const ImplantDefinition &implant, uint32_t stage, float evolveFactor);
+// The stage's name shown after an implant's name ("{item} {stage}"): "I" or "II".
+std::string implantStageName(uint32_t stage);
+// A part's per cent at a stage and effect level: base + per level x min(level, ImplantEffectLevelCap).
+float implantEffectPercent(const ImplantShare &share, uint32_t stage, int effectLevel);
+// The part as the player reads it at that per cent ("+12.5 % of total Intellect and Personality"), translated; an
+// AllStats part names the stats it spares (exceptStats, ImplantComponent).
+std::string implantEffectText(ImplantEffect effect, float percent, uint8_t exceptStats = 0);
+// A per cent as the inspect lines print it: a value with one decimal at most ("14.6", "12"), a rate (a base or a
+// per-level share) with three significant digits at most ("0.415", "4.15", "10"); no trailing zeros.
+std::string implantPercentText(float percent);
+std::string implantRateText(float percent);
+// The share of a total an implant adds (a positive per cent) or takes (a negative one), its size rounded down;
+// nothing of a total of 0 or less.
+int implantShareOf(int total, float percent);
+// The factor a wearer's recovery times are multiplied by, the 30-tick floor included: the product of (1 - share) over
+// its Recovery parts (implantRecoveryCut, from 1), then implantRecoveryFactor keeps it at ImplantMinimumRecoveryFactor
+// or more, so that floor keeps at least one tick.
+constexpr float ImplantMinimumRecoveryFactor = 1.0f / 30.0f;
+float implantRecoveryCut(float factor, float recoveryPercent);
+float implantRecoveryFactor(float product);
+// The seven primary stats' data names in the order implants count them (Converter's ties, AllStats' except column).
+constexpr std::array<std::string_view, 7> ImplantStatNames = {"might", "intellect", "personality", "endurance",
+    "accuracy", "speed", "luck"};
+// Converter: the changes to the seven primary stats' totals (Might, Intellect, Personality, Endurance, Accuracy,
+// Speed, Luck) when the share of each of the other six (rounded down) moves into the highest, picked before the move
+// (ties: the first in that order).
+std::array<int, 7> implantConverterChanges(const std::array<int, 7> &totals, float percent);
+
 // An effect flag Slaying<Kind> (SlayingDemon, SlayingUndead, SlayingDragon, SlayingOgre, SlayingElemental, SlayingElf,
 // SlayingTitan): the weapon does double damage to monsters of that kind (MonsterKind bits), as the slaying
 // enchantments. 0 for any other flag.
@@ -104,6 +192,31 @@ struct WorkshopModDefinition
     std::string name;
     std::vector<std::string> fits;
     ItemContentEffect effect;
+};
+
+// A world's implant (DECISIONS H-91): the socket an implant item (equip stat Implant) fits and its parts, each with its
+// Standard values and MAW's (the table's maw_ columns; Standard's where empty), base + per level x min(Implants
+// level, 50) per cent at each stage; stage II from its kill threshold on.
+struct ImplantComponent
+{
+    ImplantEffect effect = ImplantEffect::IntellectPersonality;
+    ImplantShare standard;
+    ImplantShare maw;
+    // AllStats only: the stats it leaves alone (the table's except column, "speed|luck"), bit i for stat i in
+    // ImplantStatNames' order (Standard's Adrenaline Gland spares Speed).
+    uint8_t exceptStats = 0;
+};
+
+struct ImplantDefinition
+{
+    ImplantSocket socket = ImplantSocket::Cranial;
+    std::vector<ImplantComponent> components;
+    uint32_t stageTwoKills = 250;
+    // The sound an evolution to stage II plays (a sound id of the world's; 0: the engine's chime).
+    uint32_t evolveSoundId = 0;
+    // The sounds of fitting it into its socket and of taking it out (sound ids of the world's; 0: silent, as before).
+    uint32_t fitSoundId = 0;
+    uint32_t removeSoundId = 0;
 };
 
 struct ItemDefinition
@@ -212,6 +325,15 @@ public:
     // workshop_mods rows: mod_id, name, fits (equip stats, | separated), then the item_effects columns.
     bool loadWorkshopModRows(const std::vector<std::vector<std::string>> &rows, std::string &errorMessage);
     const WorkshopModDefinition *workshopMod(uint16_t modId) const;
+    // A world's implants rows, one per part (columns found by the header: item_id, socket, effect, base_i,
+    // per_level_i, base_ii, per_level_ii, maw_base_i, maw_per_level_i, maw_base_ii, maw_per_level_ii, evolve_ii,
+    // evolve_sound, fit_sound, remove_sound; the sound columns may be left out), after the items: every row names an
+    // Implant item, every Implant item of a package with rows has one, an item's rows agree on socket, evolution and
+    // sounds, and no implant item's own effects raise Implants.
+    bool loadImplantRows(const std::vector<std::vector<std::string>> &rows, std::string &errorMessage);
+    const ImplantDefinition *implant(uint32_t itemId) const;
+    // A mounted world provides implants rows (Hesper): the Implants skill and its sockets exist (setImplantsAvailable).
+    bool implantsAvailable() const;
     // The mod fits the item: its equip stat is one the mod lists, and it is no relic or quest item.
     bool workshopModFits(const WorkshopModDefinition &mod, const ItemDefinition &item) const;
     bool loadSourceAliasRows(const std::vector<std::vector<std::string>> &rows, std::string &errorMessage);
@@ -261,6 +383,7 @@ private:
     std::vector<ItemDefinition> m_entries;
     std::vector<ItemSetBonusDefinition> m_setBonuses;
     std::unordered_map<uint16_t, WorkshopModDefinition> m_workshopMods;
+    std::unordered_map<uint32_t, ImplantDefinition> m_implants;
     std::unordered_map<std::string, uint32_t> m_sourceAliases;
     std::unordered_map<std::string, WorldLootTable> m_worldLoot;
     // Lower-case package ids that own at least one item.

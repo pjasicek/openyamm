@@ -31,6 +31,9 @@ struct InventoryItem
     ItemRulesetFields rulesetFields;
     // The Workshop mod fitted to it (a world's workshop_mods row), 0: none.
     uint16_t workshopModId = 0;
+    // Hesper's implants: the kills credited while it sat in an open socket (DECISIONS H-83); its stage follows from it
+    // (implantStage). 0 for every other item.
+    uint32_t implantKills = 0;
 
     bool operator==(const InventoryItem &) const = default;
 };

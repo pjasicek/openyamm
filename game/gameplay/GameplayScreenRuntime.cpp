@@ -1898,6 +1898,7 @@ void GameplayScreenRuntime::toggleCharacterInventoryScreen()
     characterScreen.source = GameplayUiController::CharacterScreenSource::Party;
     characterScreen.sourceIndex = partyReadOnly() != nullptr ? partyReadOnly()->activeMemberIndex() : 0;
     characterScreen.dollJewelryOverlayOpen = false;
+    characterScreen.dollImplantsOverlayOpen = false;
     characterScreen.adventurersInnRosterOverlayOpen = false;
     closeSpellbookOverlay();
 }
@@ -1925,6 +1926,7 @@ void GameplayScreenRuntime::closeCharacterScreen()
 #endif
     characterScreen.open = false;
     characterScreen.dollJewelryOverlayOpen = false;
+    characterScreen.dollImplantsOverlayOpen = false;
     characterScreen.adventurersInnRosterOverlayOpen = false;
     resetCharacterOverlayInteractionState();
 }
@@ -3104,6 +3106,7 @@ void GameplayScreenRuntime::closeUtilitySpellOverlayAfterSpellResolution(uint32_
     {
         characterScreen().open = false;
         characterScreen().dollJewelryOverlayOpen = false;
+        characterScreen().dollImplantsOverlayOpen = false;
         characterScreen().adventurersInnRosterOverlayOpen = false;
     }
 
@@ -4406,7 +4409,8 @@ std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> GameplayScreenRun
         }
     }
     if (layoutId == "OutdoorFlyBuffIcon" || layoutId == "OutdoorLevitateBuffIcon"
-        || layoutId == "OutdoorWaterWalkBuffIcon" || layoutId == "OutdoorFleetFootBuffIcon")
+        || layoutId == "OutdoorWaterWalkBuffIcon" || layoutId == "OutdoorFleetFootBuffIcon"
+        || layoutId == "OutdoorLavaWalkBuffIcon")
     {
         std::optional<ResolvedHudLayoutElement> skull =
             resolveHudLayoutElement("ObsidianSkullBuffPanel", screenWidth, screenHeight, 0, 0);

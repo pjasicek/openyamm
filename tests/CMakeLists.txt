@@ -171,6 +171,7 @@ add_executable(openyamm_unit_tests
     WaterRenderingTests.cpp
     PartyRegressionTests.cpp
     TechnologySkillTests.cpp
+    ImplantTests.cpp
     PathMapTests.cpp
     PathPlannerTests.cpp
     RegressionMapLoader.cpp

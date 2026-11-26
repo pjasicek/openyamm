@@ -41,8 +41,10 @@ constexpr uint32_t FirstTechnologySkillId = 40;
 // MAW's skills (Cover, Mana Shield, Enlightenment, Retaliation) follow the technology skills. Only a ruleset's class
 // table gives them caps, so Standard characters never learn them.
 constexpr uint32_t FirstRulesetSkillId = 44;
-// The fifth technology skill, Cybernetics (implant sockets), came after MAW's skills had their ids.
-constexpr uint32_t CyberneticsSkillId = 48;
+// Implants (Hesper's implant sockets; once the technology skill Cybernetics, `cybernetics` is its alias) came after
+// MAW's skills had their ids. An ordinary skill raised with skill points; every class can reach Grandmaster, but only a
+// script teaches it (the Archive of the Eaten), so no class card or mercenary lists it (isTaughtOnlySkill).
+constexpr uint32_t ImplantsSkillId = 48;
 
 struct CharacterSkill
 {
@@ -64,6 +66,16 @@ std::optional<std::string> skillNameForSkillId(uint32_t skillId);
 std::optional<uint32_t> skillIdForSkillName(const std::string &skillName);
 bool isTechnologySkill(const std::string &skillName);
 bool isRulesetSkill(const std::string &skillName);
+// Skills no class lists among the skills it can learn (class cards, mercenaries, debug grants): the technology skills
+// and Implants. A character who has one still shows it on the skill sheet.
+bool isTaughtOnlySkill(const std::string &skillName);
+// Hesper's Implants exist in the game only while a mounted world provides the `implants` table (ItemTable): the data
+// load sets it once. Without it nothing shows, teaches or lists the skill, the sockets or the overlay (a save's sockets
+// and skill are kept, unseen).
+void setImplantsAvailable(bool available);
+bool implantsAvailable();
+// Every skill but Implants while implants are not available.
+bool skillAvailable(const std::string &skillName);
 const std::vector<std::string> &skillSheetGroupSkillNames(SkillSheetGroup group);
 std::optional<std::string> nextPromotionClassName(const std::string &className);
 std::vector<std::string> promotionClassNames(const std::string &className);

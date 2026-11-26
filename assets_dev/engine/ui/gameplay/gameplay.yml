@@ -1309,6 +1309,19 @@ elements:
   asset:
     default: sp27a10
   notes: Water Walk indicator (spell27), animated while on water; not shown for the Water Walk Levitate applies.
+- id: OutdoorLavaWalkBuffIcon
+  anchor_space: screen
+  anchor: top_left
+  width: 48
+  height: 48
+  scale:
+    min: 0.6
+    max: 8
+    reference_width: 965
+  z_index: 200
+  asset:
+    default: lavawalk01
+  notes: Hesper's Lava Walk indicator (Ember Skin; engine/icons_x2 lavawalk01-08), animated while the buff lasts.
 - id: ObsidianPartyBuffStrip
   anchor: top_left
   offset_x: 14.933333

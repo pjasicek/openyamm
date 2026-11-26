@@ -1921,6 +1921,12 @@ void GameplayCombatController::handlePendingCombatEvents(
                         std::round(static_cast<float>(event.damage) * pSourceMember->vampiricHealFraction))));
             }
 
+            // Hesper's Siphoner: its share of the damage, missiles and spells alike, back as HP and SP over 2 s.
+            if (event.hit && event.damage > 0 && pSourceMember != nullptr && pSourceMember->implantSiphonPercent > 0.0f)
+            {
+                context.party.addImplantSiphon(event.sourcePartyMemberIndex, event.damage);
+            }
+
             continue;
         }
 
@@ -2090,6 +2096,24 @@ void GameplayCombatController::handlePendingCombatEvents(
                 gameplayCombatTraceWrite(out.str());
             });
             continue;
+        }
+
+        // Hesper's Mirror Carapace: a chance to send a monster's physical missile (never a spell) back at its shooter,
+        // owned by the wearer (the reflected-damage path, which co-op relays), at the damage it would have dealt.
+        if (event.type == CombatEventType::PartyProjectileImpact && !event.affectsAllParty && pTargetMember != nullptr
+            && targetMemberIndex && pTargetMember->reflectPercent > 0.0f && context.pWorldRuntime != nullptr
+            && event.damage > 0 && event.spellId == 0)
+        {
+            std::mt19937 reflectRng = buildMonsterAttackRng(event, 0x7ef1ec7u, animationTicks(context.pRuntime));
+
+            if (std::uniform_real_distribution<float>(0.0f, 100.0f)(reflectRng) < pTargetMember->reflectPercent)
+            {
+                context.pWorldRuntime->applyReflectedDamageToActor(
+                    event.sourceId, event.damage, event.damageType, static_cast<uint32_t>(*targetMemberIndex));
+                showHitStatus(context.pRuntime,
+                    Engine::tr("{name} sends the missile back", {{"name", pTargetMember->name}}));
+                continue;
+            }
         }
 
         const bool isPhysicalProjectile =

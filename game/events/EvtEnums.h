@@ -180,7 +180,7 @@ enum class EvtVariable : uint16_t
     EnergyBladesSkill = 0x0141,
     ShieldTechSkill = 0x0142,
     HackingSkill = 0x0143,
-    CyberneticsSkill = 0x0144,
+    ImplantsSkill = 0x0144,
 };
 
 using EvtFaceAttribute = FaceAttribute;

@@ -131,6 +131,35 @@ bool MawMapLevels::loadWorldBalance(const std::string &text, std::string &errorM
         readExclusions(root["completion_exclude"], worldIds, worldNames);
         DensityFactors fileDensity;
 
+        if (const YAML::Node implantsNode = root["implants"])
+        {
+            m_implantScale.evolveFactor = implantsNode["evolve_factor"].as<double>(m_implantScale.evolveFactor);
+
+            if (m_implantScale.evolveFactor <= 0)
+            {
+                errorMessage = "implants: evolve_factor must be positive";
+                return false;
+            }
+        }
+
+        for (const auto &entry : root["bosses"])
+        {
+            const int monsterId = entry.first.as<int>();
+            const double multiplier = entry.second.as<double>();
+
+            if (multiplier <= 0 || multiplier > 20)
+            {
+                errorMessage = "bosses: row " + std::to_string(monsterId) + " needs a multiplier above 0, at most 20";
+                return false;
+            }
+
+            if (!m_bossHealth.emplace(monsterId, multiplier).second)
+            {
+                errorMessage = "bosses: row " + std::to_string(monsterId) + " is listed twice";
+                return false;
+            }
+        }
+
         if (const YAML::Node densityNode = root["density"])
         {
             for (const auto &entry : densityNode["difficulty"])
@@ -224,6 +253,17 @@ bool MawMapLevels::loadWorldBalance(const std::string &text, std::string &errorM
     }
 
     return true;
+}
+
+const MawMapLevels::ImplantScale &MawMapLevels::implantScale() const
+{
+    return m_implantScale;
+}
+
+double MawMapLevels::bossHealthMultiplier(int monsterId) const
+{
+    const auto found = m_bossHealth.find(monsterId);
+    return found != m_bossHealth.end() ? found->second : 1.0;
 }
 
 bool MawMapLevels::countsForCompletion(

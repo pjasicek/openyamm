@@ -159,7 +159,9 @@ inline constexpr std::array<GameplayBuffHudDefinition, PartyBuffCount> GameplayB
     {Engine::trNoop("Glamour").data(), "obsidian_buff_sbde01a", GameplayBuffPresentation::Hero, nullptr, 46, 46},
     {Engine::trNoop("Levitate").data(), "obsidian_buff_sbv02a", GameplayBuffPresentation::Movement},
     // MM9's own indicator (worlds/mm9/icons_x2): the buff exists only in that world.
-    {Engine::trNoop("Fleet Foot").data(), "fleetfoot01", GameplayBuffPresentation::Movement}
+    {Engine::trNoop("Fleet Foot").data(), "fleetfoot01", GameplayBuffPresentation::Movement},
+    // Hesper's Ember Skin (engine/icons_x2 lavawalk01-08): only Hesper's font gives it.
+    {Engine::trNoop("Lava Walk").data(), "lavawalk01", GameplayBuffPresentation::Movement}
 }};
 
 inline const char *gameplayBuffPanelLayoutId(GameplayBuffPresentation presentation)
@@ -197,9 +199,9 @@ inline bool gameplayBuffIndicatorLit(const Party &party, PartyBuffId buff)
         || int(pBuff->remainingSeconds / 15.0f) % 2 == 0;
 }
 
-// The movement indicators beside the skull, left to right without gaps: Fly, Levitate, Water Walk and MM9's Fleet
-// Foot, each while active. Levitate applies Water Walk too; that one is Levitate's own and shows only as Levitate (the
-// buff keeps the spell that applied it last, so a Water Walk cast afterwards shows).
+// The movement indicators beside the skull, left to right without gaps: Fly, Levitate, Water Walk, MM9's Fleet Foot
+// and Hesper's Lava Walk, each while active. Levitate applies Water Walk too; that one is Levitate's own and shows
+// only as Levitate (the buff keeps the spell that applied it last, so a Water Walk cast afterwards shows).
 inline std::vector<GameplayMovementIndicator> gameplayMovementIndicators(const Party &party)
 {
     std::vector<GameplayMovementIndicator> indicators;
@@ -224,6 +226,11 @@ inline std::vector<GameplayMovementIndicator> gameplayMovementIndicators(const P
     if (party.hasPartyBuff(PartyBuffId::FleetFoot))
     {
         indicators.push_back({"OutdoorFleetFootBuffIcon", PartyBuffId::FleetFoot});
+    }
+
+    if (party.hasPartyBuff(PartyBuffId::LavaWalk))
+    {
+        indicators.push_back({"OutdoorLavaWalkBuffIcon", PartyBuffId::LavaWalk});
     }
 
     return indicators;

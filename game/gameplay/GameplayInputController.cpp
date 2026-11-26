@@ -811,6 +811,7 @@ void GameplayInputController::handleSharedGameplayHotkeys(
             {
                 characterScreen.open = false;
                 characterScreen.dollJewelryOverlayOpen = false;
+                characterScreen.dollImplantsOverlayOpen = false;
                 characterScreen.adventurersInnRosterOverlayOpen = false;
             }
             else if (context.party() != nullptr && !context.party()->adventurersInnMembers().empty())
@@ -822,6 +823,7 @@ void GameplayInputController::handleSharedGameplayHotkeys(
                 characterScreen.adventurersInnScrollOffset = 0;
                 characterScreen.page = GameplayUiController::CharacterPage::Inventory;
                 characterScreen.dollJewelryOverlayOpen = false;
+                characterScreen.dollImplantsOverlayOpen = false;
             }
             else
             {
