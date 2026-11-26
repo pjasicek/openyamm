@@ -12,8 +12,10 @@ namespace OpenYAMM::Game
 // decorations take the same tint, density and height, so the two agree.
 struct OutdoorMeadowField
 {
-    // Per terrain grid corner (TerrainWidth squared, row 0 at the north edge like heightMap): -1 lush .. +1 dry.
+    // Per terrain grid corner (side squared, row 0 at the north edge like heightMap): -1 lush .. +1 dry.
     std::vector<float> values;
+    // Grid corners per side: the map's terrain side (128 on a classic map and an open-air BLV).
+    int side = OutdoorMapData::TerrainWidth;
 
     // Bilinear at a world position; 0 (neutral) without a field.
     float sample(float x, float y) const;
@@ -21,7 +23,8 @@ struct OutdoorMeadowField
 
 OutdoorMeadowField buildOutdoorMeadowField(const OutdoorMapData &map);
 // The same from any ground in the outdoor map frame (an open-air BLV's terrain faces): heights per grid corner
-// (TerrainWidth squared, row 0 north) and per cell (the same indexing, last row and column unused) nonzero for water.
+// (side squared, row 0 north, centred on the world origin) and per cell (the same indexing, last row and column
+// unused) nonzero for water.
 OutdoorMeadowField buildMeadowField(const std::vector<float> &heights, const std::vector<uint8_t> &waterCells);
 
 // The colour multiplier at a meadow value: towards dry above 0, towards lush below, scaled by strength.

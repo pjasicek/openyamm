@@ -38,6 +38,37 @@ int16_t texel(double value)
     return static_cast<int16_t>(std::clamp(std::lround(value), -32768l, 32767l));
 }
 
+// Whole texels every power-of-two texture repeats in.
+constexpr double TexelPeriod = 4096.0;
+
+// A face's texels along one axis brought inside the format's signed 16 bits: a face beyond the classic map's frame (an
+// ODM v2 map, core/OutdoorGrid) lies at texels past +/-32767, and clamped they would smear its picture. Its texels are
+// moved together by whole periods of TexelPeriod, which leaves the picture where it was on every texture whose size is
+// a power of two. A face whose texels fit is left as it is (every classic map's).
+void wrapTexels(std::vector<std::array<double, 2>> &texels, size_t axis)
+{
+    double least = texels.front()[axis];
+    double most = least;
+
+    for (const std::array<double, 2> &pair : texels)
+    {
+        least = std::min(least, pair[axis]);
+        most = std::max(most, pair[axis]);
+    }
+
+    if (least >= -32768.0 && most <= 32767.0)
+    {
+        return;
+    }
+
+    const double shift = std::round((least + most) * 0.5 / TexelPeriod) * TexelPeriod;
+
+    for (std::array<double, 2> &pair : texels)
+    {
+        pair[axis] -= shift;
+    }
+}
+
 // game/outdoor/OutdoorMovementController.cpp: WalkableNormalZ and MaxSmallSlopeHeight.
 constexpr double WalkableNormalZ = 0.70767211914;
 constexpr double MaxSmallSlopeHeight = 128.0;
@@ -165,7 +196,9 @@ int OutdoorModelBuilder::addFace(
             tiled.push_back({point[0] * rightX + point[1] * rightY - baseU, -point[2] - baseV});
         }
     }
-    const auto &surfaceTexels = tiled.empty() ? texels : tiled;
+    std::vector<std::array<double, 2>> surfaceTexels = tiled.empty() ? texels : tiled;
+    wrapTexels(surfaceTexels, 0);
+    wrapTexels(surfaceTexels, 1);
     for (size_t index = 0; index < points.size(); ++index)
     {
         face.vertexIndices.push_back(vertexOf(points[index]));

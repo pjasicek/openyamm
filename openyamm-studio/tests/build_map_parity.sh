@@ -3,6 +3,7 @@
 # into an empty folder (so the map is built from its sources, not patched) and compares the .odm with the one kept in
 # the repository. Needs the local level_generation folders and stage roots; skips what is not there.
 set -uo pipefail
+# OYMAP=<binary> checks another build tree's oymap (default build/oymap).
 studio="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 repo="$(cd "$studio/.." && pwd)"
 failed=0
@@ -22,7 +23,7 @@ check() {  # <source dir> <stem> <asset root> <expected odm> <key>
     [ -f "$1/$2.map.yml" ] && [ -f "$4" ] && [ -d "$3" ] || { echo "skipped $2 ($1)"; return; }
     work="$(mktemp -d)"
     cp "$1/$2.map.yml" "$1/$2.scene.yml" "$1/$2.geometry.yml" "$1/$2.terrain.yml" "$work/"
-    if "$studio/build/oymap" build-map "$work/$2.map.yml" --asset-root "$(scratch_root "$3" "$5")" > "$work/log" 2>&1 \
+    if "${OYMAP:-$studio/build/oymap}" build-map "$work/$2.map.yml" --asset-root "$(scratch_root "$3" "$5")" > "$work/log" 2>&1 \
         && cmp -s "$work/$2.odm" "$4"; then
         echo "identical $2 ($(stat -c %s "$4") bytes)"
     else

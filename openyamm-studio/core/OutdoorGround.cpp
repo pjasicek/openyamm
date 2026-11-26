@@ -40,10 +40,27 @@ namespace OpenYAMM::Studio
 {
 namespace
 {
-constexpr int Cells = OutdoorNodeCount;
-constexpr int Nodes = OutdoorGroundNodes;
-constexpr size_t CellTotal = static_cast<size_t>(Cells) * Cells;
-constexpr size_t NodeTotal = static_cast<size_t>(Nodes) * Nodes;
+// The map's cells along each side and the ground's corners along each side, and all of them (core/OutdoorGrid).
+int sideCells()
+{
+    return outdoorNodeCount();
+}
+
+int groundNodes()
+{
+    return outdoorGroundNodes();
+}
+
+size_t sideCellTotal()
+{
+    return outdoorNodeTotal();
+}
+
+size_t groundNodeTotal()
+{
+    return static_cast<size_t>(groundNodes()) * static_cast<size_t>(groundNodes());
+}
+
 const char *SketchFile = "sketch.yml";
 
 struct WorldGroundKind
@@ -298,7 +315,7 @@ bool insideOutline(const std::vector<Point2> &polygon, double x, double y)
 
 int nodeAt(int x, int y)
 {
-    return y * Nodes + x;
+    return y * groundNodes() + x;
 }
 
 // A number from 0 to 1 for a cell, the same on every platform: integer mixing only.
@@ -489,7 +506,7 @@ std::vector<OutdoorRoadRun> rasterizeOutdoorRoads(
         run.paved = surface == RoadSurface::Paved;
         const auto push = [&run, &bed](int x, int y, double height)
         {
-            const int cell = std::clamp(y, 0, Cells - 1) * Cells + std::clamp(x, 0, Cells - 1);
+            const int cell = std::clamp(y, 0, sideCells() - 1) * sideCells() + std::clamp(x, 0, sideCells() - 1);
 
             // A line that touches a cell again right after leaving it has not left it.
             if (run.cells.size() >= 2 && run.cells[run.cells.size() - 2] == cell)
@@ -529,13 +546,13 @@ std::vector<OutdoorRoadRun> rasterizeOutdoorRoads(
                 const double y = from[1] + (to[1] - from[1]) * share;
                 const double height = bed.empty() ? 0.0 : bed[segment] + (bed[segment + 1] - bed[segment]) * share;
                 // A point on a cell's edge belongs to the cell south-east of it.
-                const int cellX = std::clamp(static_cast<int>(std::floor(x + 1.0e-7)), 0, Cells - 1);
-                const int cellY = std::clamp(static_cast<int>(std::floor(y + 1.0e-7)), 0, Cells - 1);
+                const int cellX = std::clamp(static_cast<int>(std::floor(x + 1.0e-7)), 0, sideCells() - 1);
+                const int cellY = std::clamp(static_cast<int>(std::floor(y + 1.0e-7)), 0, sideCells() - 1);
 
                 if (!run.cells.empty())
                 {
-                    const int lastX = run.cells.back() % Cells;
-                    const int lastY = run.cells.back() / Cells;
+                    const int lastX = run.cells.back() % sideCells();
+                    const int lastY = run.cells.back() / sideCells();
 
                     // Through a corner: the cell beside it whose middle the line passes nearer keeps the road in
                     // one piece.
@@ -617,20 +634,20 @@ int outdoorRoadTileOffset(bool north, bool east, bool south, bool west, bool sta
 
 void settleOutdoorGroundMask(std::vector<uint8_t> &mask)
 {
-    if (mask.size() != NodeTotal)
+    if (mask.size() != groundNodeTotal())
     {
         return;
     }
 
-    std::vector<uint8_t> kept(NodeTotal, 0);
+    std::vector<uint8_t> kept(groundNodeTotal(), 0);
 
     for (int pass = 0; pass < 64; ++pass)
     {
         std::fill(kept.begin(), kept.end(), 0);
 
-        for (int y = 0; y + 1 < Nodes; ++y)
+        for (int y = 0; y + 1 < groundNodes(); ++y)
         {
-            for (int x = 0; x + 1 < Nodes; ++x)
+            for (int x = 0; x + 1 < groundNodes(); ++x)
             {
                 if (mask[nodeAt(x, y)] != 0 && mask[nodeAt(x + 1, y)] != 0 && mask[nodeAt(x, y + 1)] != 0
                     && mask[nodeAt(x + 1, y + 1)] != 0)
@@ -646,9 +663,9 @@ void settleOutdoorGroundMask(std::vector<uint8_t> &mask)
         bool changed = kept != mask;
         mask = kept;
 
-        for (int y = 0; y + 1 < Nodes; ++y)
+        for (int y = 0; y + 1 < groundNodes(); ++y)
         {
-            for (int x = 0; x + 1 < Nodes; ++x)
+            for (int x = 0; x + 1 < groundNodes(); ++x)
             {
                 const bool northWest = mask[nodeAt(x, y)] != 0;
                 const bool northEast = mask[nodeAt(x + 1, y)] != 0;
@@ -716,6 +733,7 @@ std::string outdoorGroundKindNames(const std::string &world)
 
 bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::vector<ProjectIssue> &issues)
 {
+    const OutdoorGridScope gridScope(project);
     const WorldGround *pWorld = worldGroundOf(lowered.styleWorld);
 
     if (pWorld == nullptr)
@@ -845,19 +863,19 @@ bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::v
     // in the order the sketch first names them.
     std::vector<std::string> kinds;
     std::vector<uint16_t> rows;
-    std::vector<uint8_t> drawn(NodeTotal, 0);
+    std::vector<uint8_t> drawn(groundNodeTotal(), 0);
     std::map<size_t, size_t> zoneCounts;
     // Per corner: the relief (highest corner minus lowest) of the steepest of the cells that meet at it.
-    std::vector<double> steepest(NodeTotal, 0.0);
+    std::vector<double> steepest(groundNodeTotal(), 0.0);
 
-    for (int y = 0; y + 1 < Cells; ++y)
+    for (int y = 0; y + 1 < sideCells(); ++y)
     {
-        for (int x = 0; x + 1 < Cells; ++x)
+        for (int x = 0; x + 1 < sideCells(); ++x)
         {
-            const double corners[4] = {lowered.samples[y * Cells + x] * OutdoorHeightStep,
-                lowered.samples[y * Cells + x + 1] * OutdoorHeightStep,
-                lowered.samples[(y + 1) * Cells + x] * OutdoorHeightStep,
-                lowered.samples[(y + 1) * Cells + x + 1] * OutdoorHeightStep};
+            const double corners[4] = {lowered.samples[y * sideCells() + x] * OutdoorHeightStep,
+                lowered.samples[y * sideCells() + x + 1] * OutdoorHeightStep,
+                lowered.samples[(y + 1) * sideCells() + x] * OutdoorHeightStep,
+                lowered.samples[(y + 1) * sideCells() + x + 1] * OutdoorHeightStep};
             const double relief = *std::max_element(corners, corners + 4) - *std::min_element(corners, corners + 4);
 
             for (int corner = 0; corner < 4; ++corner)
@@ -967,14 +985,14 @@ bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::v
             continue;
         }
 
-        for (int y = 0; y < Nodes; ++y)
+        for (int y = 0; y < groundNodes(); ++y)
         {
-            for (int x = 0; x < Nodes; ++x)
+            for (int x = 0; x < groundNodes(); ++x)
             {
                 // The corners of the map's east column and south row lie on the outline of a zone drawn to the
                 // map's edge, which the half-open test counts as outside: they are asked a hair inside.
-                const double sampleX = x == Nodes - 1 ? x - 1.0e-6 : x;
-                const double sampleY = y == Nodes - 1 ? y - 1.0e-6 : y;
+                const double sampleX = x == groundNodes() - 1 ? x - 1.0e-6 : x;
+                const double sampleY = y == groundNodes() - 1 ? y - 1.0e-6 : y;
 
                 size_t segment = 0;
                 double share = 0.0;
@@ -1052,14 +1070,14 @@ bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::v
     }
 
     // Water corners, from the lowered cells; the corners of liquids laid in a ground set apart, by their kind.
-    std::vector<uint8_t> water(NodeTotal, 0);
-    std::vector<uint8_t> liquid(NodeTotal, 0);
+    std::vector<uint8_t> water(groundNodeTotal(), 0);
+    std::vector<uint8_t> liquid(groundNodeTotal(), 0);
 
-    for (int y = 0; y < Cells; ++y)
+    for (int y = 0; y < sideCells(); ++y)
     {
-        for (int x = 0; x < Cells; ++x)
+        for (int x = 0; x < sideCells(); ++x)
         {
-            const size_t cell = static_cast<size_t>(y) * Cells + x;
+            const size_t cell = static_cast<size_t>(y) * sideCells() + x;
             const uint8_t corners = lowered.waterCorners[cell];
             const int shape = cell < lowered.waterShape.size() ? lowered.waterShape[cell] : -1;
             const uint8_t label = shape >= 0 && static_cast<size_t>(shape) < shapeLabel.size() ? shapeLabel[shape] : 0;
@@ -1086,8 +1104,8 @@ bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::v
 
     // Road cells: dirt on all four corners. A cell with a corner in water is no road cell (a ford or a bridge the
     // sketch does not mark).
-    std::vector<uint8_t> roadCells(CellTotal, 0);
-    std::vector<uint8_t> roadNodes(NodeTotal, 0);
+    std::vector<uint8_t> roadCells(sideCellTotal(), 0);
+    std::vector<uint8_t> roadNodes(groundNodeTotal(), 0);
     size_t wetRoadCells = 0;
     std::string wetRoads;
 
@@ -1118,7 +1136,7 @@ bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::v
     // as the cells round it stay joined without it (so no road is cut and no end is shortened), until none is left.
     const auto roadCellAt = [&roadCells](int x, int y)
     {
-        return x >= 0 && y >= 0 && x < Cells && y < Cells && roadCells[y * Cells + x] != 0;
+        return x >= 0 && y >= 0 && x < sideCells() && y < sideCells() && roadCells[y * sideCells() + x] != 0;
     };
     const auto removable = [&roadCellAt](int x, int y)
     {
@@ -1160,9 +1178,9 @@ bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::v
     {
         changed = false;
 
-        for (int y = 0; y + 1 < Cells && !changed; ++y)
+        for (int y = 0; y + 1 < sideCells() && !changed; ++y)
         {
-            for (int x = 0; x + 1 < Cells && !changed; ++x)
+            for (int x = 0; x + 1 < sideCells() && !changed; ++x)
             {
                 if (!roadCellAt(x, y) || !roadCellAt(x + 1, y) || !roadCellAt(x, y + 1) || !roadCellAt(x + 1, y + 1))
                 {
@@ -1190,7 +1208,7 @@ bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::v
 
                 if (best >= 0)
                 {
-                    roadCells[(y + best / 2) * Cells + x + best % 2] = 0;
+                    roadCells[(y + best / 2) * sideCells() + x + best % 2] = 0;
                     ++thinned;
                     changed = true;
                 }
@@ -1204,12 +1222,12 @@ bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::v
             "four where roads meet or run side by side: a road is one cell wide");
     }
 
-    for (int cell = 0; cell < static_cast<int>(CellTotal); ++cell)
+    for (int cell = 0; cell < static_cast<int>(sideCellTotal()); ++cell)
     {
         if (roadCells[cell] != 0)
         {
-            const int x = cell % Cells;
-            const int y = cell / Cells;
+            const int x = cell % sideCells();
+            const int y = cell / sideCells();
             roadNodes[nodeAt(x, y)] = 1;
             roadNodes[nodeAt(x + 1, y)] = 1;
             roadNodes[nodeAt(x, y + 1)] = 1;
@@ -1226,14 +1244,14 @@ bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::v
 
     // Each kind of land where it is drawn, less what must be dirt: the corners of roads, the corners at and beside
     // water, and the corners beside the kind that lies over it. Then what the tiles cannot show is cleared.
-    std::vector<std::vector<uint8_t>> masks(kinds.size(), std::vector<uint8_t>(NodeTotal, 0));
+    std::vector<std::vector<uint8_t>> masks(kinds.size(), std::vector<uint8_t>(groundNodeTotal(), 0));
     const auto near = [](const std::vector<uint8_t> &mask, int x, int y)
     {
         for (int dy = -1; dy <= 1; ++dy)
         {
             for (int dx = -1; dx <= 1; ++dx)
             {
-                if (x + dx >= 0 && x + dx < Nodes && y + dy >= 0 && y + dy < Nodes
+                if (x + dx >= 0 && x + dx < groundNodes() && y + dy >= 0 && y + dy < groundNodes()
                     && mask[nodeAt(x + dx, y + dy)] != 0)
                 {
                     return true;
@@ -1246,9 +1264,9 @@ bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::v
 
     for (size_t kind = kinds.size(); kind-- > 0;)
     {
-        for (int y = 0; y < Nodes; ++y)
+        for (int y = 0; y < groundNodes(); ++y)
         {
-            for (int x = 0; x < Nodes; ++x)
+            for (int x = 0; x < groundNodes(); ++x)
             {
                 // A liquid lies where its bodies are; land keeps a line of dirt from water and from liquids.
                 const bool pooled = liquid[nodeAt(x, y)] == kind + 1;
@@ -1266,14 +1284,15 @@ bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::v
         rows.size() > 1 ? rows[1] : pWorld->spareRow, roadRow};
     lowered.groundKinds = kinds;
     lowered.tileTable = pWorld->pTileTable;
-    lowered.tiles.assign(CellTotal, OutdoorDirtTile);
+    lowered.tiles.assign(sideCellTotal(), OutdoorDirtTile);
     lowered.shoreCells = 0;
     lowered.roadCells = 0;
     const int setOf[3] = {OutdoorWaterSet, OutdoorFirstGroundSet, OutdoorSecondGroundSet};
     const auto roadAt = [&roadCells](int x, int y)
     {
         // A road that runs off the terrain runs on.
-        return x < 0 || y < 0 || x >= Cells || y >= Cells || roadCells[static_cast<size_t>(y) * Cells + x] == 2;
+        return x < 0 || y < 0 || x >= sideCells() || y >= sideCells()
+            || roadCells[static_cast<size_t>(y) * sideCells() + x] == 2;
     };
     // Which neighbours a road cell joins: bit 0 north, 1 east, 2 south, 3 west.
     const auto joins = [&roadAt](int x, int y)
@@ -1282,11 +1301,11 @@ bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::v
             | (roadAt(x - 1, y) ? 8 : 0);
     };
 
-    for (int y = 0; y < Cells; ++y)
+    for (int y = 0; y < sideCells(); ++y)
     {
-        for (int x = 0; x < Cells; ++x)
+        for (int x = 0; x < sideCells(); ++x)
         {
-            const size_t cell = static_cast<size_t>(y) * Cells + x;
+            const size_t cell = static_cast<size_t>(y) * sideCells() + x;
 
             if (roadCells[cell] == 2)
             {
@@ -1302,7 +1321,8 @@ bool layOutdoorGround(const Project &project, LoweredOutdoorMap &lowered, std::v
                     const int otherX = x + (side == 1 ? 1 : (side == 3 ? -1 : 0));
                     const int otherY = y + (side == 2 ? 1 : (side == 0 ? -1 : 0));
 
-                    if ((own & (1 << side)) != 0 && otherX >= 0 && otherY >= 0 && otherX < Cells && otherY < Cells
+                    if ((own & (1 << side)) != 0 && otherX >= 0 && otherY >= 0 && otherX < sideCells()
+                        && otherY < sideCells()
                         && joins(otherX, otherY) == opposite)
                     {
                         staircase = true;

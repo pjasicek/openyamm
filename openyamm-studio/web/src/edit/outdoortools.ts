@@ -10,7 +10,7 @@ import { DEFAULT_OUTDOOR } from './stages.ts';
 import type { OutdoorOptions } from './stages.ts';
 import { BaseTool, DrawingTool, handle, label, strokePath } from './toolbase.ts';
 import type { PlanTool, ToScreen, ToolHost } from './toolbase.ts';
-import { CELL, NODES, cellCentre, cellToLocal, cellToMap, extentOf, insideOrOn, mapToCell, nearestNode, roadStep, snapCell } from './cells.ts';
+import { CELL, MAP_CELLS, NODES, cellCentre, cellToLocal, cellToMap, extentOf, insideOrOn, mapToCell, nearestNode, roadStep, snapCell } from './cells.ts';
 import { isObject, keyedAt, keysOf, segment } from './keys.ts';
 import { LINE_KINDS, OUTLINE_KINDS, appendToSketch, insertPointOp, movePointsOps, partCells, removePointOp, shapeAt, sketchOf, sketchPatch, sketchShapes } from './sketch.ts';
 import type { SketchShape } from './sketch.ts';
@@ -753,7 +753,7 @@ class RimTool extends BaseTool
 
     private static sideOf(cell: Point): 'north' | 'east' | 'south' | 'west'
     {
-        const distances: [string, number][] = [['north', cell[1]], ['south', 128 - cell[1]], ['west', cell[0]], ['east', 128 - cell[0]]];
+        const distances: [string, number][] = [['north', cell[1]], ['south', MAP_CELLS - cell[1]], ['west', cell[0]], ['east', MAP_CELLS - cell[0]]];
         distances.sort((a, b) => a[1] - b[1]);
         return distances[0][0] as 'north' | 'east' | 'south' | 'west';
     }
@@ -786,7 +786,7 @@ class RimTool extends BaseTool
         const to = mapToCell(at);
         const side = RimTool.sideOf(from);
         const along = side === 'north' || side === 'south' ? [from[0], to[0]] : [from[1], to[1]];
-        const span = [Math.max(0, Math.round(Math.min(...along))), Math.min(128, Math.round(Math.max(...along)))];
+        const span = [Math.max(0, Math.round(Math.min(...along))), Math.min(MAP_CELLS, Math.round(Math.max(...along)))];
         if (span[1] - span[0] < 2)
         {
             this.host.note('Drag along a side of the map, near its edge: the stretch of rim the drag covers');
@@ -1273,7 +1273,7 @@ function paintedZones(files: FileTrees | undefined): { key: string; material: st
 // The operations of a ground stroke: the painted cells become `material`, every other outlined kind loses them; each
 // kind that changed gets its zones' outlines traced again (polygons replaced, added or removed by key). A sketch
 // without zones first gets the world's first kind over the whole map, so nothing but the stroke changes.
-export function groundPatch(files: FileTrees | undefined, material: string, painted: Uint8Array, size = 128): { steps: PatchStep[]; kinds: string[] } | { refused: string }
+export function groundPatch(files: FileTrees | undefined, material: string, painted: Uint8Array, size = MAP_CELLS): { steps: PatchStep[]; kinds: string[] } | { refused: string }
 {
     const ground = sketchOf(files)?.ground;
     const zones = paintedZones(files);
@@ -1328,7 +1328,7 @@ export function groundPatch(files: FileTrees | undefined, material: string, pain
     const changed = [...masks.keys()].filter((kind) => base || !before.has(kind) || before.get(kind)!.some((value, index) => value !== masks.get(kind)![index]));
     if (base)
     {
-        const whole = { material: FIRST_KIND, polygon: [[0, 0], [128, 0], [128, 128], [0, 128]] };
+        const whole = { material: FIRST_KIND, polygon: [[0, 0], [MAP_CELLS, 0], [MAP_CELLS, MAP_CELLS], [0, MAP_CELLS]] };
         const painted = traceMask(target, size, size).map((polygon) => ({ material, polygon }));
         return { steps: [{ op: 'add', path: '/ground', value: [whole, ...painted] }], kinds: [FIRST_KIND, material] };
     }
@@ -1371,14 +1371,14 @@ class GroundTool extends BaseTool
         {
             return false;
         }
-        this.painted = new Uint8Array(128 * 128);
+        this.painted = new Uint8Array(MAP_CELLS * MAP_CELLS);
         this.paint(at);
         return true;
     }
 
     private paint(at: Point): void
     {
-        paintDisc(this.painted!, 128, mapToCell(at), outdoorOptions(this.host).groundRadius, 1);
+        paintDisc(this.painted!, MAP_CELLS, mapToCell(at), outdoorOptions(this.host).groundRadius, 1);
         this.host.redraw();
     }
 
@@ -1437,8 +1437,8 @@ class GroundTool extends BaseTool
             {
                 if (this.painted[index])
                 {
-                    const x0 = index % 128;
-                    const y0 = Math.floor(index / 128);
+                    const x0 = index % MAP_CELLS;
+                    const y0 = Math.floor(index / MAP_CELLS);
                     const [ax, ay] = s(...cellToMap([x0, y0]));
                     const [bx, by] = s(...cellToMap([x0 + 1, y0 + 1]));
                     context.fillRect(ax, ay, bx - ax, by - ay);

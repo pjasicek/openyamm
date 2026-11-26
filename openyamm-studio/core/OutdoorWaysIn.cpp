@@ -2,6 +2,7 @@
 
 #include "core/CoreMath.h"
 #include "core/Json.h"
+#include "core/OutdoorGrid.h"
 #include "core/SketchRead.h"
 
 #include <algorithm>
@@ -39,7 +40,12 @@ namespace OpenYAMM::Studio
 namespace
 {
 constexpr double Pi = 3.14159265358979323846;
-constexpr int Nodes = 128;
+// The map's samples along each side (core/OutdoorGrid).
+int sideNodes()
+{
+    return outdoorNodeCount();
+}
+
 constexpr double Cell = 512.0;
 constexpr double Step = 32.0;
 const char *SketchFile = "sketch.yml";
@@ -704,14 +710,15 @@ std::vector<OutdoorCavePlan> readOutdoorCaves(
         double cellY = 0.0;
 
         if (!at.IsDefined() || !at.IsSequence() || at.size() != 2 || !numberOfNode(at[0], cellX)
-            || !numberOfNode(at[1], cellY) || cellX < 0.0 || cellY < 0.0 || cellX > Nodes - 1 || cellY > Nodes - 1)
+            || !numberOfNode(at[1], cellY) || cellX < 0.0 || cellY < 0.0 || cellX > sideNodes() - 1
+            || cellY > sideNodes() - 1)
         {
             add(".at", "`at` is the middle of the footprint [x, y] in cells (fractions allowed), inside the map");
             continue;
         }
 
-        cave.x = (cellX - Nodes / 2) * Cell;
-        cave.y = (Nodes / 2 - cellY) * Cell;
+        cave.x = (cellX - sideNodes() / 2) * Cell;
+        cave.y = (sideNodes() / 2 - cellY) * Cell;
         cave.turn = numberOr(node, "turn", 0.0);
         const YAML::Node mouth = childOf(node, "mouth");
         const YAML::Node size = childOf(node, "size");
@@ -906,15 +913,15 @@ void shapeOutdoorCaveLand(
         const auto landAt = [&ground, &cave](double u, double v)
         {
             const Point3 place = toWorld(cave, {u, v, 0.0});
-            const double fx = std::clamp(place[0] / Cell + Nodes / 2, 0.0, Nodes - 1.0);
-            const double fy = std::clamp(Nodes / 2 - place[1] / Cell, 0.0, Nodes - 1.0);
-            const int x0 = std::min(Nodes - 2, static_cast<int>(fx));
-            const int y0 = std::min(Nodes - 2, static_cast<int>(fy));
+            const double fx = std::clamp(place[0] / Cell + sideNodes() / 2, 0.0, sideNodes() - 1.0);
+            const double fy = std::clamp(sideNodes() / 2 - place[1] / Cell, 0.0, sideNodes() - 1.0);
+            const int x0 = std::min(sideNodes() - 2, static_cast<int>(fx));
+            const int y0 = std::min(sideNodes() - 2, static_cast<int>(fy));
             const double tx = fx - x0;
             const double ty = fy - y0;
             const auto at = [&ground](int x, int y)
             {
-                return ground[static_cast<size_t>(y) * Nodes + x];
+                return ground[static_cast<size_t>(y) * sideNodes() + x];
             };
             return (at(x0, y0) * (1 - tx) + at(x0 + 1, y0) * tx) * (1 - ty)
                 + (at(x0, y0 + 1) * (1 - tx) + at(x0 + 1, y0 + 1) * tx) * ty;
@@ -999,12 +1006,13 @@ void shapeOutdoorCaveLand(
                 || std::fabs(place[1] / Cell - std::round(place[1] / Cell)) > 0.01;
         }
 
-        for (int y = 0; y < Nodes; ++y)
+        for (int y = 0; y < sideNodes(); ++y)
         {
-            for (int x = 0; x < Nodes; ++x)
+            for (int x = 0; x < sideNodes(); ++x)
             {
-                const size_t node = static_cast<size_t>(y) * Nodes + x;
-                const std::array<double, 2> local = toLocal(cave, (x - Nodes / 2) * Cell, (Nodes / 2 - y) * Cell);
+                const size_t node = static_cast<size_t>(y) * sideNodes() + x;
+                const std::array<double, 2> local =
+                    toLocal(cave, (x - sideNodes() / 2) * Cell, (sideNodes() / 2 - y) * Cell);
                 const double u = local[0];
                 const double v = local[1];
                 constexpr double Near = 1.0;

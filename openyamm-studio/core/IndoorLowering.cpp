@@ -1613,6 +1613,7 @@ private:
             surface.offsetV = scalarNumber(offset[1]);
         }
 
+        surface.world = textOr(node, "anchor", "") == "world";
         const YAML::Node uneven = node["uneven"];
         surface.uneven = uneven && uneven.IsScalar() && uneven.Scalar() == "true";
         // A liquid (the shipped maps' water, slime and lava faces: the fluid bit, which also makes the game ripple a
@@ -13483,7 +13484,8 @@ private:
         const bool isPlate = m_platePaths.contains(id);
         const bool isRegion = m_regionPaths.contains(id);
         // A chest with a box of its own (not `box_of`).
-        const bool isChest = m_chestIndexById.contains(id) && !m_chestBoxOf.contains(id);
+        const bool isChest = m_chestIndexById.contains(id) && !m_chestBoxOf.contains(id)
+            && !m_lowered.ids.decorations.contains(id);
 
         if (door == m_doorIndexById.end() && !isBlock && !m_panelPaths.contains(id) && !isPlate && !isRegion
             && !isChest)
@@ -14367,6 +14369,22 @@ private:
 
                 return true;
             };
+            const auto addPlacedChest = [&](const YAML::Node &node, const std::string &id,
+                const std::string &path, const Vec2 &position, double floor)
+            {
+                LoweredChest chest;
+                chest.id = id;
+                chest.name = idName(id);
+                chest.position = {position.x, position.y, floor};
+                chest.containerId = IdsLock::number(m_lowered.ids.containers, id, 0);
+                chest.eventId = eventIdOf(id);
+                readChestContents(node, path, chest);
+                m_chestIndexById[id] = m_lowered.chests.size();
+                m_lowered.chests.push_back(chest);
+            };
+
+            // Append modeled chests after the map's ordinary decorations to preserve their indices.
+            std::vector<std::pair<std::string, YAML::Node>> decorationChests;
             // Chests that are a second set of contents of another chest's box (`box_of`), with where they are said.
             std::vector<std::pair<size_t, std::string>> sharedBoxes;
 
@@ -14380,7 +14398,7 @@ private:
                     std::string bodily;
 
                     for (const char *pKey : {"room", "at", "offset", "floor_height", "rides", "facing", "size",
-                             "surface", "end_surface", "top_surface"})
+                             "surface", "end_surface", "top_surface", "decoration"})
                     {
                         if (node[pKey])
                         {
@@ -14511,6 +14529,31 @@ private:
                         "at the map's start, and would not move with it: give the chest `rides: " + m_movingFloorId
                         + "` (it then stands on the top and rides with it), or move it off the moving part",
                         "geometry");
+                    continue;
+                }
+
+                if (node["decoration"])
+                {
+                    const char *pConflict = nullptr;
+                    for (const char *pKey : {"kind", "lid", "surface", "end_surface", "top_surface", "size", "rides"})
+                    {
+                        if (node[pKey])
+                        {
+                            pConflict = pKey;
+                            break;
+                        }
+                    }
+
+                    if (pConflict != nullptr)
+                    {
+                        issue("objects.yml", path + "." + pConflict, id + " uses a decoration for its body: remove `"
+                            + pConflict + "`, which applies to a chest built from faces", "schema");
+                        continue;
+                    }
+
+                    addPlacedChest(node, id, path, *position, *chestFloor);
+                    m_chestLooks[id] = true;
+                    decorationChests.emplace_back(path, node);
                     continue;
                 }
 
@@ -14778,15 +14821,7 @@ private:
 
                 m_boxes.push_back(box);
 
-                LoweredChest chest;
-                chest.id = id;
-                chest.name = idName(id);
-                chest.position = {position->x, position->y, *chestFloor};
-                chest.containerId = IdsLock::number(m_lowered.ids.containers, id, 0);
-                chest.eventId = box.eventId;
-                readChestContents(node, path, chest);
-                m_chestIndexById[id] = m_lowered.chests.size();
-                m_lowered.chests.push_back(chest);
+                addPlacedChest(node, id, path, *position, *chestFloor);
             }
 
             // A second set of contents lies where its box stands.
@@ -15755,15 +15790,14 @@ private:
             // Decorations become the map's entities in this order: their numbers are written anew each build.
             m_lowered.ids.decorations.clear();
 
-            for (const YAML::Node &node : objects["decorations"])
+            const auto placeDecoration = [&](const YAML::Node &node, const std::string &path, bool chest)
             {
-                const std::string path = "decorations[" + std::to_string(index++) + "]";
                 const std::string id = textOr(node, "id", "");
                 const std::optional<size_t> room = findRoom(textOr(node, "room", ""), "objects.yml", path + ".room");
 
-                if (!room || !claimId(id, "decoration", path))
+                if (!room || (!chest && !claimId(id, "decoration", path)))
                 {
-                    continue;
+                    return;
                 }
 
                 const LoweredRoom &decorationRoom = m_lowered.rooms[*room];
@@ -15778,14 +15812,26 @@ private:
                         "until it faces the way wanted");
                 }
 
-                if (node["wall"])
+                if (chest)
+                {
+                    const LoweredChest &container = m_lowered.chests[m_chestIndexById.at(id)];
+                    position = {container.position[0], container.position[1], container.position[2]};
+                    if (!node["facing"])
+                    {
+                        const DecorationShape shape = decorationShape(node["decoration"].Scalar());
+                        const double diameter = std::max(1.0, shape.radius * 2.0);
+                        degrees = chestRuleDegrees(*room, {position.x, position.y},
+                            {diameter, diameter, shape.top - shape.bottom}, position.z, false);
+                    }
+                }
+                else if (node["wall"])
                 {
                     const std::optional<size_t> edge =
                         findWall(decorationRoom, node["wall"], "objects.yml", path + ".wall");
 
                     if (!edge)
                     {
-                        continue;
+                        return;
                     }
 
                     const WallFrame frame = wallFrame(decorationRoom, *edge);
@@ -15798,7 +15844,7 @@ private:
                     {
                         issue("objects.yml", path, "a decoration on a wall is placed along it by `along` (a share of "
                             "its length) or by `at` (a point beside it), not both", "schema");
-                        continue;
+                        return;
                     }
 
                     if (node["at"])
@@ -15816,7 +15862,7 @@ private:
                                 "the wall it hangs on (" + formatNumber(std::round(alongWall)) + " along a wall "
                                 + formatNumber(std::floor(frame.length)) + " long, " + formatNumber(std::round(off))
                                 + " off it; at most 64)", "geometry");
-                            continue;
+                            return;
                         }
                     }
 
@@ -15843,7 +15889,7 @@ private:
 
                     if (!floorPosition || !decorationFloor)
                     {
-                        continue;
+                        return;
                     }
 
                     // A decoration is fixed in the map: on a moving part it would stay in the air (or in the block)
@@ -15855,7 +15901,7 @@ private:
                             "the air (or stand in the block) once it moves. Move it off the moving part, or stand it "
                             "on the floor under the part with `floor_height` where the part leaves room there",
                             "geometry");
-                        continue;
+                        return;
                     }
 
                     position = {
@@ -15939,7 +15985,7 @@ private:
                             ? "decorations need the decoration table: pass --assets <asset root> to the build"
                             : "there is no decoration named " + decorationName + " in decoration_data.txt",
                         "reference");
-                    continue;
+                    return;
                 }
 
                 // A kind the game draws nothing for in this world's dungeons (the user's walk through XD-05: MM6's
@@ -15953,7 +15999,7 @@ private:
 
                 MarkerObject marker;
                 marker.owner = id;
-                marker.nodeName = "DECOR_" + idName(id);
+                marker.nodeName = "DECOR_" + (chest ? id : idName(id));
                 marker.room = *room;
                 marker.position = {std::round(position.x), std::round(position.y), std::round(position.z)};
                 if (m_decorationCollision && textOr(node, "hidden", "") != "true")
@@ -15980,7 +16026,7 @@ private:
                 }
 
                 Editor::EditorIndoorGeometryEntityMetadata entity;
-                entity.id = idName(id);
+                entity.id = chest ? id : idName(id);
                 entity.kind = "decoration";
                 entity.sourceNodeName = marker.nodeName;
                 entity.decorationListId = static_cast<uint16_t>(*listId);
@@ -15992,6 +16038,16 @@ private:
                 entity.aiAttributes = textOr(node, "hidden", "") == "true" ? DecorationStartsHidden : 0;
                 m_lowered.ids.decorations[id] = static_cast<int>(m_lowered.metadata.entities.size());
                 m_lowered.metadata.entities.push_back(entity);
+            };
+
+            for (const YAML::Node &node : objects["decorations"])
+            {
+                placeDecoration(node, "decorations[" + std::to_string(index++) + "]", false);
+            }
+
+            for (const auto &[path, node] : decorationChests)
+            {
+                placeDecoration(node, path, true);
             }
         }
 
@@ -19073,6 +19129,34 @@ private:
                           "tapering block: give its top edge the direction of its foot edge, or bring its two top "
                           "points together",
                     "geometry");
+            }
+        }
+
+        // `anchor: world`: an upright face takes its texels from the map's origin, not from its piece.
+        const double uprightLength = std::sqrt(normal.x * normal.x + normal.y * normal.y);
+
+        if (surface.world && !surface.fit && std::fabs(normal.z) < 1.0e-6 && uprightLength > Epsilon)
+        {
+            // The direction u runs in, on a 64th of a turn: the faces of one plane built from corners rounded to
+            // whole units (the steps of a slanting flight) lean a degree apart, yet run one picture; a wall off
+            // those directions is drawn out by at most 0.12 %.
+            const double turn = 2.0 * std::acos(-1.0) / 64.0;
+            const double angle = std::round(std::atan2(normal.x, -normal.y) / turn) * turn;
+            const double rightX = std::cos(angle);
+            const double rightY = std::sin(angle);
+
+            for (size_t index = 0; index < points.size(); ++index)
+            {
+                texels[index] = {(points[index].x * rightX + points[index].y * rightY) / surface.scale,
+                    -points[index].z / surface.scale};
+            }
+        }
+        else if (surface.world && !surface.fit && uprightLength < 1.0e-6)
+        {
+            // A level face (a step's tread, a block's top) as the room's floors and ceilings are laid.
+            for (size_t index = 0; index < points.size(); ++index)
+            {
+                texels[index] = {points[index].x / surface.scale, -points[index].y / surface.scale};
             }
         }
 
@@ -22540,6 +22624,12 @@ private:
             lidNode.name = partLid && box.featureId.empty() ? "TRIGGER_roomtop_" + box.nodeName
                 : partLid ? "TRIGGER_" + floorKind(box.featureId) + "_" + idName(box.featureId)
                 : ownLid ? "TRIGGER_top_" + idName(box.featureId) : "";
+
+            if (partLid && box.featureId.empty())
+            {
+                const int uses = ++m_roomTopNames[lidNode.name];
+                lidNode.name += uses > 1 ? "_" + std::to_string(uses) : std::string();
+            }
             GlbNode &lidTarget = ownLid ? lidNode : node;
 
             if (box.lidSurface && !box.outline.empty() && !box.topEnd && !box.topScale)
@@ -23670,6 +23760,10 @@ private:
     std::vector<std::pair<std::string, FloorPart>> m_floorPartNodes;
     // Tops of clicked blocks built as nodes of their own, with the block's event (the tops keep the click).
     std::map<std::string, int> m_clickedLids;
+    // How many low blocks' tops of each name took a room's step event (`TRIGGER_roomtop_<block>`): blocks of one
+    // kind share a name (every parapet is PARAPET), and the indoor compiler renames every node of a name used twice,
+    // so the second and later get `_2`, `_3` ... (KD's D04, 2026-11-25).
+    std::map<std::string, int> m_roomTopNames;
 };
 
 void readTable(const YAML::Node &document, const char *pKey, std::map<std::string, int> &table)

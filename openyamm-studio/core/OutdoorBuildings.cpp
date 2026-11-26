@@ -758,8 +758,8 @@ public:
 
             for (const Point2 &point : reach)
             {
-                const double x = point[0] / OutdoorCellSize + OutdoorNodeCount / 2;
-                const double y = OutdoorNodeCount / 2 - point[1] / OutdoorCellSize;
+                const double x = point[0] / OutdoorCellSize + outdoorNodeCount() / 2;
+                const double y = outdoorNodeCount() / 2 - point[1] / OutdoorCellSize;
                 covered = {std::min(covered[0], x), std::min(covered[1], y), std::max(covered[2], x),
                     std::max(covered[3], y)};
             }
@@ -796,8 +796,8 @@ private:
         const double east = local[0] - width * 0.5;
         const double north = depth * 0.5 - local[1];
         const double angle = -m_turn * Pi / 180.0;
-        const double middleX = ((m_rectangle[0] + m_rectangle[2]) * 0.5 - OutdoorNodeCount / 2) * OutdoorCellSize;
-        const double middleY = (OutdoorNodeCount / 2 - (m_rectangle[1] + m_rectangle[3]) * 0.5) * OutdoorCellSize;
+        const double middleX = ((m_rectangle[0] + m_rectangle[2]) * 0.5 - outdoorNodeCount() / 2) * OutdoorCellSize;
+        const double middleY = (outdoorNodeCount() / 2 - (m_rectangle[1] + m_rectangle[3]) * 0.5) * OutdoorCellSize;
         return {middleX + east * oy::cos(angle) - north * oy::sin(angle),
             middleY + east * oy::sin(angle) + north * oy::cos(angle)};
     }
@@ -8396,6 +8396,7 @@ std::vector<OutdoorBuildingPlan> readOutdoorBuildings(
     std::vector<std::string> &warnings,
     const OutdoorDoorPictures *pDoorPictures)
 {
+    const OutdoorGridScope gridScope(project);
     std::vector<OutdoorBuildingPlan> buildings;
     const YAML::Node sketch = project.document(SketchFile);
     const YAML::Node plan = project.document("plan.yml");
@@ -8461,8 +8462,8 @@ std::vector<OutdoorBuildingPlan> readOutdoorBuildings(
         Point2 size = {0.0, 0.0};
 
         if (!pointOf(childOf(structure, "at"), corner) || !pointOf(childOf(structure, "size"), size) || size[0] <= 0.0
-            || size[1] <= 0.0 || corner[0] < 0.0 || corner[1] < 0.0 || corner[0] + size[0] > OutdoorNodeCount
-            || corner[1] + size[1] > OutdoorNodeCount)
+            || size[1] <= 0.0 || corner[0] < 0.0 || corner[1] < 0.0 || corner[0] + size[0] > outdoorNodeCount()
+            || corner[1] + size[1] > outdoorNodeCount())
         {
             issues.push_back({SketchFile, path, "a structure of kind building has `at: [x, y]` (the north-west "
                 "corner of the ground it stands on, in cells) and `size: [width, depth]` in cells, inside the map",

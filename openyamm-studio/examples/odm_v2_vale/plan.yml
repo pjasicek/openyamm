@@ -1,0 +1,21 @@
+format: 0
+pitch: "A small ODM v2 example: a 160-cell map (project.yml terrain.side), its walked square 113 cells wide (nodes 24 to 136), a ridge rim, a lake, a road from the town to the east edge and a tower past the classic frame."
+entrances:
+  - {id: entrance:start, space: town:vale, kind: arrival, facing: s}
+links:
+  - {id: link:east_road, from: town:vale, to: road:east_end, kind: road}
+height_bands:
+  - {id: band:vale, range: [576, 704]}
+  - {id: band:hills, range: [1500, 1800]}
+spaces:
+  - id: town:vale
+    kind: town
+    buildings:
+      - {id: building:home, type: house, count: 3, footprint_cells: [2, 1.5]}
+    population:
+      - {id: pop:wolves, actor: Dire Wolf}
+  - id: road:east_end
+    kind: road
+  - id: water:lake
+    kind: water
+sketch: {file: sketch.yml, grid: 512}

@@ -37,7 +37,11 @@ namespace OpenYAMM::Studio
 {
 namespace
 {
-constexpr size_t NodeTotal = static_cast<size_t>(OutdoorNodeCount) * OutdoorNodeCount;
+// The map's samples, all of them (core/OutdoorGrid).
+size_t sideNodeTotal()
+{
+    return outdoorNodeTotal();
+}
 // The party start decoration of the merged decoration table and how the shipped maps place it (Dagger Wound's
 // "Party Start"): invisible, flag 2.
 constexpr int PartyStartDecorationId = 13;
@@ -335,8 +339,8 @@ std::vector<ArrivalPoint> arrivalPoints(
                 ArrivalPoint arrival;
                 arrival.name = edge.side + " start";
                 arrival.entrance = textOf(entrance, "id", "");
-                arrival.x = static_cast<int>(std::lround((x - OutdoorNodeCount / 2) * OutdoorCellSize));
-                arrival.y = static_cast<int>(std::lround((OutdoorNodeCount / 2 - y) * OutdoorCellSize));
+                arrival.x = static_cast<int>(std::lround((x - outdoorNodeCount() / 2) * OutdoorCellSize));
+                arrival.y = static_cast<int>(std::lround((outdoorNodeCount() / 2 - y) * OutdoorCellSize));
                 const StandingPlace place =
                     standingPlaceOnModels(models, arrival.x, arrival.y, lowered.storedHeightAt(x, y));
                 arrival.z = static_cast<int>(std::lround(place.height));
@@ -402,8 +406,8 @@ std::vector<MapArrival> namedArrivals(
             const double y = at[1].as<double>(0.0);
             MapArrival arrival;
             arrival.name = id;
-            arrival.at[0] = static_cast<int>(std::lround((x - OutdoorNodeCount / 2) * OutdoorCellSize));
-            arrival.at[1] = static_cast<int>(std::lround((OutdoorNodeCount / 2 - y) * OutdoorCellSize));
+            arrival.at[0] = static_cast<int>(std::lround((x - outdoorNodeCount() / 2) * OutdoorCellSize));
+            arrival.at[1] = static_cast<int>(std::lround((outdoorNodeCount() / 2 - y) * OutdoorCellSize));
             const double ground = lowered.storedHeightAt(x, y);
             const StandingPlace place = standingPlaceOnModels(models, arrival.at[0], arrival.at[1], ground);
             arrival.at[2] = static_cast<int>(std::lround(place.height));
@@ -1342,6 +1346,24 @@ void writeBuildJson(
     writer.field("map", result.mapFile);
     writer.field("source_revision", result.sourceRevision);
     writer.field("lock_hash", result.lockHash);
+
+    // An ODM v2 map (core/OutdoorGrid): its side and the square the party walks, which the world's map_navigation
+    // row must give the game (MinX, MaxX, MinY, MaxY): the game's default is the classic square.
+    if (outdoorNodeCount() != OutdoorClassicSide)
+    {
+        const int bounds = outdoorGrid().partyBounds;
+        writer.field("terrain_side", outdoorNodeCount());
+        writer.key("outdoor_bounds");
+        writer.beginArray();
+
+        for (const int value : {-bounds, bounds, -bounds, bounds})
+        {
+            writer.value(value);
+        }
+
+        writer.endArray();
+    }
+
     writer.key("counts");
     writer.beginObject();
     writer.field("height_samples", static_cast<uint64_t>(lowered.samples.size()));
@@ -1491,26 +1513,28 @@ bool sameAsLowered(
     bool withStart,
     std::string &difference)
 {
-    if (map.heightMap.size() != NodeTotal || map.tileMap.size() != NodeTotal)
+    if (map.terrainSide != outdoorNodeCount() || map.heightMap.size() != sideNodeTotal()
+        || map.tileMap.size() != sideNodeTotal())
     {
-        difference = "the map read back has no 128 x 128 terrain";
+        difference = "the map read back has no " + std::to_string(outdoorNodeCount()) + " x "
+            + std::to_string(outdoorNodeCount()) + " terrain";
         return false;
     }
 
-    for (size_t node = 0; node < NodeTotal; ++node)
+    for (size_t node = 0; node < sideNodeTotal(); ++node)
     {
         if (map.heightMap[node] != lowered.samples[node])
         {
-            difference = "the height at [" + std::to_string(node % OutdoorNodeCount) + ", "
-                + std::to_string(node / OutdoorNodeCount) + "] reads back as " + std::to_string(map.heightMap[node])
+            difference = "the height at [" + std::to_string(node % outdoorNodeCount()) + ", "
+                + std::to_string(node / outdoorNodeCount()) + "] reads back as " + std::to_string(map.heightMap[node])
                 + " steps, lowered " + std::to_string(lowered.samples[node]);
             return false;
         }
 
         if (map.tileMap[node] != lowered.tiles[node])
         {
-            difference = "the cell [" + std::to_string(node % OutdoorNodeCount) + ", "
-                + std::to_string(node / OutdoorNodeCount) + "] reads back with tile "
+            difference = "the cell [" + std::to_string(node % outdoorNodeCount()) + ", "
+                + std::to_string(node / outdoorNodeCount()) + "] reads back with tile "
                 + std::to_string(map.tileMap[node]) + ", laid " + std::to_string(lowered.tiles[node]);
             return false;
         }
@@ -1771,6 +1795,7 @@ void checkOutdoorAir(const Project &project, const std::filesystem::path &assetR
 // The sketch's own checks, sorted: what makes the lowering unsound is an issue, what it copes with is a warning.
 void checkSketch(const Project &project, std::vector<ProjectIssue> &issues, std::vector<std::string> *pWarnings)
 {
+    const OutdoorGridScope gridScope(project);
     std::vector<ProjectIssue> found;
     validateSketch(project, found);
     size_t heights = 0;
@@ -1813,7 +1838,7 @@ std::vector<std::array<int, 4>> outdoorVoidRectangles(const std::vector<uint8_t>
 {
     std::vector<std::array<int, 4>> rects;
 
-    if (voidCells.size() != static_cast<size_t>(OutdoorNodeCount) * OutdoorNodeCount)
+    if (voidCells.size() != static_cast<size_t>(outdoorNodeCount()) * outdoorNodeCount())
     {
         return rects;
     }
@@ -1821,13 +1846,13 @@ std::vector<std::array<int, 4>> outdoorVoidRectangles(const std::vector<uint8_t>
     // The rectangles still growing downward, by their span.
     std::vector<size_t> open;
 
-    for (int y = 0; y < OutdoorNodeCount; ++y)
+    for (int y = 0; y < outdoorNodeCount(); ++y)
     {
         std::vector<std::array<int, 2>> runs;
 
-        for (int x = 0; x < OutdoorNodeCount; ++x)
+        for (int x = 0; x < outdoorNodeCount(); ++x)
         {
-            if (voidCells[static_cast<size_t>(y) * OutdoorNodeCount + static_cast<size_t>(x)] == 0)
+            if (voidCells[static_cast<size_t>(y) * outdoorNodeCount() + static_cast<size_t>(x)] == 0)
             {
                 continue;
             }
@@ -1888,6 +1913,8 @@ bool validateOutdoorProject(const Project &project, const BuildOptions &givenOpt
     {
         return false;
     }
+
+    const OutdoorGridScope gridScope(project);
 
     // Everything the build checks, without writing: the lowering, the buildings and structures, the places of
     // spawn points and scattered decorations, and with an asset root the names of decorations and textures.
@@ -2030,13 +2057,13 @@ std::vector<std::string> outdoorRoadOffWarnings(const Project &project, const Lo
         const int column = static_cast<int>(std::floor(point[0]));
         const int row = static_cast<int>(std::floor(point[1]));
 
-        if (column < 0 || row < 0 || column >= OutdoorNodeCount || row >= OutdoorNodeCount
-            || lowered.tiles.size() != static_cast<size_t>(OutdoorNodeCount * OutdoorNodeCount))
+        if (column < 0 || row < 0 || column >= outdoorNodeCount() || row >= outdoorNodeCount()
+            || lowered.tiles.size() != static_cast<size_t>(outdoorNodeCount() * outdoorNodeCount()))
         {
             return false;
         }
 
-        const uint8_t tile = lowered.tiles[static_cast<size_t>(row) * OutdoorNodeCount + column];
+        const uint8_t tile = lowered.tiles[static_cast<size_t>(row) * outdoorNodeCount() + column];
         return tile >= 198 && tile < 234;
     };
 
@@ -2094,6 +2121,8 @@ std::vector<std::string> outdoorRoadOffWarnings(const Project &project, const Lo
 
 bool buildOutdoorProject(const Project &project, const BuildOptions &options, BuildResult &result)
 {
+    const OutdoorGridScope gridScope(project);
+
     {
         // The sketch's checks read words to check them, not to build: not what the read record is for.
         SketchReadPause pause;
@@ -2563,10 +2592,12 @@ bool buildOutdoorProject(const Project &project, const BuildOptions &options, Bu
     map.name = textOf(project.document("project.yml"), "name", stem);
     map.masterTile = lowered.masterTile;
     map.tileSetLookupIndices = lowered.tileSets;
+    // The writer makes an ODM v2 of any side but the classic 128 (game/outdoor/OutdoorMapData.cpp).
+    map.terrainSide = outdoorNodeCount();
     map.heightMap = lowered.samples;
     map.tileMap = lowered.tiles;
-    map.attributeMap.assign(NodeTotal, 0);
-    map.decorationMap.assign(NodeTotal, 0);
+    map.attributeMap.assign(sideNodeTotal(), 0);
+    map.decorationMap.assign(sideNodeTotal(), 0);
     map.bmodels = models;
 
     const std::optional<std::vector<uint8_t>> odm = Game::OutdoorMapDataWriter().buildBytes(map);
@@ -2888,10 +2919,12 @@ bool buildOutdoorProject(const Project &project, const BuildOptions &options, Bu
         walkHeader.party = walkPartyOfWorld(options.assetRoot, lowered.world, true);
 
         // A map with edges to travel by gets the merged outdoor travel rows' bounds (game/tables/MapStats.cpp,
-        // MergedOutdoorBounds*), past which the game asks the party to travel.
+        // MergedOutdoorBounds*), past which the game asks the party to travel; on an ODM v2 map the square grown
+        // with its side (core/OutdoorGrid).
         if (!outdoorTravelEdges(project).empty())
         {
-            walkHeader.bounds = std::array<int, 4>{-23143, 23143, -23143, 23143};
+            const int bounds = outdoorGrid().partyBounds;
+            walkHeader.bounds = std::array<int, 4>{-bounds, bounds, -bounds, bounds};
         }
 
         if (const std::optional<Game::OutdoorMapData> plain = Game::OutdoorMapDataLoader().loadFromBytes(*odm))

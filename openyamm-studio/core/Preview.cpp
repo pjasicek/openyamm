@@ -547,7 +547,7 @@ Image renderOutdoor(const LoadedMap &map, const PreviewOptions &options)
 {
     const Game::OutdoorMapData &outdoor = *map.outdoor;
     const double cell = Game::OutdoorMapData::TerrainTileSize;
-    const double half = cell * Game::OutdoorMapData::TerrainWidth / 2.0;
+    const double half = cell * outdoor.terrainSide / 2.0;
     const bool isometric = options.view == PreviewView::Isometric;
     int width = 0;
     int height = 0;
@@ -556,7 +556,7 @@ Image renderOutdoor(const LoadedMap &map, const PreviewOptions &options)
         {{-half, -half, 0.0}, {half, -half, 0.0}, {half, half, 0.0}, {-half, half, 0.0}, {0.0, 0.0, 8192.0}},
         options.size, width, height);
     Canvas canvas(width, height, {28, 28, 32});
-    const int cells = Game::OutdoorMapData::TerrainWidth;
+    const int cells = outdoor.terrainSide;
     const auto heightAt = [&outdoor, cells](int column, int row) -> double
     {
         const size_t index = static_cast<size_t>(std::clamp(row, 0, cells - 1)) * cells
@@ -1176,15 +1176,23 @@ private:
 
 Image renderSketch(const Project &project, const SketchPreviewOptions &options)
 {
+    const OutdoorGridScope gridScope(project);
     const YAML::Node sketch = project.document("sketch.yml");
     const YAML::Node plan = project.document("plan.yml");
     const int size = std::clamp(options.size, 256, 4096);
     const double margin = std::max(30.0, size * 0.03);
+    const double mapCells = sketchMapCells();
     std::array<double, 4> region = options.region;
-    region[0] = std::clamp(region[0], 0.0, SketchMapCells - 1.0);
-    region[1] = std::clamp(region[1], 0.0, SketchMapCells - 1.0);
-    region[2] = std::clamp(region[2], 1.0, SketchMapCells - region[0]);
-    region[3] = std::clamp(region[3], 1.0, SketchMapCells - region[1]);
+
+    if (region[2] <= 0.0 || region[3] <= 0.0)
+    {
+        region = {0.0, 0.0, mapCells, mapCells};
+    }
+
+    region[0] = std::clamp(region[0], 0.0, sketchMapCells() - 1.0);
+    region[1] = std::clamp(region[1], 0.0, sketchMapCells() - 1.0);
+    region[2] = std::clamp(region[2], 1.0, sketchMapCells() - region[0]);
+    region[3] = std::clamp(region[3], 1.0, sketchMapCells() - region[1]);
     const double scale = (size - 2.0 * margin) / std::max(region[2], region[3]);
     const auto pixel = [margin, scale, &region](double x, double y)
     {
@@ -1229,7 +1237,7 @@ Image renderSketch(const Project &project, const SketchPreviewOptions &options)
     const Point boxTo = pixel(region[0] + region[2], region[1] + region[3]);
     SketchLabels labels(size, {static_cast<int>(boxFrom.x), static_cast<int>(boxFrom.y), static_cast<int>(boxTo.x),
         static_cast<int>(boxTo.y)});
-    canvas.fill({pixel(0, 0), pixel(128, 0), pixel(128, 128), pixel(0, 128)}, land);
+    canvas.fill({pixel(0, 0), pixel(mapCells, 0), pixel(mapCells, mapCells), pixel(0, mapCells)}, land);
 
     // ---- the land by height: the coarse grid as shading, else the bands as tints
     const YAML::Node heights = sketchChild(sketch, "heights");
@@ -1343,9 +1351,9 @@ Image renderSketch(const Project &project, const SketchPreviewOptions &options)
     }
 
     // ---- the cell grid, dotted: every 8 cells, every 2 in a close view
-    for (int cell = 0; cell <= 128; cell += gridCells)
+    for (int cell = 0; cell <= outdoorNodeCount(); cell += gridCells)
     {
-        for (int step = 0; step <= static_cast<int>(128.0 * scale); step += 4)
+        for (int step = 0; step <= static_cast<int>(mapCells * scale); step += 4)
         {
             const double along = step / scale;
             const Point across = pixel(along, cell);
@@ -1504,9 +1512,9 @@ Image renderSketch(const Project &project, const SketchPreviewOptions &options)
         const std::vector<OutdoorBuildingPlan> buildings = readOutdoorBuildings(project,
             worldNode.IsDefined() && worldNode.IsScalar() ? worldNode.Scalar() : std::string("mm8"), unusedIssues,
             unusedWarnings);
-        const auto worldPixel = [&pixel](const std::array<double, 2> &world)
+        const auto worldPixel = [&pixel, mapCells](const std::array<double, 2> &world)
         {
-            return pixel(world[0] / 512.0 + 64.0, 64.0 - world[1] / 512.0);
+            return pixel(world[0] / 512.0 + mapCells / 2.0, mapCells / 2.0 - world[1] / 512.0);
         };
 
         for (const OutdoorBuildingPlan &building : buildings)
@@ -1637,7 +1645,7 @@ Image renderSketch(const Project &project, const SketchPreviewOptions &options)
 
     // ---- the frame: the playable square and its exits
     const YAML::Node frame = sketchChild(sketch, "frame");
-    std::array<double, 4> playable = {0.0, 0.0, 128.0, 128.0};
+    std::array<double, 4> playable = {0.0, 0.0, mapCells, mapCells};
     const YAML::Node playableNode = sketchChild(frame, "playable");
     double square[4] = {0.0, 0.0, 0.0, 0.0};
 
@@ -1645,8 +1653,8 @@ Image renderSketch(const Project &project, const SketchPreviewOptions &options)
         && sketchNumber(playableNode[0], square[0]) && sketchNumber(playableNode[1], square[1])
         && sketchNumber(playableNode[2], square[2]) && sketchNumber(playableNode[3], square[3]))
     {
-        playable = {square[0], square[1], std::min(128.0, square[0] + square[2]),
-            std::min(128.0, square[1] + square[3])};
+        playable = {square[0], square[1], std::min(mapCells, square[0] + square[2]),
+            std::min(mapCells, square[1] + square[3])};
         sketchPolyline(canvas, {pixel(playable[0], playable[1]), pixel(playable[2], playable[1]),
             pixel(playable[2], playable[3]), pixel(playable[0], playable[3])}, true, {70, 70, 70}, 1, 8.0);
     }
@@ -1676,10 +1684,10 @@ Image renderSketch(const Project &project, const SketchPreviewOptions &options)
         }
     }
 
-    canvas.line(pixel(0, 0), pixel(128, 0), ink);
-    canvas.line(pixel(128, 0), pixel(128, 128), ink);
-    canvas.line(pixel(128, 128), pixel(0, 128), ink);
-    canvas.line(pixel(0, 128), pixel(0, 0), ink);
+    canvas.line(pixel(0, 0), pixel(mapCells, 0), ink);
+    canvas.line(pixel(mapCells, 0), pixel(mapCells, mapCells), ink);
+    canvas.line(pixel(mapCells, mapCells), pixel(0, mapCells), ink);
+    canvas.line(pixel(0, mapCells), pixel(0, 0), ink);
 
     // ---- views: an arrow from the camera toward what it looks at
     for (const YAML::Node &view : each(sketchChild(sketch, "views")))
@@ -1780,7 +1788,7 @@ Image renderSketch(const Project &project, const SketchPreviewOptions &options)
     canvas.fill({{boxTo.x + 1.0, 0.0}, {edge, 0.0}, {edge, edge}, {boxTo.x + 1.0, edge}}, paper);
     sketchPolyline(canvas, {boxFrom, {boxTo.x, boxFrom.y}, boxTo, {boxFrom.x, boxTo.y}}, true, ink, 1);
 
-    for (int cell = 0; cell <= 128 && options.labels; cell += gridCells * 2)
+    for (int cell = 0; cell <= outdoorNodeCount() && options.labels; cell += gridCells * 2)
     {
         const std::string number = std::to_string(cell);
         const Color grey = {110, 110, 110};

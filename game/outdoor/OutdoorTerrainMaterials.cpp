@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <bit>
 #include <cmath>
+#include <cstring>
 #include <filesystem>
 #include <functional>
 #include <limits>
@@ -25,8 +26,6 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr int MapCells = OutdoorMapData::TerrainWidth;
-constexpr int GridCells = OutdoorMapData::TerrainWidth - 1;
 constexpr int ChunkCells = 16;
 // The material set (TerrainMaterialSet) takes stages 8, 9, 10 and 14 and the light grid 11; the liquid edge coverage,
 // baked lighting and sun shadow inputs keep stages 2-7.
@@ -52,6 +51,7 @@ struct TerrainMaterialVertex
     // The meadow field (OutdoorMeadowField): -1 lush .. +1 dry.
     float meadow;
 };
+static_assert(sizeof(TerrainMaterialVertex) == 32);
 
 // Separable box blur of a square grid, clamped at its edges.
 std::vector<float> boxBlurred(const std::vector<float> &values, int side, int radius)
@@ -126,16 +126,16 @@ struct OutdoorTerrainMaterials::SourceImages
 };
 
 OutdoorTerrainMaterials::SourceImages OutdoorTerrainMaterials::loadSourceImages(const Engine::AssetFileSystem &assets,
-    const OutdoorTerrainMaterialConfig &config, bool renderedWater)
+    const OutdoorTerrainMaterialConfig &config, bool renderedWater, int mapCells)
 {
     SourceImages images;
     // Each task fills its own slot; the BGRA images become RGBA (and their mip chains) on the workers too.
     std::vector<std::function<void(std::string &)>> tasks;
-    if (!TerrainMaterialSet::appendLoadTasks(assets, config, images.materials, tasks, images.error))
+    if (!TerrainMaterialSet::appendLoadTasks(assets, config, images.materials, tasks, images.error, mapCells))
     {
         return images;
     }
-    const int size = MapCells * config.texelsPerCell;
+    const int size = mapCells * config.texelsPerCell;
     if (config.shore && renderedWater)
     {
         const std::string path = config.directory + config.shore->file;
@@ -215,6 +215,7 @@ bool OutdoorTerrainMaterials::initialize(const Engine::AssetFileSystem &assets, 
     bgfx::ProgramHandle singleShadowProgram, bgfx::ProgramHandle depthProgram, std::string &error)
 {
     shutdown();
+    m_mapCells = map.terrainSide;
     m_program = program;
     m_shadowProgram = shadowProgram;
     m_singleProgram = singleProgram;
@@ -233,14 +234,14 @@ bool OutdoorTerrainMaterials::initialize(const Engine::AssetFileSystem &assets, 
         shutdown();
         return false;
     }
-    if (map.heightMap.size() != size_t(MapCells * MapCells) || map.tileMap.size() != size_t(MapCells * MapCells))
+    if (map.heightMap.size() != map.terrainSampleCount() || map.tileMap.size() != map.terrainSampleCount())
     {
         error = "terrain materials require a terrain height and tile map";
         shutdown();
         return false;
     }
     m_stats = {};
-    const SourceImages images = loadSourceImages(assets, config, renderedWater);
+    const SourceImages images = loadSourceImages(assets, config, renderedWater, m_mapCells);
     error = images.error;
     if (!error.empty() || !m_materials.create(images.materials, config, error)
         || !createCellTextures(map, tiles) || !createBakedNormals(map, pBakedLighting)
@@ -263,6 +264,8 @@ bool OutdoorTerrainMaterials::initialize(const Engine::AssetFileSystem &assets, 
     }
     m_light = bgfx::createUniform("u_terrainMaterialLight", bgfx::UniformType::Vec4);
     m_shoreUniform = bgfx::createUniform("u_terrainShore", bgfx::UniformType::Vec4);
+    m_gridUniform = bgfx::createUniform("u_terrainGrid", bgfx::UniformType::Vec4);
+    m_gridValues = {float(m_mapCells), halfExtent(), 1.0f / (2.0f * halfExtent()), 1.0f / float(m_mapCells)};
     m_foliageSampler = bgfx::createUniform("s_terrainFoliage", bgfx::UniformType::Sampler);
     m_foliageUniform = bgfx::createUniform("u_terrainFoliage", bgfx::UniformType::Vec4, 2);
     const std::array<uint16_t, 4> noFoliage = {};
@@ -314,6 +317,7 @@ void OutdoorTerrainMaterials::shutdown(bool destroyResources)
     }
     release(m_light);
     release(m_shoreUniform);
+    release(m_gridUniform);
     release(m_foliageSampler);
     release(m_foliageUniform);
     release(m_noFoliage);
@@ -323,6 +327,7 @@ void OutdoorTerrainMaterials::shutdown(bool destroyResources)
     release(m_singleShadowProgram);
     release(m_depthProgram);
     m_stats = {};
+    m_mapCells = OutdoorMapData::TerrainWidth;
     m_smoothing = 0.0f;
     m_renderedHeights.clear();
     m_renderedHeights.shrink_to_fit();
@@ -337,8 +342,8 @@ float OutdoorTerrainMaterials::renderedHeight(float x, float y) const
         return 0.0f;
     }
     const float last = float(m_renderedSide - 1);
-    const float u = std::clamp((x + 32768.0f) / m_renderedSpacing, 0.0f, last);
-    const float v = std::clamp((32768.0f - y) / m_renderedSpacing, 0.0f, last);
+    const float u = std::clamp((x + halfExtent()) / m_renderedSpacing, 0.0f, last);
+    const float v = std::clamp((halfExtent() - y) / m_renderedSpacing, 0.0f, last);
     const int u0 = std::min(int(u), m_renderedSide - 2);
     const int v0 = std::min(int(v), m_renderedSide - 2);
     const auto at = [&](int column, int row)
@@ -364,6 +369,7 @@ void OutdoorTerrainMaterials::bind(const OutdoorLightingData *pBakedLighting, bo
         bindTexture(CausticsStage, m_causticsSampler, m_caustics, TextureFilterProfile::Terrain);
     }
     bgfx::setUniform(m_shoreUniform, m_shoreValues.data());
+    bgfx::setUniform(m_gridUniform, m_gridValues.data());
     const bool grass = bgfx::isValid(foliage);
     bgfx::setTexture(FoliageStage, m_foliageSampler, grass ? foliage : m_noFoliage, clamp);
     const std::array<float, 8> noFoliageParams = {0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f};
@@ -385,6 +391,7 @@ void OutdoorTerrainMaterials::bindDepth() const
     bgfx::setTexture(CellsStage, m_samplers[0], m_cells, point);
     bgfx::setTexture(ShoreStage, m_samplers[2], m_shore, clamp);
     bgfx::setUniform(m_shoreUniform, m_shoreValues.data());
+    bgfx::setUniform(m_gridUniform, m_gridValues.data());
 }
 
 bool OutdoorTerrainMaterials::createShore(const SourceImages &images, const OutdoorTerrainMaterialConfig &config,
@@ -395,7 +402,7 @@ bool OutdoorTerrainMaterials::createShore(const SourceImages &images, const Outd
     int size = 1;
     if (config.shore && renderedWater)
     {
-        size = MapCells * config.texelsPerCell;
+        size = m_mapCells * config.texelsPerCell;
         encoded = images.shore;
         m_shoreDistance.resize(encoded.size());
         for (size_t index = 0; index < encoded.size(); ++index)
@@ -436,9 +443,9 @@ bool OutdoorTerrainMaterials::createShore(const SourceImages &images, const Outd
 
 float OutdoorTerrainMaterials::shoreDistance(float x, float y) const
 {
-    const float texelsPerUnit = float(m_shoreSize) / (float(MapCells) * float(OutdoorMapData::TerrainTileSize));
-    const float u = std::clamp((x + 32768.0f) * texelsPerUnit - 0.5f, 0.0f, float(m_shoreSize - 1));
-    const float v = std::clamp((32768.0f - y) * texelsPerUnit - 0.5f, 0.0f, float(m_shoreSize - 1));
+    const float texelsPerUnit = float(m_shoreSize) / (float(m_mapCells) * float(OutdoorMapData::TerrainTileSize));
+    const float u = std::clamp((x + halfExtent()) * texelsPerUnit - 0.5f, 0.0f, float(m_shoreSize - 1));
+    const float v = std::clamp((halfExtent() - y) * texelsPerUnit - 0.5f, 0.0f, float(m_shoreSize - 1));
     const int u0 = int(u);
     const int v0 = int(v);
     const int u1 = std::min(u0 + 1, m_shoreSize - 1);
@@ -455,7 +462,7 @@ bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
     uint32_t subdivision, const std::optional<OutdoorTerrainMaterialShore> &shore)
 {
     const int steps = int(std::clamp(subdivision, 1u, 8u));
-    const int side = GridCells * steps + 1;
+    const int side = gridCells() * steps + 1;
     const float spacing = float(OutdoorMapData::TerrainTileSize) / float(steps);
     const OutdoorMeadowField meadow = buildOutdoorMeadowField(map);
     std::vector<float> heights(size_t(side) * side);
@@ -469,20 +476,21 @@ bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
     }
     const auto cellTile = [&](int cellX, int cellY) -> const OutdoorTerrainTile &
     {
-        return tiles[map.tileMap[size_t(cellY * MapCells + cellX)]];
+        return tiles[map.tileMap[size_t(cellY * m_mapCells + cellX)]];
     };
     // Water level at every native vertex: the native height where an open-water cell touches it, carried over the
     // land side of shore cells and spread two cells further for shores away from open water and for the beaches.
     // Sloping rivers keep their slope.
     const float noLevel = std::numeric_limits<float>::quiet_NaN();
-    std::vector<float> levels(size_t(MapCells) * MapCells, noLevel);
+    std::vector<float> levels(size_t(m_mapCells) * m_mapCells, noLevel);
     const auto nativeVertex = [&](int x, int y)
     {
-        return float(map.heightMap[size_t(y * MapCells + x)] * OutdoorMapData::TerrainHeightScale);
+        return float(map.heightMap[size_t(y * m_mapCells + x)] * OutdoorMapData::TerrainHeightScale);
     };
-    const auto cornerIndex = [](int cellX, int cellY, int corner)
+    const int mapCells = m_mapCells;
+    const auto cornerIndex = [mapCells](int cellX, int cellY, int corner)
     {
-        return size_t((cellY + corner / 2) * MapCells + cellX + corner % 2);
+        return size_t((cellY + corner / 2) * mapCells + cellX + corner % 2);
     };
     // The cell's water level at (u, v) inside it, bilinear between its corners; NaN away from water.
     const auto cellLevel = [&](int cellX, int cellY, float u, float v)
@@ -505,9 +513,9 @@ bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
     };
     if (shore)
     {
-        for (int cellY = 0; cellY < GridCells; ++cellY)
+        for (int cellY = 0; cellY < gridCells(); ++cellY)
         {
-            for (int cellX = 0; cellX < GridCells; ++cellX)
+            for (int cellX = 0; cellX < gridCells(); ++cellX)
             {
                 const OutdoorTerrainTile &tile = cellTile(cellX, cellY);
                 if (tile.valid && tile.liquid == LiquidKind::Water && !tile.transitionOverlay)
@@ -520,9 +528,9 @@ bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
                 }
             }
         }
-        for (int cellY = 0; cellY < GridCells; ++cellY)
+        for (int cellY = 0; cellY < gridCells(); ++cellY)
         {
-            for (int cellX = 0; cellX < GridCells; ++cellX)
+            for (int cellX = 0; cellX < gridCells(); ++cellX)
             {
                 const OutdoorTerrainTile &tile = cellTile(cellX, cellY);
                 if (!tile.valid || tile.liquid != LiquidKind::Water || !tile.transitionOverlay)
@@ -550,17 +558,17 @@ bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
         for (int pass = 0; pass < 2; ++pass)
         {
             const std::vector<float> previous = levels;
-            for (int y = 0; y < MapCells; ++y)
+            for (int y = 0; y < m_mapCells; ++y)
             {
-                for (int x = 0; x < MapCells; ++x)
+                for (int x = 0; x < m_mapCells; ++x)
                 {
-                    float &level = levels[size_t(y * MapCells + x)];
+                    float &level = levels[size_t(y * m_mapCells + x)];
                     for (int dy = -1; dy <= 1 && std::isnan(level); ++dy)
                     {
                         for (int dx = -1; dx <= 1; ++dx)
                         {
-                            const float neighbour = previous[size_t(std::clamp(y + dy, 0, MapCells - 1) * MapCells
-                                + std::clamp(x + dx, 0, MapCells - 1))];
+                            const float neighbour = previous[size_t(std::clamp(y + dy, 0, m_mapCells - 1) * m_mapCells
+                                + std::clamp(x + dx, 0, m_mapCells - 1))];
                             if (!std::isnan(neighbour) && (std::isnan(level) || neighbour < level))
                             {
                                 level = neighbour;
@@ -576,15 +584,16 @@ bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
         {
             for (int i = 0; i < side; ++i)
             {
-                const int cellX = std::min(i / steps, GridCells - 1);
-                const int cellY = std::min(j / steps, GridCells - 1);
+                const int cellX = std::min(i / steps, gridCells() - 1);
+                const int cellY = std::min(j / steps, gridCells() - 1);
                 const float level = cellLevel(cellX, cellY, float(i - cellX * steps) / float(steps),
                     float(j - cellY * steps) / float(steps));
                 if (std::isnan(level))
                 {
                     continue;
                 }
-                const float distance = shoreDistance(float(i) * spacing - 32768.0f, 32768.0f - float(j) * spacing);
+                const float distance =
+                    shoreDistance(float(i) * spacing - halfExtent(), halfExtent() - float(j) * spacing);
                 float &height = heights[size_t(j) * side + i];
                 if (distance < 0.0f)
                 {
@@ -629,7 +638,7 @@ bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
     // weight in the texels its bilinear weight samples reach (with two texels more for the coarser weight mips), and
     // the cliff layer cannot blend in (the shader's macro noise raises the steepness by 0.1 at most). Such quads draw
     // with the single-material program, which samples one layer instead of two.
-    const float weightTexelsPerUnit = float(m_materials.weightSize()) / 65536.0f;
+    const float weightTexelsPerUnit = float(m_materials.weightSize()) / (2.0f * halfExtent());
     const auto weightTexels = [&](int grid)
     {
         constexpr int MipMargin = 2;
@@ -679,16 +688,15 @@ bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
     };
     double deviationSum = 0.0;
     size_t deviationCount = 0;
-    for (int cellY0 = 0; cellY0 < GridCells; cellY0 += ChunkCells)
+    for (int cellY0 = 0; cellY0 < gridCells(); cellY0 += ChunkCells)
     {
-        for (int cellX0 = 0; cellX0 < GridCells; cellX0 += ChunkCells)
+        for (int cellX0 = 0; cellX0 < gridCells(); cellX0 += ChunkCells)
         {
-            const int cellsX = std::min(ChunkCells, GridCells - cellX0);
-            const int cellsY = std::min(ChunkCells, GridCells - cellY0);
+            const int cellsX = std::min(ChunkCells, gridCells() - cellX0);
+            const int cellsY = std::min(ChunkCells, gridCells() - cellY0);
             const int columns = cellsX * steps + 1;
             const int rows = cellsY * steps + 1;
-            std::vector<TerrainMaterialVertex> vertices;
-            vertices.reserve(size_t(columns) * rows);
+            std::vector<uint8_t> vertices(size_t(columns) * rows * stride);
             Chunk chunk;
             chunk.boundsMin = {1.0e9f, 1.0e9f, 1.0e9f};
             chunk.boundsMax = {-1.0e9f, -1.0e9f, -1.0e9f};
@@ -699,8 +707,8 @@ bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
                     const int i = cellX0 * steps + column;
                     const int j = cellY0 * steps + row;
                     TerrainMaterialVertex vertex = {};
-                    vertex.x = float(i) * spacing - 32768.0f;
-                    vertex.y = 32768.0f - float(j) * spacing;
+                    vertex.x = float(i) * spacing - halfExtent();
+                    vertex.y = halfExtent() - float(j) * spacing;
                     vertex.z = height(i, j);
                     // World y decreases with the grid row.
                     const float slopeX = (height(i + 1, j) - height(i - 1, j)) / (2.0f * spacing);
@@ -774,14 +782,7 @@ bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
             chunk.waterIndexCount = uint32_t(water.size());
             land.insert(land.begin(), single.begin(), single.end());
             land.insert(land.end(), water.begin(), water.end());
-            bgfx::VertexLayout layout;
-            layout.begin()
-                .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
-                .add(bgfx::Attrib::Normal, 3, bgfx::AttribType::Float)
-                .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
-                .end();
-            chunk.vertices = bgfx::createVertexBuffer(
-                bgfx::copy(vertices.data(), uint32_t(vertices.size() * sizeof(TerrainMaterialVertex))), layout);
+            chunk.vertices = bgfx::createVertexBuffer(bgfx::copy(vertices.data(), uint32_t(vertices.size())), layout);
             chunk.indices = bgfx::createIndexBuffer(bgfx::copy(land.data(), uint32_t(land.size() * sizeof(uint16_t))));
             if (!bgfx::isValid(chunk.vertices) || !bgfx::isValid(chunk.indices))
             {
@@ -797,7 +798,7 @@ bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
             }
             m_stats.triangles += uint32_t(land.size() / 3);
             m_stats.singleTriangles += chunk.singleIndexCount / 3;
-            m_stats.gpuBytes += vertices.size() * sizeof(TerrainMaterialVertex) + land.size() * sizeof(uint16_t);
+            m_stats.gpuBytes += vertices.size() + land.size() * sizeof(uint16_t);
             m_chunks.push_back(chunk);
         }
     }
@@ -822,7 +823,7 @@ bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
             return false;
         }
         m_stats.gpuBytes += halves.size() * sizeof(uint16_t);
-        m_seabedMapping = {-32768.0f, 32768.0f, 1.0f / (spacing * float(side)), 0.5f / float(side)};
+        m_seabedMapping = {-halfExtent(), halfExtent(), 1.0f / (spacing * float(side)), 0.5f / float(side)};
         m_opaqueWaterDepth = shore->opaqueDepth;
         // Water at the levels over every water and shore cell (flat unless the native water slopes); the land
         // hides it above the waterline. Tar and lava keep their per-cell liquid surfaces (see OutdoorRenderer).
@@ -857,7 +858,7 @@ bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
                     const int j = cellY * steps + subY;
                     const float level = cellLevel(cellX, cellY, float(subX) / float(steps), float(subY) / float(steps));
                     if (!std::isnan(level) && height(i, j) < level
-                        && shoreDistance(float(i) * spacing - 32768.0f, 32768.0f - float(j) * spacing) < 0.0f)
+                        && shoreDistance(float(i) * spacing - halfExtent(), halfExtent() - float(j) * spacing) < 0.0f)
                     {
                         return true;
                     }
@@ -865,11 +866,11 @@ bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
             }
             return false;
         };
-        for (int cellY = 0; cellY < GridCells; ++cellY)
+        for (int cellY = 0; cellY < gridCells(); ++cellY)
         {
-            for (int cellX = 0; cellX < GridCells; ++cellX)
+            for (int cellX = 0; cellX < gridCells(); ++cellX)
             {
-                uint8_t raw = map.tileMap[size_t(cellY * MapCells + cellX)];
+                uint8_t raw = map.tileMap[size_t(cellY * m_mapCells + cellX)];
                 const OutdoorTerrainTile &tile = tiles[raw];
                 const bool water = tile.liquid == LiquidKind::Water;
                 // Nothing is drawn over the void past the world's edge, not even the water plane at a river's level.
@@ -892,8 +893,8 @@ bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
                 const bool flat = corners[1] == corners[0] && corners[2] == corners[0] && corners[3] == corners[0];
                 WaterSurfaceGeometry &surface = flat ? planes[corners[0]] : sloped;
                 surface.height = corners[0];
-                const float west = float(cellX) * size - 32768.0f;
-                const float north = 32768.0f - float(cellY) * size;
+                const float west = float(cellX) * size - halfExtent();
+                const float north = halfExtent() - float(cellY) * size;
                 const auto corner = [&](int index)
                 {
                     const float u = float(index % 2);
@@ -937,12 +938,12 @@ bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
 bool OutdoorTerrainMaterials::createCellTextures(const OutdoorMapData &map,
     const std::array<OutdoorTerrainTile, 256> &tiles)
 {
-    std::vector<uint8_t> cells(size_t(MapCells) * MapCells * 4, 0);
-    for (int cellY = 0; cellY < GridCells; ++cellY)
+    std::vector<uint8_t> cells(size_t(m_mapCells) * m_mapCells * 4, 0);
+    for (int cellY = 0; cellY < gridCells(); ++cellY)
     {
-        for (int cellX = 0; cellX < GridCells; ++cellX)
+        for (int cellX = 0; cellX < gridCells(); ++cellX)
         {
-            const size_t index = size_t(cellY * MapCells + cellX);
+            const size_t index = size_t(cellY * m_mapCells + cellX);
             const uint8_t raw = map.tileMap[index];
             const OutdoorTerrainTile &tile = tiles[raw];
             uint8_t *pCell = &cells[index * 4];
@@ -953,7 +954,7 @@ bool OutdoorTerrainMaterials::createCellTextures(const OutdoorMapData &map,
             pCell[3] = tile.valid && !isOutdoorVoidCell(map, cellX, cellY) ? 255 : 0;
         }
     }
-    m_cells = createRgbaTexture(MapCells, MapCells, {cells});
+    m_cells = createRgbaTexture(m_mapCells, m_mapCells, {cells});
     m_stats.gpuBytes += cells.size();
     return bgfx::isValid(m_cells);
 }

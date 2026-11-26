@@ -121,8 +121,8 @@ void exportOutdoor(const Game::OutdoorMapData &map, const MapExportOptions &opti
     writer.endArray();
     writer.key("terrain");
     writer.beginObject();
-    writer.field("width", Game::OutdoorMapData::TerrainWidth);
-    writer.field("height", Game::OutdoorMapData::TerrainHeight);
+    writer.field("width", map.terrainSide);
+    writer.field("height", map.terrainSide);
     writer.field("tile_size", Game::OutdoorMapData::TerrainTileSize);
     writer.field("height_scale", Game::OutdoorMapData::TerrainHeightScale);
     writer.field("min_height_sample", map.minHeightSample);

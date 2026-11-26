@@ -27,6 +27,9 @@ uniform vec4 u_terrainMaterialLight;
 // x = waterline distance range, y = 1 when shores have a seabed under depth-faded water, z = waterline distance
 // under the water past which the seabed is plain (one sample of layer w, no detail normals or relighting).
 uniform vec4 u_terrainShore;
+// The terrain frame: x = height samples per side (128 on a classic map), y = world half extent (32768), z = 1 / (2 y),
+// w = 1 / x.
+uniform vec4 u_terrainGrid;
 
 #if BAKED_SOURCES
 SAMPLER2D(s_texLightmap, 2);
@@ -144,11 +147,12 @@ void main()
     // The triangle's own normal.z from the screen-space derivatives, taken before any branch.
     vec3 faceNormal = cross(dFdx(position), dFdy(position));
     float faceUp = abs(faceNormal.z) * inversesqrt(max(dot(faceNormal, faceNormal), 1.0e-12));
-    vec2 mapUv = vec2(position.x + 32768.0, 32768.0 - position.y) / 65536.0;
-    vec2 cellCoord = mapUv * 128.0;
-    vec2 cell = clamp(floor(cellCoord), vec2_splat(0.0), vec2_splat(126.0));
+#endif
+    vec2 mapUv = vec2(position.x + u_terrainGrid.y, u_terrainGrid.y - position.y) * u_terrainGrid.z;
+    vec2 cellCoord = mapUv * u_terrainGrid.x;
+    vec2 cell = clamp(floor(cellCoord), vec2_splat(0.0), vec2_splat(u_terrainGrid.x - 2.0));
     vec2 local = clamp(cellCoord - cell, vec2_splat(0.0), vec2_splat(1.0));
-    vec4 info = texture2DLod(s_terrainCells, (cell + 0.5) / 128.0, 0.0);
+    vec4 info = texture2DLod(s_terrainCells, (cell + 0.5) * u_terrainGrid.w, 0.0);
     if (info.a < 0.5)
     {
         discard;

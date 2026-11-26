@@ -11,6 +11,28 @@
 
 namespace OpenYAMM::Game
 {
+// World <-> terrain grid on the map's own grid (centre at terrainHalfSide: 64 on a classic map, 80 on a 160 map).
+inline float outdoorGridCornerWorldX(const OutdoorMapData &map, int gridX)
+{
+    return static_cast<float>((gridX - map.terrainHalfSide()) * OutdoorMapData::TerrainTileSize);
+}
+
+inline float outdoorGridCornerWorldY(const OutdoorMapData &map, int gridY)
+{
+    return static_cast<float>((map.terrainHalfSide() - gridY) * OutdoorMapData::TerrainTileSize);
+}
+
+inline float outdoorWorldToGridXFloat(const OutdoorMapData &map, float x)
+{
+    return x / static_cast<float>(OutdoorMapData::TerrainTileSize) + static_cast<float>(map.terrainHalfSide());
+}
+
+inline float outdoorWorldToGridYFloat(const OutdoorMapData &map, float y)
+{
+    return static_cast<float>(map.terrainHalfSide()) - (y / static_cast<float>(OutdoorMapData::TerrainTileSize));
+}
+
+// The classic 128 grid only (Map Studio, tests of classic maps); game code uses the map-aware forms above.
 inline float outdoorGridCornerWorldX(int gridX)
 {
     return static_cast<float>((gridX - 64) * OutdoorMapData::TerrainTileSize);

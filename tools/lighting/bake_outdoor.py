@@ -64,7 +64,7 @@ def terrain_tile_table_name(assets, world):
     return {'mm6': 'terrain_tile_data_3.txt', 'mm7': 'terrain_tile_data_2.txt'}.get(world, 'terrain_tile_data.txt')
 
 
-def decoration_model_casters(game_binary, profile, out, dependency, assets, extra_sources):
+def decoration_model_casters(game_binary, profile, out, dependency, assets, extra_sources, changing):
     """Shadow-only copies of every 3D decoration placement; returns the objects and the decoration entity indices.
 
     The placements come from the game itself (openyamm --headless-export-decoration-models), so heights, height
@@ -85,7 +85,10 @@ def decoration_model_casters(game_binary, profile, out, dependency, assets, extr
     to_bake = Matrix.Scale(1 / 128, 4)
     casters, modelled = [], set()
     for model in placements['models']:
-        if not model['placements']:
+        # A hidden or replaceable model has no fixed silhouette to bake into the ground.
+        modelled.update(p['entity'] for p in model['placements'])
+        fixed = [p for p in model['placements'] if p['entity'] not in changing]
+        if not fixed:
             continue
         # The model's source (assets_source): a cooked runtime copy references .oytex textures Blender cannot read.
         path = dependency_file(assets, model['model'], extra_sources)
@@ -94,8 +97,7 @@ def decoration_model_casters(game_binary, profile, out, dependency, assets, extr
         bpy.ops.import_scene.gltf(filepath=str(path))
         imported = [obj for obj in bpy.data.objects if obj not in before]
         sources = [obj for obj in imported if obj.type == 'MESH' and casting_faces_only(obj)]
-        for placement in model['placements']:
-            modelled.add(placement['entity'])
+        for placement in fixed:
             values = placement['matrix']
             world = Matrix([[values[column * 4 + row] for column in range(4)] for row in range(4)])
             for source in sources:
@@ -110,7 +112,7 @@ def decoration_model_casters(game_binary, profile, out, dependency, assets, extr
                 casters.append(caster)
         for obj in imported:
             bpy.data.objects.remove(obj, do_unlink=True)
-    print('DECORATION MODEL CASTERS', len(placements['models']), 'models', len(modelled), 'placements',
+    print('DECORATION MODEL CASTERS', len(placements['models']), 'models', len(modelled - changing), 'fixed placements',
           len(casters), 'objects', flush=True)
     return casters, modelled
 
@@ -375,6 +377,10 @@ def main():
     descriptors = list(csv.DictReader(table.open(), delimiter='\t'))
     entries = []
     heights = native['height_map']
+    # The terrain's samples per side: 128, or an ODM v2 map's side (util/map_export.py).
+    terrain_side = native.get('terrain_side', 128)
+    terrain_half = terrain_side // 2
+    terrain_last = terrain_side - 1
     terrain_size = profile['terrain_size']
     # Flat terrain triangles lying in the plane of a charted building floor go into their own object that bakes
     # into the terrain page but is invisible to other surfaces' rays: coinciding with the floor, they would shade
@@ -383,16 +389,16 @@ def main():
               if all(p.z == chart['points'][0].z for p in chart['points'])]
     on_floors = set(terrain_triangles_on_floors(heights, floors))
     floor_entries = []
-    for gy in range(127):
-        for gx in range(127):
+    for gy in range(terrain_last):
+        for gx in range(terrain_last):
             corners = [(gx,gy),(gx,gy+1),(gx+1,gy),(gx+1,gy+1)]
-            points = [Vector(((x-64)*512,(64-y)*512,heights[y*128+x]*32)) for x,y in corners]
-            raw = native['tile_map'][gy*128+gx]
+            points = [Vector(((x-terrain_half)*512,(terrain_half-y)*512,heights[y*terrain_side+x]*32)) for x,y in corners]
+            raw = native['tile_map'][gy*terrain_side+gx]
             ti = raw if raw < 90 else native['tile_set_lookup_indices'][(raw-90)//36]+(raw-90)%36
             mat, _ = material(descriptors[ti]['texture_name'], terrain=True)
             texcoords = [(0,1),(0,0),(1,1),(1,0)]
-            light = [((x/127*(terrain_size-1)+.5)/terrain_size,
-                      (y/127*(terrain_size-1)+.5)/terrain_size) for x,y in corners]
+            light = [((x/terrain_last*(terrain_size-1)+.5)/terrain_size,
+                      (y/terrain_last*(terrain_size-1)+.5)/terrain_size) for x,y in corners]
             for triangle, indices in enumerate(TERRAIN_CELL_TRIANGLES):
                 (floor_entries if (gx, gy, triangle) in on_floors else entries).append(
                     ([points[i] for i in indices], [texcoords[i] for i in indices], [light[i] for i in indices], mat))
@@ -422,10 +428,12 @@ def main():
         for path in decoration_report['dependencies']:
             dependency(assets / path)
         # Decorations the game draws as 3D models cast with their meshes, placed exactly as the game places them.
+        changing = set(decoration_report['changing_models'])
         model_casters, modelled = decoration_model_casters(args.game_binary, profile, out, dependency, assets,
-                                                           extra_sources)
+                                                           extra_sources, changing)
         decoration_report['cards'] = [card for card in decoration_report['cards'] if card['index'] not in modelled]
-        decoration_report['model_casters'] = {'decorations': len(modelled), 'objects': len(model_casters)}
+        decoration_report['model_casters'] = {'decorations': len(modelled - changing), 'objects': len(model_casters),
+                                              'changing': len(modelled & changing)}
         card_materials = {}
         right = Vector((-math.sin(a), math.cos(a), 0))
         for card in decoration_report['cards']:
@@ -500,9 +508,9 @@ def main():
     # Probe receivers do not cast shadows or contribute bounce. They sample diffuse light facing upward,
     # matching the native billboard's ground-facing illumination convention.
     locations = set()
-    for gy in range(1,127):
-        for gx in range(1,127):
-            locations.add(((gx-64)*512, (64-gy)*512))
+    for gy in range(1,terrain_last):
+        for gx in range(1,terrain_last):
+            locations.add(((gx-terrain_half)*512, (terrain_half-gy)*512))
     for model in native['bmodels']:
         if not model['vertices']:
             continue
@@ -510,14 +518,14 @@ def main():
                        math.ceil(max(v['x'] for v in model['vertices'])/128)*128+129,128):
             for y in range(math.floor(min(v['y'] for v in model['vertices'])/128)*128-128,
                            math.ceil(max(v['y'] for v in model['vertices'])/128)*128+129,128):
-                if -32256 <= x <= 31744 and -31744 <= y <= 32256:
+                if -terrain_half*512+512 <= x <= terrain_half*512-1024 and -terrain_half*512+1024 <= y <= terrain_half*512-512:
                     locations.add((x,y))
     probe_positions = []
     for x,y in sorted(locations):
-        gx, gy = x/512+64, 64-y/512
+        gx, gy = x/512+terrain_half, terrain_half-y/512
         ix, iy = int(gx),int(gy)
         fx, fy = gx-ix,gy-iy
-        tl,tr,bl,br = [heights[j*128+i]*32 for i,j in [(ix,iy),(ix+1,iy),(ix,iy+1),(ix+1,iy+1)]]
+        tl,tr,bl,br = [heights[j*terrain_side+i]*32 for i,j in [(ix,iy),(ix+1,iy),(ix,iy+1),(ix+1,iy+1)]]
         z = tl+(tr-tl)*fx+(bl-tl)*fy if fx+fy <= 1 else br+(bl-br)*(1-fx)+(tr-br)*(1-fy)
         for dz in [96,384,1152]:
             probe_positions.append((x,y,z+dz))
@@ -614,9 +622,9 @@ def main():
         triangle_boxes = []
         for gx, gy, triangle in on_floors:
             corners = [(gx, gy), (gx, gy + 1), (gx + 1, gy), (gx + 1, gy + 1)]
-            xs = [(corners[i][0] - 64) * 512 for i in TERRAIN_CELL_TRIANGLES[triangle]]
-            ys = [(64 - corners[i][1]) * 512 for i in TERRAIN_CELL_TRIANGLES[triangle]]
-            z = heights[corners[TERRAIN_CELL_TRIANGLES[triangle][0]][1] * 128
+            xs = [(corners[i][0] - terrain_half) * 512 for i in TERRAIN_CELL_TRIANGLES[triangle]]
+            ys = [(terrain_half - corners[i][1]) * 512 for i in TERRAIN_CELL_TRIANGLES[triangle]]
+            z = heights[corners[TERRAIN_CELL_TRIANGLES[triangle][0]][1] * terrain_side
                         + corners[TERRAIN_CELL_TRIANGLES[triangle][0]][0]] * 32
             triangle_boxes.append((z, min(xs), min(ys), max(xs), max(ys)))
         checked = []
@@ -727,7 +735,7 @@ def main():
     struct.pack_into('<IIQ',header,8,3,96,fnv(source.read_bytes()))
     struct.pack_into('<12I',header,24,len(native['bmodels']),len(records),len(pages),len(records),
                      len(vertices)//12,0,page_offset,face_offset,vertex_offset,light_offset,pixel_offset,total)
-    struct.pack_into('<II4f',header,72,0,1,-32768,32768,65024,-65024)
+    struct.pack_into('<II4f',header,72,0,1,-terrain_half*512,terrain_half*512,terrain_last*512,-terrain_last*512)
     output = out / (source.stem+'.lighting')
     if retained is not None:
         prefix = bytearray(retained[:retained_end])

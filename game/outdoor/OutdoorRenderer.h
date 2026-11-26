@@ -118,7 +118,7 @@ private:
     static void updateDecorationModels(OutdoorGameView &view, const OutdoorLightingData *pBakedLighting,
         const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState);
     static std::vector<OutdoorGameView::TerrainVertex> buildTerrainVertices(const OutdoorMapData &mapData);
-    static std::vector<uint16_t> buildTerrainIndices();
+    static std::vector<uint16_t> buildTerrainIndices(const OutdoorMapData &mapData);
     // Two triangles per liquid cell (the native corners), for the liquid renderer's terrain surfaces.
     static std::vector<OutdoorGameView::TexturedTerrainVertex> buildTerrainLiquidVertices(
         const OutdoorMapData &mapData,

@@ -23,6 +23,7 @@ import { EditSession } from '../edit/session.ts';
 import type { Gesture } from '../edit/session.ts';
 import { stagesOf } from '../edit/stages.ts';
 import { isOutdoorFiles, outdoorDrop } from '../edit/outdoortools.ts';
+import { projectSide, setMapSide } from '../edit/cells.ts';
 import type { ToolName } from '../edit/stages.ts';
 import { dropPlan } from '../edit/drop.ts';
 import type { DropPlan, DropTarget, LibraryAsset, LibraryKind } from '../edit/drop.ts';
@@ -508,6 +509,7 @@ export class Controller implements Actions
             {
                 return;
             }
+            setMapSide(projectSide(opened.files['project.yml']?.tree));
             this.store.setState({ project: { state: 'ready', value: opened } });
             this.loadHistory();
             try
@@ -589,6 +591,7 @@ export class Controller implements Actions
                 return;
             }
             mark('project_open');
+            setMapSide(projectSide(opened.files['project.yml']?.tree));
             this.store.setState({ project: { state: 'ready', value: opened } });
             void this.subscribe(project, false);
             this.loadHistory();

@@ -2,6 +2,7 @@
 
 #include "core/CoreMath.h"
 #include "core/Json.h"
+#include "core/OutdoorGrid.h"
 #include "core/SketchRead.h"
 
 #include <algorithm>
@@ -14,7 +15,12 @@ namespace OpenYAMM::Studio
 {
 namespace
 {
-constexpr int Cells = OutdoorNodeCount;
+// The map's cells along each side (core/OutdoorGrid).
+int sideCells()
+{
+    return outdoorNodeCount();
+}
+
 const char *SketchFile = "sketch.yml";
 // How many places are tried for each thing to place before the area is given up as full.
 constexpr int TriesPerThing = 60;
@@ -194,13 +200,13 @@ public:
             }
         }
 
-        for (int y = 0; y + 1 < Cells; ++y)
+        for (int y = 0; y + 1 < sideCells(); ++y)
         {
-            for (int x = 0; x + 1 < Cells; ++x)
+            for (int x = 0; x + 1 < sideCells(); ++x)
             {
-                const int corners[4] = {lowered.samples[y * Cells + x], lowered.samples[y * Cells + x + 1],
-                    lowered.samples[(y + 1) * Cells + x], lowered.samples[(y + 1) * Cells + x + 1]};
-                m_steep[y * Cells + x] = (*std::max_element(corners, corners + 4)
+                const int corners[4] = {lowered.samples[y * sideCells() + x], lowered.samples[y * sideCells() + x + 1],
+                    lowered.samples[(y + 1) * sideCells() + x], lowered.samples[(y + 1) * sideCells() + x + 1]};
+                m_steep[y * sideCells() + x] = (*std::max_element(corners, corners + 4)
                     - *std::min_element(corners, corners + 4)) * OutdoorHeightStep > OutdoorCellSize ? 1 : 0;
             }
         }
@@ -233,12 +239,12 @@ public:
     // buildings by a quarter cell, and with `walkable` not on a cell too steep to walk.
     bool free(double x, double y, bool walkable) const
     {
-        if (x < 0.5 || y < 0.5 || x > Cells - 1.5 || y > Cells - 1.5)
+        if (x < 0.5 || y < 0.5 || x > sideCells() - 1.5 || y > sideCells() - 1.5)
         {
             return false;
         }
 
-        const size_t cell = static_cast<size_t>(y) * Cells + static_cast<size_t>(x);
+        const size_t cell = static_cast<size_t>(y) * sideCells() + static_cast<size_t>(x);
 
         if (m_blocked[cell] != 0 || (walkable && m_steep[cell] != 0))
         {
@@ -367,12 +373,12 @@ public:
     // Whether a thing can float at a place, in sketch cells: on open water (all four corners of the cell in it).
     bool onWater(double x, double y) const
     {
-        if (x < 0.5 || y < 0.5 || x > Cells - 1.5 || y > Cells - 1.5)
+        if (x < 0.5 || y < 0.5 || x > sideCells() - 1.5 || y > sideCells() - 1.5)
         {
             return false;
         }
 
-        return m_lowered.water[static_cast<size_t>(y) * Cells + static_cast<size_t>(x)] != 0;
+        return m_lowered.water[static_cast<size_t>(y) * sideCells() + static_cast<size_t>(x)] != 0;
     }
 
 private:
@@ -489,7 +495,7 @@ bool placeAlong(const YAML::Node &node, const std::string &path, std::vector<Pro
 
     for (const Point2 &point : line)
     {
-        if (point[0] < 0.5 || point[1] < 0.5 || point[0] > Cells - 1.5 || point[1] > Cells - 1.5)
+        if (point[0] < 0.5 || point[1] < 0.5 || point[0] > sideCells() - 1.5 || point[1] > sideCells() - 1.5)
         {
             issues.push_back({SketchFile, path + ".line", "a row's points stand on the map's terrain, half a cell "
                 "and more from its edge (0.5 to 126.5): move [" + formatNumber(point[0]) + ", "
@@ -641,12 +647,12 @@ uint32_t scatterSeed(const YAML::Node &node, std::map<std::string, uint32_t> &re
 
 int worldX(double x)
 {
-    return static_cast<int>(std::lround((x - Cells / 2) * OutdoorCellSize));
+    return static_cast<int>(std::lround((x - sideCells() / 2) * OutdoorCellSize));
 }
 
 int worldY(double y)
 {
-    return static_cast<int>(std::lround((Cells / 2 - y) * OutdoorCellSize));
+    return static_cast<int>(std::lround((sideCells() / 2 - y) * OutdoorCellSize));
 }
 }
 
@@ -659,6 +665,7 @@ bool placeOutdoorThings(
     std::vector<std::string> &warnings,
     const std::vector<std::array<double, 4>> &keepOff)
 {
+    const OutdoorGridScope gridScope(project);
     places = {};
     const size_t issuesBefore = issues.size();
     const YAML::Node sketch = project.document(SketchFile);

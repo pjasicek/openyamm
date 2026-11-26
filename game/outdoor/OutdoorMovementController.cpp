@@ -194,14 +194,14 @@ bool bboxIntersects(
 
 bool terrainSlopeTooHigh(const OutdoorMapData &outdoorMapData, float x, float y)
 {
-    const float gridXFloat = outdoorWorldToGridXFloat(x);
-    const float gridYFloat = outdoorWorldToGridYFloat(y);
-    const int gridX = std::clamp(static_cast<int>(std::floor(gridXFloat)), 0, OutdoorMapData::TerrainWidth - 2);
-    const int gridY = std::clamp(static_cast<int>(std::floor(gridYFloat)), 0, OutdoorMapData::TerrainHeight - 2);
-    const size_t index00 = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + gridX);
-    const size_t index01 = static_cast<size_t>((gridY + 1) * OutdoorMapData::TerrainWidth + gridX);
-    const size_t index10 = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + (gridX + 1));
-    const size_t index11 = static_cast<size_t>((gridY + 1) * OutdoorMapData::TerrainWidth + (gridX + 1));
+    const float gridXFloat = outdoorWorldToGridXFloat(outdoorMapData, x);
+    const float gridYFloat = outdoorWorldToGridYFloat(outdoorMapData, y);
+    const int gridX = std::clamp(static_cast<int>(std::floor(gridXFloat)), 0, outdoorMapData.terrainSide - 2);
+    const int gridY = std::clamp(static_cast<int>(std::floor(gridYFloat)), 0, outdoorMapData.terrainSide - 2);
+    const size_t index00 = static_cast<size_t>(gridY * outdoorMapData.terrainSide + gridX);
+    const size_t index01 = static_cast<size_t>((gridY + 1) * outdoorMapData.terrainSide + gridX);
+    const size_t index10 = static_cast<size_t>(gridY * outdoorMapData.terrainSide + (gridX + 1));
+    const size_t index11 = static_cast<size_t>((gridY + 1) * outdoorMapData.terrainSide + (gridX + 1));
     const int z00 = static_cast<int>(outdoorMapData.heightMap[index00]) * OutdoorMapData::TerrainHeightScale;
     const int z01 = static_cast<int>(outdoorMapData.heightMap[index01]) * OutdoorMapData::TerrainHeightScale;
     const int z10 = static_cast<int>(outdoorMapData.heightMap[index10]) * OutdoorMapData::TerrainHeightScale;
@@ -232,18 +232,22 @@ bool terrainSlopeTooHigh(const OutdoorMapData &outdoorMapData, float x, float y)
     return (maxZ - minZ) > OutdoorMapData::TerrainTileSize;
 }
 
-bool isOutdoorLandMaskWater(const std::optional<std::vector<uint8_t>> &outdoorLandMask, float x, float y)
+bool isOutdoorLandMaskWater(
+    const OutdoorMapData &outdoorMapData,
+    const std::optional<std::vector<uint8_t>> &outdoorLandMask,
+    float x,
+    float y)
 {
     if (!outdoorLandMask || outdoorLandMask->empty())
     {
         return false;
     }
 
-    const float gridX = outdoorWorldToGridXFloat(x);
-    const float gridY = outdoorWorldToGridYFloat(y);
-    const int tileX = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 2);
-    const int tileY = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 2);
-    const int landMaskWidth = OutdoorMapData::TerrainWidth - 1;
+    const float gridX = outdoorWorldToGridXFloat(outdoorMapData, x);
+    const float gridY = outdoorWorldToGridYFloat(outdoorMapData, y);
+    const int tileX = std::clamp(static_cast<int>(std::floor(gridX)), 0, outdoorMapData.terrainSide - 2);
+    const int tileY = std::clamp(static_cast<int>(std::floor(gridY)), 0, outdoorMapData.terrainSide - 2);
+    const int landMaskWidth = outdoorMapData.terrainSide - 1;
     const size_t tileIndex = static_cast<size_t>(tileY * landMaskWidth + tileX);
 
     if (tileIndex >= outdoorLandMask->size())
@@ -260,7 +264,8 @@ bool isOutdoorPositionWater(
     float x,
     float y)
 {
-    return isOutdoorTerrainWater(outdoorMapData, x, y) || isOutdoorLandMaskWater(outdoorLandMask, x, y);
+    return isOutdoorTerrainWater(outdoorMapData, x, y)
+        || isOutdoorLandMaskWater(outdoorMapData, outdoorLandMask, x, y);
 }
 
 float pointSegmentDistanceSquared2d(
@@ -1877,7 +1882,8 @@ OutdoorMoveState OutdoorMovementController::initializeStateForBody(
     state.supportOnWater = floor.hasFloor
         && (floor.isFluid
         || (!floor.fromBModel
-            && (isOutdoorTerrainWater(*m_pOutdoorMapData, x, y) || isOutdoorLandMaskWater(m_outdoorLandMask, x, y))));
+            && (isOutdoorTerrainWater(*m_pOutdoorMapData, x, y)
+                || isOutdoorLandMaskWater(*m_pOutdoorMapData, m_outdoorLandMask, x, y))));
     state.supportOnBurning = floor.hasFloor && floor.isBurning;
     state.airborne = state.footZ > groundZ + GroundSnapHeight;
     state.landedThisFrame = false;
@@ -2880,8 +2886,8 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
     if (landedThisFrame
         && !finalFloor.fromBModel
         && isOutdoorVoidCell(*m_pOutdoorMapData,
-            int(std::floor(outdoorWorldToGridXFloat(partyNewPosition.x))),
-            int(std::floor(outdoorWorldToGridYFloat(partyNewPosition.y)))))
+            int(std::floor(outdoorWorldToGridXFloat(*m_pOutdoorMapData, partyNewPosition.x))),
+            int(std::floor(outdoorWorldToGridYFloat(*m_pOutdoorMapData, partyNewPosition.y)))))
     {
         // The void's floor (terrain.void) is no ground: a party that walked over the world's edge is lifted back onto
         // the rim by the map's rescue, whose fall is the only one it takes.

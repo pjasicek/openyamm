@@ -32,11 +32,11 @@ std::optional<uint8_t> sampleOutdoorTerrainTileId(const OutdoorMapData &outdoorM
         return std::nullopt;
     }
 
-    const float gridX = outdoorWorldToGridXFloat(x);
-    const float gridY = outdoorWorldToGridYFloat(y);
-    const int tileX = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 2);
-    const int tileY = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 2);
-    const size_t tileIndex = static_cast<size_t>(tileY * OutdoorMapData::TerrainWidth + tileX);
+    const float gridX = outdoorWorldToGridXFloat(outdoorMapData, x);
+    const float gridY = outdoorWorldToGridYFloat(outdoorMapData, y);
+    const int tileX = std::clamp(static_cast<int>(std::floor(gridX)), 0, outdoorMapData.terrainSide - 2);
+    const int tileY = std::clamp(static_cast<int>(std::floor(gridY)), 0, outdoorMapData.terrainSide - 2);
+    const size_t tileIndex = static_cast<size_t>(tileY * outdoorMapData.terrainSide + tileX);
 
     if (tileIndex >= outdoorMapData.tileMap.size())
     {

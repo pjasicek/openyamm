@@ -72,6 +72,9 @@ struct LoweredSurface
     // picture: the texture is laid as without it and then shifted by u to one side and v down.
     double offsetU = 0.0;
     double offsetV = 0.0;
+    // `anchor: world`: on upright faces the picture is laid from the map's origin (u along the face to its right, v
+    // down from height 0) instead of from its wall, panel or block, so the pieces of one plane continue one picture.
+    bool world = false;
     // `uneven: true`: the picture is meant squashed or far from its own size where it lies (no warning).
     bool uneven = false;
     // Engine face attribute bits of every face laid with this surface: `liquid` (the fluid bit, and lava's burning

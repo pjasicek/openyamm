@@ -131,7 +131,7 @@ private:
     // The material layers and images, read and decoded on the load workers before any GPU resource is created.
     struct SourceImages;
     static SourceImages loadSourceImages(const Engine::AssetFileSystem &assets,
-        const OutdoorTerrainMaterialConfig &config, bool renderedWater);
+        const OutdoorTerrainMaterialConfig &config, bool renderedWater, int mapCells);
     bool createMesh(const OutdoorMapData &map, const std::array<OutdoorTerrainTile, 256> &tiles,
         const OutdoorTerrainMaterialConfig &config, uint32_t subdivision,
         const std::optional<OutdoorTerrainMaterialShore> &shore);
@@ -141,8 +141,23 @@ private:
     bool createCellTextures(const OutdoorMapData &map, const std::array<OutdoorTerrainTile, 256> &tiles);
     bool createBakedNormals(const OutdoorMapData &map, const OutdoorLightingData *pBakedLighting);
 
+    // The terrain frame: height samples per side (128, or an ODM v2 map's side) and its world half extent.
+    int mapCells() const
+    {
+        return m_mapCells;
+    }
+    int gridCells() const
+    {
+        return m_mapCells - 1;
+    }
+    float halfExtent() const
+    {
+        return float(m_mapCells / 2 * OutdoorMapData::TerrainTileSize);
+    }
+
     std::vector<Chunk> m_chunks;
     Stats m_stats;
+    int m_mapCells = OutdoorMapData::TerrainWidth;
     float m_smoothing = 0.0f;
     // The mesh vertices' heights, side x side rows from the map's north-west corner, spacing apart.
     std::vector<float> m_renderedHeights;
@@ -169,6 +184,9 @@ private:
     std::array<bgfx::UniformHandle, 3> m_samplers = {{BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE, BGFX_INVALID_HANDLE}};
     bgfx::UniformHandle m_light = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_shoreUniform = BGFX_INVALID_HANDLE;
+    // u_terrainGrid: side, half extent, 1 / (2 half extent), 1 / side.
+    bgfx::UniformHandle m_gridUniform = BGFX_INVALID_HANDLE;
+    std::array<float, 4> m_gridValues = {};
     bgfx::UniformHandle m_foliageSampler = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_foliageUniform = BGFX_INVALID_HANDLE;
     // Bound at the foliage stage when no grass is drawn (1x1, no coverage).

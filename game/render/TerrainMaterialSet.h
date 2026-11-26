@@ -23,6 +23,8 @@ struct TerrainMaterialSources
     std::array<std::vector<std::vector<uint8_t>>, 2> weightLevels;
     std::vector<std::vector<uint8_t>> macroLevels;
     int macroSize = 0;
+    // The terrain frame's cells per side the weight images cover (texels_per_cell each): 128, or an ODM v2 map's side.
+    int mapCells = 128;
     // Per configured material: the library's ground highlight strength (0: none) and rain-wet sheen share (1: full).
     std::vector<float> layerSpecular;
     std::vector<float> layerWetSheen;
@@ -47,8 +49,10 @@ public:
 
     // Appends the tasks that decode the config's library layers, weight images and macro noise into sources (run
     // them on the load workers, each with its own error string); false with error when the library is unreadable.
+    // mapCells: the terrain frame's cells per side (128 on every classic map and open-air BLV).
     static bool appendLoadTasks(const Engine::AssetFileSystem &assets, const OutdoorTerrainMaterialConfig &config,
-        TerrainMaterialSources &sources, std::vector<std::function<void(std::string &)>> &tasks, std::string &error);
+        TerrainMaterialSources &sources, std::vector<std::function<void(std::string &)>> &tasks, std::string &error,
+        int mapCells = 128);
     // After the tasks: the library layers of one set must share codec and size.
     static bool validateSources(const TerrainMaterialSources &sources, std::string &error);
 

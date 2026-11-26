@@ -9,10 +9,8 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr int Side = OutdoorMapData::TerrainWidth;
-
-// Separable Gaussian blur of the corner grid (sigma in cells), clamped at the edges.
-std::vector<float> blurred(const std::vector<float> &values, float sigma)
+// Separable Gaussian blur of the corner grid (side x side, sigma in cells), clamped at the edges.
+std::vector<float> blurred(const std::vector<float> &values, int side, float sigma)
 {
     const int radius = int(std::ceil(sigma * 3.0f));
     std::vector<float> kernel(size_t(radius) * 2 + 1);
@@ -31,18 +29,18 @@ std::vector<float> blurred(const std::vector<float> &values, float sigma)
     std::vector<float> pass(values.size());
     for (int axis = 0; axis < 2; ++axis)
     {
-        for (int row = 0; row < Side; ++row)
+        for (int row = 0; row < side; ++row)
         {
-            for (int column = 0; column < Side; ++column)
+            for (int column = 0; column < side; ++column)
             {
                 float sum = 0.0f;
                 for (int offset = -radius; offset <= radius; ++offset)
                 {
-                    const int x = axis == 0 ? std::clamp(column + offset, 0, Side - 1) : column;
-                    const int y = axis == 1 ? std::clamp(row + offset, 0, Side - 1) : row;
-                    sum += result[size_t(y) * Side + x] * kernel[size_t(offset + radius)];
+                    const int x = axis == 0 ? std::clamp(column + offset, 0, side - 1) : column;
+                    const int y = axis == 1 ? std::clamp(row + offset, 0, side - 1) : row;
+                    sum += result[size_t(y) * side + x] * kernel[size_t(offset + radius)];
                 }
-                pass[size_t(row) * Side + column] = sum;
+                pass[size_t(row) * side + column] = sum;
             }
         }
         result.swap(pass);
@@ -51,19 +49,19 @@ std::vector<float> blurred(const std::vector<float> &values, float sigma)
 }
 
 // Distance in cells from every corner to the nearest corner touching a water cell (two-pass 3-4 chamfer).
-std::vector<float> waterDistance(const std::vector<uint8_t> &waterCells)
+std::vector<float> waterDistance(const std::vector<uint8_t> &waterCells, int side)
 {
     constexpr float Far = 1.0e6f;
-    std::vector<float> distance(size_t(Side) * Side, Far);
-    for (int y = 0; y + 1 < Side; ++y)
+    std::vector<float> distance(size_t(side) * side, Far);
+    for (int y = 0; y + 1 < side; ++y)
     {
-        for (int x = 0; x + 1 < Side; ++x)
+        for (int x = 0; x + 1 < side; ++x)
         {
-            if (waterCells[size_t(y) * Side + x] != 0)
+            if (waterCells[size_t(y) * side + x] != 0)
             {
                 for (int corner = 0; corner < 4; ++corner)
                 {
-                    distance[size_t(y + corner / 2) * Side + x + corner % 2] = 0.0f;
+                    distance[size_t(y + corner / 2) * side + x + corner % 2] = 0.0f;
                 }
             }
         }
@@ -72,15 +70,15 @@ std::vector<float> waterDistance(const std::vector<uint8_t> &waterCells)
     {
         const int nx = x + dx;
         const int ny = y + dy;
-        if (nx >= 0 && ny >= 0 && nx < Side && ny < Side)
+        if (nx >= 0 && ny >= 0 && nx < side && ny < side)
         {
-            float &value = distance[size_t(y) * Side + x];
-            value = std::min(value, distance[size_t(ny) * Side + nx] + cost);
+            float &value = distance[size_t(y) * side + x];
+            value = std::min(value, distance[size_t(ny) * side + nx] + cost);
         }
     };
-    for (int y = 0; y < Side; ++y)
+    for (int y = 0; y < side; ++y)
     {
-        for (int x = 0; x < Side; ++x)
+        for (int x = 0; x < side; ++x)
         {
             relax(x, y, -1, 0, 3.0f);
             relax(x, y, 0, -1, 3.0f);
@@ -88,9 +86,9 @@ std::vector<float> waterDistance(const std::vector<uint8_t> &waterCells)
             relax(x, y, 1, -1, 4.0f);
         }
     }
-    for (int y = Side - 1; y >= 0; --y)
+    for (int y = side - 1; y >= 0; --y)
     {
-        for (int x = Side - 1; x >= 0; --x)
+        for (int x = side - 1; x >= 0; --x)
         {
             relax(x, y, 1, 0, 3.0f);
             relax(x, y, 0, 1, 3.0f);
@@ -114,19 +112,20 @@ float smoothUnit(float value)
 
 float OutdoorMeadowField::sample(float x, float y) const
 {
-    if (values.size() != size_t(Side) * Side)
+    if (side < 2 || values.size() != size_t(side) * side)
     {
         return 0.0f;
     }
-    const float gridX = std::clamp(outdoorWorldToGridXFloat(x), 0.0f, float(Side - 1));
-    const float gridY = std::clamp(outdoorWorldToGridYFloat(y), 0.0f, float(Side - 1));
-    const int x0 = std::min(int(gridX), Side - 2);
-    const int y0 = std::min(int(gridY), Side - 2);
+    const float halfSide = float(side / 2);
+    const float gridX = std::clamp(x / float(OutdoorMapData::TerrainTileSize) + halfSide, 0.0f, float(side - 1));
+    const float gridY = std::clamp(halfSide - y / float(OutdoorMapData::TerrainTileSize), 0.0f, float(side - 1));
+    const int x0 = std::min(int(gridX), side - 2);
+    const int y0 = std::min(int(gridY), side - 2);
     const float fx = gridX - float(x0);
     const float fy = gridY - float(y0);
     const auto at = [this](int column, int row)
     {
-        return values[size_t(row) * Side + column];
+        return values[size_t(row) * size_t(side) + size_t(column)];
     };
     return std::lerp(std::lerp(at(x0, y0), at(x0 + 1, y0), fx), std::lerp(at(x0, y0 + 1), at(x0 + 1, y0 + 1), fx),
         fy);
@@ -134,22 +133,23 @@ float OutdoorMeadowField::sample(float x, float y) const
 
 OutdoorMeadowField buildOutdoorMeadowField(const OutdoorMapData &map)
 {
-    if (map.noTerrain || map.heightMap.size() != size_t(Side) * Side)
+    const int side = map.terrainSide;
+    if (map.noTerrain || map.heightMap.size() != size_t(side) * side)
     {
         return {};
     }
-    std::vector<float> heights(size_t(Side) * Side);
-    std::vector<uint8_t> waterCells(size_t(Side) * Side, 0);
-    for (int y = 0; y < Side; ++y)
+    std::vector<float> heights(size_t(side) * side);
+    std::vector<uint8_t> waterCells(size_t(side) * side, 0);
+    for (int y = 0; y < side; ++y)
     {
-        for (int x = 0; x < Side; ++x)
+        for (int x = 0; x < side; ++x)
         {
-            heights[size_t(y) * Side + x] = outdoorNativeTerrainHeight(map, float(x), float(y));
-            if (x + 1 < Side && y + 1 < Side)
+            heights[size_t(y) * side + x] = outdoorNativeTerrainHeight(map, float(x), float(y));
+            if (x + 1 < side && y + 1 < side)
             {
-                const float centerX = outdoorGridCornerWorldX(x) + 0.5f * OutdoorMapData::TerrainTileSize;
-                const float centerY = outdoorGridCornerWorldY(y) - 0.5f * OutdoorMapData::TerrainTileSize;
-                waterCells[size_t(y) * Side + x] = isOutdoorTerrainWater(map, centerX, centerY) ? 1 : 0;
+                const float centerX = outdoorGridCornerWorldX(map, x) + 0.5f * OutdoorMapData::TerrainTileSize;
+                const float centerY = outdoorGridCornerWorldY(map, y) - 0.5f * OutdoorMapData::TerrainTileSize;
+                waterCells[size_t(y) * side + x] = isOutdoorTerrainWater(map, centerX, centerY) ? 1 : 0;
             }
         }
     }
@@ -159,24 +159,26 @@ OutdoorMeadowField buildOutdoorMeadowField(const OutdoorMapData &map)
 OutdoorMeadowField buildMeadowField(const std::vector<float> &heights, const std::vector<uint8_t> &waterCells)
 {
     OutdoorMeadowField field;
-    if (heights.size() != size_t(Side) * Side || waterCells.size() != heights.size())
+    const int side = int(std::lround(std::sqrt(double(heights.size()))));
+    if (side < 2 || heights.size() != size_t(side) * side || waterCells.size() != heights.size())
     {
         return field;
     }
+    field.side = side;
     // Relief against the surroundings at two scales: a knoll (about 1.5 cells) and a whole hill (about 5).
-    const std::vector<float> near = blurred(heights, 3.0f);
-    const std::vector<float> wide = blurred(heights, 10.0f);
-    const std::vector<float> smooth = blurred(heights, 1.0f);
-    const std::vector<float> water = waterDistance(waterCells);
+    const std::vector<float> near = blurred(heights, side, 3.0f);
+    const std::vector<float> wide = blurred(heights, side, 10.0f);
+    const std::vector<float> smooth = blurred(heights, side, 1.0f);
+    const std::vector<float> water = waterDistance(waterCells, side);
     std::vector<float> values(heights.size());
-    for (int y = 0; y < Side; ++y)
+    for (int y = 0; y < side; ++y)
     {
-        for (int x = 0; x < Side; ++x)
+        for (int x = 0; x < side; ++x)
         {
-            const size_t index = size_t(y) * Side + x;
+            const size_t index = size_t(y) * side + x;
             const auto height = [&](int column, int row)
             {
-                return smooth[size_t(std::clamp(row, 0, Side - 1)) * Side + std::clamp(column, 0, Side - 1)];
+                return smooth[size_t(std::clamp(row, 0, side - 1)) * side + std::clamp(column, 0, side - 1)];
             };
             const float slope = std::hypot(height(x + 1, y) - height(x - 1, y), height(x, y + 1) - height(x, y - 1))
                 / (2.0f * OutdoorMapData::TerrainTileSize);
@@ -189,7 +191,7 @@ OutdoorMeadowField buildMeadowField(const std::vector<float> &heights, const std
             values[index] = std::clamp(1.5f * dryness / (1.0f + std::abs(dryness)), -1.0f, 1.0f);
         }
     }
-    field.values = blurred(values, 1.0f);
+    field.values = blurred(values, side, 1.0f);
     return field;
 }
 

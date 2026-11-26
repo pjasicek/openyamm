@@ -5,7 +5,7 @@
 import type { FileTrees, JsonObject, JsonValue, Op, PatchStep } from '../../../schema/rpc/generated/rpc.ts';
 import type { Point } from './ops.ts';
 import { isObject, keyedAt, keysOf, placeOfPointer, segment, walkPointer } from './keys.ts';
-import { CELL, insideOrOn } from './cells.ts';
+import { CELL, MAP_CELLS, insideOrOn } from './cells.ts';
 
 export type SketchLayer = 'frame' | 'land' | 'patch' | 'water' | 'road' | 'district' | 'ground' | 'structure' | 'part' | 'scatter' | 'area' | 'actor'
     | 'point';
@@ -150,10 +150,11 @@ export function sketchShapes(files: FileTrees | undefined): SketchShape[]
     }
     for (const { item, key } of keyed(frame?.rim, '/frame/rim'))
     {
-        const span = Array.isArray(item.span) ? item.span as number[] : [0, 128];
+        const span = Array.isArray(item.span) ? item.span as number[] : [0, MAP_CELLS];
         const side = String(item.side ?? 'north');
-        const [a, b] = [Number(span[0] ?? 0), Number(span[1] ?? 128)];
-        const line: Point[] = side === 'north' ? [[a, 0], [b, 0]] : side === 'south' ? [[a, 128], [b, 128]] : side === 'west' ? [[0, a], [0, b]] : [[128, a], [128, b]];
+        const [a, b] = [Number(span[0] ?? 0), Number(span[1] ?? MAP_CELLS)];
+        const end = MAP_CELLS;
+        const line: Point[] = side === 'north' ? [[a, 0], [b, 0]] : side === 'south' ? [[a, end], [b, end]] : side === 'west' ? [[0, a], [0, b]] : [[end, a], [end, b]];
         out.push({ address: `/frame/rim/${segment(key)}`, layer: 'frame', word: 'rim', geom: 'polyline', cells: line, label: `rim ${String(item.form ?? 'level')}` });
     }
     const water = isObject(sketch.water) ? sketch.water : {};

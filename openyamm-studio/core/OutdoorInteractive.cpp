@@ -17,25 +17,25 @@ constexpr double PartyEye = 160.0;
 constexpr double StandDistance = 256.0;
 
 // The terrain's height at a world point: the cell's two triangles as the game lays them (between the north-west and
-// south-east corners), from the 128 x 128 height map in steps of 32.
+// south-east corners), from the map's side x side height map (128 x 128 classic) in steps of 32.
 double groundAt(const Game::OutdoorMapData &map, double x, double y)
 {
-    constexpr int Side = Game::OutdoorMapData::TerrainWidth;
+    const int side = map.terrainSide;
     constexpr double Cell = Game::OutdoorMapData::TerrainTileSize;
 
-    if (map.heightMap.size() < static_cast<size_t>(Side) * Side)
+    if (map.heightMap.size() < static_cast<size_t>(side) * side)
     {
         return 0.0;
     }
 
-    const double gridX = std::clamp(x / Cell + Side / 2.0, 0.0, Side - 1.001);
-    const double gridY = std::clamp(Side / 2.0 - y / Cell, 0.0, Side - 1.001);
+    const double gridX = std::clamp(x / Cell + side / 2.0, 0.0, side - 1.001);
+    const double gridY = std::clamp(side / 2.0 - y / Cell, 0.0, side - 1.001);
     const int column = static_cast<int>(gridX);
     const int row = static_cast<int>(gridY);
-    const auto height = [&map](int at, int on)
+    const auto height = [&map, side](int at, int on)
     {
-        return static_cast<double>(map.heightMap[static_cast<size_t>(std::min(on, Side - 1)) * Side
-            + std::min(at, Side - 1)]) * Game::OutdoorMapData::TerrainHeightScale;
+        return static_cast<double>(map.heightMap[static_cast<size_t>(std::min(on, side - 1)) * side
+            + std::min(at, side - 1)]) * Game::OutdoorMapData::TerrainHeightScale;
     };
     const double u = gridX - column;
     const double v = gridY - row;

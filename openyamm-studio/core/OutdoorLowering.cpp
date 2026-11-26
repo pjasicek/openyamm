@@ -122,9 +122,22 @@ namespace OpenYAMM::Studio
 {
 namespace
 {
-constexpr int Nodes = OutdoorNodeCount;
-constexpr size_t NodeTotal = static_cast<size_t>(Nodes) * Nodes;
-constexpr size_t GroundNodeTotal = static_cast<size_t>(OutdoorGroundNodes) * OutdoorGroundNodes;
+// The map's samples along each side (core/OutdoorGrid), all of them, and the ground's corners.
+int sideNodes()
+{
+    return outdoorNodeCount();
+}
+
+size_t sideNodeTotal()
+{
+    return outdoorNodeTotal();
+}
+
+size_t groundNodeTotal()
+{
+    return static_cast<size_t>(outdoorGroundNodes()) * static_cast<size_t>(outdoorGroundNodes());
+}
+
 constexpr double PointPullCells = 8.0;
 // Over a grid a height point reaches this share of the grid's step, in cells.
 constexpr double GridPointReachShare = 1.0;
@@ -274,7 +287,7 @@ struct WaterShape
 // Which links between neighbouring nodes cliffs have cut: bit d of a node for its neighbour in direction d.
 struct CutMap
 {
-    std::vector<uint8_t> bits = std::vector<uint8_t>(NodeTotal, 0);
+    std::vector<uint8_t> bits = std::vector<uint8_t>(sideNodeTotal(), 0);
 };
 
 
@@ -325,7 +338,7 @@ bool pointsOf(const YAML::Node &node, std::vector<Point2> &points)
 
 int nodeIndex(int x, int y)
 {
-    return y * Nodes + x;
+    return y * sideNodes() + x;
 }
 
 double orientation(const Point2 &origin, const Point2 &first, const Point2 &second)
@@ -382,16 +395,16 @@ CutMap buildCutMap(const std::vector<Segment> &segments, bool touching)
         return cut;
     }
 
-    for (int y = 0; y < Nodes; ++y)
+    for (int y = 0; y < sideNodes(); ++y)
     {
-        for (int x = 0; x < Nodes; ++x)
+        for (int x = 0; x < sideNodes(); ++x)
         {
             for (int direction = 0; direction < 4; ++direction)
             {
                 const int otherX = x + DirectionX[direction];
                 const int otherY = y + DirectionY[direction];
 
-                if (otherX < 0 || otherX >= Nodes || otherY >= Nodes)
+                if (otherX < 0 || otherX >= sideNodes() || otherY >= sideNodes())
                 {
                     continue;
                 }
@@ -417,11 +430,11 @@ void walkDistances(
     std::vector<double> &distance,
     std::vector<int> *pNearest)
 {
-    distance.assign(NodeTotal, Far);
+    distance.assign(sideNodeTotal(), Far);
 
     if (pNearest != nullptr)
     {
-        pNearest->assign(NodeTotal, -1);
+        pNearest->assign(sideNodeTotal(), -1);
     }
 
     using Entry = std::pair<double, int>;
@@ -449,15 +462,15 @@ void walkDistances(
             continue;
         }
 
-        const int x = entry.second % Nodes;
-        const int y = entry.second / Nodes;
+        const int x = entry.second % sideNodes();
+        const int y = entry.second / sideNodes();
 
         for (int direction = 0; direction < 8; ++direction)
         {
             const int otherX = x + DirectionX[direction];
             const int otherY = y + DirectionY[direction];
 
-            if (otherX < 0 || otherX >= Nodes || otherY < 0 || otherY >= Nodes
+            if (otherX < 0 || otherX >= sideNodes() || otherY < 0 || otherY >= sideNodes()
                 || (cut.bits[entry.second] & (1u << direction)) != 0)
             {
                 continue;
@@ -500,17 +513,17 @@ std::vector<double> relief(
     const bool squareApart = !rimShaped.empty();
     const auto inSquare = [](int x, int y)
     {
-        return x >= OutdoorPlayableFirstNode && x <= OutdoorPlayableLastNode && y >= OutdoorPlayableFirstNode
-            && y <= OutdoorPlayableLastNode;
+        return x >= outdoorGrid().playableFirst && x <= outdoorGrid().playableLast && y >= outdoorGrid().playableFirst
+            && y <= outdoorGrid().playableLast;
     };
 
     std::vector<double> weighted = base;
-    std::vector<double> weight(NodeTotal, 1.0);
+    std::vector<double> weight(sideNodeTotal(), 1.0);
     std::vector<double> distance;
     // Over a grid, the corrections of points whose reach overlaps do not add up (four points round a peak would
     // raise the land between them above it): where their shares sum to more than 1, a node takes their mean.
-    std::vector<double> correction(NodeTotal, 0.0);
-    std::vector<double> shares(NodeTotal, 0.0);
+    std::vector<double> correction(sideNodeTotal(), 0.0);
+    std::vector<double> shares(sideNodeTotal(), 0.0);
 
     for (const HeightPoint &point : points)
     {
@@ -520,7 +533,7 @@ std::vector<double> relief(
         // fading to nothing at `pointPull` cells. The grid knows the land beyond.
         const double offset = point.height - base[point.node];
 
-        for (size_t node = 0; node < NodeTotal; ++node)
+        for (size_t node = 0; node < sideNodeTotal(); ++node)
         {
             if (local)
             {
@@ -540,7 +553,7 @@ std::vector<double> relief(
         }
     }
 
-    for (size_t node = 0; local && node < NodeTotal; ++node)
+    for (size_t node = 0; local && node < sideNodeTotal(); ++node)
     {
         weighted[node] += correction[node] / std::max(1.0, shares[node]);
     }
@@ -566,7 +579,7 @@ std::vector<double> relief(
         std::vector<int> nearest;
         walkDistances(cut, sources, distance, &nearest);
 
-        for (size_t node = 0; node < NodeTotal; ++node)
+        for (size_t node = 0; node < sideNodeTotal(); ++node)
         {
             if (distance[node] > 0.0 && distance[node] < Far)
             {
@@ -584,10 +597,10 @@ std::vector<double> relief(
         pullFromNearest(waterNode, ShorePullCells);
     }
 
-    std::vector<double> heights(NodeTotal, 0.0);
-    std::vector<uint8_t> fixed(NodeTotal, 0);
+    std::vector<double> heights(sideNodeTotal(), 0.0);
+    std::vector<uint8_t> fixed(sideNodeTotal(), 0);
 
-    for (size_t node = 0; node < NodeTotal; ++node)
+    for (size_t node = 0; node < sideNodeTotal(); ++node)
     {
         heights[node] = weighted[node] / weight[node];
     }
@@ -607,7 +620,7 @@ std::vector<double> relief(
         fixed[point.node] = 1;
     }
 
-    for (size_t node = 0; node < NodeTotal; ++node)
+    for (size_t node = 0; node < sideNodeTotal(); ++node)
     {
         if (!std::isnan(waterNode[node]))
         {
@@ -625,9 +638,9 @@ std::vector<double> relief(
 
     for (int pass = 0; pass < smoothingPasses; ++pass)
     {
-        for (int y = 0; y < Nodes; ++y)
+        for (int y = 0; y < sideNodes(); ++y)
         {
-            for (int x = 0; x < Nodes; ++x)
+            for (int x = 0; x < sideNodes(); ++x)
             {
                 const int node = nodeIndex(x, y);
 
@@ -644,7 +657,7 @@ std::vector<double> relief(
                     const int otherX = x + DirectionX[direction];
                     const int otherY = y + DirectionY[direction];
 
-                    if (otherX >= 0 && otherX < Nodes && otherY >= 0 && otherY < Nodes
+                    if (otherX >= 0 && otherX < sideNodes() && otherY >= 0 && otherY < sideNodes()
                         && (cut.bits[node] & (1u << direction)) == 0
                         && !(squareApart && inSquare(x, y) && !inSquare(otherX, otherY)))
                     {
@@ -666,10 +679,10 @@ std::vector<double> relief(
 // A field read between its nodes, weighed by distance; outside the nodes, the nearest edge.
 double fieldAt(const std::vector<double> &field, double x, double y)
 {
-    const double clampedX = std::clamp(x, 0.0, static_cast<double>(Nodes - 1));
-    const double clampedY = std::clamp(y, 0.0, static_cast<double>(Nodes - 1));
-    const int x0 = std::min(static_cast<int>(std::floor(clampedX)), Nodes - 2);
-    const int y0 = std::min(static_cast<int>(std::floor(clampedY)), Nodes - 2);
+    const double clampedX = std::clamp(x, 0.0, static_cast<double>(sideNodes() - 1));
+    const double clampedY = std::clamp(y, 0.0, static_cast<double>(sideNodes() - 1));
+    const int x0 = std::min(static_cast<int>(std::floor(clampedX)), sideNodes() - 2);
+    const int y0 = std::min(static_cast<int>(std::floor(clampedY)), sideNodes() - 2);
     const double shareX = clampedX - x0;
     const double shareY = clampedY - y0;
     const double north = field[nodeIndex(x0, y0)] * (1.0 - shareX) + field[nodeIndex(x0 + 1, y0)] * shareX;
@@ -929,6 +942,7 @@ struct OutdoorLandCache::Kept
 
 std::string outdoorLandKey(const Project &project)
 {
+    const OutdoorGridScope gridScope(project);
     const YAML::Node sketch = project.document(SketchFile);
     const YAML::Node plan = project.document("plan.yml");
     uint64_t hash = 1469598103934665603ull;
@@ -953,8 +967,8 @@ std::string outdoorLandKey(const Project &project)
             const bool runsOut = !pointsOf(childOf(road, "line"), line)
                 || std::any_of(line.begin(), line.end(), [](const Point2 &point)
                 {
-                    return point[0] < OutdoorPlayableFirstNode || point[0] > OutdoorPlayableLastNode
-                        || point[1] < OutdoorPlayableFirstNode || point[1] > OutdoorPlayableLastNode;
+                    return point[0] < outdoorGrid().playableFirst || point[0] > outdoorGrid().playableLast
+                        || point[1] < outdoorGrid().playableFirst || point[1] > outdoorGrid().playableLast;
                 });
 
             if (runsOut)
@@ -982,6 +996,12 @@ std::string outdoorLandKey(const Project &project)
     else
     {
         hashLandNode(heights, hash);
+    }
+
+    // The grid's side (core/OutdoorGrid), when it is not the classic one: the same words lie on another land.
+    if (outdoorNodeCount() != OutdoorClassicSide)
+    {
+        hashLandNode(YAML::Node(outdoorNodeCount()), hash);
     }
 
     char text[17];
@@ -1016,6 +1036,7 @@ public:
         const size_t issuesBefore = m_issues.size();
         const YAML::Node card = m_project.document("project.yml");
         m_lowered = {};
+        m_lowered.side = sideNodes();
         m_lowered.mapStem = textOf(card, "id");
         m_lowered.world = textOf(card, "world");
         m_lowered.styleWorld = m_styleWorld.empty() ? m_lowered.world : m_styleWorld;
@@ -1258,22 +1279,22 @@ private:
         {
             // The stream's nodes a fall cut are land now: out of the water's tiles (and what the tiles then cannot
             // show with them), so no water tile slopes down the cut.
-            std::vector<uint8_t> wet(GroundNodeTotal, 0);
+            std::vector<uint8_t> wet(groundNodeTotal(), 0);
 
-            for (size_t node = 0; node < GroundNodeTotal; ++node)
+            for (size_t node = 0; node < groundNodeTotal(); ++node)
             {
                 wet[node] = m_waterNode[node] >= 0 ? 1 : 0;
             }
 
             for (const size_t node : dried)
             {
-                wet[(node / Nodes) * OutdoorGroundNodes + node % Nodes] = 0;
+                wet[(node / sideNodes()) * outdoorGroundNodes() + node % sideNodes()] = 0;
             }
 
             settleWater(wet);
             const std::vector<double> settled = waterNodes();
 
-            for (size_t node = 0; node < NodeTotal; ++node)
+            for (size_t node = 0; node < sideNodeTotal(); ++node)
             {
                 waterNode[node] = std::isnan(waterNode[node]) ? waterNode[node] : settled[node];
             }
@@ -1320,15 +1341,15 @@ private:
         }
 
         // 0 land, 1 on an outline (the edge), 2 inside
-        std::vector<uint8_t> inVoid(GroundNodeTotal, 0);
+        std::vector<uint8_t> inVoid(groundNodeTotal(), 0);
         size_t wetNodes = 0;
 
-        for (int y = 0; y < OutdoorGroundNodes; ++y)
+        for (int y = 0; y < outdoorGroundNodes(); ++y)
         {
-            for (int x = 0; x < OutdoorGroundNodes; ++x)
+            for (int x = 0; x < outdoorGroundNodes(); ++x)
             {
                 const Point2 corner = {static_cast<double>(x), static_cast<double>(y)};
-                const size_t groundNode = static_cast<size_t>(y) * OutdoorGroundNodes + static_cast<size_t>(x);
+                const size_t groundNode = static_cast<size_t>(y) * outdoorGroundNodes() + static_cast<size_t>(x);
 
                 for (const std::vector<Point2> &outline : m_void)
                 {
@@ -1339,18 +1360,18 @@ private:
 
                 if (inVoid[groundNode] != 0)
                 {
-                    wetNodes += m_waterNode.size() == GroundNodeTotal && m_waterNode[groundNode] >= 0 ? 1 : 0;
+                    wetNodes += m_waterNode.size() == groundNodeTotal() && m_waterNode[groundNode] >= 0 ? 1 : 0;
                 }
             }
         }
 
         const std::vector<double> before = m_lowered.ground;
 
-        for (int y = 0; y < Nodes; ++y)
+        for (int y = 0; y < sideNodes(); ++y)
         {
-            for (int x = 0; x < Nodes; ++x)
+            for (int x = 0; x < sideNodes(); ++x)
             {
-                const uint8_t where = inVoid[static_cast<size_t>(y) * OutdoorGroundNodes + static_cast<size_t>(x)];
+                const uint8_t where = inVoid[static_cast<size_t>(y) * outdoorGroundNodes() + static_cast<size_t>(x)];
 
                 if (where == 0)
                 {
@@ -1374,8 +1395,8 @@ private:
                                 const int ny = y + dy;
 
                                 if ((dx == 0 && dy == 0) || (pass == 0) != (dx == 0 || dy == 0) || nx < 0 || ny < 0
-                                    || nx >= Nodes || ny >= Nodes
-                                    || inVoid[static_cast<size_t>(ny) * OutdoorGroundNodes + static_cast<size_t>(nx)]
+                                    || nx >= sideNodes() || ny >= sideNodes()
+                                    || inVoid[static_cast<size_t>(ny) * outdoorGroundNodes() + static_cast<size_t>(nx)]
                                         != 0)
                                 {
                                     continue;
@@ -1400,15 +1421,15 @@ private:
                 "overlap it (its water would float in empty space)", "geometry");
         }
 
-        m_lowered.voidCells.assign(NodeTotal, 0);
+        m_lowered.voidCells.assign(sideNodeTotal(), 0);
 
-        for (int y = 0; y < Nodes; ++y)
+        for (int y = 0; y < sideNodes(); ++y)
         {
-            for (int x = 0; x < Nodes; ++x)
+            for (int x = 0; x < sideNodes(); ++x)
             {
-                const size_t corner = static_cast<size_t>(y) * OutdoorGroundNodes + static_cast<size_t>(x);
+                const size_t corner = static_cast<size_t>(y) * outdoorGroundNodes() + static_cast<size_t>(x);
                 m_lowered.voidCells[nodeIndex(x, y)] = inVoid[corner] != 0 && inVoid[corner + 1] != 0
-                    && inVoid[corner + OutdoorGroundNodes] != 0 && inVoid[corner + OutdoorGroundNodes + 1] != 0;
+                    && inVoid[corner + outdoorGroundNodes()] != 0 && inVoid[corner + outdoorGroundNodes() + 1] != 0;
             }
         }
     }
@@ -1556,15 +1577,16 @@ private:
 
             const int x = static_cast<int>(std::lround(at[0]));
             const int y = static_cast<int>(std::lround(at[1]));
-            movedPoints += (x > Nodes - 1 || y > Nodes - 1 || x < 0 || y < 0) ? 1 : 0;
-            point.node = nodeIndex(std::clamp(x, 0, Nodes - 1), std::clamp(y, 0, Nodes - 1));
+            movedPoints += (x > sideNodes() - 1 || y > sideNodes() - 1 || x < 0 || y < 0) ? 1 : 0;
+            point.node = nodeIndex(std::clamp(x, 0, sideNodes() - 1), std::clamp(y, 0, sideNodes() - 1));
             m_points.push_back(point);
         }
 
         if (movedPoints != 0)
         {
             m_lowered.warnings.push_back("heights.points: " + std::to_string(movedPoints) + " stand on the map's far "
-                "edge (x or y 128), which an ODM does not store; moved to the last stored node (127)");
+                "edge (x or y " + std::to_string(sideNodes()) + "), which an ODM does not store; moved to the last "
+                "stored node (" + std::to_string(sideNodes() - 1) + ")");
         }
 
         const YAML::Node cliffs = childOf(heights, "cliffs");
@@ -1604,7 +1626,8 @@ private:
             numberOf(childOf(grid, "unit"), unit);
             const YAML::Node rows = childOf(grid, "rows");
             const int gridStep = static_cast<int>(step);
-            const size_t side = gridStep >= 1 && Nodes % gridStep == 0 ? static_cast<size_t>(Nodes / gridStep) : 0;
+            const size_t side =
+                gridStep >= 1 && sideNodes() % gridStep == 0 ? static_cast<size_t>(sideNodes() / gridStep) : 0;
             bool readable = side != 0 && rows.IsDefined() && rows.IsSequence() && rows.size() == side;
 
             for (size_t row = 0; readable && row < side; ++row)
@@ -1622,8 +1645,9 @@ private:
 
             if (!readable)
             {
-                issue("heights.grid", "the height grid needs a `step` that divides 128 and 128 / step rows of "
-                    "128 / step numbers", "heights");
+                const std::string cells = std::to_string(sideNodes());
+                issue("heights.grid", "the height grid needs a `step` that divides " + cells + " and " + cells
+                    + " / step rows of " + cells + " / step numbers", "heights");
                 return;
             }
 
@@ -1920,10 +1944,10 @@ private:
             double width = 1.0;
 
             if (!pointOf(childOf(node, "at"), spire.at) || spire.at[0] < 0.0 || spire.at[1] < 0.0
-                || spire.at[0] > Nodes - 1 || spire.at[1] > Nodes - 1)
+                || spire.at[0] > sideNodes() - 1 || spire.at[1] > sideNodes() - 1)
             {
-                issue(path + ".at", "a spire's `at` is [x, y] in nodes, 0 to 127: its node (width 1) or the cell "
-                    "whose four nodes it takes (width 2)", "geometry");
+                issue(path + ".at", "a spire's `at` is [x, y] in nodes, 0 to " + std::to_string(sideNodes() - 1)
+                    + ": its node (width 1) or the cell whose four nodes it takes (width 2)", "geometry");
                 continue;
             }
 
@@ -1964,11 +1988,11 @@ private:
             const YAML::Node unitNode = childOf(node, "unit");
             const YAML::Node rows = childOf(node, "rows");
 
-            if (!pointOf(childOf(node, "at"), at) || at[0] < 0.0 || at[1] < 0.0 || at[0] > Nodes - 1
-                || at[1] > Nodes - 1 || at[0] != std::floor(at[0]) || at[1] != std::floor(at[1]))
+            if (!pointOf(childOf(node, "at"), at) || at[0] < 0.0 || at[1] < 0.0 || at[0] > sideNodes() - 1
+                || at[1] > sideNodes() - 1 || at[0] != std::floor(at[0]) || at[1] != std::floor(at[1]))
             {
                 issue(path + ".at", "a node block's `at` is the node of its first row's first value, [x, y] in whole "
-                    "nodes, 0 to 127", "geometry");
+                    "nodes, 0 to " + std::to_string(sideNodes() - 1), "geometry");
                 continue;
             }
 
@@ -1997,11 +2021,12 @@ private:
                 const YAML::Node values = rows[row];
                 std::vector<double> line;
 
-                if (!values.IsSequence() || block.y + static_cast<int>(row) > Nodes - 1
-                    || block.x + static_cast<int>(values.size()) > Nodes)
+                if (!values.IsSequence() || block.y + static_cast<int>(row) > sideNodes() - 1
+                    || block.x + static_cast<int>(values.size()) > sideNodes())
                 {
                     issue(path + ".rows[" + std::to_string(row) + "]", "a row of a node block is a list of heights "
-                        "that ends inside the map (nodes 0 to 127 both ways)", "geometry");
+                        "that ends inside the map (nodes 0 to " + std::to_string(sideNodes() - 1) + " both ways)",
+                        "geometry");
                     good = false;
                     break;
                 }
@@ -2210,9 +2235,9 @@ private:
         {
             std::vector<int> nodes;
 
-            for (int y = 0; y < Nodes; ++y)
+            for (int y = 0; y < sideNodes(); ++y)
             {
-                for (int x = 0; x < Nodes; ++x)
+                for (int x = 0; x < sideNodes(); ++x)
                 {
                     const Point2 at = {static_cast<double>(x), static_cast<double>(y)};
                     const int node = nodeIndex(x, y);
@@ -2231,8 +2256,8 @@ private:
 
                 for (const int node : nodes)
                 {
-                    const int x = node % Nodes;
-                    const int y = node / Nodes;
+                    const int x = node % sideNodes();
+                    const int y = node / sideNodes();
                     double sum = 0.0;
                     int count = 0;
 
@@ -2240,7 +2265,7 @@ private:
                     {
                         for (int dx = -1; dx <= 1; ++dx)
                         {
-                            if (x + dx >= 0 && y + dy >= 0 && x + dx < Nodes && y + dy < Nodes)
+                            if (x + dx >= 0 && y + dy >= 0 && x + dx < sideNodes() && y + dy < sideNodes())
                             {
                                 sum += before[nodeIndex(x + dx, y + dy)];
                                 ++count;
@@ -2425,9 +2450,9 @@ private:
 
         for (const Terrace &terrace : m_terraces)
         {
-            for (int y = 0; y < Nodes; ++y)
+            for (int y = 0; y < sideNodes(); ++y)
             {
-                for (int x = 0; x < Nodes; ++x)
+                for (int x = 0; x < sideNodes(); ++x)
                 {
                     const Point2 at = {static_cast<double>(x), static_cast<double>(y)};
                     const bool inside = pointInOrOnPolygon(terrace.polygon, at);
@@ -2545,14 +2570,14 @@ private:
             return;
         }
 
-        std::vector<uint8_t> held(NodeTotal, 0);
+        std::vector<uint8_t> held(sideNodeTotal(), 0);
 
         for (const HeightPoint &point : m_points)
         {
             held[point.node] = 1;
         }
 
-        for (size_t node = 0; node < NodeTotal; ++node)
+        for (size_t node = 0; node < sideNodeTotal(); ++node)
         {
             held[node] |= !std::isnan(waterNode[node]) || (!feet.empty() && !std::isnan(feet[node]))
                 || (!m_rimShaped.empty() && m_rimShaped[node] != 0) ? 1 : 0;
@@ -2560,9 +2585,9 @@ private:
 
         for (const RoughArea &area : m_rough)
         {
-            for (int y = 0; y < Nodes; ++y)
+            for (int y = 0; y < sideNodes(); ++y)
             {
-                for (int x = 0; x < Nodes; ++x)
+                for (int x = 0; x < sideNodes(); ++x)
                 {
                     const int node = nodeIndex(x, y);
                     const Point2 at = {static_cast<double>(x), static_cast<double>(y)};
@@ -2605,9 +2630,9 @@ private:
         {
             std::vector<double> next = m_lowered.ground;
 
-            for (int y = 0; y < Nodes; ++y)
+            for (int y = 0; y < sideNodes(); ++y)
             {
-                for (int x = 0; x < Nodes; ++x)
+                for (int x = 0; x < sideNodes(); ++x)
                 {
                     const Point2 at = {static_cast<double>(x), static_cast<double>(y)};
                     bool onWall = false;
@@ -2651,9 +2676,9 @@ private:
             }
 
             // A wall node that stands less than a step over the floor next to the hollow: no wall there.
-            for (int y = 0; y < Nodes; ++y)
+            for (int y = 0; y < sideNodes(); ++y)
             {
-                for (int x = 0; x < Nodes; ++x)
+                for (int x = 0; x < sideNodes(); ++x)
                 {
                     const Point2 at = {static_cast<double>(x), static_cast<double>(y)};
                     const int node = nodeIndex(x, y);
@@ -2697,8 +2722,8 @@ private:
         {
             const auto landAt = [this](const Point2 &point)
             {
-                const int x = std::clamp(static_cast<int>(std::lround(point[0])), 0, Nodes - 1);
-                const int y = std::clamp(static_cast<int>(std::lround(point[1])), 0, Nodes - 1);
+                const int x = std::clamp(static_cast<int>(std::lround(point[0])), 0, sideNodes() - 1);
+                const int y = std::clamp(static_cast<int>(std::lround(point[1])), 0, sideNodes() - 1);
                 return m_lowered.ground[nodeIndex(x, y)];
             };
 
@@ -2763,7 +2788,7 @@ private:
                 const Point2 top = {std::round(minX + (maxX - minX) * outdoorChance(field.seed, salt, 1, 31)),
                     std::round(minY + (maxY - minY) * outdoorChance(field.seed, salt, 2, 31))};
 
-                if (top[0] < 0.0 || top[1] < 0.0 || top[0] > Nodes - 1 || top[1] > Nodes - 1
+                if (top[0] < 0.0 || top[1] < 0.0 || top[0] > sideNodes() - 1 || top[1] > sideNodes() - 1
                     || !pointInOrOnPolygon(field.polygon, top))
                 {
                     continue;
@@ -2809,7 +2834,8 @@ private:
                 {
                     for (int x = static_cast<int>(top[0]) - reach; x <= static_cast<int>(top[0]) + reach; ++x)
                     {
-                        if (x < 0 || y < 0 || x >= Nodes || y >= Nodes || !std::isnan(waterNode[nodeIndex(x, y)]))
+                        if (x < 0 || y < 0 || x >= sideNodes() || y >= sideNodes()
+                            || !std::isnan(waterNode[nodeIndex(x, y)]))
                         {
                             continue;
                         }
@@ -2840,9 +2866,9 @@ private:
         for (const Spire &spire : m_spires)
         {
             const int x0 = spire.width == 1 ? static_cast<int>(std::lround(spire.at[0]))
-                : std::min(static_cast<int>(std::floor(spire.at[0])), Nodes - 2);
+                : std::min(static_cast<int>(std::floor(spire.at[0])), sideNodes() - 2);
             const int y0 = spire.width == 1 ? static_cast<int>(std::lround(spire.at[1]))
-                : std::min(static_cast<int>(std::floor(spire.at[1])), Nodes - 2);
+                : std::min(static_cast<int>(std::floor(spire.at[1])), sideNodes() - 2);
 
             for (int y = y0; y < y0 + spire.width; ++y)
             {
@@ -2872,9 +2898,9 @@ private:
         {
             const double half = ridge.width * 0.5;
 
-            for (int y = 0; y < Nodes; ++y)
+            for (int y = 0; y < sideNodes(); ++y)
             {
-                for (int x = 0; x < Nodes; ++x)
+                for (int x = 0; x < sideNodes(); ++x)
                 {
                     const Point2 at = {static_cast<double>(x), static_cast<double>(y)};
                     double nearest = Far;
@@ -2993,11 +3019,11 @@ private:
     // Step 1. A grid sample a cliff hides from the node does not speak for it.
     void computeBase()
     {
-        m_base.assign(NodeTotal, 0.0);
+        m_base.assign(sideNodeTotal(), 0.0);
 
-        for (int y = 0; y < Nodes; ++y)
+        for (int y = 0; y < sideNodes(); ++y)
         {
-            for (int x = 0; x < Nodes; ++x)
+            for (int x = 0; x < sideNodes(); ++x)
             {
                 Point2 node = {static_cast<double>(x), static_cast<double>(y)};
 
@@ -3059,10 +3085,11 @@ private:
                 const Point2 low = sideNormal(first, second, down);
 
                 for (int y = std::max(0, static_cast<int>(std::floor(std::min(first[1], second[1]))));
-                     y <= std::min(Nodes - 1, static_cast<int>(std::ceil(std::max(first[1], second[1])))); ++y)
+                     y <= std::min(sideNodes() - 1, static_cast<int>(std::ceil(std::max(first[1], second[1])))); ++y)
                 {
                     for (int x = std::max(0, static_cast<int>(std::floor(std::min(first[0], second[0]))));
-                         x <= std::min(Nodes - 1, static_cast<int>(std::ceil(std::max(first[0], second[0])))); ++x)
+                         x <= std::min(sideNodes() - 1, static_cast<int>(std::ceil(std::max(first[0], second[0]))));
+                         ++x)
                     {
                         if (segmentDistance(first, second, {static_cast<double>(x), static_cast<double>(y)}) < 1.0e-9)
                         {
@@ -3154,8 +3181,8 @@ private:
     {
         // Which water shape each corner of the cells lies in: inside a body's outline, or within half a river's
         // width of its line. The first shape that covers a corner has it.
-        m_waterNode.assign(GroundNodeTotal, -1);
-        std::vector<uint8_t> wet(GroundNodeTotal, 0);
+        m_waterNode.assign(groundNodeTotal(), -1);
+        std::vector<uint8_t> wet(groundNodeTotal(), 0);
         std::string thin;
 
         for (size_t index = 0; index < m_water.size(); ++index)
@@ -3173,9 +3200,9 @@ private:
                 "no water thinner than one open cell with a shore on each side, so they are laid 2 cells wide");
         }
 
-        for (int y = 0; y < OutdoorGroundNodes; ++y)
+        for (int y = 0; y < outdoorGroundNodes(); ++y)
         {
-            for (int x = 0; x < OutdoorGroundNodes; ++x)
+            for (int x = 0; x < outdoorGroundNodes(); ++x)
             {
                 const Point2 corner = {static_cast<double>(x), static_cast<double>(y)};
 
@@ -3203,8 +3230,8 @@ private:
 
                     if (covered)
                     {
-                        m_waterNode[y * OutdoorGroundNodes + x] = static_cast<int>(index);
-                        wet[y * OutdoorGroundNodes + x] = 1;
+                        m_waterNode[y * outdoorGroundNodes() + x] = static_cast<int>(index);
+                        wet[y * outdoorGroundNodes() + x] = 1;
                         break;
                     }
                 }
@@ -3212,9 +3239,9 @@ private:
         }
 
         settleWater(wet);
-        m_cellLevel.assign(NodeTotal, Unknown);
+        m_cellLevel.assign(sideNodeTotal(), Unknown);
 
-        for (size_t cell = 0; cell < NodeTotal; ++cell)
+        for (size_t cell = 0; cell < sideNodeTotal(); ++cell)
         {
             if (m_cellShape[cell] >= 0 && m_water[m_cellShape[cell]].level)
             {
@@ -3228,10 +3255,10 @@ private:
     void settleWater(std::vector<uint8_t> &wet)
     {
         settleOutdoorGroundMask(wet);
-        m_cellShape.assign(NodeTotal, -1);
-        m_cellCorners.assign(NodeTotal, 0);
+        m_cellShape.assign(sideNodeTotal(), -1);
+        m_cellCorners.assign(sideNodeTotal(), 0);
 
-        for (size_t node = 0; node < GroundNodeTotal; ++node)
+        for (size_t node = 0; node < groundNodeTotal(); ++node)
         {
             if (wet[node] == 0)
             {
@@ -3239,13 +3266,13 @@ private:
             }
         }
 
-        for (int y = 0; y < Nodes; ++y)
+        for (int y = 0; y < sideNodes(); ++y)
         {
-            for (int x = 0; x < Nodes; ++x)
+            for (int x = 0; x < sideNodes(); ++x)
             {
                 for (int corner = 0; corner < 4; ++corner)
                 {
-                    const int shape = m_waterNode[(y + corner / 2) * OutdoorGroundNodes + x + corner % 2];
+                    const int shape = m_waterNode[(y + corner / 2) * outdoorGroundNodes() + x + corner % 2];
 
                     if (shape >= 0)
                     {
@@ -3262,11 +3289,11 @@ private:
     // there. Unknown elsewhere.
     std::vector<double> waterNodes() const
     {
-        std::vector<double> levels(NodeTotal, Unknown);
+        std::vector<double> levels(sideNodeTotal(), Unknown);
 
-        for (int y = 0; y < Nodes; ++y)
+        for (int y = 0; y < sideNodes(); ++y)
         {
-            for (int x = 0; x < Nodes; ++x)
+            for (int x = 0; x < sideNodes(); ++x)
             {
                 const double level = m_cellLevel[nodeIndex(x, y)];
 
@@ -3280,7 +3307,7 @@ private:
                     const int cornerX = x + (corner % 2);
                     const int cornerY = y + (corner / 2);
 
-                    if (cornerX < Nodes && cornerY < Nodes)
+                    if (cornerX < sideNodes() && cornerY < sideNodes())
                     {
                         double &stored = levels[nodeIndex(cornerX, cornerY)];
                         stored = std::isnan(stored) ? level : std::min(stored, level);
@@ -3381,8 +3408,8 @@ private:
                 continue;
             }
 
-            const int x = point.node % Nodes;
-            const int y = point.node / Nodes;
+            const int x = point.node % sideNodes();
+            const int y = point.node / sideNodes();
             if (!m_cliffTopNodes.contains(point.node) || point.height >= m_base[point.node])
             {
                 continue;
@@ -3396,8 +3423,9 @@ private:
                 const int otherX = x + DirectionX[direction];
                 const int otherY = y + DirectionY[direction];
 
-                if ((m_cut.bits[point.node] & (1u << direction)) == 0 || otherX < 0 || otherX >= Nodes || otherY < 0
-                    || otherY >= Nodes)
+                if ((m_cut.bits[point.node] & (1u << direction)) == 0 || otherX < 0 || otherX >= sideNodes()
+                    || otherY < 0
+                    || otherY >= sideNodes())
                 {
                     continue;
                 }
@@ -3431,17 +3459,17 @@ private:
             return;
         }
 
-        std::vector<uint8_t> wet(GroundNodeTotal, 0);
+        std::vector<uint8_t> wet(groundNodeTotal(), 0);
         bool dropped = false;
 
-        for (size_t node = 0; node < GroundNodeTotal; ++node)
+        for (size_t node = 0; node < groundNodeTotal(); ++node)
         {
             wet[node] = m_waterNode[node] >= 0 ? 1 : 0;
         }
 
-        for (int y = 0; y < Nodes; ++y)
+        for (int y = 0; y < sideNodes(); ++y)
         {
-            for (int x = 0; x < Nodes; ++x)
+            for (int x = 0; x < sideNodes(); ++x)
             {
                 if (m_cellShape[nodeIndex(x, y)] < 0)
                 {
@@ -3460,7 +3488,7 @@ private:
                         // The water draws back from the cell: its corners are land.
                         for (int other = 0; other < 4; ++other)
                         {
-                            wet[(y + other / 2) * OutdoorGroundNodes + x + other % 2] = 0;
+                            wet[(y + other / 2) * outdoorGroundNodes() + x + other % 2] = 0;
                         }
 
                         dropped = true;
@@ -3480,7 +3508,7 @@ private:
         settleWater(wet);
 
         // A cell that kept water keeps its level; one that lost it has none.
-        for (size_t cell = 0; cell < NodeTotal; ++cell)
+        for (size_t cell = 0; cell < sideNodeTotal(); ++cell)
         {
             m_cellLevel[cell] = m_cellShape[cell] >= 0 && shapes[cell] == m_cellShape[cell] ? levels[cell]
                 : (m_cellShape[cell] >= 0 && m_water[m_cellShape[cell]].level ? *m_water[m_cellShape[cell]].level
@@ -3523,9 +3551,9 @@ private:
                 double lowest = Far;
                 size_t cells = 0;
 
-                for (int y = 0; y < Nodes; ++y)
+                for (int y = 0; y < sideNodes(); ++y)
                 {
-                    for (int x = 0; x < Nodes; ++x)
+                    for (int x = 0; x < sideNodes(); ++x)
                     {
                         if (m_cellShape[nodeIndex(x, y)] == static_cast<int>(index))
                         {
@@ -3540,7 +3568,7 @@ private:
                     continue;
                 }
 
-                for (size_t cell = 0; cell < NodeTotal; ++cell)
+                for (size_t cell = 0; cell < sideNodeTotal(); ++cell)
                 {
                     if (m_cellShape[cell] == static_cast<int>(index))
                     {
@@ -3579,9 +3607,9 @@ private:
                 }
             }
 
-            for (int y = 0; y < Nodes; ++y)
+            for (int y = 0; y < sideNodes(); ++y)
             {
-                for (int x = 0; x < Nodes; ++x)
+                for (int x = 0; x < sideNodes(); ++x)
                 {
                     if (m_cellShape[nodeIndex(x, y)] != static_cast<int>(index))
                     {
@@ -3635,14 +3663,14 @@ private:
             lowestNamed = std::min(lowestNamed, level);
         }
 
-        std::vector<uint8_t> isPoint(NodeTotal, 0);
+        std::vector<uint8_t> isPoint(sideNodeTotal(), 0);
 
         for (const HeightPoint &point : m_points)
         {
             isPoint[point.node] = 1;
         }
 
-        std::vector<double> feet(NodeTotal, Unknown);
+        std::vector<double> feet(sideNodeTotal(), Unknown);
         bool any = false;
 
         for (const Cliff &cliff : m_cliffs)
@@ -3653,9 +3681,9 @@ private:
             }
 
             const std::vector<Segment> own = shiftedCliff(cliff);
-            int west = Nodes;
+            int west = sideNodes();
             int east = 0;
-            int north = Nodes;
+            int north = sideNodes();
             int south = 0;
 
             for (const Point2 &point : cliff.line)
@@ -3666,9 +3694,9 @@ private:
                 south = std::max(south, static_cast<int>(std::ceil(point[1])) + 1);
             }
 
-            for (int y = std::max(0, north); y <= std::min(Nodes - 1, south); ++y)
+            for (int y = std::max(0, north); y <= std::min(sideNodes() - 1, south); ++y)
             {
-                for (int x = std::max(0, west); x <= std::min(Nodes - 1, east); ++x)
+                for (int x = std::max(0, west); x <= std::min(sideNodes() - 1, east); ++x)
                 {
                     // East and south neighbours: every pair of 4-neighbours once.
                     for (int direction = 0; direction <= 2; direction += 2)
@@ -3676,7 +3704,7 @@ private:
                         const int otherX = x + DirectionX[direction];
                         const int otherY = y + DirectionY[direction];
 
-                        if (otherX >= Nodes || otherY >= Nodes)
+                        if (otherX >= sideNodes() || otherY >= sideNodes())
                         {
                             continue;
                         }
@@ -3731,10 +3759,10 @@ private:
             return;
         }
 
-        std::vector<double> sum(NodeTotal, 0.0);
-        std::vector<double> count(NodeTotal, 0.0);
+        std::vector<double> sum(sideNodeTotal(), 0.0);
+        std::vector<double> count(sideNodeTotal(), 0.0);
         // The road whose bed reaches each node first, for the warning below.
-        std::vector<int> byRoad(NodeTotal, -1);
+        std::vector<int> byRoad(sideNodeTotal(), -1);
         const std::vector<double> &ground = m_lowered.ground;
 
         for (const OutdoorRoadRun &run : m_lowered.roads)
@@ -3743,10 +3771,10 @@ private:
 
             for (size_t index = 0; index < run.cells.size(); ++index)
             {
-                const int x = run.cells[index] % Nodes;
-                const int y = run.cells[index] / Nodes;
-                const int east = std::min(x + 1, Nodes - 1);
-                const int south = std::min(y + 1, Nodes - 1);
+                const int x = run.cells[index] % sideNodes();
+                const int y = run.cells[index] / sideNodes();
+                const int east = std::min(x + 1, sideNodes() - 1);
+                const int south = std::min(y + 1, sideNodes() - 1);
                 land[index] = (ground[nodeIndex(x, y)] + ground[nodeIndex(east, y)] + ground[nodeIndex(x, south)]
                     + ground[nodeIndex(east, south)]) / 4.0;
             }
@@ -3777,15 +3805,15 @@ private:
                     bed /= static_cast<double>(to - from + 1);
                 }
 
-                const int x = run.cells[index] % Nodes;
-                const int y = run.cells[index] / Nodes;
+                const int x = run.cells[index] % sideNodes();
+                const int y = run.cells[index] / sideNodes();
 
                 for (int corner = 0; corner < 4; ++corner)
                 {
                     const int cornerX = x + corner % 2;
                     const int cornerY = y + corner / 2;
 
-                    if (cornerX < Nodes && cornerY < Nodes)
+                    if (cornerX < sideNodes() && cornerY < sideNodes())
                     {
                         sum[nodeIndex(cornerX, cornerY)] += bed;
                         count[nodeIndex(cornerX, cornerY)] += 1.0;
@@ -3799,9 +3827,9 @@ private:
             }
         }
 
-        std::vector<uint8_t> fixed(NodeTotal, 0);
+        std::vector<uint8_t> fixed(sideNodeTotal(), 0);
 
-        for (size_t node = 0; node < NodeTotal; ++node)
+        for (size_t node = 0; node < sideNodeTotal(); ++node)
         {
             fixed[node] = !std::isnan(waterNode[node]) || (!feet.empty() && !std::isnan(feet[node])) ? 1 : 0;
         }
@@ -3811,9 +3839,9 @@ private:
             fixed[point.node] = 1;
         }
 
-        std::vector<double> lowered(NodeTotal, 0.0);
+        std::vector<double> lowered(sideNodeTotal(), 0.0);
 
-        for (size_t node = 0; node < NodeTotal; ++node)
+        for (size_t node = 0; node < sideNodeTotal(); ++node)
         {
             if (count[node] > 0.0 && fixed[node] == 0)
             {
@@ -3882,9 +3910,9 @@ private:
         {
             const Footprint &footprint = footprints[which];
             const int west = std::max(0, static_cast<int>(std::floor(footprint.west)));
-            const int east = std::min(Nodes - 1, static_cast<int>(std::ceil(footprint.east)));
+            const int east = std::min(sideNodes() - 1, static_cast<int>(std::ceil(footprint.east)));
             const int north = std::max(0, static_cast<int>(std::floor(footprint.north)));
-            const int south = std::min(Nodes - 1, static_cast<int>(std::ceil(footprint.south)));
+            const int south = std::min(sideNodes() - 1, static_cast<int>(std::ceil(footprint.south)));
 
             for (int y = north; y <= south; ++y)
             {
@@ -3975,9 +4003,9 @@ private:
         for (OutdoorBuildingPlan &building : m_lowered.buildings)
         {
             const int west = std::max(0, static_cast<int>(std::ceil(building.west - 1.0e-6)));
-            const int east = std::min(Nodes - 1, static_cast<int>(std::floor(building.east + 1.0e-6)));
+            const int east = std::min(sideNodes() - 1, static_cast<int>(std::floor(building.east + 1.0e-6)));
             const int north = std::max(0, static_cast<int>(std::ceil(building.north - 1.0e-6)));
-            const int south = std::min(Nodes - 1, static_cast<int>(std::floor(building.south + 1.0e-6)));
+            const int south = std::min(sideNodes() - 1, static_cast<int>(std::floor(building.south + 1.0e-6)));
             double sum = 0.0;
             double count = 0.0;
             double waterLevel = -Far;
@@ -4097,9 +4125,9 @@ private:
                 // The skirt reaches below the lowest land round the plot (one node beyond it).
                 double lowest = building.base;
 
-                for (int y = std::max(0, north - 1); y <= std::min(Nodes - 1, south + 1); ++y)
+                for (int y = std::max(0, north - 1); y <= std::min(sideNodes() - 1, south + 1); ++y)
                 {
-                    for (int x = std::max(0, west - 1); x <= std::min(Nodes - 1, east + 1); ++x)
+                    for (int x = std::max(0, west - 1); x <= std::min(sideNodes() - 1, east + 1); ++x)
                     {
                         lowest = std::min(lowest, m_lowered.ground[nodeIndex(x, y)]);
                     }
@@ -4129,7 +4157,7 @@ private:
                     const int x = across ? along : backLine;
                     const int y = across ? backLine : along;
 
-                    if (x >= 0 && y >= 0 && x < Nodes && y < Nodes)
+                    if (x >= 0 && y >= 0 && x < sideNodes() && y < sideNodes())
                     {
                         row += 1;
                         open += m_lowered.ground[nodeIndex(x, y)] < top ? 1 : 0;
@@ -4170,10 +4198,10 @@ private:
     // Step 7.
     void store(const std::vector<double> &waterNode)
     {
-        m_lowered.samples.assign(NodeTotal, 0);
-        m_lowered.water.assign(NodeTotal, 0);
-        m_lowered.waterCorners.assign(NodeTotal, 0);
-        m_lowered.waterLevel.assign(NodeTotal, 0.0);
+        m_lowered.samples.assign(sideNodeTotal(), 0);
+        m_lowered.water.assign(sideNodeTotal(), 0);
+        m_lowered.waterCorners.assign(sideNodeTotal(), 0);
+        m_lowered.waterLevel.assign(sideNodeTotal(), 0.0);
         m_lowered.waterShape = m_cellShape;
         m_lowered.waterSets.clear();
 
@@ -4186,7 +4214,7 @@ private:
         double lowest = 0.0;
         double highest = 0.0;
 
-        for (size_t node = 0; node < NodeTotal; ++node)
+        for (size_t node = 0; node < sideNodeTotal(); ++node)
         {
             const bool wet = !std::isnan(waterNode[node]);
             const double surface = wet ? waterNode[node] : m_lowered.ground[node];
@@ -4275,8 +4303,9 @@ private:
                     const int highX = static_cast<int>(std::lround(x - low[0]));
                     const int highY = static_cast<int>(std::lround(y - low[1]));
 
-                    if (lowX < 0 || lowX >= Nodes || lowY < 0 || lowY >= Nodes || highX < 0 || highX >= Nodes
-                        || highY < 0 || highY >= Nodes
+                    if (lowX < 0 || lowX >= sideNodes() || lowY < 0 || lowY >= sideNodes() || highX < 0
+                        || highX >= sideNodes()
+                        || highY < 0 || highY >= sideNodes()
                         || !crossesAny({static_cast<double>(lowX), static_cast<double>(lowY)},
                             {static_cast<double>(highX), static_cast<double>(highY)}, own, false))
                     {
@@ -4344,14 +4373,14 @@ private:
 
                     LoweredOutdoorStart start;
                     start.entrance = id;
-                    start.x = (at[0] - Nodes / 2) * OutdoorCellSize;
-                    start.y = (Nodes / 2 - at[1]) * OutdoorCellSize;
+                    start.x = (at[0] - sideNodes() / 2) * OutdoorCellSize;
+                    start.y = (sideNodes() / 2 - at[1]) * OutdoorCellSize;
                     start.z = m_lowered.storedHeightAt(at[0], at[1]);
                     const std::string facing = textOf(pointNode, "facing");
                     start.facing = facingUnits(facing.empty() ? textOf(entrance, "facing") : facing);
                     m_lowered.start = start;
-                    const int cellX = std::clamp(static_cast<int>(std::floor(at[0])), 0, Nodes - 1);
-                    const int cellY = std::clamp(static_cast<int>(std::floor(at[1])), 0, Nodes - 1);
+                    const int cellX = std::clamp(static_cast<int>(std::floor(at[0])), 0, sideNodes() - 1);
+                    const int cellY = std::clamp(static_cast<int>(std::floor(at[1])), 0, sideNodes() - 1);
 
                     if (m_lowered.water[nodeIndex(cellX, cellY)] != 0)
                     {
@@ -4430,15 +4459,17 @@ private:
 
 double LoweredOutdoorMap::storedHeightAt(double x, double y) const
 {
-    if (samples.size() != NodeTotal)
+    const OutdoorGridScope gridScope(side);
+
+    if (samples.size() != sideNodeTotal())
     {
         return 0.0;
     }
 
-    const double clampedX = std::clamp(x, 0.0, static_cast<double>(Nodes - 1));
-    const double clampedY = std::clamp(y, 0.0, static_cast<double>(Nodes - 1));
-    const int x0 = std::min(static_cast<int>(std::floor(clampedX)), Nodes - 2);
-    const int y0 = std::min(static_cast<int>(std::floor(clampedY)), Nodes - 2);
+    const double clampedX = std::clamp(x, 0.0, static_cast<double>(sideNodes() - 1));
+    const double clampedY = std::clamp(y, 0.0, static_cast<double>(sideNodes() - 1));
+    const int x0 = std::min(static_cast<int>(std::floor(clampedX)), sideNodes() - 2);
+    const int y0 = std::min(static_cast<int>(std::floor(clampedY)), sideNodes() - 2);
     const double shareX = clampedX - x0;
     const double shareY = clampedY - y0;
     const auto at = [this](int nodeX, int nodeY)
@@ -4452,15 +4483,17 @@ double LoweredOutdoorMap::storedHeightAt(double x, double y) const
 
 double LoweredOutdoorMap::groundHeightAt(double x, double y) const
 {
-    if (samples.size() != NodeTotal)
+    const OutdoorGridScope gridScope(side);
+
+    if (samples.size() != sideNodeTotal())
     {
         return 0.0;
     }
 
-    const double clampedX = std::clamp(x, 0.0, static_cast<double>(Nodes - 1));
-    const double clampedY = std::clamp(y, 0.0, static_cast<double>(Nodes - 1));
-    const int x0 = std::min(static_cast<int>(std::floor(clampedX)), Nodes - 2);
-    const int y0 = std::min(static_cast<int>(std::floor(clampedY)), Nodes - 2);
+    const double clampedX = std::clamp(x, 0.0, static_cast<double>(sideNodes() - 1));
+    const double clampedY = std::clamp(y, 0.0, static_cast<double>(sideNodes() - 1));
+    const int x0 = std::min(static_cast<int>(std::floor(clampedX)), sideNodes() - 2);
+    const int y0 = std::min(static_cast<int>(std::floor(clampedY)), sideNodes() - 2);
     const double shareX = clampedX - x0;
     const double shareY = clampedY - y0;
     const auto at = [this](int nodeX, int nodeY)
@@ -4477,6 +4510,7 @@ double LoweredOutdoorMap::groundHeightAt(double x, double y) const
 
 std::array<double, 2> LoweredOutdoorMap::groundRangeUnder(const std::vector<std::array<double, 2>> &world) const
 {
+    const OutdoorGridScope gridScope(side);
     std::array<double, 2> range = {std::numeric_limits<double>::infinity(),
         -std::numeric_limits<double>::infinity()};
 
@@ -4492,7 +4526,7 @@ std::array<double, 2> LoweredOutdoorMap::groundRangeUnder(const std::vector<std:
 
     for (const std::array<double, 2> &point : world)
     {
-        cells.push_back({point[0] / OutdoorCellSize + Nodes / 2, Nodes / 2 - point[1] / OutdoorCellSize});
+        cells.push_back({point[0] / OutdoorCellSize + sideNodes() / 2, sideNodes() / 2 - point[1] / OutdoorCellSize});
     }
 
     const auto take = [&](double x, double y)
@@ -4580,32 +4614,34 @@ double outdoorClearOfLand(const LoweredOutdoorMap &lowered, const std::vector<st
 
 double LoweredOutdoorMap::decorationGroundAt(const std::string &name, double cellX, double cellY, int facing) const
 {
+    const OutdoorGridScope gridScope(side);
     const auto feet = decorationFeet.find(name);
-    if (feet == decorationFeet.end() || samples.size() != NodeTotal)
+    if (feet == decorationFeet.end() || samples.size() != sideNodeTotal())
     {
         return groundHeightAt(cellX, cellY);
     }
 
     Game::OutdoorMapData terrain;
+    terrain.terrainSide = sideNodes();
     terrain.heightMap = samples;
     // Both placed and scattered ODM objects store their origin in whole world units.
     const auto storedCell = [](double cell)
     {
-        return Nodes / 2 + std::round((cell - Nodes / 2) * OutdoorCellSize) / OutdoorCellSize;
+        return sideNodes() / 2 + std::round((cell - sideNodes() / 2) * OutdoorCellSize) / OutdoorCellSize;
     };
     cellX = storedCell(cellX);
     cellY = storedCell(cellY);
     const auto groundUnderFoot = [&](double x, double y)
     {
-        x = std::clamp(x, 0.0, double(Nodes - 1));
-        y = std::clamp(y, 0.0, double(Nodes - 1));
+        x = std::clamp(x, 0.0, double(sideNodes() - 1));
+        y = std::clamp(y, 0.0, double(sideNodes() - 1));
         double height = groundHeightAt(x, y);
         // OutdoorTerrainMaterials::createMesh draws triangles between rounded samples. Native and full smoothing
         // bound every intermediate smoothing strength at this foot for each subdivision.
         for (int steps = 2; steps <= 8; ++steps)
         {
-            const int ix = std::min(int(x * steps), (Nodes - 1) * steps - 1);
-            const int iy = std::min(int(y * steps), (Nodes - 1) * steps - 1);
+            const int ix = std::min(int(x * steps), (sideNodes() - 1) * steps - 1);
+            const int iy = std::min(int(y * steps), (sideNodes() - 1) * steps - 1);
             const double u = x * steps - ix, v = y * steps - iy;
             const auto vertex = [&](int dx, int dy)
             {
@@ -4714,6 +4750,7 @@ bool outdoorNodeOnLine(const std::vector<std::array<double, 2>> &line, double wi
 
 bool lowerOutdoorLandOnly(const Project &project)
 {
+    const OutdoorGridScope gridScope(project);
     LoweredOutdoorMap lowered;
     std::vector<ProjectIssue> issues;
     Lowerer lowerer(project, lowered, issues, nullptr);
@@ -4724,6 +4761,7 @@ bool lowerOutdoorLandOnly(const Project &project)
 bool lowerOutdoorProject(const Project &project, LoweredOutdoorMap &lowered, std::vector<ProjectIssue> &issues,
     OutdoorLandCache *pLand, const std::string &styleWorld, const OutdoorDoorPictures *pDoorPictures)
 {
+    const OutdoorGridScope gridScope(project);
     Lowerer lowerer(project, lowered, issues, pLand, styleWorld);
     lowerer.useDoorPictures(pDoorPictures);
     return lowerer.run() && layOutdoorGround(project, lowered, issues);

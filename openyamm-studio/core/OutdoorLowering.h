@@ -3,6 +3,7 @@
 #include "core/OutdoorBuildings.h"
 #include "core/OutdoorGround.h"
 #include "core/OutdoorFalls.h"
+#include "core/OutdoorGrid.h"
 #include "core/OutdoorWaysIn.h"
 #include "core/Project.h"
 
@@ -19,8 +20,8 @@ namespace OpenYAMM::Studio
 // From an outdoor project's sketch (sketch.yml) to what a classic ODM holds of the land: a 128 x 128 field of
 // heights and a map of water cells. The algorithm is told at the top of OutdoorLowering.cpp.
 
-// Height samples along each side of an ODM (the sketch's grid nodes 0 to 127; node 128 is not stored).
-constexpr int OutdoorNodeCount = 128;
+// Height samples along each side of an ODM: outdoorNodeCount() (core/OutdoorGrid; the sketch's grid nodes 0 to 127
+// on a classic map, node 128 is not stored).
 // Map units between two samples.
 constexpr double OutdoorCellSize = 512.0;
 // Map units per step of a stored height sample (one byte: 0 to 255 steps, 0 to 8160 units).
@@ -45,6 +46,8 @@ struct LoweredOutdoorMap
 {
     std::string mapStem;
     std::string world;
+    // The terrain's side the map was lowered on (core/OutdoorGrid): 128 classic.
+    int side = OutdoorClassicSide;
     // The world whose kits, roofs, ground tile sets and default textures the map takes (studioStyleWorld): the
     // project's own, or for a world without them (Xeen) its base.
     std::string styleWorld;

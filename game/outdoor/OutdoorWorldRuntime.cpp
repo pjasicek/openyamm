@@ -1725,18 +1725,22 @@ bool isWithinRange3d(float x, float y, float z, float range)
     return range > 0.0f && lengthSquared3d(x, y, z) <= range * range;
 }
 
-bool isOutdoorLandMaskWater(const std::optional<std::vector<uint8_t>> &outdoorLandMask, float x, float y)
+bool isOutdoorLandMaskWater(
+    const OutdoorMapData &outdoorMapData,
+    const std::optional<std::vector<uint8_t>> &outdoorLandMask,
+    float x,
+    float y)
 {
     if (!outdoorLandMask || outdoorLandMask->empty())
     {
         return false;
     }
 
-    const float gridX = outdoorWorldToGridXFloat(x);
-    const float gridY = outdoorWorldToGridYFloat(y);
-    const int tileX = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 2);
-    const int tileY = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 2);
-    const int landMaskWidth = OutdoorMapData::TerrainWidth - 1;
+    const float gridX = outdoorWorldToGridXFloat(outdoorMapData, x);
+    const float gridY = outdoorWorldToGridYFloat(outdoorMapData, y);
+    const int tileX = std::clamp(static_cast<int>(std::floor(gridX)), 0, outdoorMapData.terrainSide - 2);
+    const int tileY = std::clamp(static_cast<int>(std::floor(gridY)), 0, outdoorMapData.terrainSide - 2);
+    const int landMaskWidth = outdoorMapData.terrainSide - 1;
     const size_t tileIndex = static_cast<size_t>(tileY * landMaskWidth + tileX);
 
     if (tileIndex >= outdoorLandMask->size())
@@ -1753,7 +1757,8 @@ bool isOutdoorMonsterWaterTile(
     float x,
     float y)
 {
-    return isOutdoorTerrainWater(outdoorMapData, x, y) || isOutdoorLandMaskWater(outdoorLandMask, x, y);
+    return isOutdoorTerrainWater(outdoorMapData, x, y)
+        || isOutdoorLandMaskWater(outdoorMapData, outdoorLandMask, x, y);
 }
 
 bool canMonsterWalkOnWater(const MonsterTable::MonsterStatsEntry *pStats)
@@ -1761,11 +1766,11 @@ bool canMonsterWalkOnWater(const MonsterTable::MonsterStatsEntry *pStats)
     return pStats != nullptr && pStats->hasKind(MonsterKind::Swimmer);
 }
 
-bx::Vec3 outdoorTerrainTileCenter(int tileX, int tileY)
+bx::Vec3 outdoorTerrainTileCenter(const OutdoorMapData &outdoorMapData, int tileX, int tileY)
 {
     return {
-        outdoorGridCornerWorldX(tileX) + static_cast<float>(OutdoorMapData::TerrainTileSize) * 0.5f,
-        outdoorGridCornerWorldY(tileY) - static_cast<float>(OutdoorMapData::TerrainTileSize) * 0.5f,
+        outdoorGridCornerWorldX(outdoorMapData, tileX) + static_cast<float>(OutdoorMapData::TerrainTileSize) * 0.5f,
+        outdoorGridCornerWorldY(outdoorMapData, tileY) - static_cast<float>(OutdoorMapData::TerrainTileSize) * 0.5f,
         0.0f
     };
 }
@@ -1778,28 +1783,28 @@ bool findNearbyLandDirection(
     float &directionX,
     float &directionY)
 {
-    const float gridX = outdoorWorldToGridXFloat(actorX);
-    const float gridY = outdoorWorldToGridYFloat(actorY);
-    const int tileX = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 2);
-    const int tileY = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 2);
+    const float gridX = outdoorWorldToGridXFloat(outdoorMapData, actorX);
+    const float gridY = outdoorWorldToGridYFloat(outdoorMapData, actorY);
+    const int tileX = std::clamp(static_cast<int>(std::floor(gridX)), 0, outdoorMapData.terrainSide - 2);
+    const int tileY = std::clamp(static_cast<int>(std::floor(gridY)), 0, outdoorMapData.terrainSide - 2);
     float bestDistanceSquared = std::numeric_limits<float>::max();
     bool found = false;
 
     for (int candidateY = tileY - 1; candidateY <= tileY + 1; ++candidateY)
     {
-        if (candidateY < 0 || candidateY >= OutdoorMapData::TerrainHeight - 1)
+        if (candidateY < 0 || candidateY >= outdoorMapData.terrainSide - 1)
         {
             continue;
         }
 
         for (int candidateX = tileX - 1; candidateX <= tileX + 1; ++candidateX)
         {
-            if (candidateX < 0 || candidateX >= OutdoorMapData::TerrainWidth - 1)
+            if (candidateX < 0 || candidateX >= outdoorMapData.terrainSide - 1)
             {
                 continue;
             }
 
-            const bx::Vec3 center = outdoorTerrainTileCenter(candidateX, candidateY);
+            const bx::Vec3 center = outdoorTerrainTileCenter(outdoorMapData, candidateX, candidateY);
 
             if (isOutdoorMonsterWaterTile(outdoorMapData, outdoorLandMask, center.x, center.y))
             {
@@ -8376,11 +8381,10 @@ std::optional<float> OutdoorWorldRuntime::checkMapActorSpot(
     const bool canFly = pStats != nullptr ? pStats->canFly : actor.canFly;
     const float radius = static_cast<float>(actor.radius > 0 ? actor.radius : 40);
     const float height = static_cast<float>(actor.height > 0 ? actor.height : 120);
-    constexpr float MapHalfExtent =
-        static_cast<float>(OutdoorMapData::TerrainWidth * OutdoorMapData::TerrainTileSize) * 0.5f;
+    const float mapHalfExtent = m_pOutdoorMapData->terrainHalfExtent();
     const MapBounds &bounds = m_map.outdoorBounds;
 
-    if (std::abs(x) > MapHalfExtent - radius - 512.0f || std::abs(y) > MapHalfExtent - radius - 512.0f
+    if (std::abs(x) > mapHalfExtent - radius - 512.0f || std::abs(y) > mapHalfExtent - radius - 512.0f
         || (bounds.enabled
             && (x - radius < float(bounds.minX) || x + radius > float(bounds.maxX)
                 || y - radius < float(bounds.minY) || y + radius > float(bounds.maxY))))
@@ -8936,7 +8940,12 @@ void OutdoorWorldRuntime::updateWorld(float deltaSeconds)
 
     if (m_pOutdoorMapDeltaData != nullptr && m_pPartyRuntime != nullptr)
     {
-        updateOutdoorJournalRevealMask(*m_pPartyRuntime, *m_pOutdoorMapDeltaData);
+        const OutdoorMapData *pMap = m_pOutdoorMapData;
+        updateOutdoorJournalRevealMask(
+            pMap != nullptr ? pMap->journalRevealSide() : OutdoorMapData::ClassicJournalRevealSide,
+            pMap != nullptr ? pMap->terrainHalfExtent() : 32768.0f,
+            *m_pPartyRuntime,
+            *m_pOutdoorMapDeltaData);
     }
 
     updateWorldItemSpotting(deltaSeconds);
@@ -25127,6 +25136,23 @@ bool OutdoorWorldRuntime::tryGetGameplayMinimapState(GameplayMinimapState &state
         state.textureName = toLowerCopy(std::filesystem::path(m_map.fileName).stem().string());
         state.zoom = 512.0f;
     }
+
+    if (m_pOutdoorMapData != nullptr)
+    {
+        // The reveal mask always spans the terrain frame; without a presentation, so does the map image.
+        const float halfExtent = m_pOutdoorMapData->terrainHalfExtent();
+        state.revealSide = m_pOutdoorMapData->journalRevealSide();
+        state.revealHalfExtent = halfExtent;
+
+        if (!m_pOutdoorMapData->mapPresentation)
+        {
+            state.worldMinX = -halfExtent;
+            state.worldMaxX = halfExtent;
+            state.worldMinY = -halfExtent;
+            state.worldMaxY = halfExtent;
+        }
+    }
+
     const GameplayMinimapPoint partyPoint = gameplayMinimapWorldToUv(state, moveState.x, moveState.y);
     state.partyU = partyPoint.x;
     state.partyV = partyPoint.y;
@@ -25153,6 +25179,7 @@ void OutdoorWorldRuntime::collectGameplayMinimapLines(std::vector<GameplayMinima
     constexpr float MinimapLevelTolerance = 512.0f;
     constexpr float MinimapCacheCellSize = 512.0f;
     constexpr float MinimapCacheLevelSize = 256.0f;
+    const float halfExtent = m_pOutdoorMapData->terrainHalfExtent();
     const OutdoorMoveState &moveState = m_pPartyRuntime->movementState();
     const int32_t cacheCellX = static_cast<int32_t>(std::floor(moveState.x / MinimapCacheCellSize));
     const int32_t cacheCellY = static_cast<int32_t>(std::floor(moveState.y / MinimapCacheCellSize));

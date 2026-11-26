@@ -7,6 +7,7 @@
 #include "core/Json.h"
 #include "core/MapLoad.h"
 #include "core/MonsterRelations.h"
+#include "core/OutdoorGlb.h"
 #include "core/OutdoorModel.h"
 #include "core/OutdoorWaysIn.h"
 #include "core/Polygon.h"
@@ -334,6 +335,8 @@ public:
             m_pModel = &model;
             m_usedFaces.clear();
             m_liquidTextures.clear();
+            m_glbModels.clear();
+            m_glbEvents = false;
 
             if (kind == "wall")
             {
@@ -434,33 +437,48 @@ public:
 
             if (known && !model.faces.empty())
             {
-                for (Game::OutdoorBModelFace &face : model.faces)
+                // The model, and a Blender model's further meshes (each a BModel of its own, its events laid).
+                std::vector<Game::OutdoorBModel> raised = {std::move(model)};
+                raised.insert(raised.end(), std::make_move_iterator(m_glbModels.begin()),
+                    std::make_move_iterator(m_glbModels.end()));
+                m_glbModels.clear();
+
+                for (size_t piece = 0; piece < raised.size(); ++piece)
                 {
-                    const std::map<std::string, uint32_t>::const_iterator liquid =
-                        m_liquidTextures.find(face.textureName);
+                    Game::OutdoorBModel &standing = raised[piece];
 
-                    if (liquid != m_liquidTextures.end())
+                    for (Game::OutdoorBModelFace &face : standing.faces)
                     {
-                        face.attributes |= liquid->second;
-                    }
-                }
+                        const std::map<std::string, uint32_t>::const_iterator liquid =
+                            m_liquidTextures.find(face.textureName);
 
-                if (flagOf(node, "ethereal"))
-                {
-                    // Drawn, but walked through (the game's Untouchable bit: outb1's DunEntB1 front).
-                    for (Game::OutdoorBModelFace &face : model.faces)
+                        if (liquid != m_liquidTextures.end())
+                        {
+                            face.attributes |= liquid->second;
+                        }
+                    }
+
+                    if (flagOf(node, "ethereal"))
                     {
-                        face.attributes |= Game::faceAttributeBit(Game::FaceAttribute::Untouchable);
+                        // Drawn, but walked through (the game's Untouchable bit: outb1's DunEntB1 front).
+                        for (Game::OutdoorBModelFace &face : standing.faces)
+                        {
+                            face.attributes |= Game::faceAttributeBit(Game::FaceAttribute::Untouchable);
+                        }
                     }
-                }
 
-                applyHintAndTrigger(node, kind, model);
-                builder.finish();
-                m_things.covered.push_back({model.minX / OutdoorCellSize + OutdoorNodeCount / 2,
-                    OutdoorNodeCount / 2 - model.maxY / OutdoorCellSize,
-                    model.maxX / OutdoorCellSize + OutdoorNodeCount / 2,
-                    OutdoorNodeCount / 2 - model.minY / OutdoorCellSize});
-                m_things.models.push_back(model);
+                    if (!m_glbEvents)
+                    {
+                        applyHintAndTrigger(node, kind, standing);
+                    }
+
+                    OutdoorModelBuilder(standing).finish();
+                    m_things.covered.push_back({standing.minX / OutdoorCellSize + outdoorNodeCount() / 2,
+                        outdoorNodeCount() / 2 - standing.maxY / OutdoorCellSize,
+                        standing.maxX / OutdoorCellSize + outdoorNodeCount() / 2,
+                        outdoorNodeCount() / 2 - standing.minY / OutdoorCellSize});
+                    m_things.models.push_back(standing);
+                }
             }
             else if (known)
             {
@@ -572,8 +590,8 @@ private:
     {
         Point2 cell = {0.0, 0.0};
 
-        if (!pointOf(childOf(node, pKey), cell) || cell[0] < 0.0 || cell[1] < 0.0 || cell[0] > OutdoorNodeCount - 1
-            || cell[1] > OutdoorNodeCount - 1)
+        if (!pointOf(childOf(node, pKey), cell) || cell[0] < 0.0 || cell[1] < 0.0 || cell[0] > outdoorNodeCount() - 1
+            || cell[1] > outdoorNodeCount() - 1)
         {
             add(m_path + "." + pKey, std::string("`") + pKey + "` is the place [x, y] in cells (fractions allowed), "
                 "inside the map (0 to 127)");
@@ -587,22 +605,22 @@ private:
 
     static Point2 toWorld(const Point2 &cell)
     {
-        return {(cell[0] - OutdoorNodeCount / 2) * OutdoorCellSize,
-            (OutdoorNodeCount / 2 - cell[1]) * OutdoorCellSize};
+        return {(cell[0] - outdoorNodeCount() / 2) * OutdoorCellSize,
+            (outdoorNodeCount() / 2 - cell[1]) * OutdoorCellSize};
     }
 
     double groundAt(const Point2 &world) const
     {
-        return m_lowered.storedHeightAt(world[0] / OutdoorCellSize + OutdoorNodeCount / 2,
-            OutdoorNodeCount / 2 - world[1] / OutdoorCellSize);
+        return m_lowered.storedHeightAt(world[0] / OutdoorCellSize + outdoorNodeCount() / 2,
+            outdoorNodeCount() / 2 - world[1] / OutdoorCellSize);
     }
 
     // The game's ground at a place in world units (its cells' two triangles: `groundHeightAt`), what things stood
     // on the land stand on.
     double nativeGroundAt(const Point2 &world) const
     {
-        return m_lowered.groundHeightAt(world[0] / OutdoorCellSize + OutdoorNodeCount / 2,
-            OutdoorNodeCount / 2 - world[1] / OutdoorCellSize);
+        return m_lowered.groundHeightAt(world[0] / OutdoorCellSize + outdoorNodeCount() / 2,
+            outdoorNodeCount() / 2 - world[1] / OutdoorCellSize);
     }
 
     // The lowest of the game's ground under an outline's corners: where a chest or a crate stands, so no corner
@@ -623,11 +641,14 @@ private:
     // corner, a grid vertex inside it, or where its outline crosses a grid edge (including the NW-SE diagonals).
     double bridgeFootHeight(std::vector<Point2> footprint) const
     {
+        // Whole units inside the map's frame (-32768 to 32767 on a classic map, wider on ODM v2: core/OutdoorGrid).
+        const double half = outdoorNodeCount() * OutdoorCellSize / 2.0;
+
         for (Point2 &point : footprint)
         {
             for (double &coordinate : point)
             {
-                coordinate = std::clamp(std::round(coordinate), -32768.0, 32767.0);
+                coordinate = std::clamp(std::round(coordinate), -half, half - 1.0);
             }
         }
         double lowest = lowestGroundUnder(footprint);
@@ -996,26 +1017,7 @@ private:
             return;
         }
 
-        uint16_t hintEvent = 0;
-
-        if (!hint.empty())
-        {
-            // `hint_shared` (batch O-H): one event for every thing of the map whose shared hint says the same, as
-            // the originals have it (Erathia's "Well", 201, on its five wells).
-            const bool shared = textOf(node, "hint_shared") == "true";
-            OutdoorEventPlan event;
-            event.id = shared ? outdoorSharedHintId(hint) : "evt:hint:" + m_id;
-            event.number = static_cast<uint16_t>(IdsLock::number(m_ids.events, event.id, 1));
-            event.title = hint;
-
-            if (!shared || std::none_of(m_things.events.begin(), m_things.events.end(),
-                    [&](const OutdoorEventPlan &other) { return other.id == event.id; }))
-            {
-                m_things.events.push_back(event);
-            }
-
-            hintEvent = event.number;
-        }
+        const uint16_t hintEvent = hint.empty() ? 0 : hintEventOf(node, hint);
 
 
         const uint32_t clickable = Game::faceAttributeBit(Game::FaceAttribute::Clickable);
@@ -1086,6 +1088,25 @@ private:
                 modelFace.attributes |= clickable;
             }
         }
+    }
+
+    // The event of a thing's `hint`: its own, or with `hint_shared` (batch O-H) one event for every thing of the map
+    // whose shared hint says the same, as the originals have it (Erathia's "Well", 201, on its five wells).
+    uint16_t hintEventOf(const YAML::Node &node, const std::string &hint)
+    {
+        const bool shared = textOf(node, "hint_shared") == "true";
+        OutdoorEventPlan event;
+        event.id = shared ? outdoorSharedHintId(hint) : "evt:hint:" + m_id;
+        event.number = static_cast<uint16_t>(IdsLock::number(m_ids.events, event.id, 1));
+        event.title = hint;
+
+        if (!shared || std::none_of(m_things.events.begin(), m_things.events.end(),
+                [&](const OutdoorEventPlan &other) { return other.id == event.id; }))
+        {
+            m_things.events.push_back(event);
+        }
+
+        return event.number;
     }
 
     // Marks the faces added since `from` as the thing's used part.
@@ -1300,8 +1321,8 @@ private:
         decoration.y = static_cast<int>(std::lround(world[1]));
         // `turn`: degrees clockwise seen from above; the ODM keeps degrees counter-clockwise.
         decoration.facing = ((static_cast<int>(std::lround(0.0 - numberOr(node, "turn", 0.0))) % 360) + 360) % 360;
-        const double feet = m_lowered.decorationGroundAt(name, world[0] / OutdoorCellSize + OutdoorNodeCount / 2,
-            OutdoorNodeCount / 2 - world[1] / OutdoorCellSize, decoration.facing);
+        const double feet = m_lowered.decorationGroundAt(name, world[0] / OutdoorCellSize + outdoorNodeCount() / 2,
+            outdoorNodeCount() / 2 - world[1] / OutdoorCellSize, decoration.facing);
         decoration.z = static_cast<int>(std::lround(feet + numberOr(node, "raise", 0.0)));
         m_things.decorations.push_back(decoration);
         m_things.decorationEvents.push_back(m_event);
@@ -1355,8 +1376,8 @@ private:
         {
             Point2 cell = {0.0, 0.0};
 
-            if (!pointOf(points[index], cell) || cell[0] < 0.0 || cell[1] < 0.0 || cell[0] > OutdoorNodeCount - 1
-                || cell[1] > OutdoorNodeCount - 1)
+            if (!pointOf(points[index], cell) || cell[0] < 0.0 || cell[1] < 0.0 || cell[0] > outdoorNodeCount() - 1
+                || cell[1] > outdoorNodeCount() - 1)
             {
                 line.clear();
                 break;
@@ -2770,15 +2791,15 @@ private:
                 {
                     const Point2 at = {head[0] + out[0] * beyond - out[1] * width * share,
                         head[1] + out[1] * beyond + out[0] * width * share};
-                    const double column = at[0] / OutdoorCellSize + OutdoorNodeCount / 2.0;
-                    const double row = OutdoorNodeCount / 2.0 - at[1] / OutdoorCellSize;
+                    const double column = at[0] / OutdoorCellSize + outdoorNodeCount() / 2.0;
+                    const double row = outdoorNodeCount() / 2.0 - at[1] / OutdoorCellSize;
 
-                    if (column < 0.0 || row < 0.0 || column >= OutdoorNodeCount || row >= OutdoorNodeCount)
+                    if (column < 0.0 || row < 0.0 || column >= outdoorNodeCount() || row >= outdoorNodeCount())
                     {
                         continue;
                     }
 
-                    const size_t cell = static_cast<size_t>(row) * OutdoorNodeCount + static_cast<size_t>(column);
+                    const size_t cell = static_cast<size_t>(row) * outdoorNodeCount() + static_cast<size_t>(column);
 
                     if (cell < m_lowered.water.size() && m_lowered.water[cell] != 0)
                     {
@@ -5360,7 +5381,8 @@ private:
 
             if (!point.IsSequence() || (point.size() != 2 && point.size() != 3) || !numberOfNode(point[0], cell[0])
                 || !numberOfNode(point[1], cell[1]) || (point.size() == 3 && !numberOfNode(point[2], z))
-                || cell[0] < 0.0 || cell[1] < 0.0 || cell[0] > OutdoorNodeCount - 1 || cell[1] > OutdoorNodeCount - 1)
+                || cell[0] < 0.0 || cell[1] < 0.0 || cell[0] > outdoorNodeCount() - 1
+                || cell[1] > outdoorNodeCount() - 1)
             {
                 line.clear();
                 break;
@@ -5655,8 +5677,8 @@ private:
         {
             Point2 cell = {0.0, 0.0};
 
-            if (!pointOf(points[index], cell) || cell[0] < 0.0 || cell[1] < 0.0 || cell[0] > OutdoorNodeCount - 1
-                || cell[1] > OutdoorNodeCount - 1)
+            if (!pointOf(points[index], cell) || cell[0] < 0.0 || cell[1] < 0.0 || cell[0] > outdoorNodeCount() - 1
+                || cell[1] > outdoorNodeCount() - 1)
             {
                 outline.clear();
                 break;
@@ -6251,6 +6273,12 @@ private:
     void raiseImport(const YAML::Node &node, Game::OutdoorBModel &model)
     {
         const YAML::Node from = childOf(node, "from");
+
+        if (childOf(from, "glb").IsDefined())
+        {
+            raiseGlb(node, model);
+            return;
+        }
         const std::string file = lowerCase(textOf(from, "map"));
         const YAML::Node names = childOf(from, "models");
         const std::string world = textOf(from, "world").empty() ? m_lowered.world : textOf(from, "world");
@@ -6352,7 +6380,7 @@ private:
         if (childOf(node, "at").IsDefined())
         {
             if (!pointOf(childOf(node, "at"), cell) || cell[0] < 0.0 || cell[1] < 0.0
-                || cell[0] > OutdoorNodeCount - 1 || cell[1] > OutdoorNodeCount - 1)
+                || cell[0] > outdoorNodeCount() - 1 || cell[1] > outdoorNodeCount() - 1)
             {
                 add(m_path + ".at", "`at` is where the model's middle goes, [x, y] in cells, inside the map; left "
                     "out: where it stands in the map it is taken from");
@@ -6503,6 +6531,256 @@ private:
         }
     }
 
+    // `kind: model` with `from: {glb: <file>}` (DECISIONS.md H-44): a Blender model's meshes as BModels
+    // (core/OutdoorGlb tells how a file is read). The file is found beside the project, else in the world's folder of
+    // the asset root. Each material is a texture of the world: its own name (Blender's ".001" endings left off), or
+    // what `textures` maps it to (a name, or {texture, liquid, flow, invisible, untouchable}). UVs become texels by
+    // the texture's size in the game; a material without UVs lies one texel to a unit. `at` sets the model's middle
+    // there with its lowest point on the land (`raise` over it); without `at` the file's coordinates are the map's.
+    // `click` names the meshes whose faces run the click; the others say the `hint`.
+    void raiseGlb(const YAML::Node &node, Game::OutdoorBModel &model)
+    {
+        const YAML::Node from = childOf(node, "from");
+        const std::string file = textOf(from, "glb");
+        const std::string up = textOf(from, "up", "y");
+        OutdoorGlbOptions options;
+        options.scale = numberOr(from, "scale", 1.0);
+        options.zUp = up == "z";
+        options.minArea = numberOr(from, "min_area", options.minArea);
+        options.minAngleDegrees = numberOr(from, "min_angle", options.minAngleDegrees);
+        options.faceBudget = static_cast<size_t>(std::max(1.0, numberOr(from, "face_budget",
+            static_cast<double>(options.faceBudget))));
+
+        if (file.empty() || (up != "y" && up != "z") || options.scale <= 0.0 || childOf(from, "map").IsDefined())
+        {
+            add(m_path + ".from", "a Blender model is `from: {glb: <file beside the project or in the world's "
+                "folder>, scale: <map units per file unit, 1>, up: y | z}` (glTF's +Y up, as Blender exports by "
+                "default; z for a file in the map's own axes), without `map`");
+            return;
+        }
+
+        std::filesystem::path path = m_project.root / file;
+        std::error_code missing;
+
+        if (!std::filesystem::is_regular_file(path, missing) && !m_assetRoot.empty())
+        {
+            path = m_assetRoot / "worlds" / m_lowered.world / file;
+        }
+
+        if (!std::filesystem::is_regular_file(path, missing))
+        {
+            add(m_path + ".from.glb", "there is no file " + file + " beside the project"
+                + (m_assetRoot.empty() ? std::string() : " nor in worlds/" + m_lowered.world + " of the asset root"));
+            return;
+        }
+
+        if (flagOf(node, "drop_overlaps") || (textOf(node, "trigger", "click") != "click"))
+        {
+            add(m_path, "a Blender model runs its click from the faces of its meshes (`click` names them); "
+                "`trigger: step` and `drop_overlaps` are for models taken from a map: make the step a platform, "
+                "and remove faces that lie on each other in Blender");
+            return;
+        }
+
+        // Read once as drawn to find its middle and foot, then again in place.
+        std::vector<OutdoorGlbMesh> meshes;
+        std::vector<std::string> errors;
+
+        if (!readOutdoorGlb(path, options, meshes, errors))
+        {
+            for (const std::string &error : errors)
+            {
+                add(m_path + ".from.glb", error);
+            }
+
+            return;
+        }
+
+        double west = 1.0e18;
+        double south = 1.0e18;
+        double low = 1.0e18;
+        double east = -1.0e18;
+        double north = -1.0e18;
+
+        for (const OutdoorGlbMesh &mesh : meshes)
+        {
+            for (const OutdoorGlbFace &face : mesh.faces)
+            {
+                for (const std::array<double, 3> &point : face.points)
+                {
+                    west = std::min(west, point[0]);
+                    east = std::max(east, point[0]);
+                    south = std::min(south, point[1]);
+                    north = std::max(north, point[1]);
+                    low = std::min(low, point[2]);
+                }
+            }
+        }
+
+        const Point2 middle = {(west + east) * 0.5, (south + north) * 0.5};
+        options.pivot = middle;
+        options.turnDegrees = numberOr(node, "turn", 0.0);
+        options.move = {0.0, 0.0, numberOr(node, "raise", 0.0)};
+
+        if (childOf(node, "at").IsDefined())
+        {
+            Point2 cell = {0.0, 0.0};
+
+            if (!pointOf(childOf(node, "at"), cell) || cell[0] < 0.0 || cell[1] < 0.0
+                || cell[0] > outdoorNodeCount() - 1 || cell[1] > outdoorNodeCount() - 1)
+            {
+                add(m_path + ".at", "`at` is where the model's middle goes, [x, y] in cells, inside the map; left "
+                    "out: where the file has it (its coordinates are the map's)");
+                return;
+            }
+
+            const Point2 world = toWorld(cell);
+            options.move = {world[0] - middle[0], world[1] - middle[1], groundAt(world) - low + options.move[2]};
+        }
+
+        errors.clear();
+
+        if (!readOutdoorGlb(path, options, meshes, errors))
+        {
+            for (const std::string &error : errors)
+            {
+                add(m_path + ".from.glb", error);
+            }
+
+            return;
+        }
+
+        // `click`: the meshes that run the click; left out, all of them.
+        std::set<std::string> clicked;
+        const YAML::Node click = childOf(node, "click");
+
+        for (size_t index = 0; click.IsDefined() && click.IsSequence() && index < click.size(); ++index)
+        {
+            const std::string name = click[index].IsScalar() ? click[index].Scalar() : std::string();
+
+            if (std::none_of(meshes.begin(), meshes.end(), [&name](const OutdoorGlbMesh &mesh)
+                {
+                    return mesh.name == name;
+                }))
+            {
+                std::string names;
+
+                for (const OutdoorGlbMesh &mesh : meshes)
+                {
+                    names += (names.empty() ? "" : ", ") + mesh.name;
+                }
+
+                add(m_path + ".click[" + std::to_string(index) + "]", "`click` names meshes of the file; `" + name
+                    + "` is none of them (" + names + ")");
+                return;
+            }
+
+            clicked.insert(name);
+        }
+
+        const std::string hint = textOf(node, "hint");
+
+        if (!hint.empty() && clicked.empty())
+        {
+            add(m_path + ".hint", "a Blender model runs its click from every mesh unless `click` names some: name "
+                "the meshes that run it, and the others say the `hint`");
+            return;
+        }
+
+        const uint16_t hintEvent = hint.empty() ? 0 : hintEventOf(node, hint);
+        m_glbEvents = true;
+        const YAML::Node textures = childOf(node, "textures");
+        const uint32_t invisible = Game::faceAttributeBit(Game::FaceAttribute::Invisible);
+        const uint32_t untouchable = Game::faceAttributeBit(Game::FaceAttribute::Untouchable);
+
+        for (size_t meshIndex = 0; meshIndex < meshes.size(); ++meshIndex)
+        {
+            const OutdoorGlbMesh &mesh = meshes[meshIndex];
+            Game::OutdoorBModel extra;
+            Game::OutdoorBModel &target = meshIndex == 0 ? model : extra;
+            target.name = m_id;
+            target.secondaryName = mesh.name.substr(0, 31);
+            OutdoorModelBuilder builder(target);
+            const uint16_t event = clicked.empty() || clicked.contains(mesh.name) ? m_event : hintEvent;
+
+            for (const OutdoorGlbFace &face : mesh.faces)
+            {
+                // The material's texture: `textures` by the material's name, else the name itself without
+                // Blender's numbered ending.
+                std::string material = face.material;
+                const size_t dot = material.rfind('.');
+
+                const auto digits = [](char character)
+                {
+                    return character >= '0' && character <= '9';
+                };
+
+                if (!childOf(textures, material).IsDefined() && dot != std::string::npos && dot + 4 == material.size()
+                    && std::all_of(material.begin() + dot + 1, material.end(), digits))
+                {
+                    material.erase(dot);
+                }
+
+                const YAML::Node entry = childOf(textures, material);
+                const std::string texture = lowerCase(entry.IsDefined() ? textureOf(node, material.c_str(), nullptr)
+                    : material);
+
+                if (texture.empty())
+                {
+                    add(m_path + ".textures", "mesh `" + mesh.name + "` has a face without a material: give every "
+                        "face a material named like a texture of the world, or map it in `textures`");
+                    return;
+                }
+
+                int added = -1;
+
+                if (face.hasUvs)
+                {
+                    // Texels by the picture's size, moved by whole pictures so the face's least corner lies in the
+                    // first one (the same picture, small numbers).
+                    const std::array<double, 2> size = pictureSizeOf(texture);
+                    double leastU = 1.0e18;
+                    double leastV = 1.0e18;
+
+                    for (const std::array<double, 2> &uv : face.uvs)
+                    {
+                        leastU = std::min(leastU, uv[0]);
+                        leastV = std::min(leastV, uv[1]);
+                    }
+
+                    std::vector<std::array<double, 2>> texels;
+
+                    for (const std::array<double, 2> &uv : face.uvs)
+                    {
+                        texels.push_back({(uv[0] - std::floor(leastU)) * size[0],
+                            (uv[1] - std::floor(leastV)) * size[1]});
+                    }
+
+                    added = builder.addFace(face.points, texture, texels, event);
+                }
+                else
+                {
+                    added = builder.addSurface(face.points, texture, event);
+                }
+
+                if (added < 0)
+                {
+                    continue;
+                }
+
+                // `textures` {invisible, untouchable}: a material not drawn (a collision blocker), or walked through.
+                Game::OutdoorBModelFace &made = target.faces[static_cast<size_t>(added)];
+                made.attributes |= (flagOf(entry, "invisible") ? invisible : 0u)
+                    | (flagOf(entry, "untouchable") ? untouchable : 0u);
+            }
+
+            if (meshIndex != 0 && !extra.faces.empty())
+            {
+                m_glbModels.push_back(std::move(extra));
+            }
+        }
+    }
+
     // `drop_overlaps` on a model taken (P3 2026-11-24, Nystor's ship: MM7's Lady Catherine, whose hull boards and
     // trim lie back to back and two trims on each other in the original): of each two drawn faces in one plane that
     // overlap, facing the same way (findOutdoorCoplanarFaces) or back to back where that is seen
@@ -6623,8 +6901,9 @@ private:
                 continue;
             }
 
-            if (!pointOf(childOf(node, "at"), cell) || cell[0] < 0.0 || cell[1] < 0.0 || cell[0] > OutdoorNodeCount - 1
-                || cell[1] > OutdoorNodeCount - 1)
+            if (!pointOf(childOf(node, "at"), cell) || cell[0] < 0.0 || cell[1] < 0.0
+                || cell[0] > outdoorNodeCount() - 1
+                || cell[1] > outdoorNodeCount() - 1)
             {
                 add(m_path + ".at", "`at` is where the actor stands, [x, y] in cells (fractions allowed), inside "
                     "the map");
@@ -6705,8 +6984,8 @@ private:
                 // Round the place on a spiral that fills the spread evenly, the same every time.
                 const double share = count == 1 ? 0.0 : std::sqrt((member + 0.5) / count);
                 const double angle = member * 2.399963229728653;
-                const Point2 at = {std::clamp(cell[0] + spread * share * oy::cos(angle), 0.0, OutdoorNodeCount - 1.0),
-                    std::clamp(cell[1] + spread * share * oy::sin(angle), 0.0, OutdoorNodeCount - 1.0)};
+                const Point2 at = {std::clamp(cell[0] + spread * share * oy::cos(angle), 0.0, outdoorNodeCount() - 1.0),
+                    std::clamp(cell[1] + spread * share * oy::sin(angle), 0.0, outdoorNodeCount() - 1.0)};
                 const Point2 world = toWorld(at);
                 OutdoorActorPlan placed = actor;
                 placed.x = static_cast<int>(std::lround(world[0]));
@@ -6765,8 +7044,9 @@ private:
                 continue;
             }
 
-            if (!pointOf(childOf(node, "at"), cell) || cell[0] < 0.0 || cell[1] < 0.0 || cell[0] > OutdoorNodeCount - 1
-                || cell[1] > OutdoorNodeCount - 1)
+            if (!pointOf(childOf(node, "at"), cell) || cell[0] < 0.0 || cell[1] < 0.0
+                || cell[0] > outdoorNodeCount() - 1
+                || cell[1] > outdoorNodeCount() - 1)
             {
                 add(m_path + ".at", "`at` is where the item lies, [x, y] in cells (fractions allowed), inside the map");
                 continue;
@@ -6899,8 +7179,9 @@ private:
                 continue;
             }
 
-            if (!pointOf(childOf(node, "at"), cell) || cell[0] < 0.0 || cell[1] < 0.0 || cell[0] > OutdoorNodeCount - 1
-                || cell[1] > OutdoorNodeCount - 1)
+            if (!pointOf(childOf(node, "at"), cell) || cell[0] < 0.0 || cell[1] < 0.0
+                || cell[0] > outdoorNodeCount() - 1
+                || cell[1] > outdoorNodeCount() - 1)
             {
                 add(m_path + ".at", "`at` is where the sound is, [x, y] in cells (fractions allowed), inside the map");
                 continue;
@@ -6980,6 +7261,10 @@ private:
     // an asset session opened on the first sign with a picture.
     std::optional<AssetSession> m_pictureSession;
     std::map<std::string, std::array<double, 2>> m_pictureSizes;
+    // A Blender model's meshes after its first (core/OutdoorGlb), each a BModel; and whether the model laid its
+    // faces' events itself (`click` and `hint` by mesh).
+    std::vector<Game::OutdoorBModel> m_glbModels;
+    bool m_glbEvents = false;
 
     // A picture's size in texels, or 64 x 64 (the shipped sign boards) with a warning when the game has none.
     std::array<double, 2> pictureSizeOf(const std::string &texture)
@@ -7034,6 +7319,8 @@ bool raiseOutdoorThings(
     std::vector<std::string> &warnings,
     const std::filesystem::path &mountRoot)
 {
+    const OutdoorGridScope gridScope(project);
+
     if (!project.has("sketch.yml"))
     {
         return true;

@@ -1439,10 +1439,7 @@ std::vector<AuditFinding> auditDoorTextures(const LoadedMap &map, const TextureF
 
     // F27: an outdoor door whose land before it rises over its sill (the game's terrain triangles), as
     // tools/xeen/town_fit_check.py `houses.buried_door` has it (pin p14 on X1: a house dug into a slope).
-    const size_t terrainNodes = static_cast<size_t>(Game::OutdoorMapData::TerrainWidth)
-        * static_cast<size_t>(Game::OutdoorMapData::TerrainHeight);
-
-    if (map.outdoor && map.outdoor->heightMap.size() == terrainNodes)
+    if (map.outdoor && map.outdoor->heightMap.size() == map.outdoor->terrainSampleCount())
     {
         for (const Leaf &leaf : leaves)
         {

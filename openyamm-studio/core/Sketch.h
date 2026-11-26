@@ -1,5 +1,6 @@
 #pragma once
 
+#include "core/OutdoorGrid.h"
 #include "core/Project.h"
 
 #include <yaml-cpp/yaml.h>
@@ -13,8 +14,11 @@ namespace OpenYAMM::Studio
 // The outdoor L3 sketch (sketch.yml, schema/sketch.schema.json): the to-scale plan of an outdoor map on the
 // terrain's cells, [x, y] with x east and y south from the north-west corner.
 
-// Cells along each side of an outdoor map.
-constexpr double SketchMapCells = 128.0;
+// Cells along each side of an outdoor map (128 on a classic map, core/OutdoorGrid).
+inline double sketchMapCells()
+{
+    return static_cast<double>(outdoorNodeCount());
+}
 
 // How far a road's line may pass from the point of a junction its link names, in cells.
 constexpr double SketchJunctionTolerance = 1.0;

@@ -20,12 +20,12 @@ constexpr std::array<float, 3> FallbackWaterColor = {0.18f, 0.27f, 0.32f};
 OutdoorDistantSea measureOutdoorDistantSea(
     const OutdoorMapData &mapData, const std::vector<uint8_t> &landMask, const OutdoorTerrainTiles *pTerrainTiles)
 {
-    constexpr int CellsWide = OutdoorMapData::TerrainWidth - 1;
-    constexpr int CellsHigh = OutdoorMapData::TerrainHeight - 1;
+    const int cellsWide = mapData.terrainSide - 1;
+    const int cellsHigh = mapData.terrainSide - 1;
     OutdoorDistantSea sea = {};
 
-    if (mapData.noTerrain || landMask.size() != size_t(CellsWide) * size_t(CellsHigh)
-        || mapData.heightMap.size() < size_t(OutdoorMapData::TerrainWidth) * size_t(OutdoorMapData::TerrainHeight))
+    if (mapData.noTerrain || landMask.size() != size_t(cellsWide) * size_t(cellsHigh)
+        || mapData.heightMap.size() < size_t(mapData.terrainSide) * size_t(mapData.terrainSide))
     {
         return sea;
     }
@@ -40,12 +40,12 @@ OutdoorDistantSea measureOutdoorDistantSea(
     std::array<float, 3> colorSum = {};
     int coloredCells = 0;
 
-    for (int y = 0; y < CellsHigh; ++y)
+    for (int y = 0; y < cellsHigh; ++y)
     {
-        for (int x = 0; x < CellsWide; ++x)
+        for (int x = 0; x < cellsWide; ++x)
         {
             const std::array<bool, 4> onSide = {
-                x < BorderCells, x >= CellsWide - BorderCells, y >= CellsHigh - BorderCells, y < BorderCells};
+                x < BorderCells, x >= cellsWide - BorderCells, y >= cellsHigh - BorderCells, y < BorderCells};
 
             if (!onSide[0] && !onSide[1] && !onSide[2] && !onSide[3])
             {
@@ -53,7 +53,7 @@ OutdoorDistantSea measureOutdoorDistantSea(
             }
 
             const bool voidCell = !mapData.voidCells.empty()
-                && mapData.voidCells[size_t(y) * OutdoorMapData::TerrainWidth + size_t(x)] != 0;
+                && mapData.voidCells[size_t(y) * mapData.terrainSide + size_t(x)] != 0;
 
             for (size_t side = 0; side < onSide.size(); ++side)
             {
@@ -66,7 +66,7 @@ OutdoorDistantSea measureOutdoorDistantSea(
                 continue;
             }
 
-            const bool water = landMask[size_t(y) * CellsWide + size_t(x)] == 0;
+            const bool water = landMask[size_t(y) * cellsWide + size_t(x)] == 0;
 
             for (size_t side = 0; side < onSide.size(); ++side)
             {
@@ -80,7 +80,7 @@ OutdoorDistantSea measureOutdoorDistantSea(
             }
 
             ++waterCells;
-            const size_t sample = size_t(y) * OutdoorMapData::TerrainWidth + size_t(x);
+            const size_t sample = size_t(y) * mapData.terrainSide + size_t(x);
             heightSum += float(mapData.heightMap[sample]) * float(OutdoorMapData::TerrainHeightScale);
 
             if (pTerrainTiles != nullptr && sample < mapData.tileMap.size())

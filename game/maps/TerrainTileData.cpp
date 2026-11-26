@@ -321,25 +321,21 @@ bool applyTerrainTileDescriptorAttributes(
         return false;
     }
 
-    if (outdoorMapData.attributeMap.size()
-        != static_cast<size_t>(OutdoorMapData::TerrainWidth * OutdoorMapData::TerrainHeight))
+    if (outdoorMapData.attributeMap.size() != outdoorMapData.terrainSampleCount())
     {
-        outdoorMapData.attributeMap.assign(
-            static_cast<size_t>(OutdoorMapData::TerrainWidth * OutdoorMapData::TerrainHeight),
-            0);
+        outdoorMapData.attributeMap.assign(outdoorMapData.terrainSampleCount(), 0);
     }
 
-    if (outdoorMapData.tileMap.size()
-        < static_cast<size_t>(OutdoorMapData::TerrainWidth * OutdoorMapData::TerrainHeight))
+    if (outdoorMapData.tileMap.size() < outdoorMapData.terrainSampleCount())
     {
         return false;
     }
 
-    for (int gridY = 0; gridY < OutdoorMapData::TerrainHeight - 1; ++gridY)
+    for (int gridY = 0; gridY < outdoorMapData.terrainSide - 1; ++gridY)
     {
-        for (int gridX = 0; gridX < OutdoorMapData::TerrainWidth - 1; ++gridX)
+        for (int gridX = 0; gridX < outdoorMapData.terrainSide - 1; ++gridX)
         {
-            const size_t cellIndex = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + gridX);
+            const size_t cellIndex = static_cast<size_t>(gridY * outdoorMapData.terrainSide + gridX);
             const uint8_t tileId = outdoorMapData.tileMap[cellIndex];
             const TerrainTileDescriptor &descriptor = (*tileDescriptors)[tileId];
 

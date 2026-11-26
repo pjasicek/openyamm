@@ -74,6 +74,21 @@
       },
       "additionalProperties": false
     },
+    "terrain": {
+      "description": "Outdoor: the terrain grid. `side` is the height samples along each side: 128 a classic ODM (the default), any other even number from 32 to 256 an OpenYAMM ODM v2 map (game/outdoor/OutdoorMapData.h terrainSide; the sketch's cells then run 0 to side, the party walks the square grown with it: nodes 24 to 136 at 160).",
+      "type": "object",
+      "x-flow": true,
+      "properties": {
+        "side": {
+          "description": "Height samples along each side of the map, an even number (128 classic; 160 Hesper's Kreegfall).",
+          "type": "integer",
+          "minimum": 32,
+          "maximum": 256,
+          "x-unit": "cell"
+        }
+      },
+      "additionalProperties": false
+    },
     "extent": {
       "description": "How much room the map takes.",
       "type": "object",
@@ -781,7 +796,8 @@
       "Scale",
       [
         "units",
-        "extent"
+        "extent",
+        "terrain"
       ]
     ],
     [

@@ -2083,6 +2083,12 @@
           "x-unit": "texel",
           "x-geom": false
         },
+        "anchor": {
+          "description": "`world`: on every upright face it lies on the picture is laid from the map's origin instead of from the face's wall, panel or block: u runs along the face (to the right seen from its front, its direction taken on a 64th of a turn so that faces a degree apart run one picture) from where that line crosses x = 0, y = 0, and v down from height 0, `scale` applied, then `offset`. Faces of one plane with the same surface then continue one picture whatever piece they belong to: the steps' sides of a flight, a beam's raking stretches, a pier's stacked blocks, wall pieces split by an outline corner on a straight wall. A level face (a step's tread, a block's top) is laid as floors and ceilings are, from x = 0, y = 0; leaning faces and `fit` stay as they are. Default: each wall, panel and block lays its own.",
+          "enum": [
+            "world"
+          ]
+        },
         "uneven": {
           "description": "true: the picture is meant squashed or far from its own size where this surface lies (a stretched sign, a picture fitted to a face of another shape): the build does not warn of it (`texture.squashed` and the build's squash warning name this word). Default false.",
           "type": "boolean"

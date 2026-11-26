@@ -451,10 +451,10 @@ private:
     // Inside the map and on the grid: whole cells, or half cells where `half`.
     void checkCell(const Point2 &point, bool half, const std::string &path, const std::string &what)
     {
-        if (point[0] < 0.0 || point[1] < 0.0 || point[0] > SketchMapCells || point[1] > SketchMapCells)
+        if (point[0] < 0.0 || point[1] < 0.0 || point[0] > sketchMapCells() || point[1] > sketchMapCells())
         {
             add(path, "geometry", what + " has the point " + cellText(point) + " outside the map; cells run from 0 "
-                "to 128 on both axes");
+                "to " + std::to_string(outdoorNodeCount()) + " on both axes");
             return;
         }
 
@@ -520,12 +520,12 @@ private:
         if (playable.IsSequence() && playable.size() == 4 && numberOf(playable[0], values[0])
             && numberOf(playable[1], values[1]) && numberOf(playable[2], values[2]) && numberOf(playable[3], values[3]))
         {
-            if (values[2] <= 0.0 || values[3] <= 0.0 || values[0] + values[2] > SketchMapCells
-                || values[1] + values[3] > SketchMapCells)
+            if (values[2] <= 0.0 || values[3] <= 0.0 || values[0] + values[2] > sketchMapCells()
+                || values[1] + values[3] > sketchMapCells())
             {
                 add("frame.playable", "geometry", "the playable square reaches past the map: it is [x, y, width, "
-                    "depth] from its north-west corner, so x + width and y + depth may be at most 128 (give the "
-                    "size, not the far corner)");
+                    "depth] from its north-west corner, so x + width and y + depth may be at most "
+                    + std::to_string(outdoorNodeCount()) + " (give the size, not the far corner)");
             }
 
             for (const double value : values)
@@ -721,8 +721,8 @@ private:
                 const Point2 &point = line[end];
 
                 // An end at the terrain's edge is closed by the edge.
-                if (point[0] <= 1.0 || point[1] <= 1.0 || point[0] >= SketchMapCells - 1.0
-                    || point[1] >= SketchMapCells - 1.0)
+                if (point[0] <= 1.0 || point[1] <= 1.0 || point[0] >= sketchMapCells() - 1.0
+                    || point[1] >= sketchMapCells() - 1.0)
                 {
                     continue;
                 }
@@ -828,12 +828,12 @@ private:
             return;
         }
 
-        const int mapCells = static_cast<int>(SketchMapCells);
+        const int mapCells = static_cast<int>(sketchMapCells());
 
         if (mapCells % step != 0)
         {
-            warn("heights.grid.step", "heights", "the height grid's step must divide the map's 128 cells: use 4, 8, "
-                "16 or 32");
+            warn("heights.grid.step", "heights", "the height grid's step must divide the map's "
+                + std::to_string(mapCells) + " cells: use 4, 8, 16 or 32");
             return;
         }
 
@@ -849,8 +849,8 @@ private:
         if (wrongShape)
         {
             warn("heights.grid.rows", "heights", "a height grid of step " + std::to_string(step) + " has "
-                + std::to_string(expected) + " rows of " + std::to_string(expected) + " values (128 / step), rows "
-                "from north to south; add or remove values to fit");
+                + std::to_string(expected) + " rows of " + std::to_string(expected) + " values ("
+                + std::to_string(mapCells) + " / step), rows from north to south; add or remove values to fit");
         }
     }
 
@@ -1039,7 +1039,7 @@ private:
                 "half cells in plan.yml");
         }
 
-        if (rectangle[2] > SketchMapCells || rectangle[3] > SketchMapCells)
+        if (rectangle[2] > sketchMapCells() || rectangle[3] > sketchMapCells())
         {
             add(path + ".at", "geometry", "the plot of " + name + " reaches past the map's edge; move it");
         }
@@ -1350,6 +1350,24 @@ void validateSketch(const Project &project, std::vector<ProjectIssue> &issues)
     if (!project.has(SketchFile))
     {
         return;
+    }
+
+    const OutdoorGridScope gridScope(project);
+    const std::string side = textOf(childOf(project.document("project.yml"), "terrain"), "side", "");
+
+    if (!side.empty() && side != std::to_string(outdoorNodeCount()))
+    {
+        issues.push_back({"project.yml", "terrain.side", "the terrain's side is an even number of samples from 32 to "
+            "256 (128 a classic map, 160 a larger ODM v2 map), not " + side, "geometry"});
+    }
+
+    const std::string mapCells = textOf(project.document(SketchFile), "map_cells", "");
+
+    if (!mapCells.empty() && mapCells != std::to_string(outdoorNodeCount()))
+    {
+        issues.push_back({SketchFile, "map_cells", "the sketch's map_cells (" + mapCells + ") is not the map's side ("
+            + std::to_string(outdoorNodeCount()) + ", project.yml terrain.side): give the side once, in project.yml",
+            "geometry"});
     }
 
     SketchCheck(project, issues).run();

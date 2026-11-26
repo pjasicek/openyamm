@@ -5840,8 +5840,8 @@ bool GameDataLoader::loadSelectedMap(
 
             std::cout << "Outdoor terrain:\n";
             std::cout << "  version=" << outdoorMapData.version << '\n';
-            std::cout << "  terrain=" << OutdoorMapData::TerrainWidth
-                      << "x" << OutdoorMapData::TerrainHeight << '\n';
+            std::cout << "  terrain=" << outdoorMapData.terrainSide
+                      << "x" << outdoorMapData.terrainSide << '\n';
             std::cout << "  tile_size=" << OutdoorMapData::TerrainTileSize << '\n';
             std::cout << "  height_range_samples=" << outdoorMapData.minHeightSample
                       << ".." << outdoorMapData.maxHeightSample << '\n';

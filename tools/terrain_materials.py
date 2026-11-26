@@ -43,6 +43,7 @@ import csv
 import fnmatch
 import hashlib
 import json
+import math
 import subprocess
 import sys
 import tempfile
@@ -63,6 +64,8 @@ OUTPUT = {"desktop": ROOT / "assets_dev", "android": ROOT / "assets_cooked/andro
 CODEC = {"desktop": "bc7", "android": "etc2_rgba"}
 MAX_SIZE = {"desktop": 2048, "android": 1024}
 TILE_TABLES = {"mm6": "terrain_tile_data_3.txt", "mm7": "terrain_tile_data_2.txt", "mm8": "terrain_tile_data.txt"}
+# Terrain samples per side on a classic map; an ODM v2 map stores its own (util/map_export.py "terrain_side"), and the
+# weight, shore and density images cover its side x texels_per_cell texels.
 MAP_CELLS = 128
 DIRECT_TILE_BASES = [0, 450, 630]
 LIQUIDS = ROOT / "assets_dev/engine/liquids/liquids.yml"
@@ -371,11 +374,13 @@ def map_terrain(world, map_name):
 
 
 def map_tiles(world, map_name):
+    """The texture name per cell, side x side rows (the last row and column empty)."""
     tile_map, tiles = map_terrain(world, map_name)
-    names = [["" for _ in range(MAP_CELLS)] for _ in range(MAP_CELLS)]
-    for gy in range(MAP_CELLS - 1):
-        for gx in range(MAP_CELLS - 1):
-            tile = tiles[tile_map[gy * MAP_CELLS + gx]]
+    cells = math.isqrt(len(tile_map))
+    names = [["" for _ in range(cells)] for _ in range(cells)]
+    for gy in range(cells - 1):
+        for gx in range(cells - 1):
+            tile = tiles[tile_map[gy * cells + gx]]
             if tile is not None:
                 names[gy][gx] = tile["texture_name"].lower()
     return names
@@ -553,11 +558,12 @@ def tile_coverage(world, name, rule, slot_of, lab, texels):
 
 def water_mask(world, names, rules, texels):
     """Water share of every weight texel: open water tiles, and shore tiles where their alpha shows the water."""
-    size = MAP_CELLS * texels
+    cells = len(names)
+    size = cells * texels
     mask = np.zeros((size, size))
     cache = {}
-    for gy in range(MAP_CELLS):
-        for gx in range(MAP_CELLS):
+    for gy in range(cells):
+        for gx in range(cells):
             name = names[gy][gx]
             if not name:
                 continue
@@ -585,7 +591,9 @@ def water_floors(world, map_name, liquids, mask, texels):
     the terrain under them."""
     floors = np.zeros(mask.shape, dtype=bool)
     native = parse_odm_file(ASSETS / "worlds" / world / "maps" / map_name)["payload"]
-    heights = np.array(native["height_map"], dtype=np.float64).reshape(MAP_CELLS, MAP_CELLS) * 32.0
+    side = native.get("terrain_side", MAP_CELLS)
+    heights = np.array(native["height_map"], dtype=np.float64).reshape(side, side) * 32.0
+    half = side * 256.0
     units = 512.0 / texels
     for bmodel in native["bmodels"]:
         for face in bmodel["faces"]:
@@ -601,13 +609,13 @@ def water_floors(world, map_name, liquids, mask, texels):
                 continue
             xs = np.array([point["x"] for point in points], dtype=np.float64)
             ys = np.array([point["y"] for point in points], dtype=np.float64)
-            first_x = max(int((xs.min() + 32768.0) // units), 0)
-            last_x = min(int((xs.max() + 32768.0) // units), mask.shape[1] - 1)
-            first_y = max(int((32768.0 - ys.max()) // units), 0)
-            last_y = min(int((32768.0 - ys.min()) // units), mask.shape[0] - 1)
+            first_x = max(int((xs.min() + half) // units), 0)
+            last_x = min(int((xs.max() + half) // units), mask.shape[1] - 1)
+            first_y = max(int((half - ys.max()) // units), 0)
+            last_y = min(int((half - ys.min()) // units), mask.shape[0] - 1)
             # Texel centres inside the face (even-odd rule).
-            px, py = np.meshgrid((np.arange(first_x, last_x + 1) + 0.5) * units - 32768.0,
-                                 32768.0 - (np.arange(first_y, last_y + 1) + 0.5) * units)
+            px, py = np.meshgrid((np.arange(first_x, last_x + 1) + 0.5) * units - half,
+                                 half - (np.arange(first_y, last_y + 1) + 0.5) * units)
             inside = np.zeros(px.shape, dtype=bool)
             for a in range(len(points)):
                 b = (a + 1) % len(points)
@@ -723,10 +731,11 @@ def weights(world, map_name, texels, preview):
                       if entry.get("variant") in layers}
     fallback = slot_of.get("dirt", 0)
     cache = {}
-    size = MAP_CELLS * texels
+    cells = len(names)
+    size = cells * texels
     field = np.zeros((size, size, len(weighted)))
-    for gy in range(MAP_CELLS):
-        for gx in range(MAP_CELLS):
+    for gy in range(cells):
+        for gx in range(cells):
             name = names[gy][gx]
             coverage = None
             if name:
@@ -1004,7 +1013,7 @@ def check(world, maps, max_run):
 
 
 def main():
-    global ASSETS
+    global ASSETS, LIBRARY, LIQUIDS
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     commands = parser.add_subparsers(dest="command", required=True)
     prepare_parser = commands.add_parser("prepare")
@@ -1038,6 +1047,8 @@ def main():
     args = parser.parse_args()
     if getattr(args, "assets", None) is not None:
         ASSETS = args.assets.resolve()
+        LIBRARY = ASSETS / "engine/terrain_materials/library.yml"
+        LIQUIDS = ASSETS / "engine/liquids/liquids.yml"
     if args.command == "prepare":
         prepare(args.ids)
     elif args.command == "cook":

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "core/OutdoorGrid.h"
 #include "core/Polygon.h"
 #include "core/Project.h"
 
@@ -17,8 +18,11 @@ struct LoweredOutdoorMap;
 // The ground of a classic outdoor map: which tile lies on each of its 128 x 128 cells. The rules are read off the
 // shipped maps and told at the top of OutdoorGround.cpp.
 
-// Nodes along each side of the ground: the corners of the 128 x 128 cells.
-constexpr int OutdoorGroundNodes = 129;
+// Nodes along each side of the ground: the corners of the map's cells (129 on a classic map, core/OutdoorGrid).
+inline int outdoorGroundNodes()
+{
+    return outdoorNodeCount() + 1;
+}
 
 // The local tile numbers of an ODM: plain dirt and its variants, then four sets of 36 tiles.
 constexpr uint8_t OutdoorDirtTile = 1;

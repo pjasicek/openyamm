@@ -203,7 +203,7 @@ TRIANGLE_SAMPLES = ((1 / 3, 1 / 3, 1 / 3), (2 / 3, 1 / 6, 1 / 6), (1 / 6, 2 / 3,
 def terrain_triangles_on_floors(heights, floors, height_scale=32):
     """The flat native terrain triangles that lie in the plane of a horizontal building face and under it.
 
-    ``heights`` is the 128 x 128 native height map; ``floors`` lists (z, [(x, y), ...]) horizontal faces. A terrain
+    ``heights`` is the native height map (side x side: 128 x 128, or an ODM v2 map's side); ``floors`` lists (z, [(x, y), ...]) horizontal faces. A terrain
     triangle whose three corners have one height z, with a sample point inside a floor at that z, is returned as
     (gx, gy, triangle) with ``triangle`` indexing TERRAIN_CELL_TRIANGLES. Such a triangle coincides with the floor:
     Cycles' shadow and bounce rays from the floor hit it at zero distance, so the floor bakes black where they
@@ -219,17 +219,19 @@ def terrain_triangles_on_floors(heights, floors, height_scale=32):
         inner = [(cx, cy)] + [(x + (cx - x) * 0.01, y + (cy - y) * 0.01) for x, y in polygon]
         by_height.setdefault(round(z), []).append((min(xs), min(ys), max(xs), max(ys), polygon, inner))
     found = []
-    for gy in range(127):
-        for gx in range(127):
+    side = math.isqrt(len(heights))
+    half = side // 2
+    for gy in range(side - 1):
+        for gx in range(side - 1):
             corners = [(gx, gy), (gx, gy + 1), (gx + 1, gy), (gx + 1, gy + 1)]
             for triangle, indices in enumerate(TERRAIN_CELL_TRIANGLES):
-                levels = {heights[corners[i][1] * 128 + corners[i][0]] for i in indices}
+                levels = {heights[corners[i][1] * side + corners[i][0]] for i in indices}
                 if len(levels) != 1:
                     continue
                 candidates = by_height.get(levels.pop() * height_scale)
                 if not candidates:
                     continue
-                points = [((corners[i][0] - 64) * 512, (64 - corners[i][1]) * 512) for i in indices]
+                points = [((corners[i][0] - half) * 512, (half - corners[i][1]) * 512) for i in indices]
                 samples = [(sum(w * p[0] for w, p in zip(weights, points)),
                             sum(w * p[1] for w, p in zip(weights, points))) for weights in TRIANGLE_SAMPLES]
                 if any(x0 <= x <= x1 and y0 <= y <= y1 and point_in_polygon(polygon, x, y)

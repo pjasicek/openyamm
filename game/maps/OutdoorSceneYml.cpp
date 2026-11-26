@@ -563,7 +563,8 @@ bool parseOutdoorTerrainFootstepSoundOverride(
         && readScalarNode(overrideNode, "run_sound_id", overrideEntry.runSoundId, errorMessage);
 }
 
-// terrain.void: a sequence of [x0, y0, x1, y1] cell rectangles, inclusive, inside the 128 x 128 tile grid.
+// terrain.void: a sequence of [x0, y0, x1, y1] cell rectangles, inclusive, inside the tile grid (128 x 128 on a
+// classic map; the map's side is checked when the scene is applied).
 bool parseOutdoorTerrainVoid(const YAML::Node &voidNode, std::vector<std::array<int, 4>> &rects,
     std::string &errorMessage)
 {
@@ -599,10 +600,10 @@ bool parseOutdoorTerrainVoid(const YAML::Node &voidNode, std::vector<std::array<
             return false;
         }
 
-        if (rect[0] < 0 || rect[1] < 0 || rect[2] >= OutdoorMapData::TerrainWidth
-            || rect[3] >= OutdoorMapData::TerrainHeight || rect[0] > rect[2] || rect[1] > rect[3])
+        if (rect[0] < 0 || rect[1] < 0 || rect[2] >= OutdoorMapData::MaxTerrainSide
+            || rect[3] >= OutdoorMapData::MaxTerrainSide || rect[0] > rect[2] || rect[1] > rect[3])
         {
-            errorMessage = "terrain.void rectangle is outside 0-127 or reversed";
+            errorMessage = "terrain.void rectangle is outside the grid or reversed";
             return false;
         }
 
@@ -3450,22 +3451,26 @@ bool buildOutdoorMapStateFromScene(
 
     outdoorMapData.destructibleReceivers = sceneData.destructibleReceivers;
     outdoorMapData.triggerVolumes = sceneData.triggerVolumes;
-    outdoorMapData.attributeMap.assign(
-        OutdoorMapData::TerrainWidth * OutdoorMapData::TerrainHeight,
-        0);
+    outdoorMapData.attributeMap.assign(outdoorMapData.terrainSampleCount(), 0);
     outdoorMapData.voidCells.clear();
 
     if (!sceneData.terrainVoidRects.empty())
     {
-        outdoorMapData.voidCells.assign(OutdoorMapData::TerrainWidth * OutdoorMapData::TerrainHeight, 0);
+        outdoorMapData.voidCells.assign(outdoorMapData.terrainSampleCount(), 0);
 
         for (const std::array<int, 4> &rect : sceneData.terrainVoidRects)
         {
+            if (rect[2] >= outdoorMapData.terrainSide || rect[3] >= outdoorMapData.terrainSide)
+            {
+                errorMessage = "terrain.void rectangle is outside 0-" + std::to_string(outdoorMapData.terrainSide - 1);
+                return false;
+            }
+
             for (int y = rect[1]; y <= rect[3]; ++y)
             {
                 for (int x = rect[0]; x <= rect[2]; ++x)
                 {
-                    outdoorMapData.voidCells[size_t(y) * OutdoorMapData::TerrainWidth + size_t(x)] = 1;
+                    outdoorMapData.voidCells[size_t(y) * size_t(outdoorMapData.terrainSide) + size_t(x)] = 1;
                 }
             }
         }
@@ -3498,15 +3503,15 @@ bool buildOutdoorMapStateFromScene(
     {
         if (overrideEntry.x < 0
             || overrideEntry.y < 0
-            || overrideEntry.x >= OutdoorMapData::TerrainWidth
-            || overrideEntry.y >= OutdoorMapData::TerrainHeight)
+            || overrideEntry.x >= outdoorMapData.terrainSide
+            || overrideEntry.y >= outdoorMapData.terrainSide)
         {
             errorMessage = "scene terrain override is out of bounds";
             return false;
         }
 
-        const size_t cellIndex =
-            static_cast<size_t>(overrideEntry.y) * OutdoorMapData::TerrainWidth + static_cast<size_t>(overrideEntry.x);
+        const size_t cellIndex = static_cast<size_t>(overrideEntry.y) * size_t(outdoorMapData.terrainSide)
+            + static_cast<size_t>(overrideEntry.x);
         outdoorMapData.attributeMap[cellIndex] = overrideEntry.legacyAttributes;
     }
 

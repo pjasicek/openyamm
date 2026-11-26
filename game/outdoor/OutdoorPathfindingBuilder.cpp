@@ -12,34 +12,34 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr size_t OutdoorTerrainCellWidth = OutdoorMapData::TerrainWidth - 1;
-constexpr size_t OutdoorTerrainCellHeight = OutdoorMapData::TerrainHeight - 1;
-constexpr size_t OutdoorTerrainSampleCount =
-    static_cast<size_t>(OutdoorMapData::TerrainWidth) * static_cast<size_t>(OutdoorMapData::TerrainHeight);
 constexpr size_t OutdoorBModelSourceFaceStride = 4096;
 constexpr size_t OutdoorBModelSourceMaxBModelIndex =
     static_cast<size_t>((std::numeric_limits<int32_t>::max() - 1) / OutdoorBModelSourceFaceStride);
 
 float terrainHeightAtSample(const OutdoorMapData &outdoorMapData, size_t gridX, size_t gridY)
 {
-    const size_t sampleIndex = gridY * static_cast<size_t>(OutdoorMapData::TerrainWidth) + gridX;
+    const size_t sampleIndex = gridY * static_cast<size_t>(outdoorMapData.terrainSide) + gridX;
     return static_cast<float>(outdoorMapData.heightMap[sampleIndex])
         * static_cast<float>(OutdoorMapData::TerrainHeightScale);
 }
 
 bool outdoorTerrainDataIsUsable(const OutdoorMapData &outdoorMapData)
 {
-    return !outdoorMapData.noTerrain && outdoorMapData.heightMap.size() >= OutdoorTerrainSampleCount;
+    return !outdoorMapData.noTerrain && outdoorMapData.heightMap.size() >= outdoorMapData.terrainSampleCount();
 }
 
-bool outdoorLandMaskCellIsWater(const std::vector<uint8_t> *pOutdoorLandMask, size_t gridX, size_t gridY)
+bool outdoorLandMaskCellIsWater(
+    const OutdoorMapData &outdoorMapData,
+    const std::vector<uint8_t> *pOutdoorLandMask,
+    size_t gridX,
+    size_t gridY)
 {
     if (pOutdoorLandMask == nullptr || pOutdoorLandMask->empty())
     {
         return false;
     }
 
-    const size_t tileIndex = gridY * OutdoorTerrainCellWidth + gridX;
+    const size_t tileIndex = gridY * size_t(outdoorMapData.terrainSide - 1) + gridX;
 
     if (tileIndex >= pOutdoorLandMask->size())
     {
@@ -56,13 +56,13 @@ bool terrainCellIsWater(
     size_t gridY)
 {
     const float centerX =
-        (outdoorGridCornerWorldX(static_cast<int>(gridX))
-            + outdoorGridCornerWorldX(static_cast<int>(gridX + 1))) * 0.5f;
+        (outdoorGridCornerWorldX(outdoorMapData, static_cast<int>(gridX))
+            + outdoorGridCornerWorldX(outdoorMapData, static_cast<int>(gridX + 1))) * 0.5f;
     const float centerY =
-        (outdoorGridCornerWorldY(static_cast<int>(gridY))
-            + outdoorGridCornerWorldY(static_cast<int>(gridY + 1))) * 0.5f;
+        (outdoorGridCornerWorldY(outdoorMapData, static_cast<int>(gridY))
+            + outdoorGridCornerWorldY(outdoorMapData, static_cast<int>(gridY + 1))) * 0.5f;
     return isOutdoorTerrainWater(outdoorMapData, centerX, centerY)
-        || outdoorLandMaskCellIsWater(pOutdoorLandMask, gridX, gridY);
+        || outdoorLandMaskCellIsWater(outdoorMapData, pOutdoorLandMask, gridX, gridY);
 }
 
 PathFacet buildTerrainTriangle(const PathPoint &a, const PathPoint &b, const PathPoint &c)
@@ -220,11 +220,12 @@ void appendTerrainFacets(
         return;
     }
 
-    pathFacets.reserve(pathFacets.size() + OutdoorTerrainCellWidth * OutdoorTerrainCellHeight * 2);
+    const size_t terrainCells = size_t(outdoorMapData.terrainSide - 1);
+    pathFacets.reserve(pathFacets.size() + terrainCells * terrainCells * 2);
 
-    for (size_t gridY = 0; gridY < OutdoorTerrainCellHeight; ++gridY)
+    for (size_t gridY = 0; gridY < terrainCells; ++gridY)
     {
-        for (size_t gridX = 0; gridX < OutdoorTerrainCellWidth; ++gridX)
+        for (size_t gridX = 0; gridX < terrainCells; ++gridX)
         {
             if (options.terrainMode == OutdoorPathTerrainMode::LandOnly
                 && terrainCellIsWater(outdoorMapData, pOutdoorLandMask, gridX, gridY))
@@ -233,10 +234,10 @@ void appendTerrainFacets(
                 continue;
             }
 
-            const float x0 = outdoorGridCornerWorldX(static_cast<int>(gridX));
-            const float x1 = outdoorGridCornerWorldX(static_cast<int>(gridX + 1));
-            const float y0 = outdoorGridCornerWorldY(static_cast<int>(gridY));
-            const float y1 = outdoorGridCornerWorldY(static_cast<int>(gridY + 1));
+            const float x0 = outdoorGridCornerWorldX(outdoorMapData, static_cast<int>(gridX));
+            const float x1 = outdoorGridCornerWorldX(outdoorMapData, static_cast<int>(gridX + 1));
+            const float y0 = outdoorGridCornerWorldY(outdoorMapData, static_cast<int>(gridY));
+            const float y1 = outdoorGridCornerWorldY(outdoorMapData, static_cast<int>(gridY + 1));
             const float z00 = terrainHeightAtSample(outdoorMapData, gridX, gridY);
             const float z10 = terrainHeightAtSample(outdoorMapData, gridX + 1, gridY);
             const float z01 = terrainHeightAtSample(outdoorMapData, gridX, gridY + 1);

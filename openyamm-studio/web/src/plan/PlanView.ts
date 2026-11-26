@@ -13,6 +13,7 @@ import {
 import type { Bounds, ViewTransform } from './geometry.ts';
 import type { FileTrees, JsonObject } from '../../../schema/rpc/generated/rpc.ts';
 import type { PlanTool } from '../edit/tools.ts';
+import { HALF } from '../edit/cells.ts';
 import { blocksOf, roomShapes } from '../edit/tools.ts';
 import { placedAt, placedThings } from '../edit/things.ts';
 import { drawMark, drawWiring } from '../edit/placing.ts';
@@ -638,8 +639,8 @@ export class PlanView
         }
         if (!layout.land && this.source?.outdoor)
         {
-            extend(bounds, [-32768, -32768]);
-            extend(bounds, [32768, 32768]);
+            extend(bounds, [-HALF, -HALF]);
+            extend(bounds, [HALF, HALF]);
             return bounds;
         }
         if (layout.land)

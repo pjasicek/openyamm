@@ -535,8 +535,8 @@ ViewMesh outdoorViewMesh(const OutdoorView &view, const LiquidTextures &liquids)
 {
     MeshBuilder builder;
     const Game::OutdoorMapData &map = view.map;
-    const int width = Game::OutdoorMapData::TerrainWidth;
-    const int height = Game::OutdoorMapData::TerrainHeight;
+    const int width = map.terrainSide;
+    const int height = map.terrainSide;
     const double tile = Game::OutdoorMapData::TerrainTileSize;
 
     if (map.heightMap.size() >= static_cast<size_t>(width * height)
@@ -552,7 +552,7 @@ ViewMesh outdoorViewMesh(const OutdoorView &view, const LiquidTextures &liquids)
 
         const auto corner = [&map, width, tile](int gridX, int gridY)
         {
-            return std::array<double, 3>{(gridX - 64) * tile, (64 - gridY) * tile,
+            return std::array<double, 3>{(gridX - width / 2) * tile, (width / 2 - gridY) * tile,
                 static_cast<double>(map.heightMap[static_cast<size_t>(gridY * width + gridX)])
                     * Game::OutdoorMapData::TerrainHeightScale};
         };
@@ -984,9 +984,9 @@ void writeIndoorLayout(JsonWriter &writer, const LoweredIndoorMap &lowered)
 void writeOutdoorLayout(JsonWriter &writer, const OutdoorView &view)
 {
     const Game::OutdoorMapData &map = view.map;
-    const int width = Game::OutdoorMapData::TerrainWidth;
-    const int height = Game::OutdoorMapData::TerrainHeight;
-    const int64_t half = static_cast<int64_t>(64) * Game::OutdoorMapData::TerrainTileSize;
+    const int width = map.terrainSide;
+    const int height = map.terrainSide;
+    const int64_t half = static_cast<int64_t>(map.terrainSide / 2) * Game::OutdoorMapData::TerrainTileSize;
     int64_t lowest = 0;
     int64_t highest = 0;
 

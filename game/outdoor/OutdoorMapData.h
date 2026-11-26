@@ -249,10 +249,46 @@ struct OutdoorMm9NpcGreeting
 
 struct OutdoorMapData
 {
+    // The classic grid side (MM6-MM8, MM9, Xeen): every map without the ODM v2 tag. A map's own side is terrainSide.
     static constexpr int TerrainWidth = 128;
     static constexpr int TerrainHeight = 128;
     static constexpr int TerrainTileSize = 512;
     static constexpr int TerrainHeightScale = 32;
+    // ODM v2 (opt-in, "OpenYAMM ODM v2" at the version field): the v8 layout with its own square side.
+    static constexpr int MinTerrainSide = 32;
+    static constexpr int MaxTerrainSide = 256;
+    // The journal reveal mask's side on a classic map; it keeps its cell size on larger maps.
+    static constexpr int ClassicJournalRevealSide = 88;
+
+    // Height samples per side (side x side samples, side - 1 cells); 128 on every classic map.
+    int terrainSide = TerrainWidth;
+
+    size_t terrainSampleCount() const
+    {
+        return size_t(terrainSide) * size_t(terrainSide);
+    }
+
+    int terrainHalfSide() const
+    {
+        return terrainSide / 2;
+    }
+
+    // The world half extent of the terrain frame: 32768 on a classic map.
+    float terrainHalfExtent() const
+    {
+        return float(terrainHalfSide() * TerrainTileSize);
+    }
+
+    bool isOdmV2() const
+    {
+        return terrainSide != TerrainWidth;
+    }
+
+    // The journal map reveal mask's cells per side: 88 on a classic map, as many cells of the same size on others.
+    int journalRevealSide() const
+    {
+        return terrainSide * ClassicJournalRevealSide / TerrainWidth;
+    }
 
     int version = 0;
     std::string worldId;
@@ -286,7 +322,7 @@ struct OutdoorMapData
     std::vector<uint32_t> decorationMap;
     std::vector<OutdoorSpawn> spawns;
     std::vector<OutdoorTerrainFootstepSoundOverride> terrainFootstepSoundOverrides;
-    // Void cells (the scene's terrain.void): empty, or TerrainWidth x TerrainHeight with 1 where the world ends.
+    // Void cells (the scene's terrain.void): empty, or terrainSide x terrainSide with 1 where the world ends.
     std::vector<uint8_t> voidCells;
     std::vector<OutdoorBModelMechanism> mechanisms;
     std::vector<OutdoorDestructible> destructibles;

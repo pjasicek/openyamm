@@ -1,0 +1,10 @@
+format: 0
+pitch: "A small example of a Blender model as outdoor BModels (sketch.yml structures, kind: model, from: {glb}): box_arch.glb, made by tests/fixtures/glb/make_box_arch.py, its gate and box placed on a level field."
+entrances:
+  - {id: entrance:start, space: zone:field, kind: arrival, facing: n}
+height_bands:
+  - {id: band:field, range: [576, 704]}
+spaces:
+  - id: zone:field
+    kind: zone
+sketch: {file: sketch.yml, grid: 512}

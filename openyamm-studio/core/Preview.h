@@ -51,7 +51,8 @@ struct SketchPreviewOptions
     int size = 1568;
     bool labels = true;
     // The part of the map to draw, [x, y, width, depth] in cells: the whole map, or a close view of a town.
-    std::array<double, 4> region = {0.0, 0.0, 128.0, 128.0};
+    // Width or depth 0: the whole map (128 cells each way on a classic map, core/OutdoorGrid).
+    std::array<double, 4> region = {0.0, 0.0, 0.0, 0.0};
 };
 
 // The plan picture of an outdoor project's sketch.yml on the 128 x 128 cell map, north up (the sketch's y runs

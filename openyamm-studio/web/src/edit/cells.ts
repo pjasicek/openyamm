@@ -1,14 +1,35 @@
 // Cells and map units (S5_BROWSER_EDITOR.md 3.18, the Outdoor table): a sketch's points, lines and polygons are in
 // cells, [x, y] with x east and y south from the map's north-west corner, 512 map units a cell; the plan and the 3D
 // view work in map units with the origin in the middle of the map and y north (as the built map and view.layout
-// have them). Nodes are the land's height points at the cells' corners, 0 to 127 each way.
+// have them). Nodes are the land's height points at the cells' corners, 0 to 127 each way on a classic map.
+//
+// The map's side is the project's (project.yml terrain.side: 128 a classic ODM, 160 an ODM v2 map; core/OutdoorGrid).
+// MAP_CELLS, HALF and NODES are live bindings: setMapSide changes them for every module that imports them when a
+// project opens.
 import type { Point } from './ops.ts';
 
 export const CELL = 512;
-export const MAP_CELLS = 128;
-export const HALF = (MAP_CELLS / 2) * CELL;
+export const CLASSIC_SIDE = 128;
+export let MAP_CELLS = CLASSIC_SIDE;
+export let HALF = (MAP_CELLS / 2) * CELL;
 // The land's nodes along a side (view.layout's land.size).
-export const NODES = 128;
+export let NODES = CLASSIC_SIDE;
+
+// A project's side: project.yml terrain.side when it is an even number from 32 to 256, else the classic 128.
+export function projectSide(card: unknown): number
+{
+    const terrain = (card as { terrain?: { side?: unknown } } | undefined)?.terrain;
+    const side = Number(terrain?.side);
+    return Number.isInteger(side) && side >= 32 && side <= 256 && side % 2 === 0 ? side : CLASSIC_SIDE;
+}
+
+// Sets the side of the map being edited.
+export function setMapSide(side: number): void
+{
+    MAP_CELLS = side;
+    HALF = (side / 2) * CELL;
+    NODES = side;
+}
 
 // A sketch point (cells) to map units.
 export function cellToMap(cell: readonly number[]): Point

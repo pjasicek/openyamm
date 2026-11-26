@@ -1863,6 +1863,11 @@
               "mover"
             ]
           },
+          "decoration": {
+            "description": "A decoration from this world's decoration table as the clickable chest body. Its binding supplies the shape, collision and any open/close clips. Place a modeled chest on a stationary floor; use this instead of kind, lid, surface, end_surface, top_surface, size or rides. Its chest id, wiring, trap and treasure work as for any chest.",
+            "type": "string",
+            "minLength": 1
+          },
           "kind": {
             "description": "The shipped chests' families of textures, laid as the originals are (measured on 2026-11-13 in Gharik's Forge and Castle Darkmoor, the Temple of the Moon, Celeste and the Tularean caves, the Abandoned Temple and MM8's caves): the two long sides each a left end 16 wide, a middle (repeated every 64 on a wider chest) and a right end 16 wide, as seen from in front of that side; the top the same across its width; the two short ends one picture. `ch1` to `ch5` are MM6's (a box 96 by 64 and 64 high with a flat lid: ch3frLE, ch3frntB, ch3frRE on the sides, ch3topLE, ch3topB, ch3topRE on the top, ch3side on the ends). `7gt002` (MM7), `gt002` (MM8) and `ch001` to `ch006` have a lid 16 high whose front and back slope up to a top 32 deep (a box 96 by 64 and 80 high; the ends are the first and last 16 columns of the b texture, ch00N one letter on). A kind gives the chest its size unless `size` says otherwise. Default: without a `surface` the world's plain chest (mm6 ch1, mm7 7gt002, mm8 gt002); with a `surface` none, that surface over every side as before (the build warns when it is a kind's middle, ch3frntB). `surface`, `end_surface` and `top_surface` still take the place of the kind's long sides, ends and top. The front (the side the lid slopes down to first) is the long side counter-clockwise from `facing` (facing n: the front looks west). Example: {id: chest:c1, room: room:vault, at: [100, 200], facing: e, kind: ch3}.",
             "type": "string"

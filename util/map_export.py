@@ -33,6 +33,12 @@ TERRAIN_SECTION_OFFSET_V8 = 0xB4
 TERRAIN_MAP_SIZE = 0x4000
 CMAP1_SIZE = 0x20000
 CMAP2_SIZE = 0x10000
+# ODM v2 (OpenYAMM, opt-in): the v8 layout with this tag in the version field and a u16 terrain side at 0x50; every
+# per-sample section is side x side (TERRAIN_MAP_SIZE, CMAP1_SIZE and CMAP2_SIZE are the classic 128 sizes).
+CLASSIC_TERRAIN_SIDE = 128
+TERRAIN_SIDE_OFFSET = 0x50
+MIN_TERRAIN_SIDE = 32
+MAX_TERRAIN_SIDE = 256
 BMODEL_HEADER_SIZE = 0xBC
 BMODEL_VERTEX_SIZE = 12
 BMODEL_FACE_SIZE = 0x134
@@ -76,6 +82,7 @@ TICKS_PER_REALTIME_SECOND = 128
 
 VERSION6_TAG = b"MM6 Outdoor v1.11"
 VERSION7_TAG = b"MM6 Outdoor v7.00"
+VERSION_V2_TAG = b"OpenYAMM ODM v2"
 
 
 class ByteReader:
@@ -168,9 +175,19 @@ def detect_outdoor_odm_version(reader: ByteReader) -> int | None:
         return 6
     if version_field.startswith(VERSION7_TAG):
         return 7
-    if version_field == b"\0" * VERSION_FIELD_SIZE:
+    if version_field == b"\0" * VERSION_FIELD_SIZE or version_field == VERSION_V2_TAG + b"\0":
         return 8
     return None
+
+
+def detect_outdoor_terrain_side(reader: ByteReader) -> int:
+    """The terrain's samples per side: 128 on a classic map, the stored side on an ODM v2 map."""
+    if reader.bytes(VERSION_OFFSET, VERSION_FIELD_SIZE) != VERSION_V2_TAG + b"\0":
+        return CLASSIC_TERRAIN_SIDE
+    side = reader.u16(TERRAIN_SIDE_OFFSET)
+    if side < MIN_TERRAIN_SIDE or side > MAX_TERRAIN_SIDE or side % 2 != 0:
+        raise ValueError(f"unsupported ODM v2 terrain side {side}")
+    return side
 
 
 def read_texture_name(reader: ByteReader, offset: int) -> str:
@@ -261,8 +278,11 @@ def parse_odm_file(input_path: Path) -> dict:
     if version is None:
         raise ValueError("unsupported outdoor map version")
 
+    terrain_side = detect_outdoor_terrain_side(reader)
+    terrain_map_size = terrain_side * terrain_side
     payload: dict = {
         "version": version,
+        "terrain_side": terrain_side,
         "name": reader.fixed_string(0x00, 32),
         "file_name": reader.fixed_string(0x20, 32),
         "description": reader.fixed_string(0x40, 32),
@@ -278,22 +298,22 @@ def parse_odm_file(input_path: Path) -> dict:
     payload["tile_set_lookup_indices"] = tile_set_lookup_indices
 
     cursor = TERRAIN_SECTION_OFFSET_V8 if version == 8 else TERRAIN_SECTION_OFFSET
-    payload["height_map"] = list(reader.bytes(cursor, TERRAIN_MAP_SIZE))
-    cursor += TERRAIN_MAP_SIZE
-    payload["tile_map"] = list(reader.bytes(cursor, TERRAIN_MAP_SIZE))
-    cursor += TERRAIN_MAP_SIZE
-    payload["attribute_map"] = list(reader.bytes(cursor, TERRAIN_MAP_SIZE))
-    cursor += TERRAIN_MAP_SIZE
+    payload["height_map"] = list(reader.bytes(cursor, terrain_map_size))
+    cursor += terrain_map_size
+    payload["tile_map"] = list(reader.bytes(cursor, terrain_map_size))
+    cursor += terrain_map_size
+    payload["attribute_map"] = list(reader.bytes(cursor, terrain_map_size))
+    cursor += terrain_map_size
 
     terrain_normal_count = 0
     if version > 6:
         terrain_normal_count = reader.i32(cursor)
         cursor += 4
         payload["terrain_normal_count"] = terrain_normal_count
-        payload["some_other_map"] = reader.u32_array(cursor, CMAP1_SIZE // 4)
-        cursor += CMAP1_SIZE
-        payload["normal_map"] = reader.u16_array(cursor, CMAP2_SIZE // 2)
-        cursor += CMAP2_SIZE
+        payload["some_other_map"] = reader.u32_array(cursor, terrain_map_size * 2)
+        cursor += terrain_map_size * 8
+        payload["normal_map"] = reader.u16_array(cursor, terrain_map_size * 2)
+        cursor += terrain_map_size * 4
         normals = []
         for normal_index in range(terrain_normal_count * 3):
             normals.append(reader.f32(cursor + normal_index * 4))
@@ -474,8 +494,8 @@ def parse_odm_file(input_path: Path) -> dict:
     payload["id_list_count"] = id_list_count
     payload["decoration_pid_list"] = reader.u16_array(cursor, id_list_count)
     cursor += id_list_count * 2
-    payload["decoration_map"] = reader.u32_array(cursor, TERRAIN_MAP_SIZE)
-    cursor += TERRAIN_MAP_SIZE * 4
+    payload["decoration_map"] = reader.u32_array(cursor, terrain_map_size)
+    cursor += terrain_map_size * 4
 
     spawn_count = reader.i32(cursor)
     cursor += 4

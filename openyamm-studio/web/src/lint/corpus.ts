@@ -37,7 +37,7 @@ const whole = (v: number) => Number.isInteger(v);
 // What a number of each unit can be. Map units: the game's coordinates are 16-bit, outdoors and in.
 export const RANGES: Record<string, Range> = {
     map: { test: (v) => Math.abs(v) <= 32768, says: 'within ±32768 map units' },
-    cell: { test: (v) => v >= 0 && v <= 128, says: '0 to 128 terrain cells' },
+    cell: { test: (v) => v >= 0 && v <= 256, says: '0 to 256 terrain cells (the map side: 128 classic, project.yml terrain.side)' },
     deg: { test: (v) => v >= -360 && v <= 360, says: '-360 to 360 degrees' },
     ratio: { test: (v) => v >= 0 && v <= 1, says: 'a share, 0 to 1' },
     count: { test: (v) => whole(v) && v >= 0, says: 'a whole number, 0 or more' },

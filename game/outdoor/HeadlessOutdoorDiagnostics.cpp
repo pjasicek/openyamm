@@ -1010,6 +1010,7 @@ struct SyntheticOutdoorWaterBoundaryScenario
 };
 
 bool isOutdoorLandMaskWaterForDiagnostics(
+    const OutdoorMapData &outdoorMapData,
     const std::optional<std::vector<uint8_t>> &outdoorLandMask,
     float x,
     float y)
@@ -1019,11 +1020,11 @@ bool isOutdoorLandMaskWaterForDiagnostics(
         return false;
     }
 
-    const float gridX = outdoorWorldToGridXFloat(x);
-    const float gridY = outdoorWorldToGridYFloat(y);
-    const int tileX = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 2);
-    const int tileY = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 2);
-    const int landMaskWidth = OutdoorMapData::TerrainWidth - 1;
+    const float gridX = outdoorWorldToGridXFloat(outdoorMapData, x);
+    const float gridY = outdoorWorldToGridYFloat(outdoorMapData, y);
+    const int tileX = std::clamp(static_cast<int>(std::floor(gridX)), 0, outdoorMapData.terrainSide - 2);
+    const int tileY = std::clamp(static_cast<int>(std::floor(gridY)), 0, outdoorMapData.terrainSide - 2);
+    const int landMaskWidth = outdoorMapData.terrainSide - 1;
     const size_t tileIndex = static_cast<size_t>(tileY * landMaskWidth + tileX);
 
     if (tileIndex >= outdoorLandMask->size())
@@ -1041,7 +1042,7 @@ bool isOutdoorPositionWaterForDiagnostics(
     float y)
 {
     return isOutdoorTerrainWater(outdoorMapData, x, y)
-        || isOutdoorLandMaskWaterForDiagnostics(outdoorLandMask, x, y);
+        || isOutdoorLandMaskWaterForDiagnostics(outdoorMapData, outdoorLandMask, x, y);
 }
 
 OutdoorBModel createOutdoorDiagnosticPathfindingWall(
@@ -2391,8 +2392,8 @@ std::string buildNormalizedOutdoorAuthoredSnapshot(const MapAssetInfo &mapAssetI
             continue;
         }
 
-        const size_t x = cellIndex % OutdoorMapData::TerrainWidth;
-        const size_t y = cellIndex / OutdoorMapData::TerrainWidth;
+        const size_t x = cellIndex % size_t(outdoorMapData.terrainSide);
+        const size_t y = cellIndex / size_t(outdoorMapData.terrainSide);
         stream << x << ',' << y << ',' << static_cast<int>(value)
                << ',' << (((value & 0x01) != 0) ? 1 : 0)
                << ',' << (((value & 0x02) != 0) ? 1 : 0) << '\n';
@@ -4506,7 +4507,7 @@ int HeadlessGameplayDiagnostics::runExportDecorationModels(
     }
     GameDataLoader gameDataLoader;
     // Decoration billboards without the baked lighting this export feeds (it may be stale while a bake is due).
-    if (!gameDataLoader.loadForHeadlessGameplay(assetFileSystem)
+    if (!gameDataLoader.loadCommonForGameplay(assetFileSystem)
         || !gameDataLoader.loadMapByFileNameForDecorationPlacements(assetFileSystem, mapFileName))
     {
         std::cerr << "Decoration model export failed: could not load map \"" << mapFileName << "\"\n";

@@ -9434,6 +9434,70 @@ TEST_CASE("spawn points take the group the shipped records hold, which events ma
     }));
 }
 
+TEST_CASE("a surface anchored to the world continues one picture over the pieces of a plane")
+{
+    // The south wall (y = 0, seen from the room: x runs right to left) is cut by an outline corner at x = 300 on its
+    // straight line, and a block's two stacked pieces stand in the room: with `anchor: world` every upright face's
+    // texels are its corners' world place (on the south wall u = -x, v = -z, over the scale) plus the offset.
+    const std::string rooms =
+        "rooms:\n"
+        "  - {id: room:a, outline: [[0, 0], [300, 0], [700, 0], [700, 500], [0, 500]], floor: 0, ceiling: 300,\n"
+        "     walls: [{wall: 0, surface: {texture: wa, size: [128, 128], anchor: world, offset: [5, 7]}},\n"
+        "             {wall: 1, surface: {texture: wa, size: [128, 128], anchor: world, offset: [5, 7]}}],\n"
+        "     platforms: [{at: [500, 100], size: [100, 40], rise: 60, surface: {texture: pb, size: [64, 64], "
+        "anchor: world, scale: 2}},\n"
+        "                 {at: [500, 100], size: [60, 40], base: 60, rise: 50, surface: {texture: pb, size: [64, 64], "
+        "anchor: world, scale: 2}}]}\n";
+    const BuiltRooms built = buildRooms(rooms);
+    INFO(issueText(built));
+    REQUIRE(built.built);
+    size_t walls = 0;
+    size_t blocks = 0;
+
+    for (const OpenYAMM::Game::IndoorFace &face : built.map.faces)
+    {
+        const bool wall = face.textureName == "wa";
+        const bool block = face.textureName == "pb";
+
+        if (!wall && !block)
+        {
+            continue;
+        }
+
+        bool sameX = true;
+
+        for (const uint16_t vertex : face.vertexIndices)
+        {
+            sameX = sameX && built.map.vertices[vertex].x == built.map.vertices[face.vertexIndices[0]].x;
+        }
+
+        for (size_t index = 0; index < face.vertexIndices.size(); ++index)
+        {
+            const OpenYAMM::Game::IndoorVertex &point = built.map.vertices[face.vertexIndices[index]];
+            const int u = face.textureDeltaU + face.textureUs[index];
+            const int v = face.textureDeltaV + face.textureVs[index];
+
+            if (wall && point.y == 0)
+            {
+                ++walls;
+                CHECK(((u - (5 - point.x)) % 128 + 128) % 128 == 0);
+                CHECK(((v - (7 - point.z)) % 128 + 128) % 128 == 0);
+            }
+            else if (block && sameX)
+            {
+                // The blocks' long sides (an end is stretched to fit): u runs along y one way or the other, at half
+                // the texels for scale 2, whichever block the face belongs to.
+                ++blocks;
+                CHECK((((2 * u - point.y) % 128 + 128) % 128 == 0 || ((2 * u + point.y) % 128 + 128) % 128 == 0));
+                CHECK(((2 * v + point.z) % 128 + 128) % 128 == 0);
+            }
+        }
+    }
+
+    CHECK(walls >= 8);
+    CHECK(blocks >= 8);
+}
+
 TEST_CASE("a doorway's reveal from each side of its door, a leaf's edge with its own surface and coordinates, and a "
           "surface's offset")
 {

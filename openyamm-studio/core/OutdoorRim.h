@@ -1,5 +1,6 @@
 #pragma once
 
+#include "core/OutdoorGrid.h"
 #include "core/Polygon.h"
 #include "core/Project.h"
 
@@ -15,10 +16,9 @@ namespace OpenYAMM::Studio
 // The land beyond the square the party can walk: the rim. What it is on the shipped maps and how a sketch's
 // `frame.rim` and `frame.edge` become heights is told at the top of OutdoorRim.cpp.
 
-// The nodes of the square the party can walk (the game's own: 23143 units from the map's middle): 19 to 109 on both
-// axes. The rim is the nodes outside it: 19 rows in the north and west, 18 in the south and east.
-constexpr int OutdoorPlayableFirstNode = 19;
-constexpr int OutdoorPlayableLastNode = 109;
+// The nodes of the square the party can walk are outdoorGrid().playableFirst to playableLast on both axes (the game's
+// own square: 23143 units from the map's middle, nodes 19 to 109, on a classic map). The rim is the nodes outside it:
+// 19 rows in the north and west, 18 in the south and east (24 and 23 at side 160).
 
 enum class OutdoorRimSide
 {

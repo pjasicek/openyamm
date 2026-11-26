@@ -21,9 +21,7 @@ constexpr size_t MasterTileOffset = 0x5f;
 constexpr size_t TileSetLookupOffset = 0xa0;
 constexpr size_t TerrainSectionOffset = 0xb0;
 constexpr size_t TerrainSectionOffsetV8 = 0xb4;
-constexpr size_t TerrainMapSize = 0x4000;
-constexpr size_t CMap1Size = 0x20000;
-constexpr size_t CMap2Size = 0x10000;
+constexpr size_t TerrainSideOffset = 0x50;
 constexpr size_t BModelHeaderSize = 0xbc;
 constexpr size_t BModelVertexSize = 12;
 constexpr size_t BModelFaceSize = 0x134;
@@ -56,6 +54,24 @@ constexpr size_t Version6SpawnSize = 0x14;
 constexpr size_t Version7SpawnSize = 0x18;
 constexpr char Version6Tag[] = "MM6 Outdoor v1.11";
 constexpr char Version7Tag[] = "MM6 Outdoor v7.00";
+// ODM v2: the v8 layout with a u16 terrain side at TerrainSideOffset; every per-sample section is side x side.
+constexpr char VersionV2Tag[] = "OpenYAMM ODM v2";
+
+// Per-sample section sizes: 0x4000, 0x20000 and 0x10000 bytes on a classic 128 x 128 map.
+size_t terrainMapSize(int side)
+{
+    return size_t(side) * size_t(side);
+}
+
+size_t cMap1Size(int side)
+{
+    return terrainMapSize(side) * 8;
+}
+
+size_t cMap2Size(int side)
+{
+    return terrainMapSize(side) * 4;
+}
 
 bool advanceOffset(size_t &offset, size_t byteCount, size_t totalSize)
 {
@@ -80,12 +96,36 @@ std::optional<int> detectVersion(const ByteReader &reader)
         return 7;
     }
 
+    if (reader.matchesText(VersionOffset, VersionV2Tag))
+    {
+        return 8;
+    }
+
     if (reader.isZeroBlock(VersionOffset, VersionFieldSize))
     {
         return 8;
     }
 
     return std::nullopt;
+}
+
+// The terrain side: the stored one on an ODM v2 map, else the classic 128.
+std::optional<int> detectTerrainSide(const ByteReader &reader)
+{
+    if (!reader.matchesText(VersionOffset, VersionV2Tag))
+    {
+        return OutdoorMapData::TerrainWidth;
+    }
+
+    uint16_t side = 0;
+
+    if (!reader.readUInt16(TerrainSideOffset, side) || side < OutdoorMapData::MinTerrainSide
+        || side > OutdoorMapData::MaxTerrainSide || side % 2 != 0)
+    {
+        return std::nullopt;
+    }
+
+    return int(side);
 }
 
 bool isOutdoorMapData(const std::vector<uint8_t> &bytes)
@@ -292,7 +332,7 @@ bool appendOutdoorDynamicSections(std::vector<uint8_t> &bytes, const OutdoorMapD
         appendValue<uint16_t>(bytes, value);
     }
 
-    if (outdoorMapData.decorationMap.size() != TerrainMapSize)
+    if (outdoorMapData.decorationMap.size() != outdoorMapData.terrainSampleCount())
     {
         return false;
     }
@@ -333,14 +373,19 @@ std::optional<OutdoorMapData> OutdoorMapDataLoader::loadFromBytes(const std::vec
 
     const ByteReader reader(bytes);
     const std::optional<int> version = detectVersion(reader);
+    const std::optional<int> terrainSide = detectTerrainSide(reader);
 
-    if (!version)
+    if (!version || !terrainSide)
     {
         return std::nullopt;
     }
 
+    const size_t terrainMapBytes = terrainMapSize(*terrainSide);
+    const size_t cMap1Bytes = cMap1Size(*terrainSide);
+    const size_t cMap2Bytes = cMap2Size(*terrainSide);
     OutdoorMapData outdoorMapData = {};
     outdoorMapData.version = *version;
+    outdoorMapData.terrainSide = *terrainSide;
     outdoorMapData.name = readCString(reader, 0x00, 32);
     outdoorMapData.fileName = readCString(reader, 0x20, 32);
     outdoorMapData.description = readCString(reader, 0x40, 32);
@@ -367,32 +412,32 @@ std::optional<OutdoorMapData> OutdoorMapDataLoader::loadFromBytes(const std::vec
 
     size_t offset = (*version == 8) ? TerrainSectionOffsetV8 : TerrainSectionOffset;
 
-    if (!reader.readBytes(offset, TerrainMapSize, outdoorMapData.heightMap))
+    if (!reader.readBytes(offset, terrainMapBytes, outdoorMapData.heightMap))
     {
         return std::nullopt;
     }
 
-    if (!advanceOffset(offset, TerrainMapSize, reader.size()))
+    if (!advanceOffset(offset, terrainMapBytes, reader.size()))
     {
         return std::nullopt;
     }
 
-    if (!reader.readBytes(offset, TerrainMapSize, outdoorMapData.tileMap))
+    if (!reader.readBytes(offset, terrainMapBytes, outdoorMapData.tileMap))
     {
         return std::nullopt;
     }
 
-    if (!advanceOffset(offset, TerrainMapSize, reader.size()))
+    if (!advanceOffset(offset, terrainMapBytes, reader.size()))
     {
         return std::nullopt;
     }
 
-    if (!reader.readBytes(offset, TerrainMapSize, outdoorMapData.attributeMap))
+    if (!reader.readBytes(offset, terrainMapBytes, outdoorMapData.attributeMap))
     {
         return std::nullopt;
     }
 
-    if (!advanceOffset(offset, TerrainMapSize, reader.size()))
+    if (!advanceOffset(offset, terrainMapBytes, reader.size()))
     {
         return std::nullopt;
     }
@@ -413,9 +458,9 @@ std::optional<OutdoorMapData> OutdoorMapDataLoader::loadFromBytes(const std::vec
             return std::nullopt;
         }
 
-        outdoorMapData.someOtherMap.reserve(CMap1Size / sizeof(uint32_t));
+        outdoorMapData.someOtherMap.reserve(cMap1Bytes / sizeof(uint32_t));
 
-        for (size_t mapOffset = 0; mapOffset < CMap1Size; mapOffset += sizeof(uint32_t))
+        for (size_t mapOffset = 0; mapOffset < cMap1Bytes; mapOffset += sizeof(uint32_t))
         {
             uint32_t value = 0;
 
@@ -427,14 +472,14 @@ std::optional<OutdoorMapData> OutdoorMapDataLoader::loadFromBytes(const std::vec
             outdoorMapData.someOtherMap.push_back(value);
         }
 
-        if (!advanceOffset(offset, CMap1Size, reader.size()))
+        if (!advanceOffset(offset, cMap1Bytes, reader.size()))
         {
             return std::nullopt;
         }
 
-        outdoorMapData.normalMap.reserve(CMap2Size / sizeof(uint16_t));
+        outdoorMapData.normalMap.reserve(cMap2Bytes / sizeof(uint16_t));
 
-        for (size_t mapOffset = 0; mapOffset < CMap2Size; mapOffset += sizeof(uint16_t))
+        for (size_t mapOffset = 0; mapOffset < cMap2Bytes; mapOffset += sizeof(uint16_t))
         {
             uint16_t value = 0;
 
@@ -446,7 +491,7 @@ std::optional<OutdoorMapData> OutdoorMapDataLoader::loadFromBytes(const std::vec
             outdoorMapData.normalMap.push_back(value);
         }
 
-        if (!advanceOffset(offset, CMap2Size, reader.size()))
+        if (!advanceOffset(offset, cMap2Bytes, reader.size()))
         {
             return std::nullopt;
         }
@@ -806,9 +851,9 @@ std::optional<OutdoorMapData> OutdoorMapDataLoader::loadFromBytes(const std::vec
         outdoorMapData.decorationPidList.push_back(value);
     }
 
-    outdoorMapData.decorationMap.reserve(TerrainMapSize);
+    outdoorMapData.decorationMap.reserve(terrainMapBytes);
 
-    for (size_t cellIndex = 0; cellIndex < TerrainMapSize; ++cellIndex)
+    for (size_t cellIndex = 0; cellIndex < terrainMapBytes; ++cellIndex)
     {
         uint32_t value = 0;
 
@@ -820,7 +865,7 @@ std::optional<OutdoorMapData> OutdoorMapDataLoader::loadFromBytes(const std::vec
         outdoorMapData.decorationMap.push_back(value);
     }
 
-    if (!advanceOffset(offset, TerrainMapSize * sizeof(uint32_t), reader.size()))
+    if (!advanceOffset(offset, terrainMapBytes * sizeof(uint32_t), reader.size()))
     {
         return std::nullopt;
     }
@@ -908,12 +953,24 @@ std::optional<OutdoorMapData> OutdoorMapDataLoader::loadFromBytes(const std::vec
 
 std::optional<std::vector<uint8_t>> OutdoorMapDataWriter::buildBytes(const OutdoorMapData &outdoorMapData) const
 {
-    const int version = (outdoorMapData.version == 6 || outdoorMapData.version == 7) ? outdoorMapData.version : 8;
+    const bool odmV2 = outdoorMapData.isOdmV2();
+    const int version =
+        !odmV2 && (outdoorMapData.version == 6 || outdoorMapData.version == 7) ? outdoorMapData.version : 8;
     const size_t prefixSize = (version == 8) ? TerrainSectionOffsetV8 : TerrainSectionOffset;
+    const size_t terrainMapBytes = outdoorMapData.terrainSampleCount();
+    const size_t cMap1Bytes = cMap1Size(outdoorMapData.terrainSide);
+    const size_t cMap2Bytes = cMap2Size(outdoorMapData.terrainSide);
 
-    if (outdoorMapData.heightMap.size() != TerrainMapSize
-        || outdoorMapData.tileMap.size() != TerrainMapSize
-        || outdoorMapData.attributeMap.size() != TerrainMapSize)
+    if (odmV2
+        && (outdoorMapData.terrainSide < OutdoorMapData::MinTerrainSide
+            || outdoorMapData.terrainSide > OutdoorMapData::MaxTerrainSide || outdoorMapData.terrainSide % 2 != 0))
+    {
+        return std::nullopt;
+    }
+
+    if (outdoorMapData.heightMap.size() != terrainMapBytes
+        || outdoorMapData.tileMap.size() != terrainMapBytes
+        || outdoorMapData.attributeMap.size() != terrainMapBytes)
     {
         return std::nullopt;
     }
@@ -929,6 +986,11 @@ std::optional<std::vector<uint8_t>> OutdoorMapDataWriter::buildBytes(const Outdo
     else if (version == 7)
     {
         writeFixedString(bytes, VersionOffset, VersionFieldSize, Version7Tag);
+    }
+    else if (odmV2)
+    {
+        writeFixedString(bytes, VersionOffset, VersionFieldSize, VersionV2Tag);
+        writeValue<uint16_t>(bytes, TerrainSideOffset, uint16_t(outdoorMapData.terrainSide));
     }
 
     writeFixedString(bytes, 0x60, 0x20, outdoorMapData.skyTexture);
@@ -952,7 +1014,7 @@ std::optional<std::vector<uint8_t>> OutdoorMapDataWriter::buildBytes(const Outdo
 
         appendValue<int32_t>(bytes, static_cast<int32_t>(terrainNormalCount));
 
-        if (outdoorMapData.someOtherMap.size() == CMap1Size / sizeof(uint32_t))
+        if (outdoorMapData.someOtherMap.size() == cMap1Bytes / sizeof(uint32_t))
         {
             for (uint32_t value : outdoorMapData.someOtherMap)
             {
@@ -961,10 +1023,10 @@ std::optional<std::vector<uint8_t>> OutdoorMapDataWriter::buildBytes(const Outdo
         }
         else
         {
-            appendZeroBytes(bytes, CMap1Size);
+            appendZeroBytes(bytes, cMap1Bytes);
         }
 
-        if (outdoorMapData.normalMap.size() == CMap2Size / sizeof(uint16_t))
+        if (outdoorMapData.normalMap.size() == cMap2Bytes / sizeof(uint16_t))
         {
             for (uint16_t value : outdoorMapData.normalMap)
             {
@@ -973,7 +1035,7 @@ std::optional<std::vector<uint8_t>> OutdoorMapDataWriter::buildBytes(const Outdo
         }
         else
         {
-            appendZeroBytes(bytes, CMap2Size);
+            appendZeroBytes(bytes, cMap2Bytes);
         }
 
         for (size_t normalIndex = 0; normalIndex < terrainNormalCount * 3; ++normalIndex)
@@ -1001,32 +1063,36 @@ std::optional<std::vector<uint8_t>> OutdoorMapDataWriter::patchBytes(
 
     const ByteReader reader(baseBytes);
     const std::optional<int> version = detectVersion(reader);
+    const std::optional<int> terrainSide = detectTerrainSide(reader);
 
-    if (!version)
+    if (!version || !terrainSide || *terrainSide != outdoorMapData.terrainSide)
     {
         return std::nullopt;
     }
 
+    const size_t terrainMapBytes = terrainMapSize(*terrainSide);
+    const size_t cMap1Bytes = cMap1Size(*terrainSide);
+    const size_t cMap2Bytes = cMap2Size(*terrainSide);
     size_t offset = (*version == 8) ? TerrainSectionOffsetV8 : TerrainSectionOffset;
 
-    if (outdoorMapData.heightMap.size() != TerrainMapSize
-        || outdoorMapData.tileMap.size() != TerrainMapSize
-        || outdoorMapData.attributeMap.size() != TerrainMapSize)
+    if (outdoorMapData.heightMap.size() != terrainMapBytes
+        || outdoorMapData.tileMap.size() != terrainMapBytes
+        || outdoorMapData.attributeMap.size() != terrainMapBytes)
     {
         return std::nullopt;
     }
 
-    if (!advanceOffset(offset, TerrainMapSize, reader.size()))
+    if (!advanceOffset(offset, terrainMapBytes, reader.size()))
     {
         return std::nullopt;
     }
 
-    if (!advanceOffset(offset, TerrainMapSize, reader.size()))
+    if (!advanceOffset(offset, terrainMapBytes, reader.size()))
     {
         return std::nullopt;
     }
 
-    if (!advanceOffset(offset, TerrainMapSize, reader.size()))
+    if (!advanceOffset(offset, terrainMapBytes, reader.size()))
     {
         return std::nullopt;
     }
@@ -1041,8 +1107,8 @@ std::optional<std::vector<uint8_t>> OutdoorMapDataWriter::patchBytes(
         }
 
         if (!advanceOffset(offset, sizeof(int32_t), reader.size())
-            || !advanceOffset(offset, CMap1Size, reader.size())
-            || !advanceOffset(offset, CMap2Size, reader.size())
+            || !advanceOffset(offset, cMap1Bytes, reader.size())
+            || !advanceOffset(offset, cMap2Bytes, reader.size())
             || !advanceOffset(offset, static_cast<size_t>(terrainNormalCount) * 12, reader.size()))
         {
             return std::nullopt;
@@ -1129,7 +1195,7 @@ std::optional<std::vector<uint8_t>> OutdoorMapDataWriter::patchBytes(
 
     if (!advanceOffset(offset, sizeof(int32_t), reader.size())
         || !advanceOffset(offset, static_cast<size_t>(originalIdListCount) * sizeof(uint16_t), reader.size())
-        || !advanceOffset(offset, TerrainMapSize * sizeof(uint32_t), reader.size()))
+        || !advanceOffset(offset, terrainMapBytes * sizeof(uint32_t), reader.size()))
     {
         return std::nullopt;
     }
@@ -1159,11 +1225,12 @@ std::optional<std::vector<uint8_t>> OutdoorMapDataWriter::patchBytes(
     appendBytes(bytes, outdoorMapData.tileMap);
     appendBytes(bytes, outdoorMapData.attributeMap);
 
-    size_t prefixOffset = ((*version == 8) ? TerrainSectionOffsetV8 : TerrainSectionOffset) + TerrainMapSize * 3;
+    size_t prefixOffset = ((*version == 8) ? TerrainSectionOffsetV8 : TerrainSectionOffset) + terrainMapBytes * 3;
 
     if (*version > 6)
     {
-        const size_t terrainSectionBytes = sizeof(int32_t) + CMap1Size + CMap2Size + outdoorMapData.terrainNormalCount * 12;
+        const size_t terrainSectionBytes =
+            sizeof(int32_t) + cMap1Bytes + cMap2Bytes + outdoorMapData.terrainNormalCount * 12;
 
         if (prefixOffset + terrainSectionBytes > baseBytes.size())
         {

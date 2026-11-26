@@ -1,0 +1,19 @@
+format: 0
+grid: 512
+notes: "Cells [x, y], x east, y south. The gate's middle at cell (64, 60), its foot on the land."
+heights:
+  bands:
+    - {band: band:field, polygon: [[0, 0], [128, 0], [128, 128], [0, 128]]}
+points:
+  - {id: entrance:start, at: [62, 66], facing: n}
+structures:
+  - id: thing:gate
+    kind: model
+    from: {glb: box_arch.glb}
+    at: [64, 60]
+    turn: 0
+    title: The Gate
+    click: [Gate]
+    hint: A box
+    textures:
+      blocker: {texture: t14a01, invisible: true}

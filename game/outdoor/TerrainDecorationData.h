@@ -181,7 +181,8 @@ struct TerrainDecorationConfig
     TerrainDecorationOverhead overhead;
     TerrainDecorationClump clump;
     TerrainDecorationBushes bushes;
-    // Optional 128x128 cell-centred grayscale control: black = none, white = full density.
+    // Optional cell-centred grayscale control, the map's side square (128x128 on a classic map): black = none, white
+    // = full density.
     std::vector<uint8_t> densityMask;
     std::string tuftTexture;
     std::array<int, 2> tuftAtlasGrid = {1, 1};
@@ -226,6 +227,10 @@ constexpr float TerrainDecorationLeafSize = 2048.0f;
 
 struct TerrainDecorationPlacement
 {
+    // The map frame the tree and the foliage map cover: its west and south edge, and its side (the classic 65 536
+    // units, or an ODM v2 map's terrain).
+    float mapMinimum = -32768.0f;
+    float mapSize = 65536.0f;
     std::vector<TerrainDecorationInstance> instances;
     // One quadtree per mesh kind, depth first: a node's instances directly precede its first child's.
     std::vector<TerrainDecorationNode> nodes;

@@ -1877,12 +1877,12 @@ TEST_CASE("chests outdoors: the shipped chest of a kind (7out01 chest_N), a box 
 TEST_CASE("the ground things stand on: the game's two triangles per cell, split north-west to south-east")
 {
     LoweredOutdoorMap lowered;
-    lowered.samples.assign(static_cast<size_t>(OutdoorNodeCount) * OutdoorNodeCount, 0);
+    lowered.samples.assign(static_cast<size_t>(outdoorNodeCount()) * outdoorNodeCount(), 0);
     // A cell (10, 20) with corners north-west 0, north-east 8, south-west 2, south-east 4 (steps of 32).
-    lowered.samples[20 * OutdoorNodeCount + 10] = 0;
-    lowered.samples[20 * OutdoorNodeCount + 11] = 8;
-    lowered.samples[21 * OutdoorNodeCount + 10] = 2;
-    lowered.samples[21 * OutdoorNodeCount + 11] = 4;
+    lowered.samples[20 * outdoorNodeCount() + 10] = 0;
+    lowered.samples[20 * outdoorNodeCount() + 11] = 8;
+    lowered.samples[21 * outdoorNodeCount() + 10] = 2;
+    lowered.samples[21 * outdoorNodeCount() + 11] = 4;
     CHECK(lowered.groundHeightAt(10.0, 20.0) == doctest::Approx(0.0));
     CHECK(lowered.groundHeightAt(11.0, 20.0) == doctest::Approx(256.0));
     CHECK(lowered.groundHeightAt(10.0, 21.0) == doctest::Approx(64.0));
@@ -3605,9 +3605,9 @@ TEST_CASE("frame.rim: a ridge beyond the square, a sea, a shelf, the edge row, a
     const LoweredOutdoorMap shaped = loweredOf(std::string(LevelLand) + rim);
 
     // Inside the square nothing changes.
-    for (int y = OutdoorPlayableFirstNode; y <= OutdoorPlayableLastNode; ++y)
+    for (int y = outdoorGrid().playableFirst; y <= outdoorGrid().playableLast; ++y)
     {
-        for (int x = OutdoorPlayableFirstNode; x <= OutdoorPlayableLastNode; ++x)
+        for (int x = outdoorGrid().playableFirst; x <= outdoorGrid().playableLast; ++x)
         {
             CAPTURE(x);
             CAPTURE(y);
@@ -3635,14 +3635,14 @@ TEST_CASE("frame.rim: a ridge beyond the square, a sea, a shelf, the edge row, a
     CHECK(sampleAt(shaped, 60, 7) * 32 == 640);
     CHECK(std::max(sampleAt(shaped, 52, 7), sampleAt(shaped, 68, 7)) * 32 >= 1600);
     // The sea: level at 0 four cells out (the edge row at 640 is the map's edge).
-    CHECK(sampleAt(shaped, 60, OutdoorPlayableLastNode + 6) == 0);
+    CHECK(sampleAt(shaped, 60, outdoorGrid().playableLast + 6) == 0);
     CHECK(sampleAt(shaped, 60, 127) * 32 == 640);
     // The shelf: between its heights, uneven, and its edge column at 2304.
     std::set<int> shelf;
 
     for (int y = 30; y < 90; ++y)
     {
-        const int height = sampleAt(shaped, OutdoorPlayableLastNode + 8, y) * 32;
+        const int height = sampleAt(shaped, outdoorGrid().playableLast + 8, y) * 32;
         CHECK(height >= 1984);
         CHECK(height <= 2816);
         shelf.insert(height);
@@ -4252,7 +4252,7 @@ TEST_CASE("D-90: items lie on the ground outdoors (sketch `items`), on the game'
     CHECK_EQ(things.items[0].objectDescriptionId, 1);
     CHECK_EQ(things.items[0].spriteId, 17568);
     CHECK(things.items[0].position[2] == doctest::Approx(std::round(lowered.groundHeightAt(50.5, 60.0) + 72.0)));
-    CHECK(things.items[0].position[0] == doctest::Approx(std::round((50.5 - OutdoorNodeCount / 2) * 512.0)));
+    CHECK(things.items[0].position[0] == doctest::Approx(std::round((50.5 - outdoorNodeCount() / 2) * 512.0)));
     CHECK_EQ(things.items[1].gold, 40);
     CHECK_EQ(things.items[1].objectDescriptionId, 2);
 
@@ -6301,7 +6301,7 @@ TEST_CASE("a waterfall: top water to the lip, a free sheet to the pool, foot wat
     };
     const auto ground = [](const LoweredOutdoorMap &lowered, int x, int y)
     {
-        return lowered.ground[static_cast<size_t>(y) * OutdoorNodeCount + x];
+        return lowered.ground[static_cast<size_t>(y) * outdoorNodeCount() + x];
     };
     const Falls upright = falls("line: [[50, 64], [50, 60]], top: 1664, foot: 640, width: 512, rocks: false, "
         "banks: false");
@@ -7294,7 +7294,7 @@ TEST_CASE("a scatter support radius preserves the calibrated sites when the deco
         {
             for (int x = 69; x <= 101; ++x)
             {
-                ground.samples[y * OutdoorNodeCount + x] = x % 8 < 4 ? 20 : 32;
+                ground.samples[y * outdoorNodeCount() + x] = x % 8 < 4 ? 20 : 32;
             }
         }
         const std::string table = "1\tnothing\t\n101\tvase\tVase\t0\t" + std::to_string(tableRadius) + "\n";
@@ -7473,7 +7473,7 @@ TEST_CASE("O-A: a level terrace area holds its nodes at one height; its slope ru
         "    - {polygon: [[80, 80], [84, 80], [84, 84], [80, 84]], height: 1280, slope: 4}\n");
     const auto at = [&lowered](int x, int y)
     {
-        return lowered.ground[static_cast<size_t>(y) * OutdoorNodeCount + static_cast<size_t>(x)];
+        return lowered.ground[static_cast<size_t>(y) * outdoorNodeCount() + static_cast<size_t>(x)];
     };
 
     for (int y = 40; y <= 46; ++y)
@@ -7734,14 +7734,14 @@ TEST_CASE("an arched bridge beds both ends and its centre pier across a slope wh
     {
         for (int x = 40; x <= 52; ++x)
         {
-            ground.samples[y * OutdoorNodeCount + x] = static_cast<uint8_t>(32 - 4 * (y - 58));
+            ground.samples[y * outdoorNodeCount() + x] = static_cast<uint8_t>(32 - 4 * (y - 58));
         }
     }
     // Two hollows lie inside the supports. The third lies outside the bridge, so the east minimum is exactly
     // halfway down a terrain edge, below every footprint corner and every terrain vertex inside that footing.
-    ground.samples[61 * OutdoorNodeCount + 41] = 4;
-    ground.samples[61 * OutdoorNodeCount + 46] = 7;
-    ground.samples[62 * OutdoorNodeCount + 50] = 4;
+    ground.samples[61 * outdoorNodeCount() + 41] = 4;
+    ground.samples[61 * outdoorNodeCount() + 46] = 7;
+    ground.samples[62 * outdoorNodeCount() + 50] = 4;
     IdsLock ids;
     OutdoorEventWords words(project, {}, ids, issues);
     OutdoorThings things;
@@ -8542,7 +8542,7 @@ namespace
 {
 double groundAt(const LoweredOutdoorMap &lowered, int x, int y)
 {
-    return lowered.ground[static_cast<size_t>(y) * OutdoorNodeCount + static_cast<size_t>(x)];
+    return lowered.ground[static_cast<size_t>(y) * outdoorNodeCount() + static_cast<size_t>(x)];
 }
 
 // The building project with more height words after the level land.
@@ -11298,7 +11298,7 @@ TEST_CASE("a decoration stands on its rotated bearing points on the two native t
     std::vector<ProjectIssue> issues;
     const Project layout = buildingProject("", "decoration_feet: {arch: [[128, 0, 8], [-128, 0, 0]]}\n");
     REQUIRE(lowerOutdoorProject(layout, map, issues));
-    const auto sample = [](int x, int y) { return y * OutdoorNodeCount + x; };
+    const auto sample = [](int x, int y) { return y * outdoorNodeCount() + x; };
     std::fill(map.samples.begin(), map.samples.end(), 0);
     map.samples[sample(20, 20)] = 0;
     map.samples[sample(21, 20)] = 20;
@@ -11318,11 +11318,11 @@ TEST_CASE("explicit decoration feet meet the rounded terrain across subdivisions
 {
     LoweredOutdoorMap map;
     map.decorationFeet["stone"] = {{0, 0, 0}};
-    map.samples.assign(OutdoorNodeCount * OutdoorNodeCount, 10);
-    for (int y = 0; y < OutdoorNodeCount; ++y)
+    map.samples.assign(outdoorNodeCount() * outdoorNodeCount(), 10);
+    for (int y = 0; y < outdoorNodeCount(); ++y)
     {
-        map.samples[y * OutdoorNodeCount + 21] = 18;
-        map.samples[y * OutdoorNodeCount + 22] = 42;
+        map.samples[y * outdoorNodeCount() + 21] = 18;
+        map.samples[y * outdoorNodeCount() + 22] = 42;
     }
     // The ODM stores x=20.43 at cell 20.4296875. The seven-subdivision triangle sits lowest there in this
     // 0, 0, 256, 1024 rise above the plateau. The continuous curve and the four/eight meshes all differ.
@@ -11627,7 +11627,7 @@ TEST_CASE("D-170: the land under a sample range: corners, crossings and nodes in
 {
     LoweredOutdoorMap lowered = loweredOf(LevelLand);
     // A node at (64, 64), world (0, 0), raised 64 over the level 640.
-    lowered.samples[static_cast<size_t>(64) * OutdoorNodeCount + 64] += 2;
+    lowered.samples[static_cast<size_t>(64) * outdoorNodeCount() + 64] += 2;
     const std::array<double, 2> around = lowered.groundRangeUnder({{-256, -256}, {256, -256}, {256, 256}, {-256, 256}});
     CHECK(around[0] == doctest::Approx(640.0));
     CHECK(around[1] == doctest::Approx(704.0));
@@ -11655,7 +11655,7 @@ TEST_CASE("D-170: a porch's slab stands 4 over the land that rises to it beyond 
     // from 648 to 664, through the slab at 656 (the floor 640 and 16).
     for (int x = 36; x <= 44; ++x)
     {
-        lowered.samples[static_cast<size_t>(42) * OutdoorNodeCount + x] = 22;
+        lowered.samples[static_cast<size_t>(42) * outdoorNodeCount() + x] = 22;
     }
 
     const Game::OutdoorBModel unclear = raiseOutdoorBuilding(lowered.buildings[0]);
@@ -11675,9 +11675,9 @@ TEST_CASE("D-170: a tread the hillside reaches stands 4 over it or lies 8 under 
         // The hill climbs with the flight, its top flush with the last tread (896).
         for (int y = 49; y <= 51; ++y)
         {
-            land.samples[static_cast<size_t>(y) * OutdoorNodeCount + 51] = 24;
-            land.samples[static_cast<size_t>(y) * OutdoorNodeCount + 52] = 28;
-            land.samples[static_cast<size_t>(y) * OutdoorNodeCount + 53] = 28;
+            land.samples[static_cast<size_t>(y) * outdoorNodeCount() + 51] = 24;
+            land.samples[static_cast<size_t>(y) * outdoorNodeCount() + 52] = 28;
+            land.samples[static_cast<size_t>(y) * outdoorNodeCount() + 53] = 28;
         }
     });
     REQUIRE(things.models.size() == 1);

@@ -1210,7 +1210,8 @@ void viewTerrainQuery(const YAML::Node &params, JsonWriter &writer)
     }
 
     const std::vector<uint8_t> &samples = view->lowered.outdoor->map.heightMap;
-    const int side = 128;
+    // The map's side (128 classic, an ODM v2 map's own).
+    const int side = view->lowered.outdoor->map.terrainSide;
     const auto heightAt = [&samples, side](double x, double y)
     {
         const double clampedX = std::clamp(x, 0.0, static_cast<double>(side - 1));

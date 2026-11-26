@@ -1,6 +1,7 @@
 #include "core/OutdoorFalls.h"
 
 #include "core/CoreMath.h"
+#include "core/OutdoorGrid.h"
 #include "core/SketchRead.h"
 
 #include <algorithm>
@@ -45,7 +46,12 @@ namespace OpenYAMM::Studio
 {
 namespace
 {
-constexpr int Nodes = 128;
+// The map's samples along each side (core/OutdoorGrid).
+int sideNodes()
+{
+    return outdoorNodeCount();
+}
+
 constexpr double Cell = 512.0;
 // How far the top water reaches beyond the sheet's edges each side.
 constexpr double TopMargin = 32.0;
@@ -96,13 +102,13 @@ bool numberOfNode(const YAML::Node &value, double &number)
 bool cellOf(const YAML::Node &node, Point2 &cell)
 {
     return node.IsDefined() && node.IsSequence() && node.size() == 2 && numberOfNode(node[0], cell[0])
-        && numberOfNode(node[1], cell[1]) && cell[0] >= 0.0 && cell[1] >= 0.0 && cell[0] <= Nodes - 1
-        && cell[1] <= Nodes - 1;
+        && numberOfNode(node[1], cell[1]) && cell[0] >= 0.0 && cell[1] >= 0.0 && cell[0] <= sideNodes() - 1
+        && cell[1] <= sideNodes() - 1;
 }
 
 Point2 toWorld(const Point2 &cell)
 {
-    return {(cell[0] - Nodes / 2) * Cell, (Nodes / 2 - cell[1]) * Cell};
+    return {(cell[0] - sideNodes() / 2) * Cell, (sideNodes() / 2 - cell[1]) * Cell};
 }
 
 // The distance from a point to a polyline, in the same units.
@@ -522,9 +528,9 @@ void shapeOutdoorFallLand(
         size_t dried = 0;
         std::vector<size_t> cut;
 
-        for (int y = 0; y < Nodes; ++y)
+        for (int y = 0; y < sideNodes(); ++y)
         {
-            for (int x = 0; x < Nodes; ++x)
+            for (int x = 0; x < sideNodes(); ++x)
             {
                 const Point2 place = toWorld({static_cast<double>(x), static_cast<double>(y)});
                 const double dx = place[0] - fall.lip[0];
@@ -557,7 +563,7 @@ void shapeOutdoorFallLand(
 
                 // No higher than the sheet one cell further down, so the land in that cell lies under it.
                 const double limit = std::max(fall.foot, sheetHeightAt(fall, out + Cell) - 32.0);
-                const size_t node = static_cast<size_t>(y) * Nodes + x;
+                const size_t node = static_cast<size_t>(y) * sideNodes() + x;
                 double &wet = waterNode[node];
 
                 if (!std::isnan(wet) && wet > limit + 0.5)
@@ -581,14 +587,14 @@ void shapeOutdoorFallLand(
         // lip); the pool's stay, and so does the stream under the top water (`back` reaches past those cells).
         for (const size_t node : cut)
         {
-            const int x = static_cast<int>(node % Nodes);
-            const int y = static_cast<int>(node / Nodes);
+            const int x = static_cast<int>(node % sideNodes());
+            const int y = static_cast<int>(node / sideNodes());
 
-            for (int cornerY = std::max(0, y - 1); cornerY <= std::min(Nodes - 1, y + 1); ++cornerY)
+            for (int cornerY = std::max(0, y - 1); cornerY <= std::min(sideNodes() - 1, y + 1); ++cornerY)
             {
-                for (int cornerX = std::max(0, x - 1); cornerX <= std::min(Nodes - 1, x + 1); ++cornerX)
+                for (int cornerX = std::max(0, x - 1); cornerX <= std::min(sideNodes() - 1, x + 1); ++cornerX)
                 {
-                    const size_t corner = static_cast<size_t>(cornerY) * Nodes + cornerX;
+                    const size_t corner = static_cast<size_t>(cornerY) * sideNodes() + cornerX;
 
                     const Point2 place = toWorld({static_cast<double>(cornerX), static_cast<double>(cornerY)});
                     const double out = (place[0] - fall.lip[0]) * fall.along[0]

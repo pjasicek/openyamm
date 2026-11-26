@@ -905,8 +905,8 @@ std::vector<uint8_t> writeWalkTerrainPack(const Engine::AssetFileSystem &files, 
     // counts as land, apply to faces of MM9 only today: liquids.yml.)
     if (tiles)
     {
-        const int width = Game::OutdoorMapData::TerrainWidth;
-        const int height = Game::OutdoorMapData::TerrainHeight;
+        const int width = map.terrainSide;
+        const int height = map.terrainSide;
         landMask.assign(size_t(width - 1) * size_t(height - 1), 0);
 
         for (int gridY = 0; gridY < height - 1; ++gridY)

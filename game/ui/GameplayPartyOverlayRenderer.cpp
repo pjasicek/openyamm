@@ -4800,9 +4800,9 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayScreenRuntime &c
                                 sourceXFloat / static_cast<float>(mapTextureWidth),
                                 sourceV);
                             const int revealCellX =
-                                static_cast<int>(std::floor(revealUv.x * static_cast<float>(JournalRevealWidth)));
+                                static_cast<int>(std::floor(revealUv.x * static_cast<float>(minimapState.revealSide)));
                             const int revealCellY =
-                                static_cast<int>(std::floor(revealUv.y * static_cast<float>(JournalRevealHeight)));
+                                static_cast<int>(std::floor(revealUv.y * static_cast<float>(minimapState.revealSide)));
                             const size_t targetOffset =
                                 (static_cast<size_t>(pixelY) * static_cast<size_t>(mapPixelWidth)
                                     + static_cast<size_t>(pixelX))
@@ -4816,11 +4816,11 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayScreenRuntime &c
                             }
                             else if (pFullyRevealedCells != nullptr
                                 && pPartiallyRevealedCells != nullptr
-                                && revealCellX >= 0 && revealCellX < JournalRevealWidth
-                                && revealCellY >= 0 && revealCellY < JournalRevealHeight)
+                                && revealCellX >= 0 && revealCellX < minimapState.revealSide
+                                && revealCellY >= 0 && revealCellY < minimapState.revealSide)
                             {
                                 const size_t revealIndex =
-                                    static_cast<size_t>(revealCellY * JournalRevealWidth + revealCellX);
+                                    static_cast<size_t>(revealCellY * minimapState.revealSide + revealCellX);
                                 fullyRevealed = packedRevealBit(*pFullyRevealedCells, revealIndex);
                                 partiallyRevealed = packedRevealBit(*pPartiallyRevealedCells, revealIndex);
                             }

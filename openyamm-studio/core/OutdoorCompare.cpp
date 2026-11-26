@@ -343,7 +343,11 @@ bool readSide(const OutdoorCompareSide &side, KindTable &kinds, Reading &reading
 {
     if (side.pMap == nullptr || side.pMap->heightMap.size() != CellTotal || side.pMap->tileMap.size() != CellTotal)
     {
-        errorMessage = side.name + " is not an outdoor map with a 128 x 128 terrain";
+        // The measures are tuned on the classic maps (regions of 16 cells, the classic rim): an ODM v2 map is not
+        // compared (core/OutdoorGrid).
+        errorMessage = side.name + " is not an outdoor map with a 128 x 128 terrain"
+            + (side.pMap != nullptr && side.pMap->isOdmV2() ? " (an ODM v2 map of side "
+                + std::to_string(side.pMap->terrainSide) + ": compare reads classic maps only)" : std::string());
         return false;
     }
 

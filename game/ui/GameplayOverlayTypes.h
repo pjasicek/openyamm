@@ -303,6 +303,10 @@ struct GameplayMinimapState
     float worldMaxX = 32768.0f;
     float worldMinY = -32768.0f;
     float worldMaxY = 32768.0f;
+    // The outdoor journal reveal mask: cells per side over the terrain frame's half extent (88 over 32768 on a
+    // classic map; an ODM v2 map keeps the cell size).
+    int revealSide = 88;
+    float revealHalfExtent = 32768.0f;
     bool flipU = false;
     bool flipV = true;
     bool revealEntireMap = false;

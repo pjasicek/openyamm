@@ -1709,19 +1709,21 @@ bool crossesWall(const std::array<double, 2> &a, const std::array<double, 2> &b,
 // OutdoorGround's outdoorCellKinds (3 a road).
 double distanceToRoad(const std::array<double, 2> &point, const std::vector<uint8_t> &cellKinds)
 {
-    constexpr int Cells = Game::OutdoorMapData::TerrainWidth;
+    // The map's side from its cells (128 on a classic map).
+    const int cells = static_cast<int>(std::lround(std::sqrt(static_cast<double>(cellKinds.size()))));
+    const int half = cells / 2;
     constexpr double Size = Game::OutdoorMapData::TerrainTileSize;
-    const auto road = [&cellKinds](int x, int y)
+    const auto road = [&cellKinds, cells](int x, int y)
     {
-        return x >= 0 && y >= 0 && x < Cells && y < Cells && size_t(y * Cells + x) < cellKinds.size()
-            && cellKinds[size_t(y * Cells + x)] == 3;
+        return x >= 0 && y >= 0 && x < cells && y < cells && size_t(y * cells + x) < cellKinds.size()
+            && cellKinds[size_t(y * cells + x)] == 3;
     };
-    const auto middle = [](int x, int y)
+    const auto middle = [half](int x, int y)
     {
-        return std::array<double, 2>{(x - 64 + 0.5) * Size, (64 - y - 0.5) * Size};
+        return std::array<double, 2>{(x - half + 0.5) * Size, (half - y - 0.5) * Size};
     };
-    const int cellX = static_cast<int>(std::floor(point[0] / Size)) + 64;
-    const int cellY = 64 - static_cast<int>(std::ceil(point[1] / Size));
+    const int cellX = static_cast<int>(std::floor(point[0] / Size)) + half;
+    const int cellY = half - static_cast<int>(std::ceil(point[1] / Size));
     double nearest = 1.0e18;
 
     for (int y = cellY - 2; y <= cellY + 2; ++y)
@@ -2275,7 +2277,8 @@ std::optional<double> supportUnder(const SupportWorld &world, double x, double y
     if (world.pOutdoor != nullptr)
     {
         const double ground = Game::outdoorNativeTerrainHeight(*world.pOutdoor,
-            Game::outdoorWorldToGridXFloat(float(x)), Game::outdoorWorldToGridYFloat(float(y)));
+            Game::outdoorWorldToGridXFloat(*world.pOutdoor, float(x)),
+            Game::outdoorWorldToGridYFloat(*world.pOutdoor, float(y)));
         best = ground <= z + Support::Step ? ground : z;
     }
 
@@ -4732,8 +4735,8 @@ std::vector<AuditFinding> auditVoid(const LoadedMap &map)
     const Game::OutdoorMapData &outdoor = *map.outdoor;
     const auto inVoid = [&outdoor](double x, double y)
     {
-        return Game::isOutdoorVoidCell(outdoor, int(std::floor(Game::outdoorWorldToGridXFloat(float(x)))),
-            int(std::floor(Game::outdoorWorldToGridYFloat(float(y)))));
+        return Game::isOutdoorVoidCell(outdoor, int(std::floor(Game::outdoorWorldToGridXFloat(outdoor, float(x)))),
+            int(std::floor(Game::outdoorWorldToGridYFloat(outdoor, float(y)))));
     };
     const auto occupied = [&findings](const std::string &what, double x, double y)
     {

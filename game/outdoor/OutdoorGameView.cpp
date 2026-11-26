@@ -2167,34 +2167,34 @@ std::optional<float> intersectOutdoorTerrainRay(
     float closestDistance = std::numeric_limits<float>::max();
     bool hasIntersection = false;
 
-    for (int gridY = 0; gridY < OutdoorMapData::TerrainHeight - 1; ++gridY)
+    for (int gridY = 0; gridY < outdoorMapData.terrainSide - 1; ++gridY)
     {
-        for (int gridX = 0; gridX < OutdoorMapData::TerrainWidth - 1; ++gridX)
+        for (int gridX = 0; gridX < outdoorMapData.terrainSide - 1; ++gridX)
         {
-            const size_t topLeftIndex = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + gridX);
-            const size_t topRightIndex = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + (gridX + 1));
-            const size_t bottomLeftIndex = static_cast<size_t>((gridY + 1) * OutdoorMapData::TerrainWidth + gridX);
+            const size_t topLeftIndex = static_cast<size_t>(gridY * outdoorMapData.terrainSide + gridX);
+            const size_t topRightIndex = static_cast<size_t>(gridY * outdoorMapData.terrainSide + (gridX + 1));
+            const size_t bottomLeftIndex = static_cast<size_t>((gridY + 1) * outdoorMapData.terrainSide + gridX);
             const size_t bottomRightIndex =
-                static_cast<size_t>((gridY + 1) * OutdoorMapData::TerrainWidth + (gridX + 1));
+                static_cast<size_t>((gridY + 1) * outdoorMapData.terrainSide + (gridX + 1));
 
             const bx::Vec3 topLeft = {
-                outdoorGridCornerWorldX(gridX),
-                outdoorGridCornerWorldY(gridY),
+                outdoorGridCornerWorldX(outdoorMapData, gridX),
+                outdoorGridCornerWorldY(outdoorMapData, gridY),
                 static_cast<float>(outdoorMapData.heightMap[topLeftIndex] * OutdoorMapData::TerrainHeightScale)
             };
             const bx::Vec3 topRight = {
-                outdoorGridCornerWorldX(gridX + 1),
-                outdoorGridCornerWorldY(gridY),
+                outdoorGridCornerWorldX(outdoorMapData, gridX + 1),
+                outdoorGridCornerWorldY(outdoorMapData, gridY),
                 static_cast<float>(outdoorMapData.heightMap[topRightIndex] * OutdoorMapData::TerrainHeightScale)
             };
             const bx::Vec3 bottomLeft = {
-                outdoorGridCornerWorldX(gridX),
-                outdoorGridCornerWorldY(gridY + 1),
+                outdoorGridCornerWorldX(outdoorMapData, gridX),
+                outdoorGridCornerWorldY(outdoorMapData, gridY + 1),
                 static_cast<float>(outdoorMapData.heightMap[bottomLeftIndex] * OutdoorMapData::TerrainHeightScale)
             };
             const bx::Vec3 bottomRight = {
-                outdoorGridCornerWorldX(gridX + 1),
-                outdoorGridCornerWorldY(gridY + 1),
+                outdoorGridCornerWorldX(outdoorMapData, gridX + 1),
+                outdoorGridCornerWorldY(outdoorMapData, gridY + 1),
                 static_cast<float>(outdoorMapData.heightMap[bottomRightIndex] * OutdoorMapData::TerrainHeightScale)
             };
 
@@ -2479,8 +2479,8 @@ bool OutdoorGameView::initialize(
             if (std::abs(ground - nativeTerrain) <= 0.01f)
             {
                 ground = m_terrainMaterials.ready() ? m_terrainMaterials.renderedHeight(x, y)
-                    : outdoorNativeTerrainHeight(*m_pOutdoorMapData, outdoorWorldToGridXFloat(x),
-                        outdoorWorldToGridYFloat(y));
+                    : outdoorNativeTerrainHeight(*m_pOutdoorMapData, outdoorWorldToGridXFloat(*m_pOutdoorMapData, x),
+                        outdoorWorldToGridYFloat(*m_pOutdoorMapData, y));
             }
             if (std::abs(ground - z) > SupportBand)
             {
@@ -2526,10 +2526,10 @@ bool OutdoorGameView::initialize(
     OutdoorInteractionController::buildDecorationBillboardSpatialIndex(*this);
     timingLogger.stage("decoration billboard spatial index built");
 
-    const int centerGridX = OutdoorMapData::TerrainWidth / 2;
-    const int centerGridY = OutdoorMapData::TerrainHeight / 2;
+    const int centerGridX = outdoorMapData.terrainSide / 2;
+    const int centerGridY = outdoorMapData.terrainSide / 2;
     const size_t centerSampleIndex =
-        static_cast<size_t>(centerGridY * OutdoorMapData::TerrainWidth + centerGridX);
+        static_cast<size_t>(centerGridY * outdoorMapData.terrainSide + centerGridX);
     const float centerHeightWorld =
         static_cast<float>(outdoorMapData.heightMap[centerSampleIndex] * OutdoorMapData::TerrainHeightScale);
     float initialX = 0.0f;
@@ -2648,8 +2648,8 @@ bool OutdoorGameView::initialize(
         std::vector<uint8_t> voidMask(m_pOutdoorMapData->voidCells.size());
         std::transform(m_pOutdoorMapData->voidCells.begin(), m_pOutdoorMapData->voidCells.end(), voidMask.begin(),
             [](uint8_t cell) { return uint8_t(cell != 0 ? 255 : 0); });
-        m_voidMaskTexture = bgfx::createTexture2D(uint16_t(OutdoorMapData::TerrainWidth),
-            uint16_t(OutdoorMapData::TerrainHeight), false, 1, bgfx::TextureFormat::R8,
+        m_voidMaskTexture = bgfx::createTexture2D(uint16_t(outdoorMapData.terrainSide),
+            uint16_t(outdoorMapData.terrainSide), false, 1, bgfx::TextureFormat::R8,
             BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP, bgfx::copy(voidMask.data(), uint32_t(voidMask.size())));
     }
     m_outdoorFogDensitiesUniformHandle = bgfx::createUniform("u_fogDensities", bgfx::UniformType::Vec4);
@@ -2705,8 +2705,8 @@ bool OutdoorGameView::initialize(
 
     // The decoration models load with the map, before anything asks whether a model draws a decoration: the touch
     // controls' context action target is picked from the first gameplay frame, before its world passes.
-    OutdoorRenderer::ensureDecorationModels(*this);
     m_isRenderable = true;
+    OutdoorRenderer::ensureDecorationModels(*this);
     m_renderableStartTickNanoseconds = SDL_GetTicksNS();
     m_renderFrameIndex = 0;
     timingLogger.stage("outdoor view initialize complete");
@@ -4562,8 +4562,7 @@ SkySurroundings OutdoorGameView::skySurroundings() const
         return surroundings;
     }
 
-    constexpr float HalfSize = 0.5f * OutdoorMapData::TerrainWidth * OutdoorMapData::TerrainTileSize;
-    surroundings.mapEdge = {HalfSize, 0.0f, 0.0f};
+    surroundings.mapEdge = {m_pOutdoorMapData->terrainHalfExtent(), 0.0f, 0.0f};
     surroundings.seaSideWeights = m_distantSea.sideWeights;
     surroundings.camera = {m_skyCameraPosition[2] - m_distantSea.seaLevel, m_skyCameraPosition[0],
         m_skyCameraPosition[1]};

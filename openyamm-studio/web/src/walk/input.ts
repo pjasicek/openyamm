@@ -3,6 +3,7 @@
 // exit pose (Play here) as a camera. The walk itself runs in the worker (walk.worker.ts).
 import type { WalkPose } from '../../../schema/rpc/generated/rpc.ts';
 import type { Camera } from '../model/pins.ts';
+import { HALF } from '../edit/cells.ts';
 
 // The request list's buttons (walk.rpc.json walk_buttons).
 export const WALK_BUTTON = { forward: 1, back: 2, left: 4, right: 8, run: 16, jump: 32 } as const;
@@ -58,7 +59,7 @@ export function walkStatus(pose: WalkPose, kind: 'indoor' | 'outdoor'): string
     const [x, y, z] = pose.position.map((value) => Math.round(value));
     const where = kind === 'indoor'
         ? `${pose.room ?? 'no room'}${pose.sector !== undefined ? ` (sector ${pose.sector})` : ''}`
-        : `cell ${Math.floor((x + 32768) / 512)},${Math.floor((32768 - y) / 512)}${pose.model !== undefined ? ` · on model ${pose.model}` : ''}${pose.on_water ? ' · water' : ''}`;
+        : `cell ${Math.floor((x + HALF) / 512)},${Math.floor((HALF - y) / 512)}${pose.model !== undefined ? ` · on model ${pose.model}` : ''}${pose.on_water ? ' · water' : ''}`;
     const footing = pose.grounded ? `floor ${z}` : `in the air (${Math.round(pose.vertical_velocity ?? 0)}/s)`;
     return `walk · X ${x}  Y ${y}  Z ${z} · ${where} · ${footing}`;
 }

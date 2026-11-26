@@ -3580,20 +3580,20 @@ std::optional<std::vector<uint8_t>> buildOutdoorLandMask(
     const std::array<bool, 256> shallow = shallowLiquidTiles(*tileDescriptors, pLiquidTable);
 
     std::vector<uint8_t> landMask(
-        static_cast<size_t>(OutdoorMapData::TerrainWidth - 1) * static_cast<size_t>(OutdoorMapData::TerrainHeight - 1),
+        static_cast<size_t>(outdoorMapData.terrainSide - 1) * static_cast<size_t>(outdoorMapData.terrainSide - 1),
         0
     );
 
-    for (int gridY = 0; gridY < (OutdoorMapData::TerrainHeight - 1); ++gridY)
+    for (int gridY = 0; gridY < (outdoorMapData.terrainSide - 1); ++gridY)
     {
-        for (int gridX = 0; gridX < (OutdoorMapData::TerrainWidth - 1); ++gridX)
+        for (int gridX = 0; gridX < (outdoorMapData.terrainSide - 1); ++gridX)
         {
             const size_t tileMapIndex =
-                static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + gridX);
+                static_cast<size_t>(gridY * outdoorMapData.terrainSide + gridX);
             const uint8_t rawTileId = outdoorMapData.tileMap[tileMapIndex];
             const bool isWaterTile =
                 hasTerrainTileFlag((*tileDescriptors)[rawTileId], TerrainTileFlagWater) && !shallow[rawTileId];
-            landMask[static_cast<size_t>(gridY * (OutdoorMapData::TerrainWidth - 1) + gridX)] = isWaterTile ? 0 : 1;
+            landMask[static_cast<size_t>(gridY * (outdoorMapData.terrainSide - 1) + gridX)] = isWaterTile ? 0 : 1;
         }
     }
 
@@ -3614,19 +3614,19 @@ std::optional<std::vector<uint32_t>> buildOutdoorTileColors(
     }
 
     std::vector<uint32_t> tileColors(
-        static_cast<size_t>(OutdoorMapData::TerrainWidth - 1) * static_cast<size_t>(OutdoorMapData::TerrainHeight - 1),
+        static_cast<size_t>(outdoorMapData.terrainSide - 1) * static_cast<size_t>(outdoorMapData.terrainSide - 1),
         makeAbgr(96, 96, 96)
     );
 
-    for (int gridY = 0; gridY < (OutdoorMapData::TerrainHeight - 1); ++gridY)
+    for (int gridY = 0; gridY < (outdoorMapData.terrainSide - 1); ++gridY)
     {
-        for (int gridX = 0; gridX < (OutdoorMapData::TerrainWidth - 1); ++gridX)
+        for (int gridX = 0; gridX < (outdoorMapData.terrainSide - 1); ++gridX)
         {
             const size_t tileMapIndex =
-                static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + gridX);
+                static_cast<size_t>(gridY * outdoorMapData.terrainSide + gridX);
             const uint8_t rawTileId = outdoorMapData.tileMap[tileMapIndex];
             const std::string &textureName = (*tileDescriptors)[rawTileId].textureName;
-            tileColors[static_cast<size_t>(gridY * (OutdoorMapData::TerrainWidth - 1) + gridX)] =
+            tileColors[static_cast<size_t>(gridY * (outdoorMapData.terrainSide - 1) + gridX)] =
                 colorFromTextureName(textureName);
         }
     }

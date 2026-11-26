@@ -37,8 +37,11 @@
       "const": 512
     },
     "map_cells": {
-      "description": "Cells along each side of the map. Always 128.",
-      "const": 128
+      "description": "Cells along each side of the map: project.yml terrain.side (128 on a classic map).",
+      "type": "integer",
+      "minimum": 32,
+      "maximum": 256,
+      "x-unit": "cell"
     },
     "notes": {
       "$ref": "common.schema.json#/$defs/notes"
@@ -283,12 +286,12 @@
             },
             "east": {
               "type": "number",
-              "description": "Column 127, map units.",
+              "description": "Column 127 (the last: side - 1), map units.",
               "x-unit": "map"
             },
             "south": {
               "type": "number",
-              "description": "Row 127, map units.",
+              "description": "Row 127 (the last: side - 1), map units.",
               "x-unit": "map"
             },
             "west": {
@@ -3292,13 +3295,46 @@
             "description": "Model: where the model is taken from. The build reads the map from the asset root (worlds/<world>/maps) and copies the named models with their textures; their own events and numbers stay behind, the structure's words (`title`, `house`, `into`, `condition`, `effects`, `hidden` ...) take their place. The models keep their heights (`raise` moves them up or down) and their places among each other.",
             "type": "object",
             "x-flow": true,
-            "required": [
-              "map",
-              "models"
-            ],
             "properties": {
+              "glb": {
+                "description": "A Blender model instead of a map's models (DECISIONS.md H-44): a .glb or .gltf file beside the project (a path from its folder), else in the world's folder of the asset root (worlds/<world>/...). Every mesh is a BModel; its faces of one material, in one plane, sharing an edge and one continuous picture are joined into convex faces of up to 20 corners; a material is a texture of the world by its name (Blender's .001 endings left off) or as `textures` maps it; UVs become texels by the texture's size. `at` puts the model's middle there, its lowest point on the land; without `at` the file's coordinates are the map's. Refused with the face named: slivers (`min_angle`), tiny faces (`min_area`), concave faces, more than `face_budget` faces in a mesh. Solid unless `ethereal` or a material says otherwise.",
+                "type": "string"
+              },
+              "scale": {
+                "description": "With `glb`: map units per file unit. 1 when left out (the model is drawn in map units: a storey is 256 to 384, a cell 512).",
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "x-unit": "ratio"
+              },
+              "up": {
+                "description": "With `glb`: the file's up axis. y (glTF's own, Blender's default export: Blender's x east, y north, z up land on the map's) when left out; z for a file in the map's axes (as the studio's GLB writer makes them).",
+                "enum": [
+                  "y",
+                  "z"
+                ]
+              },
+              "face_budget": {
+                "description": "With `glb`: the most faces one mesh may have after joining, 1000 when left out (a BModel; the shipped maps' largest have a few hundred).",
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 20000,
+                "x-unit": "count"
+              },
+              "min_area": {
+                "description": "With `glb`: the least area of a face, square map units, 32 when left out.",
+                "type": "number",
+                "minimum": 0,
+                "x-unit": "map"
+              },
+              "min_angle": {
+                "description": "With `glb`: the sharpest corner a face may have, degrees, 2 when left out (a sliver).",
+                "type": "number",
+                "minimum": 0,
+                "maximum": 60,
+                "x-unit": "deg"
+              },
               "map": {
-                "description": "An outdoor map of the project's world (or of `world`), by file name (out02.odm).",
+                "description": "An outdoor map of the project's world (or of `world`), by file name (out02.odm). With `models`; not with `glb`.",
                 "type": "string"
               },
               "world": {
@@ -3391,6 +3427,14 @@
                       "minItems": 2,
                       "maxItems": 2,
                       "description": "With `fit`: the picture's size in texels [width, height]."
+                    },
+                    "invisible": {
+                      "type": "boolean",
+                      "description": "kind: model from a `glb`: the faces of this material are not drawn (a collision blocker)."
+                    },
+                    "untouchable": {
+                      "type": "boolean",
+                      "description": "kind: model from a `glb`: the faces of this material are drawn but walked through (foliage, banners, light shafts)."
                     }
                   }
                 }
@@ -3421,7 +3465,8 @@
               "walkway",
               "deck",
               "tent",
-              "arcade"
+              "arcade",
+              "model"
             ]
           },
           "wall_height": {
@@ -5690,10 +5735,10 @@
   "additionalProperties": false,
   "$defs": {
     "cell": {
-      "description": "One coordinate in terrain cells, 0 to 128. Whole cells except where a field allows half cells.",
+      "description": "One coordinate in terrain cells, 0 to the map's side (128 on a classic map; project.yml terrain.side). Whole cells except where a field allows half cells.",
       "type": "number",
       "minimum": 0,
-      "maximum": 128,
+      "maximum": 256,
       "x-unit": "cell"
     },
     "point": {

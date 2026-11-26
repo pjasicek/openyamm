@@ -19,7 +19,7 @@ build/oymap_tests          # unit tests
 tests/read_all_maps.sh     # oymap reads every .odm and .blv under assets_dev
 tests/audit_all.sh         # oymap audit over every map, findings counted per world
 tests/import_all.sh        # every map imports into a valid project; every scene file round-trips
-tests/build_map_parity.sh  # oymap build-map against maps the editor built: the same bytes
+tests/build_map_parity.sh  # oymap build-map against maps the editor built: the same bytes (OYMAP=<binary> for another tree)
 tests/link_closure.py      # which sources a game source needs at link time (from the game's build objects)
 tests/native_vs_wasm.sh    # the native and the wasm core write the same bytes
 node schema/rpc/gen.mjs --check    # the request list's lint; generated/rpc.ts is current
@@ -257,6 +257,22 @@ there). `oymap build` makes a classic ODM with its scene and script:
   `drop_overlaps: true` drops, of each two faces taken that lie in one plane over each other (the same way, or back to
   back where that is seen), the smaller (the later of two alike): a shipped model that flickers in its original
   (MM7's Lady Catherine: hull boards and trim back to back; P3 2026-11-24).
+- **A Blender model** (`kind: model` with `from: {glb: <file>}`, `core/OutdoorGlb`; Hesper H-44, 2026-11-25): a
+  landmark or a dungeon's mouth made in Blender in map units (`scale` otherwise) and exported as glTF with Blender's
+  defaults (+Y up; `up: z` for a file in the map's axes). The file lies beside the project, else in the world's folder
+  of the asset root. Each mesh is a BModel named after the structure (the mesh in its second name); its triangles of
+  one material that lie in one plane, share an edge and carry one continuous picture are joined into convex faces of
+  up to 20 corners. A material is the world's texture of its name (Blender's `.001` endings left off), or what
+  `textures` maps it to: a name, or `{texture, liquid, flow, invisible, untouchable}` (a collision-only slab, foliage
+  one walks through); a texture the world lacks is refused, as for every structure. UVs become texels by the
+  picture's size in the game (a face without UVs lies one texel to a unit). `at` puts the model's middle there with
+  its lowest point on the land (`raise` over it, `turn` about its middle); without `at` the file's coordinates are
+  the map's. Faces are solid unless `ethereal` or a material says otherwise. `click` names the meshes that run the
+  click, the others say the `hint`. Refused with the face named and where it stands: a face under `min_area` (32
+  square units), a corner sharper than `min_angle` (2 degrees: a sliver whose picture does not run on into its
+  neighbour), a concave face, more than `face_budget` faces in a mesh (1000). Not for a model: `trigger: step`,
+  `drop_overlaps`. Example: `examples/glb_gate` (the fixture `tests/fixtures/glb/box_arch.glb`, made by
+  `make_box_arch.py` there with `blender --background`).
 - **A waterfall** (`kind: waterfall`, `core/OutdoorFalls`, the shipped falls measured at its top: Alvar's on out03,
   2,880 down a sheer cliff, and Emerald Island's chutes on 7out01): `line` gives the lip's middle and the way the
   water falls, `top` the stream's level at the lip, `foot` the pool's; `width` comes from the river at the lip. The
@@ -307,6 +323,21 @@ there). `oymap build` makes a classic ODM with its scene and script:
   passed). An error on Xeen's maps, a warning on others.
 - Not built (the build says so in its warnings): boats and stables as travel (a house's service); the plan's
   containers and landmarks unless the sketch draws them as structures.
+
+**A larger map: ODM v2** (Hesper H-33, 2026-11-25; `core/OutdoorGrid`). project.yml `terrain: {side: 160}` (an even
+number from 32 to 256; 128, the classic ODM, when left out) builds the map on that many samples a side, written as an
+OpenYAMM ODM v2 (`OpenYAMM ODM v2` at 0x40, the side at 0x50: game/outdoor/OutdoorMapData.h `terrainSide`). The
+sketch's cells then run 0 to the side (map units: (cell - side / 2) x 512, 40 960 from the middle at 160), and
+everything that read 128 reads the side: the lowering, ground, rim, places, things, the sketch's checks and picture,
+the walk and the readers of a built map, and the browser editor (`web/src/edit/cells.ts`, set when a project opens).
+The square the party walks grows with the side (23 143 x side / 128: 28 928 at 160, nodes 24 to 136, a rim of 24
+rows in the north and west and 23 in the south and east); build.json gives it as `outdoor_bounds` with `terrain_side`,
+and the world's map_navigation row must carry it (the game's default is the classic square). A ridge's crest stands
+15 cells out by default on such a rim (12 on the classic 18 and 19 rows) and may stand up to 20. Faces past the
+classic frame keep their texels inside the format's 16 bits by whole 4096-texel periods; bridge footings are held to
+the map's frame. A sketch's `map_cells`, when given, must be the side. `oymap compare` reads classic maps only. A
+classic project builds exactly as before (33 projects byte for byte; unit cases in `tests/OdmV2Tests.cpp`). Example:
+`examples/odm_v2_vale`.
 
 `oymap compare <original.odm> --world <w> --with <project | second map> --assets <root> --out <folder>` measures a
 rebuild against its original (`core/OutdoorCompare`, the method is told at its top): one score from eleven parts
@@ -1109,6 +1140,13 @@ Unit cases in `tests/OutdoorTests.cpp` ("chests outdoors", "the ground things st
   spot where the game's ground within its radius (decoration_data.txt's Radius) varies by more than 48.
   Set `support_radius` on the scatter entry to specify its ground footprint in map units. It checks the same
   candidate positions, so an established stand can keep its layout when its physical cylinder is replaced.
+- An indoor map can use a model for a chest by naming a decoration in `objects.yml`, for example
+  `{id: chest:cargo, room: room:hold, at: [640, 320], decoration: hh_breach_cache, treasure_level: 5}` in Hesper.
+  The usual `preset: chest` on `source: chest:cargo` keeps its container, trap and loot. The body uses the world's
+  decoration binding and any lid parts play their `open` and `close` clips. Outdoors use a `kind: decoration`
+  structure with the same `decoration` and a `chest: {level: 5, random_items: 3}` block.
+  A different world that mounts the Hesper assets can bind its own decoration row to the same
+  `worlds/hesper/models/hh_breach_cache.glb` body and `hh_breach_cache_lid.glb` part.
 - **Indoor chests: `facing` is the long axis (F6-R5)**: an indoor chest's `facing` is the direction its width runs;
   its **front** (the lock, the sloping lid's own picture) is the side 90 degrees anticlockwise of it, so `facing: east`
   shows the front to the north.

@@ -3805,8 +3805,8 @@ std::vector<std::string> EditorDocument::validate() const
     {
         if (overrideEntry.x < 0
             || overrideEntry.y < 0
-            || overrideEntry.x >= Game::OutdoorMapData::TerrainWidth
-            || overrideEntry.y >= Game::OutdoorMapData::TerrainHeight)
+            || overrideEntry.x >= m_outdoorGeometry.terrainSide
+            || overrideEntry.y >= m_outdoorGeometry.terrainSide)
         {
             issues.push_back(
                 "Terrain override (" + std::to_string(overrideEntry.x) + ", "

@@ -79,9 +79,22 @@ namespace OpenYAMM::Studio
 {
 namespace
 {
-constexpr int Nodes = 128;
-constexpr int First = OutdoorPlayableFirstNode;
-constexpr int Last = OutdoorPlayableLastNode;
+// The map's samples along each side, and the first and last node of the square the party walks (core/OutdoorGrid).
+int sideNodes()
+{
+    return outdoorNodeCount();
+}
+
+int firstNode()
+{
+    return outdoorGrid().playableFirst;
+}
+
+int lastNode()
+{
+    return outdoorGrid().playableLast;
+}
+
 const char *SketchFile = "sketch.yml";
 // Cells over which two entries, or an entry and the heights beyond its span, run into each other.
 constexpr double JoinCells = 4.0;
@@ -182,7 +195,7 @@ bool sideOf(const std::string &text, OutdoorRimSide &side)
 
 bool inSquare(double x, double y)
 {
-    return x >= First && x <= Last && y >= First && y <= Last;
+    return x >= firstNode() && x <= lastNode() && y >= firstNode() && y <= lastNode();
 }
 
 // A number from 0 to 1 (never 1) for a seed and up to three whole numbers, the same on every machine.
@@ -230,23 +243,37 @@ double wave(uint32_t seed, double x, double y, double cells)
 
 double fieldAt(const std::vector<double> &field, double x, double y)
 {
-    const double clampedX = std::clamp(x, 0.0, Nodes - 1.0);
-    const double clampedY = std::clamp(y, 0.0, Nodes - 1.0);
-    const int x0 = std::min(Nodes - 2, static_cast<int>(clampedX));
-    const int y0 = std::min(Nodes - 2, static_cast<int>(clampedY));
+    const double clampedX = std::clamp(x, 0.0, sideNodes() - 1.0);
+    const double clampedY = std::clamp(y, 0.0, sideNodes() - 1.0);
+    const int x0 = std::min(sideNodes() - 2, static_cast<int>(clampedX));
+    const int y0 = std::min(sideNodes() - 2, static_cast<int>(clampedY));
     const double shareX = clampedX - x0;
     const double shareY = clampedY - y0;
-    const double north = field[static_cast<size_t>(y0) * Nodes + x0] * (1.0 - shareX)
-        + field[static_cast<size_t>(y0) * Nodes + x0 + 1] * shareX;
-    const double south = field[static_cast<size_t>(y0 + 1) * Nodes + x0] * (1.0 - shareX)
-        + field[static_cast<size_t>(y0 + 1) * Nodes + x0 + 1] * shareX;
+    const double north = field[static_cast<size_t>(y0) * sideNodes() + x0] * (1.0 - shareX)
+        + field[static_cast<size_t>(y0) * sideNodes() + x0 + 1] * shareX;
+    const double south = field[static_cast<size_t>(y0 + 1) * sideNodes() + x0] * (1.0 - shareX)
+        + field[static_cast<size_t>(y0 + 1) * sideNodes() + x0 + 1] * shareX;
     return north * (1.0 - shareY) + south * shareY;
 }
 
 // How many rows of nodes a side's strip has: the outermost row stands this far out.
 int stripDepth(OutdoorRimSide side)
 {
-    return side == OutdoorRimSide::North || side == OutdoorRimSide::West ? First : Nodes - 1 - Last;
+    return side == OutdoorRimSide::North || side == OutdoorRimSide::West ? firstNode() : sideNodes() - 1 - lastNode();
+}
+
+// Where a ridge's crest runs when the sketch does not say, cells out from the square: 12 on the classic rims of 18 and
+// 19 rows (Harmondale's 11 to 13), the same share of a wider rim's strip (15 on the 23- and 24-row rims of a 160 map),
+// so its mounds still stand two thirds of the way out and the land behind them falls to the edge as steeply.
+double defaultCrest(OutdoorRimSide side)
+{
+    return std::max(12.0, std::round(stripDepth(side) * 12.0 / 19.0));
+}
+
+// The farthest a crest may run: 15 on a classic map, as many cells more as the rim has more rows than 19.
+double farthestCrest()
+{
+    return 15.0 + std::max(0, firstNode() - 19);
 }
 
 struct ValleyPoint
@@ -296,13 +323,13 @@ int outdoorRimDistance(OutdoorRimSide side, int x, int y)
     switch (side)
     {
     case OutdoorRimSide::North:
-        return First - y;
+        return firstNode() - y;
     case OutdoorRimSide::South:
-        return y - Last;
+        return y - lastNode();
     case OutdoorRimSide::West:
-        return First - x;
+        return firstNode() - x;
     default:
-        return x - Last;
+        return x - lastNode();
     }
 }
 
@@ -394,6 +421,7 @@ void readOutdoorRim(const YAML::Node &sketch, OutdoorRim &rim, std::vector<Proje
 
         OutdoorRimEntry entry;
         entry.space = textOf(node, "space");
+        entry.spanTo = sideNodes();
         bool usable = true;
 
         if (!sideOf(textOf(node, "side"), entry.side))
@@ -405,6 +433,7 @@ void readOutdoorRim(const YAML::Node &sketch, OutdoorRim &rim, std::vector<Proje
         // Each side's mounds and waves differ unless the sketch gives its own seed: 1 north, 2 east, 3 south, 4
         // west.
         entry.seed = static_cast<uint32_t>(entry.side) + 1;
+        entry.crest = defaultCrest(entry.side);
 
         if (form != "level" && form != "ridge")
         {
@@ -420,10 +449,10 @@ void readOutdoorRim(const YAML::Node &sketch, OutdoorRim &rim, std::vector<Proje
         {
             if (!span.IsSequence() || span.size() != 2 || !numberOf(span[0], entry.spanFrom)
                 || !numberOf(span[1], entry.spanTo) || entry.spanFrom >= entry.spanTo || entry.spanFrom < 0.0
-                || entry.spanTo > Nodes)
+                || entry.spanTo > sideNodes())
             {
                 add(path + ".span", "a rim entry's span is [from, to] along its side in cells, from below to, "
-                    "both from 0 to 128 (x for north and south, y for east and west)");
+                    "both from 0 to " + std::to_string(sideNodes()) + " (x for north and south, y for east and west)");
                 usable = false;
             }
         }
@@ -505,10 +534,13 @@ void readOutdoorRim(const YAML::Node &sketch, OutdoorRim &rim, std::vector<Proje
                 usable = false;
             }
 
-            if (crest.IsDefined() && (!numberOf(crest, entry.crest) || entry.crest < 4.0 || entry.crest > 15.0))
+            if (crest.IsDefined()
+                && (!numberOf(crest, entry.crest) || entry.crest < 4.0 || entry.crest > farthestCrest()))
             {
-                add(path + ".crest", "a ridge's crest stands 4 to 15 cells out from the square (12 when left out): "
-                    "the rim is 18 to 19 cells wide and a mound up to 7 in radius");
+                add(path + ".crest", "a ridge's crest stands 4 to " + formatNumber(farthestCrest()) + " cells out from "
+                    "the square (" + formatNumber(defaultCrest(entry.side)) + " when left out): the rim is "
+                    + std::to_string(stripDepth(OutdoorRimSide::South)) + " to "
+                    + std::to_string(stripDepth(OutdoorRimSide::North)) + " cells wide and a mound up to 7 in radius");
                 usable = false;
             }
 
@@ -642,7 +674,7 @@ void shapeOutdoorRim(const OutdoorRim &rim, std::vector<double> &base, std::vect
         pShaped->clear();
     }
 
-    if (!rim.shapesAnything() || base.size() != static_cast<size_t>(Nodes) * Nodes)
+    if (!rim.shapesAnything() || base.size() != static_cast<size_t>(sideNodes()) * sideNodes())
     {
         return;
     }
@@ -657,17 +689,17 @@ void shapeOutdoorRim(const OutdoorRim &rim, std::vector<double> &base, std::vect
     // The land at the square's edge nearest a node, evened over five nodes along the edge.
     const auto edgeLand = [&before](int x, int y)
     {
-        const int nearX = std::clamp(x, First, Last);
-        const int nearY = std::clamp(y, First, Last);
-        const bool alongX = (nearY == First || nearY == Last) && nearX > First && nearX < Last;
-        const bool alongY = (nearX == First || nearX == Last) && nearY > First && nearY < Last;
+        const int nearX = std::clamp(x, firstNode(), lastNode());
+        const int nearY = std::clamp(y, firstNode(), lastNode());
+        const bool alongX = (nearY == firstNode() || nearY == lastNode()) && nearX > firstNode() && nearX < lastNode();
+        const bool alongY = (nearX == firstNode() || nearX == lastNode()) && nearY > firstNode() && nearY < lastNode();
         double sum = 0.0;
 
         for (int offset = -2; offset <= 2; ++offset)
         {
-            const int sampleX = alongX ? std::clamp(nearX + offset, First, Last) : nearX;
-            const int sampleY = alongY ? std::clamp(nearY + offset, First, Last) : nearY;
-            sum += before[static_cast<size_t>(sampleY) * Nodes + sampleX];
+            const int sampleX = alongX ? std::clamp(nearX + offset, firstNode(), lastNode()) : nearX;
+            const int sampleY = alongY ? std::clamp(nearY + offset, firstNode(), lastNode()) : nearY;
+            sum += before[static_cast<size_t>(sampleY) * sideNodes() + sampleX];
         }
 
         return sum / 5.0;
@@ -711,9 +743,9 @@ void shapeOutdoorRim(const OutdoorRim &rim, std::vector<double> &base, std::vect
                 {
                     if (!leaving)
                     {
-                        leaving = fieldAt(before, std::clamp(atX, static_cast<double>(First),
-                            static_cast<double>(Last)), std::clamp(atY, static_cast<double>(First),
-                            static_cast<double>(Last)));
+                        leaving = fieldAt(before, std::clamp(atX, static_cast<double>(firstNode()),
+                            static_cast<double>(lastNode())), std::clamp(atY, static_cast<double>(firstNode()),
+                            static_cast<double>(lastNode())));
                     }
 
                     floor = *leaving;
@@ -726,16 +758,16 @@ void shapeOutdoorRim(const OutdoorRim &rim, std::vector<double> &base, std::vect
         valleyPoints.push_back(points);
     }
 
-    for (int y = 0; y < Nodes; ++y)
+    for (int y = 0; y < sideNodes(); ++y)
     {
-        for (int x = 0; x < Nodes; ++x)
+        for (int x = 0; x < sideNodes(); ++x)
         {
             if (inSquare(x, y))
             {
                 continue;
             }
 
-            const size_t node = static_cast<size_t>(y) * Nodes + x;
+            const size_t node = static_cast<size_t>(y) * sideNodes() + x;
             int out = 0;
 
             for (const OutdoorRimSide side : {OutdoorRimSide::North, OutdoorRimSide::East, OutdoorRimSide::South,
@@ -854,14 +886,14 @@ void shapeOutdoorRim(const OutdoorRim &rim, std::vector<double> &base, std::vect
 
 void holdOutdoorRimEdge(const OutdoorRim &rim, std::vector<double> &field)
 {
-    if (field.size() != static_cast<size_t>(Nodes) * Nodes)
+    if (field.size() != static_cast<size_t>(sideNodes()) * sideNodes())
     {
         return;
     }
 
-    for (int y = 0; y < Nodes; ++y)
+    for (int y = 0; y < sideNodes(); ++y)
     {
-        for (int x = 0; x < Nodes; ++x)
+        for (int x = 0; x < sideNodes(); ++x)
         {
             double edgeSum = 0.0;
             int edgeCount = 0;
@@ -880,7 +912,7 @@ void holdOutdoorRimEdge(const OutdoorRim &rim, std::vector<double> &field)
 
             if (edgeCount != 0)
             {
-                field[static_cast<size_t>(y) * Nodes + x] = edgeSum / edgeCount;
+                field[static_cast<size_t>(y) * sideNodes() + x] = edgeSum / edgeCount;
             }
         }
     }

@@ -1316,6 +1316,11 @@ void OutdoorRenderer::updateEnhancedSky(
     inputs.mapFileName = view.m_map ? view.m_map->fileName : std::string();
     inputs.forcedTheme = view.m_debugSkyTheme;
 
+    if (const Party *pParty = view.m_pOutdoorWorldRuntime->party(); pParty != nullptr)
+    {
+        inputs.pCampaign = &pParty->campaign();
+    }
+
     if (inputs.foggy && !atmosphere.redFog)
     {
         const uint32_t fogColorAbgr = computeOutdoorSkyFogColorAbgr(atmosphere);
@@ -2266,22 +2271,22 @@ bool OutdoorRenderer::buildBModelWorldRenderChunks(
 std::vector<OutdoorGameView::TerrainVertex> OutdoorRenderer::buildTerrainVertices(const OutdoorMapData &mapData)
 {
     std::vector<OutdoorGameView::TerrainVertex> vertices;
-    vertices.reserve(OutdoorMapData::TerrainWidth * OutdoorMapData::TerrainHeight);
+    vertices.reserve(mapData.terrainSide * mapData.terrainSide);
 
     const float minHeight = static_cast<float>(mapData.minHeightSample);
     const float maxHeight = static_cast<float>(mapData.maxHeightSample);
     const float heightRange = std::max(maxHeight - minHeight, 1.0f);
 
-    for (int gridY = 0; gridY < OutdoorMapData::TerrainHeight; ++gridY)
+    for (int gridY = 0; gridY < mapData.terrainSide; ++gridY)
     {
-        for (int gridX = 0; gridX < OutdoorMapData::TerrainWidth; ++gridX)
+        for (int gridX = 0; gridX < mapData.terrainSide; ++gridX)
         {
-            const size_t sampleIndex = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + gridX);
+            const size_t sampleIndex = static_cast<size_t>(gridY * mapData.terrainSide + gridX);
             const float heightSample = static_cast<float>(mapData.heightMap[sampleIndex]);
             const float normalizedHeight = (heightSample - minHeight) / heightRange;
             OutdoorGameView::TerrainVertex vertex = {};
-            vertex.x = outdoorGridCornerWorldX(gridX);
-            vertex.y = outdoorGridCornerWorldY(gridY);
+            vertex.x = outdoorGridCornerWorldX(mapData, gridX);
+            vertex.y = outdoorGridCornerWorldY(mapData, gridY);
             vertex.z = heightSample * static_cast<float>(OutdoorMapData::TerrainHeightScale);
             vertex.abgr = makeAbgr(
                 static_cast<uint8_t>(32.0f + normalizedHeight * 96.0f),
@@ -2294,18 +2299,18 @@ std::vector<OutdoorGameView::TerrainVertex> OutdoorRenderer::buildTerrainVertice
     return vertices;
 }
 
-std::vector<uint16_t> OutdoorRenderer::buildTerrainIndices()
+std::vector<uint16_t> OutdoorRenderer::buildTerrainIndices(const OutdoorMapData &mapData)
 {
     std::vector<uint16_t> indices;
-    indices.reserve((OutdoorMapData::TerrainWidth - 1) * (OutdoorMapData::TerrainHeight - 1) * 8);
+    indices.reserve((mapData.terrainSide - 1) * (mapData.terrainSide - 1) * 8);
 
-    for (int gridY = 0; gridY < (OutdoorMapData::TerrainHeight - 1); ++gridY)
+    for (int gridY = 0; gridY < (mapData.terrainSide - 1); ++gridY)
     {
-        for (int gridX = 0; gridX < (OutdoorMapData::TerrainWidth - 1); ++gridX)
+        for (int gridX = 0; gridX < (mapData.terrainSide - 1); ++gridX)
         {
-            const uint16_t topLeft = static_cast<uint16_t>(gridY * OutdoorMapData::TerrainWidth + gridX);
+            const uint16_t topLeft = static_cast<uint16_t>(gridY * mapData.terrainSide + gridX);
             const uint16_t topRight = static_cast<uint16_t>(topLeft + 1);
-            const uint16_t bottomLeft = static_cast<uint16_t>((gridY + 1) * OutdoorMapData::TerrainWidth + gridX);
+            const uint16_t bottomLeft = static_cast<uint16_t>((gridY + 1) * mapData.terrainSide + gridX);
             const uint16_t bottomRight = static_cast<uint16_t>(bottomLeft + 1);
 
             indices.push_back(topLeft);
@@ -2328,15 +2333,15 @@ std::vector<OutdoorGameView::TexturedTerrainVertex> OutdoorRenderer::buildTerrai
 {
     std::vector<OutdoorGameView::TexturedTerrainVertex> vertices;
     vertices.reserve(
-        static_cast<size_t>(OutdoorMapData::TerrainWidth - 1)
-        * static_cast<size_t>(OutdoorMapData::TerrainHeight - 1)
+        static_cast<size_t>(mapData.terrainSide - 1)
+        * static_cast<size_t>(mapData.terrainSide - 1)
         * 6);
 
-    for (int gridY = 0; gridY < (OutdoorMapData::TerrainHeight - 1); ++gridY)
+    for (int gridY = 0; gridY < (mapData.terrainSide - 1); ++gridY)
     {
-        for (int gridX = 0; gridX < (OutdoorMapData::TerrainWidth - 1); ++gridX)
+        for (int gridX = 0; gridX < (mapData.terrainSide - 1); ++gridX)
         {
-            const size_t tileMapIndex = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + gridX);
+            const size_t tileMapIndex = static_cast<size_t>(gridY * mapData.terrainSide + gridX);
             const uint8_t rawTileId = mapData.tileMap[tileMapIndex];
             const OutdoorTerrainTile &tile = terrainTiles.tiles[size_t(rawTileId)];
 
@@ -2347,33 +2352,33 @@ std::vector<OutdoorGameView::TexturedTerrainVertex> OutdoorRenderer::buildTerrai
 
             const size_t topLeftIndex = tileMapIndex;
             const size_t topRightIndex = topLeftIndex + 1;
-            const size_t bottomLeftIndex = static_cast<size_t>((gridY + 1) * OutdoorMapData::TerrainWidth + gridX);
+            const size_t bottomLeftIndex = static_cast<size_t>((gridY + 1) * mapData.terrainSide + gridX);
             const size_t bottomRightIndex = bottomLeftIndex + 1;
 
             OutdoorGameView::TexturedTerrainVertex topLeft = {};
-            topLeft.x = outdoorGridCornerWorldX(gridX);
-            topLeft.y = outdoorGridCornerWorldY(gridY);
+            topLeft.x = outdoorGridCornerWorldX(mapData, gridX);
+            topLeft.y = outdoorGridCornerWorldY(mapData, gridY);
             topLeft.z = static_cast<float>(mapData.heightMap[topLeftIndex] * OutdoorMapData::TerrainHeightScale);
             topLeft.u = 0.0f;
             topLeft.v = 0.0f;
 
             OutdoorGameView::TexturedTerrainVertex topRight = {};
-            topRight.x = outdoorGridCornerWorldX(gridX + 1);
-            topRight.y = outdoorGridCornerWorldY(gridY);
+            topRight.x = outdoorGridCornerWorldX(mapData, gridX + 1);
+            topRight.y = outdoorGridCornerWorldY(mapData, gridY);
             topRight.z = static_cast<float>(mapData.heightMap[topRightIndex] * OutdoorMapData::TerrainHeightScale);
             topRight.u = 1.0f;
             topRight.v = 0.0f;
 
             OutdoorGameView::TexturedTerrainVertex bottomLeft = {};
-            bottomLeft.x = outdoorGridCornerWorldX(gridX);
-            bottomLeft.y = outdoorGridCornerWorldY(gridY + 1);
+            bottomLeft.x = outdoorGridCornerWorldX(mapData, gridX);
+            bottomLeft.y = outdoorGridCornerWorldY(mapData, gridY + 1);
             bottomLeft.z = static_cast<float>(mapData.heightMap[bottomLeftIndex] * OutdoorMapData::TerrainHeightScale);
             bottomLeft.u = 0.0f;
             bottomLeft.v = 1.0f;
 
             OutdoorGameView::TexturedTerrainVertex bottomRight = {};
-            bottomRight.x = outdoorGridCornerWorldX(gridX + 1);
-            bottomRight.y = outdoorGridCornerWorldY(gridY + 1);
+            bottomRight.x = outdoorGridCornerWorldX(mapData, gridX + 1);
+            bottomRight.y = outdoorGridCornerWorldY(mapData, gridY + 1);
             bottomRight.z = static_cast<float>(mapData.heightMap[bottomRightIndex] * OutdoorMapData::TerrainHeightScale);
             bottomRight.u = 1.0f;
             bottomRight.v = 1.0f;
@@ -2587,50 +2592,50 @@ std::vector<OutdoorGameView::TerrainVertex> OutdoorRenderer::buildFilledTerrainV
 {
     std::vector<OutdoorGameView::TerrainVertex> vertices;
     vertices.reserve(
-        static_cast<size_t>(OutdoorMapData::TerrainWidth - 1)
-        * static_cast<size_t>(OutdoorMapData::TerrainHeight - 1)
+        static_cast<size_t>(mapData.terrainSide - 1)
+        * static_cast<size_t>(mapData.terrainSide - 1)
         * 6);
 
     const uint32_t fallbackColor = 0xff707070u;
 
-    for (int gridY = 0; gridY < (OutdoorMapData::TerrainHeight - 1); ++gridY)
+    for (int gridY = 0; gridY < (mapData.terrainSide - 1); ++gridY)
     {
-        for (int gridX = 0; gridX < (OutdoorMapData::TerrainWidth - 1); ++gridX)
+        for (int gridX = 0; gridX < (mapData.terrainSide - 1); ++gridX)
         {
-            const size_t topLeftIndex = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + gridX);
+            const size_t topLeftIndex = static_cast<size_t>(gridY * mapData.terrainSide + gridX);
             if (pTerrainTiles != nullptr && pTerrainTiles->tiles[mapData.tileMap[topLeftIndex]].valid)
             {
                 // The terrain draws these cells; the flat colours fill only cells without a valid tile.
                 continue;
             }
             const size_t topRightIndex = topLeftIndex + 1;
-            const size_t bottomLeftIndex = static_cast<size_t>((gridY + 1) * OutdoorMapData::TerrainWidth + gridX);
+            const size_t bottomLeftIndex = static_cast<size_t>((gridY + 1) * mapData.terrainSide + gridX);
             const size_t bottomRightIndex = bottomLeftIndex + 1;
-            const size_t tileColorIndex = static_cast<size_t>(gridY * (OutdoorMapData::TerrainWidth - 1) + gridX);
+            const size_t tileColorIndex = static_cast<size_t>(gridY * (mapData.terrainSide - 1) + gridX);
             const uint32_t tileColor = tileColors ? (*tileColors)[tileColorIndex] : fallbackColor;
 
             OutdoorGameView::TerrainVertex topLeft = {};
-            topLeft.x = outdoorGridCornerWorldX(gridX);
-            topLeft.y = outdoorGridCornerWorldY(gridY);
+            topLeft.x = outdoorGridCornerWorldX(mapData, gridX);
+            topLeft.y = outdoorGridCornerWorldY(mapData, gridY);
             topLeft.z = static_cast<float>(mapData.heightMap[topLeftIndex] * OutdoorMapData::TerrainHeightScale);
             topLeft.abgr = tileColor;
 
             OutdoorGameView::TerrainVertex topRight = {};
-            topRight.x = outdoorGridCornerWorldX(gridX + 1);
-            topRight.y = outdoorGridCornerWorldY(gridY);
+            topRight.x = outdoorGridCornerWorldX(mapData, gridX + 1);
+            topRight.y = outdoorGridCornerWorldY(mapData, gridY);
             topRight.z = static_cast<float>(mapData.heightMap[topRightIndex] * OutdoorMapData::TerrainHeightScale);
             topRight.abgr = tileColor;
 
             OutdoorGameView::TerrainVertex bottomLeft = {};
-            bottomLeft.x = outdoorGridCornerWorldX(gridX);
-            bottomLeft.y = outdoorGridCornerWorldY(gridY + 1);
+            bottomLeft.x = outdoorGridCornerWorldX(mapData, gridX);
+            bottomLeft.y = outdoorGridCornerWorldY(mapData, gridY + 1);
             bottomLeft.z =
                 static_cast<float>(mapData.heightMap[bottomLeftIndex] * OutdoorMapData::TerrainHeightScale);
             bottomLeft.abgr = tileColor;
 
             OutdoorGameView::TerrainVertex bottomRight = {};
-            bottomRight.x = outdoorGridCornerWorldX(gridX + 1);
-            bottomRight.y = outdoorGridCornerWorldY(gridY + 1);
+            bottomRight.x = outdoorGridCornerWorldX(mapData, gridX + 1);
+            bottomRight.y = outdoorGridCornerWorldY(mapData, gridY + 1);
             bottomRight.z =
                 static_cast<float>(mapData.heightMap[bottomRightIndex] * OutdoorMapData::TerrainHeightScale);
             bottomRight.abgr = tileColor;
@@ -3275,11 +3280,11 @@ bool OutdoorRenderer::ensureTerrainMaterials(OutdoorGameView &view)
     if (!view.m_terrainMaterials.initialize(*view.m_pAssetFileSystem, map, *config, *view.m_terrainMaterialTiles,
             uint32_t(view.m_gameSettings.terrainSubdivision), baked ? &*map.lightingData : nullptr,
             view.m_waterRenderer.isReady(),
-            loadProgramHandle("vs_outdoor_terrain_materials", pFragment),
-            loadProgramHandle("vs_outdoor_terrain_materials", shadowFragment.c_str()),
-            loadProgramHandle("vs_outdoor_terrain_materials", singleFragment.c_str()),
-            loadProgramHandle("vs_outdoor_terrain_materials", singleShadowFragment.c_str()),
-            loadProgramHandle("vs_outdoor_terrain_materials", "fs_outdoor_terrain_depth"), error))
+            loadProgramHandle(vertex.c_str(), fragment.c_str()),
+            loadProgramHandle(vertex.c_str(), shadowFragment.c_str()),
+            loadProgramHandle(vertex.c_str(), singleFragment.c_str()),
+            loadProgramHandle(vertex.c_str(), singleShadowFragment.c_str()),
+            loadProgramHandle(vertex.c_str(), depth.c_str()), error))
     {
         std::cerr << "Terrain materials unavailable for " << map.fileName << ": " << error << '\n';
         return false;
@@ -3319,7 +3324,10 @@ void OutdoorRenderer::ensureDecorationModels(OutdoorGameView &view)
         view.m_decorationModels.clear();
         return;
     }
-    view.m_modelRenderer.preloadStatic(view.m_decorationModels.groups());
+    if (view.m_isRenderable)
+    {
+        view.m_modelRenderer.preloadStatic(view.m_decorationModels.groups());
+    }
 }
 
 void OutdoorRenderer::updateTerrainBushes(OutdoorGameView &view, const OutdoorLightingData *pBakedLighting,
@@ -3517,7 +3525,7 @@ bool OutdoorRenderer::initializeWorldRenderResources(
     constexpr bool renderTerrain = true;
     const bool bmodelWorld = outdoorMapData.sceneProfile == OutdoorSceneProfile::BModelWorld;
     const std::vector<OutdoorGameView::TerrainVertex> vertices = buildTerrainVertices(outdoorMapData);
-    const std::vector<uint16_t> indices = buildTerrainIndices();
+    const std::vector<uint16_t> indices = buildTerrainIndices(outdoorMapData);
     const std::vector<OutdoorGameView::TerrainVertex> filledTerrainVertices =
         renderTerrain
             ? buildFilledTerrainVertices(outdoorMapData, outdoorTileColors,

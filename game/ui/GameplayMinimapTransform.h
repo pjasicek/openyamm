@@ -99,12 +99,13 @@ inline GameplayMinimapPoint gameplayMinimapUvToOutdoorRevealUv(
     float u,
     float v)
 {
-    // Saved outdoor exploration always uses the native +/-32768 world extent,
+    // Saved outdoor exploration always uses the terrain frame (the native +/-32768 world extent on a classic map),
     // independently of the presentation image's crop, aspect ratio or flips.
     const GameplayMinimapPoint world = gameplayMinimapUvToWorld(state, u, v);
+    const float halfExtent = state.revealHalfExtent;
     return {
-        std::clamp((world.x + 32768.0f) / 65536.0f, 0.0f, 0.999999f),
-        std::clamp((32768.0f - world.y) / 65536.0f, 0.0f, 0.999999f)
+        std::clamp((world.x + halfExtent) / (halfExtent * 2.0f), 0.0f, 0.999999f),
+        std::clamp((halfExtent - world.y) / (halfExtent * 2.0f), 0.0f, 0.999999f)
     };
 }
 }

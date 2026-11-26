@@ -149,6 +149,12 @@ std::array<float, 4> tinted(const std::array<float, 3> &tint, float shade, const
     return {tint[0] * shade * meadow[0], tint[1] * shade * meadow[1], tint[2] * shade * meadow[2], 1.0f};
 }
 
+// The density mask's side: the square root of its size (128 on a classic map).
+int densityMaskSide(const TerrainDecorationConfig &config)
+{
+    return int(std::lround(std::sqrt(double(config.densityMask.size()))));
+}
+
 float cellDensity(const TerrainDecorationConfig &config, float x, float y)
 {
     if (config.densityMask.empty())
@@ -156,16 +162,18 @@ float cellDensity(const TerrainDecorationConfig &config, float x, float y)
         return 1.0f;
     }
     // Pixel centres correspond to terrain cell centres; interpolate across shared cell edges.
-    x = std::clamp(x - 0.5f, 0.0f, 127.0f);
-    y = std::clamp(y - 0.5f, 0.0f, 127.0f);
+    const int side = densityMaskSide(config);
+    const int last = side - 1;
+    x = std::clamp(x - 0.5f, 0.0f, float(last));
+    y = std::clamp(y - 0.5f, 0.0f, float(last));
     const int ix = int(x);
     const int iy = int(y);
-    const int nx = std::min(ix + 1, 127);
-    const int ny = std::min(iy + 1, 127);
-    return std::lerp(std::lerp(float(config.densityMask[iy * 128 + ix]),
-                               float(config.densityMask[iy * 128 + nx]), x - ix),
-                     std::lerp(float(config.densityMask[ny * 128 + ix]),
-                               float(config.densityMask[ny * 128 + nx]), x - ix), y - iy) / 255.0f;
+    const int nx = std::min(ix + 1, last);
+    const int ny = std::min(iy + 1, last);
+    return std::lerp(std::lerp(float(config.densityMask[iy * side + ix]),
+                               float(config.densityMask[iy * side + nx]), x - ix),
+                     std::lerp(float(config.densityMask[ny * side + ix]),
+                               float(config.densityMask[ny * side + nx]), x - ix), y - iy) / 255.0f;
 }
 
 float materialCoverage(const TerrainDecorationRule &rule, float u, float v, bool fullFootprint = false)
@@ -194,7 +202,8 @@ float materialCoverage(const TerrainDecorationRule &rule, float u, float v, bool
     return strict ? (minimum >= 240 ? 1.0f : 0.0f) : smoothUnit((float(minimum) - 128.0f) / 112.0f);
 }
 
-// The mapped area: grid corner 0 to 128 in both directions.
+// The classic mapped area (grid corner 0 to 128 in both directions): an open-air BLV's surface; an outdoor map's own
+// frame is in its TerrainDecorationPlacement.
 constexpr float MapMinimum = -float(OutdoorMapData::TerrainTileSize * 64);
 constexpr float MapSize = float(OutdoorMapData::TerrainTileSize * 128);
 
@@ -237,7 +246,7 @@ void buildRankTree(const std::vector<TerrainDecorationInstance> &placed, bool st
     }
     int leaves = 1;
     int depth = 0;
-    while (float(leaves) * TerrainDecorationLeafSize < MapSize)
+    while (float(leaves) * TerrainDecorationLeafSize < result.mapSize)
     {
         leaves *= 2;
         ++depth;
@@ -252,9 +261,9 @@ void buildRankTree(const std::vector<TerrainDecorationInstance> &placed, bool st
     for (uint32_t index = 0; index < placed.size(); ++index)
     {
         const TerrainDecorationInstance &instance = placed[index];
-        const int leafX = std::clamp(int((instance.positionYaw[0] - MapMinimum) / TerrainDecorationLeafSize),
+        const int leafX = std::clamp(int((instance.positionYaw[0] - result.mapMinimum) / TerrainDecorationLeafSize),
             0, leaves - 1);
-        const int leafY = std::clamp(int((instance.positionYaw[1] - MapMinimum) / TerrainDecorationLeafSize),
+        const int leafY = std::clamp(int((instance.positionYaw[1] - result.mapMinimum) / TerrainDecorationLeafSize),
             0, leaves - 1);
         int level = 0;
         float bandBegin = 0.25f;
@@ -323,10 +332,16 @@ void buildRankTree(const std::vector<TerrainDecorationInstance> &placed, bool st
 std::optional<TerrainDecorationConfig> loadTerrainDecorationConfig(
     const Engine::AssetFileSystem &assets, const OutdoorMapData &map, std::string &error)
 {
-    return loadTerrainDecorationConfigFile(assets,
+    std::optional<TerrainDecorationConfig> config = loadTerrainDecorationConfigFile(assets,
         "worlds/" + map.worldId + "/terrain_decorations/" + std::filesystem::path(map.fileName).stem().string()
             + ".yml",
         error);
+    if (config && !config->densityMask.empty() && densityMaskSide(*config) != map.terrainSide)
+    {
+        error = "terrain density mask must be " + std::to_string(map.terrainSide) + " pixels square";
+        return std::nullopt;
+    }
+    return config;
 }
 
 std::optional<TerrainDecorationConfig> loadTerrainDecorationConfigFile(
@@ -552,9 +567,10 @@ std::optional<TerrainDecorationConfig> loadTerrainDecorationConfigFile(
             const std::string maskPath = directory + root["density_mask"].as<std::string>();
             const std::optional<Engine::ImagePixelsBgra> mask =
                 Engine::loadImageAssetPixelsBgra(assets, maskPath, cache);
-            if (!mask || mask->width != 128 || mask->height != 128)
+            if (!mask || mask->width != mask->height || mask->width < OutdoorMapData::MinTerrainSide
+                || mask->width > OutdoorMapData::MaxTerrainSide)
             {
-                throw std::runtime_error("terrain density mask must be 128x128: " + maskPath);
+                throw std::runtime_error("terrain density mask must be square, the map's side: " + maskPath);
             }
             for (size_t i = 0; i < mask->pixels.size(); i += 4)
             {
@@ -740,7 +756,7 @@ void placeUndergrowth(const TerrainDecorationConfig &config,
 // Bush groups (TerrainDecorationBushes): tree lines first, then a jittered grid over the open ground, lush hollows and
 // verges, until maxCount.
 void placeBushes(const TerrainDecorationConfig &config, const std::vector<TerrainDecorationSurfaceEntity> &entities,
-    const PlantGround &ground, std::vector<TerrainBushInstance> &placed)
+    const PlantGround &ground, float mapMinimum, float mapSize, std::vector<TerrainBushInstance> &placed)
 {
     const TerrainDecorationBushes &bushes = config.bushes;
     if (bushes.models.empty() || bushes.maxCount == 0)
@@ -801,14 +817,14 @@ void placeBushes(const TerrainDecorationConfig &config, const std::vector<Terrai
         const float distance = bushes.edgeRadius[0] + (bushes.edgeRadius[1] - bushes.edgeRadius[0]) * randomUnit(state);
         group(entity.position[0] + std::cos(angle) * distance, entity.position[1] + std::sin(angle) * distance, state);
     }
-    const int steps = int(std::ceil(MapSize / bushes.spacing));
+    const int steps = int(std::ceil(mapSize / bushes.spacing));
     for (int row = 0; row < steps; ++row)
     {
         for (int column = 0; column < steps; ++column)
         {
             uint32_t state = hash(config.seed ^ hash(uint32_t(row * steps + column) + 0x2f6b0e7du));
-            const float px = MapMinimum + (float(column) + randomUnit(state)) * bushes.spacing;
-            const float py = MapMinimum + (float(row) + randomUnit(state)) * bushes.spacing;
+            const float px = mapMinimum + (float(column) + randomUnit(state)) * bushes.spacing;
+            const float py = mapMinimum + (float(row) + randomUnit(state)) * bushes.spacing;
             if (!ground.grassGrows(px, py))
             {
                 continue;
@@ -837,9 +853,12 @@ TerrainDecorationPlacement scatterTerrainDecorations(const OutdoorMapData &map,
     const std::array<std::string, 256> &textures, const TerrainDecorationConfig &config, float terrainSmoothing)
 {
     TerrainDecorationPlacement result;
-    constexpr int width = OutdoorMapData::TerrainWidth;
-    constexpr int height = OutdoorMapData::TerrainHeight;
-    if (map.noTerrain || map.heightMap.size() != width * height || map.tileMap.size() != width * height)
+    result.mapMinimum = -map.terrainHalfExtent();
+    result.mapSize = 2.0f * map.terrainHalfExtent();
+    const int width = map.terrainSide;
+    const int height = map.terrainSide;
+    if (map.noTerrain || map.heightMap.size() != map.terrainSampleCount()
+        || map.tileMap.size() != map.terrainSampleCount())
     {
         return result;
     }
@@ -952,12 +971,12 @@ TerrainDecorationPlacement scatterTerrainDecorations(const OutdoorMapData &map,
     PlantGround plantGround;
     plantGround.grassGrows = [&](float px, float py)
     {
-        return grassGrows(outdoorWorldToGridXFloat(px), outdoorWorldToGridYFloat(py));
+        return grassGrows(outdoorWorldToGridXFloat(map, px), outdoorWorldToGridYFloat(map, py));
     };
     plantGround.grassAround = [&](float px, float py, float radius)
     {
-        const float gridX = outdoorWorldToGridXFloat(px);
-        const float gridY = outdoorWorldToGridYFloat(py);
+        const float gridX = outdoorWorldToGridXFloat(map, px);
+        const float gridY = outdoorWorldToGridYFloat(map, py);
         if (!grassGrows(gridX, gridY))
         {
             return false;
@@ -975,8 +994,8 @@ TerrainDecorationPlacement scatterTerrainDecorations(const OutdoorMapData &map,
     };
     plantGround.height = [&](float px, float py)
     {
-        return terrainSmoothing > 0.0f ? outdoorSmoothedTerrainHeight(map, outdoorWorldToGridXFloat(px),
-            outdoorWorldToGridYFloat(py), terrainSmoothing) : sampleOutdoorRenderedTerrainHeight(map, px, py);
+        return terrainSmoothing > 0.0f ? outdoorSmoothedTerrainHeight(map, outdoorWorldToGridXFloat(map, px),
+            outdoorWorldToGridYFloat(map, py), terrainSmoothing) : sampleOutdoorRenderedTerrainHeight(map, px, py);
     };
     plantGround.normal = [&](float px, float py)
     {
@@ -992,8 +1011,8 @@ TerrainDecorationPlacement scatterTerrainDecorations(const OutdoorMapData &map,
     };
     plantGround.undergrowthRule = [&](float px, float py) -> const TerrainDecorationRule *
     {
-        const float gridX = outdoorWorldToGridXFloat(px);
-        const float gridY = outdoorWorldToGridYFloat(py);
+        const float gridX = outdoorWorldToGridXFloat(map, px);
+        const float gridY = outdoorWorldToGridYFloat(map, py);
         const int x = int(std::floor(gridX));
         const int y = int(std::floor(gridY));
         if (x < 0 || y < 0 || x >= width - 1 || y >= width - 1)
@@ -1062,8 +1081,8 @@ TerrainDecorationPlacement scatterTerrainDecorations(const OutdoorMapData &map,
                     {
                         const float u = randomUnit(state);
                         const float v = randomUnit(state);
-                        const float px = outdoorGridCornerWorldX(x) + u * 512.0f;
-                        const float py = outdoorGridCornerWorldY(y) - v * 512.0f;
+                        const float px = outdoorGridCornerWorldX(map, x) + u * 512.0f;
+                        const float py = outdoorGridCornerWorldY(map, y) - v * 512.0f;
                         const float z = terrainSmoothing > 0.0f
                             ? outdoorSmoothedTerrainHeight(map, float(x) + u, float(y) + v, terrainSmoothing)
                             : sampleOutdoorRenderedTerrainHeight(map, px, py);
@@ -1192,7 +1211,7 @@ TerrainDecorationPlacement scatterTerrainDecorations(const OutdoorMapData &map,
         const float lean = std::sin(config.clump.leanDegrees * 0.017453293f) * config.clump.cardScale + 0.1f;
         buildRankTree(clumps, false, true, config.lod.maxScale, lean, result);
     }
-    placeBushes(config, entities, plantGround, result.bushes);
+    placeBushes(config, entities, plantGround, result.mapMinimum, result.mapSize, result.bushes);
     return result;
 }
 
@@ -1734,7 +1753,7 @@ TerrainDecorationPlacement scatterTerrainDecorationsOnSurface(const TerrainDecor
     buildRankTree(placed, false, false, config.lod.maxScale, 0.0f, result);
     const float lean = std::sin(config.clump.leanDegrees * 0.017453293f) * config.clump.cardScale + 0.1f;
     buildRankTree(clumps, false, true, config.lod.maxScale, lean, result);
-    placeBushes(config, surface.entities, ground, result.bushes);
+    placeBushes(config, surface.entities, ground, result.mapMinimum, result.mapSize, result.bushes);
     return result;
 }
 
@@ -1956,7 +1975,7 @@ std::vector<float> buildTerrainFoliageMap(const TerrainDecorationPlacement &plac
 {
     const float clumpArea = terrainDecorationClumpArea(clump);
     constexpr int size = TerrainFoliageMapSize;
-    constexpr float texel = MapSize / float(size);
+    const float texel = placement.mapSize / float(size);
     std::vector<float> sums(size_t(size) * size * 4, 0.0f);
     for (const TerrainDecorationNode &node : placement.nodes)
     {
@@ -1978,8 +1997,8 @@ std::vector<float> buildTerrainFoliageMap(const TerrainDecorationPlacement &plac
             const std::array<float, 3> color = {layers[layer].color[0] * instance.color[0],
                 layers[layer].color[1] * instance.color[1], layers[layer].color[2] * instance.color[2]};
             // Bilinear splat between the four nearest texel centres; row 0 is the north edge.
-            const float u = (instance.positionYaw[0] - MapMinimum) / texel - 0.5f;
-            const float v = (MapMinimum + MapSize - instance.positionYaw[1]) / texel - 0.5f;
+            const float u = (instance.positionYaw[0] - placement.mapMinimum) / texel - 0.5f;
+            const float v = (placement.mapMinimum + placement.mapSize - instance.positionYaw[1]) / texel - 0.5f;
             const int x0 = int(std::floor(u));
             const int y0 = int(std::floor(v));
             for (int corner = 0; corner < 4; ++corner)

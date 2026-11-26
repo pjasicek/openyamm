@@ -20,6 +20,7 @@
 #include "game/mm9/Mm9RudeDialogue.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorMechanismRuntime.h"
+#include "game/outdoor/OutdoorRenderer.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/SpawnPreview.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
@@ -515,34 +516,34 @@ std::optional<float> intersectOutdoorTerrainRay(
     float closestDistance = std::numeric_limits<float>::max();
     bool hasIntersection = false;
 
-    for (int gridY = 0; gridY < OutdoorMapData::TerrainHeight - 1; ++gridY)
+    for (int gridY = 0; gridY < outdoorMapData.terrainSide - 1; ++gridY)
     {
-        for (int gridX = 0; gridX < OutdoorMapData::TerrainWidth - 1; ++gridX)
+        for (int gridX = 0; gridX < outdoorMapData.terrainSide - 1; ++gridX)
         {
-            const size_t topLeftIndex = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + gridX);
-            const size_t topRightIndex = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + (gridX + 1));
-            const size_t bottomLeftIndex = static_cast<size_t>((gridY + 1) * OutdoorMapData::TerrainWidth + gridX);
+            const size_t topLeftIndex = static_cast<size_t>(gridY * outdoorMapData.terrainSide + gridX);
+            const size_t topRightIndex = static_cast<size_t>(gridY * outdoorMapData.terrainSide + (gridX + 1));
+            const size_t bottomLeftIndex = static_cast<size_t>((gridY + 1) * outdoorMapData.terrainSide + gridX);
             const size_t bottomRightIndex =
-                static_cast<size_t>((gridY + 1) * OutdoorMapData::TerrainWidth + (gridX + 1));
+                static_cast<size_t>((gridY + 1) * outdoorMapData.terrainSide + (gridX + 1));
 
             const bx::Vec3 topLeft = {
-                outdoorGridCornerWorldX(gridX),
-                outdoorGridCornerWorldY(gridY),
+                outdoorGridCornerWorldX(outdoorMapData, gridX),
+                outdoorGridCornerWorldY(outdoorMapData, gridY),
                 static_cast<float>(outdoorMapData.heightMap[topLeftIndex] * OutdoorMapData::TerrainHeightScale)
             };
             const bx::Vec3 topRight = {
-                outdoorGridCornerWorldX(gridX + 1),
-                outdoorGridCornerWorldY(gridY),
+                outdoorGridCornerWorldX(outdoorMapData, gridX + 1),
+                outdoorGridCornerWorldY(outdoorMapData, gridY),
                 static_cast<float>(outdoorMapData.heightMap[topRightIndex] * OutdoorMapData::TerrainHeightScale)
             };
             const bx::Vec3 bottomLeft = {
-                outdoorGridCornerWorldX(gridX),
-                outdoorGridCornerWorldY(gridY + 1),
+                outdoorGridCornerWorldX(outdoorMapData, gridX),
+                outdoorGridCornerWorldY(outdoorMapData, gridY + 1),
                 static_cast<float>(outdoorMapData.heightMap[bottomLeftIndex] * OutdoorMapData::TerrainHeightScale)
             };
             const bx::Vec3 bottomRight = {
-                outdoorGridCornerWorldX(gridX + 1),
-                outdoorGridCornerWorldY(gridY + 1),
+                outdoorGridCornerWorldX(outdoorMapData, gridX + 1),
+                outdoorGridCornerWorldY(outdoorMapData, gridY + 1),
                 static_cast<float>(outdoorMapData.heightMap[bottomRightIndex] * OutdoorMapData::TerrainHeightScale)
             };
 
@@ -3718,6 +3719,7 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
 
         const uint32_t animationTimeTicks = currentAnimationTicks();
 
+        bool needsHeadlessDecorationPose = !view.m_isRenderable && allowDecorationBillboardHit;
         for (size_t decorationIndex : candidateBillboardIndices)
         {
             const DecorationBillboard &decoration = view.m_outdoorDecorationBillboardSet->billboards[decorationIndex];
@@ -5160,6 +5162,7 @@ bool OutdoorInteractionController::tryActivateEventTargetInspectEvent(
     uint16_t eventId = 0;
 
     std::optional<EventRuntimeState::ActiveDecorationContext> decorationContext;
+    std::optional<uint32_t> decorationKey;
 
     if (inspectHit.kind == "decoration")
     {
@@ -5171,6 +5174,7 @@ bool OutdoorInteractionController::tryActivateEventTargetInspectEvent(
         }
 
         const DecorationBillboard &decoration = view.m_outdoorDecorationBillboardSet->billboards[inspectHit.bModelIndex];
+        decorationKey = decoration.spriteOverrideKey();
         const OutdoorGameView::InteractiveDecorationBinding *pBinding =
             findInteractiveDecorationBindingForEntity(view, decoration.entityIndex);
 
@@ -5199,6 +5203,8 @@ bool OutdoorInteractionController::tryActivateEventTargetInspectEvent(
     }
     else if (inspectHit.kind == "entity")
     {
+        decorationKey = inspectHit.eventIdPrimary != 0 ? uint32_t(inspectHit.eventIdPrimary)
+            : uint32_t(inspectHit.bModelIndex);
         eventId = resolveOutdoorEntityScriptEventId(inspectHit.eventIdSecondary);
 
         if (eventId == 0)
@@ -5262,6 +5268,11 @@ bool OutdoorInteractionController::tryActivateEventTargetInspectEvent(
         });
     }
 
+    const std::optional<uint32_t> previousKey = pEventRuntimeState->activeEventDecorationKey;
+    if (decorationKey)
+    {
+        pEventRuntimeState->activeEventDecorationKey = decorationKey;
+    }
     const bool executed = view.m_pOutdoorSceneRuntime != nullptr
         && view.m_pOutdoorSceneRuntime->executeEventById(
             view.m_pOutdoorSceneRuntime->localEventProgram(),
@@ -5270,6 +5281,11 @@ bool OutdoorInteractionController::tryActivateEventTargetInspectEvent(
             previousMessageCount,
             decorationContext.has_value()
         );
+    pEventRuntimeState->activeEventDecorationKey = previousKey;
+    if (executed && decorationKey && decorationKey != previousKey)
+    {
+        ++pEventRuntimeState->decorationUses[*decorationKey];
+    }
 
     if (!executed)
     {

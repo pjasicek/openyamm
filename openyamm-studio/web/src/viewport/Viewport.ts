@@ -12,6 +12,7 @@ import { Codec } from './oytex.ts';
 import { gameFrameIn, studioVerticalFov } from './gameCamera.ts';
 import type { Travel } from './travel.ts';
 import { poseTriangles } from './travel.ts';
+import { HALF, NODES } from '../edit/cells.ts';
 
 export interface PickResult
 {
@@ -971,8 +972,9 @@ export class Viewport
             for (let t = group.first / 3; t < (group.first + group.count) / 3; ++t)
             {
                 const a = this.indices[t * 3];
-                const cx = Math.floor((positions[a * 3] + 65536) / chunkSize);
-                const cy = Math.floor((positions[a * 3 + 1] + 65536) / chunkSize);
+                // From the map's south-west corner and one map further out (positive whatever the side).
+                const cx = Math.floor((positions[a * 3] + 2 * HALF) / chunkSize);
+                const cy = Math.floor((positions[a * 3 + 1] + 2 * HALF) / chunkSize);
                 const key = cy * 1024 + cx;
                 let list = byChunk.get(key);
                 if (!list)
@@ -1462,7 +1464,7 @@ export class Viewport
 
     // The land moved by a difference per node (map units, NODES x NODES), or put back (null). The next mesh from the
     // core replaces it either way.
-    previewLand(delta: Float32Array | null, size = 128): void
+    previewLand(delta: Float32Array | null, size = NODES): void
     {
         const geometry = this.geometry;
         if (!geometry || !this.meta)

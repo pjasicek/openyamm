@@ -24,9 +24,9 @@ constexpr float MaximumTerrainSmoothingDeviation = 32.0f;
 
 float terrainVertexHeight(const OutdoorMapData &map, int gridX, int gridY)
 {
-    gridX = std::clamp(gridX, 0, OutdoorMapData::TerrainWidth - 1);
-    gridY = std::clamp(gridY, 0, OutdoorMapData::TerrainWidth - 1);
-    return float(map.heightMap[size_t(gridY * OutdoorMapData::TerrainWidth + gridX)] * OutdoorMapData::TerrainHeightScale);
+    gridX = std::clamp(gridX, 0, map.terrainSide - 1);
+    gridY = std::clamp(gridY, 0, map.terrainSide - 1);
+    return float(map.heightMap[size_t(gridY * map.terrainSide + gridX)] * OutdoorMapData::TerrainHeightScale);
 }
 
 float catmullRom(float p0, float p1, float p2, float p3, float t)
@@ -283,19 +283,19 @@ float sampleOutdoorTerrainHeight(const OutdoorMapData &outdoorMapData, float x, 
 
 float sampleOutdoorRenderedTerrainHeight(const OutdoorMapData &outdoorMapData, float x, float y)
 {
-    const float gridX = outdoorWorldToGridXFloat(x);
-    const float gridY = outdoorWorldToGridYFloat(y);
-    const int sampleX0 = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 2);
-    const int sampleY0 = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 2);
+    const float gridX = outdoorWorldToGridXFloat(outdoorMapData, x);
+    const float gridY = outdoorWorldToGridYFloat(outdoorMapData, y);
+    const int sampleX0 = std::clamp(static_cast<int>(std::floor(gridX)), 0, outdoorMapData.terrainSide - 2);
+    const int sampleY0 = std::clamp(static_cast<int>(std::floor(gridY)), 0, outdoorMapData.terrainSide - 2);
     const int sampleX1 = sampleX0 + 1;
     const int sampleY1 = sampleY0 + 1;
     const float fractionX = std::clamp(gridX - static_cast<float>(sampleX0), 0.0f, 1.0f);
     const float fractionY = std::clamp(gridY - static_cast<float>(sampleY0), 0.0f, 1.0f);
 
-    const size_t index00 = static_cast<size_t>(sampleY0 * OutdoorMapData::TerrainWidth + sampleX0);
-    const size_t index10 = static_cast<size_t>(sampleY0 * OutdoorMapData::TerrainWidth + sampleX1);
-    const size_t index01 = static_cast<size_t>(sampleY1 * OutdoorMapData::TerrainWidth + sampleX0);
-    const size_t index11 = static_cast<size_t>(sampleY1 * OutdoorMapData::TerrainWidth + sampleX1);
+    const size_t index00 = static_cast<size_t>(sampleY0 * outdoorMapData.terrainSide + sampleX0);
+    const size_t index10 = static_cast<size_t>(sampleY0 * outdoorMapData.terrainSide + sampleX1);
+    const size_t index01 = static_cast<size_t>(sampleY1 * outdoorMapData.terrainSide + sampleX0);
+    const size_t index11 = static_cast<size_t>(sampleY1 * outdoorMapData.terrainSide + sampleX1);
 
     const float height00 = static_cast<float>(outdoorMapData.heightMap[index00]);
     const float height10 = static_cast<float>(outdoorMapData.heightMap[index10]);
@@ -325,20 +325,20 @@ float sampleOutdoorRenderedTerrainHeight(const OutdoorMapData &outdoorMapData, f
 
 bx::Vec3 sampleOutdoorRenderedTerrainNormal(const OutdoorMapData &outdoorMapData, float x, float y)
 {
-    const float gridX = outdoorWorldToGridXFloat(x);
-    const float gridY = outdoorWorldToGridYFloat(y);
-    const int sampleX0 = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 2);
-    const int sampleY0 = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 2);
+    const float gridX = outdoorWorldToGridXFloat(outdoorMapData, x);
+    const float gridY = outdoorWorldToGridYFloat(outdoorMapData, y);
+    const int sampleX0 = std::clamp(static_cast<int>(std::floor(gridX)), 0, outdoorMapData.terrainSide - 2);
+    const int sampleY0 = std::clamp(static_cast<int>(std::floor(gridY)), 0, outdoorMapData.terrainSide - 2);
     const int sampleX1 = sampleX0 + 1;
     const int sampleY1 = sampleY0 + 1;
     const float fractionX = std::clamp(gridX - static_cast<float>(sampleX0), 0.0f, 1.0f);
     const float fractionY = std::clamp(gridY - static_cast<float>(sampleY0), 0.0f, 1.0f);
     const float tileSize = static_cast<float>(OutdoorMapData::TerrainTileSize);
 
-    const size_t index00 = static_cast<size_t>(sampleY0 * OutdoorMapData::TerrainWidth + sampleX0);
-    const size_t index10 = static_cast<size_t>(sampleY0 * OutdoorMapData::TerrainWidth + sampleX1);
-    const size_t index01 = static_cast<size_t>(sampleY1 * OutdoorMapData::TerrainWidth + sampleX0);
-    const size_t index11 = static_cast<size_t>(sampleY1 * OutdoorMapData::TerrainWidth + sampleX1);
+    const size_t index00 = static_cast<size_t>(sampleY0 * outdoorMapData.terrainSide + sampleX0);
+    const size_t index10 = static_cast<size_t>(sampleY0 * outdoorMapData.terrainSide + sampleX1);
+    const size_t index01 = static_cast<size_t>(sampleY1 * outdoorMapData.terrainSide + sampleX0);
+    const size_t index11 = static_cast<size_t>(sampleY1 * outdoorMapData.terrainSide + sampleX1);
 
     const float height00 =
         static_cast<float>(outdoorMapData.heightMap[index00] * OutdoorMapData::TerrainHeightScale);
@@ -379,14 +379,14 @@ float sampleOutdoorTerrainNormalZ(const OutdoorMapData &outdoorMapData, float x,
 
 bool outdoorTerrainSlopeTooHigh(const OutdoorMapData &outdoorMapData, float x, float y)
 {
-    const float gridXFloat = outdoorWorldToGridXFloat(x);
-    const float gridYFloat = outdoorWorldToGridYFloat(y);
-    const int gridX = std::clamp(static_cast<int>(std::floor(gridXFloat)), 0, OutdoorMapData::TerrainWidth - 2);
-    const int gridY = std::clamp(static_cast<int>(std::floor(gridYFloat)), 0, OutdoorMapData::TerrainHeight - 2);
-    const size_t index00 = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + gridX);
-    const size_t index01 = static_cast<size_t>((gridY + 1) * OutdoorMapData::TerrainWidth + gridX);
-    const size_t index10 = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + (gridX + 1));
-    const size_t index11 = static_cast<size_t>((gridY + 1) * OutdoorMapData::TerrainWidth + (gridX + 1));
+    const float gridXFloat = outdoorWorldToGridXFloat(outdoorMapData, x);
+    const float gridYFloat = outdoorWorldToGridYFloat(outdoorMapData, y);
+    const int gridX = std::clamp(static_cast<int>(std::floor(gridXFloat)), 0, outdoorMapData.terrainSide - 2);
+    const int gridY = std::clamp(static_cast<int>(std::floor(gridYFloat)), 0, outdoorMapData.terrainSide - 2);
+    const size_t index00 = static_cast<size_t>(gridY * outdoorMapData.terrainSide + gridX);
+    const size_t index01 = static_cast<size_t>((gridY + 1) * outdoorMapData.terrainSide + gridX);
+    const size_t index10 = static_cast<size_t>(gridY * outdoorMapData.terrainSide + (gridX + 1));
+    const size_t index11 = static_cast<size_t>((gridY + 1) * outdoorMapData.terrainSide + (gridX + 1));
     const int z00 = static_cast<int>(outdoorMapData.heightMap[index00]) * OutdoorMapData::TerrainHeightScale;
     const int z01 = static_cast<int>(outdoorMapData.heightMap[index01]) * OutdoorMapData::TerrainHeightScale;
     const int z10 = static_cast<int>(outdoorMapData.heightMap[index10]) * OutdoorMapData::TerrainHeightScale;
@@ -403,11 +403,11 @@ uint8_t sampleOutdoorTerrainTileAttributes(const OutdoorMapData &outdoorMapData,
         return 0;
     }
 
-    const float gridX = outdoorWorldToGridXFloat(x);
-    const float gridY = outdoorWorldToGridYFloat(y);
-    const int tileX = std::clamp(static_cast<int>(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 2);
-    const int tileY = std::clamp(static_cast<int>(std::floor(gridY)), 0, OutdoorMapData::TerrainHeight - 2);
-    const size_t tileIndex = static_cast<size_t>(tileY * OutdoorMapData::TerrainWidth + tileX);
+    const float gridX = outdoorWorldToGridXFloat(outdoorMapData, x);
+    const float gridY = outdoorWorldToGridYFloat(outdoorMapData, y);
+    const int tileX = std::clamp(static_cast<int>(std::floor(gridX)), 0, outdoorMapData.terrainSide - 2);
+    const int tileY = std::clamp(static_cast<int>(std::floor(gridY)), 0, outdoorMapData.terrainSide - 2);
+    const size_t tileIndex = static_cast<size_t>(tileY * outdoorMapData.terrainSide + tileX);
 
     if (tileIndex >= outdoorMapData.attributeMap.size())
     {
@@ -429,13 +429,13 @@ bool isOutdoorTerrainBurning(const OutdoorMapData &outdoorMapData, float x, floa
 
 bool isOutdoorVoidCell(const OutdoorMapData &outdoorMapData, int cellX, int cellY)
 {
-    if (outdoorMapData.voidCells.empty() || cellX < 0 || cellY < 0 || cellX >= OutdoorMapData::TerrainWidth
-        || cellY >= OutdoorMapData::TerrainHeight)
+    if (outdoorMapData.voidCells.empty() || cellX < 0 || cellY < 0 || cellX >= outdoorMapData.terrainSide
+        || cellY >= outdoorMapData.terrainSide)
     {
         return false;
     }
 
-    return outdoorMapData.voidCells[size_t(cellY) * OutdoorMapData::TerrainWidth + size_t(cellX)] != 0;
+    return outdoorMapData.voidCells[size_t(cellY) * outdoorMapData.terrainSide + size_t(cellX)] != 0;
 }
 
 bool buildOutdoorFaceGeometry(
@@ -924,8 +924,8 @@ float sampleOutdoorActorPlacementFloorHeight(const OutdoorMapData &outdoorMapDat
 
 float outdoorNativeTerrainHeight(const OutdoorMapData &map, float gridX, float gridY)
 {
-    const int x0 = std::clamp(int(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 2);
-    const int y0 = std::clamp(int(std::floor(gridY)), 0, OutdoorMapData::TerrainWidth - 2);
+    const int x0 = std::clamp(int(std::floor(gridX)), 0, map.terrainSide - 2);
+    const int y0 = std::clamp(int(std::floor(gridY)), 0, map.terrainSide - 2);
     const float fx = std::clamp(gridX - float(x0), 0.0f, 1.0f);
     const float fy = std::clamp(gridY - float(y0), 0.0f, 1.0f);
     const float h00 = terrainVertexHeight(map, x0, y0);
@@ -943,8 +943,8 @@ float outdoorSmoothedTerrainHeight(const OutdoorMapData &map, float gridX, float
     {
         return native;
     }
-    const int x0 = std::clamp(int(std::floor(gridX)), 0, OutdoorMapData::TerrainWidth - 2);
-    const int y0 = std::clamp(int(std::floor(gridY)), 0, OutdoorMapData::TerrainWidth - 2);
+    const int x0 = std::clamp(int(std::floor(gridX)), 0, map.terrainSide - 2);
+    const int y0 = std::clamp(int(std::floor(gridY)), 0, map.terrainSide - 2);
     const float fx = std::clamp(gridX - float(x0), 0.0f, 1.0f);
     const float fy = std::clamp(gridY - float(y0), 0.0f, 1.0f);
     std::array<float, 4> rows = {};
@@ -975,6 +975,7 @@ void capRenderedTerrainUnderBModels(const OutdoorMapData &map, std::vector<float
     const float spacing = float(OutdoorMapData::TerrainTileSize) / float(steps);
     // Every rendered triangle overlapping a face keeps all three corners capped.
     const float reach = spacing * 1.5f;
+    const float halfExtent = map.terrainHalfExtent();
     for (const OutdoorBModel &bmodel : map.bmodels)
     {
         for (const OutdoorBModelFace &face : bmodel.faces)
@@ -1009,16 +1010,16 @@ void capRenderedTerrainUnderBModels(const OutdoorMapData &map, std::vector<float
                 minY = std::min(minY, point.y);
                 maxY = std::max(maxY, point.y);
             }
-            const int firstI = std::max(int(std::ceil((minX - reach + 32768.0f) / spacing)), 0);
-            const int lastI = std::min(int(std::floor((maxX + reach + 32768.0f) / spacing)), side - 1);
-            const int firstJ = std::max(int(std::ceil((32768.0f - maxY - reach) / spacing)), 0);
-            const int lastJ = std::min(int(std::floor((32768.0f - minY + reach) / spacing)), side - 1);
+            const int firstI = std::max(int(std::ceil((minX - reach + halfExtent) / spacing)), 0);
+            const int lastI = std::min(int(std::floor((maxX + reach + halfExtent) / spacing)), side - 1);
+            const int firstJ = std::max(int(std::ceil((halfExtent - maxY - reach) / spacing)), 0);
+            const int lastJ = std::min(int(std::floor((halfExtent - minY + reach) / spacing)), side - 1);
             for (int j = firstJ; j <= lastJ; ++j)
             {
                 for (int i = firstI; i <= lastI; ++i)
                 {
-                    const float x = float(i) * spacing - 32768.0f;
-                    const float y = 32768.0f - float(j) * spacing;
+                    const float x = float(i) * spacing - halfExtent;
+                    const float y = halfExtent - float(j) * spacing;
                     bool inside = false;
                     float nearestSquared = std::numeric_limits<float>::max();
                     for (size_t a = 0, b = points.size() - 1; a < points.size(); b = a++)
