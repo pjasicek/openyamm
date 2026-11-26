@@ -30,6 +30,9 @@ mmmerge", default on).
 - On a shop's Sell screen, Sell trash while the loot pouch's tab shows picks every item of the tab the shop buys, identified or
   not (any shop that buys buys every item with a value). Clicking an item takes it out of the pick or puts it back, as
   for the ordinary Sell trash; on the bags, Sell trash picks by the rules as before.
+- The Loot Pouch key (G by default, Controls → Party & books; a player's request of 2026-11-26) shows the tab on the
+  inventory page or a shop's or chest's party inventory, and the bags again when it shows. G gathers loot only in
+  play, so the two share it.
 - Settings → Gameplay → Inventory → **New loot pouch** (`[gameplay] loot_pouch`, on by default). Off, loot goes to the
   bags again; the tab stays while it holds something (in Standard; in MAW always) and keeps what it holds. Under
   Standard the Party pouches setting's sorting leaves the loot pouch alone, and Sell trash is offered in shops while

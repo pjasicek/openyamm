@@ -236,8 +236,7 @@ void handleNestedInventoryBagButtons(GameplayScreenRuntime &context, const Gamep
 
         if (overlay.active && pouch && pressed("ChestInventoryPouch" + std::to_string(slot + 1)))
         {
-            overlay.pouch.thumbDragOffset.reset();
-            overlay.pouch.shown = overlay.pouch.shown == pouch ? std::nullopt : pouch;
+            GameplayPartyOverlayInputController::togglePouchTab(context, *pouch);
             return;
         }
     }
@@ -1136,6 +1135,18 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
         if (shiftHeld && input.action(KeyboardAction::CraftingBag).pressed)
         {
             GameplayPartyOverlayInputController::togglePouchTab(context, ItemPouch::Crafting);
+        }
+
+        // The loot pouch's tab and the bags (G by default).
+        if (input.action(KeyboardAction::LootPouch).pressed)
+        {
+            GameplayPartyOverlayInputController::togglePouchTab(context, ItemPouch::Loot);
+        }
+
+        // The held item to the loot pouch, or to its own pouch (T by default): trash out of the way.
+        if (input.action(KeyboardAction::HeldItemToPouch).pressed)
+        {
+            GameplayPartyOverlayInputController::putHeldItemInPouch(context);
         }
 
         // A solo run's number keys drive its action bar (GameplayInputController), not the member selection.

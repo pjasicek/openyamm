@@ -218,6 +218,11 @@ const std::array<KeyboardBindingDefinition, KeyboardActionCount> KeyboardBinding
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_BACKSLASH, 0}, true},
     {KeyboardAction::CycleSpeed, "cycle_speed", Engine::trNoop("Cycle Speed"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {}, true},
+    {KeyboardAction::HeldItemToPouch, "held_item_to_pouch", Engine::trNoop("Held Item to Pouch"),
+        KeyboardBindingPage::Hidden,
+        KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_T, 0}, true},
+    {KeyboardAction::LootPouch, "loot_pouch", Engine::trNoop("Loot Pouch"), KeyboardBindingPage::Hidden,
+        KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_G, 0}, true},
 }};
 
 const std::array<KeyboardScancodeName, 98> KeyboardScancodeNames = {{

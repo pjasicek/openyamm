@@ -923,6 +923,14 @@ bindings:
   name: Show unidentified items (hold, inventory)
   group: Party & books
   context: inventory
+- id: held_item_to_pouch
+  name: Held item to the loot pouch (inventory; potions and quest items to their own)
+  group: Party & books
+  context: inventory
+- id: loot_pouch
+  name: Loot pouch or the bags (inventory)
+  group: Party & books
+  context: inventory
 - id: quest_book
   name: Quest book
   group: Party & books

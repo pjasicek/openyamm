@@ -4,6 +4,7 @@
 
 #include "engine/Utf8Text.h"
 #include "game/gameplay/GameplayAlchemyBenchInputController.h"
+#include "game/gameplay/GameplayHeldItemController.h"
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/tables/CharacterDollTable.h"
 #include "game/gameplay/GameMechanics.h"
@@ -2147,6 +2148,14 @@ void GameplayPartyOverlayInputController::openFirstBagsInOverview(GameplayScreen
 bool GameplayPartyOverlayInputController::togglePouchTab(GameplayScreenRuntime &context, ItemPouch pouch)
 {
     const Party *pParty = context.partyReadOnly();
+    GameplayUiController::InventoryNestedOverlayState &overlay = context.inventoryNestedOverlay();
+
+    if (pParty != nullptr && pParty->hasPouch(pouch) && overlay.active)
+    {
+        overlay.pouch.thumbDragOffset.reset();
+        overlay.pouch.shown = overlay.pouch.shown == pouch ? std::nullopt : std::optional<ItemPouch>(pouch);
+        return true;
+    }
 
     if (pParty == nullptr || !pParty->hasPouch(pouch) || !context.characterScreenReadOnly().open
         || context.characterScreenReadOnly().page != GameplayUiController::CharacterPage::Inventory
@@ -2170,6 +2179,37 @@ bool GameplayPartyOverlayInputController::togglePouchTab(GameplayScreenRuntime &
             : pouch == ItemPouch::Alchemy ? Engine::tr("Potions and reagents")
             : pouch == ItemPouch::Quest   ? Engine::tr("Quest items")
                                           : Engine::tr("New loot"));
+    return true;
+}
+
+bool GameplayPartyOverlayInputController::putHeldItemInPouch(GameplayScreenRuntime &context)
+{
+    Party *pParty = context.party();
+    GameplayUiController::HeldInventoryItemState &held = context.heldInventoryItem();
+    const bool inventoryShown = partyBagButtonsShown(context)
+        || (context.characterScreenReadOnly().open
+            && context.characterScreenReadOnly().page == GameplayUiController::CharacterPage::Inventory
+            && !context.isAdventurersInnCharacterSourceActive());
+
+    if (pParty == nullptr || !held.active || !inventoryShown || !pParty->hasPouch(ItemPouch::Loot))
+    {
+        return false;
+    }
+
+    const ItemPouch pouch = pParty->pouchFor(held.item).value_or(ItemPouch::Loot);
+
+    if (!pParty->addToPouch(pouch, held.item))
+    {
+        context.setStatusBarEvent(Engine::tr("Pack is Full!"));
+        return true;
+    }
+
+    GameplayHeldItemController::clearHeldInventoryItem(held);
+    pParty->clearHeldItemForQueries();
+    context.setStatusBarEvent(pouch == ItemPouch::Crafting  ? Engine::tr("Stored with the crafting materials")
+            : pouch == ItemPouch::Alchemy ? Engine::tr("Stored with the potions and reagents")
+            : pouch == ItemPouch::Quest   ? Engine::tr("Stored with the quest items")
+                                          : Engine::tr("Stored with the new loot"));
     return true;
 }
 

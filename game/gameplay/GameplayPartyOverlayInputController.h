@@ -58,8 +58,14 @@ public:
     // Whether the bag keys act only with Shift held, so that the numbers alone select a member: MAW's way and the
     // default of the bag_number_keys setting, in a party of more than one (zzMaw-MultiBag.lua:3-25).
     static bool bagKeysNeedShift(const GameplayScreenRuntime &context);
-    // Shows one of the party's pouches on the inventory page in the bags' place (its endless tab), or the bags again
-    // when it shows already. False, with nothing changed, off the inventory page or under rules without pouches.
+    // Shows one of the party's pouches on the inventory page or a shop's or chest's party inventory in the bags' place
+    // (its endless tab), or the bags again when it shows already. False, with nothing changed, elsewhere or under rules
+    // without pouches.
     static bool togglePouchTab(GameplayScreenRuntime &context, ItemPouch pouch);
+    // The Held Item to Pouch key (T by default) on the inventory page or a shop's or chest's party inventory, while the
+    // party has the loot pouch (the Gameplay setting New loot pouch, or a ruleset with pouches): the held item goes to
+    // the loot pouch, or to its own pouch when it has one (Party::pouchFor: potions, reagents, quest items). True
+    // when it acted, with a status line saying where the item went or that the pouch is full.
+    static bool putHeldItemInPouch(GameplayScreenRuntime &context);
 };
 } // namespace OpenYAMM::Game

@@ -148,6 +148,12 @@ enum class KeyboardAction : uint8_t
     CoopPing,
     // Steps the game speed up through 1x and the fast mode speeds, back to 1x after the fastest (unbound by default).
     CycleSpeed,
+    // On the inventory page and a shop's or chest's party inventory, while the loot pouch is there: the held item goes
+    // to the loot pouch (trash out of the way), or to its own pouch when it has one (potions, reagents, quest items).
+    HeldItemToPouch,
+    // On the inventory page and a shop's or chest's party inventory: the loot pouch's tab in the bags' place, or the
+    // bags again (a player's request on Discord, 2026-11-26). G by default: the gather key acts only in play.
+    LootPouch,
     Count
 };
 
