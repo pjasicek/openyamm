@@ -3138,6 +3138,29 @@ TEST_CASE("MAW bosses are drawn larger and fast monsters keep their speed bonus 
     CHECK_EQ(fast.calmMoveSpeed, 300);
 }
 
+TEST_CASE("MAW Swift bosses move three times as fast (DEVIATIONS.md 205)")
+{
+    MawRules rules(RulesetOptions{}, MawMapLevels{}, installedItemData());
+    const MonsterRules &monsters = rules.gameRules().monsters;
+    MercenaryMap world;
+    std::vector<std::string> row = monsterRow(193, "Human Mercenary A", 10);
+    row[13] = "100";
+    REQUIRE(world.monsters.loadStatsFromRows({row, monsterRow(194, "Human Mercenary B", 17),
+        monsterRow(195, "Human Mercenary C", 24)}));
+    const MonsterTable::MonsterStatsEntry &stats = *world.monsters.findStatsById(193);
+    const auto speedAs = [&](MawBossAffix affix)
+    {
+        ActorRulesetFacts facts;
+        facts.bossAffix = uint8_t(affix);
+        return monsters.resolveMonster(world.context(&facts), stats, nullptr).moveSpeed;
+    };
+    const uint16_t plainSpeed = speedAs(MawBossAffix::Thorn);
+    REQUIRE_EQ(plainSpeed, 100);
+    CHECK_EQ(speedAs(MawBossAffix::Swift), 3 * plainSpeed);
+    // An Omnipotent boss has every affix, Swift among them.
+    CHECK_EQ(speedAs(MawBossAffix::Omnipotent), 3 * plainSpeed);
+}
+
 TEST_CASE("MAW map completion: the Arena never, mdt15 one fewer, hidden hostiles only counts as cleared (A3.13)")
 {
     MapKillProgress progress;

@@ -711,10 +711,10 @@ GameplayMonsterBolsterResult MawMonsterRules::resolveMonsterByRules(
         result.moveSpeed = uint16_t(stats.speed + (400 - stats.speed) / 2 + 100);
     }
 
-    // MAW moves a Swift boss twice as far each frame while it walks.
+    // A Swift boss moves three times as fast (MAW doubles its step each frame; DEVIATIONS.md 205).
     if (mawHasBossAffix(facts, MawBossAffix::Swift))
     {
-        result.moveSpeed = uint16_t(std::min(2 * int(result.moveSpeed), 65535));
+        result.moveSpeed = uint16_t(std::min(3 * int(result.moveSpeed), 65535));
     }
 
     // A boss's first spell is cast at its skill times the boss's damage multiplier (generateBoss, MON:3074-3075).

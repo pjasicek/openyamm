@@ -768,7 +768,7 @@ formula uses.
 | Regenerating | +1%·0.99^hits FullHP/(1+L/50) every 0.1 s |
 | Puller | `evt.Jump` pulls the party toward it |
 | Leecher | Within 1500, drains 5% max HP (not below 1) and 5% current SP per 0.5 s, × ((1500−d)/1500)², ×4 in turn-based |
-| Swift | Doubles its per-frame displacement, which is position teleporting |
+| Swift | Doubles its per-frame displacement, which is position teleporting (OpenYAMM: three times its speed, DEVIATIONS.md 205) |
 | Shadow | Cancels Wizard Eye within 2000 |
 
 Boss on-hit conditions bypass condition immunities. Full spec: [COMBAT_SPEC.md](COMBAT_SPEC.md) §6.12 and §7.5.
