@@ -53,7 +53,7 @@ constexpr float MeleeCameraKickRadians = 0.026f;
 // A solo dragon's breath: its source this far in front of the eye on the ray through the mouth on screen (inside the
 // party's collision radius, so it never starts beyond a wall), and the view's upward kick as it leaves, about 2 degrees.
 constexpr float BreathCameraKickRadians = 0.035f;
-// Fireball's explosion, where a Carnage arrow strikes.
+// Fireball's explosion, where a Carnage arrow or a BlastBlaster shot strikes (unless its world missile names another).
 constexpr uint32_t FireballExplosionObjectId = 1051;
 
 void resetQuickCastRepeatState(GameplayScreenState::QuickSpellState &quickSpellState)
@@ -2115,8 +2115,8 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
                         ? config.blasterProjectileObjectId
                         : projectileObjectId,
                 .impactObjectId = partyGun ? uint32_t(partyGun->pMissile->impactObjectId)
-                    : attack.mode == CharacterAttackMode::Blaster ? config.blasterProjectileObjectId + 1
                     : attack.explosiveArrow                       ? FireballExplosionObjectId
+                    : attack.mode == CharacterAttackMode::Blaster ? config.blasterProjectileObjectId + 1
                                                                   : 0,
                 .impactSoundId = partyGun ? partyGun->pMissile->impactSoundId : 0,
                 .damage = attack.damage,

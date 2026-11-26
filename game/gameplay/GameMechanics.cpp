@@ -38,6 +38,9 @@ constexpr const char *ScatterBlasterContentFlag = "ScatterBlaster";
 constexpr uint8_t ScatterBlasterProjectileCount = 7;
 constexpr float ScatterBlasterSpreadArcRadians = 3.14159265358979323846f / 3.0f;
 constexpr int ScatterBlasterExtraRecoveryTicks = 20;
+// Blasters flagged BlastBlaster (Hesper's Blaster Cannon) fire a Carnage-style shot: it bursts where it strikes and
+// deals every monster in the burst the shot's damage, keeping the blaster's own damage type (a Carnage arrow is fire).
+constexpr const char *BlastBlasterContentFlag = "BlastBlaster";
 // Hesper's Kreegan weapons: their classic weapon skill as usual (Blaster for the guns, Sword, Axe... for the blades),
 // plus Energy Guns or Energy Blades on top, like Armsmaster: a share of the weapon's own damage per rank by mastery.
 constexpr const char *EnergyBladeContentFlag = "EnergyBlade";
@@ -3339,6 +3342,11 @@ void GameMechanics::applyExplosiveArrows(const Character &character, CharacterAt
     {
         attack.explosiveArrow = true;
         attack.damageType = CombatDamageType::Fire;
+    }
+    else if (attack.mode == CharacterAttackMode::Blaster
+        && character.equippedItemEffectFlags.contains(BlastBlasterContentFlag))
+    {
+        attack.explosiveArrow = true;
     }
 }
 

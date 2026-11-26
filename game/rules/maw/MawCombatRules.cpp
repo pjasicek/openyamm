@@ -1907,10 +1907,11 @@ void MawCombatRules::resolveCharacterAttack(
     // Each fanned arrow rolls its own damage from the range, at the weapon's speed multiplier. Weak halves and a
     // Carnage arrow quarters the shot's own roll, on every hit, the one it strikes and each in the explosion; the bow's
     // aura, enchantment and artifact are added after, whole (stage_weaponRecompute, DM:439-459, 1003-1015,
-    // ART:528-541; Carnage's text says half, GAPS.md D.5; CMB-16).
+    // ART:528-541; Carnage's text says half, GAPS.md D.5; CMB-16). Only a bow's arrow: a BlastBlaster gun's burst
+    // (Hesper's Blaster Cannon) is not MAW's Carnage, and its MAW base sizes it whole.
     if (attack.mode != CharacterAttackMode::Melee)
     {
-        const double carnage = attack.explosiveArrow ? 0.25 : 1;
+        const double carnage = attack.explosiveArrow && attack.mode == CharacterAttackMode::Bow ? 0.25 : 1;
         attack.damage = int(mawRound(attack.damage * weakness * carnage));
         attack.minimumDamage = int(mawRound(minimum * delay.damageMultiplier * weakness * carnage));
         attack.maximumDamage = int(mawRound(maximum * delay.damageMultiplier * weakness * carnage));

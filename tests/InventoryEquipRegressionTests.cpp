@@ -897,6 +897,34 @@ TEST_CASE("blaster shotgun fans seven half-strength bolts with slower recovery t
     CHECK(shotgun.rangedRecoverySeconds > rifle.rangedRecoverySeconds);
 }
 
+TEST_CASE("a BlastBlaster gun's shot explodes like a Carnage arrow and keeps its blaster damage")
+{
+    OpenYAMM::Game::CharacterAttackResult shot = {};
+    shot.mode = OpenYAMM::Game::CharacterAttackMode::Blaster;
+    shot.damageType = OpenYAMM::Game::CombatDamageType::Irresistible;
+    OpenYAMM::Game::Character gunner = {};
+
+    // An ordinary blaster: a plain bolt.
+    OpenYAMM::Game::GameMechanics::applyExplosiveArrows(gunner, shot);
+    CHECK_FALSE(shot.explosiveArrow);
+
+    // The flag worn (an equipped item's content flags reach equippedItemEffectFlags): it bursts, still irresistible.
+    gunner.equippedItemEffectFlags.insert("BlastBlaster");
+    OpenYAMM::Game::GameMechanics::applyExplosiveArrows(gunner, shot);
+    CHECK(shot.explosiveArrow);
+    CHECK(shot.damageType == OpenYAMM::Game::CombatDamageType::Irresistible);
+
+    // Bows and blows ignore it: only a Carnage bow's ExplosiveArrows turns an arrow.
+    OpenYAMM::Game::CharacterAttackResult arrow = {};
+    arrow.mode = OpenYAMM::Game::CharacterAttackMode::Bow;
+    OpenYAMM::Game::GameMechanics::applyExplosiveArrows(gunner, arrow);
+    CHECK_FALSE(arrow.explosiveArrow);
+    OpenYAMM::Game::CharacterAttackResult blow = {};
+    blow.mode = OpenYAMM::Game::CharacterAttackMode::Melee;
+    OpenYAMM::Game::GameMechanics::applyExplosiveArrows(gunner, blow);
+    CHECK_FALSE(blow.explosiveArrow);
+}
+
 TEST_CASE("projectile fans spread evenly across the arc around the aim")
 {
     using OpenYAMM::Game::GameMechanics;
