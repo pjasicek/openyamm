@@ -29,6 +29,9 @@ events:
   evt:arrive: 1
   evt:boulder: 2
   evt:cage_gate: 3
+  evt:campfire_cookfire: 29
+  evt:campfire_den_fire: 30
+  evt:campfire_hollows_fire: 31
   evt:chest_cache: 4
   evt:chest_hollows: 5
   evt:chest_pool: 6
@@ -77,6 +80,9 @@ map_vars:
   drums_burnt: 5
   ladder_down: 1
   once.arrive: 0
+  once.campfire_cookfire: 15
+  once.campfire_den_fire: 16
+  once.campfire_hollows_fire: 17
   once.den_seen: 2
   once.drag_marks: 3
   once.drum_master_dead: 6

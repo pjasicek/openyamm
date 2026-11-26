@@ -1876,80 +1876,50 @@ areas:
     index: 1
     count: 1
     slot: 1
-    circle: {at: [22, 79], r: 1}
+    circle: {at: [39, 105], r: 1}
     notes: "Orcs (Orc 5, Orc Archer 7, Orc Guard 10) round their outpost on the west slopes; the first fight from X4 (about 5,000)."
-  - id: pop:south_hills
-    index: 1
+  - id: pop:west_slopes
+    index: 2
     count: 1
     slot: 1
-    circle: {at: [56, 105], r: 1}
-    notes: "Orcs in the low hills along the X1 edge, west of the north road (F10)."
+    circle: {at: [22, 79], r: 1}
+    notes: walkable ground
   - id: pop:red_river
     index: 1
     count: 1
     slot: 1
-    circle: {at: [99, 106], r: 1}
+    circle: {at: [101, 96], r: 1}
     notes: "Orcs round the Orc Caves' back gate in the Red River Basin; the first fight from X1 (about 4,600), at least 4,000 from Sablewing's cave."
   - id: pop:red_river
     index: 2
     count: 1
     slot: 1
-    circle: {at: [100, 102], r: 1}
+    circle: {at: [82, 112], r: 1}
     notes: walkable ground
+  - id: pop:east_range
+    index: 1
+    count: 1
+    slot: 1
+    circle: {at: [101, 63], r: 1}
+    notes: Orcs on the range's east shoulders above the Red River Basin (F10).
   - id: pop:gap_south
     index: 1
     count: 1
     slot: 1
     circle: {at: [47, 73], r: 1}
     notes: "Orcs in the hills south-west of the Firestone Gap, off the Firestone road (F10)."
-  - id: pop:west_slopes
-    index: 2
-    count: 1
-    slot: 1
-    circle: {at: [43, 83], r: 1}
-    notes: walkable ground
-  - id: pop:west_slopes
-    index: 3
-    count: 1
-    slot: 1
-    circle: {at: [21, 97], r: 1}
-    notes: walkable ground
-  - id: pop:west_slopes
-    index: 4
-    count: 1
-    slot: 1
-    circle: {at: [39, 105], r: 1}
-    notes: walkable ground
-  - id: pop:red_river
-    index: 3
-    count: 1
-    slot: 1
-    circle: {at: [101, 96], r: 1}
-    notes: walkable ground
-  - id: pop:east_range
+  - id: pop:south_hills
     index: 1
     count: 1
     slot: 1
-    circle: {at: [101, 92], r: 1}
-    notes: Orcs on the range's east shoulders above the Red River Basin (F10).
+    circle: {at: [56, 105], r: 1}
+    notes: "Orcs in the low hills along the X1 edge, west of the north road (F10)."
   - id: pop:pony_ridge
     index: 1
     count: 1
     slot: 1
     circle: {at: [77, 71], r: 1}
     notes: "Orcs on the ridge above the pony shed, east of the Gap (F10)."
-  - id: pop:east_range
-    index: 2
-    count: 1
-    slot: 1
-    circle: {at: [93, 78], r: 1}
-    notes: walkable ground
-  - id: pop:east_range
-    index: 3
-    count: 1
-    slot: 1
-    circle: {at: [101, 63], r: 1}
-    notes: walkable ground
   - id: zone:sablewing_cave
     kind: keep_clear
     polygon: [[71, 85], [81, 85], [81, 95], [71, 95]]
@@ -2841,171 +2811,205 @@ structures:
     kind: decoration
     at: [32.154, 29.179]
     turn: -15
+    raise: -242
     decoration: xeen_basalt2
   - id: thing:basalt_tower_crag_2
     kind: decoration
     at: [25.995, 26.689]
     turn: 150
+    raise: -44
     decoration: xeen_basalt2
   - id: thing:basalt_tower_crag_3
     kind: decoration
     at: [31.109, 26.841]
     turn: -45
+    raise: -153
     decoration: xeen_basalt2
   - id: thing:basalt_tower_crag_4
     kind: decoration
     at: [25.135, 32.145]
     turn: 30
+    raise: -169
     decoration: xeen_basalt3
   - id: thing:basalt_tower_crag_5
     kind: decoration
     at: [25.082, 28.133]
     turn: 105
+    raise: -139
     decoration: xeen_basalt1
   - id: thing:basalt_tower_crag_6
     kind: decoration
     at: [32.471, 31.862]
     turn: 165
+    raise: -102
     decoration: xeen_basalt2
   - id: thing:basalt_tower_crag_7
     kind: decoration
     at: [26.776, 29.162]
     turn: -135
+    raise: -95
     decoration: xeen_basalt2
   - id: thing:basalt_tower_crag_8
     kind: decoration
     at: [33.309, 27.773]
     turn: 135
+    raise: -88
     decoration: xeen_basalt2
   - id: thing:basalt_tower_crag_9
     kind: decoration
     at: [33.336, 33.086]
     turn: -165
+    raise: -100
     decoration: xeen_basalt3
   - id: thing:basalt_tower_crag_10
     kind: decoration
     at: [31.998, 25.657]
     turn: 90
+    raise: -34
     decoration: xeen_basalt1
   - id: thing:basalt_tower_crag_11
     kind: decoration
     at: [25.245, 29.784]
     turn: -15
+    raise: -193
     decoration: xeen_basalt2
   - id: thing:basalt_tower_crag_12
     kind: decoration
     at: [29.224, 26.677]
     turn: 15
+    raise: -211
     decoration: xeen_basalt1
   - id: thing:basalt_tower_crag_13
     kind: decoration
     at: [27.038, 25.605]
     turn: 60
+    raise: -52
     decoration: xeen_basalt3
   - id: thing:basalt_tower_crag_14
     kind: decoration
     at: [27.713, 26.846]
     turn: -150
+    raise: -201
     decoration: xeen_basalt2
   - id: thing:basalt_tower_crag_15
     kind: decoration
     at: [32.919, 30.509]
     turn: -60
+    raise: -82
     decoration: xeen_basalt1
   - id: thing:basalt_tower_crag_16
     kind: decoration
     at: [30.278, 25.692]
     turn: 105
+    raise: -39
     decoration: xeen_basalt1
   - id: thing:basalt_tower_crag_17
     kind: decoration
     at: [31.213, 28.184]
     turn: 105
+    raise: -275
     decoration: xeen_basalt3
   - id: thing:basalt_tower_crag_18
     kind: decoration
     at: [26.647, 27.834]
     turn: -165
+    raise: -177
     decoration: xeen_basalt1
   - id: thing:basalt_tower_crag_19
     kind: decoration
     at: [33.359, 26.452]
     turn: -30
+    raise: -18
     decoration: xeen_basalt3
   - id: thing:basalt_tower_crag_20
     kind: decoration
     at: [25.627, 25.428]
     turn: 150
+    raise: -48
     decoration: xeen_basalt3
   - id: thing:basalt_tower_crag_21
     kind: decoration
     at: [28.554, 25.536]
     turn: -30
+    raise: -30
     decoration: xeen_basalt1
   - id: thing:basalt_dragon_crag_1
     kind: decoration
     at: [57.755, 25.495]
     turn: -45
+    raise: -65
     decoration: xeen_basalt3
   - id: thing:basalt_dragon_crag_2
     kind: decoration
     at: [54.475, 26.248]
     turn: -135
+    raise: -43
     decoration: xeen_basalt1
   - id: thing:basalt_dragon_crag_3
     kind: decoration
     at: [60.03, 25.73]
     turn: 60
+    raise: -65
     decoration: xeen_basalt1
   - id: thing:basalt_dragon_crag_4
     kind: decoration
     at: [55.797, 25.513]
     turn: 45
+    raise: -42
     decoration: xeen_basalt3
   - id: thing:basalt_dragon_crag_5
     kind: decoration
     at: [52.239, 26.156]
     turn: 150
+    raise: -68
     decoration: xeen_basalt2
   - id: thing:basalt_dragon_crag_6
     kind: decoration
     at: [59.627, 27.694]
     turn: -105
+    raise: -167
     decoration: xeen_basalt1
   - id: thing:basalt_dragon_crag_7
     kind: decoration
     at: [60.978, 27.336]
     turn: 135
+    raise: -87
     decoration: xeen_basalt2
   - id: thing:basalt_dragon_crag_8
     kind: decoration
     at: [52.987, 27.784]
     turn: -105
+    raise: -36
     decoration: xeen_basalt1
   - id: thing:basalt_dragon_crag_9
     kind: decoration
     at: [60.74, 28.671]
     turn: -30
+    raise: -22
     decoration: xeen_basalt1
   - id: thing:basalt_dragon_crag_10
     kind: decoration
     at: [52.175, 28.931]
     turn: -120
+    raise: -60
     decoration: xeen_basalt2
   - id: thing:basalt_dragon_crag_11
     kind: decoration
     at: [58.713, 26.657]
     turn: 135
+    raise: -71
     decoration: xeen_basalt1
   - id: thing:basalt_flats_1
     kind: decoration
     at: [52.887, 49.494]
     turn: 150
+    raise: -26
     decoration: xeen_basalt1
   - id: thing:basalt_flats_2
     kind: decoration
     at: [55.31, 42.951]
     turn: 135
+    raise: -39
     decoration: xeen_basalt1
   - id: thing:basalt_flats_3
     kind: decoration
@@ -3021,6 +3025,7 @@ structures:
     kind: decoration
     at: [71.57, 52.966]
     turn: -90
+    raise: -25
     decoration: xeen_basalt1
   - id: thing:basalt_flats_6
     kind: decoration
@@ -3036,6 +3041,7 @@ structures:
     kind: decoration
     at: [72.441, 44.623]
     turn: 60
+    raise: -25
     decoration: xeen_basalt2
   - id: thing:basalt_flats_9
     kind: decoration
@@ -3046,16 +3052,19 @@ structures:
     kind: decoration
     at: [67.623, 32.635]
     turn: -180
+    raise: -19
     decoration: xeen_basalt1
   - id: thing:basalt_flats_11
     kind: decoration
     at: [64.165, 49.632]
     turn: 105
+    raise: -25
     decoration: xeen_basalt3
   - id: thing:basalt_flats_12
     kind: decoration
     at: [56.278, 46.925]
     turn: 60
+    raise: -49
     decoration: xeen_basalt3
   - id: thing:basalt_flats_13
     kind: decoration
@@ -3066,6 +3075,7 @@ structures:
     kind: decoration
     at: [53.983, 48.614]
     turn: -15
+    raise: -66
     decoration: xeen_basalt3
   - id: thing:basalt_flats_15
     kind: decoration
@@ -3091,11 +3101,13 @@ structures:
     kind: decoration
     at: [71.716, 40.797]
     turn: 150
+    raise: -48
     decoration: xeen_basalt1
   - id: thing:basalt_flats_20
     kind: decoration
     at: [56.74, 56.224]
     turn: -135
+    raise: -23
     decoration: xeen_basalt1
   - id: thing:basalt_flats_21
     kind: decoration
@@ -3111,6 +3123,7 @@ structures:
     kind: decoration
     at: [87.112, 43.427]
     turn: 105
+    raise: -22
     decoration: xeen_basalt1
   - id: thing:basalt_cone_2
     kind: decoration
@@ -3126,6 +3139,7 @@ structures:
     kind: decoration
     at: [80.262, 42.466]
     turn: -150
+    raise: -51
     decoration: xeen_basalt1
   - id: thing:basalt_cone_5
     kind: decoration
@@ -3136,11 +3150,13 @@ structures:
     kind: decoration
     at: [94.804, 36.088]
     turn: 75
+    raise: -93
     decoration: xeen_basalt2
   - id: thing:basalt_cone_7
     kind: decoration
     at: [92.788, 28.808]
     turn: -165
+    raise: -33
     decoration: xeen_basalt3
   - id: thing:basalt_cone_8
     kind: decoration
@@ -3151,56 +3167,67 @@ structures:
     kind: decoration
     at: [88.982, 56.174]
     turn: -60
+    raise: -38
     decoration: xeen_basalt1
   - id: thing:basalt_cone_10
     kind: decoration
     at: [81.13, 33.784]
     turn: 135
+    raise: -64
     decoration: xeen_basalt1
   - id: thing:basalt_cone_11
     kind: decoration
     at: [87.869, 26.286]
     turn: 150
+    raise: -90
     decoration: xeen_basalt3
   - id: thing:basalt_cone_12
     kind: decoration
     at: [92.047, 43.378]
     turn: -30
+    raise: -56
     decoration: xeen_basalt1
   - id: thing:basalt_cone_13
     kind: decoration
     at: [85.409, 52.867]
     turn: 90
+    raise: -55
     decoration: xeen_basalt3
   - id: thing:basalt_cone_14
     kind: decoration
     at: [80.278, 32.587]
     turn: 120
+    raise: -80
     decoration: xeen_basalt2
   - id: thing:basalt_cone_15
     kind: decoration
     at: [93.593, 43.469]
     turn: -45
+    raise: -100
     decoration: xeen_basalt3
   - id: thing:basalt_cone_16
     kind: decoration
     at: [81.414, 28.792]
     turn: -165
+    raise: -48
     decoration: xeen_basalt1
   - id: thing:basalt_cone_17
     kind: decoration
     at: [92.503, 27.015]
     turn: -135
+    raise: -84
     decoration: xeen_basalt1
   - id: thing:basalt_cone_18
     kind: decoration
     at: [80.881, 46.843]
     turn: -180
+    raise: -51
     decoration: xeen_basalt1
   - id: thing:basalt_cone_19
     kind: decoration
     at: [83.989, 46.941]
     turn: -150
+    raise: -67
     decoration: xeen_basalt1
   - id: thing:basalt_cone_20
     kind: decoration
@@ -3211,76 +3238,91 @@ structures:
     kind: decoration
     at: [83.45, 48.4]
     turn: -105
+    raise: -40
     decoration: xeen_basalt1
   - id: thing:basalt_cone_22
     kind: decoration
     at: [93.04, 31.549]
     turn: 150
+    raise: -63
     decoration: xeen_basalt2
   - id: thing:basalt_cone_23
     kind: decoration
     at: [98.865, 53.243]
     turn: 0
+    raise: -25
     decoration: xeen_basalt2
   - id: thing:basalt_cone_24
     kind: decoration
     at: [83.142, 27.206]
     turn: -75
+    raise: -74
     decoration: xeen_basalt2
   - id: thing:basalt_cone_25
     kind: decoration
     at: [89.264, 34.661]
     turn: -60
+    raise: -125
     decoration: xeen_basalt3
   - id: thing:basalt_cone_26
     kind: decoration
     at: [90.881, 57.057]
     turn: -45
+    raise: -19
     decoration: xeen_basalt1
   - id: thing:basalt_cone_27
     kind: decoration
     at: [77.979, 33.573]
     turn: 0
+    raise: -38
     decoration: xeen_basalt2
   - id: thing:basalt_cone_28
     kind: decoration
     at: [101.663, 47.348]
     turn: 135
+    raise: -77
     decoration: xeen_basalt1
   - id: thing:basalt_cone_29
     kind: decoration
     at: [78.023, 40.015]
     turn: 45
+    raise: -80
     decoration: xeen_basalt1
   - id: thing:basalt_cone_30
     kind: decoration
     at: [93.707, 56.007]
     turn: -45
+    raise: -21
     decoration: xeen_basalt1
   - id: thing:basalt_cone_31
     kind: decoration
     at: [96.963, 34.472]
     turn: 45
+    raise: -109
     decoration: xeen_basalt2
   - id: thing:basalt_cone_32
     kind: decoration
     at: [91.234, 27.482]
     turn: -45
+    raise: -48
     decoration: xeen_basalt2
   - id: thing:basalt_cone_33
     kind: decoration
     at: [82.802, 32.879]
     turn: 150
+    raise: -84
     decoration: xeen_basalt2
   - id: thing:basalt_cone_34
     kind: decoration
     at: [84.68, 36.065]
     turn: 30
+    raise: -73
     decoration: xeen_basalt3
   - id: thing:basalt_cone_35
     kind: decoration
     at: [97.833, 37.991]
     turn: 0
+    raise: -73
     decoration: xeen_basalt2
   - id: thing:basalt_cone_36
     kind: decoration
@@ -3291,21 +3333,25 @@ structures:
     kind: decoration
     at: [94.679, 40.266]
     turn: 150
+    raise: -105
     decoration: xeen_basalt1
   - id: thing:basalt_cone_38
     kind: decoration
     at: [82.002, 48.511]
     turn: 90
+    raise: -52
     decoration: xeen_basalt2
   - id: thing:basalt_cone_39
     kind: decoration
     at: [96.013, 25.173]
     turn: -60
+    raise: -21
     decoration: xeen_basalt1
   - id: thing:basalt_cone_40
     kind: decoration
     at: [84.466, 43.213]
     turn: 45
+    raise: -104
     decoration: xeen_basalt1
   - id: thing:lavafall_1
     kind: decoration
@@ -3725,66 +3771,77 @@ structures:
     kind: decoration
     at: [78.137, 28.417]
     turn: -79
+    raise: -128
     decoration: xeen_hullf
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_068
     kind: decoration
     at: [77.5, 29.02]
     turn: 0
+    raise: -128
     decoration: xeen_hullf
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_069
     kind: decoration
     at: [76.5, 29.02]
     turn: 0
+    raise: -116
     decoration: xeen_hullf
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_070
     kind: decoration
     at: [75.5, 29.02]
     turn: 0
+    raise: -56
     decoration: xeen_hullf
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_071
     kind: decoration
     at: [74.5, 29.02]
     turn: 0
+    raise: 24
     decoration: xeen_hullf
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_072
     kind: decoration
     at: [73.5, 29.02]
     turn: 0
+    raise: 24
     decoration: xeen_hullf
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_073
     kind: decoration
     at: [72.5, 29.02]
     turn: 0
+    raise: -24
     decoration: xeen_hullf
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_074
     kind: decoration
     at: [71.5, 29.02]
     turn: 0
+    raise: -24
     decoration: xeen_hullf
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_075
     kind: decoration
     at: [70.5, 29.02]
     turn: 0
+    raise: -12
     decoration: xeen_hullf
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_076
     kind: decoration
     at: [69.5, 29.02]
     turn: 0
+    raise: -32
     decoration: xeen_hullf
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_077
     kind: decoration
     at: [68.882, 28.514]
     turn: 79
+    raise: -128
     decoration: xeen_hullf
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_078

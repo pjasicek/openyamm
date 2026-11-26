@@ -271,25 +271,42 @@ rooms_doc = {'format': 0, 'themes': themes, 'defaults': {'theme': 'theme:cave', 
 # ================================================================================================ plan.yml
 ACID, FIRE, FROST, KING = 11641, 11642, 11643, 11645
 PLACED = [  # room, [(group, row, (x, y), facing)]
-    ('bone_hall', [(10, ACID, (4400, -3500), 90), (10, ACID, (4900, -3100), 90),
+    ('bone_hall', [(10, ACID, (4464, -3436), 90), (10, ACID, (4900, -3100), 90),
                    (14, ACID, (5400, -2560), 90), (14, ACID, (5770, -2900), 90)]),
-    ('hollows', [(11, ACID, (4400, -4500), 0), (11, ACID, (4900, -4900), 0), (12, ACID, (5100, -4300), 180)]),
+    ('hollows', [(11, ACID, (4400, -4500), 0), (11, ACID, (4900, -4900), 0), (12, ACID, (5100, -4492), 180)]),
     ('vents', [(13, ACID, (7200, -4600), 180), (13, ACID, (7900, -4500), 180)]),
     ('crossing', [(15, FIRE, (8800, -1600), 180), (15, FIRE, (9200, -1900), 180)]),
     ('egg', [(16, FIRE, (8960, -3008), 90)]),
     ('roost', [(17, FIRE, (5800, -1000), 0), (17, FIRE, (6300, -300), 0), (18, FIRE, (7400, -800), 180),
-               (18, FIRE, (7000, 100), 180), (19, FROST, (6000, 200), 270), (19, FROST, (6800, -1100), 90)]),
-    ('pools', [(20, FIRE, (8700, 1560), 0), (20, FIRE, (8800, 2120), 0), (21, FIRE, (10400, 1800), 180)]),
-    ('den', [(22, FIRE, (11000, 1550), 180), (22, FIRE, (11450, 2050), 180)]),
+               (18, FIRE, (6936, 36), 180), (19, FROST, (6000, 200), 270), (19, FROST, (6800, -1100), 90)]),
+    ('pools', [(20, FIRE, (8764, 1624), 0), (20, FIRE, (8800, 2120), 0), (21, FIRE, (10208, 1800), 180)]),
+    ('den', [(22, FIRE, (11320, 1550), 180), (22, FIRE, (11450, 2050), 180)]),
     ('old_roost', [(23, FIRE, (6900, 1100), 0), (23, FIRE, (7400, 1700), 0), (24, FIRE, (6800, 1800), 0)]),
     ('ember', [(25, FIRE, (3700, -400), 0), (25, FIRE, (4300, -380), 0)]),
     ('starwell', [(26, FROST, (4200, 1500), 90), (26, FROST, (5000, 2000), 90), (27, FROST, (5300, 1200), 90)]),
     ('frost', [(28, FROST, (1800, 1200), 0), (28, FROST, (2600, 1100), 0)]),
-    ('rime', [(29, FROST, (100, 1400), 0), (29, FROST, (750, 1400), 0), (30, FROST, (450, 900), 0)]),
+    ('rime', [(29, FROST, (100, 1400), 0), (29, FROST, (46, 952), 0), (30, FROST, (450, 900), 0)]),
     ('library', [(31, FROST, (1500, -300), 270), (31, FROST, (2400, -200), 270)]),
     ('throne', [(32, FROST, (-1700, 300), 0), (32, FROST, (-1700, -800), 0)]),
 ]
 KING_AT = (-2624, -128)
+# F75 (reviews/PLAYER_FEEDBACK_20261126.md, XD-18 p1 "dragon gets stuck", p2 "they get stuck"; 2026-11-26): a dragon
+# (487 high, radius 238) that chases the party to one of D-32's low openings (288) stops with its middle 60 from the
+# opening (the level radius limit) and its body sunk into the frame. Every dragon is leashed (2D about its post, as
+# D-154 on XD-07) so that its body stays 64 clear of every opening it cannot pass; seven posts moved deeper into their
+# rooms so the leash is at least 224 (bone hall 1, hollows 3, den 1, pools 1 and 3, rime 2, roost 4). Measured and
+# kept by tools/xeen/check_monster_fit.py (fit.stuck); the leash is the largest that keeps clear, at most 1,536.
+LEASH = {  # post -> leash
+    (-1700, -800): 928, (-1700, 300): 928, (46, 952): 672, (100, 1400): 608, (450, 900): 256, (1500, -300): 416,
+    (1800, 1200): 448, (2400, -200): 224, (2600, 1100): 416, (3700, -400): 448, (4200, 1500): 576,
+    (4300, -380): 1024, (4400, -4500): 256, (4464, -3436): 224, (4900, -4900): 448, (4900, -3100): 544,
+    (5000, 2000): 1472, (5100, -4492): 224, (5300, 1200): 1536, (5400, -2560): 1184, (5770, -2900): 1088,
+    (5800, -1000): 1536, (6000, 200): 896, (6300, -300): 864, (6800, -1100): 1280, (6800, 1800): 1024,
+    (6900, 1100): 320, (6936, 36): 224, (7200, -4600): 1248, (7400, -800): 608, (7400, 1700): 480,
+    (7900, -4500): 1504, (8764, 1624): 224, (8800, -1600): 352, (8800, 2120): 448, (8960, -3008): 256,
+    (9200, -1900): 224, (10208, 1800): 224, (11320, 1550): 256, (11450, 2050): 384,
+}
+KING_LEASH = 384
 NAMES = {ACID: 'Acid Dragon', FIRE: 'Fire Dragon', FROST: 'Frost Dragon', KING: 'Dragon King'}
 LEVELS = {ACID: 66, FIRE: 75, FROST: 85, KING: 110}
 PLAN_SPACES = [  # id, name, kind, size, floor, purpose
@@ -474,10 +491,10 @@ objects['monsters'] = []
 for rid, ms in PLACED:
     for n, (group, mon, at, facing) in enumerate(ms, 1):
         m = {'id': f'monster:{rid}_{n}', 'room': f'room:{rid}', 'monster': mon, 'at': list(at), 'facing': facing,
-             'group': group}
+             'group': group, 'leash': LEASH[tuple(at)]}
         objects['monsters'].append(m)
 objects['monsters'].append({'id': 'monster:king', 'room': 'room:throne', 'monster': KING, 'at': list(KING_AT),
-                            'facing': 0, 'group': 33,
+                            'facing': 0, 'group': 33, 'leash': KING_LEASH,
                             'notes': "The Dragon King (11645, 110; S's skin xcdr_king to come) on top of his mound of gold."})
 
 

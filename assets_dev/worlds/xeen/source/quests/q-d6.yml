@@ -65,8 +65,14 @@ npcs:
             do: [{set: done}, {award: dreyfus}, {xp: 9000}, {gold: 3000}, {promote: heretics}]
           - when: {qbit: tower_opened}
             text: "My door is open, but the Cult Leader still preaches on the top floor. Mok does not share a tower."
+          # F77 D1 p5 (2026-11-26): a party back from the top with the key heard "Bring it down" in the temple; each
+          # step of the climb now has its own line, and "my door" names the tower's ground door.
+          - when: {found: west_tower_key}
+            text: "You have my key? Then turn it in the Western Tower's ground door. A High Priest goes home by the front door."
+          - when: {qbit: leader_slain}
+            text: "The Cult Leader is dead? Good. Now take the key from their altar on the top floor and open my tower's ground door with it."
           - when: {qbit: rope_climbed}
-            text: "You went up their rope? Good. The key to my door is on the top floor, by their altar. Bring it down and let me in."
+            text: "You went up their rope? Good. The key to my tower's ground door is on the top floor, by their altar. Bring it down and open the tower to me."
           - when: {qbit: started}
             text: "Your failure to breach the tower is not your fault; it is a test of my determination to cleanse the faith of heresy. I implore you to continue your efforts on my behalf."
           - text: "Oh, wretched fortune! I, Dreyfus, high priest of Mok, have been cast from my tower by heretics in the priesthood! They warded the door against me, but they still haul their bread up a rope on the north wall. Perhaps you could climb in from the top and open the tower to me again."

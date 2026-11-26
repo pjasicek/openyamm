@@ -81,7 +81,8 @@ DOORS = {
 }
 STAIRS = {'open:wstair_works_w', 'open:wstair_scrap', 'open:wstair_quarters', 'open:estair_library_e',
           'open:estair_study_ne', 'open:estair_study_se', 'open:lstair_state_w', 'open:lstair_study',
-          'open:lstair_guard', 'open:skystair_roof_n', 'open:skystair_roof_s', 'open:skystair_roof_e'}
+          'open:lstair_guard', 'open:skystair_roof_n', 'open:skystair_roof_s', 'open:skystair_roof_e',
+          'open:skystair_roof_nw', 'open:skystair_roof_sw'}
 TRAPDOORS = geo.TRAPDOORS
 
 
@@ -361,7 +362,9 @@ def project(level):
         # arrived_once (2026-11-20, D-7 touch-up): the arrival window on the first arrival only (A3 to register in m21.yml)
         'qbits': dict(QBITS, arrived_once=110503) if built else QBITS,
         'items': ITEMS_XEEN,
-        'rules': {'no_spells': True},
+        # solo_spells (U-18, 2026-11-26): the ward holds for a party, monsters included (no_monster_spells); a solo
+        # run casts (a lone mage has no steel) and so do the monsters, every spell at half damage
+        'rules': {'no_spells': True, 'no_monster_spells': True, 'solo_spells': True, 'solo_spell_damage_percent': 50},
     }
     if built:
         p['neighbours'][0].update({'arrival': [-15631, 3014, 768], 'direction': 0})

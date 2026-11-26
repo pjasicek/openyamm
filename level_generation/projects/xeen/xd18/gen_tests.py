@@ -11,6 +11,8 @@
                           starwell's sky slot stays in the map; a walking party is stopped by the ledge's lip
   playtest_exit.yml       out through the mouth to X7, the landing measured
   playtest_hostility.yml  the quiet arrival (10 s, no harm), the four rows hostile, after a reload too
+  playtest_fit.yml        F75: the party waits beyond three of D-32's low openings (XD-18 p1's, p2's and the roost's
+                          east one); no dragon comes within 280 of any (leashed clear of them, gen.py LEASH)
 Usage: gen_tests.py (after a build has written L4/ids.lock.yml)."""
 import pathlib  # noqa: E402
 _REPO_ROOT = str(pathlib.Path(__file__).resolve().parents[4])  # the repository root
@@ -299,4 +301,24 @@ H += [
     f'  - assert: {{actor_count: {{monster_id: {m}, hostile: true, min: {n}}}}}'
     for m, n in ((ACID, 9), (FIRE, 17), (FROST, 14), (KING, 1))]
 write('playtest_hostility.yml', H)
-print('written 5 playtests')
+
+# ------------------------------------------------------------------------------------------------ F75 fit
+SPOTS = [  # (what, party pose (x, y, z, yaw), row, the openings it must stay clear of)
+    ("p1: the scorched passage's mouth on the bone hall", (3800, -3072, 0, 0.0), ACID, [(3968, -3072)]),
+    ("p2: the stair foot by the pools", (9447, 1347, -1024, 2.929), FIRE, [(8192, 1536), (9312, 1280)]),
+    ("roost: the stair foot's opening on the roost", (8576, 0, -1024, 3.1416), FIRE, [(8192, -192)]),
+]
+FT = head('xeen.xd18.l4.fit', 'Dragon Cave (XD-18 L4), F75: no dragon stuck in a low opening', """
+F75 (reviews/PLAYER_FEEDBACK_20261126.md, XD-18 p1 "dragon gets stuck", p2 "they get stuck"): the party (immortal)
+waits 30 s just beyond three of D-32's low openings (288 high; a dragon is 487 high, radius 238) where the dragons see
+it. No dragon of the row comes within 280 of the opening: each is leashed so its body stays 64 clear (gen.py LEASH,
+tools/xeen/check_monster_fit.py). On the map before F75 a dragon pressed into each of them.""")
+FT += [lua('wait(2); close()')]
+for what, (x, y, z, yaw), row, ops in SPOTS:
+    FT += [f'  # {what}',
+           f'  - set_pose: {{map: xeen_xd18.blv, x: {x}, y: {y}, z: {z}, yaw: {yaw}, pitch: 0.0}}',
+           '  - advance_runtime: {seconds: 30}',
+           lua(f"log('{what.split(':')[0]} after 30 s: ' .. tostring(status()))")]
+    FT += [f'  - assert: {{actor_count: {{monster_id: {row}, near: [{ox}, {oy}, 280], max: 0}}}}' for ox, oy in ops]
+write('playtest_fit.yml', FT)
+print('written 6 playtests')

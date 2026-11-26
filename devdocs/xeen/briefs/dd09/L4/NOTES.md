@@ -389,3 +389,7 @@ output/studio_cal/a8_s29/shots/dd09_chests.jpg (all four on the floor).
 
 - `check_identity.py` measures 33 % of the map in 7d22: the bark is the world's own xdbark (A6, 35 %), 7d22's earth
   and roots below it (68 % together). Recorded as an exception in the tool (`EXCEPTIONS`), no texture forced.
+
+## D-104 dungeon campfires (2026-11-26, agent:xeen-fb5-dungeon2)
+
+`deco:cookfire`: the outdoor campfire's event (food 1-3 once, a small ring for a character with Perception), `once: true`, added by `level_generation/projects/xeen/common/campfires.py` (regen.py runs it after gen.py). Rebuilt, audit 0 errors, every playtest passing from the stage, installed and baked, MAW reserve rerun.

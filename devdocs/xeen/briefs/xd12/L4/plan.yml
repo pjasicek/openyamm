@@ -1195,7 +1195,19 @@ links:
     kind: stairs
     rise: 768
     notes: From the stair hall's hanging gallery at the upper floor.
+  - id: link:skystair_roof_nw
+    from: room:sky_stair
+    to: room:roof_n
+    kind: stairs
+    rise: 768
+    notes: From the stair hall's hanging gallery at the upper floor.
   - id: link:skystair_roof_s
+    from: room:sky_stair
+    to: room:roof_s
+    kind: stairs
+    rise: 768
+    notes: From the stair hall's hanging gallery at the upper floor.
+  - id: link:skystair_roof_sw
     from: room:sky_stair
     to: room:roof_s
     kind: stairs

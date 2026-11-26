@@ -239,6 +239,7 @@ artifacts:
     id: 12500
     name: Xeen Slayer Sword
     like: 1303  # MM7 Iron Feather
+    any_class: true  # U-17: a Sword every character may wield without the Sword skill (EquipWithoutSkill)
     rarity: Relic
     damage: 3d10
     bonus: 14

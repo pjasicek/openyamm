@@ -1,0 +1,29 @@
+# Decision D-182 (2026-11-26, XD-19 p1 "Fire Elemental have no loot"): F54 had set `corpse: none` on Xeen's fire
+# elementals (11620-11624), air elementals (11700-11702) and robots (11610-11612): their borrowed descriptors have no
+# dead sprite, so they left no body and the game dropped none of their table loot. They now say `corpse: dying` (the
+# death clip, a hidden body, the satchel with the table's gold and item), and tools/xeen/gen_monsters.py refuses
+# `corpse: none` on a row with table loot. A Fire Elemental and a Patrol (D6) and an Air Elemental (P2) each leave gold,
+# under Standard rules and under MAW (Standard here; elementals_leave_loot_maw.yml for MAW).
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/elementals_leave_loot.yml --scenario-no-color
+id: xeen.d182.elementals_leave_loot
+title: "D-182: a slain Fire Elemental, Patrol and Air Elemental leave their gold (Standard)"
+world: xeen
+mode: faithful
+tags: [xeen, loot, regression]
+steps:
+  - new_game_flow:
+      start_map: xeen_d6.odm
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end; remember('gold', gold())"}
+  - spawn_actor: {monster_id: 11621, near_party: true}
+  - combat_loot: {actor_index: last}
+  - play_lua: {source: "if gold() <= recall('gold') then error('the Fire Elemental left no gold') end remember('gold', gold())"}
+  - spawn_actor: {monster_id: 11610, near_party: true}
+  - combat_loot: {actor_index: last}
+  - play_lua: {source: "if gold() <= recall('gold') then error('the Patrol left no gold') end"}
+  - load_map: {map: xeen_p2.blv}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end; remember('gold', gold())"}
+  - spawn_actor: {monster_id: 11700, near_party: true}
+  - combat_loot: {actor_index: last}
+  - play_lua: {source: "if gold() <= recall('gold') then error('the Air Elemental left no gold') end"}

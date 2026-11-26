@@ -1,0 +1,81 @@
+# tools/xeen/check_clipping.py: findings looked at (F76, xeen-fb5-dungeon-f76, 2026-11-26).
+# keep: map (stem), rule, at [x, y] (the face's middle or the decoration, matched within 64) or name (the
+# decoration's id), why. `pending: true` with `owner`: found and left to the map's lane (printed, not failing).
+keep:
+  - map: xeen_xd12
+    rule: piece.free
+    at: [3200, -1760]
+    why: >-
+      The sky stair's east battlement (open:battlement_e): its stone reveals stand 288 over the 3,184 sill at the
+      stair's two ends. A sky reveal showed the fog under the horizon to a party on the sill (fb4-dungeon6, NOTES
+      2026-11-25), a full-height one two posts 1,000 into the sky; these read as the battlement's end posts.
+  - map: xeen_xd12
+    rule: piece.free
+    at: [3200, 1760]
+    why: The other end post of the same battlement (above).
+  - map: xeen_x9
+    rule: sky.solid
+    at: [0, -8353]
+    within: 2500
+    why: >-
+      Four upright faces (xccloud, sector 1, at (+-384, -8353), (0, -5890), (0, -10816)) with the sky flag: the sides
+      and ends of the unseen way (link:unseen_way, 'Xeen--9N.', from (0, -10816) to (0, -5889), 768 wide), drawn as
+      sky on purpose so only its faint wisp top shows (D-50 change 1; x9/gen.py links() `unseen`). Looked at by
+      xeen-fb5-dungeon, 2026-11-26.
+  - map: xeen_xd17
+    rule: deco.through
+    name: tree_4
+    pending: true
+    owner: A5 (XD-17's lane)
+    why: >-
+      A great tree (7tree16, 1,280 high, crown about 690 as drawn) 256 from a house wall (face 7hhr1b): its crown
+      goes 433 through the house. xd17/gen.py decorations(): the `extra` trees by the houses need the crown's
+      clearance from house walls (tools/xeen/deco_footprint.py), or a small tree there (as XD-12's island, F76).
+  - map: xeen_dd09
+    rule: deco.through
+    name: roots_mush_1
+    pending: true
+    owner: A8 (DD-09)
+    why: A mushroom (mushrm02, 87 high) whose top reaches 74 into another sector's floor face (cfb1) over it.
+  - map: xeen_dd11c
+    rule: deco.through
+    name: gate_skulls_n
+    pending: true
+    owner: DD-11C's lane
+    why: A skull pile (crown 130 as drawn) 66 into another sector's face (7dirttyl) behind it.
+  - map: xeen_dd23
+    rule: deco.through
+    name: roost_skulls
+    pending: true
+    owner: DD-23's lane
+    why: A skull pile 126 into another sector's wall (c2b) behind it.
+  - map: xeen_xd02
+    rule: deco.through
+    name: main_drift_10
+    pending: true
+    owner: A7 (XD-02)
+    why: A rock (7rock03) 50 into another sector's face (t3d2abs).
+  - map: xeen_xd03
+    rule: deco.through
+    name: spoil_2
+    pending: true
+    owner: A7 (XD-03)
+    why: A trash heap (7dec01) 69 into another sector's face (vlcwl3a).
+  - map: xeen_xd05
+    rule: deco.through
+    name: mouth_skulls_w
+    pending: true
+    owner: A7 (XD-05)
+    why: A skull pile 86 into another sector's cave face (gcav1flr).
+  - map: xeen_xd05
+    rule: deco.through
+    name: run_rock_1
+    pending: true
+    owner: A7 (XD-05)
+    why: A rock (6rock04) 115 into another sector's cave face (gcav2flr).
+  - map: xeen_xd27
+    rule: deco.through
+    name: quarry_rubble_1
+    pending: true
+    owner: A8 (XD-27)
+    why: Rubble (7dec11) 94 into another sector's cave wall (gcav1wal).

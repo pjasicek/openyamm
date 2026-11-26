@@ -152,10 +152,11 @@
 41000	"The Songbird is on the isle in the lake, past Lakeside. The dungeon there is all doors that ask you to cheer up. Father would never get through them."	m20 npc 5005 Quest	Xeen
 41001	"My father Dimitri was captain of the Queen's guard. Since she was taken he sits in the dark and won't eat. Only the Songbird of Serenity could lift his despair, and it's caged in the Dungeon of Lost Souls on the lake isle. Here is the key to its cage. Father kept it; he won't use it. The Isle eats parties, mind."	m20 npc 5005 Quest	Xeen
 41002	The Queen is gone. What is a captain without a queen? A man in a chair. Leave me be.	m20 npc 5004 The Queen	Xeen
-41050	"Darzog's Tower. The Skeleton Key turns, and the door that has been sealed since Crodo vanished swings in on cold air. Artemus was right about the Baron: somewhere above, Crodo still lives. And the air itself is wrong. Every spell you reach for dies before it is shaped. Here you fight with steel. The stairs climb the west and east halls in turn; the Baron keeps the top floor."	m21.arrival text	Xeen
-41051	"Baron Darzog falls. In the Well, a black grille rises from his disc's landing. His ward on your spells stays: it is in the stones."	m21.darzog text	Xeen
-41052	"Crodo the Overseer, thin and grey, gets up from his stool. ""Thank you for rescuing me from Darzog's clutches. I didn't know that someone else had received my message. Listen. The man at the King's side is not Prince Roland. I struck him with Dancing Blades and saw what he is: Lord Xeen, an undead general who serves a greater master. Xeen's hideout is just above us in the clouds. You will need the sword the adventurers were working on in the dungeon of Newcastle to defeat Lord Xeen. Ask Artemus for leave to dig it out. The vault's word is 'laboratory'. You must make haste. Xeen plans to summon an army from the Darkside to conquer our world."" Darzog's ward still holds him, but it is fading. He has strength for one small spell, and he spends it on going home. He touches your hand, says a word, and is gone."	m21.crodo text	Xeen
-41053	"Crodo's stool, and the marks of his chain on the wall."	m21.crodo else_text	Xeen
+41050	"Darzog's Tower. The Skeleton Key turns, and the door that has been sealed since Crodo vanished swings in on cold air. Artemus was right about the Baron: somewhere above, Crodo still lives. And the air itself is wrong. Every spell you shape comes out at half its strength, and so does every spell cast at you. The ward was laid against a company; one alone slips half through it. The stairs climb the west and east halls in turn; the Baron keeps the top floor."	m21.arrival state 0	Xeen
+41051	"Darzog's Tower. The Skeleton Key turns, and the door that has been sealed since Crodo vanished swings in on cold air. Artemus was right about the Baron: somewhere above, Crodo still lives. And the air itself is wrong. Every spell you reach for dies before it is shaped. Here you fight with steel. The stairs climb the west and east halls in turn; the Baron keeps the top floor."	m21.arrival state 1	Xeen
+41052	"Baron Darzog falls. In the Well, a black grille rises from his disc's landing. His ward on your spells stays: it is in the stones."	m21.darzog text	Xeen
+41053	"Crodo the Overseer, thin and grey, gets up from his stool. ""Thank you for rescuing me from Darzog's clutches. I didn't know that someone else had received my message. Listen. The man at the King's side is not Prince Roland. I struck him with Dancing Blades and saw what he is: Lord Xeen, an undead general who serves a greater master. Xeen's hideout is just above us in the clouds. You will need the sword the adventurers were working on in the dungeon of Newcastle to defeat Lord Xeen. Ask Artemus for leave to dig it out. The vault's word is 'laboratory'. You must make haste. Xeen plans to summon an army from the Darkside to conquer our world."" Darzog's ward still holds him, but it is fading. He has strength for one small spell, and he spends it on going home. He touches your hand, says a word, and is gone."	m21.crodo text	Xeen
+41054	"Crodo's stool, and the marks of his chain on the wall."	m21.crodo else_text	Xeen
 41100	"Dig, and say nothing at table. He smiles at me now. He never used to smile."	m22 npc 4402 Quest	Xeen
 41101	"Crodo is home, and he says the Prince is... no. I believe him. I have watched that man not eat for a year. The King would not hear it, and the thing at his side would. So, quietly again: an Excavation Permit for Newcastle's dungeon. Emerson will dig where you tell him."	m22 npc 4402 Quest	Xeen
 41102	"Dug, shored and swept. There's a door at the bottom my men won't touch. It hums. I put a chalk mark on it: NOT MY DEPARTMENT."	m22 npc 4403 Quest	Xeen
@@ -824,31 +825,33 @@
 44300	"It is always pleasing to be honored with your presence, my friends."	q-d6 npc 4905 Quest	Xeen
 44301	"Thank you for your help in the battle against the heretics. Ours is the true religion, and Mok has sided with the righteous. Those of you who serve the light, Mok raises up; the rest of you get gold."	q-d6 npc 4905 Quest	Xeen
 44302	"My door is open, but the Cult Leader still preaches on the top floor. Mok does not share a tower."	q-d6 npc 4905 Quest	Xeen
-44303	"You went up their rope? Good. The key to my door is on the top floor, by their altar. Bring it down and let me in."	q-d6 npc 4905 Quest	Xeen
-44304	Your failure to breach the tower is not your fault; it is a test of my determination to cleanse the faith of heresy. I implore you to continue your efforts on my behalf.	q-d6 npc 4905 Quest	Xeen
-44305	"Oh, wretched fortune! I, Dreyfus, high priest of Mok, have been cast from my tower by heretics in the priesthood! They warded the door against me, but they still haul their bread up a rope on the north wall. Perhaps you could climb in from the top and open the tower to me again."	q-d6 npc 4905 Quest	Xeen
-44306	Humble and Pious came to me and begged forgiveness. I gave them the latrines. Mok is merciful; I am thorough.	q-d6 npc 4905 The clerics	Xeen
-44307	"Hand over hand, past the arrow slits. Nobody looks out. The window at the top is open: heretics trust their wards, not their windows."	q-d6.tower_rope text	Xeen
-44308	Thank you for sparing my life. I shall be going now.	q-d6.humble text	Xeen
-44309	Nothing here.	q-d6.humble else_text	Xeen
-44310	Thank you for sparing my life. I shall be going now.	q-d6.pious text	Xeen
-44311	Nothing here.	q-d6.pious else_text	Xeen
-44312	"The key turns and the heretics' wards on the door die with a small, sulky pop."	q-d6.front_door text	Xeen
-44313	The front door stands open.	q-d6.front_door else_text	Xeen
-44314	"Locked, and warded from both sides. The key is upstairs, with the heretics."	q-d6.front_door fail_text	Xeen
-44315	"The key turns and the heretics' wards on the door die with a small, sulky pop."	q-d6.front_door_outside text	Xeen
-44316	The front door stands open.	q-d6.front_door_outside else_text	Xeen
-44317	"Locked, and warded from both sides. The key is upstairs, with the heretics. A rope hangs from a window on the north wall."	q-d6.front_door_outside fail_text	Xeen
-44318	"Disc. Two of them, Energy Disks, set in the alcoves like offerings. Mok will not miss them."	q-d6.l1_alcoves text	Xeen
-44319	The alcove is empty.	q-d6.l1_alcoves else_text	Xeen
-44320	The water is cool and refreshing.	q-d6.fountain_fire state 0	Xeen
-44321	"Fountain. The water is cool and refreshing, and the heat of the tower seems to step back from you. (+5 Fire resistance, permanent)"	q-d6.fountain_fire state 1	Xeen
-44322	The water is cool and refreshing.	q-d6.fountain_air state 0	Xeen
-44323	"Fountain. The water is cool and refreshing, and it crackles on the way down. (+5 Air resistance, permanent)"	q-d6.fountain_air state 1	Xeen
-44324	The water is cool and refreshing.	q-d6.fountain_water state 0	Xeen
-44325	"Fountain. The water is cool and refreshing, and colder than it looks. (+5 Water resistance, permanent)"	q-d6.fountain_water state 1	Xeen
-44326	The water is cool and refreshing.	q-d6.fountain_body state 0	Xeen
-44327	"Fountain. The water is cool and refreshing, with a bitter end that your stomach decides to like. (+5 Body resistance, permanent)"	q-d6.fountain_body state 1	Xeen
+44303	You have my key? Then turn it in the Western Tower's ground door. A High Priest goes home by the front door.	q-d6 npc 4905 Quest	Xeen
+44304	The Cult Leader is dead? Good. Now take the key from their altar on the top floor and open my tower's ground door with it.	q-d6 npc 4905 Quest	Xeen
+44305	"You went up their rope? Good. The key to my tower's ground door is on the top floor, by their altar. Bring it down and open the tower to me."	q-d6 npc 4905 Quest	Xeen
+44306	Your failure to breach the tower is not your fault; it is a test of my determination to cleanse the faith of heresy. I implore you to continue your efforts on my behalf.	q-d6 npc 4905 Quest	Xeen
+44307	"Oh, wretched fortune! I, Dreyfus, high priest of Mok, have been cast from my tower by heretics in the priesthood! They warded the door against me, but they still haul their bread up a rope on the north wall. Perhaps you could climb in from the top and open the tower to me again."	q-d6 npc 4905 Quest	Xeen
+44308	Humble and Pious came to me and begged forgiveness. I gave them the latrines. Mok is merciful; I am thorough.	q-d6 npc 4905 The clerics	Xeen
+44309	"Hand over hand, past the arrow slits. Nobody looks out. The window at the top is open: heretics trust their wards, not their windows."	q-d6.tower_rope text	Xeen
+44310	Thank you for sparing my life. I shall be going now.	q-d6.humble text	Xeen
+44311	Nothing here.	q-d6.humble else_text	Xeen
+44312	Thank you for sparing my life. I shall be going now.	q-d6.pious text	Xeen
+44313	Nothing here.	q-d6.pious else_text	Xeen
+44314	"The key turns and the heretics' wards on the door die with a small, sulky pop."	q-d6.front_door text	Xeen
+44315	The front door stands open.	q-d6.front_door else_text	Xeen
+44316	"Locked, and warded from both sides. The key is upstairs, with the heretics."	q-d6.front_door fail_text	Xeen
+44317	"The key turns and the heretics' wards on the door die with a small, sulky pop."	q-d6.front_door_outside text	Xeen
+44318	The front door stands open.	q-d6.front_door_outside else_text	Xeen
+44319	"Locked, and warded from both sides. The key is upstairs, with the heretics. A rope hangs from a window on the north wall."	q-d6.front_door_outside fail_text	Xeen
+44320	"Disc. Two of them, Energy Disks, set in the alcoves like offerings. Mok will not miss them."	q-d6.l1_alcoves text	Xeen
+44321	The alcove is empty.	q-d6.l1_alcoves else_text	Xeen
+44322	The water is cool and refreshing.	q-d6.fountain_fire state 0	Xeen
+44323	"Fountain. The water is cool and refreshing, and the heat of the tower seems to step back from you. (+5 Fire resistance, permanent)"	q-d6.fountain_fire state 1	Xeen
+44324	The water is cool and refreshing.	q-d6.fountain_air state 0	Xeen
+44325	"Fountain. The water is cool and refreshing, and it crackles on the way down. (+5 Air resistance, permanent)"	q-d6.fountain_air state 1	Xeen
+44326	The water is cool and refreshing.	q-d6.fountain_water state 0	Xeen
+44327	"Fountain. The water is cool and refreshing, and colder than it looks. (+5 Water resistance, permanent)"	q-d6.fountain_water state 1	Xeen
+44328	The water is cool and refreshing.	q-d6.fountain_body state 0	Xeen
+44329	"Fountain. The water is cool and refreshing, with a bitter end that your stomach decides to like. (+5 Body resistance, permanent)"	q-d6.fountain_body state 1	Xeen
 44350	Five ruby rocks and two gems. Give me an hour. There. Ruby. Mind the edge.	q-d7 npc 4945 Quest	Xeen
 44351	"The rocks are fine. The fee is two gems, and you have the rocks."	q-d7 npc 4945 Quest	Xeen
 44352	"With 5 Ruby rocks I will make a weapon or piece of armor for you. The cost is 2 gems. The rocks are in the Gemstone Mines; I'm sorry, but you don't have enough Ruby rocks."	q-d7 npc 4945 Quest	Xeen

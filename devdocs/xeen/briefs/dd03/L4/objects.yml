@@ -756,6 +756,7 @@ monsters:
     at: [1856, -6720]
     facing: 270
     group: 35
+    leash: 768
     hidden: true
     notes: "Scraps (Drothnavod the Weighty), optional: behind the kennel portcullis, at the foot of a stair 288 high (D-32)."
   - id: monster:sleeping_1
@@ -831,6 +832,7 @@ monsters:
     facing: 270
     group: 34
     name: Iron Vithnipravad
+    leash: 256
     hidden: true
   - id: monster:well_2
     room: room:well
@@ -839,6 +841,7 @@ monsters:
     facing: 270
     group: 34
     name: Argonax
+    leash: 448
     hidden: true
 decorations:
   - id: deco:armory_sconce

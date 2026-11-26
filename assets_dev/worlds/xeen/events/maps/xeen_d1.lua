@@ -963,49 +963,49 @@ RegisterEvent(233, "A chest with a 6 on its lid", function()
 end, "A chest with a 6 on its lid")
 
 -- evt:part:thing:letter_chest_1/lid
-RegisterEvent(234, "A chest with a letter on its lid", function()
+RegisterEvent(234, "A chest with the letter F on its lid", function()
     if Xeen.isSet("q-d4.letters_closed") then XeenQuests.hook("q-d4.letter_chests") return end local k = evt.GetMapVar("d1_letters", 0) if k == 5 then k = k + 1 evt.SetMapVar("d1_letters", k) evt.StatusText("A letter on the lid reads: F. The lid drops shut.") if k == 9 then XeenQuests.hook("q-d4.letter_chests") end elseif k > 5 then evt.StatusText("The F chest is shut.") else evt.SetMapVar("d1_letters", 0) evt.StatusText("A letter on the lid reads: F. It will not shut. All nine lids spring open again.") end
-end, "A chest with a letter on its lid")
+end, "A chest with the letter F on its lid")
 
 -- evt:part:thing:letter_chest_2/lid
-RegisterEvent(235, "A chest with a letter on its lid", function()
+RegisterEvent(235, "A chest with the letter T on its lid", function()
     if Xeen.isSet("q-d4.letters_closed") then XeenQuests.hook("q-d4.letter_chests") return end local k = evt.GetMapVar("d1_letters", 0) if k == 2 then k = k + 1 evt.SetMapVar("d1_letters", k) evt.StatusText("A letter on the lid reads: T. The lid drops shut.") if k == 9 then XeenQuests.hook("q-d4.letter_chests") end elseif k > 2 then evt.StatusText("The T chest is shut.") else evt.SetMapVar("d1_letters", 0) evt.StatusText("A letter on the lid reads: T. It will not shut. All nine lids spring open again.") end
-end, "A chest with a letter on its lid")
+end, "A chest with the letter T on its lid")
 
 -- evt:part:thing:letter_chest_3/lid
-RegisterEvent(236, "A chest with a letter on its lid", function()
+RegisterEvent(236, "A chest with the letter K on its lid", function()
     if Xeen.isSet("q-d4.letters_closed") then XeenQuests.hook("q-d4.letter_chests") return end local k = evt.GetMapVar("d1_letters", 0) if k == 8 then k = k + 1 evt.SetMapVar("d1_letters", k) evt.StatusText("A letter on the lid reads: K. The lid drops shut.") if k == 9 then XeenQuests.hook("q-d4.letter_chests") end elseif k > 8 then evt.StatusText("The K chest is shut.") else evt.SetMapVar("d1_letters", 0) evt.StatusText("A letter on the lid reads: K. It will not shut. All nine lids spring open again.") end
-end, "A chest with a letter on its lid")
+end, "A chest with the letter K on its lid")
 
 -- evt:part:thing:letter_chest_4/lid
-RegisterEvent(237, "A chest with a letter on its lid", function()
+RegisterEvent(237, "A chest with the letter P on its lid", function()
     if Xeen.isSet("q-d4.letters_closed") then XeenQuests.hook("q-d4.letter_chests") return end local k = evt.GetMapVar("d1_letters", 0) if k == 0 then k = k + 1 evt.SetMapVar("d1_letters", k) evt.StatusText("A letter on the lid reads: P. The lid drops shut.") if k == 9 then XeenQuests.hook("q-d4.letter_chests") end elseif k > 0 then evt.StatusText("The P chest is shut.") else evt.SetMapVar("d1_letters", 0) evt.StatusText("A letter on the lid reads: P. It will not shut. All nine lids spring open again.") end
-end, "A chest with a letter on its lid")
+end, "A chest with the letter P on its lid")
 
 -- evt:part:thing:letter_chest_5/lid
-RegisterEvent(238, "A chest with a letter on its lid", function()
+RegisterEvent(238, "A chest with the letter O on its lid", function()
     if Xeen.isSet("q-d4.letters_closed") then XeenQuests.hook("q-d4.letter_chests") return end local k = evt.GetMapVar("d1_letters", 0) if k == 6 then k = k + 1 evt.SetMapVar("d1_letters", k) evt.StatusText("A letter on the lid reads: O. The lid drops shut.") if k == 9 then XeenQuests.hook("q-d4.letter_chests") end elseif k > 6 then evt.StatusText("The O chest is shut.") else evt.SetMapVar("d1_letters", 0) evt.StatusText("A letter on the lid reads: O. It will not shut. All nine lids spring open again.") end
-end, "A chest with a letter on its lid")
+end, "A chest with the letter O on its lid")
 
 -- evt:part:thing:letter_chest_6/lid
-RegisterEvent(239, "A chest with a letter on its lid", function()
+RegisterEvent(239, "A chest with the letter C on its lid", function()
     if Xeen.isSet("q-d4.letters_closed") then XeenQuests.hook("q-d4.letter_chests") return end local k = evt.GetMapVar("d1_letters", 0) if k == 3 then k = k + 1 evt.SetMapVar("d1_letters", k) evt.StatusText("A letter on the lid reads: C. The lid drops shut.") if k == 9 then XeenQuests.hook("q-d4.letter_chests") end elseif k > 3 then evt.StatusText("The C chest is shut.") else evt.SetMapVar("d1_letters", 0) evt.StatusText("A letter on the lid reads: C. It will not shut. All nine lids spring open again.") end
-end, "A chest with a letter on its lid")
+end, "A chest with the letter C on its lid")
 
 -- evt:part:thing:letter_chest_7/lid
-RegisterEvent(240, "A chest with a letter on its lid", function()
+RegisterEvent(240, "A chest with the letter R on its lid", function()
     if Xeen.isSet("q-d4.letters_closed") then XeenQuests.hook("q-d4.letter_chests") return end local k = evt.GetMapVar("d1_letters", 0) if k == 7 then k = k + 1 evt.SetMapVar("d1_letters", k) evt.StatusText("A letter on the lid reads: R. The lid drops shut.") if k == 9 then XeenQuests.hook("q-d4.letter_chests") end elseif k > 7 then evt.StatusText("The R chest is shut.") else evt.SetMapVar("d1_letters", 0) evt.StatusText("A letter on the lid reads: R. It will not shut. All nine lids spring open again.") end
-end, "A chest with a letter on its lid")
+end, "A chest with the letter R on its lid")
 
 -- evt:part:thing:letter_chest_8/lid
-RegisterEvent(241, "A chest with a letter on its lid", function()
+RegisterEvent(241, "A chest with the letter I on its lid", function()
     if Xeen.isSet("q-d4.letters_closed") then XeenQuests.hook("q-d4.letter_chests") return end local k = evt.GetMapVar("d1_letters", 0) if k == 1 then k = k + 1 evt.SetMapVar("d1_letters", k) evt.StatusText("A letter on the lid reads: I. The lid drops shut.") if k == 9 then XeenQuests.hook("q-d4.letter_chests") end elseif k > 1 then evt.StatusText("The I chest is shut.") else evt.SetMapVar("d1_letters", 0) evt.StatusText("A letter on the lid reads: I. It will not shut. All nine lids spring open again.") end
-end, "A chest with a letter on its lid")
+end, "A chest with the letter I on its lid")
 
 -- evt:part:thing:letter_chest_9/lid
-RegisterEvent(242, "A chest with a letter on its lid", function()
+RegisterEvent(242, "A chest with the letter H on its lid", function()
     if Xeen.isSet("q-d4.letters_closed") then XeenQuests.hook("q-d4.letter_chests") return end local k = evt.GetMapVar("d1_letters", 0) if k == 4 then k = k + 1 evt.SetMapVar("d1_letters", k) evt.StatusText("A letter on the lid reads: H. The lid drops shut.") if k == 9 then XeenQuests.hook("q-d4.letter_chests") end elseif k > 4 then evt.StatusText("The H chest is shut.") else evt.SetMapVar("d1_letters", 0) evt.StatusText("A letter on the lid reads: H. It will not shut. All nine lids spring open again.") end
-end, "A chest with a letter on its lid")
+end, "A chest with the letter H on its lid")
 
 -- evt:gates_open
 RegisterEvent(243, nil, function()

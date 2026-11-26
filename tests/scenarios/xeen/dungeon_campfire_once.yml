@@ -1,0 +1,36 @@
+# D-104 (F74 of devdocs/xeen/reviews/PLAYER_FEEDBACK_20261126.md, 2026-11-26): the open dungeon campfires feed the party
+# once and give a character with Perception a small ring, as the outdoor ones (tests/scenarios/xeen/campfire_once.yml).
+# Each gets its event from level_generation/projects/xeen/common/campfires.py (`once: true`, a map variable of its
+# own); `campfires.py --check` lists every fire of the dungeons and fails on an open one without it. DD-09's cookfire
+# (event 58, map variable 17 in devdocs/xeen/briefs/dd09/L4/ids.lock.yml): the first click marks it used, the second
+# and one after a save and load give no food.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/dungeon_campfire_once.yml --scenario-no-color
+id: xeen.dungeon_campfire_once
+title: "Xeen: a dungeon campfire feeds the party once, also after a reload"
+world: xeen
+mode: faithful
+tags: [xeen]
+steps:
+  - new_game_flow:
+      start_map: xeen_dd09.blv
+      party:
+        gold: 100
+        food: 10
+        members:
+          - {name: Brokk, class: Knight, level: 30, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 30, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(2); for _ = 1, 3 do if not close() then break end end"}
+  - assert: {map: xeen_dd09.blv}
+  - play_lua: {source: "if mapvar(17) ~= 0 then error('the fire was used before the click') end"}
+  - console: {line: "lua SetValue(Food, 10)", expect_contains: "Lua ran."}
+  - execute_event: {id: 58}
+  - play_lua: {source: "close(); if mapvar(17) ~= 1 then error('the first click did not mark the fire used') end"}
+  - console: {line: "lua if not IsAtLeast(Food, 11) then error('no food from the fire') end", expect_contains: "Lua ran."}
+  - console: {line: "lua SetValue(Food, 50)", expect_contains: "Lua ran."}
+  - execute_event: {id: 58}
+  - assert: {food: 50}
+  - reload: {}
+  - execute_event: {id: 58}
+  - assert: {food: 50}
+  - play_lua: {source: "if mapvar(17) ~= 1 then error('the fire forgot it was used') end"}

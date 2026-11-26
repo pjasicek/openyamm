@@ -268,6 +268,28 @@ def span_top(spans, pt):
     return None
 
 
+RAIL_POST = 16         # the posts a rope bridge's rails are tied to at both ends (F70)
+
+
+def rail_posts(lid, spans, u, width):
+    """F70 (the player's pins 2026-11-26, X9 p5-p10 "the side rails stop in the air"; D7's bridges the same): a rope
+    bridge's two rails are tied at each end to a post standing on the island just before the deck's end, its top 16
+    over the rail (tools/xeen/check_beam_ends.py)."""
+    ux, uy = u
+    nx, ny = -uy * (width / 2 - 8), ux * (width / 2 - 8)
+    out = []
+    for tag, p, z, back in (('a', spans[0][0], spans[0][2], -1), ('b', spans[-1][1], spans[-1][3], 1)):
+        cx, cy = p[0] + back * ux * RAIL_POST / 2, p[1] + back * uy * RAIL_POST / 2
+        for k, side in enumerate((1, -1)):
+            xy = (cx + side * nx, cy + side * ny)
+            ground = height_at(xy)
+            if ground is None or ground > z:
+                raise SystemExit(f'{lid}: rail post {tag}{k + 1} at {xy} stands on no island under the deck ({ground})')
+            out.append(block(f'platform:{lid}_post_{tag}{k + 1}', xy, (RAIL_POST, RAIL_POST), ground,
+                             z + 88 + 16 - ground, ROPE, ROPE, facing=math.degrees(math.atan2(uy, ux))))
+    return out
+
+
 def links():
     platforms, beams = [], []
     for l in D.LINKS:
@@ -286,6 +308,7 @@ def links():
                                            [int(round(q[0] + side * nx)), int(round(q[1] + side * ny))]],
                                   'width': 8, 'depth': 8, 'bottom': int(z0 + 80), 'bottom_end': int(z1 + 80),
                                   'surface': ROPE})
+            platforms += rail_posts(lid, spans, (ux, uy), width)
             continue
         a, b, d, (ux, uy) = link_cut(l, ROAD_INTO)
         what = {'road': 'the Skyroad', 'causeway': 'a causeway', 'spur': 'a spur'}[l['style']]

@@ -387,3 +387,14 @@ two services and two homes on a flat pan, as L1 and D-31 approved, and from the 
   D-109 (4), not this map's.
 - Side quests crossing it, normal and `--reload` (2026-11-23, after the installs): pass (rim doc §6, map agent MB).
   Story segments and promotions: held for the orchestrator's single chain run after all 12 rim maps.
+
+## D-192: kerbless hull tops under the land (agent xeen-p6-rim, 2026-11-26; run files output/xeen_fb/p6_rim/x6/)
+
+- `common/rim.py hull_sink` puts each kerbless piece (`xeen_hullf`, behind the sand-falls) 8 under the lowest land of
+  `hull_band` (along its span and 64 past each end, 0.04-0.25 cells inland, the game's triangles): the 11 pieces sank
+  8-12 more (`hull_093` 1504 → 1492, `hull_094` 1536 → 1524). Kerbed pieces never sink. `check_wild.py rim.fin` 0.
+- **Extra scenario for every X6 rebuild:** `tests/scenarios/xeen/x6_cove_worms_pursue.yml` (four Great Worms north of
+  the Sphinx cove reach the party within 700 after 16 turns; before, one held at the 092/093 seam 3,788 off). Pin p14
+  resolved with it.
+- Installed with its bake 19:00. Stage checks: audit no new errors, door 0, wall 0, wild 0, reach 0, faces 0, fit 0;
+  walk, hostility, `x6_warzone_entrance`, `x6_cove_worms_pursue` pass; second regen identical.

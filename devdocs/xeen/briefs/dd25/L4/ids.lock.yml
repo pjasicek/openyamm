@@ -13,6 +13,7 @@ sectors:
 events:
   evt:alehall: 1
   evt:arrive: 2
+  evt:campfire_hearth_fire: 16
   evt:chalice: 3
   evt:exit_gate_left: 4
   evt:exit_gate_right: 5
@@ -31,6 +32,7 @@ doors:
   door:throne_leaves.leaf2: 2
 map_vars:
   once.arrive: 0
+  once.campfire_hearth_fire: 1
 lights:
   light:forge_bay_1: 1
   light:great_hall_3: 2

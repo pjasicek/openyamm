@@ -417,3 +417,11 @@ oymap 09:24, installed and baked; audit 0 errors / 15 warnings (as before: 8 `qu
   4502-4505 and 4511 already did.
 - Installed 00:24 (no bake: neither .blv nor scene changed), audit 0 errors / 11 warnings (as before), check_exits 0,
   check_drops 0; tests from assets_dev 4 of 4 (20 of 20, `output/studio_cal/a8_s26/run/dd03/t002727`).
+
+## D-185 (2026-11-26, agent:xeen-fb5-dungeon2)
+
+The stage-3 dragons are hidden until m26.stage3 and chase like any other once shown, so `check_monster_fit.py` now
+counts them: 5 `fit.stuck` (Scraps at the kennel stair's 256-high mouth, both Bone Dragons at the well's two 256-high
+openings). gen.py `LEASH` (from `--suggest`, rounded down to 32): Iron Vithnipravad 256, Argonax 448, Scraps 768;
+posts unchanged. `playtest_dragon.yml` adds three waits just beyond each opening (no dragon's middle within radius + 64
+= 184 of it). Fit 5 -> 0, audit 0 errors, playtests 5 of 5 from the stage, installed and baked, MAW reserve rerun.

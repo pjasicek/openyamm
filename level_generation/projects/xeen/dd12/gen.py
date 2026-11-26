@@ -267,6 +267,26 @@ def flight(i, name, notes):
             'theme': 'theme:stair', 'ambient': 12, 'notes': notes}
 
 
+# F71 (the player's pin XD-13 p2, 2026-11-26, the same fault: tools/xeen/check_cutout_backing.py): the aviary's eight
+# cages were wall panels in xwcage, a cutout: the open sky showed between the bars. Each cage is now its bars on a thin
+# block 4 off the wall (clicked: the bird's event) over a black hole in the wall (7solid01).
+CAGE_HOLE = FIT('7solid01', 128, 256)
+AVIARY_CAGES = {'north': ((1, -3168), (2, -2784), (3, -2400), (4, -2016)), 'west': ((5, 2624), (6, 2240)),
+                'south': ((7, -3168), (8, -2784))}
+
+
+def aviary_cage_fronts():
+    x0, y0, x1, y1 = B['aviary']
+    out = []
+    for wall, cages in AVIARY_CAGES.items():
+        for n, c in cages:
+            at, size = {'north': ((c, y1 - 8), (160, 8)), 'south': ((c, y0 + 8), (160, 8)),
+                        'west': ((x0 + 8, c), (8, 160))}[wall]
+            out.append(plat('cage%d' % n, at, size, 320, CAGE_FIT, TRIM, base=64, end_surface=TRIM,
+                            bottom_surface=TRIM, notes="A cage set in the wall (xwcage), 4 off its dark hole."))
+    return out
+
+
 def box_room(i, name, floor, theme, ambient, notes, ceiling=None, **kw):
     x0, y0, x1, y1 = B[i]
     d = {'id': 'room:' + i, 'name': name, 'outline': rect(x0, y0, x1, y1), 'floor': floor,
@@ -437,15 +457,16 @@ ROOMS += [
     box_room('aviary', 'The aviary', FL[4], 'theme:hall', 20,
              "Eight cages set in the walls; the lift's cage in the south wall.",
              walls=[
-                 {'wall': 'north', 'panels': [panel_xy(B['aviary'], 'north', x, 160, CAGE_FIT, 64, 320,
-                                                       pid='cage%d' % n, notes="A cage set in the wall (xwcage).")
-                                              for n, x in ((1, -3168), (2, -2784), (3, -2400), (4, -2016))]},
-                 {'wall': 'west', 'panels': [panel_xy(B['aviary'], 'west', y, 160, CAGE_FIT, 64, 320,
-                                                      pid='cage%d' % n, notes="A cage set in the wall (xwcage).")
-                                             for n, y in ((5, 2624), (6, 2240))]},
-                 {'wall': 'south', 'panels': [panel_xy(B['aviary'], 'south', x, 160, CAGE_FIT, 64, 320,
-                                                       pid='cage%d' % n, notes="A cage set in the wall (xwcage).")
-                                              for n, x in ((7, -3168), (8, -2784))]}]),
+                 {'wall': 'north', 'panels': [panel_xy(B['aviary'], 'north', x, 160, CAGE_HOLE, 64, 320,
+                                                       notes="The dark of a cage set in the wall.")
+                                              for n, x in AVIARY_CAGES['north']]},
+                 {'wall': 'west', 'panels': [panel_xy(B['aviary'], 'west', y, 160, CAGE_HOLE, 64, 320,
+                                                      notes="The dark of a cage set in the wall.")
+                                             for n, y in AVIARY_CAGES['west']]},
+                 {'wall': 'south', 'panels': [panel_xy(B['aviary'], 'south', x, 160, CAGE_HOLE, 64, 320,
+                                                       notes="The dark of a cage set in the wall.")
+                                              for n, x in AVIARY_CAGES['south']]}],
+             platforms=aviary_cage_fronts()),
 ]
 
 
@@ -1158,7 +1179,7 @@ BIRDS = [  # (cage, var, name, stat selector, stat word)
 
 
 def bird(cage, var, name, stat, word):
-    return {'id': 'evt:cage%d' % cage, 'preset': 'script', 'source': 'panel:cage%d' % cage, 'title': name,
+    return {'id': 'evt:cage%d' % cage, 'preset': 'script', 'source': 'platform:cage%d' % cage, 'title': name,
             'condition': {'not': {'map_var': var}},
             'effects': [{'lua': "evt.ForPlayer(Players.All)\nAddValue(%s, 2)" % stat},
                         {'set': {'var': {'map_var': var}, 'value': 1}},
@@ -1318,11 +1339,11 @@ EVENTS += [
      'lua': "if not XeenQuests.hook(\"q-d25.throne\") then\n    XeenQuests.hook(\"q-d25.throne_again\")\nend",
      'notes': "The dais: as the throne."},
 ] + [bird(*b) for b in BIRDS] + [
-    {'id': 'evt:cage4', 'preset': 'script', 'source': 'panel:cage4', 'title': 'Parrot of Prophecy',
+    {'id': 'evt:cage4', 'preset': 'script', 'source': 'platform:cage4', 'title': 'Parrot of Prophecy',
      'condition': {'not': {'map_var': 'parrot'}},
      'effects': [{'set': {'var': {'map_var': 'parrot'}, 'value': 1}}, {'message': PARROT}],
      'else_effects': [{'text': "An empty cage, door open."}], 'notes': "aaze0082:16-17."},
-    {'id': 'evt:cage8', 'preset': 'script', 'source': 'panel:cage8', 'title': 'Songbird of Serenity',
+    {'id': 'evt:cage8', 'preset': 'script', 'source': 'platform:cage8', 'title': 'Songbird of Serenity',
      'lua': "XeenQuests.hook(\"m24.songbird\")",
      'notes': "The last cage: A3's m24.songbird (bird_freed 111480, the Songbird 12526, once; then 'An empty cage, "
               "door open.'). The lift runs from then on."},

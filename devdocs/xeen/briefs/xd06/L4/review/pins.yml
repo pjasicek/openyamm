@@ -1,0 +1,26 @@
+format: 1
+counter: 3
+pins:
+  - id: pin:p1
+    text: maybe put a comple fountain there
+    source: game
+    world: xeen
+    map: xeen_xd06.blv
+    pose:
+      position: [1741.388, 4279.018, 0]
+      yaw_radians: 4.704
+      pitch_degrees: -6.721
+      heading_yaw_units: 1533
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-25T13:40:36
+    status: resolved
+    claimed_by: agent:xeen-fb5-dungeon
+    from: 20261125-134036-xeen_xd06.yml
+    replies:
+      - author: agent:xeen-fb5-dungeon
+        text: "The 'Statue' was MM6's fountain piece, which has no basin of its own (it is made to stand in a pool), so it poured onto the altar. On the chapel altars it is now a real statue (decision D-181), both chapels. The one real fountain in Xeen (the Dragon Tower) now stands in a proper basin of water, and a check keeps that fountain piece out of dry places."
+        created: 2026-11-26T08:50:00
+        revision: 6e94cef2f00e893166fc5ee6262e19df
+        status: resolved
+        pictures: [.oymap/pins/pictures/p1-r1.png]

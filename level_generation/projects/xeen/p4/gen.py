@@ -948,17 +948,26 @@ def objects():
         row = PD.ROWS[g['row']]
         swims = g.get('swims')
         if swims:
+            # D-200 (3): the leash plus the octopods' notice range (A2's relation `short`; no `hostile`, so no Aggressor
+            # bit that would widen it to 5,120) stays off the Whirlpool Court and the arrival
+            home = g['at']
+            court = PG.poly_distance([tuple(v) for v in TOPS['room:arena']], home)
+            arrival = math.dist(home, PLACE['entrance:d7_fall']['at'])
+            if min(court, arrival) < OCTO_LEASH + OCTO_NOTICE:
+                raise SystemExit(f"{g['id']}: home {court:.0f} from the court, {arrival:.0f} from the arrival: under "
+                                 f"the leash {OCTO_LEASH} plus the notice range {OCTO_NOTICE} (D-200)")
             pts = spread(g['at'], g['count'], 420)
             for k, q in enumerate(pts):
                 assert in_water(q), (g['id'], q)
                 e = {'id': f"monster:{key(g['id'])}_{k + 1}", 'room': 'room:sea', 'monster': OCTOPOD_DEEP, 'at': ipt(q),
                      'floor_height': FLOOR, 'above_floor': OCTO_RISE, 'leash': OCTO_LEASH, 'facing': 0,
-                     'hostile': True, 'group': gi + 1}
+                     'group': gi + 1}
                 if k == 0:
                     e['notes'] = (f"{g['id']}: {g['count']} {row['short']} ({row['level']}; A2's {OCTOPOD_DEEP} Xeen "
                                   "Octopod E, the foam-free swimmer, session 20), swimmers in the inner sea "
-                                  f"(D-58 Q4), bound to it; they start mid-sea ({OCTO_RISE} over the bed, merge point "
-                                  f"27's `above_floor`) and keep within {OCTO_LEASH} of home (session 18).")
+                                  f"(D-58 Q4), bound to it (the Swimmer kind, D-200); they start mid-sea ({OCTO_RISE} "
+                                  f"over the bed, merge point 27's `above_floor`), keep within {OCTO_LEASH} of home "
+                                  "(session 18) and shoot their ink at a party within reach (D-200).")
                 monsters.append(e)
             continue
         z = FLOOR_OF[g['space']]
@@ -1157,6 +1166,7 @@ TEST_CHEST = nudge_in(PLACE['poi:test_chest']['at'], 'room:chamber', 260)
 LOG = ipt(ship_pt(-0.72, 0))                                     # on the stern deck
 CACHE = ipt(ship_pt(0.42, -60))                                  # in the hold
 OCTO_LEASH = 1280
+OCTO_NOTICE = 2560     # D-200: an unengaged octopod notices a party within its relation's range (`short`)
 OCTO_RISE = 512        # mid-sea: the bed at -1,024, the surface at -64
 WAVES = []
 for _c in D['hazard']['cells']:

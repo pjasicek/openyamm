@@ -251,9 +251,11 @@ def floor_rooms(f, prefix, theme, names):
     op(f'open:{prefix}_ring_nw', gw, gn, 'n', width='full', height='full')
 
 
-def stair_hall(rid, name, side, f, ceiling, theme, rising, **kw):
+def stair_hall(rid, name, side, f, ceiling, theme, rising, solid=None, **kw):
     """A two-storey hall in the west or east side room from floor f to floor f+1: a hanging gallery at the upper
-    floor along the end it rises to and along its inner wall, and one long flight up the outer wall."""
+    floor along the end it rises to and along its inner wall, and one long flight up the outer wall. `solid`: the
+    surface of the flight's risers and the gallery's sides (default the room's wall, which is the sky in an open-air
+    hall)."""
     z = FL[f]
     up = z + 768
     if side == 'w':
@@ -291,6 +293,9 @@ def stair_hall(rid, name, side, f, ceiling, theme, rising, **kw):
     r.setdefault('flights', []).append(
         {'from': [fx, ffrom], 'to': [fx, fto], 'to_height': up, 'width': 384, 'steps': 24, 'open_below': 32,
          'notes': 'One long flight up the outer wall, 24 steps of 32, open underneath.'})
+    if solid:
+        r['platforms'][-1]['surface'] = solid
+        r['flights'][-1]['riser'] = solid
     return r
 
 TRAPDOORS = [

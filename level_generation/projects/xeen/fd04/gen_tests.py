@@ -334,6 +334,8 @@ scenario('playtest_shrine.yml', 'xeen.fd04.l4.shrine', "Dragon Tower (FD-04 L4):
 WAIT_AT = {0: [(1216, -500, 0)], 1: [(-736, 1150, 1280)], 2: [(544, 1150, 2560), (1152, 1150, 2560)],
            3: [(480, -1280, 3840), (1280, 600, 3840)]}
 FLOOR_HALLS = {0: ['scorched'], 1: ['ring'], 2: ['nest', 'hatchery'], 3: ['high', 'crown']}
+# F75 (2026-11-26): the leashed dragons roam their halls; the nest's egg bowl (level:bowl) is 96 down, still the floor.
+BOWL = {'nest': 96}
 steps = start() + [IMMORTAL, lua("wait(2); close()")]
 for fl, points in WAIT_AT.items():
     for (x, y, z) in points:
@@ -346,7 +348,7 @@ for fl, points in WAIT_AT.items():
         rmax = ((x1 - x0) ** 2 + (y1 - y0) ** 2) ** 0.5 / 2
         steps.append({'assert': {'actor_visible': {'actor_index': idx, 'report_state': True, 'dead': False,
                                                    'near': {'x': cx, 'y': cy, 'max_distance': round(rmax),
-                                                            'min_z': hz - 16}}}})
+                                                            'min_z': hz - 16 - BOWL.get(hall, 0)}}}})
 # None in the stair's ring (the three ramps run at |x| or |y| 1,600-1,888).
 for (x, y) in ((-1744, -800), (-1744, 0), (-1744, 800), (-800, 1744), (0, 1744), (800, 1744), (1744, 800), (1744, 0),
                (1744, -800)):

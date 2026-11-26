@@ -394,8 +394,14 @@ objects['chests'] = [
 objects['monsters'] = []
 for rid, group, ms in PLACED:
     for n, (mon, at, facing) in enumerate(ms, 1):
-        objects['monsters'].append({'id': f'monster:{rid}_{n}', 'room': f'room:{rid}', 'monster': mon, 'at': list(at),
-                                    'facing': facing, 'group': group})
+        m = {'id': f'monster:{rid}_{n}', 'room': f'room:{rid}', 'monster': mon, 'at': list(at), 'facing': facing,
+             'group': group}
+        if mon == DM:
+            # F75 (reviews/PLAYER_FEEDBACK_20261126.md, "dragon gets stuck", 2026-11-26): a Dragon Mummy (450 high,
+            # radius 120) stops at the crypt's 288-high arch with its body in the frame; leashed so it stays 64 clear
+            # of it (the largest such leash, at most 1,536; tools/xeen/check_monster_fit.py).
+            m['leash'] = {(-7600, 420): 1152, (-7600, -420): 1152}.get(tuple(at), 1536)
+        objects['monsters'].append(m)
 objects['monsters'].append({'id': 'monster:picard', 'room': 'room:home', 'monster': PICARD, 'at': [-1520, 3200],
                             'facing': 0, 'hostile': False, 'group': 40, 'immobile': True, 'npc': 5704,
                             'notes': "Picard the Aged (11922, A2's peaceful placed-only row; S's look to come): by his chair, talks as npc 5704 (m40), takes no damage (evt:picard_load, D-51/D-52)."})

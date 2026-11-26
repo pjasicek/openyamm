@@ -167,6 +167,28 @@ def platform_slab(pid, a, b, z0, z1, width, surface, top_surface, thickness, not
     return entry
 
 
+RAIL_POST = 16         # the posts a rope bridge's rails are tied to at both ends (F70)
+
+
+def rail_posts(lid, a, b, u, width, end_a, end_b):
+    """F70 (the player's pins 2026-11-26, X9 p5-p10 "the side rails stop in the air"; X8's bridges the same): a rope
+    bridge's two rails are tied at each end to a post standing on the island just before the deck's end, its top 16
+    over the rail (tools/xeen/check_beam_ends.py)."""
+    ux, uy = u
+    nx, ny = -uy * (width / 2 - 8), ux * (width / 2 - 8)
+    out = []
+    for tag, p, back, (iid, z) in (('a', a, -1, end_a), ('b', b, 1, end_b)):
+        cx, cy = p[0] + back * ux * RAIL_POST / 2, p[1] + back * uy * RAIL_POST / 2
+        for k, side in enumerate((1, -1)):
+            x, y = cx + side * nx, cy + side * ny
+            if not inside(OUTLINES[iid], x, y):
+                raise SystemExit(f'{lid}: rail post {tag}{k + 1} at ({x:.0f}, {y:.0f}) is off its island {iid}')
+            out.append({'id': f'platform:{lid}_post_{tag}{k + 1}', 'at': [int(round(x)), int(round(y))],
+                        'size': [RAIL_POST, RAIL_POST], 'facing': round(math.degrees(math.atan2(uy, ux)), 2),
+                        'base': z - SINK - FLOOR, 'rise': SINK + 8 + 88 + 16, 'surface': ROPE, 'top_surface': ROPE})
+    return out
+
+
 def build_rooms():
     platforms = []
     beams = []
@@ -248,6 +270,7 @@ def build_rooms():
                     'bottom': int(z0 + 80), 'bottom_end': int(z1 + 80),
                     'surface': ROPE,
                 })
+        platforms += rail_posts(lid, a, b, (ux, uy), width, (frm, za), (to, zb))
     # ---- the two stairs out of the cloud sea (arrivals): steps hanging down from the south rim
     for iid, x in (('witch_landing', 11520), ('stair_landing', -10752)):
         cx, cy = ISLANDS[iid][0]

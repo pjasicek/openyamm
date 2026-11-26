@@ -29,6 +29,13 @@ textures:
   egydrlgr: {class: feature, door: wing, twin: egydrlgl}
   egydrsml: {class: feature, door: wing, twin: egydrsmr}
   egydrsmr: {class: feature, door: wing, twin: egydrsml}
+  # D-196 (A6, 2026-11-26): MM7's hkm1d, hkm3dr and hkm2d are each one whole framed door (its own jambs or columns,
+  # its own fanlight, lintel or threshold; sheet output/xeen_fb/p6_doors/pics/doors_sheet.png), laid once per leaf
+  # on every shipped map (used 1.0): single doors, not door surfaces that tile (the tool measured them door: tile,
+  # which let the Darkside towers' 192 leaves show 1.5 doors past doors.tiled).
+  hkm1d: {class: feature, door: single}
+  hkm3dr: {class: feature, door: single}
+  hkm2d: {class: feature, door: single}
   hkm1dl: {class: feature, door: wing, twin: hkm1dr}
   hkm1dr: {class: feature, door: wing, twin: hkm1dl}
   hnrdl: {class: feature, door: wing, twin: hnrdr}

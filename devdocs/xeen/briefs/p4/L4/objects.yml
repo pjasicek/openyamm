@@ -136,10 +136,9 @@ monsters:
     floor_height: -1024
     above_floor: 512
     facing: 0
-    hostile: true
     group: 5
     leash: 1280
-    notes: "pop:sea_octopods_e: 3 Great Octopod (60; A2's 11474 Xeen Octopod E, the foam-free swimmer, session 20), swimmers in the inner sea (D-58 Q4), bound to it; they start mid-sea (512 over the bed, merge point 27's `above_floor`) and keep within 1280 of home (session 18)."
+    notes: "pop:sea_octopods_e: 3 Great Octopod (60; A2's 11474 Xeen Octopod E, the foam-free swimmer, session 20), swimmers in the inner sea (D-58 Q4), bound to it (the Swimmer kind, D-200); they start mid-sea (512 over the bed, merge point 27's `above_floor`), keep within 1280 of home (session 18) and shoot their ink at a party within reach (D-200)."
   - id: monster:sea_octopods_e_2
     room: room:sea
     monster: 11474
@@ -147,7 +146,6 @@ monsters:
     floor_height: -1024
     above_floor: 512
     facing: 0
-    hostile: true
     group: 5
     leash: 1280
   - id: monster:sea_octopods_e_3
@@ -157,28 +155,25 @@ monsters:
     floor_height: -1024
     above_floor: 512
     facing: 0
-    hostile: true
     group: 5
     leash: 1280
   - id: monster:sea_octopods_n_1
     room: room:sea
     monster: 11474
-    at: [-604, 4224]
+    at: [420, 5120]
     floor_height: -1024
     above_floor: 512
     facing: 0
-    hostile: true
     group: 6
     leash: 1280
-    notes: "pop:sea_octopods_n: 2 Great Octopod (60; A2's 11474 Xeen Octopod E, the foam-free swimmer, session 20), swimmers in the inner sea (D-58 Q4), bound to it; they start mid-sea (512 over the bed, merge point 27's `above_floor`) and keep within 1280 of home (session 18)."
+    notes: "pop:sea_octopods_n: 2 Great Octopod (60; A2's 11474 Xeen Octopod E, the foam-free swimmer, session 20), swimmers in the inner sea (D-58 Q4), bound to it (the Swimmer kind, D-200); they start mid-sea (512 over the bed, merge point 27's `above_floor`), keep within 1280 of home (session 18) and shoot their ink at a party within reach (D-200)."
   - id: monster:sea_octopods_n_2
     room: room:sea
     monster: 11474
-    at: [-1444, 4224]
+    at: [-420, 5120]
     floor_height: -1024
     above_floor: 512
     facing: 0
-    hostile: true
     group: 6
     leash: 1280
   - id: monster:statue_north_1

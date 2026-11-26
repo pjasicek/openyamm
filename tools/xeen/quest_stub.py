@@ -115,6 +115,9 @@ function evt.PlaySoundName(name) say("sound", name) end
 function evt.CameraShake(intensity, seconds) say("shake", intensity .. " for " .. seconds .. " s") end
 Stub.random = 1
 function evt.RandomBetween(a, b) return Stub.random end
+-- The run's rules: a solo run (D-191, m21.arrival) is a `lua: "Stub.solo = true"` step.
+Stub.solo = false
+function evt.RulesetInfo() return {soloRun = Stub.solo == true} end
 ActorKillCheck = {Group = 1}
 Stub.killed = {}
 function evt.CheckMonstersKilled(kind, group) return Stub.killed[group] == true end

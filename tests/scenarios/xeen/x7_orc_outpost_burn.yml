@@ -1,0 +1,36 @@
+# Feedback F74 (2026-11-26, X7 p2 "make it clickable", on 3.3): the orc outpost's fire. On 3.3 the burn hid only the
+# three hide tents and left the fire burning and named, and its click then said only the hook's after-line, so a lit
+# campfire that did nothing. Since 3.4 (D-144, D-152) one Use burns the outpost: the fire, hides and bones are hidden,
+# the charred logs and stumps shown ("The burnt outpost"), and the map's load event keeps it so after a reload. The Use
+# works in turn-based mode too (the pin's picture showed the turn-based bar).
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/x7_orc_outpost_burn.yml --scenario-no-color
+id: xeen.f74.x7_orc_outpost_burn
+title: "F74: X7's orc outpost burns with one Use in turn-based mode and stays burnt"
+world: xeen
+mode: faithful
+tags: [xeen, regression]
+steps:
+  - new_game_flow:
+      start_map: xeen_x7.odm
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(2); for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [116160]}
+  # The pin's pose, the fire 360 ahead under the crosshair.
+  - set_pose: {map: xeen_x7.odm, x: -16827.25, y: -11706.75, z: 2017, yaw: 1.759, pitch: -0.3233}
+  - advance_runtime: {seconds: 1.0}
+  - press_action: {action: combat}
+  - advance_runtime: {seconds: 1.0}
+  - assert: {turn_based: {active: true}}
+  - press_interact: {expect: {kind: event_target}}
+  - play_lua: {source: "wait(0.5); local s = status(); if not s:find('The Outpost burns well', 1, true) then error('no burn line: ' .. s) end"}
+  - assert: {qbit_set: [116160]}
+  - press_action: {action: combat}
+  - advance_runtime: {seconds: 1.0}
+  - reload: {}
+  - assert: {qbit_set: [116160]}
+  # The charred logs stand where the fire was and keep the after-line.
+  - set_pose: {map: xeen_x7.odm, x: -16827.25, y: -11706.75, z: 2017, yaw: 1.759, pitch: -0.3233}
+  - advance_runtime: {seconds: 1.0}
+  - press_interact: {expect: {kind: event_target}}
+  - advance_runtime: {seconds: 0.5, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "Charred stakes and cold ash."}}

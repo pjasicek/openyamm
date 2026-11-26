@@ -274,3 +274,7 @@ reproduced exactly). Binaries of merge point 24 (03:13:18).
   `playtest` (158 steps), `playtest_peace` (40), `playtest_hostility` (26), `playtest_exit` (34) **4 of 4 each**
   (`output/studio_cal/a7/s17_dd13_four.out`).
 
+
+## D-104 dungeon campfires (2026-11-26, agent:xeen-fb5-dungeon2)
+
+`deco:fire_e`, `deco:fire_w`: the outdoor campfire's event (food 1-3 once, a small ring for a character with Perception), `once: true`, added by `level_generation/projects/xeen/common/campfires.py` (regen.py runs it after gen.py). Rebuilt, audit 0 errors, every playtest passing from the stage, installed and baked, MAW reserve rerun.

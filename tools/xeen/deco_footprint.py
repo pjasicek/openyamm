@@ -71,11 +71,15 @@ def _table() -> dict:
 @lru_cache(maxsize=None)
 def _descriptions() -> dict:
     out = {}
-    path = ASSETS / 'engine' / 'data_tables' / 'decoration_data.txt'
-    for line in path.read_text(encoding='latin-1').splitlines()[2:]:
-        cols = line.split('\t')
-        if len(cols) > 2 and cols[1]:
-            out[cols[1].lower()] = cols[2].strip().lower()
+    # the engine's table, then the world's own rows (Xeen's model decorations: 'basalt', 'boulder'; F73 2026-11-26)
+    for path in (ASSETS / 'engine' / 'data_tables' / 'decoration_data.txt',
+                 ASSETS / 'worlds' / 'xeen' / 'models' / 'decoration_data.txt'):
+        if not path.exists():
+            continue
+        for line in path.read_text(encoding='latin-1').splitlines()[2:]:
+            cols = line.split('\t')
+            if len(cols) > 2 and cols[1]:
+                out.setdefault(cols[1].lower(), cols[2].strip().lower())
     return out
 
 

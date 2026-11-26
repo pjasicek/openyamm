@@ -533,3 +533,8 @@ merge point 35; audit 0 / 2 (as before).
 - Drop pockets: `check_drops` lists the Yak Pool's floor (step out 128); the pool's own five steps lead out onto the
   near bank (`oymap probe` from (-768, 9696, -928) to the bank: route found), so no ladder.
 - Lua and studio file only (no bake). Tests 16/16 from assets_dev; audit 0 / 2.
+
+## D-181 (agent xeen-fb5-dungeon, 2026-11-26; the player's pin p1)
+
+- The two chapel altars' "Statue" was `sta1a`, MM6's basin-less fountain: now `7dec55`, a dry statue
+  (`tools/xeen/check_fountains.py`).

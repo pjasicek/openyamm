@@ -373,3 +373,16 @@ closed rockfall; they are rocks, not containers, and hide once cleft_open is set
 - Installed with its bake 10:20:44. Checks: audit 0 errors, door 0, wall 0, wild 0 (no `rim.hull_step`), fit 0,
   reach 0, stale_bakes 0; walk, hostility, `x7_edges`, `hooks_fd04` pass. Captures
   `output/xeen_fb/p4_outdoor2/after/x7/` (wagon, hoard bones, Sablewing, outpost).
+
+## D-192, D-197, D-199 (agent xeen-p6-rim, 2026-11-26; run files output/xeen_fb/p6_rim/x7/)
+
+- `common/rim.py hull_sink` (D-192): the lava-fall faces (`xeen_hullf`) sit 8 under the lowest land along their span
+  and 64 past each end (`hull_069` -92 → -116, `hull_075` 0 → -12, ...). Kept as `rim.fin` warnings (at the 128
+  clamp): `hull_067` and `hull_077`, the lava-cove notch walls on cliffs falling 2,000 along one piece, and `hull_068`
+  (21 over the land beside its east end, on the crag's slope).
+- D-197: `xd05_gate`'s leaf stands 62 behind its frame (hood 64; `depth` 416 is the block's reach into the hill):
+  `door_check.py` no longer reports it. D-199: the Dragon Tower's plinth measured under its round keep is 8; its kept
+  line left `town_fit_kept.yml`.
+- Installed with its bake 19:05. Stage checks: audit 0, door 0, wall 0, wild 0 errors, faces 0, fit 0, D-85 0, empty
+  zones pass; walk, hostility, `x7_edges`, `x7_orc_outpost_burn` pass; second regen identical. Found, not mine:
+  `check_reach` `reach.spawn` spawn 40 at (8736, -24512) past the map's bounds (on the installed map before too).

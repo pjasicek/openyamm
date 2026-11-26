@@ -27,7 +27,9 @@ classes themselves are in [TEXTURE_FIT.md](TEXTURE_FIT.md)).
   on each half, the right half mirrored (X4's castle gate, `chb1dl` 384 wide).
 - Pick the picture for the opening: a wing texture (below) on each leaf of a pair; a single-leaf door picture on a
   leaf up to about 192 wide; never one wing on a leaf over the whole opening, and never a door picture laid at its own
-  size across a wider leaf (`tile: true`).
+  size across a wider leaf (`tile: true`). A single leaf wider than its picture lays it once, stretched:
+  `textures: {door: {texture, fit: true, size: [w, h]}}` (the classic kits do this on every single-leaf bay over 128:
+  the Darkside towers' 160 and 192 leaves, D-196).
 
 ## Which textures are wings
 

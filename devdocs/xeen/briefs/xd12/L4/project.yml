@@ -49,4 +49,7 @@ items:
   skeleton_key: 12100
 rules:
   no_spells: true
+  solo_spells: true
+  solo_spell_damage_percent: 50
+  no_monster_spells: true
 notes: "Xeen design brief, level L4, for a new map (no original). Story step M21 (devdocs/xeen/QUESTS.md). Size L (MAPS.md section 0 and Dungeons): 50-75 sectors, 120-200 M units squared, about 70-80 monsters plus the boss; monster levels 30 to 48, Darzog 55; Tres 4 (chests at 4, Darzog's hoard at 5). Ids: map_stats 9140, qbits 110500-110599, items 12230-12299 (ACT2_BUILD.md). A map of the Xeen world: its map_stats, bolster and slot rows are the world's (source/map_rows.yml, A2), the slots here repeat them. Slot 1 Magic constructs (Xeen Construct; every marker tier c, Carnage Hand 35, 11602), slot 2 Wizards (Xeen Wizard; tier a, Wizard 36, 11190), slot 3 Eyes (Xeen Eye; tier a, Floating Eye 40, 11570; one or two a marker). Baron Darzog is the boss row 11194, his six clones 11195, the Chief Librarian a Sorcerer (11191) with his placed name, Crodo the world's peaceful character row 11900. Items: the Skeleton Key 12100 (the tower door from outside), the library key 12230. Quest bits 110500-110502 as M21 names them (source/quests/m21.yml). Music 22. exit:lake_island leads to X2 (xeen_x2.odm) at X2's DOORS.md arrival. The cloud stair's top step leads to X9 (exit:clouds_of_xeen, X9's entrance:xd12_roof) once Crodo is freed, after the map's own Yes/No."

@@ -16,6 +16,11 @@ culling: game/outdoor/OutdoorRenderer.cpp and game/indoor/IndoorRenderer.cpp set
   (0.35) or more crossing a level face is a seam, not a flicker (D-176: the band within ON_LAND is under a pixel wide),
   and is not counted. Each face is compared with its plane's own height at each sample (a sloping deck's mean height
   lay on the land somewhere along it).
+- `faces.flipped` (error, F71 2026-11-26): a face of a rock shell (a `cave_mouth` or `hatch`) wound against its neighbours (every edge it shares with exactly
+  one other face runs the same way in both, where a closed or open surface runs it once each way). The game draws the
+  face, but the bake lights it from its back: it shows black (Sablewing's cave mouth on X7, p4/p5: the studio's cave
+  shell chose each triangle's facing on its own and turned the ones a shake tilted down inward). Faces are flipped
+  in turn until no face has more such edges than agreeing ones; what stays flipped is listed.
 - `shell.open_edge` (error): a ruin's wall (a structure with `ruin:` in the map's sketch, or an indoor object with
   `ruin:`) must be a closed shell above the ground: every edge of its faces over the land is shared by another face.
   An open edge is a wall end or a corner seen as a paper-thin sheet (the Ruined watchtower on X1).
@@ -582,6 +587,61 @@ def project_of(stem: str) -> Path | None:
     return None
 
 
+SHELL_KINDS = ('cave_mouth', 'hatch')
+
+
+def shell_ids(project: Path) -> set[str]:
+    """The sketch's rock shells (cave mouths, hatches): one surface each, where faces.flipped is judged (a building's
+    or a bridge's blocks meet other solids along shared edges, and their hidden butt faces run either way)."""
+    path = project / 'sketch.yml'
+    data = yaml.safe_load(path.read_text()) if path.exists() else {}
+    return {entry.get('id') for entry in (data or {}).get('structures') or []
+            if isinstance(entry, dict) and entry.get('kind') in SHELL_KINDS}
+
+
+def flipped_findings(data: dict, shells: set[str]) -> list[dict]:
+    """Shell faces wound against their neighbours (faces.flipped): the bake lights them from behind, black."""
+    findings = []
+    for model in data.get('bmodels') or []:
+        if model['name'] not in shells:
+            continue
+        vertices = model['vertices']
+        key = [tuple(round(float(c)) for c in v) for v in vertices]
+        edges = defaultdict(list)
+        drawn = [face for face in model['faces'] if not face['attributes'] & (PORTAL | INVISIBLE)]
+        for number, face in enumerate(drawn):
+            ring = [key[i] for i in face['vertices']]
+            for a, b in zip(ring, ring[1:] + ring[:1]):
+                if a != b:
+                    edges[frozenset((a, b))].append((number, (a, b)))
+        # one surface: the pairs of one texture (a gable's top edge meets the roof's underside, another solid's
+        # surface, along the same line; X3's Camp Shrine)
+        pairs = [(l[0], l[1]) for l in edges.values() if len(l) == 2 and l[0][0] != l[1][0]
+                 and drawn[l[0][0]]['texture'].lower() == drawn[l[1][0]]['texture'].lower()]
+        flip = set()
+        for _ in range(32):
+            good, bad = defaultdict(int), defaultdict(int)
+            for (f1, d1), (f2, d2) in pairs:
+                same = (d1 == d2) != ((f1 in flip) != (f2 in flip))
+                for f in (f1, f2):
+                    (bad if same else good)[f] += 1
+            more = {f for f in bad if bad[f] > good[f]}
+            if not more:
+                break
+            flip ^= more
+        if not flip or len(flip) * 2 > len(drawn):
+            continue      # the minority is the flipped side
+        for number in sorted(flip):
+            face = drawn[number]
+            points = [vertices[i] for i in face['vertices']]
+            at = [round(sum(float(p[axis]) for p in points) / len(points)) for axis in range(3)]
+            findings.append({'rule': 'faces.flipped', 'severity': 'error', 'model': model['name'], 'other': '',
+                             'textures': [face['texture'].lower()], 'at': at,
+                             'text': '%s (%s) is wound against its neighbours at %s: the bake lights it from '
+                                     'behind (black)' % (model['name'], face['texture'].lower(), at)})
+    return findings
+
+
 def check_map(path: Path, assets: Path, cache: Path) -> list[dict]:
     data = export_map(path, assets, cache)
     faces = faces_of(data)
@@ -594,6 +654,8 @@ def check_map(path: Path, assets: Path, cache: Path) -> list[dict]:
         ruins = ruin_ids(project)
         if ruins and terrain is not None:
             findings += shell_findings(faces, ruins, terrain)
+        if terrain is not None:
+            findings += flipped_findings(data, shell_ids(project))
     for finding in findings:
         finding['map'] = path.stem
     return findings

@@ -460,6 +460,7 @@ TOWER_STONE = 'hcwall'
 OBELISK_STONE = 'cswl128'
 DD06_C = (95.0, 81.0)               # the Southern Tower's middle; its door looks north
 DD06_R = 420
+DD06_JAMB = round((2 * DD06_R * math.sin(math.pi / 10) - 192) / 2, 3)   # D-180: beside the Southern Tower's 192 door
 DD10B = (34.0, 30.0)                # the adit's mouth in the foothill rock face, looking south
 HOLES = {'dd11a': ((61.0, 76.0), (60, 76), 'w'), 'dd11b': ((71.0, 84.0), (70, 84), 'w'),
          'dd11c': ((68.0, 98.0), (67, 98), 'w')}   # pit, its return arrival (about 300-600 beside), facing
@@ -1242,8 +1243,12 @@ def build():
             ruin.append(sid)
         fort_parts[side] = (intact, ruin)
         S({'id': 'thing:dd13_%s' % side, 'kind': 'doorway', 'at': [gate[0], gate[1] - (0.15 if gate_turn == 0 else -0.15)],
+           # D-189 (2026-11-26): a built gate shows a door picture, not a black 7solid01 face (read as a texture
+           # missing): a barred pair of the house kit's plank wing xvdoorw, the second leaf mirrored, each fitted
+           # whole to its 160 x 384 leaf, 128 behind the frame
            'turn': gate_turn, 'floor': 2000 if side == 'west' else 2150, 'height': 384, 'width': 320, 'depth': 128,
-           'textures': {'door': '7solid01', 'wall': DECK}, 'title': "Graalg's %s fort" % side,
+           'leaves': 2, 'textures': {'door': {'texture': 'xvdoorw', 'fit': True, 'size': [128, 256]}, 'wall': DECK},
+           'title': "Graalg's %s fort" % side,
            **dungeon_way('dd13', 'Ogre fort', 'Ogre fort',
                          sealed='The gate is barred from inside. Ogre snoring, and a smell of ogre cooking.',
                          inside=DD13_EAST_INSIDE if side == 'east' else DD13_WEST_INSIDE,
@@ -1269,9 +1274,15 @@ def build():
     S({'id': 'thing:southern_tower', 'kind': 'building', 'at': [DD06_C[0] - 1.25, DD06_C[1] - 1.25], 'size': [2.5, 2.5],
        'kit': 'castle', 'floor': 1050, 'title': 'The Southern Tower', 'facing': 's', 'turn': 180,
        'parts': [
+           # D-189 and D-180 rule a (2026-11-26): a door picture (was a black 7solid01 face, read as a texture
+           # missing), 192 x 384 as DD-06's way back out (was 130 x 256): the tower kit's door xvtdoor laid once over
+           # the leaf (classic_kit.py, D-196; MM7's framed hkm1d showed 1.5 doors there); the rows over the door listed
+           # as wall (unlisted, the kit's window filled the door's column)
            {'id': 'base', 'shape': 'round', 'at': [640, 640], 'radius': DD06_R, 'sides': 10, 'wall_height': 1280,
-            'roof': 'none', 'windows': 'none',
-            'textures': {'wall': TOWER_STONE, 'trim': TOWER_STONE, 'window': TOWER_STONE, 'door': '7solid01'}},
+            'roof': 'none', 'windows': 'none', 'door_height': 384,
+            'walls': {'0': [['wall', DD06_JAMB], ['door', 192], ['wall', DD06_JAMB]]},
+            'upper_walls': {'0': [['wall', DD06_JAMB], ['wall', 192], ['wall', DD06_JAMB]]},
+            'textures': {'wall': TOWER_STONE, 'trim': TOWER_STONE, 'window': TOWER_STONE, 'door': 'xvtdoor'}},
            {'id': 'top', 'shape': 'round', 'at': [640, 640], 'radius': DD06_R + 48, 'sides': 10, 'bottom': 1280,
             'wall_height': 512, 'roof': 'cone', 'roof_pitch': 70, 'windows': 'none',
             'textures': {'wall': TOWER_STONE, 'trim': TOWER_STONE, 'window': TOWER_STONE, 'roof': SLATE}}],

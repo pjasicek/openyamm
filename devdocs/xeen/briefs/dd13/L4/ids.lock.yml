@@ -18,6 +18,8 @@ events:
   evt:arrive: 28
   evt:burn_out_e: 1
   evt:burn_out_w: 2
+  evt:campfire_fire_e: 31
+  evt:campfire_fire_w: 32
   evt:chest_loot: 3
   evt:chest_plunder: 4
   evt:disk_case: 5
@@ -189,6 +191,8 @@ map_vars:
   burning_e: 0
   burning_w: 1
   once.arrive: 6
+  once.campfire_fire_e: 7
+  once.campfire_fire_w: 8
   once.hall_e_seen: 2
   once.hall_w_seen: 3
   once.kennel_seen: 4

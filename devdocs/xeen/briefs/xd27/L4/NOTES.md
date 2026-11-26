@@ -550,3 +550,7 @@ step 83) now show their texts on the status line (D-90); the steps that required
 then error`) are gone, the status checks before them stay. Tests 16 of 16 from assets_dev
 (`output/studio_cal/a8_s26/run/xd27/t004827`); the check build matched assets_dev (audit 0 / 1, check_exits 0,
 check_drops 0).
+
+## D-104 dungeon campfires (2026-11-26, agent:xeen-fb5-dungeon2)
+
+`deco:chief_fire`, `deco:den_fire`, `deco:quarry_fire`, `deco:yard_fire`, `deco:pit_cookfire`, `deco:pit_fire`: the outdoor campfire's event (food 1-3 once, a small ring for a character with Perception), `once: true`, added by `level_generation/projects/xeen/common/campfires.py` (regen.py runs it after gen.py). Rebuilt, audit 0 errors, every playtest passing from the stage, installed and baked, MAW reserve rerun.

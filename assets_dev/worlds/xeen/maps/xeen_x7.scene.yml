@@ -28221,9 +28221,9 @@ entities:
     decoration_list_id: 365
     ai_attributes: 0
     position:
-      x: -16320
-      y: 16448
-      z: 2048
+      x: -19232
+      y: 5696
+      z: 1602
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -28236,9 +28236,9 @@ entities:
     decoration_list_id: 365
     ai_attributes: 0
     position:
-      x: -19232
-      y: 5696
-      z: 1602
+      x: -8224
+      y: 8448
+      z: 1534
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -28251,9 +28251,9 @@ entities:
     decoration_list_id: 367
     ai_attributes: 0
     position:
-      x: -8224
-      y: 8448
-      z: 1534
+      x: -7424
+      y: 15584
+      z: 1872
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -28266,9 +28266,9 @@ entities:
     decoration_list_id: 93
     ai_attributes: 0
     position:
-      x: -7424
-      y: 15584
-      z: 1872
+      x: -30496
+      y: 16960
+      z: 1390
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -28281,21 +28281,6 @@ entities:
     decoration_list_id: 365
     ai_attributes: 0
     position:
-      x: -30496
-      y: 16960
-      z: 1390
-    facing: 0
-    event_id_primary: 0
-    event_id_secondary: 0
-    variable_primary: 0
-    variable_secondary: 0
-    special_trigger: 0
-    initial_decoration_flag: 0
-  - entity_index: 1188
-    name: 7rock09
-    decoration_list_id: 367
-    ai_attributes: 0
-    position:
       x: -7168
       y: 15072
       z: 1888
@@ -28306,7 +28291,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 1189
+  - entity_index: 1188
     name: 7rock09
     decoration_list_id: 367
     ai_attributes: 0
@@ -28321,9 +28306,9 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 1190
-    name: 6rock07
-    decoration_list_id: 93
+  - entity_index: 1189
+    name: 7rock09
+    decoration_list_id: 367
     ai_attributes: 0
     position:
       x: -22304
@@ -28336,7 +28321,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 1191
+  - entity_index: 1190
     name: 6rock07
     decoration_list_id: 93
     ai_attributes: 0
@@ -28351,14 +28336,29 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 1192
-    name: 7rock08
-    decoration_list_id: 365
+  - entity_index: 1191
+    name: 6rock07
+    decoration_list_id: 93
     ai_attributes: 0
     position:
       x: -20032
       y: 6592
       z: 1536
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1192
+    name: 7rock08
+    decoration_list_id: 365
+    ai_attributes: 0
+    position:
+      x: -16288
+      y: 16320
+      z: 1980
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -28431,21 +28431,6 @@ entities:
     decoration_list_id: 508
     ai_attributes: 0
     position:
-      x: -19008
-      y: 17696
-      z: 2572
-    facing: 0
-    event_id_primary: 0
-    event_id_secondary: 0
-    variable_primary: 0
-    variable_secondary: 0
-    special_trigger: 0
-    initial_decoration_flag: 0
-  - entity_index: 1198
-    name: plant43
-    decoration_list_id: 618
-    ai_attributes: 0
-    position:
       x: -30240
       y: 11040
       z: 1406
@@ -28456,7 +28441,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 1199
+  - entity_index: 1198
     name: plant43
     decoration_list_id: 618
     ai_attributes: 0
@@ -28471,7 +28456,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 1200
+  - entity_index: 1199
     name: plant43
     decoration_list_id: 618
     ai_attributes: 0
@@ -28486,9 +28471,9 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 1201
-    name: tree28
-    decoration_list_id: 508
+  - entity_index: 1200
+    name: plant43
+    decoration_list_id: 618
     ai_attributes: 0
     position:
       x: -24960
@@ -28501,7 +28486,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 1202
+  - entity_index: 1201
     name: tree28
     decoration_list_id: 508
     ai_attributes: 0
@@ -28509,6 +28494,21 @@ entities:
       x: -10496
       y: 18656
       z: 1746
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1202
+    name: tree28
+    decoration_list_id: 508
+    ai_attributes: 0
+    position:
+      x: -7360
+      y: 12096
+      z: 1832
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -28836,21 +28836,6 @@ entities:
     decoration_list_id: 367
     ai_attributes: 0
     position:
-      x: -224
-      y: 3936
-      z: 2186
-    facing: 0
-    event_id_primary: 0
-    event_id_secondary: 0
-    variable_primary: 0
-    variable_secondary: 0
-    special_trigger: 0
-    initial_decoration_flag: 0
-  - entity_index: 1225
-    name: 7rock08
-    decoration_list_id: 365
-    ai_attributes: 0
-    position:
       x: -480
       y: 4512
       z: 2150
@@ -28861,7 +28846,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 1226
+  - entity_index: 1225
     name: 7rock08
     decoration_list_id: 365
     ai_attributes: 0
@@ -28876,7 +28861,7 @@ entities:
     variable_secondary: 0
     special_trigger: 0
     initial_decoration_flag: 0
-  - entity_index: 1227
+  - entity_index: 1226
     name: 7rock08
     decoration_list_id: 365
     ai_attributes: 0
@@ -28884,6 +28869,21 @@ entities:
       x: -2624
       y: 15840
       z: 2116
+    facing: 0
+    event_id_primary: 0
+    event_id_secondary: 0
+    variable_primary: 0
+    variable_secondary: 0
+    special_trigger: 0
+    initial_decoration_flag: 0
+  - entity_index: 1227
+    name: 7rock08
+    decoration_list_id: 365
+    ai_attributes: 0
+    position:
+      x: 128
+      y: 3584
+      z: 2216
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -28926,9 +28926,9 @@ entities:
     decoration_list_id: 367
     ai_attributes: 0
     position:
-      x: -1024
-      y: 16800
-      z: 2106
+      x: -800
+      y: 3936
+      z: 2158
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -28941,9 +28941,9 @@ entities:
     decoration_list_id: 365
     ai_attributes: 0
     position:
-      x: -800
-      y: 3936
-      z: 2158
+      x: -5728
+      y: 13728
+      z: 2036
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -28956,9 +28956,9 @@ entities:
     decoration_list_id: 367
     ai_attributes: 0
     position:
-      x: -5728
-      y: 13728
-      z: 2036
+      x: -384
+      y: 16832
+      z: 2108
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -28971,9 +28971,9 @@ entities:
     decoration_list_id: 365
     ai_attributes: 0
     position:
-      x: -384
-      y: 16832
-      z: 2108
+      x: -1248
+      y: 12832
+      z: 2024
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -28986,9 +28986,9 @@ entities:
     decoration_list_id: 367
     ai_attributes: 0
     position:
-      x: -1248
-      y: 12832
-      z: 2024
+      x: -416
+      y: 3520
+      z: 2186
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -29031,9 +29031,9 @@ entities:
     decoration_list_id: 93
     ai_attributes: 0
     position:
-      x: -2880
-      y: 11552
-      z: 1960
+      x: -1248
+      y: 17088
+      z: 2112
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -29046,9 +29046,9 @@ entities:
     decoration_list_id: 93
     ai_attributes: 0
     position:
-      x: -1216
-      y: 13696
-      z: 2048
+      x: -2880
+      y: 11552
+      z: 1960
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -29061,9 +29061,9 @@ entities:
     decoration_list_id: 367
     ai_attributes: 0
     position:
-      x: -2848
-      y: 12704
-      z: 2042
+      x: -1216
+      y: 13696
+      z: 2048
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -29076,9 +29076,9 @@ entities:
     decoration_list_id: 367
     ai_attributes: 0
     position:
-      x: -2016
-      y: 15008
-      z: 2078
+      x: -64
+      y: 4160
+      z: 2172
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -29091,9 +29091,9 @@ entities:
     decoration_list_id: 93
     ai_attributes: 0
     position:
-      x: -2976
-      y: 15392
-      z: 2114
+      x: -2848
+      y: 12704
+      z: 2042
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -29106,9 +29106,9 @@ entities:
     decoration_list_id: 365
     ai_attributes: 0
     position:
-      x: -2080
-      y: 15776
-      z: 2082
+      x: -2016
+      y: 15008
+      z: 2078
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -29121,9 +29121,9 @@ entities:
     decoration_list_id: 367
     ai_attributes: 0
     position:
-      x: -3360
-      y: 12128
-      z: 2038
+      x: -2976
+      y: 15392
+      z: 2114
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -29136,9 +29136,9 @@ entities:
     decoration_list_id: 367
     ai_attributes: 0
     position:
-      x: -288
-      y: 17600
-      z: 2112
+      x: -768
+      y: 16448
+      z: 2084
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -29151,9 +29151,9 @@ entities:
     decoration_list_id: 367
     ai_attributes: 0
     position:
-      x: -896
-      y: 13280
-      z: 2048
+      x: -2080
+      y: 15776
+      z: 2082
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -29166,9 +29166,9 @@ entities:
     decoration_list_id: 365
     ai_attributes: 0
     position:
-      x: 160
-      y: 3456
-      z: 2226
+      x: -3360
+      y: 12128
+      z: 2038
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -29181,9 +29181,9 @@ entities:
     decoration_list_id: 365
     ai_attributes: 0
     position:
-      x: -352
-      y: 3392
-      z: 2196
+      x: -288
+      y: 17600
+      z: 2112
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -32033,7 +32033,7 @@ entities:
     position:
       x: -16305
       y: 17828
-      z: 2341
+      z: 2099
     facing: 15
     event_id_primary: 0
     event_id_secondary: 0
@@ -32048,7 +32048,7 @@ entities:
     position:
       x: -19459
       y: 19103
-      z: 1727
+      z: 1683
     facing: 210
     event_id_primary: 0
     event_id_secondary: 0
@@ -32063,7 +32063,7 @@ entities:
     position:
       x: -16840
       y: 19025
-      z: 2042
+      z: 1889
     facing: 45
     event_id_primary: 0
     event_id_secondary: 0
@@ -32078,7 +32078,7 @@ entities:
     position:
       x: -19899
       y: 16310
-      z: 2193
+      z: 2024
     facing: 330
     event_id_primary: 0
     event_id_secondary: 0
@@ -32093,7 +32093,7 @@ entities:
     position:
       x: -19926
       y: 18364
-      z: 2008
+      z: 1869
     facing: 255
     event_id_primary: 0
     event_id_secondary: 0
@@ -32108,7 +32108,7 @@ entities:
     position:
       x: -16143
       y: 16455
-      z: 2009
+      z: 1907
     facing: 195
     event_id_primary: 0
     event_id_secondary: 0
@@ -32123,7 +32123,7 @@ entities:
     position:
       x: -19059
       y: 17837
-      z: 2556
+      z: 2461
     facing: 135
     event_id_primary: 0
     event_id_secondary: 0
@@ -32138,7 +32138,7 @@ entities:
     position:
       x: -15714
       y: 18548
-      z: 1900
+      z: 1812
     facing: 225
     event_id_primary: 0
     event_id_secondary: 0
@@ -32153,7 +32153,7 @@ entities:
     position:
       x: -15700
       y: 15828
-      z: 1719
+      z: 1619
     facing: 165
     event_id_primary: 0
     event_id_secondary: 0
@@ -32168,7 +32168,7 @@ entities:
     position:
       x: -16385
       y: 19632
-      z: 1802
+      z: 1768
     facing: 270
     event_id_primary: 0
     event_id_secondary: 0
@@ -32183,7 +32183,7 @@ entities:
     position:
       x: -19843
       y: 17519
-      z: 1958
+      z: 1765
     facing: 15
     event_id_primary: 0
     event_id_secondary: 0
@@ -32198,7 +32198,7 @@ entities:
     position:
       x: -17805
       y: 19109
-      z: 2279
+      z: 2068
     facing: 345
     event_id_primary: 0
     event_id_secondary: 0
@@ -32213,7 +32213,7 @@ entities:
     position:
       x: -18925
       y: 19658
-      z: 1823
+      z: 1771
     facing: 300
     event_id_primary: 0
     event_id_secondary: 0
@@ -32228,7 +32228,7 @@ entities:
     position:
       x: -18579
       y: 19023
-      z: 2292
+      z: 2091
     facing: 150
     event_id_primary: 0
     event_id_secondary: 0
@@ -32243,7 +32243,7 @@ entities:
     position:
       x: -15913
       y: 17147
-      z: 1832
+      z: 1750
     facing: 60
     event_id_primary: 0
     event_id_secondary: 0
@@ -32258,7 +32258,7 @@ entities:
     position:
       x: -17266
       y: 19614
-      z: 1848
+      z: 1809
     facing: 255
     event_id_primary: 0
     event_id_secondary: 0
@@ -32273,7 +32273,7 @@ entities:
     position:
       x: -16787
       y: 18338
-      z: 2549
+      z: 2274
     facing: 255
     event_id_primary: 0
     event_id_secondary: 0
@@ -32288,7 +32288,7 @@ entities:
     position:
       x: -19125
       y: 18517
-      z: 2332
+      z: 2155
     facing: 165
     event_id_primary: 0
     event_id_secondary: 0
@@ -32303,7 +32303,7 @@ entities:
     position:
       x: -15688
       y: 19225
-      z: 1746
+      z: 1728
     facing: 30
     event_id_primary: 0
     event_id_secondary: 0
@@ -32318,7 +32318,7 @@ entities:
     position:
       x: -19647
       y: 19749
-      z: 1710
+      z: 1662
     facing: 210
     event_id_primary: 0
     event_id_secondary: 0
@@ -32333,7 +32333,7 @@ entities:
     position:
       x: -18148
       y: 19694
-      z: 1854
+      z: 1824
     facing: 30
     event_id_primary: 0
     event_id_secondary: 0
@@ -32348,7 +32348,7 @@ entities:
     position:
       x: -3197
       y: 19715
-      z: 3088
+      z: 3023
     facing: 45
     event_id_primary: 0
     event_id_secondary: 0
@@ -32363,7 +32363,7 @@ entities:
     position:
       x: -4877
       y: 19329
-      z: 2908
+      z: 2865
     facing: 135
     event_id_primary: 0
     event_id_secondary: 0
@@ -32378,7 +32378,7 @@ entities:
     position:
       x: -2033
       y: 19594
-      z: 2310
+      z: 2245
     facing: 300
     event_id_primary: 0
     event_id_secondary: 0
@@ -32393,7 +32393,7 @@ entities:
     position:
       x: -4200
       y: 19705
-      z: 3045
+      z: 3003
     facing: 315
     event_id_primary: 0
     event_id_secondary: 0
@@ -32408,7 +32408,7 @@ entities:
     position:
       x: -6022
       y: 19376
-      z: 2150
+      z: 2082
     facing: 210
     event_id_primary: 0
     event_id_secondary: 0
@@ -32423,7 +32423,7 @@ entities:
     position:
       x: -2239
       y: 18589
-      z: 2509
+      z: 2342
     facing: 105
     event_id_primary: 0
     event_id_secondary: 0
@@ -32438,7 +32438,7 @@ entities:
     position:
       x: -1547
       y: 18772
-      z: 2170
+      z: 2083
     facing: 225
     event_id_primary: 0
     event_id_secondary: 0
@@ -32453,7 +32453,7 @@ entities:
     position:
       x: -5639
       y: 18543
-      z: 2227
+      z: 2191
     facing: 105
     event_id_primary: 0
     event_id_secondary: 0
@@ -32468,7 +32468,7 @@ entities:
     position:
       x: -1669
       y: 18088
-      z: 2203
+      z: 2181
     facing: 30
     event_id_primary: 0
     event_id_secondary: 0
@@ -32483,7 +32483,7 @@ entities:
     position:
       x: -6054
       y: 17955
-      z: 2115
+      z: 2055
     facing: 120
     event_id_primary: 0
     event_id_secondary: 0
@@ -32498,7 +32498,7 @@ entities:
     position:
       x: -2707
       y: 19120
-      z: 2954
+      z: 2883
     facing: 225
     event_id_primary: 0
     event_id_secondary: 0
@@ -32513,7 +32513,7 @@ entities:
     position:
       x: -5690
       y: 7427
-      z: 2008
+      z: 1982
     facing: 210
     event_id_primary: 0
     event_id_secondary: 0
@@ -32528,7 +32528,7 @@ entities:
     position:
       x: -4449
       y: 10777
-      z: 1833
+      z: 1794
     facing: 225
     event_id_primary: 0
     event_id_secondary: 0
@@ -32573,7 +32573,7 @@ entities:
     position:
       x: 3876
       y: 5649
-      z: 2342
+      z: 2317
     facing: 90
     event_id_primary: 0
     event_id_secondary: 0
@@ -32618,7 +32618,7 @@ entities:
     position:
       x: 4322
       y: 9921
-      z: 2620
+      z: 2595
     facing: 300
     event_id_primary: 0
     event_id_secondary: 0
@@ -32648,7 +32648,7 @@ entities:
     position:
       x: 1855
       y: 16059
-      z: 2248
+      z: 2229
     facing: 180
     event_id_primary: 0
     event_id_secondary: 0
@@ -32663,7 +32663,7 @@ entities:
     position:
       x: 84
       y: 7356
-      z: 2097
+      z: 2072
     facing: 255
     event_id_primary: 0
     event_id_secondary: 0
@@ -32678,7 +32678,7 @@ entities:
     position:
       x: -3954
       y: 8742
-      z: 1933
+      z: 1884
     facing: 300
     event_id_primary: 0
     event_id_secondary: 0
@@ -32708,7 +32708,7 @@ entities:
     position:
       x: -5129
       y: 7878
-      z: 1966
+      z: 1900
     facing: 15
     event_id_primary: 0
     event_id_secondary: 0
@@ -32783,7 +32783,7 @@ entities:
     position:
       x: 3951
       y: 11880
-      z: 2507
+      z: 2459
     facing: 210
     event_id_primary: 0
     event_id_secondary: 0
@@ -32798,7 +32798,7 @@ entities:
     position:
       x: -3717
       y: 3981
-      z: 2103
+      z: 2080
     facing: 135
     event_id_primary: 0
     event_id_secondary: 0
@@ -32843,7 +32843,7 @@ entities:
     position:
       x: 11833
       y: 10533
-      z: 4630
+      z: 4608
     facing: 255
     event_id_primary: 0
     event_id_secondary: 0
@@ -32888,7 +32888,7 @@ entities:
     position:
       x: 8326
       y: 11025
-      z: 3756
+      z: 3705
     facing: 150
     event_id_primary: 0
     event_id_secondary: 0
@@ -32918,7 +32918,7 @@ entities:
     position:
       x: 15772
       y: 14291
-      z: 3790
+      z: 3697
     facing: 285
     event_id_primary: 0
     event_id_secondary: 0
@@ -32933,7 +32933,7 @@ entities:
     position:
       x: 14739
       y: 18018
-      z: 3111
+      z: 3078
     facing: 165
     event_id_primary: 0
     event_id_secondary: 0
@@ -32963,7 +32963,7 @@ entities:
     position:
       x: 12791
       y: 4007
-      z: 2570
+      z: 2532
     facing: 60
     event_id_primary: 0
     event_id_secondary: 0
@@ -32978,7 +32978,7 @@ entities:
     position:
       x: 8771
       y: 15471
-      z: 3684
+      z: 3620
     facing: 225
     event_id_primary: 0
     event_id_secondary: 0
@@ -32993,7 +32993,7 @@ entities:
     position:
       x: 12221
       y: 19310
-      z: 2862
+      z: 2772
     facing: 210
     event_id_primary: 0
     event_id_secondary: 0
@@ -33008,7 +33008,7 @@ entities:
     position:
       x: 14360
       y: 10558
-      z: 4500
+      z: 4444
     facing: 30
     event_id_primary: 0
     event_id_secondary: 0
@@ -33023,7 +33023,7 @@ entities:
     position:
       x: 10961
       y: 5700
-      z: 2906
+      z: 2851
     facing: 270
     event_id_primary: 0
     event_id_secondary: 0
@@ -33038,7 +33038,7 @@ entities:
     position:
       x: 8334
       y: 16083
-      z: 3406
+      z: 3326
     facing: 240
     event_id_primary: 0
     event_id_secondary: 0
@@ -33053,7 +33053,7 @@ entities:
     position:
       x: 15152
       y: 10512
-      z: 4225
+      z: 4125
     facing: 45
     event_id_primary: 0
     event_id_secondary: 0
@@ -33068,7 +33068,7 @@ entities:
     position:
       x: 8916
       y: 18026
-      z: 3041
+      z: 2993
     facing: 165
     event_id_primary: 0
     event_id_secondary: 0
@@ -33083,7 +33083,7 @@ entities:
     position:
       x: 14594
       y: 18936
-      z: 2978
+      z: 2894
     facing: 135
     event_id_primary: 0
     event_id_secondary: 0
@@ -33098,7 +33098,7 @@ entities:
     position:
       x: 8643
       y: 8784
-      z: 3396
+      z: 3345
     facing: 180
     event_id_primary: 0
     event_id_secondary: 0
@@ -33113,7 +33113,7 @@ entities:
     position:
       x: 10234
       y: 8734
-      z: 3752
+      z: 3685
     facing: 150
     event_id_primary: 0
     event_id_secondary: 0
@@ -33143,7 +33143,7 @@ entities:
     position:
       x: 9958
       y: 7987
-      z: 3453
+      z: 3413
     facing: 105
     event_id_primary: 0
     event_id_secondary: 0
@@ -33158,7 +33158,7 @@ entities:
     position:
       x: 14868
       y: 16615
-      z: 3426
+      z: 3363
     facing: 210
     event_id_primary: 0
     event_id_secondary: 0
@@ -33173,7 +33173,7 @@ entities:
     position:
       x: 17851
       y: 5508
-      z: 2544
+      z: 2519
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -33188,7 +33188,7 @@ entities:
     position:
       x: 9801
       y: 18839
-      z: 3028
+      z: 2954
     facing: 75
     event_id_primary: 0
     event_id_secondary: 0
@@ -33203,7 +33203,7 @@ entities:
     position:
       x: 12935
       y: 15022
-      z: 4383
+      z: 4258
     facing: 60
     event_id_primary: 0
     event_id_secondary: 0
@@ -33218,7 +33218,7 @@ entities:
     position:
       x: 13763
       y: 3555
-      z: 2460
+      z: 2441
     facing: 45
     event_id_primary: 0
     event_id_secondary: 0
@@ -33233,7 +33233,7 @@ entities:
     position:
       x: 7157
       y: 15579
-      z: 2807
+      z: 2769
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -33248,7 +33248,7 @@ entities:
     position:
       x: 19283
       y: 8526
-      z: 2571
+      z: 2494
     facing: 225
     event_id_primary: 0
     event_id_secondary: 0
@@ -33263,7 +33263,7 @@ entities:
     position:
       x: 7180
       y: 12280
-      z: 3461
+      z: 3381
     facing: 315
     event_id_primary: 0
     event_id_secondary: 0
@@ -33278,7 +33278,7 @@ entities:
     position:
       x: 15210
       y: 4092
-      z: 2473
+      z: 2452
     facing: 45
     event_id_primary: 0
     event_id_secondary: 0
@@ -33293,7 +33293,7 @@ entities:
     position:
       x: 16877
       y: 15118
-      z: 3236
+      z: 3127
     facing: 315
     event_id_primary: 0
     event_id_secondary: 0
@@ -33308,7 +33308,7 @@ entities:
     position:
       x: 13944
       y: 18697
-      z: 3111
+      z: 3063
     facing: 45
     event_id_primary: 0
     event_id_secondary: 0
@@ -33323,7 +33323,7 @@ entities:
     position:
       x: 9627
       y: 15934
-      z: 3827
+      z: 3743
     facing: 210
     event_id_primary: 0
     event_id_secondary: 0
@@ -33338,7 +33338,7 @@ entities:
     position:
       x: 10588
       y: 14303
-      z: 4417
+      z: 4344
     facing: 330
     event_id_primary: 0
     event_id_secondary: 0
@@ -33353,7 +33353,7 @@ entities:
     position:
       x: 17322
       y: 13317
-      z: 3083
+      z: 3010
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -33383,7 +33383,7 @@ entities:
     position:
       x: 15708
       y: 12152
-      z: 4081
+      z: 3976
     facing: 210
     event_id_primary: 0
     event_id_secondary: 0
@@ -33398,7 +33398,7 @@ entities:
     position:
       x: 9217
       y: 7930
-      z: 3343
+      z: 3291
     facing: 270
     event_id_primary: 0
     event_id_secondary: 0
@@ -33413,7 +33413,7 @@ entities:
     position:
       x: 16391
       y: 19879
-      z: 2517
+      z: 2496
     facing: 60
     event_id_primary: 0
     event_id_secondary: 0
@@ -33428,7 +33428,7 @@ entities:
     position:
       x: 10479
       y: 10643
-      z: 4352
+      z: 4248
     facing: 315
     event_id_primary: 0
     event_id_secondary: 0
@@ -34478,7 +34478,7 @@ entities:
     position:
       x: 7238
       y: 18218
-      z: 1188
+      z: 1060
     facing: 79
     event_id_primary: 0
     event_id_secondary: 0
@@ -34493,7 +34493,7 @@ entities:
     position:
       x: 6912
       y: 17910
-      z: 2717
+      z: 2589
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -34508,7 +34508,7 @@ entities:
     position:
       x: 6400
       y: 17910
-      z: 2496
+      z: 2380
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -34523,7 +34523,7 @@ entities:
     position:
       x: 5888
       y: 17910
-      z: 2352
+      z: 2296
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -34538,7 +34538,7 @@ entities:
     position:
       x: 5376
       y: 17910
-      z: 2304
+      z: 2328
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -34553,7 +34553,7 @@ entities:
     position:
       x: 4864
       y: 17910
-      z: 2304
+      z: 2328
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -34568,7 +34568,7 @@ entities:
     position:
       x: 4352
       y: 17910
-      z: 2320
+      z: 2296
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -34583,7 +34583,7 @@ entities:
     position:
       x: 3840
       y: 17910
-      z: 2320
+      z: 2296
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -34598,7 +34598,7 @@ entities:
     position:
       x: 3328
       y: 17910
-      z: 2304
+      z: 2292
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -34613,7 +34613,7 @@ entities:
     position:
       x: 2816
       y: 17910
-      z: 2288
+      z: 2256
     facing: 0
     event_id_primary: 0
     event_id_secondary: 0
@@ -34628,7 +34628,7 @@ entities:
     position:
       x: 2500
       y: 18169
-      z: 1425
+      z: 1297
     facing: 281
     event_id_primary: 0
     event_id_secondary: 0
@@ -35744,9 +35744,9 @@ spawns:
     group: 0
   - spawn_index: 37
     position:
-      x: -21120
-      y: -7424
-      z: 2216
+      x: -12576
+      y: -20768
+      z: 1838
     radius: 32
     type_id: 3
     index: 1
@@ -35754,9 +35754,9 @@ spawns:
     group: 0
   - spawn_index: 38
     position:
-      x: -4192
-      y: -20672
-      z: 1952
+      x: -21856
+      y: -7776
+      z: 2186
     radius: 32
     type_id: 3
     index: 1
@@ -35764,9 +35764,9 @@ spawns:
     group: 0
   - spawn_index: 39
     position:
-      x: 18080
-      y: -21856
-      z: 2078
+      x: 18944
+      y: -16320
+      z: 1960
     radius: 32
     type_id: 3
     index: 1
@@ -35774,15 +35774,25 @@ spawns:
     group: 0
   - spawn_index: 40
     position:
-      x: 18592
-      y: -19264
-      z: 2036
+      x: 8736
+      y: -24512
+      z: 1740
     radius: 32
     type_id: 3
     index: 1
     attributes: 0
     group: 0
   - spawn_index: 41
+    position:
+      x: 19360
+      y: 288
+      z: 2738
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 42
     position:
       x: -8448
       y: -4288
@@ -35792,21 +35802,11 @@ spawns:
     index: 1
     attributes: 0
     group: 0
-  - spawn_index: 42
-    position:
-      x: -10496
-      y: -9696
-      z: 2098
-    radius: 32
-    type_id: 3
-    index: 1
-    attributes: 0
-    group: 0
   - spawn_index: 43
     position:
-      x: -22176
-      y: -17024
-      z: 2026
+      x: -4192
+      y: -20672
+      z: 1952
     radius: 32
     type_id: 3
     index: 1
@@ -35814,59 +35814,9 @@ spawns:
     group: 0
   - spawn_index: 44
     position:
-      x: -12768
-      y: -21248
-      z: 1826
-    radius: 32
-    type_id: 3
-    index: 1
-    attributes: 0
-    group: 0
-  - spawn_index: 45
-    position:
-      x: 18464
-      y: -16224
-      z: 1962
-    radius: 32
-    type_id: 3
-    index: 1
-    attributes: 0
-    group: 0
-  - spawn_index: 46
-    position:
-      x: 19264
-      y: -14016
-      z: 2208
-    radius: 32
-    type_id: 3
-    index: 1
-    attributes: 0
-    group: 0
-  - spawn_index: 47
-    position:
       x: 6656
       y: -3168
       z: 2214
-    radius: 32
-    type_id: 3
-    index: 1
-    attributes: 0
-    group: 0
-  - spawn_index: 48
-    position:
-      x: 14560
-      y: -6848
-      z: 2306
-    radius: 32
-    type_id: 3
-    index: 1
-    attributes: 0
-    group: 0
-  - spawn_index: 49
-    position:
-      x: 19072
-      y: 576
-      z: 2780
     radius: 32
     type_id: 3
     index: 1

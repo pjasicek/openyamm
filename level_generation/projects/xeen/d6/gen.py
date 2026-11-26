@@ -712,8 +712,12 @@ def build():
     # none within 5,888 of an arrival: the five round Sheltem's pod moved to the field's rim, off DD-22's hatch
     # (were (70, 34), (84, 32), (72, 42), (84, 40), (76, 49): 3,024-5,370 from entrance:dd22_hatch), and the last a cell in from the D5 arrival (was (100, 53))
     # F10 (s32): the eye at (74, 27) moved to the empty north-west corner (28, 28)
-    markers('pop:field_gazers', [(68, 28), (28, 28), (81, 27), (88, 27), (95, 27), (103, 27), (66, 31), (92, 31),
-                                 (92, 36), (100, 37), (70, 53), (91, 46), (95, 44), (103, 46), (80, 54), (88, 50),
+    # empty_zones (2026-11-26): the west rim's land was one empty zone of 828 tiles (limit 520) since D-164 moved the
+    # lava dwellers of the moat's west arm north to (36.5, 46): the eye at (66, 31) (3.6 from (68, 28)) to (29, 65);
+    # the land south of the moat (540 tiles round (48, 67)) then the largest: the eye at (95, 44) (4.1 from (91, 46))
+    # to (45, 71), 6,000 from the pyramid's door (D-87.3: 5,888 from an arrival for a ranged slot)
+    markers('pop:field_gazers', [(68, 28), (28, 28), (81, 27), (88, 27), (95, 27), (103, 27), (29, 65), (92, 31),
+                                 (92, 36), (100, 37), (70, 53), (91, 46), (45, 71), (103, 46), (80, 54), (88, 50),
                                  (99, 52)], 1)
     # E4a / E4b: griffins and rocs on the southern peaks (slot 2); the pass, the adit and the D1 road clear
     # D-85 (A6 s30): the seventh west pair moved off Ambrose's camp (was (55, 101): 4,433); the sixth (was (52, 92.5),
@@ -1057,8 +1061,10 @@ def alamar(S):
     gh = {'id': 'thing:alamar_gatehouse', 'kind': 'building', 'at': [gx0, gy0], 'size': [gx1 - gx0, gy1 - gy0],
           'kit': 'grey', 'facing': 's', 'floor': MESA_TOP, 'title': "Castle Alamar's gate",
           'textures': dict(ALAMAR_TEX),
+          # D-180 rules a and b (2026-11-26): DD-17's way back out is 448 x 448 and the gate's walls 1,024 high: the
+          # pair 512 wide (two 256 leaves, swdoora whole on each) and 448 high (was 256)
           'parts': [{'id': 'gate', 'at': [64, 64], 'size': [1408, 1408], 'wall_height': 768, 'roof': 'none',
-                     'windows': 'none', 'door_height': 256,
+                     'windows': 'none', 'door_height': 448,
                      'walls': {'s': [['wall', 448], ['door', 512], ['wall', 448]]}},
                     {'id': 'crown', 'at': [64, 64], 'size': [1408, 1408], 'bottom': 768, 'wall_height': 256,
                      'roof': 'flat', 'windows': 'none', 'textures': {'wall': 'xahull', 'roof': 'gn_mtl03'}}],

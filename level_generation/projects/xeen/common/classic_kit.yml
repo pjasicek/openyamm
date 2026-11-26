@@ -26,6 +26,9 @@ stables_maps: [x1, x2, x4, x6, d1, d3]
 # 2026-11-24. The other maps follow after their final outdoor round.
 fit_maps: [x1, x2, x3, x4, x5, x6, x7, d1, d2, d3, d4, d5, d6]
 # Doors no kit replaces: portcullises over castle gateways wider than a kit's 128 door bay (D1's Castle Kalindra).
+# A single-leaf door bay wider than 128 (the Darkside towers' doors, sized by D-180 to their dungeons' ways out) takes
+# the kit's own door laid once over the leaf (classic_kit.py, D-196), not MM7's framed hkm1d/hkm3dr, which showed 1.5
+# doors there.
 keep_doors: [xkportc]
 leave_walls: [xdbark, t68a13mm, tentwal1, tentwal2, tentwal3, tentwal7a]
 special_walls: [xdbark, t68a13mm, tentwal1, tentwal2, tentwal3, tentwal7a, xkshimmer, cstr128, xahull, xahullbn,

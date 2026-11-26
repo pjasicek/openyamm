@@ -315,3 +315,15 @@ per face, and the leaves' and the target's ends are laid at their size.
 - Tests (`gen_playtests.py`): the gate's window and XD-19's leave window (OK both ways), the FD-04 window, the nests'
   buttons, the Eye's answer and the crystals' else line as window-or-status (F13). Stage 8 of 8, installed 01:43
   (blv/scene/studio/lua); audit 0; MAW reserve and `xeen_balance.py --check` clean.
+
+## F70, F73, D-181 (agent xeen-fb5-dungeon, 2026-11-26; the player's pins p1-p10)
+
+- The pins p2-p10 were made on the X9 before the F62 port (3.3): the cloud cutting the decks is gone on today's map.
+  Left on today's map and fixed in `gen.py`: the necks' level landings lay 8 over their cloud and drew a seam
+  (p4): they lie `NECK_SUNK` 12 under the cloud now, the neck shows from the rim; every rope bridge's rails ended in
+  the air (p5-p10): `rail_posts()` stands a post (16 x 16, top 16 over the rail) at each rail's end on the cloud
+  (`tools/xeen/check_beam_ends.py`, 0 errors). F73 (p1): the Might, Speed and Endurance booths hung over the carnival
+  cloud's rim or stood off the plaza: `booth_shifts()` moves each booth, its game piece and its point toward the
+  plaza's middle until every piece is 48 inside the plaza (704, 496, 800; the Accuracy booth fits).
+- D-181: the six offering statues are `7dec55` (a dry statue), not MM6's basin-less fountain `sta1a`
+  (`gen_objects.py`; `tools/xeen/check_fountains.py`).

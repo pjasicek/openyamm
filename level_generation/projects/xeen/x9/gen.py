@@ -30,6 +30,8 @@ FLOOR = -6000          # the safety floor (a fall the one-second check misses en
 SINK = 8               # how far a block is sunk into what it stands on (X8's, F62: no bottom on the walking plane)
 CEIL = 6400
 SLAB = 256             # cloud slab thickness under its top
+NECK_SUNK = 12         # a neck's landings lie this far under the cloud they start on (F70: no seam on the cloud)
+RAIL_POST = 16         # the posts a rope bridge's rails are tied to at both ends (F70: no rail ends in the air)
 
 CLOUD_TOP = {'texture': 'xccloud', 'size': [256, 256], 'scale': 2}
 CLOUD_SIDE = {'texture': 'xccloudsd', 'size': [256, 256], 'scale': 2, 'uneven': True}
@@ -275,7 +277,16 @@ def links():
         lid = key(l['id'])
         if l['style'] == 'neck':
             a, b, d, u = link_cut(l, 640)
-            for k, (p, q, z0, z1) in enumerate(level_spans(l, a, b, u, l['width'], za + 8, zb + 8)):
+            spans = level_spans(l, a, b, u, l['width'], za + 8, zb + 8)
+            if len(spans) == 3:
+                # F70 (X9 p4, 2026-11-26 "maybe clipping"): a neck is cloud on cloud. Its landings lay 8 over the
+                # cloud they start on, so their 8-high sides and ends drew a straight seam across the cloud's top.
+                # They now lie NECK_SUNK (12, clear of a sunk block's 8) under it, and the neck shows only where it
+                # leaves the cloud: a 12 step down at the rim, the cloud's own edge.
+                (p0, q0, _, _), (p1, q1, _, _), (p2, q2, _, _) = spans
+                spans = [(p0, q0, za - NECK_SUNK, za - NECK_SUNK), (p1, q1, za - NECK_SUNK, zb - NECK_SUNK),
+                         (p2, q2, zb - NECK_SUNK, zb - NECK_SUNK)]
+            for k, (p, q, z0, z1) in enumerate(spans):
                 platforms.append(platform_slab(f'platform:{lid}' if k == 0 else f'platform:{lid}_{k + 1}', p, q,
                                                z0, z1, l['width'], CLOUD_SIDE, CLOUD_TOP, 192,
                                                f"{l['id']}: a waist of cloud, {int(d)} rim to rim" if k == 0 else None))
@@ -323,7 +334,25 @@ def links():
                         'bottom': int(z0 + 80), 'bottom_end': int(z1 + 80),
                         'surface': ROPE,
                     })
+            platforms += rail_posts(lid, a, b, (ux, uy), width, (l['a'], za), (l['b'], zb))
     return platforms, beams
+
+
+def rail_posts(lid, a, b, u, width, end_a, end_b):
+    """F70 (X9 p5-p10, 2026-11-26: "the side rails stop in the air"): a rope bridge's two rails are tied at each end to
+    a post standing on the cloud just before the deck's end, its top 16 over the rail (check_beam_ends.py)."""
+    ux, uy = u
+    nx, ny = -uy * (width / 2 - 8), ux * (width / 2 - 8)
+    out = []
+    for tag, (p, back), (sid, z) in (('a', (a, -1), end_a), ('b', (b, 1), end_b)):
+        cx, cy = p[0] + back * ux * RAIL_POST / 2, p[1] + back * uy * RAIL_POST / 2
+        for k, side in enumerate((1, -1)):
+            xy = (cx + side * nx, cy + side * ny)
+            if not inside(POLYS[sid], xy):
+                raise SystemExit(f'{lid}: rail post {tag}{k + 1} at {xy} is off its cloud {sid}')
+            out.append(block(f'platform:{lid}_post_{tag}{k + 1}', xy, (RAIL_POST, RAIL_POST), z, 8 + 88 + 16, ROPE,
+                             ROPE, facing=math.degrees(math.atan2(uy, ux))))
+    return out
 
 
 def link_lengths():
@@ -335,8 +364,15 @@ def link_lengths():
 PLACE = {p['id']: p for p in D.PLACES}
 
 
+BOOTH_SHIFT = {}           # F73: how far each booth (and its point) is moved toward the plaza's middle
+
+
 def at(pid):
     x, y = G.place_at(PLACE[pid], POLYS)
+    if pid in BOOTH_SHIFT:                       # F73: a booth's point moves with its booth (booth_shifts())
+        deg = booth_facing(pid)
+        x += BOOTH_SHIFT[pid] * math.cos(math.radians(deg))
+        y += BOOTH_SHIFT[pid] * math.sin(math.radians(deg))
     return (int(round(x)), int(round(y)))
 
 
@@ -530,6 +566,57 @@ def booth(name, origin, out_deg, fl, title):
 
 
 BOOTH_FACING = {}
+BOOTH_MARGIN = 48          # every piece of a booth stands at least this far inside the plaza's rim
+BOOTH_PARTS = {'poi:might_game': ('booth_might', 'striker'), 'poi:speed_game': ('booth_speed', 'track'),
+               'poi:endurance_game': ('booth_endurance', 'treadmill'),
+               'poi:accuracy_game': ('booth_accuracy', 'shooting_line')}
+
+
+def booth_facing(pid):
+    """The way a booth faces out (its customers' side), from its point as the plan places it."""
+    if pid == 'poi:accuracy_game':
+        return 180.0                             # the shooting line looks west down the lane to the bullseye
+    cx, cy = SPACE['room:carnival']['at']
+    x, y = G.place_at(PLACE[pid], POLYS)
+    return round(math.degrees(math.atan2(cy - y, cx - x)) / 15) * 15   # the others face the plaza's middle
+
+
+def corners(p):
+    if 'outline' in p:
+        return [tuple(c) for c in p['outline']]
+    (cx, cy), (sx, sy) = p['at'], p['size']
+    f = math.radians(p.get('facing', 0))
+    c, s = math.cos(f), math.sin(f)
+    return [(cx + u * c - v * s, cy + u * s + v * c) for u, v in ((-sx / 2, -sy / 2), (sx / 2, -sy / 2),
+                                                                  (sx / 2, sy / 2), (-sx / 2, sy / 2))]
+
+
+def booth_shifts():
+    """F73 (X9 p1, 2026-11-26 "maybe move it more right"): the Might and Endurance booths' back walls and awnings hung
+    over the carnival cloud's rim and stood off the plaza (8 over the cloud). Each booth, its game piece and its point
+    move toward the plaza's middle, 16 at a time, until every piece stands BOOTH_MARGIN inside the plaza."""
+    pav = plaza_outline()
+    BOOTH_SHIFT.clear()
+    for _ in range(200):
+        parts = carnival()
+        short = []
+        for pid, names in BOOTH_PARTS.items():
+            mine = [p for p in parts if any(p['id'].startswith(f'platform:{n}') for n in names)]
+            m = min(rim_distance(pav, c) if inside(pav, c) else -rim_distance(pav, c) for p in mine
+                    for c in corners(p))
+            if m < BOOTH_MARGIN:
+                short.append(pid)
+        if not short:
+            return dict(BOOTH_SHIFT)
+        for pid in short:
+            BOOTH_SHIFT[pid] = BOOTH_SHIFT.get(pid, 0) + 16
+    raise SystemExit(f'booths do not fit the plaza: {BOOTH_SHIFT}')
+
+
+def plaza_outline():
+    s = SPACE['room:carnival']
+    cx, cy = s['at']
+    return [[int(round(cx + 0.82 * (x - cx))), int(round(cy + 0.82 * (y - cy)))] for x, y in OUTLINES['room:carnival']]
 
 
 def carnival():
@@ -538,7 +625,7 @@ def carnival():
     cx, cy = s['at']
     fl = s['floor']
     # the paved plaza: the cloud's outline drawn in to 82 % (cloud-stone flags, 16 high)
-    pav = [[int(round(cx + 0.82 * (x - cx))), int(round(cy + 0.82 * (y - cy)))] for x, y in OUTLINES['room:carnival']]
+    pav = plaza_outline()
     out.append({'id': 'platform:plaza', 'outline': pav, 'base': fl - SINK - FLOOR, 'rise': 16 + SINK, 'surface': MARBLE,
                 'top_surface': MARBLE, 'notes': "Slick's plaza: cloud-stone flags laid on the cloud (6,144 x 4,608, D-50)."})
     pf = fl + 16
@@ -548,11 +635,7 @@ def carnival():
              'poi:accuracy_game': ('booth_accuracy', 'The Accuracy booth')}
     for pid, (name, title) in names.items():
         x, y = at(pid)
-        if pid == 'poi:accuracy_game':
-            deg = 180.0                          # the shooting line looks west down the lane to the bullseye
-        else:
-            deg = math.degrees(math.atan2(cy - y, cx - x))   # the others face the plaza's middle
-            deg = round(deg / 15) * 15
+        deg = booth_facing(pid)
         BOOTH_FACING[pid] = deg
         # the booth stands 384 behind its point, so its customers stand on the point
         back = frame((x, y), math.radians(deg), 0, -384)
@@ -619,6 +702,9 @@ def prize_stand():
     P.append(block('platform:doll_shelf', frame(origin, phi, 0, -400), (960, 48), fl + 192, 16, DECK, DECK,
                    facing=-90, notes='The doll shelf on its two posts behind Slick.'))
     return P
+
+
+booth_shifts()                  # F73: every booth on the plaza (gen_objects and gen_playtests read at())
 
 
 # ------------------------------------------------------------------------------------------------ Castle Xeen

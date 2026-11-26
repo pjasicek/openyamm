@@ -2124,10 +2124,10 @@ structures:
     at: [95.5, 44.5]
     size: [3, 3]
     kit: plaster
-    textures: {door: hkm1d, roof: xtslate, trim: gtrlwal1, wall: gtrlwal1, window: hkm3elw}
+    textures: {door: xvtdoor, roof: xtslate, trim: gtrlwal1, wall: gtrlwal1, window: hkm3elw}
     facing: w
     parts:
-      - {id: base, shape: round, at: [768, 768], radius: 608, sides: 12, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: gtrlwal1, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 640, windows: none, roof: none}
+      - {id: base, shape: round, at: [768, 768], radius: 608, sides: 12, textures: {door: {fit: true, size: [128, 256], texture: xvtdoor}, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: gtrlwal1, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 640, walls: {"9": [[wall, 61.362], [door, 192], [wall, 61.362]]}, upper_walls: {"9": [[wall, 61.362], [wall, 192], [wall, 61.362]]}, windows: none, roof: none, door_height: 320}
       - {id: base_band, shape: round, at: [768, 768], radius: 608, sides: 12, bottom: 640, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: gtrlwal1, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 256, windows: none, roof: none}
       - {id: mid, shape: round, at: [768, 768], radius: 512, sides: 12, bottom: 896, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: gtrlwal1, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 640, windows: none, roof: none}
       - {id: mid_band, shape: round, at: [768, 768], radius: 512, sides: 12, bottom: 1536, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: gtrlwal1, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 256, windows: none, roof: none}

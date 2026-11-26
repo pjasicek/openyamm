@@ -205,6 +205,16 @@ rooms:
     floor: -2560
     ceiling: -2048
     theme: theme:necro
+    platforms:
+      - {id: platform:basin_kerb_1, rise: 64, surface: {texture: gnecwal1, size: [256, 256]}, outline: [[1760, 9360], [1648, 9472], [1634, 9440], [1728, 9346]], top_surface: {texture: gnecflr, size: [128, 128], scale: 2}, notes: "The fountain basin's kerb, eight stones round the water."}
+      - {id: platform:basin_kerb_2, rise: 64, surface: {texture: gnecwal1, size: [256, 256]}, outline: [[1648, 9472], [1488, 9472], [1502, 9440], [1634, 9440]], top_surface: {texture: gnecflr, size: [128, 128], scale: 2}}
+      - {id: platform:basin_kerb_3, rise: 64, surface: {texture: gnecwal1, size: [256, 256]}, outline: [[1488, 9472], [1376, 9360], [1408, 9346], [1502, 9440]], top_surface: {texture: gnecflr, size: [128, 128], scale: 2}}
+      - {id: platform:basin_kerb_4, rise: 64, surface: {texture: gnecwal1, size: [256, 256]}, outline: [[1376, 9360], [1376, 9200], [1408, 9214], [1408, 9346]], top_surface: {texture: gnecflr, size: [128, 128], scale: 2}}
+      - {id: platform:basin_kerb_5, rise: 64, surface: {texture: gnecwal1, size: [256, 256]}, outline: [[1376, 9200], [1488, 9088], [1502, 9120], [1408, 9214]], top_surface: {texture: gnecflr, size: [128, 128], scale: 2}}
+      - {id: platform:basin_kerb_6, rise: 64, surface: {texture: gnecwal1, size: [256, 256]}, outline: [[1488, 9088], [1648, 9088], [1634, 9120], [1502, 9120]], top_surface: {texture: gnecflr, size: [128, 128], scale: 2}}
+      - {id: platform:basin_kerb_7, rise: 64, surface: {texture: gnecwal1, size: [256, 256]}, outline: [[1648, 9088], [1760, 9200], [1728, 9214], [1634, 9120]], top_surface: {texture: gnecflr, size: [128, 128], scale: 2}}
+      - {id: platform:basin_kerb_8, rise: 64, surface: {texture: gnecwal1, size: [256, 256]}, outline: [[1760, 9200], [1760, 9360], [1728, 9346], [1728, 9214]], top_surface: {texture: gnecflr, size: [128, 128], scale: 2}}
+      - {id: platform:basin_water, rise: 48, surface: {texture: gnecwal1, size: [256, 256]}, outline: [[1728, 9346], [1634, 9440], [1502, 9440], [1408, 9346], [1408, 9214], [1502, 9120], [1634, 9120], [1728, 9214]], top_surface: {texture: wtrtyl, size: [128, 128], liquid: water}, notes: "The basin's water, 16 under the kerb's top."}
     ambient: 14
     notes: "A dead end with a fountain: 'Ahh, refreshing!' (aazex123:5), any time."
   - id: room:game_east
@@ -264,7 +274,7 @@ rooms:
     ceiling: 3584
     theme: theme:tower_hall
     ambient: 12
-    notes: "Shell shards and scorched straw in a vault 1,024 high, two pairs; joins the landing and the nest (the floor-2 loop). A third dead climber's bones (q-f1.note_balls)."
+    notes: "Shell shards and scorched straw in a vault 1,024 high, one pair; joins the landing and the nest (the floor-2 loop). A third dead climber's bones (q-f1.note_balls)."
   - id: room:high_hall
     name: High hall
     outline: [[-1536, -1536], [256, -1536], [256, -192], [-1536, -192]]

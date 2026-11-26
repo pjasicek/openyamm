@@ -1,0 +1,51 @@
+# Feedback F77 (2026-11-26, D1 p5 "is this a quest bug?"): a party back from the Western Tower's top heard Dreyfus in
+# the Temple of Mok say "The key to my door is on the top floor ... Bring it down and let me in.": the line for a
+# party that has only climbed the rope also answered one that had slain the Cult Leader and held his key. Q-D6's Quest
+# topic now has a line for each step: the rope climbed, the Cult Leader slain, the key held (ever found), and "my door"
+# names the Western Tower's ground door. Source: assets_dev/worlds/xeen/source/quests/q-d6.yml.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/d1_dreyfus_tower_steps.yml --scenario-no-color
+id: xeen.f77.d1_dreyfus_tower_steps
+title: "F77: Dreyfus answers each step of the Western Tower climb"
+world: xeen
+mode: faithful
+tags: [xeen, regression]
+steps:
+  - new_game_flow:
+      start_map: xeen_d1.odm
+      party:
+        gold: 200
+        food: 20
+        members:
+          - {name: Brokk, class: Crusader, level: 37, skills: [], equipment: {}}
+          - {name: Hild, class: Priest, level: 37, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - setup_shortcut: {kind: set_qbit, id: 113120, value: true}
+  - setup_shortcut: {kind: set_qbit, id: 113121, value: true}
+  # The rope climbed: the key is upstairs.
+  - set_pose: {map: xeen_d1.odm, x: 3092, y: 2048, z: 1152, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - clear_hostiles: {radius: 3000}
+  - press_interact: {expect: {kind: event_target}}
+  - select_topic: {action_id: 44301, match_label: "Quest"}
+  - assert: {dialog: {text_contains: "The key to my tower's ground door is on the top floor"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The Cult Leader slain, the key not taken.
+  - setup_shortcut: {kind: set_qbit, id: 113123, value: true}
+  - set_pose: {map: xeen_d1.odm, x: 3092, y: 2048, z: 1152, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - select_topic: {action_id: 44301, match_label: "Quest"}
+  - assert: {dialog: {text_contains: "The Cult Leader is dead? Good. Now take the key"}}
+  - press_action: {action: cancel_dialog}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  # The key in the pack (12338, the Western Tower's key).
+  - grant_item: {item_id: 12338}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - set_pose: {map: xeen_d1.odm, x: 3092, y: 2048, z: 1152, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 0.5}
+  - press_interact: {expect: {kind: event_target}}
+  - select_topic: {action_id: 44301, match_label: "Quest"}
+  - assert: {dialog: {text_contains: "You have my key? Then turn it in the Western Tower's ground door."}}

@@ -1875,7 +1875,7 @@ steps:
 - note: XD-09's slab door in the Golem Rocks' north face
 - walk_to:
     x: 18688
-    y: -3577
+    y: -3193
     z: 960
     z_tolerance: 700
     radius: 192
@@ -1884,7 +1884,7 @@ steps:
 - set_pose:
     map: xeen_x5.odm
     x: 18688
-    y: -3577
+    y: -3193
     z: 960
     yaw: -1.5708
     pitch: 0.0
@@ -1936,7 +1936,7 @@ steps:
 - set_pose:
     map: xeen_x5.odm
     x: 18688
-    y: -3577
+    y: -3193
     z: 960
     yaw: 1.5708
     pitch: 0.0

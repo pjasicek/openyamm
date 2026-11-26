@@ -100,3 +100,7 @@ None (118090-118099 unused): A3's Q-D16 bits carry every state.
   for byte the installed ones; `output/studio_cal/a7/s19/`), so no rebake; installed 06:10:39, stale bakes 0. Audit
   from `assets_dev` 0 errors, the kept warnings (`output/studio_cal/a7/s19/audit/dd24.txt`); playtests 2 of 2 from
   `assets_dev` (`output/studio_cal/a7/s19/two_dd24.out`).
+
+## D-104 dungeon campfires (2026-11-26, agent:xeen-fb5-dungeon2)
+
+`deco:hearth_fire`, `deco:trench_fire_1`, `deco:trench_fire_2`: the outdoor campfire's event (food 1-3 once, a small ring for a character with Perception), `once: true`, added by `level_generation/projects/xeen/common/campfires.py` (regen.py runs it after gen.py). Fixtures without a click: `deco:brazier_e`, `deco:brazier_w`. Rebuilt, audit 0 errors, every playtest passing from the stage, installed and baked, MAW reserve rerun.

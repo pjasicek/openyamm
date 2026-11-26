@@ -1,0 +1,26 @@
+format: 1
+counter: 3
+pins:
+  - id: pin:p1
+    text: Fire Elemental have no loot
+    source: game
+    world: xeen
+    map: xeen_xd19.blv
+    pose:
+      position: [91.062, -547.979, 0]
+      yaw_radians: 1.524
+      pitch_degrees: 4.652
+      heading_yaw_units: 497
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-26T00:31:52
+    status: resolved
+    claimed_by: agent:xeen-fb5-engine
+    from: 20261126-003152-xeen_xd19.yml
+    replies:
+      - author: agent:xeen-fb5-engine
+        text: "Fixed (D-182): fire and air elementals and the robots now leave their table loot in a satchel where they die (they vanished with it before). Tests tests/scenarios/xeen/elementals_leave_loot.yml and _maw.yml."
+        created: 2026-11-26T08:09:19
+        revision: c0dd451c30ce77ba99f8fcf5b646c6e2
+        status: resolved
+        pictures: [.oymap/pins/pictures/p1-r1.png]

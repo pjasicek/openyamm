@@ -663,7 +663,7 @@ Xeen.Mirrors = {
     [4121] = {face = "cloudside", town = "Newcastle", qbit = 119006, arrival = {9216, 13312, 1504, 512, "xeen_x3.odm"}, opens = "m11.keep", closedText = "An empty frame leans against the rubble. Emerson will hang the glass when there is a keep to hang it in."},
     [4157] = {face = "cloudside", town = "Castle Burlock", qbit = 119003, arrival = {-1536, 3584, 1312, 1536, "xeen_x4.odm"}},
     [4177] = {face = "cloudside", town = "Asp", qbit = 119013, arrival = {-12800, -11776, 1056, 512, "xeen_x4.odm"}, opens = "q-c5.done", closedText = "The mirror is fogged with shed skin. It shows nothing."},
-    [4256] = {face = "cloudside", town = "Winterkill", qbit = 119004, arrival = {-13824, 11264, 992, 1536, "xeen_x5.odm"}, opens = "q-c6.done", closedText = "A pale face looks back from the mirror. It is not yours."},
+    [4256] = {face = "cloudside", town = "Winterkill", qbit = 119004, arrival = {-13824, 11264, 992, 1536, "xeen_x5.odm"}, opens = "q-c6.done", closedText = "A pale face looks back from the mirror. It is not yours. The dead hold Winterkill, and its glass with them. Mayor Randon, by the gongs, wants them driven out."},
 }
 RegisterCanShowTopic(349, function() return Xeen.isSet("q-c18.done") end)  -- npc 4153
 RegisterCanShowTopic(389, function() return Xeen.isSet("m26.stage4") end)  -- npc 5002
@@ -2908,15 +2908,23 @@ RegisterGlobalEvent(44301, "Quest", function()
         evt.SetMessage(NPCText(44302, "My door is open, but the Cult Leader still preaches on the top floor. Mok does not share a tower."))
         return
     end
+    if HasEverOwnedItem(12338) then
+        evt.SetMessage(NPCText(44303, "You have my key? Then turn it in the Western Tower's ground door. A High Priest goes home by the front door."))
+        return
+    end
+    if IsQBitSet(QBit(113123)) then
+        evt.SetMessage(NPCText(44304, "The Cult Leader is dead? Good. Now take the key from their altar on the top floor and open my tower's ground door with it."))
+        return
+    end
     if IsQBitSet(QBit(113121)) then
-        evt.SetMessage(NPCText(44303, "You went up their rope? Good. The key to my door is on the top floor, by their altar. Bring it down and let me in."))
+        evt.SetMessage(NPCText(44305, "You went up their rope? Good. The key to my tower's ground door is on the top floor, by their altar. Bring it down and open the tower to me."))
         return
     end
     if IsQBitSet(QBit(113120)) then
-        evt.SetMessage(NPCText(44304, "Your failure to breach the tower is not your fault; it is a test of my determination to cleanse the faith of heresy. I implore you to continue your efforts on my behalf."))
+        evt.SetMessage(NPCText(44306, "Your failure to breach the tower is not your fault; it is a test of my determination to cleanse the faith of heresy. I implore you to continue your efforts on my behalf."))
         return
     end
-    evt.SetMessage(NPCText(44305, "Oh, wretched fortune! I, Dreyfus, high priest of Mok, have been cast from my tower by heretics in the priesthood! They warded the door against me, but they still haul their bread up a rope on the north wall. Perhaps you could climb in from the top and open the tower to me again."))
+    evt.SetMessage(NPCText(44307, "Oh, wretched fortune! I, Dreyfus, high priest of Mok, have been cast from my tower by heretics in the priesthood! They warded the door against me, but they still haul their bread up a rope on the north wall. Perhaps you could climb in from the top and open the tower to me again."))
     SetQBit(QBit(113120))
     SetAutonote(4460)
 end)
@@ -2935,7 +2943,7 @@ RegisterCanShowTopic(44303, function()
 end)
 
 RegisterGlobalEvent(44302, "The clerics", function()
-    evt.SetMessage(NPCText(44306, "Humble and Pious came to me and begged forgiveness. I gave them the latrines. Mok is merciful; I am thorough."))
+    evt.SetMessage(NPCText(44308, "Humble and Pious came to me and begged forgiveness. I gave them the latrines. Mok is merciful; I am thorough."))
 end)
 RegisterCanShowTopic(44302, function()
     return (IsQBitSet(QBit(113127)) and (IsQBitSet(QBit(113124)) or IsQBitSet(QBit(113128))))
@@ -5937,7 +5945,11 @@ XeenQuests.hooks["m2.wobbles"] = {
 
 XeenQuests.hooks["m21.arrival"] = {
     run = function()
-        evt.SimpleMessage(NPCText(41050, "Darzog's Tower. The Skeleton Key turns, and the door that has been sealed since Crodo vanished swings in on cold air. Artemus was right about the Baron: somewhere above, Crodo still lives. And the air itself is wrong. Every spell you reach for dies before it is shaped. Here you fight with steel. The stairs climb the west and east halls in turn; the Baron keeps the top floor."))
+        if (evt.RulesetInfo().soloRun) then
+            evt.SimpleMessage(NPCText(41050, "Darzog's Tower. The Skeleton Key turns, and the door that has been sealed since Crodo vanished swings in on cold air. Artemus was right about the Baron: somewhere above, Crodo still lives. And the air itself is wrong. Every spell you shape comes out at half its strength, and so does every spell cast at you. The ward was laid against a company; one alone slips half through it. The stairs climb the west and east halls in turn; the Baron keeps the top floor."))
+            return
+        end
+        evt.SimpleMessage(NPCText(41051, "Darzog's Tower. The Skeleton Key turns, and the door that has been sealed since Crodo vanished swings in on cold air. Artemus was right about the Baron: somewhere above, Crodo still lives. And the air itself is wrong. Every spell you reach for dies before it is shaped. Here you fight with steel. The stairs climb the west and east halls in turn; the Baron keeps the top floor."))
     end,
 }
 
@@ -5948,20 +5960,20 @@ XeenQuests.hooks["m21.cloud_stair"] = {
 
 XeenQuests.hooks["m21.crodo"] = {
     once = 110501,
-    elseText = function() return NPCText(41053, "Crodo's stool, and the marks of his chain on the wall.") end,
+    elseText = function() return NPCText(41054, "Crodo's stool, and the marks of his chain on the wall.") end,
     run = function()
         SetQBit(QBit(110501))
         evt.ForPlayer(Players.All)
         AddValue(Experience, 35000)
         SetAutonote(4121)
-        evt.SimpleMessage(NPCText(41052, "Crodo the Overseer, thin and grey, gets up from his stool. \"Thank you for rescuing me from Darzog's clutches. I didn't know that someone else had received my message. Listen. The man at the King's side is not Prince Roland. I struck him with Dancing Blades and saw what he is: Lord Xeen, an undead general who serves a greater master. Xeen's hideout is just above us in the clouds. You will need the sword the adventurers were working on in the dungeon of Newcastle to defeat Lord Xeen. Ask Artemus for leave to dig it out. The vault's word is 'laboratory'. You must make haste. Xeen plans to summon an army from the Darkside to conquer our world.\" Darzog's ward still holds him, but it is fading. He has strength for one small spell, and he spends it on going home. He touches your hand, says a word, and is gone."))
+        evt.SimpleMessage(NPCText(41053, "Crodo the Overseer, thin and grey, gets up from his stool. \"Thank you for rescuing me from Darzog's clutches. I didn't know that someone else had received my message. Listen. The man at the King's side is not Prince Roland. I struck him with Dancing Blades and saw what he is: Lord Xeen, an undead general who serves a greater master. Xeen's hideout is just above us in the clouds. You will need the sword the adventurers were working on in the dungeon of Newcastle to defeat Lord Xeen. Ask Artemus for leave to dig it out. The vault's word is 'laboratory'. You must make haste. Xeen plans to summon an army from the Darkside to conquer our world.\" Darzog's ward still holds him, but it is fading. He has strength for one small spell, and he spends it on going home. He touches your hand, says a word, and is gone."))
     end,
 }
 
 XeenQuests.hooks["m21.darzog"] = {
     run = function()
         SetQBit(QBit(110500))
-        evt.StatusText(NPCText(41051, "Baron Darzog falls. In the Well, a black grille rises from his disc's landing. His ward on your spells stays: it is in the stones."), 6)
+        evt.StatusText(NPCText(41052, "Baron Darzog falls. In the Well, a black grille rises from his disc's landing. His ward on your spells stays: it is in the stones."), 6)
     end,
 }
 
@@ -10639,101 +10651,101 @@ XeenQuests.hooks["q-d6.cult_leader"] = {
 XeenQuests.hooks["q-d6.fountain_air"] = {
     run = function()
         if (IsPlayerBitSet(PlayerBit(11342))) then
-            evt.StatusText(NPCText(44322, "The water is cool and refreshing."), 4)
+            evt.StatusText(NPCText(44324, "The water is cool and refreshing."), 4)
             return
         end
         AddValue(AirResistance, 5)
         SetPlayerBit(PlayerBit(11342))
-        evt.StatusText(NPCText(44323, "Fountain. The water is cool and refreshing, and it crackles on the way down. (+5 Air resistance, permanent)"), 6)
+        evt.StatusText(NPCText(44325, "Fountain. The water is cool and refreshing, and it crackles on the way down. (+5 Air resistance, permanent)"), 6)
     end,
 }
 
 XeenQuests.hooks["q-d6.fountain_body"] = {
     run = function()
         if (IsPlayerBitSet(PlayerBit(11344))) then
-            evt.StatusText(NPCText(44326, "The water is cool and refreshing."), 4)
+            evt.StatusText(NPCText(44328, "The water is cool and refreshing."), 4)
             return
         end
         AddValue(BodyResistance, 5)
         SetPlayerBit(PlayerBit(11344))
-        evt.StatusText(NPCText(44327, "Fountain. The water is cool and refreshing, with a bitter end that your stomach decides to like. (+5 Body resistance, permanent)"), 6)
+        evt.StatusText(NPCText(44329, "Fountain. The water is cool and refreshing, with a bitter end that your stomach decides to like. (+5 Body resistance, permanent)"), 6)
     end,
 }
 
 XeenQuests.hooks["q-d6.fountain_fire"] = {
     run = function()
         if (IsPlayerBitSet(PlayerBit(11341))) then
-            evt.StatusText(NPCText(44320, "The water is cool and refreshing."), 4)
+            evt.StatusText(NPCText(44322, "The water is cool and refreshing."), 4)
             return
         end
         AddValue(FireResistance, 5)
         SetPlayerBit(PlayerBit(11341))
-        evt.StatusText(NPCText(44321, "Fountain. The water is cool and refreshing, and the heat of the tower seems to step back from you. (+5 Fire resistance, permanent)"), 6)
+        evt.StatusText(NPCText(44323, "Fountain. The water is cool and refreshing, and the heat of the tower seems to step back from you. (+5 Fire resistance, permanent)"), 6)
     end,
 }
 
 XeenQuests.hooks["q-d6.fountain_water"] = {
     run = function()
         if (IsPlayerBitSet(PlayerBit(11343))) then
-            evt.StatusText(NPCText(44324, "The water is cool and refreshing."), 4)
+            evt.StatusText(NPCText(44326, "The water is cool and refreshing."), 4)
             return
         end
         AddValue(WaterResistance, 5)
         SetPlayerBit(PlayerBit(11343))
-        evt.StatusText(NPCText(44325, "Fountain. The water is cool and refreshing, and colder than it looks. (+5 Water resistance, permanent)"), 6)
+        evt.StatusText(NPCText(44327, "Fountain. The water is cool and refreshing, and colder than it looks. (+5 Water resistance, permanent)"), 6)
     end,
 }
 
 XeenQuests.hooks["q-d6.front_door"] = {
     once = 113125,
     requires = function() return HasItem(12338) end,
-    elseText = function() return NPCText(44313, "The front door stands open.") end,
-    failText = function() return NPCText(44314, "Locked, and warded from both sides. The key is upstairs, with the heretics.") end,
+    elseText = function() return NPCText(44315, "The front door stands open.") end,
+    failText = function() return NPCText(44316, "Locked, and warded from both sides. The key is upstairs, with the heretics.") end,
     run = function()
         SetQBit(QBit(113125))
         SetAutonote(4461)
-        evt.SimpleMessage(NPCText(44312, "The key turns and the heretics' wards on the door die with a small, sulky pop."))
+        evt.SimpleMessage(NPCText(44314, "The key turns and the heretics' wards on the door die with a small, sulky pop."))
     end,
 }
 
 XeenQuests.hooks["q-d6.front_door_outside"] = {
     once = 113125,
     requires = function() return HasItem(12338) end,
-    elseText = function() return NPCText(44316, "The front door stands open.") end,
-    failText = function() return NPCText(44317, "Locked, and warded from both sides. The key is upstairs, with the heretics. A rope hangs from a window on the north wall.") end,
+    elseText = function() return NPCText(44318, "The front door stands open.") end,
+    failText = function() return NPCText(44319, "Locked, and warded from both sides. The key is upstairs, with the heretics. A rope hangs from a window on the north wall.") end,
     run = function()
         SetQBit(QBit(113125))
         SetAutonote(4461)
-        evt.SimpleMessage(NPCText(44315, "The key turns and the heretics' wards on the door die with a small, sulky pop."))
+        evt.SimpleMessage(NPCText(44317, "The key turns and the heretics' wards on the door die with a small, sulky pop."))
     end,
 }
 
 XeenQuests.hooks["q-d6.humble"] = {
     once = 113124,
-    elseText = function() return NPCText(44309, "Nothing here.") end,
+    elseText = function() return NPCText(44311, "Nothing here.") end,
     run = function()
         SetQBit(QBit(113124))
-        evt.SimpleMessage(NPCText(44308, "Thank you for sparing my life. I shall be going now."))
+        evt.SimpleMessage(NPCText(44310, "Thank you for sparing my life. I shall be going now."))
     end,
 }
 
 XeenQuests.hooks["q-d6.l1_alcoves"] = {
     once = 113126,
-    elseText = function() return NPCText(44319, "The alcove is empty.") end,
+    elseText = function() return NPCText(44321, "The alcove is empty.") end,
     failStatus = true,
     elseStatus = true,
     run = function()
         SetQBit(QBit(113126))
-        evt.StatusText(NPCText(44318, "Disc. Two of them, Energy Disks, set in the alcoves like offerings. Mok will not miss them."), 6)
+        evt.StatusText(NPCText(44320, "Disc. Two of them, Energy Disks, set in the alcoves like offerings. Mok will not miss them."), 6)
     end,
 }
 
 XeenQuests.hooks["q-d6.pious"] = {
     once = 113128,
-    elseText = function() return NPCText(44311, "Nothing here.") end,
+    elseText = function() return NPCText(44313, "Nothing here.") end,
     run = function()
         SetQBit(QBit(113128))
-        evt.SimpleMessage(NPCText(44310, "Thank you for sparing my life. I shall be going now."))
+        evt.SimpleMessage(NPCText(44312, "Thank you for sparing my life. I shall be going now."))
     end,
 }
 
@@ -10747,7 +10759,7 @@ XeenQuests.hooks["q-d6.tower_key"] = {
 XeenQuests.hooks["q-d6.tower_rope"] = {
     run = function()
         SetQBit(QBit(113121))
-        evt.StatusText(NPCText(44307, "Hand over hand, past the arrow slits. Nobody looks out. The window at the top is open: heretics trust their wards, not their windows."), 6)
+        evt.StatusText(NPCText(44309, "Hand over hand, past the arrow slits. Nobody looks out. The window at the top is open: heretics trust their wards, not their windows."), 6)
     end,
 }
 

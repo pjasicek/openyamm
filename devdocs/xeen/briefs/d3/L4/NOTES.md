@@ -442,3 +442,7 @@ The review of the seventh session's tour (`tour/sheet2_*.jpg`) asked for five ch
   same tops (`places.py SINK`); `things.overhang` 0.
 - F58's ruin course: `faces.on_land` 10 → 3 (rim_watch gone; vespar_ruin 1, sc_guild_light 1 and the Wrath bridge's
   deck left).
+- D-196 (2026-11-26, A6 doors): the Great Eastern Tower's 192 x 320 door shows the tower kit's `xvtdoor` once,
+  fitted over the leaf (`classic_kit.py`), not MM7's framed `hkm1d` (1.5 doors). Audit `doors.*` 0 (the 8 kit-window
+  `feature_repeated` stay, as before), door_check 0, 3 of 3 playtests; installed with its bake 19:32. Captures
+  `output/xeen_fb/p6_doors/shots/d3_installed/`.

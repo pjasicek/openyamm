@@ -406,8 +406,11 @@ EXTRA = {
         'platforms': [{'id': 'platform:roof_gallery', 'rise': 32, 'outline': rect(-192, 1408, 128, 2048), 'base': 608,
                        'surface': RUBBLE, 'top_surface': MARBLE, 'bottom_surface': BEAMS,
                        'notes': "The head of the stair, level with the roof (2560)."}],
+        # F76 (XD-11 p1, 2026-11-26): the riser surface named; it was the room's wall, here the sky, so the risers and
+        # the flight's sides drew the sky (tools/xeen/check_clipping.py sky.solid).
         'flights': [{'from': [-1536, 1792], 'to': [-192, 1792], 'open_below': 32, 'to_height': 2560, 'width': 384,
-                     'steps': 20, 'notes': "The Stairway to Heaven: one flight up the north wall into the open sky."}],
+                     'steps': 20, 'riser': RUBBLE,
+                     'notes': "The Stairway to Heaven: one flight up the north wall into the open sky."}],
         'notes': "The top floor to the roof (1920 to 2560), open to the sky.",
     },
     'library': {
@@ -602,3 +605,25 @@ for _r in R:
     if _w:
         EXTRA.setdefault(_r, {}).setdefault('walls', []).extend(_w)
 EXTRA['roof']['parapets'] = merlons()
+
+
+# F76 (XD-11 p2, 2026-11-26): the doorway from the Stairway to Heaven onto the roof (448 high, its lintel at 3,008)
+# stood in a wall that is only a parapet (both rooms' rubble band ends at 2,688, sky above), so its jambs and lintel
+# stood as a bare frame in the sky (tools/xeen/check_clipping.py piece.free). The wall round it is built up to 3,136
+# on both sides: the stairway's east wall and 128 of its side walls next to it, the roof's wall over the stair and
+# the wall's end (128) on the roof's side.
+HEAD_TOP = 3136
+_HEAD = {'surface': RUBBLE, 'notes': "The stair head: the wall round the doorway onto the roof, up over its lintel."}
+_SW = walls_of('stairway')
+_SW_LEN = [abs(q[0] - p[0]) + abs(q[1] - p[1]) for p, q in _SW]
+EXTRA['stairway'].setdefault('walls', []).extend([
+    {'wall': 0, 'panels': [dict(_HEAD, offset=_SW_LEN[0] - 128, length=128, bottom=768, height=HEAD_TOP - 2688)]},
+    {'wall': 1, 'panels': [dict(_HEAD, offset=0, length=_SW_LEN[1], bottom=768, height=HEAD_TOP - 2688)]},
+    {'wall': 2, 'panels': [dict(_HEAD, offset=0, length=128, bottom=768, height=HEAD_TOP - 2688)]},
+])
+EXTRA['roof'].setdefault('walls', []).extend([
+    {'wall': edge_index('roof', [256, 2048]), 'panels': [dict(_HEAD, offset=0, length=768, bottom=128,
+                                                              height=HEAD_TOP - 2688)]},
+    {'wall': edge_index('roof', [256, 1280]), 'panels': [dict(_HEAD, offset=0, length=128, bottom=128,
+                                                              height=HEAD_TOP - 2688)]},
+])

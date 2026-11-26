@@ -1,0 +1,66 @@
+# D-200 (U-19, 2026-11-26): D4's lake octopods are MM6's sea serpents' kind (classic AI, the Swimmer kind walks on
+# water, the Water ink), kept in their basins by the placed leash (1,500). A Discord player's solo hero stood on the
+# shore by the Great Octopod and was "not attacked" (D-36's MM9 swimmer never perceived a target on land). Here:
+#   1. the town leg: a solo hero (level 50) at the end of Lakeside's jetty facing the lake for 30 s is not inked
+#      (the octopods' relation `short`, 2,560, plus their leash stays off the jetty, D-200 (3));
+#   2. the shore leg: on the north beach of the west basin (cell 66.5, 55.5: dry land, about 2,190 from group 4's
+#      Great Octopod at (512, 2304)), facing the water, the octopod notices the hero, comes to its leash edge and
+#      shoots its ink (the decision trace's attack_ranged on the party; the only hostile within 5,120) and the hero
+#      is hurt within 15 s (about 45 a shot; 82 of 290 hit points were left at 15 s, so 30 s would kill a level-50
+#      solo Knight: the hero steps back out of range or sight, D-200's "Solo vs party");
+#   3. containment: every octopod (actors 14-18, rows 11470/11471) still over water within its leash (+150) of home.
+# No clear_hostiles. Run: tools/heavy.sh 6 build-xeen/game/openyamm --world xeen --map xeen_d4.odm
+#   --headless-run-scenario tests/scenarios/xeen/d4_octopods_shore.yml --scenario-no-color
+id: xeen.d4_octopods_shore
+title: "D4: the lake octopods shoot their ink at a party on the shore, never in town, and stay in the water (D-200)"
+world: xeen
+mode: faithful
+tags: [xeen, outdoor, regression]
+steps:
+  - new_game_flow:
+      start_map: xeen_d4.odm
+      party:
+        gold: 0
+        food: 10
+        members:
+          - {name: Solo, class: Knight, level: 50, skills: [], equipment: {}}
+  - advance_runtime: {seconds: 4, present_dialogs: true}
+  - console: {line: "arena trace on"}
+  # 1. Town leg: the jetty's end (JETTY_END, cell 72, 79.6), facing the lake (north).
+  - set_pose: {map: xeen_d4.odm, x: 4096, y: -7987, z: 1120, yaw: 1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 30}
+  - assert: {party_position: {x: 4096, y: -7987, radius: 200}}
+  - assert: {party_health: {full: true}}
+  - assert: {ai_trace: {actor_index: 14, decision: attack_ranged, max_count: 0}}
+  - assert: {ai_trace: {actor_index: 15, decision: attack_ranged, max_count: 0}}
+  - assert: {ai_trace: {actor_index: 16, decision: attack_ranged, max_count: 0}}
+  - assert: {ai_trace: {actor_index: 17, decision: attack_ranged, max_count: 0}}
+  - assert: {ai_trace: {actor_index: 18, decision: attack_ranged, max_count: 0}}
+  # 2. Shore leg: the west basin's north beach, facing group 4's Great Octopod (11471).
+  - set_pose: {map: xeen_d4.odm, x: 1280, y: 4352, z: 1056, yaw: -1.9296, pitch: 0.0}
+  - advance_runtime: {seconds: 6}
+  - assert: {actor_visible: {actor_index: 15, monster_id: 11471, combat_targeting_party: true, report_state: true}}
+  - advance_runtime: {seconds: 9}
+  - assert: {party_position: {x: 1280, y: 4352, radius: 200}}
+  - assert: {party_health: {full: false}}
+  - assert: {ai_trace: {actor_index: 15, decision: attack_ranged, target: party, min_count: 2}}
+  # The hurt is the octopod's ink (its row's Water missile, the attack_ranged above): it is the only living hostile
+  # within 5,120 of the hero.
+  - assert: {actor_count: {hostile: true, near: [1280, 4352, 5120], max: 1}}
+  - assert: {actor_count: {monster_id: 11471, hostile: true, near: [1280, 4352, 5120], min: 1}}
+  # 3. Containment: every octopod over water within its leash (+150) of home.
+  - assert:
+      actor_visible: {actor_index: 14, monster_id: 11470, dead: false, over_water: true, report_state: true,
+                      near: {x: -2560, y: 512, max_distance: 1650}}
+  - assert:
+      actor_visible: {actor_index: 15, monster_id: 11471, dead: false, over_water: true, report_state: true,
+                      near: {x: 512, y: 2304, max_distance: 1650}}
+  - assert:
+      actor_visible: {actor_index: 16, monster_id: 11470, dead: false, over_water: true, report_state: true,
+                      near: {x: 11264, y: -768, max_distance: 1650}}
+  - assert:
+      actor_visible: {actor_index: 17, monster_id: 11470, dead: false, over_water: true, report_state: true,
+                      near: {x: 15104, y: -1280, max_distance: 1650}}
+  - assert:
+      actor_visible: {actor_index: 18, monster_id: 11471, dead: false, over_water: true, report_state: true,
+                      near: {x: 10752, y: -5120, max_distance: 1650}}

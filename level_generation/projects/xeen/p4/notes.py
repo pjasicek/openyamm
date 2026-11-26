@@ -222,8 +222,10 @@ def notes(f):
              "hold, not at L1's points (-128, -3840) and (1280, -4736).")
     T.append("- The test's floor stands at (-2880, 1664), off the walk line through the east gate (L1 (-2688, 1280)).")
     T.append("- The Great Octopods start mid-sea, 512 over the bed (-1,024), with `above_floor` (merge point 27) and "
-             "`leash: 1280` (indoor leash since merge point 26); with MM9's swimmer profile they are bound to their "
-             "volume (session 18).")
+             "`leash: 1280` (indoor leash since merge point 26); the Swimmer kind binds them to their volume (D-200: "
+             "MM6's sea serpents' way, classic AI and the ink, no MM9 profile, no Aggressor bit).")
+    T.append("- D-200 (3): the north group's home moved from L1's (-1024, 4224) to (0, 5120), so its leash plus the "
+             "octopods' notice range (2,560) stays off the Whirlpool Court and the arrival.")
     T.append("- The waterspout, bell frame and tide pool are nudged 420 inside their terraces' rims.\n")
     T.append("## Open items\n")
     T += PC.notes_section('water', [

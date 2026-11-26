@@ -15,6 +15,7 @@ sectors:
 events:
   evt:arrive: 1
   evt:bench: 2
+  evt:campfire_barracks_fire: 25
   evt:chest_pay: 3
   evt:chest_plunder: 4
   evt:chest_throne: 5
@@ -49,6 +50,7 @@ containers:
   chest:throne: 2
 map_vars:
   once.arrive: 0
+  once.campfire_barracks_fire: 3
   once.guards_dead: 1
   once.king_dead: 2
 lights:

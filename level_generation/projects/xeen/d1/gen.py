@@ -1272,6 +1272,16 @@ def build():
             p['bottom'] = 384 * k
         if k == 4:
             p['roof_pitch'] = 70
+        if k == 0:
+            # D-180 rule a (2026-11-26): the door at least as wide as DD-02's way back out (192 x 320) and within 64 of
+            # its height: a 192 bay 320 high in the west side (was the default 108 x 256); the ground storey's radius
+            # 440 (a side 228: the studio's jambs are at least 16; the string courses at 448 still stand 8 proud); the
+            # door the tower kit's xvtdoor laid once over the leaf (classic_kit.py, D-196)
+            p['radius'] = 440
+            jamb = round((2 * 440 * math.sin(math.pi / 12) - 192) / 2, 3)
+            p['walls'] = {DD02_WALL: [['wall', jamb], ['door', 192], ['wall', jamb]]}
+            p['upper_walls'] = {DD02_WALL: [['wall', jamb], ['wall', 192], ['wall', jamb]]}
+            p['door_height'] = 320
         ELLINGER_PARTS.append(p)
         if k < 4:
             ELLINGER_PARTS.append({'id': 'course_%d' % (k + 1), 'shape': 'round', 'at': [512, 512], 'radius': 448,
@@ -1279,7 +1289,7 @@ def build():
                                    'windows': 'none', 'textures': {'wall': 'hkm3b', 'roof': 'csbr128'}})
     dd02 = {'id': 'thing:ellinger_tower', 'kind': 'building', 'at': [ELLINGER_C[0] - 1.0, ELLINGER_C[1] - 1.0],
             'size': [2.0, 2.0], 'kit': 'grey', 'facing': 'w', 'floor': TOWN_H, 'title': "Ellinger's Tower",
-            'textures': {'wall': 'hkm1b1', 'window': 'hkm1bw', 'door': 'hkm1d', 'roof': 'xtslatew'},
+            'textures': {'wall': 'hkm1b1', 'window': 'hkm1bw', 'door': 'xvtdoor', 'roof': 'xtslatew'},
             'parts': ELLINGER_PARTS,
             'door': {'part': 'base', 'wall': DD02_WALL},
             'condition': {'lua': hcall('m17.tower_door')}}
@@ -1349,7 +1359,10 @@ def build():
                'else evt.SetMapVar("d1_letters", 0) '
                'evt.StatusText("A letter on the lid reads: %s. It will not shut. All nine lids spring open again.") end'
                % (hcall('q-d4.letter_chests'), n, ch, hcall('q-d4.letter_chests'), n, ch, ch))
-        S(lidded('thing:letter_chest_%d' % (i + 1), (65.25 + 0.33 * i, 63.55), 'A chest with a letter on its lid', lua))
+        # F74 (2026-11-26, D1 p4 "put the letters on, like the other chests with numbers"): the hover names the
+        # letter as the numbered row names its number
+        S(lidded('thing:letter_chest_%d' % (i + 1), (65.25 + 0.33 * i, 63.55),
+                 'A chest with the letter %s on its lid' % ch, lua))
     S({'id': 'thing:runaway_chest', 'kind': 'chest', 'at': [54.0, 62.6], 'title': 'A chest on little brass feet',
        'chest': {'level': 3, 'random_items': 3}, 'condition': {'lua': hcall('m17.runaway_chest')}})
     # dressing in town (DRESSING.md: pairs against walls, none before a door)
@@ -1402,15 +1415,20 @@ def build():
        'rise': -96, 'piers': 0, 'railing': 'rope', 'towers': [96, 96, 352], 'kerb_invisible': 352,
        'textures': {'deck': '7trimda'}, 'title': 'The rope bridge', 'hidden': True,
        'notes': "Mended once q-d1.court_won (A3's q-d1.sabotage): shown by evt:sabotage."})
-    S({'id': 'thing:mill_burnt', 'kind': 'building', 'at': [77.8, 45.2], 'size': [1.4, 1.6], 'kit': 'grey',
+    # F73 (2026-11-26, D1 p3 "the mill is in the air"; town_fit `houses.plinth`): the mill stood 1.4 cells wide from
+    # the wall road to x 79.2, over the gorge's lip, its floor 268 over the bank on a stone plinth; now 1.1 wide from
+    # x 77.5 (the road's edge) to 78.6, the plinth at most 140 over the falling lip
+    S({'id': 'thing:mill_burnt', 'kind': 'building', 'at': [77.5, 45.2], 'size': [1.1, 1.6], 'kit': 'grey',
        'door': 'none', 'title': "Miller Dunn's mill", 'floor': 1100,
        'ruin': {'height': [96, 384], 'gaps': 0.4, 'thickness': 48, 'seed': 7},
-       'parts': [{'id': 'm', 'at': [64, 64], 'size': [589, 692], 'wall_height': 384, 'roof': 'none',
+       'parts': [{'id': 'm', 'at': [48, 64], 'size': [467, 692], 'wall_height': 384, 'roof': 'none',
                   'windows': 'none', 'textures': {'wall': 't06a01'}}]})
-    S({'id': 'thing:mill', 'kind': 'building', 'at': [77.8, 45.2], 'size': [1.4, 1.6], 'kit': 'grey',
+    S({'id': 'thing:mill', 'kind': 'building', 'at': [77.5, 45.2], 'size': [1.1, 1.6], 'kit': 'grey',
        'door': 'none', 'title': "Miller Dunn's mill", 'floor': 1100, 'hidden': True,
-       'parts': [{'id': 'm', 'at': [64, 64], 'size': [589, 692], 'wall_height': 448, 'roof': 'gable',
-                  'roof_pitch': 45, 'windows': 'alternate',
+       # R2 (2026-11-26, D1 p3's roof "texture problem"): the studio closes a verge's underside with a soffit, so the
+       # mill takes the classic kit's eaves and verge (common/classic_kit.py EAVES, VERGE): a roof with thickness
+       'parts': [{'id': 'm', 'at': [48, 64], 'size': [467, 692], 'wall_height': 448, 'roof': 'gable',
+                  'roof_pitch': 45, 'windows': 'alternate', 'eaves': 24, 'verge': 40,
                   'textures': {'wall': 't06a01', 'window': 't06a04', 'roof': 'xlslatemos'}}]})
     S({'id': 'thing:mill_chest', 'kind': 'chest', 'at': [78.6, 47.3], 'title': "The miller's strongbox",
        'chest': {'level': 2, 'random_items': 2}})
@@ -1420,9 +1438,12 @@ def build():
     # sides open). Now as X1's: a dark arched door in a stone face in the gorge's west wall, its sill on the gorge floor,
     # the face up to the vale's edge, the frame running back into the slope; no tunnel and no water.
     outfall = {'id': 'thing:dd01_outfall', 'kind': 'doorway', 'at': list(OUTFALL_AT), 'turn': -90,
-               'floor': OUTFALL_FLOOR, 'width': 224, 'height': 256, 'arch': 'round', 'sides': 8, 'depth': 512,
+               # D-189 (2026-11-26): a built door shows a door picture, its leaf at most 128 behind the frame: MM7's
+               # iron grate c1d1 (a seamless grate on darkness, tiles both ways), 96 back (was a black 7solid01 face
+               # 512 back, read as a texture missing)
+               'floor': OUTFALL_FLOOR, 'width': 224, 'height': 256, 'arch': 'round', 'sides': 8, 'depth': 96,
                'frame_width': 576, 'frame_height': OUTFALL_TOP - OUTFALL_FLOOR,
-               'textures': {'door': '7solid01', 'wall': 'cswl128'},
+               'textures': {'door': 'c1d1', 'wall': 'cswl128'},
                'title': 'An iron grate', 'hint': "The sewer's outfall", 'condition': {'lua': hcall('m16.outfall')},
                'notes': ("DD-01's outfall (D-26): a two-way exit once A8's bar is lifted from inside (A3's m16.outfall, "
                          "its fail text 'An iron grate, barred from inside.').")}
@@ -1462,7 +1483,10 @@ def build():
        'kerb': 96, 'textures': {'deck': 'csbr128', 'side': 'cswl128', 'pier': 'cswl128'}, 'title': 'The East Bridge'})
     # F59 (2026-11-25, town_fit `things.overhang`): the first tent at (86.5, 23.0) hung 578 over the gorge's lip
     # (the land falls to 832 west of x 86 and north of y 23): on the camp's shelf at 1,536
-    for i, (x, y) in enumerate([(87.0, 23.9), (90.0, 22.8)]):
+    # F73 (2026-11-26, D1 p2 "tent is in air"; town_fit `things.edge`): at (87.0, 23.9) the first tent's west end stood
+    # 0.1 cell from the gorge's lip (the land falls 700 to the river west of x 86 and north of y 23): 0.7 cell east and
+    # half a cell south, half a cell clear of both drops; the Sardaj below it half a cell south with it
+    for i, (x, y) in enumerate([(87.7, 24.4), (90.0, 22.8)]):
         S({'id': 'thing:sardaj_tent_%d' % (i + 1), 'kind': 'tent', 'at': [x, y], 'size': [896, 704], 'height': 384,
            'open': True, 'title': 'A Sardaj tent',
            # A6 s27 (D-72 rule 3): the source's question on Yes/No buttons, no message before it
@@ -1545,11 +1569,21 @@ def build():
     WT_NORTH = '6'
     wt = {'id': 'thing:western_tower', 'kind': 'building', 'at': [WT_C[0] - WT_R - 0.1, WT_C[1] - WT_R - 0.1],
           'size': [2 * WT_R + 0.2, 2 * WT_R + 0.2], 'kit': 'grey', 'facing': 's', 'floor': TOWER_H,
-          'title': 'The Western Tower', 'textures': {'wall': 'hkm3b', 'window': 'hkm3elw', 'door': 'hkm3dr',
+          'title': 'The Western Tower', 'textures': {'wall': 'hkm3b', 'window': 'hkm3elw', 'door': 'xvtdoor',
                                                      'roof': 'xtslate'},
           'parts': [{'id': 'base', 'shape': 'round', 'at': [768, 768], 'radius': 640, 'sides': 12,
                      'wall_height': 1280, 'roof': 'none', 'windows': 'none', 'textures': dict(ASHLAR),
-                     'upper_walls': {WT_NORTH: wt_bays(640, 'slit')}},
+                     # D-180 rule a (2026-11-26): DD-05's way back out is 160 x 320: a 160 bay 320 high in the south
+                     # side (was the default 110 x 256); the door the tower kit's xvtdoor laid once over the leaf
+                     # (classic_kit.py, D-196)
+                     'walls': {WT_WALL: [['wall', round((2 * 640 * math.sin(math.pi / 12) - 160) / 2, 3)],
+                                         ['door', 160],
+                                         ['wall', round((2 * 640 * math.sin(math.pi / 12) - 160) / 2, 3)]]},
+                     'door_height': 320,
+                     'upper_walls': {WT_NORTH: wt_bays(640, 'slit'),
+                                     WT_WALL: [['wall', round((2 * 640 * math.sin(math.pi / 12) - 160) / 2, 3)],
+                                               ['wall', 160],
+                                               ['wall', round((2 * 640 * math.sin(math.pi / 12) - 160) / 2, 3)]]}},
                     {'id': 'mid', 'shape': 'round', 'at': [768, 768], 'radius': 576, 'sides': 12, 'bottom': 1280,
                      'wall_height': 1024, 'roof': 'none', 'windows': 'none',
                      'textures': dict(ASHLAR, roof='cswl128'),
@@ -1696,8 +1730,11 @@ def build():
                 kal['door'] = dict(STABLE_DOOR)
                 kal['textures']['door'] = STABLE_WING
                 gate = next(p for p in parts if p['id'] == 'stable_gate')
-                gate['walls'] = {'n': [['wall', 192], ['door', 256], ['wall', 192]]}
-                gate['upper_walls'] = {'n': [['wall', 192], ['wall', 256], ['wall', 192]]}
+                # D-180 (2026-11-26, rule b: walls 768 + battlements on a 640 front): two 192 leaves 384 high, the
+                # wing at its own 1:2 (was 2 x 128 x 256)
+                gate['walls'] = {'n': [['wall', 128], ['door', 384], ['wall', 128]]}
+                gate['upper_walls'] = {'n': [['wall', 128], ['wall', 384], ['wall', 128]]}
+                gate['door_height'] = 384
                 kal['effects'] = [{'text': "The stable yard's gate is barred from inside."}]
             S(kal)
     for restored in (False, True):
@@ -1815,8 +1852,9 @@ def build():
     # the Sardaj (Q-D12): peaceful until q-d12.hostile or camp_burned (evt:sardaj)
     # F63 (2026-11-25, check_spawn_clear): the chief stood 64 from sardaj_tent_1's face (78 wanted); with the tent
     # moved onto the shelf (87.0, 23.9) he and the seven barbarians (0.4 cell south) stand south of it
-    for row, at, n in ((ROW['barbarian'], (88.0, 25.4), 7), (ROW['sardaj'], (89.4, 26.2), 3),
-                       (ROW['barbarian_chief'], (87.2, 25.2), 1)):
+    # F73 (2026-11-26): half a cell south with the first tent (87.7, 24.4)
+    for row, at, n in ((ROW['barbarian'], (88.0, 25.9), 7), (ROW['sardaj'], (89.4, 26.7), 3),
+                       (ROW['barbarian_chief'], (87.2, 25.7), 1)):
         actors.append({'monster': str(row), 'at': list(at), 'count': n, 'spread': 1.4 if n > 1 else 0,
                        'group': SARDAJ_GROUP, 'hostile': False})
     actors.append({'monster': str(ROW['yog']), 'npc': 4953, 'at': [89.2, 24.0], 'spread': 0, 'group': SARDAJ_GROUP,

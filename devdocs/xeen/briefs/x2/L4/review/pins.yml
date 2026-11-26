@@ -1,5 +1,5 @@
 format: 1
-counter: 17
+counter: 49
 pins:
   - id: pin:p1
     text: z-fighting
@@ -14,8 +14,16 @@ pins:
     picture: .oymap/pins/pictures/p1.png
     author: user
     created: 2026-11-23T18:19:25
-    status: open
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
     from: 20261123-181925-xeen_x2.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F31 (2026-11-24): the Rangers' tent's inner canvas is drawn once, no second face on the same points; no flicker on the current build."
+        created: 2026-11-26T08:59:37
+        revision: 49d779077b4ff185d204f2e28b2e5885
+        status: resolved
+        pictures: [.oymap/pins/pictures/p1-r1.png]
   - id: pin:p2
     text: this does not look good
     source: game
@@ -29,8 +37,16 @@ pins:
     picture: .oymap/pins/pictures/p2.png
     author: user
     created: 2026-11-23T18:23:36
-    status: open
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
     from: 20261123-182336-xeen_x2.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F49: the quay houses now stand flush against the retaining wall (no slot behind them), in the classic half-timber kit."
+        created: 2026-11-26T08:59:39
+        revision: 49d779077b4ff185d204f2e28b2e5885
+        status: resolved
+        pictures: [.oymap/pins/pictures/p2-r1.png]
   - id: pin:p3
     text: not working
     source: game
@@ -44,8 +60,14 @@ pins:
     picture: .oymap/pins/pictures/p3.png
     author: user
     created: 2026-11-23T18:24:29
-    status: open
+    status: claimed
+    claimed_by: agent:xeen-fb5-outdoor
     from: 20261123-182429-xeen_x2.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F52: Lindon's offer never worked; a decider gave him an honest line (source/npcs/x2.yml 4136, topic 16: the robbers took every job). Data, not the map; left for the user to accept."
+        created: 2026-11-26T08:59:40
+        revision: 49d779077b4ff185d204f2e28b2e5885
   - id: pin:p4
     text: maybe fill the gap
     source: game
@@ -59,8 +81,16 @@ pins:
     picture: .oymap/pins/pictures/p4.png
     author: user
     created: 2026-11-23T18:25:52
-    status: open
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
     from: 20261123-182552-xeen_x2.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F48/D-170: the Great Bridge's end meets the land on a pad; what remains is a low kerb step the party walks over."
+        created: 2026-11-26T08:59:39
+        revision: 49d779077b4ff185d204f2e28b2e5885
+        status: resolved
+        pictures: [.oymap/pins/pictures/p4-r1.png]
   - id: pin:p5
     text: does not look good
     source: game
@@ -74,8 +104,14 @@ pins:
     picture: .oymap/pins/pictures/p5.png
     author: user
     created: 2026-11-23T18:27:51
-    status: open
+    status: claimed
+    claimed_by: agent:xeen-fb5-outdoor
     from: 20261123-182751-xeen_x2.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "Not judged yet: the pin's pose now stands inside the slope; the house beside the quay wall at its west end needs a better-placed look (next session)."
+        created: 2026-11-26T08:59:41
+        revision: 49d779077b4ff185d204f2e28b2e5885
   - id: pin:p6
     text: looks not good
     source: game
@@ -89,8 +125,16 @@ pins:
     picture: .oymap/pins/pictures/p6.png
     author: user
     created: 2026-11-23T18:31:19
-    status: open
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
     from: 20261123-183119-xeen_x2.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F49: the stalls' floor lies under the court's paving (no cut strip) and the barrel pair stands off the stall's corner; the pair's keg now also stands on the land, not in the quay slab (F72)."
+        created: 2026-11-26T08:59:37
+        revision: 49d779077b4ff185d204f2e28b2e5885
+        status: resolved
+        pictures: [.oymap/pins/pictures/p6-r1.png]
   - id: pin:p7
     text: Sprites are giving no loot. Even the bosses.
     source: game
@@ -104,8 +148,15 @@ pins:
     picture: .oymap/pins/pictures/p7.png
     author: user
     created: 2026-11-23T19:16:07
-    status: open
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
     from: 20261123-191607-xeen_x2.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F54 (2026-11-24, D-182): Sprites leave a corpse with their loot (monsters.yml corpse: dying); tests/scenarios/xeen/sprites_leave_loot.yml passes on the current build (2026-11-26)."
+        created: 2026-11-26T08:59:39
+        revision: 49d779077b4ff185d204f2e28b2e5885
+        status: resolved
   - id: pin:p8
     text: Sprites are annoying.
     source: game
@@ -119,8 +170,14 @@ pins:
     picture: .oymap/pins/pictures/p8.png
     author: user
     created: 2026-11-23T19:17:04
-    status: open
+    status: claimed
+    claimed_by: agent:xeen-fb5-outdoor
     from: 20261123-191704-xeen_x2.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F54: the Medusa Sprite's touch is Weak, not Stone; that they hover out of melee reach is engine/data (F77, the decider and the engine agent own it), not the map."
+        created: 2026-11-26T08:59:40
+        revision: 49d779077b4ff185d204f2e28b2e5885
   - id: pin:p9
     text: missing texture
     source: game
@@ -134,8 +191,16 @@ pins:
     picture: .oymap/pins/pictures/p9.png
     author: user
     created: 2026-11-23T19:30:06
-    status: open
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
     from: 20261123-193006-xeen_x2.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F50: ruins carry no windows and their broken courses take the wall's stone (common/wild.py ruin_windows); no black slot or strip on the current build."
+        created: 2026-11-26T08:59:38
+        revision: 49d779077b4ff185d204f2e28b2e5885
+        status: resolved
+        pictures: [.oymap/pins/pictures/p9-r1.png]
   - id: pin:p10
     text: clean it up a bit
     source: game
@@ -149,8 +214,16 @@ pins:
     picture: .oymap/pins/pictures/p10.png
     author: user
     created: 2026-11-23T19:31:06
-    status: open
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
     from: 20261123-193106-xeen_x2.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F48/D-170: the pier's land end sits on a level pad at the deck's height; the deck no longer comes out of a mound."
+        created: 2026-11-26T08:59:37
+        revision: 49d779077b4ff185d204f2e28b2e5885
+        status: resolved
+        pictures: [.oymap/pins/pictures/p10-r1.png]
   - id: pin:p11
     text: z-fighting
     source: game
@@ -200,3 +273,81 @@ pins:
         created: 2026-11-25T09:56:22
         revision: 46351885f88bf1643addb64bb7374637
         pictures: [.oymap/pins/pictures/p12-r2.png]
+  - id: pin:p13
+    text: "befor the patch, it did not clip, but now it clipped"
+    source: game
+    world: xeen
+    map: xeen_x2.odm
+    pose:
+      position: [2177.791, 8119.065, 1060]
+      yaw_radians: 2.831
+      pitch_degrees: -21.496
+      heading_yaw_units: 923
+    picture: .oymap/pins/pictures/p13.png
+    author: user
+    created: 2026-11-25T00:54:05
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
+    from: 20261125-005405-xeen_x2.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F72: the keg of prop 15 had moved (F49, 3.3) into the quay wall's slab (y 48.1; the slab's back edge 48.0) and the studio stands decorations on the land, 73 under the slab's paving. x2/gen.py puts it north of its barrel (47.4); tools/xeen/check_props_support.py support.sunk now flags any prop under a structure's top (all 13 outdoor maps: X2's keg, fixed, and an X4 brazier, reported)."
+        created: 2026-11-26T08:59:36
+        revision: 49d779077b4ff185d204f2e28b2e5885
+        status: resolved
+        pictures: [.oymap/pins/pictures/p13-r1.png]
+  - id: pin:p14
+    text: Make the door bigger. Inside it is bigger.
+    source: game
+    world: xeen
+    map: xeen_x2.odm
+    pose:
+      position: [-1025.959, -17754.627, 1016.771]
+      yaw_radians: 4.717
+      pitch_degrees: 5.406
+      heading_yaw_units: 1537
+    picture: .oymap/pins/pictures/p14.png
+    author: user
+    created: 2026-11-25T13:38:26
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
+    from: 20261125-133826-xeen_x2.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "D-180: the Temple of Yak's door is a double door of the tower kit's wing (xvtdoorw, two 192 leaves, the second mirrored), bay 384. Its height stays 256 for now: the studio applies door_height only to a door taller than its walls; a request to the engine agent makes it 384."
+        created: 2026-11-26T08:59:36
+        revision: 49d779077b4ff185d204f2e28b2e5885
+        status: resolved
+        pictures: [.oymap/pins/pictures/p14-r1.png]
+      - author: agent:xeen-fb5-outdoor2
+        text: "R4 (2026-11-26): the Temple of Yak's double door now stands 384 x 384 (two 192 leaves of xvtdoorw), as D-180 set it; X2 installed 10:44."
+        created: 2026-11-26T10:45:34
+        revision: 5a2d544bfc10418860e8c555571d8d60
+        pictures: [.oymap/pins/pictures/p14-r2.png]
+  - id: pin:p15
+    text: "many roofs have missing textures, or i would say there is something missing"
+    source: game
+    world: xeen
+    map: xeen_x2.odm
+    pose:
+      position: [90.797, 13385.835, 1025]
+      yaw_radians: 5.337
+      pitch_degrees: 29.384
+      heading_yaw_units: 1740
+    picture: .oymap/pins/pictures/p15.png
+    author: user
+    created: 2026-11-25T20:29:37
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor2
+    from: 20261125-202937-xeen_x2.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F71: the gables' verge (40 past the wall) shows the roof's shingles from below, with only a 24 barge board: there is no soffit under a verge, as eaves have. A studio change (a soffit in the trim under each verge) is requested; it reaches every classic-kit house on the 17 Xeen maps with verges."
+        created: 2026-11-26T08:59:41
+        revision: 49d779077b4ff185d204f2e28b2e5885
+      - author: agent:xeen-fb5-outdoor2
+        text: "F71/R2 (2026-11-26): every classic-kit roof with a verge now has a soffit under the run past the gable (the studio's raiseRoof, released 10:09), so from the street the gables show the eaves' underside, not a thin plank edge. Every classic-kit house in Xeen gets it at its map's rebuild; X2 rebuilt and installed with its bake 10:44 (after picture at the pin's pose)."
+        created: 2026-11-26T10:45:34
+        revision: 5a2d544bfc10418860e8c555571d8d60
+        status: resolved
+        pictures: [.oymap/pins/pictures/p15-r2.png]

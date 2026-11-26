@@ -357,7 +357,7 @@ points:
   - {id: entrance:fd03_door, at: [55, 59], facing: n}
   - {id: entrance:east_road, at: [107, 58], facing: w}
   - {id: entrance:north_road, at: [50, 20], facing: s}
-  - {id: entrance:xd09_door, at: [100, 71], facing: s}
+  - {id: entrance:xd09_door, at: [100, 70], facing: s}
   - {id: entrance:xd10_north, at: [96, 45], facing: n}
   - {id: entrance:xd10_south, at: [77, 82], facing: e}
   - {id: junction:lagoon_fork, at: [98, 60]}
@@ -1329,13 +1329,13 @@ structures:
     seed: 11
   - id: thing:xd09_door
     kind: doorway
-    at: [100.5, 71.6]
+    at: [100.5, 70.85]
     turn: 180
     height: 352
     width: 256
-    depth: 384
+    depth: 128
     hood: 64
-    textures: {door: 7solid01, wall: cwb1}
+    textures: {door: xvtdoor, wall: cwb1}
     floor: 960
     title: Enter the Golem Dungeon
     into: {map: xeen_xd09.blv, arrival: entrance:x5, screen: {text: 5009}}
@@ -1462,12 +1462,13 @@ structures:
     kit: castle
     facing: n
     parts:
-      - {id: base, shape: round, at: [640, 640], radius: 544, sides: 10, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: xtslate, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 896, windows: none, roof: none}
+      - {id: base, shape: round, at: [640, 640], radius: 544, sides: 10, textures: {door: xvtdoorw, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: xtslate, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 896, walls: {"5": [[wall, 40], [door, 256], [wall, 40]]}, windows: none, roof: none, door_height: 384}
       - {id: base_band, shape: round, at: [640, 640], radius: 544, sides: 10, bottom: 896, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: gtrlwal1, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 256, windows: none, roof: none}
       - {id: top, shape: round, at: [640, 640], radius: 448, sides: 10, bottom: 1152, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: xtslate, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 512, windows: none, roof: none}
       - {id: top_band, shape: round, at: [640, 640], radius: 448, sides: 10, bottom: 1664, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: xtslate, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 256, windows: alternate, roof: cone, roof_pitch: 74}
     floor: 1500
     door:
+      leaves: 2
       part: base
       wall: "5"
     title: Darkstone Tower
@@ -1497,7 +1498,7 @@ structures:
     kit: timber
     facing: n
     parts:
-      - {id: storey_1, at: [256, 256], size: [1536, 1024], textures: {door: hkm2d, post_left: hkm2b, post_right: hkm2b, roof: xtslate, wall: hkm2b, window: hkm2bw}, wall_height: 256, windows: alternate, roof: hip, roof_pitch: 24}
+      - {id: storey_1, at: [256, 256], size: [1536, 1024], textures: {door: hkm2d, post_left: hkm2b, post_right: hkm2b, roof: xtslate, wall: hkm2b, window: hkm2bw}, wall_height: 256, walls: {n: [post_left, window, wall, window, wall, window, [door, 160], window, wall, window, wall, post_right]}, windows: alternate, roof: hip, roof_pitch: 24}
       - {id: storey_2, at: [352, 352], size: [1344, 832], bottom: 256, textures: {post_left: hkm2b, post_right: hkm2b, roof: xtslate, wall: hkm2b, window: hkm2bw}, wall_height: 256, windows: alternate, roof: hip, roof_pitch: 24}
       - {id: storey_3, at: [448, 448], size: [1152, 640], bottom: 512, textures: {post_left: hkm2b, post_right: hkm2b, roof: xtslate, wall: hkm2b, window: hkm2bw}, wall_height: 256, windows: alternate, roof: hip, roof_pitch: 24}
       - {id: storey_4, at: [544, 544], size: [960, 448], bottom: 768, textures: {post_left: hkm2b, post_right: hkm2b, roof: xtslate, wall: hkm2b, window: hkm2bw}, wall_height: 256, windows: alternate, roof: hip, roof_pitch: 24}
@@ -1658,7 +1659,7 @@ structures:
   - id: thing:outpost_bones_3
     kind: decoration
     at: [46.2, 94.6]
-    raise: -34
+    raise: -31
     decoration: 7dec18
   - id: thing:giants_cairn
     kind: chest
@@ -1676,7 +1677,7 @@ structures:
   - id: thing:cairn_3
     kind: decoration
     at: [50.2, 88.4]
-    raise: -75
+    raise: -88
     decoration: rock26
   - id: thing:giant_stone
     kind: decoration
@@ -1698,12 +1699,12 @@ structures:
   - id: thing:giant_stones_1
     kind: decoration
     at: [36.1, 84.4]
-    raise: -37
+    raise: -41
     decoration: rock26
   - id: thing:giant_stones_2
     kind: decoration
     at: [38, 84.2]
-    raise: -61
+    raise: -75
     decoration: rock26
   - id: thing:waters_great_magic
     kind: fountain

@@ -358,6 +358,13 @@ rooms:
     floor: 2560
     ceiling: 3584
     theme: theme:roof
+    walls:
+      - wall: 5
+        panels:
+          - {offset: 0, length: 768, bottom: 128, height: 448, surface: {texture: hwm2wall, size: [128, 256]}, notes: "The stair head: the wall round the doorway onto the roof, up over its lintel."}
+      - wall: 6
+        panels:
+          - {offset: 0, length: 128, bottom: 128, height: 448, surface: {texture: hwm2wall, size: [128, 256]}, notes: "The stair head: the wall round the doorway onto the roof, up over its lintel."}
     platforms:
       - {at: [1536, 1088], size: [384, 128], rise: 32, surface: {texture: xccloudsd, size: [256, 256]}, top_surface: {texture: xccloud, size: [256, 256]}, notes: A step of cloud.}
       - {at: [1536, 1216], size: [384, 128], rise: 64, surface: {texture: xccloudsd, size: [256, 256]}, top_surface: {texture: xccloud, size: [256, 256]}, notes: A step of cloud.}
@@ -532,10 +539,20 @@ rooms:
     floor: 1920
     ceiling: 3328
     theme: theme:skystair
+    walls:
+      - wall: 0
+        panels:
+          - {offset: 2048, length: 128, bottom: 768, height: 448, surface: {texture: hwm2wall, size: [128, 256]}, notes: "The stair head: the wall round the doorway onto the roof, up over its lintel."}
+      - wall: 1
+        panels:
+          - {offset: 0, length: 640, bottom: 768, height: 448, surface: {texture: hwm2wall, size: [128, 256]}, notes: "The stair head: the wall round the doorway onto the roof, up over its lintel."}
+      - wall: 2
+        panels:
+          - {offset: 0, length: 128, bottom: 768, height: 448, surface: {texture: hwm2wall, size: [128, 256]}, notes: "The stair head: the wall round the doorway onto the roof, up over its lintel."}
     platforms:
       - {id: platform:roof_gallery, rise: 32, surface: {texture: hwm2wall, size: [128, 256]}, outline: [[-192, 1408], [128, 1408], [128, 2048], [-192, 2048]], top_surface: {texture: 7tws1f, size: [128, 128]}, bottom_surface: {texture: hwm2rf, size: [128, 128]}, base: 608, notes: "The head of the stair, level with the roof (2560)."}
     flights:
-      - {from: [-1536, 1792], to: [-192, 1792], open_below: 32, to_height: 2560, width: 384, steps: 20, notes: "The Stairway to Heaven: one flight up the north wall into the open sky."}
+      - {from: [-1536, 1792], to: [-192, 1792], open_below: 32, to_height: 2560, width: 384, steps: 20, riser: {texture: hwm2wall, size: [128, 256]}, notes: "The Stairway to Heaven: one flight up the north wall into the open sky."}
     notes: "The top floor to the roof (1920 to 2560), open to the sky."
   - id: room:still
     name: Cold still

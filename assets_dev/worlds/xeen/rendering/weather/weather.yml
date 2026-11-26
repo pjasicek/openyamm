@@ -1,0 +1,6 @@
+# Xeen's own weather maps (D-184, 2026-11-26): merged over assets_dev/engine/rendering/weather/weather.yml (a world's
+# file holds only version, maps and flakes; GameDataLoader::weatherRules). bolster_maps.txt (tools/xeen/gen_maps.py from
+# source/map_rows.yml) decides which maps can rain or snow; this file only how often.
+version: 1
+maps:
+  xeen_x5.odm: {snow: 30}   # Winterkill Tundra: snowfields (as Kriegspire's); it never rains there

@@ -82,12 +82,22 @@ D-39, A8's entrance names). The project files here (and L2, L3) are written by
 - **The coven** (placed, A2's `xeen_coven` relations: hostile, friendly after `q-d22.joined` 113449): the Circle 8
   (Witches x5, Coven Witches x2, the Coven Mother), the reeds 6 (x4, x2); hidden by the load event once
   `XeenQuests.can("q-d22.coven_gone")` (the Head Witch dead, 113447); the Circle's chest and skulls stay.
-- **The octopods**: five placed swimmers (Octopod x3, Great Octopod x2; A2's `mm9_ai movement: swim` rows, A1's
-  outdoor water facts of merge point 18) in the two deep basins, each home 4,300 or more from the jetty, the Isle
-  landing and the waterfront, each on a home radius `leash: 1500` (`OCTOPOD_LEASH`; gen.py stops if a home radius
-  comes within 500 of land or 2,500 of those three; nearest land to a home 2,064, the East Skerry). The hostility
-  test: with the party on the Isle, the waterfront and the East Skerry they stay at home in the water; with the
-  party in the water the south basin's Great Octopod swims to its leash (1,499) and stops (`tools/octo_check.py`).
+- **The octopods** (D-200, U-19, 2026-11-26: "octopus should act like e.g. water elemental mm6 or the sea monster in
+  mm6 in hermits isle"): five placed water monsters (Octopod x3, Great Octopod x2) in the two deep basins, MM6's sea
+  serpents' kind (A2's rows 11470/11471: classic AI, `Fly N`, the `Swimmer` kind walks on water, the Water ink; no
+  MM9 swimmer profile). They are hostile by their relation `short` (2,560), with no Aggressor bit (the sketch's
+  `hostile: true` dropped: the bit makes a monster engaged from the start, noticing a party at the 10,240 engagement
+  range). Each is a post on a home radius `leash: 1500` (`OCTOPOD_LEASH`, enforced last on every step), so it never
+  leaves its basin. gen.py stops if a home radius comes within 500 of land, if the leash plus 2,560 reaches the jetty,
+  the Isle landing or the waterfront (`OCTOPOD_NOTICE`; every home is 2,800 or more), or if a Paralyze Octopod's home
+  less its leash is within 5,888 of an arrival (`D87_RANGE`). Homes: group 3 Octopod (59, 63) (moved from (60, 64)
+  for D-87), group 4 Great Octopod (65, 59.5), group 5 Octopod (86, 65.5), group 6 Octopod (93.5, 66.5), group 7
+  Great Octopod (85, 74) (groups 4 and 5 swapped their rows, so the count and Act IV's XP stay). A party on a basin's
+  beach within 2,560 of an octopod (the west basin's north beach at (66.5, 55.5) is 2,190 from group 4; the East
+  Skerry's south-west beach 2,300 from group 7) is noticed. The octopod comes to its leash edge and shoots its ink,
+  about 45 a shot every 2 to 3 s: a level-50 solo Knight (290) is down to 82 after 15 s. Once hit or engaged, it keeps
+  the engagement range and shoots up to 5,120. Lakeside's jetty and waterfront stay quiet
+  (`tests/scenarios/xeen/d4_octopods_shore.yml`).
 - Atmosphere `view_distance: 1.6` (the scene's `rendering.view_distance_scale`): the keep reads from the jetty's end
   with the default view distance setting (session 11, `output/studio_cal/d4/pics/sheet_s11.jpg`). Frame cost at the
   signature pose, 1.6 against a scratch 1.0 (visible runs back to back, relative: other sessions were running): both
@@ -134,10 +144,16 @@ rocs 12, E3 Rimward rocs 8 (stretched north to the falls' lip: D-36), E5 heath r
   question after m25.done (DD-14 sealed); the obelisk (dark_4), Leafpoint, Ector, the woodpile, the lair path, DD-23's
   question into DD-23 at `entrance:d4_mouth` and out by its mouth to `entrance:dd23_lair`, Slibo, both fountains, the cairn, Mirabeth, a skull, the west
   road's sign; off the south edge to D3 and back (A2's travel row landed): D4's south start.
-- Hostility (`playtest_hostility.yml`, run/host_s11_f1.log): the coven hostile at load, the octopods hostile, in the
-  water and within their leash after 20 s each with the party on the Isle, the waterfront and the East Skerry, and with
-  the party in the water (`tools/octo_check.py run/host_s11_f1.log`: 0 out of water or leash), Leafpoint, Slibo and the peasants peaceful; joined: the coven peaceful; the Head Witch dead: both groups hidden
-  on load; the Circle's chest opens.
+- Hostility (`playtest_hostility.yml`, rewritten for D-200 by `gen_hostility_d4.py`): the coven hostile at load,
+  the octopods hostile, over water and within their leash (+150) after 20 s each, with the party at the start, on
+  the waterfront (no ink there: no attack_ranged in the decision trace), on the East Skerry's south-west beach (the
+  nearest octopod, group 7, attacks from the water: 8 attack_ranged on the party in 20 s, and stays at its leash
+  edge, 1,502) and in the water (`octo_check.py`: 0 out of water or leash). Leafpoint, Slibo and the peasants are
+  peaceful. Joined: the coven is peaceful. The Head Witch dead: both groups hidden on load. The Circle's chest opens.
+- D-200's shore proof (`tests/scenarios/xeen/d4_octopods_shore.yml`, solo level 50, no clear_hostiles): 30 s at the
+  jetty's end unhurt with no shot; 15 s on the west basin's north beach: group 4's Great Octopod to its leash edge
+  (1,500), 6 attack_ranged on the party, 290 down to 82, the only hostile within 5,120; all five over water within
+  their leash.
 
 ## Texture fit exceptions
 
@@ -218,9 +234,15 @@ Town arrivals (A4): `lakeside_square` (4608, -13312, 1120) facing 512; `lakeside
 
 ## D-87: ranged disablers (A6, 2026-11-21, thirty-first session)
 
-- The only ranged disablers are the three placed Octopods (Paralyze by missile, in the water): 6,296 from the start
-  (the griffin perch), 6,869 from DD-12's door; every other arrival, mirror, Town Portal point, dock and giver has none
-  within 6,500 (`output/studio_cal/a6/s31/d85.py`).
+- The only ranged disablers are the three placed Octopods (Paralyze by missile, in the water). Since D-200 they
+  move and shoot, so D-87 measures a leashed placement at its home distance less its leash (`common/d85.py`,
+  `tools/xeen/check_arrivals.py`). Measured that way, the old homes failed: groups 3 and 4 were 4,797 from the start
+  (the griffin perch), 4,961 from DD-12's door and 5,835 from the Isle landing. Groups 4 and 5 swapped rows (tier A
+  to (86, 65.5), tier B to (65, 59.5)), and group 3's home moved from (60, 64) to (59, 63) in its basin. Now the
+  Paralyze Octopods' nearest approaches are 6,029 (group 5) and 6,060 (group 3) from DD-12's door, 6,303 from the
+  start and 6,403 from the Isle landing (group 5): `d85.py` DIS 0. The Great Octopods (Poison3, damage only) are D-85 report lines,
+  not D-87 errors: group 4 is 4,797 from the start and 4,961 from DD-12's door, group 7 5,234 from the Isle landing
+  and 5,884 from the dock. None notices a party there (leash + 2,560 is short of all four).
 - Kept by D-87: Leafpoint 5,391 (the reed witches: Lightning Bolt and Psychic Shock, damage only).
 
 ## S32 (2026-11-22, A6 32nd session: merge point 41 and the feedback fixes)
@@ -253,7 +275,7 @@ Rebuilt on merge point 41, installed with its bake 01:20. F16: the sewer shaft a
 - `snow_bridge` meets the land at both ends (the studio's bridge-end rule): town_fit's 2 `bridges.step` errors gone.
 - D-120: the skerry strongbox and the skerry genie lamp are kept in `tools/xeen/check_reach.yml` (`water walk or
   fly`, Act IV); `tests/scenarios/xeen/d4_skerry_water_walk.yml` walks to the strongbox on Water Walk (and fails
-  without it: the party is hurt). The five octopods (groups 3-7, swimmers, D-36) are kept groups there.
+  without it: the party is hurt). The five octopods (groups 3-7, water monsters on a leash, D-200) are kept groups there.
 - A Lakeside villager stood on the graveyard isle (the ferry's house is there): `villagers.yml` Lakeside `avoid`
   the isle; spots re-placed.
 - The Fountain of Magic Resistance at `WARDING_WELL` (84.75, 95.5) west of Well Fork: at (88.6, 97.4) it hung 43 over

@@ -964,19 +964,22 @@ families:
 
   octopods:
     block: 11470
-    ranged_flyer: "the source's Octopod hits the whole party (A): its ink as a missile from the water"   # X2 p8 (gen_monsters)
+    # U-19/D-200: the source's Octopod hits the party from the water (A): its ink as a Water missile, MM6's sea
+    # serpents' way (rows 625-627)
     name: Octopods
     picture: Xeen Octopod
     sounds: xeen_octopod   # AU batch 2 (devdocs/xeen/AUDIO.md)
     stand_in: Sea Monster
     model: worlds/xeen/models/xeen_octopod.glb  # S session 7: skins octopod_a-c, D as A
-    where: D4 lake (trap)
+    where: D4 lake (trap; shoots the shore, D-200)
     no_arena: true   # D-39: swimmers stay out of XD-20's draw
     resist: {water: imm, body: +20}
-    # D-36: swimmers in the lake, MM9's Sea Monster Male profile (worlds/mm9/modifiers.yml 9177), the stand-in's body.
-    modifiers:
-      - {mm9_ai: {archetype: swimmer, movement: swim, attack_reach: 192, melee_sweep: 333, alert_radius: 3072,
-                  walk_speed: 256, run_speed: 256, fly_speed: 512, lunge_velocity: 576, head_turn: false}}
+    # D-200 (U-19): MM6's sea serpents' way (rows 625-627: classic AI, Fly N, the Swimmer kind walks on water, a Water
+    # missile); the placement's leash keeps it in the water. `short`: it notices a party within 2,560 (D4's town and
+    # landings stay out of reach), and once engaged it shoots up to the engine's 5,120.
+    fly: N
+    kind: Swimmer
+    party: short
     tiers:
       # S session 7: the octopod's collision body per tier (over the Sea Monster's 120/50).
       A: {name: Octopod, level: 50, bonus: Paralyze, skin: octopod_a, height: 80, radius: 60}
@@ -985,12 +988,16 @@ families:
       # D-52 (5): DD-14's cistern octopods, placed only: tier A's numbers and body, without the swimmer profile
       # (`modifiers: []` keeps the family's off this row), on the ground and immobile. S may bind its descriptor to a
       # grounded copy of the octopod (origin on the pool bed).
-      D: {id: 11473, name: Octopod, level: 50, bonus: Paralyze, look: A, move: stand, fly: N, modifiers: [],
+      # D-200: `kind: []`, so the immobile pool-bed body is not bound to a water volume and lifted.
+      D: {id: 11473, name: Octopod, level: 50, bonus: Paralyze, look: A, move: stand, fly: N, modifiers: [], kind: [],
           skin: octopod_a, height: 80, radius: 60,
           note: "DD-14's cistern, placed only; no swimmer AI (D-52)"}
-      # P4's mid-sea swimmers (S session 8: the deep octopod xeen_octopod_deep.glb, actors_deep.yml): tier B's numbers,
-      # body and the family's swimmer profile, placed only, on its own descriptor so S binds the deep model to it alone.
+      # P4's mid-sea swimmers (S session 8: the deep octopod xeen_octopod_deep.glb, actors_deep.yml): tier B's numbers
+      # and body, placed only, on its own descriptor so S binds the deep model to it alone. D-200: `fly: Y` with the
+      # family's Swimmer kind, so its placement keeps its height in the water and the volume holds it there.
       E: {id: 11474, name: Great Octopod, level: 60, bonus: Poison3, look: B, skin: octopod_b, height: 92, radius: 70,
+          fly: Y,
+          ranged_flyer: "P4's octopods swim inside MM9 water volumes; the volume binds a Swimmer between bed and surface",
           note: "P4's two mid-sea groups, placed only (A6); 11471's numbers, the deep octopod's descriptor"}
 
   serpents:
@@ -1243,7 +1250,7 @@ families:
     picture: Xeen Robot
     stand_in: BRobot
     model: reuse mm6_rob1
-    corpse: none   # F54: the MM6 robot vanishes in its blast, as in MM6 (its table loot is lost)
+    corpse: dying   # D-182: the robot's blast plays, the body is hidden and its satchel keeps the table loot (F54 had none)
     where: Castle Alamar, D6, the Dungeon of Death (FD-04's machine floor, D-57), the Alamar Depths (FD-01,
       Annihilator 11611 x 28 and Autobot 11612 x 6, D-69)
     ac_x: 1.3
@@ -1261,7 +1268,7 @@ families:
     picture: Xeen Elemental
     kind: Elemental
     sprites: ElemFire
-    corpse: none   # F54: MM's elementals leave no body (their table loot is lost)
+    corpse: dying   # D-182: the death clip, a hidden body and a satchel with the table loot (F54 had none, losing it)
     model: worlds/xeen/models/xeen_fie1.glb  # mm6_fie1; E-G on the element families' models (S session 12)
     where: the planes, D6, Castle Alamar (DD-17, two each of 11620 and 11624-11626 by the Lava Heads, D-61), Olympus Sewer
       (DD-26, sixteen Lesser Water Elementals 11625, D-65)
@@ -1302,7 +1309,7 @@ families:
     picture: Xeen Air Elemental
     kind: Elemental
     sprites: ElemAir
-    corpse: none   # F54, as the fire elementals
+    corpse: dying   # D-182, as the fire elementals
     model: worlds/xeen/models/xeen_aie1.glb  # mm6_aie1 with Xeen tiers (S sessions 12-13)
     height: 150  # F4: the model's top (148); ElemAir C's 240 launched B and C's bolts above them
     where: P2

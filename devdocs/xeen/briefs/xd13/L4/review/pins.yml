@@ -1,5 +1,5 @@
 format: 1
-counter: 4
+counter: 7
 pins:
   - id: pin:p1
     text: z-fighting
@@ -24,3 +24,26 @@ pins:
         revision: e0ff0d012af893f3de1cc1890e9303b5
         status: resolved
         pictures: [.oymap/pins/pictures/p1-r1.png]
+  - id: pin:p2
+    text: "is here something missing?"
+    source: game
+    world: xeen
+    map: xeen_xd13.blv
+    pose:
+      position: [-397.718, -1828.628, -640]
+      yaw_radians: 1.959
+      pitch_degrees: -2.542
+      heading_yaw_units: 638
+    picture: .oymap/pins/pictures/p2.png
+    author: user
+    created: 2026-11-25T23:33:11
+    status: resolved
+    claimed_by: agent:xeen-fb5-dungeon
+    from: 20261125-233311-xeen_xd13.yml
+    replies:
+      - author: agent:xeen-fb5-dungeon
+        text: "Yes: the grille was a see-through panel set straight into the wall, so the sky showed between its bars. It is now an iron grille standing 4 off the wall over a black speaking hole (the click is unchanged). The same fault on DD-12's eight aviary cages is fixed the same way; tools/xeen/check_cutout_backing.py now finds every see-through face with nothing behind it."
+        created: 2026-11-26T08:06:48
+        revision: e0a75d565c12ad6d4d5e42854aa0875a
+        status: resolved
+        pictures: [.oymap/pins/pictures/p2-r1.png]

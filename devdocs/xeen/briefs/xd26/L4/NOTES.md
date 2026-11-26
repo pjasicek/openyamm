@@ -247,3 +247,8 @@ The rough wall behind this map's exit stood in front of its black face (no click
 `tools/xeen/check_exits.py` `exits.hidden`). `tools/xeen/cave_shape.py` `flat_behind_panels` now gives the exit's
 wall a flat panel under it (the generator writes it); rebuilt, installed and baked; all playtests pass. See XD-05's
 NOTES.md, same date.
+
+## F75 (2026-11-26, agent:xeen-fb5-dungeon-f75)
+
+`open:high_hidden` (behind the moss) 160 x 256 (was 224): the Obsidian Gargoyles (244 high; placed and spawned) that
+follow the party pass instead of sticking in the frame (`tools/xeen/check_monster_fit.py`: 12 stuck -> 0).

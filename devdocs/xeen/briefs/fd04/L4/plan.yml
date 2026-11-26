@@ -132,10 +132,10 @@ spaces:
     kind: room
     size: M
     floor: 2560
-    purpose: "Four dragons; a note (q-f1.note_balls)."
+    purpose: "Two dragons; a note (q-f1.note_balls)."
     population:
-      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [75, 75], notes: 2 Fire Dragon 75 (placed)}
-      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [85, 85], notes: 2 Frost Dragon 85 (placed)}
+      - {slot: 1, groups: 1, per_marker: [1, 1], levels: [75, 75], notes: 1 Fire Dragon 75 (placed)}
+      - {slot: 1, groups: 1, per_marker: [1, 1], levels: [85, 85], notes: 1 Frost Dragon 85 (placed)}
   - id: room:high_hall
     name: High hall
     kind: room
@@ -203,10 +203,10 @@ spaces:
     kind: room
     size: L
     floor: 2560
-    purpose: "Set piece: the bowl with the eggs (q-f1.egg); six dragons."
+    purpose: "Set piece: the bowl with the eggs (q-f1.egg); eight dragons."
     population:
-      - {slot: 1, groups: 1, per_marker: [4, 4], levels: [75, 75], notes: 4 Fire Dragon 75 (placed)}
-      - {slot: 1, groups: 1, per_marker: [2, 2], levels: [85, 85], notes: 2 Frost Dragon 85 (placed)}
+      - {slot: 1, groups: 1, per_marker: [5, 5], levels: [75, 75], notes: 5 Fire Dragon 75 (placed)}
+      - {slot: 1, groups: 1, per_marker: [3, 3], levels: [85, 85], notes: 3 Frost Dragon 85 (placed)}
   - id: room:ramp01
     name: The stair (first turn)
     kind: corridor

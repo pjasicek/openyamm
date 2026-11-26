@@ -1,0 +1,38 @@
+# Feedback F75 (2026-11-26, X6 p14 "monst gets stuck", turn-based): Great Worms north of the Sphinx cove chasing the
+# party south-east of it. The cove is void past the world's edge (scene terrain.void) behind the hull.
+# - R5 (engine): the outdoor route planner took the void's terrain for ground and led them straight across the cove;
+#   since 2026-11-26 the path map leaves void cells out and a walker keeps off them as off water.
+# - D-192 (data): two of three worms still held for good, at the hull_092/hull_093 seam (cell 31.9, 83.9) and at
+#   hull_094's north end (the cove's east corner, cell 33.0, 83.9). The kerbless hull tops (xeen_hullf, behind the
+#   sand-falls) stood 1-8 over the land just past their ends, and on rising land the engine refuses an uphill step
+#   against any top above the target foot (actorFloorRiseHasClearance). common/rim.py hull_sink now puts every kerbless
+#   top 8 under the land along its span and 64 past each end (tools/xeen/check_wild.py `rim.fin` keeps it).
+# The repro's Sand Worm (11440) never acted in any run (it hangs at z 2200, a separate engine item of D-192): a fourth
+# Great Worm on the ground north of the cove stands in for it.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/x6_cove_worms_pursue.yml --scenario-no-color
+id: xeen.f75.x6_cove_worms_pursue
+title: "F75/D-192: X6's worms north of the Sphinx cove come round it to the party in turn-based mode"
+world: xeen
+mode: faithful
+tags: [xeen, regression]
+steps:
+  - new_game_flow:
+      start_map: xeen_x6.odm
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(2); for _ = 1, 3 do if not close() then break end end"}
+  # The pin's pose, south-east of the cove's corner.
+  - set_pose: {map: xeen_x6.odm, x: -14637.2, y: -13589.1, z: 1663.5, yaw: 3.796, pitch: -0.2}
+  - clear_hostiles: {radius: 8000}
+  # Great Worms on the dunes north-west of the cove (cells [30, 82], [28, 83], [32, 80]) and one north of it [31, 82].
+  - spawn_actor: {monster_id: 11442, x: -17408, y: -9216, z: 2200}
+  - spawn_actor: {monster_id: 11442, x: -18432, y: -9728, z: 2200}
+  - spawn_actor: {monster_id: 11442, x: -16384, y: -8192, z: 2200}
+  - spawn_actor: {monster_id: 11442, x: -16896, y: -9216, z: 1480}
+  - advance_runtime: {seconds: 0.2}
+  - press_action: combat
+  - assert: {turn_based: {active: true}}
+  - turn_based_turns: {count: 16}
+  - assert: {actor_visible: {actor_index: last-3, near: {x: -14637, y: -13589, max_distance: 700}, report_state: true}}
+  - assert: {actor_visible: {actor_index: last-2, near: {x: -14637, y: -13589, max_distance: 700}, report_state: true}}
+  - assert: {actor_visible: {actor_index: last-1, near: {x: -14637, y: -13589, max_distance: 700}, report_state: true}}
+  - assert: {actor_visible: {actor_index: last, near: {x: -14637, y: -13589, max_distance: 700}, report_state: true}}

@@ -39,6 +39,7 @@ events:
   evt:cabinet: 10
   evt:cage: 11
   evt:cage_opens: 12
+  evt:campfire_cookfire: 58
   evt:chest_barkman: 13
   evt:chest_sap: 14
   evt:chest_shaalth: 15
@@ -120,6 +121,7 @@ map_vars:
   limb_2_fed: 9
   limb_3_fed: 10
   once.arrive: 0
+  once.campfire_cookfire: 17
   once.shaalth_dead: 13
   pens_open: 11
   prisoners_gone: 12

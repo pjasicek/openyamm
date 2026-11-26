@@ -1154,7 +1154,7 @@ steps:
 - note: 'Darzog''s Tower: the door on the east side'
 - walk_to:
     x: -15731
-    y: 3014
+    y: 3072
     z: 768
     z_tolerance: 600
     radius: 160
@@ -1163,7 +1163,7 @@ steps:
 - set_pose:
     map: xeen_x2.odm
     x: -15731
-    y: 3014
+    y: 3072
     z: 768
     yaw: 3.1416
     pitch: 0.0
@@ -1189,7 +1189,7 @@ steps:
 - set_pose:
     map: xeen_x2.odm
     x: -15731
-    y: 3014
+    y: 3072
     z: 768
     yaw: 3.1416
     pitch: 0.0
@@ -1225,7 +1225,7 @@ steps:
 - set_pose:
     map: xeen_x2.odm
     x: -15731
-    y: 3014
+    y: 3072
     z: 768
     yaw: 6.2832
     pitch: 0.0

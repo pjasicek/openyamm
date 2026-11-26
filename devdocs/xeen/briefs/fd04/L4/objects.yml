@@ -875,13 +875,15 @@ monsters:
     facing: 270
     hostile: true
     group: 33
+    leash: 192
   - id: monster:crown_33_3
     room: room:crown
     monster: 11652
-    at: [600, 1100]
+    at: [536, 1164]
     facing: 270
     hostile: true
     group: 33
+    leash: 224
   - id: monster:energy_dragon
     room: room:crown
     monster: 11653
@@ -889,6 +891,7 @@ monsters:
     facing: 270
     hostile: true
     group: 33
+    leash: 672
   - id: monster:game_east_46_1
     room: room:game_east
     monster: 11282
@@ -952,6 +955,7 @@ monsters:
     facing: 90
     hostile: true
     group: 24
+    leash: 320
   - id: monster:hatchery_24_2
     room: room:hatchery
     monster: 11643
@@ -959,20 +963,7 @@ monsters:
     facing: 90
     hostile: true
     group: 24
-  - id: monster:hatchery_25_1
-    room: room:hatchery
-    monster: 11642
-    at: [1000, 280]
-    facing: 270
-    hostile: true
-    group: 25
-  - id: monster:hatchery_25_2
-    room: room:hatchery
-    monster: 11643
-    at: [1300, 660]
-    facing: 270
-    hostile: true
-    group: 25
+    leash: 320
   - id: monster:high_hall_31_1
     room: room:high_hall
     monster: 11643
@@ -980,6 +971,7 @@ monsters:
     facing: 45
     hostile: true
     group: 31
+    leash: 896
   - id: monster:high_hall_31_2
     room: room:high_hall
     monster: 11643
@@ -987,6 +979,7 @@ monsters:
     facing: 315
     hostile: true
     group: 31
+    leash: 448
   - id: monster:high_hall_32_1
     room: room:high_hall
     monster: 11652
@@ -994,20 +987,23 @@ monsters:
     facing: 90
     hostile: true
     group: 32
+    leash: 480
   - id: monster:high_hall_32_2
     room: room:high_hall
     monster: 11652
-    at: [-500, -560]
+    at: [-500, -624]
     facing: 90
     hostile: true
     group: 32
+    leash: 224
   - id: monster:high_hall_32_3
     room: room:high_hall
     monster: 11652
-    at: [-20, -860]
+    at: [-84, -796]
     facing: 180
     hostile: true
     group: 32
+    leash: 224
   - id: monster:machine_54_1
     room: room:machine
     monster: 11612
@@ -1071,20 +1067,23 @@ monsters:
     facing: 45
     hostile: true
     group: 21
+    leash: 1536
   - id: monster:nest_21_2
     room: room:nest
     monster: 11642
-    at: [-1150, 560]
+    at: [-1150, 496]
     facing: 315
     hostile: true
     group: 21
+    leash: 224
   - id: monster:nest_22_1
     room: room:nest
     monster: 11642
-    at: [330, 560]
+    at: [138, 496]
     facing: 225
     hostile: true
     group: 22
+    leash: 224
   - id: monster:nest_22_2
     room: room:nest
     monster: 11642
@@ -1092,6 +1091,7 @@ monsters:
     facing: 135
     hostile: true
     group: 22
+    leash: 992
   - id: monster:nest_23_1
     room: room:nest
     monster: 11643
@@ -1099,6 +1099,7 @@ monsters:
     facing: 90
     hostile: true
     group: 23
+    leash: 1344
   - id: monster:nest_23_2
     room: room:nest
     monster: 11643
@@ -1106,6 +1107,23 @@ monsters:
     facing: 0
     hostile: true
     group: 23
+    leash: 992
+  - id: monster:nest_25_1
+    room: room:nest
+    monster: 11642
+    at: [-506, 256]
+    facing: 270
+    hostile: true
+    group: 25
+    leash: 480
+  - id: monster:nest_25_2
+    room: room:nest
+    monster: 11643
+    at: [100, -450]
+    facing: 180
+    hostile: true
+    group: 25
+    leash: 512
   - id: monster:ring_hall_12_1
     room: room:ring_hall
     monster: 11641
@@ -1113,20 +1131,23 @@ monsters:
     facing: 90
     hostile: true
     group: 12
+    leash: 928
   - id: monster:ring_hall_12_2
     room: room:ring_hall
     monster: 11641
-    at: [-560, 500]
+    at: [-432, 436]
     facing: 0
     hostile: true
     group: 12
+    leash: 224
   - id: monster:ring_hall_13_1
     room: room:ring_hall
     monster: 11641
-    at: [1100, 500]
+    at: [1100, 436]
     facing: 180
     hostile: true
     group: 13
+    leash: 256
   - id: monster:ring_hall_13_2
     room: room:ring_hall
     monster: 11641
@@ -1134,6 +1155,7 @@ monsters:
     facing: 90
     hostile: true
     group: 13
+    leash: 1536
   - id: monster:ring_hall_14_1
     room: room:ring_hall
     monster: 11642
@@ -1141,6 +1163,7 @@ monsters:
     facing: 90
     hostile: true
     group: 14
+    leash: 1440
   - id: monster:ring_hall_14_2
     room: room:ring_hall
     monster: 11642
@@ -1148,6 +1171,7 @@ monsters:
     facing: 270
     hostile: true
     group: 14
+    leash: 544
   - id: monster:scorched_hall_11_1
     room: room:scorched_hall
     monster: 11641
@@ -1155,6 +1179,7 @@ monsters:
     facing: 270
     hostile: true
     group: 11
+    leash: 1088
   - id: monster:scorched_hall_11_2
     room: room:scorched_hall
     monster: 11641
@@ -1162,6 +1187,7 @@ monsters:
     facing: 270
     hostile: true
     group: 11
+    leash: 1056
   - id: monster:shrines_great_48_1
     room: room:shrines_great
     monster: 11284
@@ -1303,8 +1329,9 @@ decorations:
   - id: deco:fountain
     room: room:fountain
     decoration: sta1a
-    at: [1600, 9280]
-    notes: The fountain (aazex123:4-5).
+    at: [1568, 9280]
+    floor_height: -2512
+    notes: "The fountain in its basin, its base at the water line (aazex123:4-5)."
   - id: deco:lizard
     room: room:alcove
     decoration: xeen_lizard

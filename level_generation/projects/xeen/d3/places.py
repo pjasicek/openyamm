@@ -680,10 +680,19 @@ def structures():
             'roof': 'gtrlwal1'}
     tower = {'id': 'thing:eastern_tower', 'kind': 'building', 'at': [tx - 1.5, ty - 1.5], 'size': [3, 3],
              'kit': 'plaster', 'facing': 'w', 'floor': LD.KNOLL_H, 'title': 'The Great Eastern Tower',
-             'textures': {'wall': 'gtrlwal1', 'window': 'hkm3elw', 'door': 'hkm1d', 'roof': 'xtslate',
+             'textures': {'wall': 'gtrlwal1', 'window': 'hkm3elw', 'door': 'xvtdoor', 'roof': 'xtslate',
                           'trim': 'gtrlwal1'},
+             # D-180 rule a (2026-11-26): the door at least as wide as DD-07's way back out (192 x 320) and within 64
+             # of its height: a 192 bay 320 high in the west side (was the default 157 x 256); the door the tower kit's
+             # xvtdoor laid once over the leaf (classic_kit.py, D-196)
              'parts': [{'id': 'base', 'shape': 'round', 'at': [768, 768], 'radius': 608, 'sides': 12,
-                        'wall_height': 640, 'roof': 'none', 'windows': 'none', 'textures': dict(stone)},
+                        'wall_height': 640, 'roof': 'none', 'windows': 'none', 'textures': dict(stone),
+                        'door_height': 320,
+                        'walls': {'9': [['wall', round((2 * 608 * math.sin(math.pi / 12) - 192) / 2, 3)], ['door', 192],
+                                        ['wall', round((2 * 608 * math.sin(math.pi / 12) - 192) / 2, 3)]]},
+                        'upper_walls': {'9': [['wall', round((2 * 608 * math.sin(math.pi / 12) - 192) / 2, 3)],
+                                              ['wall', 192],
+                                              ['wall', round((2 * 608 * math.sin(math.pi / 12) - 192) / 2, 3)]]}},
                        {'id': 'base_band', 'shape': 'round', 'at': [768, 768], 'radius': 608, 'sides': 12,
                         'bottom': 640, 'wall_height': 256, 'roof': 'none', 'windows': 'none', 'textures': dict(band)},
                        {'id': 'mid', 'shape': 'round', 'at': [768, 768], 'radius': 512, 'sides': 12, 'bottom': 896,

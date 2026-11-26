@@ -36,7 +36,7 @@ Installed in assets_dev on 2026-11-21 at 07:45 by `INSTALL=1 stage_install.sh` (
 | Chests | 2 at treasure 6 | 2 (the test's chest in the Grotto; the trapped strongbox in the hold) and the log's find (2 x Water Resistance) |
 | P-2 lips | at least 192 | **216**: the Veil's colonnade 216 over the sea at its lowest (just beyond the flank stubs), the Grotto 256 over the sea, the flank stubs 384 over the court; a surface jump clears about 55 |
 | First fight from the arrival | 1,500-4,000 | 3,371 (row 11625) |
-| Octopod homes | >= 1,024 from the arrival terrace, the court, the Grotto | landing 3,906, arena 2,586, chamber 5,650 |
+| Octopod homes | >= 1,024 from the arrival terrace, the court, the Grotto; D-200: leash + 2,560 (3,840) off the court and the arrival | landing 2,907, arena 3,938, chamber 5,650 (the north group; arrival 4,132) |
 | Walkable area | 44-51 M (C1) | 41.6 M units; the sea 122.3 M (69 % of the room) |
 | Build | - | 2 sectors, 2451 faces, 3732 vertices, 21 events, 2 chests, 0 lights; about 6,372 triangles (estimate from the shapes) |
 | Textures | Dungeon S, cap 30, at most 4 new | 13 distinct (7wtrtyl, bmplnk, bwooda1, bwoodb1, gtempflr, gtemprf, gtempw1, gwspinwl, gwspotwl, xccloud, xcwisp, xpwcoral, xpwspray); new `xpwspray`, `xpwcoral` (xpwhull not made: shipped `bwoodb1`) |
@@ -61,7 +61,8 @@ Installed in assets_dev on 2026-11-21 at 07:45 by `INSTALL=1 stage_install.sh` (
 - The fountain and plinth stand in the middle of the forecourt (D-58), not at L1's (256, 896).
 - The ship runs from (-230, -3800) to (1330, -4760); the log and the strongbox stand on its deck and in its hold, not at L1's points (-128, -3840) and (1280, -4736).
 - The test's floor stands at (-2880, 1664), off the walk line through the east gate (L1 (-2688, 1280)).
-- The Great Octopods start mid-sea, 512 over the bed (-1,024), with `above_floor` (merge point 27) and `leash: 1280` (indoor leash since merge point 26); with MM9's swimmer profile they are bound to their volume (session 18).
+- The Great Octopods start mid-sea, 512 over the bed (-1,024), with `above_floor` (merge point 27) and `leash: 1280` (indoor leash since merge point 26); the Swimmer kind binds them to their volume (D-200: MM6's sea serpents' way, classic AI and the ink, no MM9 profile, no Aggressor bit).
+- D-200 (3): the north group's home moved from L1's (-1024, 4224) to (0, 5120), so its leash plus the octopods' notice range (2,560) stays off the Whirlpool Court and the arrival.
 - The waterspout, bell frame and tide pool are nudged 420 inside their terraces' rims.
 
 ## Open items
@@ -91,3 +92,24 @@ The plates' `top_surface` is `{texture: xpwspray, size: [128, 128], fit: true}` 
 `fit` lays it once over the 192 plate, and since merge point 42 once over its underside too). Rebuilt and installed
 ~02:00 through the stage (all stage tests pass); the 18 `textures.feature_repeated` errors are gone: the assets_dev
 audit is 0 errors, 0 warnings. MAW reserve rewritten, `xeen_balance.py --check` passes.
+
+## D-200: the octopods shoot their ink (2026-11-26, octopods agent, A2 + A6)
+
+U-19/D-200: the Great Octopods (11474) are MM6's sea serpents' kind. Since the build_world run of 2026-11-26 they have
+classic AI and the Water ink, the `Swimmer` kind with `Fly Y` and no MM9 swimmer profile. The water volume `water:sea`
+binds them between the bed and the surface. They no longer carry `hostile: true`: the Aggressor bit made them notice a
+party at 5,120, not at their relation's 2,560 (`short`). The north group's home moved from (-1024, 4224) to (0, 5120):
+3,938 from the Whirlpool Court's rim and 4,132 from the arrival, so its leash plus 2,560 stays off both. D-122's 2,000
+from the arrival less the leash is 2,852, and D-58's 1,024 from the terrace is 2,907. `gen.py` stops if a swimmer home
+breaks the leash plus notice rule (`OCTO_NOTICE`). L1 (`planes_design.py`) carries the new home. The approved L1 files
+are left as they are.
+
+Rebuilt and installed 19:17 by `INSTALL=1 N=2 stage_install.sh`: stage audit 0 errors, the eight playtests 16 of 16.
+The MAW reserve was rewritten (only its scene check changed; no octopod copies). `tests/scenarios/xeen/p4_octopods_walks.yml`
+passes from the stage (three runs) and from assets_dev. It kills the plane's other monsters on load, because they
+shoot the arrival within 2 s (P4's own `arrival.open_seen`). Then 30 s at the landing and 30 s in the court: full
+health, no octopod attack_ranged. Every octopod stays within its leash (+150) and above the bed. On the reef
+terrace's west rim, actor 12 (1,522 off, with a clear line) rises to z -111 (under the surface, -64), stays 1,187 from
+home and inks the party twice in 30 s (290 down to 184-245). Actor 11 is nearer (844) but sits under the terrace's lip
+with no line, so it never notices. Screenshots: `output/xeen_fb/p6_octopods/shots/p4_reef_*.png`. The swimmer is
+mostly hidden under the lip from the terrace, and the ink rises out of the water.

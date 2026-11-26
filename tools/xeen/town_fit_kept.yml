@@ -14,3 +14,9 @@
   rule: things.overhang
   thing: thing:culvert_cap
   reason: "F59 (2026-11-25): the quay's cap spans the culvert's mouth on purpose; the land under it is the culvert's cut"
+- map: xeen_d6
+  rule: houses.plinth
+  thing: thing:alamar*_tower_ne
+  reason: "F73 (2026-11-26): Alamar's north-east tower stands at the mesa's lip, its walls carried 576 down the cliff
+    to the slope (no pin). Kept (xeen-fb5-outdoor3, 2026-11-26): a corner tower built down the cliff face, no ledge or
+    plinth in the air (output/xeen_fb/p5_outdoor3/after/d6/02-ne_tower_below.png, look/d6_ne_before/)"

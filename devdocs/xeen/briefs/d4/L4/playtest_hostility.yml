@@ -12,6 +12,8 @@ steps:
 - note: At load (D-36)
 - advance_runtime:
     seconds: 2
+- console:
+    line: arena trace on
 - assert:
     actor_count:
       monster_id: 11170
@@ -57,7 +59,7 @@ steps:
       monster_id: 377
       hostile: true
       max: 0
-- note: 'The octopods 20 s later, the party on the Isle: each within its leash (+150) of its home'
+- note: 'The octopods 20 s later, the party at the start (the griffin): each within its leash (+150) of its home'
 - advance_runtime:
     seconds: 20
 - assert:
@@ -65,17 +67,22 @@ steps:
       monster_id: 11470
       min: 1
       near:
-      - -2048
-      - 0
+      - -2560
+      - 512
       - 1650
 - assert:
     actor_visible:
       actor_index: 14
       dead: false
       report_state: true
+      over_water: true
+      near:
+        x: -2560
+        y: 512
+        max_distance: 1650
 - assert:
     actor_count:
-      monster_id: 11470
+      monster_id: 11471
       min: 1
       near:
       - 512
@@ -86,9 +93,14 @@ steps:
       actor_index: 15
       dead: false
       report_state: true
+      over_water: true
+      near:
+        x: 512
+        y: 2304
+        max_distance: 1650
 - assert:
     actor_count:
-      monster_id: 11471
+      monster_id: 11470
       min: 1
       near:
       - 11264
@@ -99,6 +111,11 @@ steps:
       actor_index: 16
       dead: false
       report_state: true
+      over_water: true
+      near:
+        x: 11264
+        y: -768
+        max_distance: 1650
 - assert:
     actor_count:
       monster_id: 11470
@@ -112,6 +129,11 @@ steps:
       actor_index: 17
       dead: false
       report_state: true
+      over_water: true
+      near:
+        x: 15104
+        y: -1280
+        max_distance: 1650
 - assert:
     actor_count:
       monster_id: 11471
@@ -125,6 +147,11 @@ steps:
       actor_index: 18
       dead: false
       report_state: true
+      over_water: true
+      near:
+        x: 10752
+        y: -5120
+        max_distance: 1650
 - note: The party on the waterfront nearest the south basin (cell 85, 83.5, dry land)
 - set_pose:
     map: xeen_d4.odm
@@ -141,17 +168,22 @@ steps:
       monster_id: 11470
       min: 1
       near:
-      - -2048
-      - 0
+      - -2560
+      - 512
       - 1650
 - assert:
     actor_visible:
       actor_index: 14
       dead: false
       report_state: true
+      over_water: true
+      near:
+        x: -2560
+        y: 512
+        max_distance: 1650
 - assert:
     actor_count:
-      monster_id: 11470
+      monster_id: 11471
       min: 1
       near:
       - 512
@@ -162,9 +194,14 @@ steps:
       actor_index: 15
       dead: false
       report_state: true
+      over_water: true
+      near:
+        x: 512
+        y: 2304
+        max_distance: 1650
 - assert:
     actor_count:
-      monster_id: 11471
+      monster_id: 11470
       min: 1
       near:
       - 11264
@@ -175,6 +212,11 @@ steps:
       actor_index: 16
       dead: false
       report_state: true
+      over_water: true
+      near:
+        x: 11264
+        y: -768
+        max_distance: 1650
 - assert:
     actor_count:
       monster_id: 11470
@@ -188,6 +230,11 @@ steps:
       actor_index: 17
       dead: false
       report_state: true
+      over_water: true
+      near:
+        x: 15104
+        y: -1280
+        max_distance: 1650
 - assert:
     actor_count:
       monster_id: 11471
@@ -201,15 +248,52 @@ steps:
       actor_index: 18
       dead: false
       report_state: true
-- note: 'The party on the East Skerry (cell 89, 70: land), 2,400-2,900 from three octopods'
+      over_water: true
+      near:
+        x: 10752
+        y: -5120
+        max_distance: 1650
+- assert:
+    ai_trace:
+      actor_index: 14
+      decision: attack_ranged
+      target: party
+      max_count: 0
+- assert:
+    ai_trace:
+      actor_index: 15
+      decision: attack_ranged
+      target: party
+      max_count: 0
+- assert:
+    ai_trace:
+      actor_index: 16
+      decision: attack_ranged
+      target: party
+      max_count: 0
+- assert:
+    ai_trace:
+      actor_index: 17
+      decision: attack_ranged
+      target: party
+      max_count: 0
+- assert:
+    ai_trace:
+      actor_index: 18
+      decision: attack_ranged
+      target: party
+      max_count: 0
+- note: 'The party on the East Skerry''s south-west beach (cell 88.2, 70.8: land), about 2,300 from group 7''s Great Octopod
+    (D-200)'
 - set_pose:
     map: xeen_d4.odm
-    x: 12800
-    y: -3072
-    z: 1080
-    yaw: 1.5708
+    x: 12390
+    y: -3482
+    z: 1056
+    yaw: -2.356
     pitch: 0.0
-- note: 'The octopods 20 s later, the party on the skerry: they cannot leave the water, each within its leash'
+- note: 'The octopods 20 s later, the party on the skerry: the nearest attacks from the water and stays within its leash,
+    over water'
 - advance_runtime:
     seconds: 20
 - assert:
@@ -217,17 +301,22 @@ steps:
       monster_id: 11470
       min: 1
       near:
-      - -2048
-      - 0
+      - -2560
+      - 512
       - 1650
 - assert:
     actor_visible:
       actor_index: 14
       dead: false
       report_state: true
+      over_water: true
+      near:
+        x: -2560
+        y: 512
+        max_distance: 1650
 - assert:
     actor_count:
-      monster_id: 11470
+      monster_id: 11471
       min: 1
       near:
       - 512
@@ -238,9 +327,14 @@ steps:
       actor_index: 15
       dead: false
       report_state: true
+      over_water: true
+      near:
+        x: 512
+        y: 2304
+        max_distance: 1650
 - assert:
     actor_count:
-      monster_id: 11471
+      monster_id: 11470
       min: 1
       near:
       - 11264
@@ -251,6 +345,11 @@ steps:
       actor_index: 16
       dead: false
       report_state: true
+      over_water: true
+      near:
+        x: 11264
+        y: -768
+        max_distance: 1650
 - assert:
     actor_count:
       monster_id: 11470
@@ -264,6 +363,11 @@ steps:
       actor_index: 17
       dead: false
       report_state: true
+      over_water: true
+      near:
+        x: 15104
+        y: -1280
+        max_distance: 1650
 - assert:
     actor_count:
       monster_id: 11471
@@ -277,6 +381,17 @@ steps:
       actor_index: 18
       dead: false
       report_state: true
+      over_water: true
+      near:
+        x: 10752
+        y: -5120
+        max_distance: 1650
+- assert:
+    ai_trace:
+      actor_index: 18
+      decision: attack_ranged
+      target: party
+      min_count: 1
 - note: 'The party in the water (cell 86, 68), 1,300 from the Great Octopod of the north basin: it swims'
 - set_pose:
     map: xeen_d4.odm
@@ -293,17 +408,22 @@ steps:
       monster_id: 11470
       min: 1
       near:
-      - -2048
-      - 0
+      - -2560
+      - 512
       - 1650
 - assert:
     actor_visible:
       actor_index: 14
       dead: false
       report_state: true
+      over_water: true
+      near:
+        x: -2560
+        y: 512
+        max_distance: 1650
 - assert:
     actor_count:
-      monster_id: 11470
+      monster_id: 11471
       min: 1
       near:
       - 512
@@ -314,9 +434,14 @@ steps:
       actor_index: 15
       dead: false
       report_state: true
+      over_water: true
+      near:
+        x: 512
+        y: 2304
+        max_distance: 1650
 - assert:
     actor_count:
-      monster_id: 11471
+      monster_id: 11470
       min: 1
       near:
       - 11264
@@ -327,6 +452,11 @@ steps:
       actor_index: 16
       dead: false
       report_state: true
+      over_water: true
+      near:
+        x: 11264
+        y: -768
+        max_distance: 1650
 - assert:
     actor_count:
       monster_id: 11470
@@ -340,6 +470,11 @@ steps:
       actor_index: 17
       dead: false
       report_state: true
+      over_water: true
+      near:
+        x: 15104
+        y: -1280
+        max_distance: 1650
 - assert:
     actor_count:
       monster_id: 11471
@@ -353,6 +488,11 @@ steps:
       actor_index: 18
       dead: false
       report_state: true
+      over_water: true
+      near:
+        x: 10752
+        y: -5120
+        max_distance: 1650
 - note: 'q-d22.joined (113449): the coven peaceful to members (A2)'
 - setup_shortcut:
     kind: set_qbit

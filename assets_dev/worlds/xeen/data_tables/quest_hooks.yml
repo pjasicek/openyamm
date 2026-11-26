@@ -1372,7 +1372,8 @@ m2.wobbles:
 m21.arrival:
   quest: M21
   map: XD-12
-  where: 'the first arrival (built: evt:arrive, a one-shot timer); replaces the map''s message'
+  where: 'the first arrival (built: evt:arrive, a one-shot timer); replaces the map''s message; a solo run reads the half-strength
+    line (U-18)'
   sets: {}
   reads: {}
   gives: {}

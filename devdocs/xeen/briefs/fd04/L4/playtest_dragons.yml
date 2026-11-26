@@ -182,24 +182,24 @@ steps:
         min_z: 2544
 - assert:
     actor_visible:
-      actor_index: 22
+      actor_index: 35
       report_state: true
       dead: false
       near:
-        x: 1152.0
-        y: 96.0
-        max_distance: 945
-        min_z: 2544
+        x: -416.0
+        y: -288.0
+        max_distance: 1677
+        min_z: 2448
 - assert:
     actor_visible:
-      actor_index: 23
+      actor_index: 36
       report_state: true
       dead: false
       near:
-        x: 1152.0
-        y: 96.0
-        max_distance: 945
-        min_z: 2544
+        x: -416.0
+        y: -288.0
+        max_distance: 1677
+        min_z: 2448
 - assert:
     actor_visible:
       actor_index: 37
@@ -209,7 +209,7 @@ steps:
         x: -416.0
         y: -288.0
         max_distance: 1677
-        min_z: 2544
+        min_z: 2448
 - assert:
     actor_visible:
       actor_index: 38
@@ -219,7 +219,7 @@ steps:
         x: -416.0
         y: -288.0
         max_distance: 1677
-        min_z: 2544
+        min_z: 2448
 - assert:
     actor_visible:
       actor_index: 39
@@ -229,7 +229,7 @@ steps:
         x: -416.0
         y: -288.0
         max_distance: 1677
-        min_z: 2544
+        min_z: 2448
 - assert:
     actor_visible:
       actor_index: 40
@@ -239,7 +239,7 @@ steps:
         x: -416.0
         y: -288.0
         max_distance: 1677
-        min_z: 2544
+        min_z: 2448
 - assert:
     actor_visible:
       actor_index: 41
@@ -249,7 +249,7 @@ steps:
         x: -416.0
         y: -288.0
         max_distance: 1677
-        min_z: 2544
+        min_z: 2448
 - assert:
     actor_visible:
       actor_index: 42
@@ -259,7 +259,7 @@ steps:
         x: -416.0
         y: -288.0
         max_distance: 1677
-        min_z: 2544
+        min_z: 2448
 - console:
     line: tp 480 -1280 3840
 - advance_runtime:
@@ -312,6 +312,26 @@ steps:
         min_z: 3824
 - assert:
     actor_visible:
+      actor_index: 22
+      report_state: true
+      dead: false
+      near:
+        x: -640.0
+        y: -864.0
+        max_distance: 1120
+        min_z: 3824
+- assert:
+    actor_visible:
+      actor_index: 23
+      report_state: true
+      dead: false
+      near:
+        x: -640.0
+        y: -864.0
+        max_distance: 1120
+        min_z: 3824
+- assert:
+    actor_visible:
       actor_index: 24
       report_state: true
       dead: false
@@ -333,26 +353,6 @@ steps:
 - assert:
     actor_visible:
       actor_index: 26
-      report_state: true
-      dead: false
-      near:
-        x: -640.0
-        y: -864.0
-        max_distance: 1120
-        min_z: 3824
-- assert:
-    actor_visible:
-      actor_index: 27
-      report_state: true
-      dead: false
-      near:
-        x: -640.0
-        y: -864.0
-        max_distance: 1120
-        min_z: 3824
-- assert:
-    actor_visible:
-      actor_index: 28
       report_state: true
       dead: false
       near:

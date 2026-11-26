@@ -15,6 +15,13 @@
 - `rim.hull_step` (warning until each map's next rebuild, F60 X5 p4, 2026-11-25): a long hull piece (`xeen_hull4`,
   2,048 wide) over land varying more than common/rim.py HULL_STEP (128) along its span: rim.py now builds four short
   pieces there, each on its own land.
+- `rim.fin` (error, D-192, 2026-11-26): a kerbless hull piece's built top (`xeen_hullf`, `xeen_hullfbn`: its z in the
+  scene, the top strip of xeen_deco_hullf.glb at 0) stands over the land a walker stands on beside it, anywhere in
+  common/rim.py `hull_band` (along its span and 64 past each end, 0.04-0.25 cells inland, void cells left out), on
+  the game's terrain triangles. On rising land the engine refuses an uphill step against such a top (X6 p14: Great
+  Worms held at the Sphinx cove). The F72 pieces over water (`raise` HULL_OVER_WATER) are left out; kerbed pieces
+  never sink. A warning, not an error, for a piece already sunk the most (`raise` -HULL_SINK_MAX): only on cliffs no
+  walker stands on (X7's lava-cove notch walls, the land falling 2,000 along one piece).
 
   python3 tools/xeen/check_wild.py [--assets ROOT] [--maps xeen_x1,...] [--check]
 """
@@ -99,6 +106,46 @@ def check(key, assets: Path, cache: Path):
                     if isinstance(effect, dict) and 'a ring in the ashes' in str(effect.get('lua') or '')]
         if fire_lua and thing.get('once') is not True:
             findings.append(('wild.campfire', '%s: the campfire event is not `once: true`' % thing['id']))
+    fins, fin_warnings = fin_findings(sketch, assets / 'worlds' / 'xeen' / 'maps' / (stem + '.scene.yml'),
+                                      data['terrain'])
+    return findings + fins, warnings + fin_warnings
+
+
+SCENE_DECORATION = re.compile(r'name: (\S+)\n\s+decoration_list_id: \d+\n\s+ai_attributes: \d+\n\s+position:\n'
+                              r'\s+x: (-?\d+)\n\s+y: (-?\d+)\n\s+z: (-?\d+)')
+
+
+def fin_findings(sketch, scene: Path, terrain):
+    """`rim.fin`: each kerbless hull piece of the sketch, its top from the built scene, against rim.hull_band's land;
+    returns (errors, warnings)."""
+    import rim  # noqa: E402 (common/rim.py: the band hull_sink sinks the pieces under)
+    pieces = [thing for thing in sketch.get('structures') or []
+              if thing.get('kind') == 'decoration' and str(thing.get('decoration', '')).startswith(rim.SINKING)
+              and (thing.get('raise') or 0) <= 0]
+    if not pieces:
+        return [], []
+    built = [(name, int(x), int(y), int(z)) for name, x, y, z in SCENE_DECORATION.findall(scene.read_text())
+             if name.startswith(rim.SINKING)]
+    polygons = rim.void_polygons(sketch)
+    findings, warnings = [], []
+    for thing in pieces:
+        cx, cy = thing['at']
+        wx, wy = wild.W(cx, cy)
+        match = [b for b in built if b[0] == thing['decoration'] and abs(b[1] - wx) <= 2 and abs(b[2] - wy) <= 2]
+        if not match:
+            findings.append(('rim.fin', '%s (%s) at %s: not in the built scene (rebuild the map)'
+                             % (thing['id'], thing['decoration'], thing['at'])))
+            continue
+        top = match[0][3]
+        turn = math.radians(float(thing.get('turn', 0)))
+        nx, ny = math.sin(turn), -math.cos(turn)     # the front (outward, into the void) in cells, y south
+        low = rim.hull_band_low(terrain, polygons, cx, cy, -ny, nx, nx, ny, rim.PIECE_SHORT / 2.0)
+        if low is not None and top > low:
+            clamped = (thing.get('raise') or 0) <= -rim.HULL_SINK_MAX
+            (warnings if clamped else findings).append((
+                'rim.fin', '%s (%s) at %s: its top %d stands %.1f over the land beside it (lowest %.1f along its span '
+                'and %d past its ends; raise %s)' % (thing['id'], thing['decoration'], thing['at'], top, top - low, low,
+                                                     round(rim.HULL_FIN_REACH * 512), thing.get('raise', 0))))
     return findings, warnings
 
 
@@ -129,11 +176,12 @@ def main() -> int:
     total = 0
     for key in keys:
         findings, warnings = check(key, Path(args.assets), Path(args.cache))
-        for rule, text in warnings[:3]:
+        steps = [w for w in warnings if w[0] == 'rim.hull_step']
+        for rule, text in steps[:3] + [w for w in warnings if w[0] != 'rim.hull_step']:
             print('xeen_%s warn %s: %s' % (key, rule, text))
-        if warnings:
+        if steps:
             print('xeen_%s: %d warning(s) rim.hull_step (until the map is rebuilt with common/rim.py HULL_STEP)'
-                  % (key, len(warnings)))
+                  % (key, len(steps)))
         rules = {}
         for rule, text in findings:
             rules[rule] = rules.get(rule, 0) + 1

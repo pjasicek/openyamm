@@ -1591,9 +1591,9 @@ structures:
     turn: 180
     height: 320
     width: 224
-    depth: 448
+    depth: 128
     hood: 64
-    textures: {door: 7solid01, wall: cnb}
+    textures: {door: xvsdoor, wall: cnb}
     title: Enter the Robbers' Den
     into: {map: xeen_xd21.blv, at: [-2560, 320, 0], facing: 512, screen: {text: 5021}}
     notes: "XD-21 (DOORS.md): the door in the quay wall under the great bridge's south end, facing the river."
@@ -1938,7 +1938,7 @@ structures:
     decoration: bigbarel
   - id: thing:prop_15_pair
     kind: decoration
-    at: [67.7, 48.1]
+    at: [67.7, 47.4]
     decoration: smlbarel
   - id: thing:ogre_lair
     kind: cave_mouth
@@ -1969,7 +1969,7 @@ structures:
   - id: thing:lair_dress_3
     kind: decoration
     at: [22, 31.6]
-    raise: -27
+    raise: -26
     decoration: 7dec18
   - id: thing:lair_dress_4
     kind: decoration
@@ -1988,12 +1988,12 @@ structures:
   - id: thing:lair_dress_7
     kind: decoration
     at: [20.8, 29]
-    raise: -17
+    raise: -18
     decoration: rock26
   - id: thing:lair_dress_8
     kind: decoration
     at: [25.4, 28.8]
-    raise: -28
+    raise: -40
     decoration: rock12
   - id: thing:lair_dress_9
     kind: decoration
@@ -2002,7 +2002,7 @@ structures:
   - id: thing:lair_dress_10
     kind: decoration
     at: [24.8, 27.7]
-    raise: -77
+    raise: -78
     decoration: 7rock09
   - id: thing:river_boulder_1
     kind: decoration
@@ -2036,7 +2036,7 @@ structures:
     kit: castle
     facing: e
     parts:
-      - {id: base, shape: round, at: [1280, 1280], radius: 896, sides: 12, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: xtslate, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 1024, windows: none, roof: none}
+      - {id: base, shape: round, at: [1280, 1280], radius: 896, sides: 12, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: xtslate, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 1024, walls: {"3": [[wall, 168], [door, 128], [wall, 168]]}, windows: none, roof: none}
       - {id: mid, shape: round, at: [1280, 1280], radius: 704, sides: 12, bottom: 1024, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: xtslate, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 1024, windows: alternate, roof: none}
       - {id: top, shape: round, at: [1280, 1280], radius: 576, sides: 12, bottom: 2048, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: xtslate, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 768, windows: all, roof: cone, roof_pitch: 72}
     floor: 768
@@ -2056,11 +2056,12 @@ structures:
     kit: stone
     facing: n
     parts:
-      - {id: front, at: [448, 320], size: [1152, 896], porches: [{wall: n, depth: 288, height: 576, posts: 64, floor: 48}], textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: cwb1, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 704, windows: none, roof: gable, roof_pitch: 34, eaves: 24, verge: 40, ridge_along: ns}
+      - {id: front, at: [448, 320], size: [1152, 896], porches: [{wall: n, depth: 288, height: 576, posts: 64, floor: 48}], textures: {door: xvtdoorw, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: cwb1, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 704, walls: {n: [[wall, 384], [door, 384], [wall, 384]]}, windows: none, roof: gable, roof_pitch: 34, eaves: 24, verge: 40, ridge_along: ns, door_height: 384}
       - {id: tower_w, at: [96, 384], size: [320, 320], textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: cwb1, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 1088, windows: none, roof: hip, roof_pitch: 62, eaves: 24}
       - {id: tower_e, at: [1632, 384], size: [320, 320], textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: cwb1, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 1088, windows: none, roof: hip, roof_pitch: 62, eaves: 24}
     floor: 1088
     door:
+      leaves: 2
       part: front
       wall: n
     title: Temple of Yak

@@ -212,3 +212,8 @@ shelves, the eyes' light, Picard in his chair), the crypt from its gallery. Ligh
 - Built with the oymap of merge point 31: build warnings 0, audit 0 errors and 0 warnings (the 14 kept `tile_seams`
   gone). Installed 16:35:39, baked from `assets_dev`. Pictures before `output/studio_cal/a7/s24/shots/fd02_before/`,
   after `.../fd02_after/` (sheet `output/studio_cal/a7/s24/shots/fd02_sheet.jpg`).
+
+## F75 (2026-11-26, agent:xeen-fb5-dungeon-f75)
+
+The six Dragon Mummies (450 high, radius 120) leashed (crypt 1,152 / 1,536, stalls 1,536) so a chase stops 64 clear
+of the crypt's 288 arch instead of sinking into it (`tools/xeen/check_monster_fit.py`: 6 stuck -> 0). Playtests 5/5.

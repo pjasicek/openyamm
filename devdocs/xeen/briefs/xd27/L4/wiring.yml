@@ -11,6 +11,48 @@ events:
       - lua: "XeenQuests.hook(\"q-c23.arrival\")"
       - qbit: arrived_once
     notes: "Say why the party is here: A3's hook q-c23.arrival (its window text; a one-shot timer: a load event's window is not shown), on the first arrival only (arrived_once)."
+  - id: evt:campfire_chief_fire
+    preset: script
+    source: deco:chief_fire
+    title: Campfire
+    lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end"
+    once: true
+    notes: "D-104: a dungeon campfire feeds the party once and gives a character with Perception a small ring, as the outdoor campfires (level_generation/projects/xeen/common/campfires.py)."
+  - id: evt:campfire_den_fire
+    preset: script
+    source: deco:den_fire
+    title: Campfire
+    lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end"
+    once: true
+    notes: "D-104: a dungeon campfire feeds the party once and gives a character with Perception a small ring, as the outdoor campfires (level_generation/projects/xeen/common/campfires.py)."
+  - id: evt:campfire_pit_cookfire
+    preset: script
+    source: deco:pit_cookfire
+    title: Cooking fire
+    lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end"
+    once: true
+    notes: "D-104: a dungeon campfire feeds the party once and gives a character with Perception a small ring, as the outdoor campfires (level_generation/projects/xeen/common/campfires.py)."
+  - id: evt:campfire_pit_fire
+    preset: script
+    source: deco:pit_fire
+    title: Campfire
+    lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end"
+    once: true
+    notes: "D-104: a dungeon campfire feeds the party once and gives a character with Perception a small ring, as the outdoor campfires (level_generation/projects/xeen/common/campfires.py)."
+  - id: evt:campfire_quarry_fire
+    preset: script
+    source: deco:quarry_fire
+    title: Campfire
+    lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end"
+    once: true
+    notes: "D-104: a dungeon campfire feeds the party once and gives a character with Perception a small ring, as the outdoor campfires (level_generation/projects/xeen/common/campfires.py)."
+  - id: evt:campfire_yard_fire
+    preset: script
+    source: deco:yard_fire
+    title: Campfire
+    lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end"
+    once: true
+    notes: "D-104: a dungeon campfire feeds the party once and gives a character with Perception a small ring, as the outdoor campfires (level_generation/projects/xeen/common/campfires.py)."
   - id: evt:chest_bundle
     preset: chest
     source: chest:bundle

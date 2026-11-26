@@ -508,3 +508,7 @@ Rebuilt on merge point 41 (chests as chest kinds, ground heights, scatter), inst
   (a6_install_baked.sh), key_npcs rewritten (D1's figures are actors 44-47 since D-161's packs; the list still said
   29-32). Walk 1,166, hostility 51, daily 82: pass from the scratch root and from assets_dev.
 - Captures `output/cv45/shots_d1/` (near, mid, far side; looked at): the grate reads whole at every distance.
+- D-196 (2026-11-26, A6 doors): Ellinger's Tower (192 x 320) and the Western Tower (160 x 320) show the tower kit's
+  `xvtdoor` once, fitted over the leaf (`classic_kit.py`), not MM7's framed `hkm1d`/`hkm3dr` (1.5 and 1.25 doors).
+  Audit `doors.*` 0, door_check 0; all 6 playtests and extras pass; installed with its bake 19:30. Captures
+  `output/xeen_fb/p6_doors/shots/d1_installed/`.

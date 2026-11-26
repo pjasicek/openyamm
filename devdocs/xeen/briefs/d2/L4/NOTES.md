@@ -362,3 +362,6 @@ Rebuilt on merge point 41, installed with its bake 01:20. Dungeon doors with row
   `check_d85.py --kept-group 1 --kept-group 2`).
 - `landmark_crystals_4` sunk 32 into the pass's south slope (`decorations.slope`, 26 over its rim before).
 - Left: `faces.on_land` 1, the log bridge's deck (the bridge-end pad kind, common/wild.py DECK_LIFT is off).
+- D-196 (2026-11-26, A6 doors): the Southern Tower's 192 x 384 door shows the tower kit's `xvtdoor` once, fitted over
+  the leaf (`classic_kit.py`), not MM7's framed `hkm1d` (1.5 doors). Audit 0, door_check 0, 4 of 4 playtests;
+  installed with its bake 19:37. Captures `output/xeen_fb/p6_doors/shots/d2_installed/`.

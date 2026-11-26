@@ -212,9 +212,9 @@ Default Monster Data					Stats								Movement and Combat					Attack 1			Attack 
 11460	Swamp Thing	Xeen Swamp Thing A	20	100	16	600	9%12D8+L2	0	N	stand	Suicidal	1	120	90	0	0	Phys	3D6+8	0	0	0	0	0	0	0	0	0	5	10	10	10	5	5	5	5	5	0	0
 11461	Bog Thing	Xeen Swamp Thing B	26	146	21	936	8%17D8+L3	0	N	stand	Suicidal	1	140	80	0	Disease1	Phys	3D8+9	0	0	0	0	0	0	0	0	0	15	10	10	10	15	15	15	15	15	0	0
 11462	Marsh Horror	Xeen Swamp Thing C	32	198	27	1344	7%24D8+L3	0	N	stand	Suicidal	1	160	80	0	Paralyze	Phys	4D7+12	0	0	0	0	0	0	0	0	0	15	10	10	10	15	15	Imm	15	15	0	0
-11470	Octopod	Xeen Octopod A	50	400	36	3000	16%41D10+L5	0	Y	Free	Aggress	4	200	70	0	Paralyze	Water	6D7+16	Water	0	0	0	0	0	0	0	0	18	18	Imm	18	18	18	20	18	18	0	0
-11471	Great Octopod	Xeen Octopod B	60	540	44	4200	22%95D10+L5	0	Y	Free	Aggress	4	200	70	0	Poison3	Water	6D8+18	Water	0	0	0	0	0	0	0	0	30	30	Imm	30	30	30	20	30	30	0	0
-11472	Kraken	Xeen Octopod C	70	700	52	5600	29%126D10+L5	0	Y	Free	Aggress	4	200	70	0	Poison3	Water	7D8+20	Water	0	0	0	0	0	0	0	0	30	30	Imm	30	30	30	20	30	30	0	0
+11470	Octopod	Xeen Octopod A	50	400	36	3000	16%41D10+L5	0	N	Free	Aggress	4	200	70	0	Paralyze	Water	6D7+16	Water	0	0	0	0	0	0	0	0	18	18	Imm	18	18	18	20	18	18	0	0
+11471	Great Octopod	Xeen Octopod B	60	540	44	4200	22%95D10+L5	0	N	Free	Aggress	4	200	70	0	Poison3	Water	6D8+18	Water	0	0	0	0	0	0	0	0	30	30	Imm	30	30	30	20	30	30	0	0
+11472	Kraken	Xeen Octopod C	70	700	52	5600	29%126D10+L5	0	N	Free	Aggress	4	200	70	0	Poison3	Water	7D8+20	Water	0	0	0	0	0	0	0	0	30	30	Imm	30	30	30	20	30	30	0	0
 11473	Octopod	Xeen Octopod D	50	400	36	3000	16%41D10+L5	0	N	stand	Aggress	4	200	70	0	Paralyze	Water	6D7+16	Water	0	0	0	0	0	0	0	0	18	18	Imm	18	18	18	20	18	18	0	0
 11474	Great Octopod	Xeen Octopod E	60	540	44	4200	22%95D10+L5	0	Y	Free	Aggress	4	200	70	0	Poison3	Water	6D8+18	Water	0	0	0	0	0	0	0	0	30	30	Imm	30	30	30	20	30	30	0	0
 11480	Giant Snake	Xeen Snake A	5	18	6	75	1%3D4+L1	1	N	Free	Normal	4	300	100	0	Poison1	Phys	1D5+2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	20	0	0	0	0

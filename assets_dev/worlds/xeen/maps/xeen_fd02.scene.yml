@@ -139,6 +139,7 @@ initial_state:
         y: 420
         z: -1280
       initial_yaw_units: 0
+      leash_radius: 1152
       sprite_ids: [0, 0, 0, 0]
       sector_id: 4
       current_action_animation: 0
@@ -162,6 +163,7 @@ initial_state:
         y: -420
         z: -1280
       initial_yaw_units: 0
+      leash_radius: 1152
       sprite_ids: [0, 0, 0, 0]
       sector_id: 4
       current_action_animation: 0
@@ -185,6 +187,7 @@ initial_state:
         y: 380
         z: -1280
       initial_yaw_units: 0
+      leash_radius: 1536
       sprite_ids: [0, 0, 0, 0]
       sector_id: 4
       current_action_animation: 0
@@ -208,6 +211,7 @@ initial_state:
         y: -380
         z: -1280
       initial_yaw_units: 0
+      leash_radius: 1536
       sprite_ids: [0, 0, 0, 0]
       sector_id: 4
       current_action_animation: 0
@@ -577,6 +581,7 @@ initial_state:
         y: 380
         z: -1280
       initial_yaw_units: 0
+      leash_radius: 1536
       sprite_ids: [0, 0, 0, 0]
       sector_id: 12
       current_action_animation: 0
@@ -600,6 +605,7 @@ initial_state:
         y: -380
         z: -1280
       initial_yaw_units: 0
+      leash_radius: 1536
       sprite_ids: [0, 0, 0, 0]
       sector_id: 12
       current_action_animation: 0

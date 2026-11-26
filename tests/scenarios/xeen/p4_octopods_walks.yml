@@ -1,0 +1,338 @@
+# D-200 (U-19, 2026-11-26): P4's Great Octopods (11474: classic AI, the Swimmer kind with Fly Y, the Water ink, no MM9
+# profile, no Aggressor bit) are bound to the plane's water volume (water:sea, bed -1,024, surface -64) and leashed
+# (1,280). The plane's other monsters are killed on load (they shoot the arrival within 2 s: check_arrivals's
+# arrival.open_seen, P4's own design), so only the octopods can hurt the solo hero (level 50):
+#   1. the landing (the arrival) and the Whirlpool Court for 30 s each: full health, no attack_ranged by any octopod
+#      (the north group's home moved to (0, 5120): its leash plus 2,560 stays off both);
+#   2. after the court, every octopod within its leash (+150) of home and above the bed (report_state z: in the sea);
+#   3. the reef terrace's west rim (floor 32), 844 to 1,522 from the east group: the octopod with a clear line (actor
+#      12, 1,522 off; actor 11, nearer, is under the terrace's lip and sees nothing) rises to the surface, comes to
+#      within its leash and shoots its ink (attack_ranged on the party): the hero is hurt within 30 s; every octopod
+#      still within its leash (in the run of 2026-11-26 it stood at z -111, under the surface -64).
+# Written by hand (A2/A6 octopods agent, D-200); run with tools/heavy.sh 6 build-xeen/game/openyamm --world xeen
+#   --map xeen_p4.blv --headless-run-scenario tests/scenarios/xeen/p4_octopods_walks.yml --scenario-no-color
+id: xeen.p4_octopods_walks
+title: 'P4: the Great Octopods ink a party on a wall top, never at the court or the landing, and stay in the sea (D-200)'
+world: xeen
+mode: faithful
+tags:
+- xeen
+- indoor
+- regression
+steps:
+- new_game_flow:
+    start_map: xeen_p4.blv
+    party:
+      gold: 0
+      food: 10
+      members:
+      - name: Solo
+        class: Knight
+        level: 50
+        skills: []
+        equipment: {}
+- note: The plane's other monsters (water elementals on the terraces and the court) killed, so only the octopods can hurt
+    the party; the test's hidden guardians stay hidden
+- damage_actor:
+    actor_index: 0
+    amount: 100000
+- damage_actor:
+    actor_index: 1
+    amount: 100000
+- damage_actor:
+    actor_index: 5
+    amount: 100000
+- damage_actor:
+    actor_index: 6
+    amount: 100000
+- damage_actor:
+    actor_index: 7
+    amount: 100000
+- damage_actor:
+    actor_index: 8
+    amount: 100000
+- damage_actor:
+    actor_index: 9
+    amount: 100000
+- damage_actor:
+    actor_index: 10
+    amount: 100000
+- damage_actor:
+    actor_index: 16
+    amount: 100000
+- damage_actor:
+    actor_index: 17
+    amount: 100000
+- damage_actor:
+    actor_index: 18
+    amount: 100000
+- damage_actor:
+    actor_index: 19
+    amount: 100000
+- damage_actor:
+    actor_index: 20
+    amount: 100000
+- damage_actor:
+    actor_index: 21
+    amount: 100000
+- damage_actor:
+    actor_index: 22
+    amount: 100000
+- damage_actor:
+    actor_index: 23
+    amount: 100000
+- damage_actor:
+    actor_index: 24
+    amount: 100000
+- damage_actor:
+    actor_index: 25
+    amount: 100000
+- damage_actor:
+    actor_index: 26
+    amount: 100000
+- damage_actor:
+    actor_index: 27
+    amount: 100000
+- damage_actor:
+    actor_index: 28
+    amount: 100000
+- damage_actor:
+    actor_index: 29
+    amount: 100000
+- advance_runtime:
+    seconds: 4
+    present_dialogs: true
+- advance_runtime:
+    seconds: 1
+- console:
+    line: arena trace on
+- note: 'The landing (the arrival, entrance:d7_fall): 30 s at full health, no ink'
+- set_pose:
+    map: xeen_p4.blv
+    x: 3968
+    y: 3968
+    z: 0
+    yaw: 3.927
+    pitch: 0.0
+- advance_runtime:
+    seconds: 30
+- assert:
+    party_position:
+      x: 3968
+      y: 3968
+      radius: 200
+- assert:
+    party_health:
+      full: true
+- assert:
+    ai_trace:
+      actor_index: 11
+      decision: attack_ranged
+      max_count: 0
+- assert:
+    ai_trace:
+      actor_index: 12
+      decision: attack_ranged
+      max_count: 0
+- assert:
+    ai_trace:
+      actor_index: 13
+      decision: attack_ranged
+      max_count: 0
+- assert:
+    ai_trace:
+      actor_index: 14
+      decision: attack_ranged
+      max_count: 0
+- assert:
+    ai_trace:
+      actor_index: 15
+      decision: attack_ranged
+      max_count: 0
+- note: 'The Whirlpool Court (the test''s arena), east of the whirlpool: 30 s at full health, no ink (D-200 (3): the north
+    group moved to (0, 5120))'
+- set_pose:
+    map: xeen_p4.blv
+    x: -3296
+    y: 1280
+    z: 128
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 30
+- assert:
+    party_position:
+      x: -3296
+      y: 1280
+      radius: 200
+- assert:
+    party_health:
+      full: true
+- assert:
+    ai_trace:
+      actor_index: 11
+      decision: attack_ranged
+      max_count: 0
+- assert:
+    ai_trace:
+      actor_index: 12
+      decision: attack_ranged
+      max_count: 0
+- assert:
+    ai_trace:
+      actor_index: 13
+      decision: attack_ranged
+      max_count: 0
+- assert:
+    ai_trace:
+      actor_index: 14
+      decision: attack_ranged
+      max_count: 0
+- assert:
+    ai_trace:
+      actor_index: 15
+      decision: attack_ranged
+      max_count: 0
+- assert:
+    actor_visible:
+      actor_index: 11
+      monster_id: 11474
+      dead: false
+      report_state: true
+      near:
+        x: 2724
+        y: -1152
+        max_distance: 1430
+        min_z: -1100
+- assert:
+    actor_visible:
+      actor_index: 12
+      monster_id: 11474
+      dead: false
+      report_state: true
+      near:
+        x: 2094
+        y: -788
+        max_distance: 1430
+        min_z: -1100
+- assert:
+    actor_visible:
+      actor_index: 13
+      monster_id: 11474
+      dead: false
+      report_state: true
+      near:
+        x: 2094
+        y: -1516
+        max_distance: 1430
+        min_z: -1100
+- assert:
+    actor_visible:
+      actor_index: 14
+      monster_id: 11474
+      dead: false
+      report_state: true
+      near:
+        x: 420
+        y: 5120
+        max_distance: 1430
+        min_z: -1100
+- assert:
+    actor_visible:
+      actor_index: 15
+      monster_id: 11474
+      dead: false
+      report_state: true
+      near:
+        x: -420
+        y: 5120
+        max_distance: 1430
+        min_z: -1100
+- note: 'The reef terrace''s west rim (3568, -1168, floor 32), 844 from the nearest of the east group: an octopod comes up
+    and shoots its ink within 30 s'
+- set_pose:
+    map: xeen_p4.blv
+    x: 3568
+    y: -1168
+    z: 32
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 30
+- assert:
+    party_position:
+      x: 3568
+      y: -1168
+      radius: 300
+- assert:
+    party_health:
+      full: false
+- assert:
+    ai_trace:
+      actor_index: 12
+      decision: attack_ranged
+      target: party
+      min_count: 1
+- assert:
+    actor_count:
+      hostile: true
+      near:
+      - 3568
+      - -1168
+      - 5120
+      max: 3
+- assert:
+    actor_visible:
+      actor_index: 11
+      monster_id: 11474
+      dead: false
+      report_state: true
+      near:
+        x: 2724
+        y: -1152
+        max_distance: 1430
+        min_z: -1100
+- assert:
+    actor_visible:
+      actor_index: 12
+      monster_id: 11474
+      dead: false
+      report_state: true
+      near:
+        x: 2094
+        y: -788
+        max_distance: 1430
+        min_z: -1100
+- assert:
+    actor_visible:
+      actor_index: 13
+      monster_id: 11474
+      dead: false
+      report_state: true
+      near:
+        x: 2094
+        y: -1516
+        max_distance: 1430
+        min_z: -1100
+- assert:
+    actor_visible:
+      actor_index: 14
+      monster_id: 11474
+      dead: false
+      report_state: true
+      near:
+        x: 420
+        y: 5120
+        max_distance: 1430
+        min_z: -1100
+- assert:
+    actor_visible:
+      actor_index: 15
+      monster_id: 11474
+      dead: false
+      report_state: true
+      near:
+        x: -420
+        y: 5120
+        max_distance: 1430
+        min_z: -1100

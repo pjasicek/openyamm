@@ -504,8 +504,8 @@ steps:
     z: 448
     z_tolerance: 200
 - walk_to:
-    x: -1024
-    y: 1280
+    x: -1522
+    y: 1778
     radius: 160
     timeout_seconds: 90
     clear_hostiles: 2500
@@ -518,8 +518,8 @@ steps:
     source: 'local s = status(); local w = close(); if not w and not string.find(s, ''Slick:'', 1, true) then error(''evt:booth_might
       showed neither a window nor its line: '' .. s) end'
 - walk_to:
-    x: -1536
-    y: 3968
+    x: -1784
+    y: 3538
     radius: 160
     timeout_seconds: 90
     clear_hostiles: 2500
@@ -532,8 +532,8 @@ steps:
     source: 'local s = status(); local w = close(); if not w and not string.find(s, ''Slick:'', 1, true) then error(''evt:booth_speed
       showed neither a window nor its line: '' .. s) end'
 - walk_to:
-    x: -4352
-    y: 3840
+    x: -3659
+    y: 3440
     radius: 160
     timeout_seconds: 90
     clear_hostiles: 2500

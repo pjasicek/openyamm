@@ -521,6 +521,13 @@ POP = [
                            (GV, -1536, 4608), (GV, -1536, 5120), (GV, -1792, 4864), (GV, -1280, 4864)]),
     ('attic', 43, 4, [(TT, -1728, 3968), (TT, -1024, 3264), (TT, -128, 3264)]),
 ]
+# D-185 (reviews/D185_D188_DECISION.md; F75, as D-154 on XD-07 and FD-04): the stage-3 dragons are hidden until
+# m26.stage3 and chase like any other once shown. A dragon (450 high, radius 120) that chases the party to one of D-32's
+# 256-high openings presses into the frame, so each is leashed (2D about its post) to keep its body 64 clear of every
+# opening it cannot pass: the largest leash, rounded down to 32, from tools/xeen/check_monster_fit.py --suggest.
+LEASH = {(4224, -4864): 256,    # Iron Vithnipravad: the well's west opening to the dungeon vault (<= 278)
+         (4800, -4608): 448,    # Argonax: the well's north opening to the guardroom (<= 456)
+         (1856, -6720): 768}    # Scraps: the kennel stair's mouth (<= 784)
 STAGE_OF_GROUP = {}
 MONSTERS = []
 for rm, group, stage, entries in POP:
@@ -533,6 +540,8 @@ for rm, group, stage, entries in POP:
             d['hidden'] = True
         if len(e) > 3:
             d['name'] = e[3]
+        if (x, y) in LEASH:
+            d['leash'] = LEASH[(x, y)]
         if row == SCRAPS:
             d['id'] = 'monster:scraps'
             d['notes'] = "Scraps (Drothnavod the Weighty), optional: behind the kennel portcullis, at the foot of a " \

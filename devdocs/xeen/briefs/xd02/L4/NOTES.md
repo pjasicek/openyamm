@@ -1141,3 +1141,9 @@ The player fell off the trestle car into the chasm (z -1792) and could not get o
 chasm's north wall from its floor at (10912, 5616) to the foot drift (exit (10912, 5904), floor -192) through the gap
 over the trestle. `check_drops.py`: 0 pockets (was 5). Still open: the east cart's gate and deck close through a party
 standing in the gateway (sliding movers ignore bodies; studio request), and the winch's head and bars are not clicked.
+
+## D-185 (2026-11-26, agent:xeen-fb5-dungeon2)
+
+The three bunk niches' openings (`open:bunk_niche_1`-`3`, rooms.yml) 160 -> 192 high, the niches' full height: the Clan
+Guard (h 181) presses into a 160-high frame when it chases the party into the bunk cut (F75). `check_monster_fit.py`
+3 stuck -> 0. Audit 0 errors, `check_drops` 0, playtests 3 of 3 from the stage, installed and baked.

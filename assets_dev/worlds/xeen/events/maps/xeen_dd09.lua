@@ -609,3 +609,12 @@ end, nil)
 RegisterEvent(57, nil, function()
     SetValue(MapVar(16), 0)
 end, nil)
+
+-- evt:campfire_cookfire
+RegisterEvent(58, "Cooking fire", function()
+    if IsAtLeast(MapVar(17), 1) then
+        return
+    end
+    SetValue(MapVar(17), 1)
+    local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") else evt.StatusText("You find food by the fire (+" .. food .. ").") end
+end, "Cooking fire")

@@ -256,7 +256,9 @@ rooms:
     walls:
       - wall: north
         panels:
-          - {id: panel:grille, offset: 512, length: 128, bottom: 64, height: 224, surface: {texture: xngrille, size: [128, 256], fit: true}, notes: The speaking grille beside the vault door.}
+          - {offset: 512, length: 128, bottom: 64, height: 224, surface: {texture: 7solid01, size: [128, 256], fit: true}, notes: The speaking hole behind the grille.}
+    platforms:
+      - {id: platform:grille, at: [-448, -1736], size: [128, 8], rise: 224, surface: {texture: xngrille, size: [128, 256], fit: true}, end_surface: {texture: cwb, size: [128, 256]}, top_surface: {texture: cwb, size: [128, 256]}, bottom_surface: {texture: cwb, size: [128, 256]}, base: 64, notes: "The speaking grille beside the vault door, 4 off the wall over its hole."}
     ambient: 18
     notes: "A short passage, 768 by 384, to the vault's steel door with its speaking grille: 'What is the password?'"
 openings:

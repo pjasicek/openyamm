@@ -140,3 +140,30 @@ RegisterEvent(18, nil, function()
         XeenQuests.hook("q-d16.war_threshold")
     end
 end, nil)
+
+-- evt:campfire_hearth_fire
+RegisterEvent(19, "Hearth", function()
+    if IsAtLeast(MapVar(3), 1) then
+        return
+    end
+    SetValue(MapVar(3), 1)
+    local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") else evt.StatusText("You find food by the fire (+" .. food .. ").") end
+end, "Hearth")
+
+-- evt:campfire_trench_fire_1
+RegisterEvent(20, "Campfire", function()
+    if IsAtLeast(MapVar(4), 1) then
+        return
+    end
+    SetValue(MapVar(4), 1)
+    local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") else evt.StatusText("You find food by the fire (+" .. food .. ").") end
+end, "Campfire")
+
+-- evt:campfire_trench_fire_2
+RegisterEvent(21, "Campfire", function()
+    if IsAtLeast(MapVar(5), 1) then
+        return
+    end
+    SetValue(MapVar(5), 1)
+    local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") else evt.StatusText("You find food by the fire (+" .. food .. ").") end
+end, "Campfire")

@@ -250,6 +250,11 @@ class Monsters:
         boss_loot = boss and settings.get('boss_loot', True)
         treasure = self.treasure(level, experience, boss_loot, settings.get('loot_kind'), where,
                                  settings.get('item_chance_x', 1))
+        # Loot is never silently lost (D-182, XD-19 p1): a row that vanishes on death (`corpse: none`) drops nothing,
+        # so it may not carry table loot; give it a body (`corpse: dying`) or set its treasure to nothing on purpose.
+        if settings.get('corpse') == 'none' and str(treasure) != '0':
+            raise BuildError(f'{where}: `corpse: none` vanishes with its table loot ({treasure}); set `corpse: dying` '
+                             '(D-182: a body and a satchel)')
         if settings.get('fly') not in (None, 'Y', 'N'):
             raise BuildError(f"{where}: fly {settings['fly']!r} is not Y or N")
         fly = settings.get('fly') or xeenlib.cell(stand_in, 9) or 'N'

@@ -536,3 +536,7 @@ before).
   records 11-15 (each event opens both).
 - Installed 00:54, baked, tests 12 of 12 from assets_dev (`output/studio_cal/a8_s26/run/xd21/c005349`); audit 0 / 2
   (the vault door's `xwiron` seams, as before); check_exits 0, check_drops 0.
+
+## D-104 dungeon campfires (2026-11-26, agent:xeen-fb5-dungeon2)
+
+`deco:boss_fire`: the outdoor campfire's event (food 1-3 once, a small ring for a character with Perception), `once: true`, added by `level_generation/projects/xeen/common/campfires.py` (regen.py runs it after gen.py). Rebuilt, audit 0 errors, every playtest passing from the stage, installed and baked, MAW reserve rerun.

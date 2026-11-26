@@ -1,5 +1,5 @@
 format: 1
-counter: 39
+counter: 52
 pins:
   - id: pin:p1
     text: "i make the pin here for every map. Is it possible to move the monsters more far away from the streets? You load in and get immediately attacked."
@@ -287,3 +287,86 @@ pins:
         created: 2026-11-25T09:40:38
         revision: 4541b739c0fa7825fb840e1f3f8c417d
         status: resolved
+  - id: pin:p14
+    text: monst gets stuck
+    source: game
+    world: xeen
+    map: xeen_x6.odm
+    pose:
+      position: [-14637.226, -13589.127, 1663.494]
+      yaw_radians: 3.796
+      pitch_degrees: -12.136
+      heading_yaw_units: 1237
+    picture: .oymap/pins/pictures/p14.png
+    author: user
+    created: 2026-11-25T22:47:34
+    status: resolved
+    claimed_by: agent:xeen-p6-rim
+    from: 20261125-224734-xeen_x6.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F75: map side checked: the sand worm markers near the cove stand 2.4-3.4 cells from the hull (check_spawn_clear spawn.at_hull passes) and the hull's collision leaves no pocket a monster fits into; a pursuing monster in turn-based mode steers straight into the hull. That is the AI's (outdoor pursuit path planning against model faces): a spec went to the engine agent. Left open until it lands."
+        created: 2026-11-26T08:33:18
+        revision: b054e21853c2ae81bf658f65182bafbc
+        pictures: [.oymap/pins/pictures/p14-r1.png]
+      - author: agent:xeen-fb5-engine2
+        text: "F75 R5, part 1 (game 10:09:52): the route planner took the void's terrain inside the Sphinx cove for ground and led worms from north of the cove straight across it, onto the hull's lip or down into the void. The path map now leaves void cells out and walls their rim, and walkers keep off void as off water. Still open: a worm can stick at the seam of hull_092/hull_093 (cell 32, 84), where hull_093's west end cap stands 16-32 above the land with no top behind it, an invisible fin the walker cannot step over. Repro output/xeen_fb/p5_engine2/r5/x6_cove_worms_pursue.yml. Left open."
+        created: 2026-11-26T10:10:00
+        revision: b054e21853c2ae81bf658f65182bafbc
+      - author: agent:xeen-fb5-outdoor2
+        text: "R5's map half (2026-11-26): the hull's pieces now sink to the lowest land under their strip (common/rim.py hull_sink, every map's hull), so hull_093's west end cap no longer stands 16-32 over the land at the seam with hull_092 (tops now 1504/1472, the land 1504-1509). X6 rebuilt and installed with its bake 10:32. The repro (worms north of the cove chasing the party) still fails: the first worm now gets past that seam to the cove's east corner (cell 33, 84) and holds there, 3,605 from the party, no longer targeting it. Left open for the engine (A1: pursuit round the cove's corner)."
+        created: 2026-11-26T10:34:59
+        revision: 6395287a05004fb0b68166c6bf6ff67f
+        pictures: [.oymap/pins/pictures/p14-r3.png]
+      - author: agent:xeen-p6-rim
+        text: "D-192 (data half): common/rim.py hull_sink now puts every kerbless hull top (xeen_hullf, behind the sand-falls) 8 under the lowest land along its span and 64 past each end (0.04-0.25 cells inland, game triangles), kerbed pieces never sunk; X6's 11 tops sank 8-12 more (hull_093 1504 -> 1492, hull_094 1536 -> 1524). New check_wild.py error rim.fin keeps it (X6 0). X6 rebuilt and installed with its bake 19:00. tests/scenarios/xeen/x6_cove_worms_pursue.yml (four Great Worms north of the cove, the idle Sand Worm replaced) passes on the installed map: all four end 450-520 from the party after 16 turns (before: one held at the 092/093 seam, 3,788 off). It joins regressions.sh. After picture: the cove's east corner, hull_094's top no longer stands over the land."
+        created: 2026-11-26T19:03:56
+        revision: 106f85d25dfc1193013fa10ef19576eb
+        status: resolved
+        pictures: [.oymap/pins/pictures/p14-r4.png, .oymap/pins/pictures/p14-r4-2.png]
+  - id: pin:p15
+    text: it is clipping
+    source: game
+    world: xeen
+    map: xeen_x6.odm
+    pose:
+      position: [11429.696, -16200.521, 1505]
+      yaw_radians: 1.422
+      pitch_degrees: -5.933
+      heading_yaw_units: 463
+    picture: .oymap/pins/pictures/p15.png
+    author: user
+    created: 2026-11-25T22:49:12
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
+    from: 20261125-224912-xeen_x6.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F74: Gorm's coach (a closed tent) was laid 1,152 long east-west (a tent's size is [length, width], length north-south) and ran 170 into the coach house's pen; now [1152, 640] at (87.3, 93.6), standing north-south and clear of the pen (x6/places.py). New check town_fit_check.py pieces.overlap (a set piece into a building's plan or another set piece): this was the only site on the 13 maps. X6 installed with its bake 2026-11-26 08:22."
+        created: 2026-11-26T08:33:17
+        revision: b054e21853c2ae81bf658f65182bafbc
+        status: resolved
+        pictures: [.oymap/pins/pictures/p15-r1.png]
+  - id: pin:p16
+    text: the doors are clipping
+    source: game
+    world: xeen
+    map: xeen_x6.odm
+    pose:
+      position: [12307.14, -15850.788, 1505]
+      yaw_radians: 6.267
+      pitch_degrees: -6.474
+      heading_yaw_units: 2043
+    picture: .oymap/pins/pictures/p16.png
+    author: user
+    created: 2026-11-25T22:50:34
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
+    from: 20261125-225034-xeen_x6.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F74: the arena gate (XD-20) was one double door whose two leaves each showed the whole single door picture (arch and frame), reading as two doors jammed together; common/classic_kit.py now gives listed doors with two leaves the kit's wing picture (xvsdoorw), here and at Castle Basenji's gate. New door_check.py rules doors.twin_singles and doors.crowded (no other site on the 13 maps). The gate's height (D-180: 384) waits on a studio change."
+        created: 2026-11-26T08:33:17
+        revision: b054e21853c2ae81bf658f65182bafbc
+        status: resolved
+        pictures: [.oymap/pins/pictures/p16-r1.png]

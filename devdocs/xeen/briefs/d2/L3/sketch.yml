@@ -3680,11 +3680,12 @@ structures:
     height: 384
     width: 320
     depth: 128
-    textures: {door: 7solid01, wall: t68a13mm}
+    textures: {door: {fit: true, size: [128, 256], texture: xvdoorw}, wall: t68a13mm}
     floor: 2000
     title: Graalg's west fort
     into: {map: xeen_dd13.blv, arrival: entrance:d2_west, screen: {text: 5045}}
     notes: "DD-13 (A7): the west fort's gate; stays open after the fort burns (D-23)."
+    leaves: 2
   - id: thing:east_palisade
     kind: wall
     line: [[86.45, 42.2], [84.6, 42.2], [84.6, 47], [89.4, 47], [89.4, 42.2], [87.55, 42.2]]
@@ -3775,11 +3776,12 @@ structures:
     height: 384
     width: 320
     depth: 128
-    textures: {door: 7solid01, wall: t68a13mm}
+    textures: {door: {fit: true, size: [128, 256], texture: xvdoorw}, wall: t68a13mm}
     floor: 2150
     title: Graalg's east fort
     into: {map: xeen_dd13.blv, arrival: entrance:d2_east, screen: {text: 5045}}
     notes: "DD-13 (A7): the east fort's gate; stays open after the fort burns (D-23)."
+    leaves: 2
   - id: thing:parley_fire
     kind: decoration
     at: [79.6, 37]
@@ -3851,7 +3853,7 @@ structures:
     kit: castle
     facing: s
     parts:
-      - {id: base, shape: round, at: [640, 640], radius: 420, sides: 10, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: xtslate, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 1280, windows: none, roof: none}
+      - {id: base, shape: round, at: [640, 640], radius: 420, sides: 10, textures: {door: {fit: true, size: [128, 256], texture: xvtdoor}, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: xtslate, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 1280, walls: {"0": [[wall, 33.787], [door, 192], [wall, 33.787]]}, upper_walls: {"0": [[wall, 33.787], [wall, 192], [wall, 33.787]]}, windows: none, roof: none, door_height: 384}
       - {id: top, shape: round, at: [640, 640], radius: 468, sides: 10, bottom: 1280, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: xtslate, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 512, windows: none, roof: cone, roof_pitch: 70}
     floor: 1050
     door:

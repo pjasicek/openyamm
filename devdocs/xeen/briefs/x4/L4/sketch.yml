@@ -1975,7 +1975,7 @@ structures:
   - id: thing:crest_cairn_w
     kind: decoration
     at: [40.5, 26.6]
-    raise: -26
+    raise: -25
     decoration: rock26
     title: Climbers' cairn
     condition: {not: {lua: "Xeen.usedToday(\"x4_crest_cairn_w\")"}}
@@ -2021,6 +2021,7 @@ structures:
   - id: thing:shrine_brazier
     kind: decoration
     at: [104, 45.5]
+    raise: 128
     decoration: brazir2f
     title: Brazier
   - id: thing:burned_wagon

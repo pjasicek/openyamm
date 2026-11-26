@@ -66,10 +66,14 @@ def ground(X, Y):
     return round(h(i, j) * (1 - fx) * (1 - fy) + h(i + 1, j) * fx * (1 - fy) + h(i, j + 1) * (1 - fx) * fy
                  + h(i + 1, j + 1) * fx * fy)
 
-def dark_face(name, tex='7solid01'):
+# D-189 (2026-11-26): a built doorway shows its kit's door picture; a cave mouth's way in stays 7solid01
+DOOR_FACES = ('7solid01', 'xvdoor', 'xvsdoor', 'xvtdoor')
+
+
+def dark_face(name, tex=DOOR_FACES):
     b = bmodels[name]
     for f in b['faces']:
-        if f['texture'] == tex:
+        if f['texture'] in tex and f.get('cog_triggered') and abs(f['plane_normal'][2]) < 6554:
             vs = [b['vertices'][i] for i in f['vertices']]
             n = f['plane_normal']
             return ((sum(v[0] for v in vs) / len(vs), sum(v[1] for v in vs) / len(vs), min(v[2] for v in vs)),

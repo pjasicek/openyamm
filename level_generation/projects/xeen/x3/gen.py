@@ -785,8 +785,12 @@ def build():
     S({'id': 'thing:high_magic', 'kind': 'building', 'at': [tc[0] - 2, tc[1] - 2], 'size': [4, 4], 'kit': 'castle',
        'floor': 1000, 'title': 'Tower of High Magic', 'facing': 'n',
        'parts': [
+           # D-180 rule a (2026-11-26): the door at least XD-11's way out (192 x 384; it was 132 x 256): a pair of the
+           # castle kit's wing (a single leaf wider than its 128 picture tiles it), two leaves of 128, 320 high
+           # (within 64), in its 398 facet
            {'id': 'base', 'shape': 'round', 'at': [1024, 1024], 'radius': TOWER_R, 'sides': 12, 'wall_height': 1152,
-            'roof': 'none', 'windows': 'none', 'textures': {'wall': 'hwm2wall', 'door': 'hwm2d'}},
+            'roof': 'none', 'windows': 'none', 'textures': {'wall': 'hwm2wall', 'door': 'hwm2d'}, 'door_height': 320,
+            'walls': {'6': [['wall', 71], ['door', 256], ['wall', 71]]}},
            {'id': 'mid', 'shape': 'round', 'at': [1024, 1024], 'radius': 640, 'sides': 12, 'bottom': 1152,
             'wall_height': 1024, 'roof': 'none', 'windows': 'alternate',
             # texture fit (merge point 16): the castle kit's window is ch1b1 rubble, unlike the white plaster
@@ -795,7 +799,7 @@ def build():
            {'id': 'top', 'shape': 'round', 'at': [1024, 1024], 'radius': 512, 'sides': 12, 'bottom': 2176,
             'wall_height': 768, 'roof': 'cone', 'roof_pitch': 70, 'windows': 'all',
             'textures': {'wall': 'hwp1bwall', 'window': 'hwp1b1w', 'roof': 'hwm2rf'}}],
-       'door': {'part': 'base', 'wall': '6'},
+       'door': {'part': 'base', 'wall': '6', 'leaves': 2},
        'into': {'map': 'xeen_xd11.blv'},
        'condition': {'lua': 'XeenQuests.hook("m13.tower_door")'},
        'notes': 'XD-11 (installed, A8): the door faces north up the causeway; A3 m13.tower_door, the Enchanted Key.'})
@@ -807,7 +811,10 @@ def build():
        'free': True, 'mouth': {'width': 256, 'height': 352, 'depth': 16, 'form': 'door', 'sides': 0, 'rim': 128},
        # P3 F50 (2026-11-24): a barrow of the dark tower blocks (the classic kit's 'tower', U-14), not a shell of the
        # ground's dirt standing free on flat land (it read as a plain brown wedge)
-       'textures': {'shell': 'xvtwall', 'door': '7solid01'}, 'roughness': 0.5, 'seed': 5,
+       # P5 F71 (X3 p10, 2026-11-26): a built doorway in a door form shows its kit's door picture, the tower kit's
+       # xvtdoor (the original's tower door), not the black 7solid01 of a mouth into the dark (it read as a texture
+       # missing; xeen-fb5-outdoor's choice, cheaper to reverse than a framed opening)
+       'textures': {'shell': 'xvtwall', 'door': 'xvtdoor'}, 'roughness': 0.5, 'seed': 5,
        'title': 'Tomb of a Thousand Terrors', 'hint': 'Tomb of a Thousand Terrors',
        'condition': {'lua': 'XeenQuests.hook("m10.tomb_door")'},
        'into': {'map': 'xeen_xd08.blv', 'at': [0, 384, 0], 'facing': 512},

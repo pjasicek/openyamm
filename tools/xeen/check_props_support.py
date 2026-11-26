@@ -9,6 +9,8 @@ installed (or built) maps as the game reads them:
   support.edge       error    a drop of more than 64 within 48 of a container's or other prop's footprint (it stands
                               at an edge: a cliff, a terrace, a platform or a bridge side); a warning for set pieces
   support.floating   error    nothing within 24 under the prop's middle
+  support.sunk       error    outdoors, a structure's top 8 to 160 over the prop's base covers its middle: the studio
+                              stood it on the land under a slab, a paving or a deck (P5 F72, X2 p13's keg in the quay)
   chest.look         error    a chest that is not one of the shipped chests: MM7's or MM8's 19 faces (7gt002 or gt002
                               pieces), MM6's chest kinds (ch1 to ch5, ch001 to ch006), a crate, or a bookcase
   chest.entrance     error    a chest within 320 in front of (192 beside) a house door, an exit, a door, a teleport
@@ -46,6 +48,8 @@ EDGE_DROP = 64.0     # a drop this deep there is an edge (a 45 degree slope over
 FLOOR_NORMAL_Z = 0.6
 FURNITURE = 128.0
 SLOPE_OVERHANG = 48.0  # outdoors what a prop other than a container may hang over a hillside
+SUNK = 8.0           # a structure's top this far over a prop's base covers it (the prop is sunk in it)
+SUNK_REACH = 160.0   # higher than this over the base it is a roof over the prop
 SLOPE_EDGE_DROP = 96.0  # and the drop beside it that still reads as a steep hillside, not an edge    # indoors a table or a shelf is no deeper than this
 
 CONTAINER_WORDS = re.compile(r'barrel|barel|cask|keg|sack|\bbag|crate|\bbox|bucket|firewood|woodpile|log pile')
@@ -416,6 +420,15 @@ def check_map(path: Path, scene: Path | None, assets: Path, cache: Path, kinds, 
             continue
         base = max(z, middle)
         set_piece = kind['set_piece'] or entity['event'] != 0
+        # Sunk under a structure's top (P5 F72, X2 p13): the studio stands a decoration on the land, so one sketched
+        # inside a quay slab, a paving or a deck stands under its top; a top up to SUNK_REACH over the base covering
+        # the middle is no roof over the prop but the floor round it.
+        if outdoor:
+            over = [h - base for h in world.faces.floor_heights(x, y) if SUNK < h - base <= SUNK_REACH]
+            if over:
+                add('error', 'support.sunk', entity['at'], f'{label}: sunk {max(over):.0f} under a structure\'s top '
+                    'that covers its middle (it stands on the land under it)', prop=entity['name'])
+                continue
         overhang, drop = judge_footprint(world, base, ring(x, y, radius * 0.85), ring(x, y, radius + EDGE_REACH)
                                          + ring(x, y, radius + EDGE_REACH / 2), (x, y))
         cls = 'container' if kind['container'] else 'set piece' if set_piece else 'other'

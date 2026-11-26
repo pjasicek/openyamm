@@ -514,6 +514,9 @@ rooms:
     theme: theme:roof
     bands:
       - {height: 128, surface: {texture: cnb, size: [128, 256]}}
+    platforms:
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[1856, 960], [1918, 960], [1918, 1024], [1856, 1024]], top_surface: {texture: cnb, size: [128, 256]}, notes: A post of keep stone where the roof's three parts and the sky stair's gallery meet.}
+      - {rise: 160, surface: {texture: cnb, size: [128, 256]}, outline: [[1856, -1024], [1918, -1024], [1918, -960], [1856, -960]], top_surface: {texture: cnb, size: [128, 256]}, notes: A post of keep stone where the roof's three parts and the sky stair's gallery meet.}
     ambient: 24
     notes: "The roof reaches over the keep's outer wall to 32 short of the open air, and to 16 short of the Well's four flat faces, so its parapets are thin and the party can look down over them."
   - id: room:roof_n
@@ -630,9 +633,9 @@ rooms:
     bands:
       - {height: 896, surface: {texture: cnb, size: [128, 256]}}
     platforms:
-      - {id: platform:sky_stair_gallery, rise: 32, outline: [[1920, -1792], [2304, -1792], [2304, 1152], [3072, 1152], [3072, 1792], [1920, 1792]], base: 736, notes: "The hanging gallery at the upper floor, along the end the stair rises to and the inner wall."}
+      - {id: platform:sky_stair_gallery, rise: 32, surface: {texture: cnb, size: [128, 256]}, outline: [[1920, -1792], [2304, -1792], [2304, 1152], [3072, 1152], [3072, 1792], [1920, 1792]], base: 736, notes: "The hanging gallery at the upper floor, along the end the stair rises to and the inner wall."}
     flights:
-      - {from: [2816, -1408], to: [2816, 1152], open_below: 32, to_height: 3072, width: 384, steps: 24, notes: "One long flight up the outer wall, 24 steps of 32, open underneath."}
+      - {from: [2816, -1408], to: [2816, 1152], open_below: 32, to_height: 3072, width: 384, steps: 24, riser: {texture: cnb, size: [128, 256]}, notes: "One long flight up the outer wall, 24 steps of 32, open underneath."}
     ambient: 18
     notes: "Darzog's floor to the roof (2304 to 3072), open to the sky: the flight up the east wall rises north to the roof's level."
   - id: room:smelter
@@ -1420,7 +1423,8 @@ openings:
     to: room:roof_e
     from_wall: 3
     to_wall: 1
-    width: full
+    along: 0.5
+    width: 2016
     height: full
   - id: open:skystair_roof_n
     from: room:sky_stair
@@ -1429,11 +1433,25 @@ openings:
     to_wall: 6
     width: full
     height: full
+  - id: open:skystair_roof_nw
+    from: room:sky_stair
+    to: room:roof_n
+    from_wall: 3
+    to_wall: 5
+    width: full
+    height: full
   - id: open:skystair_roof_s
     from: room:sky_stair
     to: room:roof_s
     from_wall: 0
     to_wall: 2
+    width: full
+    height: full
+  - id: open:skystair_roof_sw
+    from: room:sky_stair
+    to: room:roof_s
+    from_wall: 3
+    to_wall: 3
     width: full
     height: full
   - id: open:state_hall

@@ -210,3 +210,8 @@ statue plinths (a footing band once up).
 ## S32 (2026-11-22, A6 32nd session: merge point 41 and the feedback fixes)
 
 Rebuilt and installed 01:29 (open air, no bake); MAW reserve rewritten (59 copies). F16: Alamar's roof hatch, the Pyramid's sky door and the Olympus sewer grate lose their Yes/No: the hook decides, then the entrance window with rows 5050 (5062 into FD-01 after m33.done), 5047, 5061. The hatch checks Corak's Soul Box before DD-17 (m33.roof_arrival's refusal on the status line). Stage 11/11; audit 0.
+
+## F70 (agent xeen-fb5-dungeon, 2026-11-26)
+
+- `rail_posts()`: the three rope bridges' rails are tied at both ends to posts on the islands (12 posts;
+  `tools/xeen/check_beam_ends.py` 12 errors to 0).

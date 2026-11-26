@@ -1,0 +1,177 @@
+format: 1
+counter: 27
+pins:
+  - id: pin:p1
+    text: "the map needs more goblin, and more than 2 in a group"
+    source: game
+    world: xeen
+    map: xeen_x7.odm
+    pose:
+      position: [-10774.541, -20797.359, 1899.756]
+      yaw_radians: 1.702
+      pitch_degrees: -1.246
+      heading_yaw_units: 555
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-25T17:17:42
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
+    from: 20261125-171742-xeen_x7.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "D-183: X7's south orcs (the goblin-bodied Xeen orcs) now come 3-4 to a group on 8 markers (was 1-2 on 13), one or more in each of the six south areas: about 28 plus the 2 at the outpost (was about 22); Act I stays within its budget (balance.py 1.15). X7 installed with its bake 2026-11-26 09:10."
+        created: 2026-11-26T09:12:06
+        revision: a7b15d527f8017c1d0eb5caacc342a6c
+        status: resolved
+        pictures: [.oymap/pins/pictures/p1-r1.png]
+  - id: pin:p2
+    text: make it clickable
+    source: game
+    world: xeen
+    map: xeen_x7.odm
+    pose:
+      position: [-16827.25, -11706.748, 2017]
+      yaw_radians: 1.759
+      pitch_degrees: -18.526
+      heading_yaw_units: 573
+    picture: .oymap/pins/pictures/p2.png
+    author: user
+    created: 2026-11-25T17:19:04
+    status: resolved
+    claimed_by: agent:xeen-fb5-engine
+    from: 20261125-171904-xeen_x7.yml
+    replies:
+      - author: agent:xeen-fb5-engine
+        text: "Fixed in 3.4 (D-144/D-152, X7 rebuilt): one click or Use on the orc outpost's fire burns the outpost, also in turn-based mode; the fire, hides and bones go and charred logs and stumps stay (\"The burnt outpost\"), also after a reload. On 3.3 the burn left the fire burning but useless. Test tests/scenarios/xeen/x7_orc_outpost_burn.yml."
+        created: 2026-11-26T08:09:18
+        revision: c4b4a581cf26fa81a2818b53a47fb225
+        status: resolved
+        pictures: [.oymap/pins/pictures/p2-r1.png, .oymap/pins/pictures/p2-r1-2.png]
+  - id: pin:p3
+    text: the tent needs an even ground
+    source: game
+    world: xeen
+    map: xeen_x7.odm
+    pose:
+      position: [18371.834, -15697.827, 2006.376]
+      yaw_radians: 1.423
+      pitch_degrees: 2.389
+      heading_yaw_units: 464
+    picture: .oymap/pins/pictures/p3.png
+    author: user
+    created: 2026-11-25T17:22:07
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
+    from: 20261125-172207-xeen_x7.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "Fixed by 3.4's level pads (F59/D-174, after this pin's 3.3 build): the broken ore wagon stands on a level pad at 2,208 on its hump; checked again on the 2026-11-26 rebuild (town_fit things.overhang, the new things.edge: on its land)."
+        created: 2026-11-26T09:12:06
+        revision: a7b15d527f8017c1d0eb5caacc342a6c
+        status: resolved
+        pictures: [.oymap/pins/pictures/p3-r1.png]
+  - id: pin:p4
+    text: textures missing
+    source: game
+    world: xeen
+    map: xeen_x7.odm
+    pose:
+      position: [5815.797, -13875.823, 2015.531]
+      yaw_radians: 0.275
+      pitch_degrees: 3.781
+      heading_yaw_units: 90
+    picture: .oymap/pins/pictures/p4.png
+    author: user
+    created: 2026-11-25T17:28:29
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor2
+    from: 20261125-172829-xeen_x7.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "Cause found (F71, 2026-11-26): the studio's cave-mouth shell picks each triangle's facing by itself (OutdoorWaysIn.cpp, an 'outward' guess leaning up), so triangles a shake tilted down face into the rock; the bake lights them from behind and they show black (here 7 faces: the black quad and triangle on the south side, the dark band on the north top). The same on 12 cave shells of 7 maps. New check: tools/xeen/check_faces.py faces.flipped (the 12 shells kept in check_faces.yml until fixed). The fix is a studio change requested from the engine agent; this pin is resolved after it lands and X7 is rebuilt."
+        created: 2026-11-26T08:06:07
+        revision: c4b4a581cf26fa81a2818b53a47fb225
+      - author: agent:xeen-fb5-outdoor2
+        text: "F71/R1 (2026-11-26): the studio now winds a cave mouth's shell one way (core/OutdoorWaysIn.cpp, released 10:09), so no triangle faces into the rock and none bakes black. X7 rebuilt and installed with its bake; check_faces.py faces.flipped 0 on X7 (its kept lines deleted from check_faces.yml), the same on X1-X5's shells."
+        created: 2026-11-26T11:01:01
+        revision: 31aedbed79bf6bab9b6a53435f0eb7ab
+        status: resolved
+        pictures: [.oymap/pins/pictures/p4-r2.png]
+  - id: pin:p5
+    text: texture missing
+    source: game
+    world: xeen
+    map: xeen_x7.odm
+    pose:
+      position: [6337.004, -12533.247, 2027.719]
+      yaw_radians: 5.041
+      pitch_degrees: 26.831
+      heading_yaw_units: 1643
+    picture: .oymap/pins/pictures/p5.png
+    author: user
+    created: 2026-11-25T17:28:39
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor2
+    from: 20261125-172839-xeen_x7.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "Same cause as p4 (F71): the shell's top triangles here face into the rock and are baked black; waits on the studio's shell winding fix (requested), then X7's rebuild. Checked by check_faces.py faces.flipped."
+        created: 2026-11-26T08:06:08
+        revision: c4b4a581cf26fa81a2818b53a47fb225
+      - author: agent:xeen-fb5-outdoor2
+        text: "F71/R1 (2026-11-26): the studio now winds a cave mouth's shell one way (core/OutdoorWaysIn.cpp, released 10:09), so no triangle faces into the rock and none bakes black. X7 rebuilt and installed with its bake; check_faces.py faces.flipped 0 on X7 (its kept lines deleted from check_faces.yml), the same on X1-X5's shells."
+        created: 2026-11-26T11:01:01
+        revision: 31aedbed79bf6bab9b6a53435f0eb7ab
+        status: resolved
+        pictures: [.oymap/pins/pictures/p5-r2.png]
+  - id: pin:p6
+    text: the stones are standing strange
+    source: game
+    world: xeen
+    map: xeen_x7.odm
+    pose:
+      position: [-22056.719, 18110.27, 1761]
+      yaw_radians: 6.166
+      pitch_degrees: -1.819
+      heading_yaw_units: 2010
+    picture: .oymap/pins/pictures/p6.png
+    author: user
+    created: 2026-11-25T17:36:45
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
+    from: 20261125-173645-xeen_x7.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F73: the crag's basalt boulders are the world's own models, which the level-pad rule skipped (every 'xeen_' model counted as a set piece), so they stood upright at their middle's land, half in the air on the crag's slopes; they now sink to their rim's lowest land like other rocks, read on the game's own terrain triangles (common/level_pads.py), on X7 (crags, flats, cone) and D5. town_fit_check decorations.slope now measures them too (0 on X7)."
+        created: 2026-11-26T09:12:07
+        revision: a7b15d527f8017c1d0eb5caacc342a6c
+        status: resolved
+        pictures: [.oymap/pins/pictures/p6-r1.png]
+  - id: pin:p7
+    text: stone and tree are clipping together
+    source: game
+    world: xeen
+    map: xeen_x7.odm
+    pose:
+      position: [-18859.596, 17066.717, 2593]
+      yaw_radians: 1.783
+      pitch_degrees: 3.208
+      heading_yaw_units: 581
+    picture: .oymap/pins/pictures/p7.png
+    author: user
+    created: 2026-11-25T17:38:07
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor2
+    from: 20261125-173807-xeen_x7.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F73: cause found: the dead tree is scattered by the studio, whose scatter keeps off buildings and model pieces but not off placed decorations such as the crag's basalt boulders. A studio change was requested from the engine agent; new check town_fit_check decorations.through lists every such site (12 on 4 maps, kept until the studio change lands). Open until then."
+        created: 2026-11-26T09:12:07
+        revision: a7b15d527f8017c1d0eb5caacc342a6c
+        pictures: [.oymap/pins/pictures/p7-r1.png]
+      - author: agent:xeen-fb5-outdoor2
+        text: "F73/R3 (2026-11-26): the studio's scatter keeps clear of placed decorations (core/OutdoorPlaces.cpp, released 10:09), so no dead tree grows out of the boulder; X7 rebuilt and installed with its bake, town_fit_check decorations.through 0 on X7 (27 scattered decorations moved)."
+        created: 2026-11-26T11:01:02
+        revision: 31aedbed79bf6bab9b6a53435f0eb7ab
+        status: resolved
+        pictures: [.oymap/pins/pictures/p7-r2.png]

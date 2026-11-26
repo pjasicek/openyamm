@@ -31,6 +31,10 @@ The tower kit (2026-11-24): the dark places (the evil towers, Castle Blackfang, 
 tower walls (ftowr1/ftowr2: big dark blocks, the plank door with its iron ring), dark slate roofs (xtslate). Textures
 xvtwall, xvtwin, xvtdoor (kit towers).
 
+Every kit's door picture is one 128 bay. On a single leaf wider than that (a listed `['door', w]` bay over 128: the
+Darkside towers' 160 and 192 doors, D-180) the kit lays it once, stretched over the leaf (`{texture, fit: true, size:
+[128, 256]}`, D-196); a pair of leaves (`leaves: 2`) takes the kit's wing on each leaf.
+
 Which building takes which kit beyond the rules above, and the rules for Darkside's towns (MM8 stand-ins named at the
 building level), are data: classic_kit.yml beside this file. apply(sketch, key) with the map key (x1 ... d6).
 
@@ -62,6 +66,7 @@ OWN_ROLES = ('wall', 'door', 'window')
 # MM7's double-door wings on a kit house: one wing of the original's double door (the second leaf hangs it mirrored)
 DOOR_WINGS = {'7hhr1d1': 'xvdoorw', '7hhr1d2': 'xvdoorw'}
 STOREY = 256           # a kit bay's height: the studio lays walls in rows of it
+DOOR_PICTURE = [128, 256]  # every kit's door picture (xvdoor, xvsdoor, xvtdoor): one 128 bay, one storey
 FOOTING = 'cwb1'
 VERGE = 40                 # how far a gable's slopes run past its ends (map units); the barge board is 24 high
 EAVES = 24                 # how far a gable's or hip's roof reaches out over the walls
@@ -214,6 +219,16 @@ def _wall(textures):
     return wall.get('texture') if isinstance(wall, dict) else wall
 
 
+def _wide_door_bay(part):
+    """True when one of the part's listed walls has a door bay wider than the kits' 128 door picture (D-196: the
+    Darkside towers' 160 and 192 leaves, sized by D-180 to their dungeons' ways out)."""
+    walls = part.get('walls') or {}
+    rows = walls.values() if isinstance(walls, dict) else [walls]
+    return any(isinstance(bay, (list, tuple)) and len(bay) == 2 and bay[0] == 'door'
+               and isinstance(bay[1], (int, float)) and bay[1] > DOOR_PICTURE[0]
+               for row in rows if isinstance(row, (list, tuple)) for bay in row)
+
+
 def _rule(key, building, is_plot):
     """The kit a building takes and how: {'kit': house | stone | tower | default, 'walls': [...]} or None."""
     names = CONFIG.get('buildings', {}).get(key) or {}
@@ -283,7 +298,7 @@ def apply(sketch, key=None):
                 if own_wall in special or (rule.get('walls') and (own_wall or building_wall) not in rule['walls']):
                     continue
             textures = KITS[name]
-            if own.get('door') in DOOR_WINGS:
+            if isinstance(own.get('door'), str) and own['door'] in DOOR_WINGS:
                 own['door'] = DOOR_WINGS[own['door']]
             for role, texture in textures.items():
                 # A door or window of the part's own stays on the kits' houses (the town hall's double door).
@@ -295,9 +310,21 @@ def apply(sketch, key=None):
                         in (CONFIG.get('keep_doors') or []):
                     own['door'] = own.get('door') or building['textures']['door']
                     continue
+                # D-196 (2026-11-26): a single leaf wider than the kit's 128 door shows the picture once, stretched
+                # over the leaf (laid at its own width it showed one and a half doors on the towers' 192 leaves)
+                if role == 'door' and _wide_door_bay(part):
+                    own[role] = {'texture': texture, 'fit': True, 'size': list(DOOR_PICTURE)}
+                    counts['fitted_doors'] = counts.get('fitted_doors', 0) + 1
+                    continue
                 own[role] = texture
-            door = building.get('door') if isinstance(building.get('door'), dict) else {}
-            if door.get('leaves') == 2 and door.get('part') == part.get('id'):
+            # F74 (X6 p16, 2026-11-26): the doors of a building's `doors` list too (the Warzone's arena gate, Castle
+            # Basenji's gate): a kit's single door hung whole on each of two leaves showed two arched doors side by
+            # side, their frames meeting (tools/xeen/door_check.py doors.twin_singles)
+            doors = [building['door']] if isinstance(building.get('door'), dict) else []
+            doors += [d for d in building.get('doors') or [] if isinstance(d, dict)]
+            if any(d.get('leaves') == 2 and d.get('part') == part.get('id') for d in doors):
+                if isinstance(own.get('door'), dict):
+                    counts['fitted_doors'] -= 1
                 own['door'] = WINGS[name]
             roof = own.get('roof') or (building.get('textures') or {}).get('roof')
             if roof is None or roof in HALF_TIMBER_ROOFS:
@@ -322,6 +349,6 @@ def apply(sketch, key=None):
             counts['buildings'] += 1
     return ['classic kit: %(buildings)d buildings, %(parts)d parts (house %(house)d, stone %(stone)d, tower %(tower)d; '
             '%(shingle)d shingle roofs, %(thatch)d thatch), %(verges)d verges, %(eaves)d eaves, %(stables)d stables, '
-            '%(storeys)d heights in whole storeys, %(plain)d parts without windows or posts'
-            % dict(counts, stables=counts.get('stables', 0), storeys=counts.get('storeys', 0),
-                   plain=counts.get('plain', 0))]
+            '%(storeys)d heights in whole storeys, %(plain)d parts without windows or posts, %(fitted)d wide single '
+            'doors fitted' % dict(counts, stables=counts.get('stables', 0), storeys=counts.get('storeys', 0),
+                                  plain=counts.get('plain', 0), fitted=counts.get('fitted_doors', 0))]

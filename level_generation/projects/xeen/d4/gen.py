@@ -9,8 +9,8 @@ one band at a storey's top, hkm3elw yellow-glass windows once per storey and fac
 from the ferry jetty's end, the Isle 2,500 and more of deep water from the crag, the gatehouse at the crag's west
 foot (m25.blackfang_gate, never opens, a hinged pair); the bat storm's two spots (BAT_STORM_SPOTS) wait on S's model,
 their shrieks a map timer; the Fly knock-down over the crag top (Fly ended by evt.RemovePartyBuff, then m25.bat_storm);
-five octopods placed in the two deep basins as swimmers (A1's outdoor water facts, merge point 18) on a home radius
-(OCTOPOD_LEASH); the coven's two groups hidden on load by
+five octopods placed in the two deep basins, MM6's sea serpents' kind (D-200: classic AI, the Swimmer kind walks on
+water, the Water ink) kept in the water by their home radius (OCTOPOD_LEASH); the coven's two groups hidden on load by
 q-d22.coven_gone; DD-20's shaft by the jetty, the guild riddle, DD-12, DD-23 (each sealed until its dungeon is
 installed and lists the entrance); Leafpoint (MM7 Treant 453), Ector, Naomi; the Isle Ferry back (A4's 4667); the
 beached boat. World: xeen. Houses: A4's source/towns/d4.yml. Hooks: A3's quest files (`map: D4`). Rows: A2's.
@@ -586,6 +586,12 @@ STORM_BOX = (81.0, 41.0, 94.0, 56.0)
 STORM_Z = 2700
 STORM_DROP = (75.6, 54.0)
 OCTOPOD_LEASH = 1500  # the octopods' home radius (game units; the scene's leash_radius, D-36 (2))
+# D-200 (3): an unengaged octopod notices a party within its relation's 2,560 (A2's `short`): its leash circle plus that
+# stays off the jetty, the Isle landing and the waterfront
+OCTOPOD_NOTICE = 2560
+# D-87 / D-200 (2): no ranged disabler (the Paralyze Octopod's ink) within 5,888 of an arrival, measured from the home
+# less the leash (a post reaches any point of its circle); 64 over for the build's rounding
+D87_RANGE = 5888 + 64
 SEALED = 'The way in is choked and dark. (Not yet open: this place comes in a later part of the world.)'
 
 
@@ -1282,12 +1288,19 @@ def build():
     place(ROW['coven_mother'], (50.3, 89.6), 1, 0, G_CIRCLE)
     place(ROW['witch'], (50.8, 67.6), 4, 1.2, G_REEDS)
     place(ROW['coven_witch'], (50.6, 69.6), 2, 0.6, G_REEDS)
-    # the five octopods in the two deep basins (D-36 (2)): A2's swim AI rows, swimmers by A1's outdoor water facts
-    # (merge point 18), each home at least 2,500 from the jetty, the Isle landing and the waterfront and its home
-    # radius (`leash`) inside the water: OCTOPOD_LEASH short of the nearest land (shore, Isle, skerries) by 500 and
-    # never bringing it within 2,500 of those three
-    OCTO = [(ROW['octopod'], (60.0, 64.0)), (ROW['octopod'], (65.0, 59.5)), (ROW['great_octopod'], (86.0, 65.5)),
+    # the five octopods in the two deep basins (D-36 (2), D-200): MM6's sea serpents' kind (A2's rows: classic AI, the
+    # Swimmer kind walks on water, the Water ink; hostile by their relation `short`, no Aggressor bit, so an unengaged
+    # one notices a party only within OCTOPOD_NOTICE), each home at least 2,500 from the jetty, the Isle landing and
+    # the waterfront and its home radius (`leash`) inside the water: OCTOPOD_LEASH short of the nearest land (shore,
+    # Isle, skerries) by 500, and the leash plus OCTOPOD_NOTICE clear of those three (D-200 (3)). D-200 (2): the
+    # Paralyze Octopods (a D-87 ranged disabler) at least D87_RANGE plus the leash from every arrival, so tier A took
+    # group 5's home from tier B (A at groups 3, 5, 6; B at 4, 7: Act IV's count and XP kept) and group 3's home moved
+    # from (60, 64) to (59, 63) in its basin.
+    OCTO = [(ROW['octopod'], (59.0, 63.0)), (ROW['great_octopod'], (65.0, 59.5)), (ROW['octopod'], (86.0, 65.5)),
             (ROW['octopod'], (93.5, 66.5)), (ROW['great_octopod'], (85.0, 74.0))]
+    arrivals_d87 = [SOUTH_START, WEST_START, SQUARE_ARRIVAL, DOCK_ARRIVAL, ISLE_ARRIVAL,
+                    (ISLE_TOWER[0], ISLE_TOWER[1] + 2), (62, 90), (76, 54), (SHAFT[0], SHAFT[1] - 1.2), LAIR_ARRIVAL,
+                    (GATEHOUSE[0] - 1.8, GATEHOUSE[1]), (75, 90)]
     for (row, at), g in zip(OCTO, G_OCTOPODS):
         for (u, v) in (JETTY_END, ISLE_ARRIVAL, (at[0], 82.4)):
             if math.hypot(at[0] - u, at[1] - v) * 512 < 2500:
@@ -1296,9 +1309,14 @@ def build():
             raise SystemExit('an octopod not in the deep water: %s' % (at,))
         land = min(poly_dist(at, p) for p in (LAKE,) + tuple(ISLETS)) * 512
         near = min(math.hypot(at[0] - u, at[1] - v) for (u, v) in (JETTY_END, ISLE_ARRIVAL, (at[0], 82.4))) * 512
-        if land - OCTOPOD_LEASH < 500 or near - OCTOPOD_LEASH < 2500:
+        if land - OCTOPOD_LEASH < 500 or near - OCTOPOD_LEASH < max(2500, OCTOPOD_NOTICE):
             raise SystemExit('an octopod whose home radius reaches land or the town: %s' % (at,))
-        place(row, at, 1, 0, g, hostile=True, leash=OCTOPOD_LEASH)
+        if row == ROW['octopod']:
+            arrival = min(math.dist(at, a) for a in arrivals_d87) * 512
+            if arrival - OCTOPOD_LEASH < D87_RANGE:
+                raise SystemExit('a Paralyze Octopod within 5,888 of an arrival, leash counted (D-87, D-200): %s %d'
+                                 % (at, arrival - OCTOPOD_LEASH))
+        place(row, at, 1, 0, g, leash=OCTOPOD_LEASH)
     # townsfolk and talkers (A4's NPCs, A3's topics)
     actors.append({'monster': str(ROW['peasant_f']), 'npc': NPC['naomi'], 'at': [70.6, 90.1], 'spread': 0,
                    'group': G_NAOMI, 'hostile': False})

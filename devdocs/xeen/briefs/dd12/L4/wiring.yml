@@ -84,7 +84,7 @@ events:
     notes: "A heap of bones in the south-east storeroom: a find, then 'Nothing here.'"
   - id: evt:cage1
     preset: script
-    source: panel:cage1
+    source: platform:cage1
     title: Lark of Luck
     condition: {not: {map_var: bird_luck}}
     effects:
@@ -101,7 +101,7 @@ events:
     notes: "D-42 (4): 'Lark of Luck. Set it free?' (aaze0082:2-13), +2 Luck to every member present, once (map variable bird_luck)."
   - id: evt:cage2
     preset: script
-    source: panel:cage2
+    source: platform:cage2
     title: Eagle of Endurance
     condition: {not: {map_var: bird_end}}
     effects:
@@ -118,7 +118,7 @@ events:
     notes: "D-42 (4): 'Eagle of Endurance. Set it free?' (aaze0082:2-13), +2 Endurance to every member present, once (map variable bird_end)."
   - id: evt:cage3
     preset: script
-    source: panel:cage3
+    source: platform:cage3
     title: Sparrow of Speed
     condition: {not: {map_var: bird_speed}}
     effects:
@@ -135,7 +135,7 @@ events:
     notes: "D-42 (4): 'Sparrow of Speed. Set it free?' (aaze0082:2-13), +2 Speed to every member present, once (map variable bird_speed)."
   - id: evt:cage4
     preset: script
-    source: panel:cage4
+    source: platform:cage4
     title: Parrot of Prophecy
     condition: {not: {map_var: parrot}}
     effects:
@@ -149,7 +149,7 @@ events:
     notes: aaze0082:16-17.
   - id: evt:cage5
     preset: script
-    source: panel:cage5
+    source: platform:cage5
     title: Parakeet of Personality
     condition: {not: {map_var: bird_pers}}
     effects:
@@ -166,7 +166,7 @@ events:
     notes: "D-42 (4): 'Parakeet of Personality. Set it free?' (aaze0082:2-13), +2 Personality to every member present, once (map variable bird_pers)."
   - id: evt:cage6
     preset: script
-    source: panel:cage6
+    source: platform:cage6
     title: Magpie of Might
     condition: {not: {map_var: bird_might}}
     effects:
@@ -183,7 +183,7 @@ events:
     notes: "D-42 (4): 'Magpie of Might. Set it free?' (aaze0082:2-13), +2 Might to every member present, once (map variable bird_might)."
   - id: evt:cage7
     preset: script
-    source: panel:cage7
+    source: platform:cage7
     title: Albatross of Accuracy
     condition: {not: {map_var: bird_acc}}
     effects:
@@ -200,7 +200,7 @@ events:
     notes: "D-42 (4): 'Albatross of Accuracy. Set it free?' (aaze0082:2-13), +2 Accuracy to every member present, once (map variable bird_acc)."
   - id: evt:cage8
     preset: script
-    source: panel:cage8
+    source: platform:cage8
     title: Songbird of Serenity
     lua: "XeenQuests.hook(\"m24.songbird\")"
     notes: "The last cage: A3's m24.songbird (bird_freed 111480, the Songbird 12526, once; then 'An empty cage, door open.'). The lift runs from then on."

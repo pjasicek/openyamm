@@ -127,7 +127,7 @@ heights:
       height: 1184
       slope: 1
       notes: level land under Justine's lean-to (common/level_pads.py)
-    - polygon: [[85, 22], [89, 22], [89, 25], [85, 25]]
+    - polygon: [[86, 23], [89, 23], [89, 26], [86, 26]]
       height: 1536
       slope: 1
       notes: level land under A Sardaj tent (common/level_pads.py)
@@ -1776,10 +1776,10 @@ structures:
     at: [70.2, 44.9]
     size: [2, 2]
     kit: grey
-    textures: {door: hkm1d, roof: xtslatew, wall: hkm1b1, window: hkm1bw}
+    textures: {door: xvtdoor, roof: xtslatew, wall: hkm1b1, window: hkm1bw}
     facing: w
     parts:
-      - {id: base, shape: round, at: [512, 512], radius: 416, sides: 12, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 384, windows: alternate, roof: none}
+      - {id: base, shape: round, at: [512, 512], radius: 440, sides: 12, textures: {door: {fit: true, size: [128, 256], texture: xvtdoor}, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 384, walls: {"9": [[wall, 17.88], [door, 192], [wall, 17.88]]}, upper_walls: {"9": [[wall, 17.88], [wall, 192], [wall, 17.88]]}, windows: alternate, roof: none, door_height: 320}
       - {id: course_1, shape: round, at: [512, 512], radius: 448, sides: 12, bottom: 368, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: csbr128, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 32, windows: none, roof: flat}
       - {id: storey_2, shape: round, at: [512, 512], radius: 416, sides: 12, bottom: 384, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 384, windows: alternate, roof: none}
       - {id: course_2, shape: round, at: [512, 512], radius: 448, sides: 12, bottom: 752, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: csbr128, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 32, windows: none, roof: flat}
@@ -1937,7 +1937,7 @@ structures:
     size: [0.2, 0.2]
     kit: grey
     parts:
-      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a letter on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 5 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: F. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 5 then evt.StatusText(\"The F chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: F. It will not shut. All nine lids spring open again.\") end"}]}
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with the letter F on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 5 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: F. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 5 then evt.StatusText(\"The F chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: F. It will not shut. All nine lids spring open again.\") end"}]}
     floor: 1150
     door: none
   - id: thing:letter_chest_2
@@ -1946,7 +1946,7 @@ structures:
     size: [0.2, 0.2]
     kit: grey
     parts:
-      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a letter on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 2 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: T. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 2 then evt.StatusText(\"The T chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: T. It will not shut. All nine lids spring open again.\") end"}]}
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with the letter T on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 2 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: T. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 2 then evt.StatusText(\"The T chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: T. It will not shut. All nine lids spring open again.\") end"}]}
     floor: 1150
     door: none
   - id: thing:letter_chest_3
@@ -1955,7 +1955,7 @@ structures:
     size: [0.2, 0.2]
     kit: grey
     parts:
-      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a letter on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 8 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: K. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 8 then evt.StatusText(\"The K chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: K. It will not shut. All nine lids spring open again.\") end"}]}
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with the letter K on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 8 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: K. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 8 then evt.StatusText(\"The K chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: K. It will not shut. All nine lids spring open again.\") end"}]}
     floor: 1150
     door: none
   - id: thing:letter_chest_4
@@ -1964,7 +1964,7 @@ structures:
     size: [0.2, 0.2]
     kit: grey
     parts:
-      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a letter on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 0 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: P. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 0 then evt.StatusText(\"The P chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: P. It will not shut. All nine lids spring open again.\") end"}]}
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with the letter P on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 0 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: P. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 0 then evt.StatusText(\"The P chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: P. It will not shut. All nine lids spring open again.\") end"}]}
     floor: 1150
     door: none
   - id: thing:letter_chest_5
@@ -1973,7 +1973,7 @@ structures:
     size: [0.2, 0.2]
     kit: grey
     parts:
-      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a letter on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 6 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: O. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 6 then evt.StatusText(\"The O chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: O. It will not shut. All nine lids spring open again.\") end"}]}
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with the letter O on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 6 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: O. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 6 then evt.StatusText(\"The O chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: O. It will not shut. All nine lids spring open again.\") end"}]}
     floor: 1150
     door: none
   - id: thing:letter_chest_6
@@ -1982,7 +1982,7 @@ structures:
     size: [0.2, 0.2]
     kit: grey
     parts:
-      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a letter on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 3 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: C. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 3 then evt.StatusText(\"The C chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: C. It will not shut. All nine lids spring open again.\") end"}]}
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with the letter C on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 3 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: C. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 3 then evt.StatusText(\"The C chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: C. It will not shut. All nine lids spring open again.\") end"}]}
     floor: 1150
     door: none
   - id: thing:letter_chest_7
@@ -1991,7 +1991,7 @@ structures:
     size: [0.2, 0.2]
     kit: grey
     parts:
-      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a letter on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 7 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: R. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 7 then evt.StatusText(\"The R chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: R. It will not shut. All nine lids spring open again.\") end"}]}
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with the letter R on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 7 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: R. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 7 then evt.StatusText(\"The R chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: R. It will not shut. All nine lids spring open again.\") end"}]}
     floor: 1150
     door: none
   - id: thing:letter_chest_8
@@ -2000,7 +2000,7 @@ structures:
     size: [0.2, 0.2]
     kit: grey
     parts:
-      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a letter on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 1 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: I. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 1 then evt.StatusText(\"The I chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: I. It will not shut. All nine lids spring open again.\") end"}]}
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with the letter I on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 1 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: I. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 1 then evt.StatusText(\"The I chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: I. It will not shut. All nine lids spring open again.\") end"}]}
     floor: 1150
     door: none
   - id: thing:letter_chest_9
@@ -2009,7 +2009,7 @@ structures:
     size: [0.2, 0.2]
     kit: grey
     parts:
-      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with a letter on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 4 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: H. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 4 then evt.StatusText(\"The H chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: H. It will not shut. All nine lids spring open again.\") end"}]}
+      - {id: lid, at: [8, 18], size: [96, 64], textures: {roof: 7trimda, wall: t06a10}, wall_height: 80, windows: none, roof: flat, title: A chest with the letter H on its lid, effects: [{lua: "if Xeen.isSet(\"q-d4.letters_closed\") then XeenQuests.hook(\"q-d4.letter_chests\") return end local k = evt.GetMapVar(\"d1_letters\", 0) if k == 4 then k = k + 1 evt.SetMapVar(\"d1_letters\", k) evt.StatusText(\"A letter on the lid reads: H. The lid drops shut.\") if k == 9 then XeenQuests.hook(\"q-d4.letter_chests\") end elseif k > 4 then evt.StatusText(\"The H chest is shut.\") else evt.SetMapVar(\"d1_letters\", 0) evt.StatusText(\"A letter on the lid reads: H. It will not shut. All nine lids spring open again.\") end"}]}
     floor: 1150
     door: none
   - id: thing:runaway_chest
@@ -2151,12 +2151,12 @@ structures:
     towers: [96, 96, 352]
   - id: thing:mill_burnt
     kind: building
-    at: [77.8, 45.2]
-    size: [1.4, 1.6]
+    at: [77.5, 45.2]
+    size: [1.1, 1.6]
     kit: grey
     textures: {base: cwb1, trim: hhm3b}
     parts:
-      - {id: m, at: [64, 64], size: [589, 692], textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 384, windows: none, roof: none}
+      - {id: m, at: [48, 64], size: [467, 692], textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 384, windows: none, roof: none}
     floor: 1100
     door: none
     title: Miller Dunn's mill
@@ -2167,12 +2167,12 @@ structures:
       seed: 7
   - id: thing:mill
     kind: building
-    at: [77.8, 45.2]
-    size: [1.4, 1.6]
+    at: [77.5, 45.2]
+    size: [1.1, 1.6]
     kit: grey
     textures: {base: cwb1}
     parts:
-      - {id: m, at: [64, 64], size: [589, 692], textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, roof: xlslatemos, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 448, windows: alternate, roof: gable, roof_pitch: 45, eaves: 24, verge: 40}
+      - {id: m, at: [48, 64], size: [467, 692], textures: {door: xvdoor, gable: xvwall, post_left: xvwall, post_right: xvwall, ridge: xvridge, roof: xlslatemos, trim: xvbeam, wall: xvwall, window: xvwall}, wall_height: 448, windows: alternate, roof: gable, roof_pitch: 45, eaves: 24, verge: 40}
     floor: 1100
     door: none
     title: Miller Dunn's mill
@@ -2194,8 +2194,8 @@ structures:
     height: 256
     width: 224
     sides: 8
-    depth: 512
-    textures: {door: 7solid01, wall: cswl128}
+    depth: 96
+    textures: {door: c1d1, wall: cswl128}
     floor: 832
     title: An iron grate
     into: {map: xeen_dd01.blv, arrival: entrance:d1_outfall}
@@ -2259,7 +2259,7 @@ structures:
     title: The East Bridge
   - id: thing:sardaj_tent_1
     kind: tent
-    at: [87, 23.9]
+    at: [87.7, 24.4]
     size: [896, 704]
     height: 384
     title: A Sardaj tent
@@ -2371,10 +2371,10 @@ structures:
     at: [29.5, 31.5]
     size: [3, 3]
     kit: grey
-    textures: {door: hkm3dr, roof: xtslate, wall: hkm3b, window: hkm3elw}
+    textures: {door: xvtdoor, roof: xtslate, wall: hkm3b, window: hkm3elw}
     facing: s
     parts:
-      - {id: base, shape: round, at: [768, 768], radius: 640, sides: 12, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, slit: csaro128, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 1280, upper_walls: {"6": [[wall, 101.644], [slit, 128], [wall, 101.644]]}, windows: none, roof: none}
+      - {id: base, shape: round, at: [768, 768], radius: 640, sides: 12, textures: {door: {fit: true, size: [128, 256], texture: xvtdoor}, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, slit: csaro128, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 1280, walls: {"0": [[wall, 85.644], [door, 160], [wall, 85.644]]}, upper_walls: {"0": [[wall, 85.644], [wall, 160], [wall, 85.644]], "6": [[wall, 101.644], [slit, 128], [wall, 101.644]]}, windows: none, roof: none, door_height: 320}
       - {id: mid, shape: round, at: [768, 768], radius: 576, sides: 12, bottom: 1280, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: cswl128, slit: csaro128, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 1024, walls: {"6": [[wall, 85.08], [slit, 128], [wall, 85.08]]}, upper_walls: {"6": [[wall, 85.08], [slit, 128], [wall, 85.08]]}, windows: none, roof: none}
       - {id: top, shape: round, at: [768, 768], radius: 640, sides: 12, bottom: 2304, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 256, walls: {"0": [[wall, 101.644], [window, 128], [wall, 101.644]], "1": [wall, wall], "10": [[wall, 101.644], [window, 128], [wall, 101.644]], "11": [wall, wall], "2": [[wall, 101.644], [window, 128], [wall, 101.644]], "3": [wall, wall], "4": [[wall, 101.644], [window, 128], [wall, 101.644]], "5": [wall, wall], "6": [[wall, 101.644], [window, 128], [wall, 101.644]], "7": [wall, wall], "8": [[wall, 101.644], [window, 128], [wall, 101.644]], "9": [wall, wall]}, windows: none, roof: cone, roof_pitch: 68}
     floor: 1600
@@ -2568,7 +2568,7 @@ structures:
       - {id: tower_nw_top, shape: round, at: [384, 384], radius: 352, sides: 10, bottom: 640, textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 384, walls: {"0": [wall, wall], "1": [[wall, 44.774], [window, 128], [wall, 44.774]], "2": [wall, wall], "3": [[wall, 44.774], [window, 128], [wall, 44.774]], "4": [wall, wall], "5": [wall, wall], "6": [[wall, 44.774], [window, 128], [wall, 44.774]], "7": [wall, wall], "8": [[wall, 44.774], [window, 128], [wall, 44.774]], "9": [wall, wall]}, upper_walls: {"0": [wall, wall], "1": [wall, wall], "2": [wall, wall], "3": [wall, wall], "4": [wall, wall], "5": [wall, wall], "6": [wall, wall], "7": [wall, wall], "8": [wall, wall], "9": [wall, wall]}, roof: cone, roof_pitch: 66}
       - {id: tower_ne, shape: round, at: [3712, 384], radius: 352, sides: 10, textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 640, windows: none, roof: none}
       - {id: tower_ne_top, shape: round, at: [3712, 384], radius: 352, sides: 10, bottom: 640, textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 384, walls: {"0": [wall, wall], "1": [[wall, 44.774], [window, 128], [wall, 44.774]], "2": [wall, wall], "3": [[wall, 44.774], [window, 128], [wall, 44.774]], "4": [wall, wall], "5": [wall, wall], "6": [[wall, 44.774], [window, 128], [wall, 44.774]], "7": [wall, wall], "8": [[wall, 44.774], [window, 128], [wall, 44.774]], "9": [wall, wall]}, upper_walls: {"0": [wall, wall], "1": [wall, wall], "2": [wall, wall], "3": [wall, wall], "4": [wall, wall], "5": [wall, wall], "6": [wall, wall], "7": [wall, wall], "8": [wall, wall], "9": [wall, wall]}, roof: cone, roof_pitch: 66}
-      - {id: stable_gate, at: [2112, 160], size: [640, 448], textures: {door: xvsdoorw, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 768, walls: {n: [[wall, 192], [door, 256], [wall, 192]]}, upper_walls: {n: [[wall, 192], [wall, 256], [wall, 192]]}, windows: none, roof: flat, battlements: true}
+      - {id: stable_gate, at: [2112, 160], size: [640, 448], textures: {door: xvsdoorw, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 768, walls: {n: [[wall, 128], [door, 384], [wall, 128]]}, upper_walls: {n: [[wall, 128], [wall, 384], [wall, 128]]}, windows: none, roof: flat, battlements: true, door_height: 384}
       - {id: banner, at: [1664, 1504], size: [128, 32], bottom: 832, textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 256, walls: {n: [xkkalban], s: [wall]}, windows: none, roof: none}
     floor: 1750
     door:
@@ -3082,203 +3082,191 @@ structures:
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_043
     kind: decoration
-    at: [29.5, 104.98]
+    at: [33.5, 104.98]
     turn: -180
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_044
     kind: decoration
-    at: [32.5, 104.98]
-    turn: -180
-    decoration: xeen_hull1
-    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_045
-    kind: decoration
-    at: [33.5, 104.98]
-    turn: -180
-    decoration: xeen_hull1
-    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_046
-    kind: decoration
     at: [36, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_047
+  - id: thing:hull_045
     kind: decoration
     at: [40, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_048
+  - id: thing:hull_046
     kind: decoration
     at: [44, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_049
+  - id: thing:hull_047
     kind: decoration
     at: [48, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_050
+  - id: thing:hull_048
     kind: decoration
     at: [52, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_051
+  - id: thing:hull_049
     kind: decoration
     at: [56, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_052
+  - id: thing:hull_050
     kind: decoration
     at: [60, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_053
+  - id: thing:hull_051
     kind: decoration
     at: [64, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_054
+  - id: thing:hull_052
     kind: decoration
     at: [68, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_055
+  - id: thing:hull_053
     kind: decoration
     at: [72, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_056
+  - id: thing:hull_054
     kind: decoration
     at: [76, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_057
+  - id: thing:hull_055
     kind: decoration
     at: [80, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_058
+  - id: thing:hull_056
     kind: decoration
     at: [84, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_059
+  - id: thing:hull_057
     kind: decoration
     at: [88, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_060
+  - id: thing:hull_058
     kind: decoration
     at: [92, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_061
+  - id: thing:hull_059
     kind: decoration
     at: [96, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_062
+  - id: thing:hull_060
     kind: decoration
     at: [100, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_063
+  - id: thing:hull_061
     kind: decoration
     at: [104, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_064
+  - id: thing:hull_062
     kind: decoration
     at: [106.5, 104.98]
     turn: -180
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_065
+  - id: thing:hull_063
     kind: decoration
     at: [107.5, 104.98]
     turn: -180
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_066
+  - id: thing:hull_064
     kind: decoration
     at: [108.5, 104.98]
     turn: -180
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_067
+  - id: thing:hull_065
     kind: decoration
     at: [109.5, 104.98]
     turn: -180
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_068
+  - id: thing:hull_066
     kind: decoration
     at: [110.5, 104.98]
     turn: -180
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_069
+  - id: thing:hull_067
     kind: decoration
     at: [111.5, 104.98]
     turn: -180
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_070
+  - id: thing:hull_068
     kind: decoration
     at: [114, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_071
+  - id: thing:hull_069
     kind: decoration
     at: [118, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_072
+  - id: thing:hull_070
     kind: decoration
     at: [122, 104.98]
     turn: -180
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_073
+  - id: thing:hull_071
     kind: decoration
     at: [124.5, 104.98]
     turn: -180
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_074
+  - id: thing:hull_072
     kind: decoration
     at: [125.5, 104.98]
     turn: -180
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_075
+  - id: thing:hull_073
     kind: decoration
     at: [126.5, 104.98]
     turn: -180
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_076
+  - id: thing:hull_074
     kind: decoration
     at: [23.02, 104.98]
     turn: -135
@@ -3354,9 +3342,9 @@ actors:
   - {monster: "11332", at: [44.5, 40.5], count: 1, spread: 0.6, group: 8, hostile: true}
   - {monster: "11330", at: [52.5, 29], count: 3, spread: 0.6, group: 9, hostile: true}
   - {monster: "11330", at: [55.5, 30], count: 3, spread: 0.6, group: 10, hostile: true}
-  - {monster: "11100", at: [88, 25.4], count: 7, spread: 1.4, group: 60, hostile: false}
-  - {monster: "11101", at: [89.4, 26.2], count: 3, spread: 1.4, group: 60, hostile: false}
-  - {monster: "11102", at: [87.2, 25.2], count: 1, spread: 0, group: 60, hostile: false}
+  - {monster: "11100", at: [88, 25.9], count: 7, spread: 1.4, group: 60, hostile: false}
+  - {monster: "11101", at: [89.4, 26.7], count: 3, spread: 1.4, group: 60, hostile: false}
+  - {monster: "11102", at: [87.2, 25.7], count: 1, spread: 0, group: 60, hostile: false}
   - {monster: "11103", at: [89.2, 24], spread: 0, group: 60, hostile: false, npc: 4953}
   - {monster: "361", at: [66, 41.9], spread: 0, group: 52, npc: 4956}
   - {monster: "377", at: [57, 41.2], spread: 0, group: 52, npc: 4951}

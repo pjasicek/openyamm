@@ -75,7 +75,7 @@ houses:
     kind: mirror
     name: The Mirror of Winterkill
     opens: q-c6.done
-    closed_text: "A pale face looks back from the mirror. It is not yours."
+    closed_text: "A pale face looks back from the mirror. It is not yours. The dead hold Winterkill, and its glass with them. Mayor Randon, by the gongs, wants them driven out."
     mirror: {face: cloudside, town: Winterkill, arrival: winterkill_square, qbit: 119004}
   - {id: 4257, door: "building:winterkill_houses#1", town: Winterkill, kind: residence, name: Ottilie's House, residents: [4507], opens: q-c6.done, closed_text: "Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back."}
   - {id: 4258, door: "building:winterkill_houses#2", town: Winterkill, kind: residence, name: Grimwald's Lodge, residents: [4508], opens: q-c6.done, closed_text: "Snow drifted to the latch. A ghost walks through the wall to look at you, then walks back."}

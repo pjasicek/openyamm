@@ -116,7 +116,7 @@ maps:
     trap: 3
     perception: 3
     environment: PLAINS
-    bolster: {snow: true}
+    bolster: {snow: true, rain: false}   # D-184: snowfields snow and never rain (X5 p14)
     slots:   # A6's L4 (briefs/x5/L4/NOTES.md "Monsters"): snowfields, steppe, Troll Forest; all in the west (Act III)
       - {family: wolves, tier: 0, count: [1, 3], weight: 30}
       - {family: barbarians, tier: 3, count: [1, 3], weight: 30}
@@ -130,6 +130,7 @@ maps:
     trap: 4
     perception: 4
     environment: DESERT
+    bolster: {rain: false}   # D-184: a desert never rains (MM6-MM8's deserts)
     slots:   # A5's L4 (D-31: no scorpions): markers 20 worms, 16 werewolves, 18 golems; 135 at load, 42.1k
       - {family: sand_burrowers, tier: 2, count: [2, 3], weight: 37}
       - {family: werewolves, tier: 4, count: [2, 3], weight: 30}
@@ -144,7 +145,8 @@ maps:
       # Golems 11593 on the lava island, 2 Orcs 11030 and 1 Orc Guard 11032 at the outpost; 101 hostiles, 75.9k
       # F10 (2026-11-21): the orcs 1-2 per marker on 13 markers (was 2-3 on 8): the same 19.5-20 orcs spread over the
       # south slopes' middle and east, which held no monster within 12,000 (tools/xeen/empty_zones.py)
-      - {family: orcs, tier: 1, count: [1, 2], weight: 21}
+      # D-183 (2026-11-26, X7 p1): 3-4 orcs on 8 markers (x7/places.py SOUTH_QUOTA), ~28 + 2 placed; Act I <= 1.15
+      - {family: orcs, tier: 1, count: [3, 4], weight: 21}
       - {family: hydras, tier: 3, count: [1, 3], weight: 40}
       - {family: cloud_dragons, tier: 5, count: [1, 2], weight: 39}
     act_rows:   # D-40 Q2: the south's orcs (5-10) are met by an Act I party from X1's road; the rest is Act V
@@ -316,6 +318,7 @@ maps:
     trap: 6
     perception: 6
     environment: DESERT
+    bolster: {rain: false}   # D-184: a desert never rains (MM6-MM8's deserts)
     slots:   # A6's L4 (briefs/d5/L4/project.yml), checked 2026-11-21: same slots, lock, trap, perception; markers 15 lizards, 21 birds, 11 wild cyclopes (11080-11082, hostile);
       # placed: 3 Griffins at the eyrie; the six People at the hold (11083-11085) are peaceful and not counted
       - {family: great_lizards, tier: 3, count: [2, 3], weight: 40}
@@ -348,7 +351,8 @@ maps:
       - {family: great_birds, tier: 1, count: [1, 3], weight: 55}
       - {family: coven, tier: 1, count: [2, 3], weight: 15}
     arrivals: {D5: "entrance:west_road"}   # D5's east edge lands on the west road (A6's L4)
-    # The lake's octopods are the trap
+    # The lake's octopods are the trap: since U-19/D-200 (2026-11-26) MM6 sea-serpent style, leashed in the water and
+    # inking a party on the shore within 2,560 of them
     # (D-36: counted in Act IV, not by the 60 % rule, which would put the Octopod 50 in Act III).
     traps:
       - {monster: 11470, act: IV, note: Octopod 50 in the deep water}

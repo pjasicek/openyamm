@@ -170,6 +170,8 @@ playtest writers that read a build (`gen_walk.py`, `gen_daily.py` of X4, `gen_ho
 
 The command for every map is `python3 level_generation/projects/xeen/regen.py <map>` (`--build` for the maps marked
 "build"). The playtests of the dungeons are hand-written unless the table names a writer.
+After a listed map's generator, `regen.py` runs `common/campfires.py apply <map>` (D-104: the open dungeon fires'
+food-and-ring event, `once: true`); `common/campfires.py --check` lists every dungeon fire as a campfire or a fixture.
 
 ### Known differences
 

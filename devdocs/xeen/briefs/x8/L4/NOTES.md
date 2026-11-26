@@ -287,3 +287,8 @@ dressing warning:
   `gen_objects.py`). `playtest_down*.yml` try each stair first without the qbit.
 - The stair-of-cloud panels' 48-wide ends are plain cloud (`end_surface`): the picture was cut on them
   (`textures.feature_cut`, 4 audit errors). Audit 0 errors, playtests 7/7 from a stage, installed (no bake).
+
+## F70, D-181 (agent xeen-fb5-dungeon, 2026-11-26)
+
+- `rail_posts()`: each rope bridge's two rails are tied at both ends to a post on the island (8 bridges, 32 posts;
+  `tools/xeen/check_beam_ends.py` 32 errors to 0). D-181: the two offering statues are `7dec55`, not `sta1a`.

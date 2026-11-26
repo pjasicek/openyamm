@@ -23,6 +23,8 @@ import sys
 import tempfile
 
 HERE = os.path.dirname(os.path.realpath(__file__))
+sys.path.insert(0, os.path.join(HERE, 'common'))
+import campfires  # noqa: E402
 REPO = os.path.realpath(os.path.join(HERE, '../../..'))
 OYMAP = os.path.join(REPO, 'openyamm-studio/build-xeen/oymap')
 HEAVY = os.path.join(REPO, 'tools/heavy.sh')
@@ -85,7 +87,11 @@ def regen(m, build):
     for lv in keep:
         shutil.copytree(os.path.join(brief, lv), os.path.join(kept, lv))
     ok = True
-    for step in steps + TESTS.get(m, []):
+    for step in steps:
+        ok &= run([HEAVY, '8', sys.executable, os.path.join(HERE, m, step[0])] + step[1:])
+    if m in campfires.CAMPFIRES:   # D-104: the open dungeon fires' food-and-ring event (common/campfires.py)
+        ok &= run([sys.executable, os.path.join(HERE, 'common', 'campfires.py'), 'apply', m])
+    for step in TESTS.get(m, []):
         ok &= run([HEAVY, '8', sys.executable, os.path.join(HERE, m, step[0])] + step[1:])
     if m in ('p5', 'x8', 'x9', 'd7'):   # their L3 (and D7's L2) take the L4 / L1 atmosphere as it is
         shutil.copy(os.path.join(brief, 'L4/atmosphere.yml'), os.path.join(brief, 'L3/'))

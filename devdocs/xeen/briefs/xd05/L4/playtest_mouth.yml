@@ -65,5 +65,6 @@ steps:
   - select_topic: {match_label: "OK"}
   - advance_runtime: {seconds: 1.0, follow_map_move: true}
   - assert: {map: xeen_x1.odm}
-  - assert: {party_position: {x: 9216, y: 16384, radius: 128, z_min: 1300, z_max: 1450, facing: 1536, facing_within: 40}}
+  # The z window follows X1's ground at entrance:xd05_mouth (1280 since 3.4), ± 80 as X1's own round trip (D-195).
+  - assert: {party_position: {x: 9216, y: 16384, radius: 128, z_min: 1200, z_max: 1360, facing: 1536, facing_within: 40}}
   - play_lua: {source: "if not qbit(110050) or not qbit(110051) then error('a quest bit was lost') end"}

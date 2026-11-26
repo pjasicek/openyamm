@@ -11,7 +11,8 @@ A ranged disabler (D-87.3): a monster row with Stone, Curse, Paralyze, Asleep, I
 its attack bonus on an attack with a missile (attack 1's missile column), or a Paralyze / Finger of Death spell. A spawn
 marker counts if any monster its slot can roll qualifies: slots 1-3 roll the family's tiers A-C (map_stats Dif; every
 tier counts, MAW rolls all three), slots 4-12 a fixed tier. A ranged disabler within 5,888 fails; any other kind keeps
-D-85's 5,120 / 5,888 report (melee kinds are warnings only, D-87.4).
+D-85's 5,120 / 5,888 report (melee kinds are warnings only, D-87.4). A placed actor with a `leash_radius` (a post) is
+measured at its home distance less the leash (D-200: it reaches any point of its circle).
 
 D-15's first-fight buffer, counting spawn markers (D-133, 2026-11-24): an arrival with a hostile that moves or shoots
 (a placed hostile, or a scene spawn marker whose slot can roll such a row) within 2,000 (2D, less the marker's radius)
@@ -182,20 +183,23 @@ for stem in STEMS:
         dis = [(m, disabler(m)) for m in rs if disabler(m)]
         things.append(((s['position']['x'], s['position']['y']), None,
                        f"marker {s['spawn_index']} idx {s['index']} grp {s['group']} "
-                       f"({s['position']['x']}, {s['position']['y']}) [{'/'.join(name(m) for m in rs)}]", dis))
+                       f"({s['position']['x']}, {s['position']['y']}) [{'/'.join(name(m) for m in rs)}]", dis, 0))
     for a in others:
         m = a['monster_id']
         dis = [(m, disabler(m))] if disabler(m) else []
+        # D-200: a placed post (`leash_radius`) reaches any point of its circle: measured at home less the leash
+        leash = a.get('leash_radius') or 0
         things.append(((a['position']['x'], a['position']['y']), a['group'],
                        f"actor {a['actor_index']} {name(m)} ({m}) grp {a['group']} hos {a.get('hostility_type')} "
-                       f"({a['position']['x']}, {a['position']['y']})", dis))
+                       f"({a['position']['x']}, {a['position']['y']})" + (f" leash {leash}" if leash else ''), dis,
+                       leash))
 
     def report(label, p, own_group=None):
         hits = []
-        for q, grp, text, dis in things:
+        for q, grp, text, dis, leash in things:
             if own_group is not None and grp == own_group:
                 continue
-            d = d2(p, q)
+            d = d2(p, q) - leash
             if d < SHOW:
                 hits.append((d, text, dis))
         hits.sort(key=lambda h: h[0])

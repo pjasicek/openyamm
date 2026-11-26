@@ -145,6 +145,21 @@ def boundary_edges(polygons):
     return runs
 
 
+def _river_width(sketch, lip):
+    """F72 (2026-11-26, D1 p1): the width the studio gives a fall without one (OutdoorFalls.cpp: the river whose line
+    passes within two cells of the lip, its width_cells): the Vale Falls' spillway plate is 1,280 + 2 x 96 wide, and
+    the hull pieces laid up to a 768 plate's sides stood under its edges."""
+    best = None
+    for river in (sketch.get('water') or {}).get('rivers') or []:
+        line = river.get('line') or []
+        if not line:
+            continue
+        d = min(math.dist(lip, p) for p in line)
+        if d <= 2.0 and (best is None or d < best[0]):
+            best = (d, float(river.get('width_cells') or 1) * 512.0)
+    return best[1] if best else None
+
+
 def fall_spots(sketch):
     """((x, y) cells, clearance in cells) where a fall pours over the rim: the hull keeps that far from it. A studio
     waterfall with a spillway (`chute`): its lip, the water's half width and the plate's margin; one without, and the
@@ -154,7 +169,8 @@ def fall_spots(sketch):
         if thing.get('kind') == 'waterfall' and thing.get('line'):
             if thing.get('chute'):
                 spots.append((tuple(thing['line'][0]),
-                              ((thing.get('width') or FALL_WIDTH) / 2.0 + DECK_MARGIN) / 512.0, False))
+                              ((thing.get('width') or _river_width(sketch, thing['line'][0]) or FALL_WIDTH) / 2.0
+                               + DECK_MARGIN) / 512.0, False))
             else:
                 spots.append((tuple(thing['line'][0]), 1.6, False))
                 spots.append((tuple(thing['line'][-1]), 1.6, False))
@@ -177,6 +193,78 @@ def _segment_distance(p, a, b):
     length = dx * dx + dy * dy
     t = 0.0 if length == 0 else max(0.0, min(1.0, ((p[0] - ax) * dx + (p[1] - ay) * dy) / length))
     return math.hypot(p[0] - ax - dx * t, p[1] - ay - dy * t)
+
+
+HULL_OVER_WATER = 24     # F72: a hull piece at the water's edge stands this far over the water's plane
+# R5 (2026-11-26, X6 p14 "monst gets stuck"): a piece stands on the land at its middle, so on land falling along the
+# run its end cap at the lower end stood over the land with nothing behind it (`hull_093` 1520 against `hull_092` 1488,
+# the land at their seam 1504-1509), a fin a walker following the rim cannot cross. Each kerbless piece (`xeen_hullf`,
+# the plain faces behind the sand and lava falls, where the land runs open to the edge) sinks (`raise` below zero),
+# at most HULL_SINK_MAX. The kerbed pieces do not sink: their kerb stands about 150 over the land at their middle and
+# the party steps up 128 (OutdoorMovementController maxStepHeight), so a sunk kerb let the party step over it into the
+# void (x4_hull_edge, 2026-11-26).
+# D-192 (2026-11-26): sinking to the land under the piece's own strip left tops 1-8 over the land just past their ends,
+# where a walker comes from (on rising land the engine refuses the step against any top above the target foot): two
+# Great Worms held at X6's hull_092/093 seam and at hull_094's north end. The top now goes HULL_SINK_MARGIN under the
+# lowest land of hull_band (the 48-deep top strip of xeen_deco_hullf.glb, 16-64 behind the piece's origin, and a
+# 40-radius body beside it, along the span and HULL_FIN_REACH past each end), with no dead zone; check_wild.py
+# `rim.fin` measures the installed tops against the same band.
+HULL_SINK_MAX = 128
+HULL_SINK_MARGIN = 8     # the studio's foot and this sampler's land differ by a few units (D-192)
+HULL_FIN_REACH = 64 / 512.0          # cells past each end cap
+HULL_FIN_BAND = (0.04, 0.1, 0.175, 0.25)    # cells inland of the piece's origin
+HULL_FIN_STEP = 32 / 512.0           # cells between samples along the span
+SINKING = ('xeen_hullf',)           # kerbless pieces (and their burnt `bn` twins)
+
+
+def land_at(terrain, cx, cy):
+    """The installed map's land at a cell point, on the game's own triangles (OutdoorMovementController's split, as
+    tools/xeen/check_faces.py Terrain.height); `terrain` is an `oymap export`'s map.terrain."""
+    width, scale, heights = terrain['width'], terrain['height_scale'], terrain['height_map']
+    x0, y0 = int(math.floor(cx)), int(math.floor(cy))
+    fx, fy = cx - x0, cy - y0
+
+    def h(x, y):
+        x, y = max(0, min(width - 1, x)), max(0, min(width - 1, y))
+        return heights[y * width + x] * scale
+    if fx >= fy:
+        return h(x0, y0) + (h(x0 + 1, y0) - h(x0, y0)) * fx + (h(x0 + 1, y0 + 1) - h(x0 + 1, y0)) * fy
+    return h(x0, y0) + (h(x0 + 1, y0 + 1) - h(x0, y0 + 1)) * fx + (h(x0, y0 + 1) - h(x0, y0)) * fy
+
+
+def hull_band(cx, cy, ux, uy, nx, ny, half):
+    """The cell points a walker stands on beside a kerbless piece's top: every HULL_FIN_STEP along its span (`half`
+    cells each way along (ux, uy)) and HULL_FIN_REACH past each end, at HULL_FIN_BAND inland (against the outward
+    normal (nx, ny))."""
+    reach = half + HULL_FIN_REACH
+    count = int(round(2 * reach / HULL_FIN_STEP))
+    for i in range(count + 1):
+        a = -reach + 2 * reach * i / count
+        for d in HULL_FIN_BAND:
+            yield cx + ux * a - nx * d, cy + uy * a - ny * d
+
+
+def hull_band_low(terrain, polygons, cx, cy, ux, uy, nx, ny, half):
+    """The lowest land of hull_band, void cells left out (None when every point is void)."""
+    return min((land_at(terrain, x, y) for x, y in hull_band(cx, cy, ux, uy, nx, ny, half)
+                if not in_void(polygons, x, y)), default=None)
+
+
+def hull_sink(terrain, polygons, cx, cy, ux, uy, nx, ny, half):
+    """The `raise` (zero or below) that puts a kerbless piece's top HULL_SINK_MARGIN under the lowest land of its
+    hull_band, at most HULL_SINK_MAX."""
+    if not terrain:
+        return 0
+    low = hull_band_low(terrain, polygons, cx, cy, ux, uy, nx, ny, half)
+    if low is None:
+        return 0
+    sink = low - HULL_SINK_MARGIN - land_at(terrain, cx, cy)
+    return max(-HULL_SINK_MAX, min(0, math.floor(sink)))
+
+
+def wild_wet(sketch, x, y):
+    import wild  # noqa: E402 (beside this file)
+    return wild._wet(sketch, x, y)
 
 
 def hull_pieces(sketch, key):
@@ -239,9 +327,19 @@ def hull_pieces(sketch, key):
                 kind = 'xeen_hull4' if size == PIECE_LONG else 'xeen_hull1'
                 if burnt and count % 3 == 0:
                     kind += 'bn'
-            pieces.append({'id': 'thing:hull_%03d' % count, 'kind': 'decoration', 'at': [round(cx, 3), round(cy, 3)],
-                           'turn': turn, 'decoration': kind,
-                           'notes': 'U-12 (rim agent, 2026-11-23): the world\'s hull under the rim (common/rim.py).'})
+            piece = {'id': 'thing:hull_%03d' % count, 'kind': 'decoration', 'at': [round(cx, 3), round(cy, 3)],
+                     'turn': turn, 'decoration': kind,
+                     'notes': 'U-12 (rim agent, 2026-11-23): the world\'s hull under the rim (common/rim.py).'}
+            # F72 (2026-11-26, D1 p1 "z-fighting" at The Vale Falls): a piece whose deck lies at a river's or a lake's
+            # edge stood with its deck in the water's own plane (both at the water's level) and flickered with it;
+            # it stands HULL_OVER_WATER over the water, a quay's edge
+            if wild_wet(sketch, cx, cy) or wild_wet(sketch, cx - nx * 0.5, cy - ny * 0.5):
+                piece['raise'] = HULL_OVER_WATER
+            elif kind.startswith(SINKING):
+                sink = hull_sink(terrain, polygons, cx, cy, ux, uy, nx, ny, size / 2.0)
+                if sink:
+                    piece['raise'] = sink
+            pieces.append(piece)
     # land corners the void wraps round: where two edges meet and the diagonal between their normals is void
     ends = {}
     for a, b, normal in edges:
@@ -264,10 +362,11 @@ def hull_pieces(sketch, key):
             continue        # a notch wall's deckless pieces meet the run's deck end by themselves
         count += 1
         kind = 'xeen_hullc' + ('bn' if burnt and count % 3 == 0 else '')
-        pieces.append({'id': 'thing:hull_%03d' % count, 'kind': 'decoration',
-                       'at': [round(p[0] + dx * INTO, 3), round(p[1] + dy * INTO, 3)],
-                       'turn': turn_of(dx, dy), 'decoration': kind,
-                       'notes': 'U-12 (rim agent, 2026-11-23): the hull\'s corner piece (common/rim.py).'})
+        corner = {'id': 'thing:hull_%03d' % count, 'kind': 'decoration',
+                  'at': [round(p[0] + dx * INTO, 3), round(p[1] + dy * INTO, 3)],
+                  'turn': turn_of(dx, dy), 'decoration': kind,
+                  'notes': 'U-12 (rim agent, 2026-11-23): the hull\'s corner piece (common/rim.py).'}
+        pieces.append(corner)     # kerbed: never sunk (R5, see SINKING)
     return pieces
 
 

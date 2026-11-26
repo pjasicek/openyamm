@@ -40,3 +40,19 @@ steps:
   - assert: {actor_count: {monster_id: 11670, near: [4480, -4672, 900], min: 2}}
   - assert: {actor_count: {monster_id: 11670, near: [5312, -3264, 700], max: 0}}
   - assert: {actor_count: {monster_id: 11670, near: [3072, -4480, 640], max: 0}}
+  # D-185 (F75): the stage-3 dragons are leashed (gen.py LEASH) so their bodies (radius 120, 450 high) stay 64 clear of
+  # the 256-high openings they cannot pass. The party waits just beyond each opening, where the dragon sees it: no
+  # dragon's middle comes within radius + 64 (184) of the opening.
+  - set_pose: {map: xeen_dd03.blv, x: 3680, y: -4480, z: -640, yaw: 0.0, pitch: 0.0}
+  - advance_runtime: {seconds: 30}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11670, near: [3840, -4480, 184], max: 0}}
+  - set_pose: {map: xeen_dd03.blv, x: 4928, y: -3808, z: -640, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 30}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11670, near: [4928, -3968, 184], max: 0}}
+  - set_pose: {map: xeen_dd03.blv, x: 1600, y: -5600, z: -1140, yaw: -1.5708, pitch: 0.0}
+  - advance_runtime: {seconds: 30}
+  - play_lua: {source: "close()"}
+  - assert: {actor_count: {monster_id: 11673, near: [1600, -5760, 184], max: 0}}
+  - assert: {actor_count: {monster_id: 11670, near: [4480, -4672, 900], min: 2}}

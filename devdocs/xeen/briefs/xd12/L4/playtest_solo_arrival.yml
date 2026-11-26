@@ -1,0 +1,28 @@
+# Playtest of Darzog's Tower (XD-12, L4) in a solo run (D-191, 2026-11-26): a lone level-33 Sorcerer under Standard
+# rules ("standard:solo") arrives in the gate hall. The arrival window (m21.arrival, its solo state read through
+# evt.RulesetInfo().soloRun) says every spell is half strength here both ways, not that spells die; then a spell is
+# cast and not refused (U-18: allow_spellcasting_solo, solo_spell_damage_percent 50). The party playtests keep their
+# "dies before it is shaped" assert.
+# Played from assets_dev with --world xeen --map xeen_xd12.blv (output/studio_cal/xd12/xfour.sh, TESTS=playtest_solo_arrival).
+id: xeen.xd12.l4.solo_arrival
+title: Darzog's Tower (XD-12 L4), a solo run's arrival window and a spell cast in the ward
+world: xeen
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd12.blv
+      ruleset: "standard:solo"
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Sefa, class: Sorcerer, level: 33, skills: [], equipment: {}}
+  - assert: {map: xeen_xd12.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: 2752, y: 0, radius: 64, z_min: -8, z_max: 8}}
+  # The arrival window: the solo line, not the party's.
+  - advance_runtime: {seconds: 3, present_dialogs: true}
+  - assert: {dialog: {active: true, text_contains: "comes out at half its strength"}}
+  - play_lua: {source: "close(); if not qbit(110503) then error('the arrival did not set arrived_once') end"}
+  # A solo run casts in the ward (the party playtests' same cast is refused).
+  - cast_spell: {member_index: 0, spell_id: 1, skill: 5, mastery: 1, expect: applied}

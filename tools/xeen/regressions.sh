@@ -39,6 +39,9 @@ scenarios=(
     tests/scenarios/xeen/key_npcs_unkillable.yml
     tests/scenarios/mm6/air_elemental_launch_height.yml
     tests/scenarios/xeen/x6_warzone_entrance.yml
+    tests/scenarios/xeen/x6_cove_worms_pursue.yml
+    tests/scenarios/xeen/d4_octopods_shore.yml
+    tests/scenarios/xeen/p4_octopods_walks.yml
     tests/scenarios/xeen/dd15_lift_reload.yml
     tests/scenarios/xeen/fd04_rotating_door_reload.yml
 )
@@ -101,14 +104,29 @@ fi
 
 # The Xeen data gates (merge point 41): the quest audit, the key figures (unkillable, named, bodies) and every ranged
 # model row's launch height against its drawn body.
-for gate in quests.py key_npcs.py check_actor_heights.py; do
-    if python3 "$root/tools/xeen/$gate" > "$logs/${gate%.py}.log" 2>&1; then
+# The fourth pin round's map gates (2026-11-26): rail ends held by something, no sky behind cut-out bars, basin-less
+# fountains only in water, decorations not through walls, no monster penned behind openings its body cannot pass (D-185),
+# the wild-land and rim rules of the outdoor maps (check_wild.py: rim.fin, kerbless hull tops under the land, D-192).
+for gate in quests.py key_npcs.py check_actor_heights.py check_beam_ends.py "check_cutout_backing.py --all" \
+    check_fountains.py "check_clipping.py --all" check_monster_fit.py "check_wild.py --check"; do
+    script="${gate%% *}"
+    # shellcheck disable=SC2086
+    if python3 "$root/tools/xeen/$script" ${gate#"$script"} > "$logs/${script%.py}.log" 2>&1; then
         echo "PASS $gate"
     else
-        echo "FAIL $gate: $logs/${gate%.py}.log"
+        echo "FAIL $gate: $logs/${script%.py}.log"
         failed=1
     fi
 done
+
+# Dungeon campfires (D-104, D-195): every open fire listed in common/campfires.py has its event in the L4 and in the
+# installed map Lua, and no fire decoration is left unlisted.
+if python3 "$root/level_generation/projects/xeen/common/campfires.py" --check > "$logs/campfires.log" 2>&1; then
+    echo "PASS campfires.py --check"
+else
+    echo "FAIL campfires.py --check: $logs/campfires.log"
+    failed=1
+fi
 
 echo "logs: $logs"
 exit "$failed"

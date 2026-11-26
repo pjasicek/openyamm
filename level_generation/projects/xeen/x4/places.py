@@ -521,7 +521,9 @@ def structures():
                               {'text': '+5 Fire resistance (permanent)'}],
                   'else_effects': [{'text': 'The embers on the altar glow, and nothing more.'}]}],
        'door': 'none'})
-    S(deco('thing:shrine_brazier', 'brazir2f', (104.0, 45.5), title='Brazier'))
+    # F72 (2026-11-26, check_props_support support.sunk): the brazier stands on the shrine's altar (its top 128 over
+    # the land; the studio stands a decoration on the land, so it stood sunk in the altar)
+    S(deco('thing:shrine_brazier', 'brazir2f', (104.0, 45.5), title='Brazier', **{'raise': 128}))
     S(deco('thing:burned_wagon', 'dec24x', (105.6, 51.6), title='Burned caravan'))
     S({'id': 'thing:burned_strongbox', 'kind': 'chest', 'at': [106.4, 52.4], 'title': 'Charred strongbox',
        'chest': {'level': 3, 'random_items': 2}})

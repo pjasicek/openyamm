@@ -509,3 +509,9 @@ A player on Discord: "How do I leave the Orc Dungeon without going to Mount Fire
   within 64 in front of it over half its area (the rule of `check_exits.py` `exits.hidden`). MM6-MM9: no change to their built maps (only
   rooms with `rough` change; check the MM9 projects for any). Test: a unit test building a rough room with an exit on its wall
   and asserting no face between the exit and the room's centre.
+
+## D-104 dungeon campfires (2026-11-26, agent:xeen-fb5-dungeon2)
+
+`deco:cookfire`, `deco:den_fire`, `deco:hollows_fire`: the outdoor campfire's event (food 1-3 once, a small ring for a character with Perception), `once: true`, added by `level_generation/projects/xeen/common/campfires.py` (run once on the L4, which is the source here). Fixtures without a click: `deco:hall_fire`, `deco:hearth_fire`, `deco:yard_brazier`. First held back by two faults outside the map (a false `check_drops` pocket at (-2398, 5374) z -480 and a stale X1 arrival window); installed with D-195 below.
+
+D-195 (2026-11-26, agent:xeen-p6-dungeon): installed with the three campfire events and baked. Neither fault was in the map: `check_drops.py` now reads a sloping floor's height at the point (the pit ladder's `top_exit` stands on a sloping triangle, mean -208, plane -224), so the prisoner pit is joined by its ladder (0 pockets); `playtest.yml` and `playtest_mouth.yml` assert X1's arrival at z 1200-1360 (X1's ground 1280 at `entrance:xd05_mouth` since 3.4, ± 80 as X1's own round trip), and `project.yml`'s `arrival_hint` says 1280.

@@ -132,7 +132,7 @@ def decorations():
     for k in range(1, 5):
         add(f'statue_{k}', '7dec54', gen.at(f'poi:statue_{k}'), facing=facing_to[f'poi:statue_{k}'])
     for k in range(1, 7):
-        add(f'offering_{k}', 'sta1a', gen.at(f'poi:offering_{k}'))
+        add(f'offering_{k}', '7dec55', gen.at(f'poi:offering_{k}'))
     for tag in ('sw', 'se', 'a1', 'a2', 'a3'):
         x, y = gen.at(f'poi:nest_{tag}')
         add(f'nest_{tag}_bones', '7dec18', (x - 96, y + 64))

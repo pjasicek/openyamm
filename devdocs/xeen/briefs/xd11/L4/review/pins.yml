@@ -1,0 +1,49 @@
+format: 1
+counter: 6
+pins:
+  - id: pin:p1
+    text: here is something wrong
+    source: game
+    world: xeen
+    map: xeen_xd11.blv
+    pose:
+      position: [-1739.762, 1480.226, 1920]
+      yaw_radians: 0.276
+      pitch_degrees: 12.287
+      heading_yaw_units: 90
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-25T20:39:35
+    status: resolved
+    claimed_by: agent:xeen-fb5-dungeon
+    from: 20261125-203935-xeen_xd11.yml
+    replies:
+      - author: agent:xeen-fb5-dungeon
+        text: "The Stairway to Heaven's flight had no riser surface, so its risers and sides took the room's wall, which is the sky: the stair read as a ramp with saw-tooth notches of fog beside it. The risers are rubble now (geo.py); a new check (tools/xeen/check_clipping.py sky.solid) finds a solid's face drawn as sky on every Xeen map."
+        created: 2026-11-26T08:10:18
+        revision: 2b2b2ad7661f5a24a69d5568a878c2fd
+        status: resolved
+        pictures: [.oymap/pins/pictures/p1-r1.png]
+  - id: pin:p2
+    text: maybe here too
+    source: game
+    world: xeen
+    map: xeen_xd11.blv
+    pose:
+      position: [-378.541, 1861.169, 2496]
+      yaw_radians: 6.095
+      pitch_degrees: 2.154
+      heading_yaw_units: 1987
+    picture: .oymap/pins/pictures/p2.png
+    author: user
+    created: 2026-11-25T20:40:11
+    status: resolved
+    claimed_by: agent:xeen-fb5-dungeon
+    from: 20261125-204011-xeen_xd11.yml
+    replies:
+      - author: agent:xeen-fb5-dungeon
+        text: "The doorway onto the roof (448 high) stood in a wall that is only a parapet, so its jambs and lintel stood as a bare frame in the sky. The wall round it is built up over the lintel on both sides (the stair head); check_clipping.py piece.free finds frames and wall stubs standing free on every Xeen map."
+        created: 2026-11-26T08:10:18
+        revision: 2b2b2ad7661f5a24a69d5568a878c2fd
+        status: resolved
+        pictures: [.oymap/pins/pictures/p2-r1.png]

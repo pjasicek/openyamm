@@ -46,10 +46,11 @@ initial_state:
       height: 487
       move_speed: 260
       position:
-        x: 4400
-        y: -3500
-        z: -14
+        x: 4464
+        y: -3436
+        z: -17
       initial_yaw_units: 512
+      leash_radius: 224
       sprite_ids: [0, 0, 0, 0]
       sector_id: 1
       current_action_animation: 0
@@ -73,6 +74,7 @@ initial_state:
         y: -3100
         z: -26
       initial_yaw_units: 512
+      leash_radius: 544
       sprite_ids: [0, 0, 0, 0]
       sector_id: 1
       current_action_animation: 0
@@ -96,6 +98,7 @@ initial_state:
         y: -2560
         z: -6
       initial_yaw_units: 512
+      leash_radius: 1184
       sprite_ids: [0, 0, 0, 0]
       sector_id: 1
       current_action_animation: 0
@@ -119,6 +122,7 @@ initial_state:
         y: -2900
         z: -6
       initial_yaw_units: 512
+      leash_radius: 1088
       sprite_ids: [0, 0, 0, 0]
       sector_id: 1
       current_action_animation: 0
@@ -142,6 +146,7 @@ initial_state:
         y: -1600
         z: 0
       initial_yaw_units: 1024
+      leash_radius: 352
       sprite_ids: [0, 0, 0, 0]
       sector_id: 2
       current_action_animation: 0
@@ -165,6 +170,7 @@ initial_state:
         y: -1900
         z: 0
       initial_yaw_units: 1024
+      leash_radius: 224
       sprite_ids: [0, 0, 0, 0]
       sector_id: 2
       current_action_animation: 0
@@ -184,10 +190,11 @@ initial_state:
       height: 487
       move_speed: 300
       position:
-        x: 11000
+        x: 11320
         y: 1550
         z: -1024
       initial_yaw_units: 1024
+      leash_radius: 256
       sprite_ids: [0, 0, 0, 0]
       sector_id: 3
       current_action_animation: 0
@@ -211,6 +218,7 @@ initial_state:
         y: 2050
         z: -1024
       initial_yaw_units: 1024
+      leash_radius: 384
       sprite_ids: [0, 0, 0, 0]
       sector_id: 3
       current_action_animation: 0
@@ -234,6 +242,7 @@ initial_state:
         y: -3008
         z: -48
       initial_yaw_units: 512
+      leash_radius: 256
       sprite_ids: [0, 0, 0, 0]
       sector_id: 4
       current_action_animation: 0
@@ -257,6 +266,7 @@ initial_state:
         y: -400
         z: -1024
       initial_yaw_units: 0
+      leash_radius: 448
       sprite_ids: [0, 0, 0, 0]
       sector_id: 5
       current_action_animation: 0
@@ -280,6 +290,7 @@ initial_state:
         y: -380
         z: -1024
       initial_yaw_units: 0
+      leash_radius: 1024
       sprite_ids: [0, 0, 0, 0]
       sector_id: 5
       current_action_animation: 0
@@ -303,6 +314,7 @@ initial_state:
         y: 1200
         z: -1055
       initial_yaw_units: 0
+      leash_radius: 448
       sprite_ids: [0, 0, 0, 0]
       sector_id: 7
       current_action_animation: 0
@@ -326,6 +338,7 @@ initial_state:
         y: 1100
         z: -1046
       initial_yaw_units: 0
+      leash_radius: 416
       sprite_ids: [0, 0, 0, 0]
       sector_id: 7
       current_action_animation: 0
@@ -349,6 +362,7 @@ initial_state:
         y: -4500
         z: -28
       initial_yaw_units: 0
+      leash_radius: 256
       sprite_ids: [0, 0, 0, 0]
       sector_id: 10
       current_action_animation: 0
@@ -372,6 +386,7 @@ initial_state:
         y: -4900
         z: -58
       initial_yaw_units: 0
+      leash_radius: 448
       sprite_ids: [0, 0, 0, 0]
       sector_id: 10
       current_action_animation: 0
@@ -392,9 +407,10 @@ initial_state:
       move_speed: 260
       position:
         x: 5100
-        y: -4300
-        z: -13
+        y: -4492
+        z: -20
       initial_yaw_units: 1024
+      leash_radius: 224
       sprite_ids: [0, 0, 0, 0]
       sector_id: 10
       current_action_animation: 0
@@ -418,6 +434,7 @@ initial_state:
         y: -128
         z: -832
       initial_yaw_units: 0
+      leash_radius: 384
       sprite_ids: [0, 0, 0, 0]
       sector_id: 23
       current_action_animation: 0
@@ -441,6 +458,7 @@ initial_state:
         y: -300
         z: -1024
       initial_yaw_units: 1536
+      leash_radius: 416
       sprite_ids: [0, 0, 0, 0]
       sector_id: 13
       current_action_animation: 0
@@ -464,6 +482,7 @@ initial_state:
         y: -200
         z: -1024
       initial_yaw_units: 1536
+      leash_radius: 224
       sprite_ids: [0, 0, 0, 0]
       sector_id: 13
       current_action_animation: 0
@@ -487,6 +506,7 @@ initial_state:
         y: 1100
         z: -1046
       initial_yaw_units: 0
+      leash_radius: 320
       sprite_ids: [0, 0, 0, 0]
       sector_id: 15
       current_action_animation: 0
@@ -510,6 +530,7 @@ initial_state:
         y: 1700
         z: -1072
       initial_yaw_units: 0
+      leash_radius: 480
       sprite_ids: [0, 0, 0, 0]
       sector_id: 15
       current_action_animation: 0
@@ -533,6 +554,7 @@ initial_state:
         y: 1800
         z: -1041
       initial_yaw_units: 0
+      leash_radius: 1024
       sprite_ids: [0, 0, 0, 0]
       sector_id: 15
       current_action_animation: 0
@@ -552,10 +574,11 @@ initial_state:
       height: 487
       move_speed: 300
       position:
-        x: 8700
-        y: 1560
+        x: 8764
+        y: 1624
         z: -1024
       initial_yaw_units: 0
+      leash_radius: 224
       sprite_ids: [0, 0, 0, 0]
       sector_id: 16
       current_action_animation: 0
@@ -579,6 +602,7 @@ initial_state:
         y: 2120
         z: -1024
       initial_yaw_units: 0
+      leash_radius: 448
       sprite_ids: [0, 0, 0, 0]
       sector_id: 16
       current_action_animation: 0
@@ -598,10 +622,11 @@ initial_state:
       height: 487
       move_speed: 300
       position:
-        x: 10400
+        x: 10208
         y: 1800
         z: -1024
       initial_yaw_units: 1024
+      leash_radius: 224
       sprite_ids: [0, 0, 0, 0]
       sector_id: 16
       current_action_animation: 0
@@ -625,6 +650,7 @@ initial_state:
         y: 1400
         z: -1024
       initial_yaw_units: 0
+      leash_radius: 608
       sprite_ids: [0, 0, 0, 0]
       sector_id: 17
       current_action_animation: 0
@@ -644,10 +670,11 @@ initial_state:
       height: 487
       move_speed: 240
       position:
-        x: 750
-        y: 1400
+        x: 46
+        y: 952
         z: -1024
       initial_yaw_units: 0
+      leash_radius: 672
       sprite_ids: [0, 0, 0, 0]
       sector_id: 17
       current_action_animation: 0
@@ -671,6 +698,7 @@ initial_state:
         y: 900
         z: -1024
       initial_yaw_units: 0
+      leash_radius: 256
       sprite_ids: [0, 0, 0, 0]
       sector_id: 17
       current_action_animation: 0
@@ -694,6 +722,7 @@ initial_state:
         y: -1000
         z: -976
       initial_yaw_units: 0
+      leash_radius: 1536
       sprite_ids: [0, 0, 0, 0]
       sector_id: 18
       current_action_animation: 0
@@ -717,6 +746,7 @@ initial_state:
         y: -300
         z: -1040
       initial_yaw_units: 0
+      leash_radius: 864
       sprite_ids: [0, 0, 0, 0]
       sector_id: 18
       current_action_animation: 0
@@ -740,6 +770,7 @@ initial_state:
         y: -800
         z: -1088
       initial_yaw_units: 1024
+      leash_radius: 608
       sprite_ids: [0, 0, 0, 0]
       sector_id: 18
       current_action_animation: 0
@@ -759,10 +790,11 @@ initial_state:
       height: 487
       move_speed: 300
       position:
-        x: 7000
-        y: 100
-        z: -1015
+        x: 6936
+        y: 36
+        z: -1014
       initial_yaw_units: 1024
+      leash_radius: 224
       sprite_ids: [0, 0, 0, 0]
       sector_id: 18
       current_action_animation: 0
@@ -786,6 +818,7 @@ initial_state:
         y: 200
         z: -1018
       initial_yaw_units: 1536
+      leash_radius: 896
       sprite_ids: [0, 0, 0, 0]
       sector_id: 18
       current_action_animation: 0
@@ -809,6 +842,7 @@ initial_state:
         y: -1100
         z: -1059
       initial_yaw_units: 512
+      leash_radius: 1280
       sprite_ids: [0, 0, 0, 0]
       sector_id: 18
       current_action_animation: 0
@@ -832,6 +866,7 @@ initial_state:
         y: 1500
         z: -1027
       initial_yaw_units: 512
+      leash_radius: 576
       sprite_ids: [0, 0, 0, 0]
       sector_id: 21
       current_action_animation: 0
@@ -855,6 +890,7 @@ initial_state:
         y: 2000
         z: -1042
       initial_yaw_units: 512
+      leash_radius: 1472
       sprite_ids: [0, 0, 0, 0]
       sector_id: 21
       current_action_animation: 0
@@ -878,6 +914,7 @@ initial_state:
         y: 1200
         z: -1043
       initial_yaw_units: 512
+      leash_radius: 1536
       sprite_ids: [0, 0, 0, 0]
       sector_id: 21
       current_action_animation: 0
@@ -901,6 +938,7 @@ initial_state:
         y: 300
         z: -988
       initial_yaw_units: 0
+      leash_radius: 928
       sprite_ids: [0, 0, 0, 0]
       sector_id: 23
       current_action_animation: 0
@@ -924,6 +962,7 @@ initial_state:
         y: -800
         z: -1000
       initial_yaw_units: 0
+      leash_radius: 928
       sprite_ids: [0, 0, 0, 0]
       sector_id: 23
       current_action_animation: 0
@@ -947,6 +986,7 @@ initial_state:
         y: -4600
         z: 24
       initial_yaw_units: 1024
+      leash_radius: 1248
       sprite_ids: [0, 0, 0, 0]
       sector_id: 24
       current_action_animation: 0
@@ -970,6 +1010,7 @@ initial_state:
         y: -4500
         z: 20
       initial_yaw_units: 1024
+      leash_radius: 1504
       sprite_ids: [0, 0, 0, 0]
       sector_id: 24
       current_action_animation: 0
@@ -989,8 +1030,8 @@ initial_state:
       open_speed: 48
       close_speed: 48
       state: 2
-      vertex_ids: [1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001]
-      face_ids: [2073, 2074, 2075]
+      vertex_ids: [2040, 2041, 2042, 2043, 2044, 2045, 2046, 2047]
+      face_ids: [2107, 2108, 2109]
       sector_ids: [23]
       delta_us: [256, 0, 0]
       delta_vs: [-446, -446, 0]
@@ -1008,8 +1049,8 @@ initial_state:
       open_speed: 600
       close_speed: 600
       state: 2
-      vertex_ids: [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013]
-      face_ids: [2076, 2077, 2078, 2079, 2080]
+      vertex_ids: [2048, 2049, 2050, 2051, 2052, 2053, 2054, 2055, 2056, 2057, 2058, 2059]
+      face_ids: [2110, 2111, 2112, 2113, 2114]
       sector_ids: [22, 19]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
@@ -1033,8 +1074,8 @@ initial_state:
       open_speed: 600
       close_speed: 600
       state: 2
-      vertex_ids: [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
-      face_ids: [2081, 2082, 2083, 2084, 2085]
+      vertex_ids: [2060, 2061, 2062, 2063, 2064, 2065, 2066, 2067, 2068, 2069, 2070, 2071]
+      face_ids: [2115, 2116, 2117, 2118, 2119]
       sector_ids: [22, 19]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
@@ -1058,8 +1099,8 @@ initial_state:
       open_speed: 600
       close_speed: 600
       state: 2
-      vertex_ids: [2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033]
-      face_ids: [2086, 2087, 2088, 2089, 2090]
+      vertex_ids: [2072, 2073, 2074, 2075, 2076, 2077, 2078, 2079]
+      face_ids: [2120, 2121, 2122, 2123, 2124]
       sector_ids: [11, 23]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
@@ -1083,8 +1124,8 @@ initial_state:
       open_speed: 600
       close_speed: 600
       state: 2
-      vertex_ids: [2034, 2035, 2036, 2037, 2038, 2039, 2040, 2041]
-      face_ids: [2091, 2092, 2093, 2094, 2095]
+      vertex_ids: [2080, 2081, 2082, 2083, 2084, 2085, 2086, 2087]
+      face_ids: [2125, 2126, 2127, 2128, 2129]
       sector_ids: [11, 23]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
@@ -1108,8 +1149,8 @@ initial_state:
       open_speed: 600
       close_speed: 600
       state: 2
-      vertex_ids: [2042, 2043, 2044, 2045, 2046, 2047, 2048, 2049]
-      face_ids: [2096, 2097, 2098, 2099, 2100]
+      vertex_ids: [2088, 2089, 2090, 2091, 2092, 2093, 2094, 2095]
+      face_ids: [2130, 2131, 2132, 2133, 2134]
       sector_ids: [5, 13]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
@@ -1133,8 +1174,8 @@ initial_state:
       open_speed: 600
       close_speed: 600
       state: 2
-      vertex_ids: [2050, 2051, 2052, 2053, 2054, 2055, 2056, 2057]
-      face_ids: [2101, 2102, 2103, 2104, 2105]
+      vertex_ids: [2096, 2097, 2098, 2099, 2100, 2101, 2102, 2103]
+      face_ids: [2135, 2136, 2137, 2138, 2139]
       sector_ids: [5, 13]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
@@ -1158,8 +1199,8 @@ initial_state:
       open_speed: 600
       close_speed: 600
       state: 2
-      vertex_ids: [2058, 2059, 2060, 2061, 2062, 2063, 2064, 2065]
-      face_ids: [2106, 2107, 2108, 2109, 2110]
+      vertex_ids: [2104, 2105, 2106, 2107, 2108, 2109, 2110, 2111]
+      face_ids: [2140, 2141, 2142, 2143, 2144]
       sector_ids: [7, 13]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
@@ -1183,8 +1224,8 @@ initial_state:
       open_speed: 600
       close_speed: 600
       state: 2
-      vertex_ids: [2066, 2067, 2068, 2069, 2070, 2071, 2072, 2073]
-      face_ids: [2111, 2112, 2113, 2114, 2115]
+      vertex_ids: [2112, 2113, 2114, 2115, 2116, 2117, 2118, 2119]
+      face_ids: [2145, 2146, 2147, 2148, 2149]
       sector_ids: [7, 13]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
@@ -1208,8 +1249,8 @@ initial_state:
       open_speed: 600
       close_speed: 600
       state: 2
-      vertex_ids: [2074, 2075, 2076, 2077, 2078, 2079, 2080, 2081]
-      face_ids: [2116, 2117, 2118, 2119, 2120]
+      vertex_ids: [2120, 2121, 2122, 2123, 2124, 2125, 2126, 2127]
+      face_ids: [2150, 2151, 2152, 2153, 2154]
       sector_ids: [22, 25]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]
@@ -1233,8 +1274,8 @@ initial_state:
       open_speed: 600
       close_speed: 600
       state: 2
-      vertex_ids: [2082, 2083, 2084, 2085, 2086, 2087, 2088, 2089]
-      face_ids: [2121, 2122, 2123, 2124, 2125]
+      vertex_ids: [2128, 2129, 2130, 2131, 2132, 2133, 2134, 2135]
+      face_ids: [2155, 2156, 2157, 2158, 2159]
       sector_ids: [22, 25]
       delta_us: [0, 0, 0, 0, 0]
       delta_vs: [0, 0, 0, 0, 0]

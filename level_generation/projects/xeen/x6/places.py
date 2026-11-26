@@ -408,8 +408,10 @@ def coach_yard(S):
     S({'id': 'thing:arena_gate', 'kind': 'building', 'at': [88.5, 94.0], 'size': [0.5, 2.0],
        'kit': 'plaster', 'facing': 'w', 'door': 'none', 'doors': [arena], 'floor': LD.YARD_H, 'title': 'The Warzone',
        'textures': dict(FIELD, door='chb1dl'),
+       # D-180: 384 x 384 (XD-20's way out is 192 x 384); the studio draws a bay door under walls taller than its
+       # door_height 256 high until A1's request (fb5 sub_b REQUESTS) lands
        'parts': [{'id': 'portal', 'at': [96, 0], 'size': [672, 1024], 'wall_height': 640, 'roof': 'flat',
-                  'windows': 'none',
+                  'windows': 'none', 'door_height': 384,
                   'walls': {'w': ['wall', 'wall', ['door', 384], 'wall', 'wall']}}],
        'notes': 'The arena gate (XD-20) in a stone portal sunk into the Barbaric cliff (its top under the rock), '
                 'facing the yard (A7).'})
@@ -418,7 +420,11 @@ def coach_yard(S):
     # D-174 (xeen-fb4-outdoor9): the coach and the barrels stand on the yard's level floor (rows 92-96, YARD_H): at
     # y 93.0 the coach's north end and at 91.9 the barrels stood on the rise to the cliff (row 91), which only an auto
     # pad cutting that rise by 672 levelled
-    S({'id': 'thing:warzone_coach_wagon', 'kind': 'tent', 'at': [87.2, 93.6], 'size': [640, 1152], 'height': 384,
+    # F74 (X6 p15, 2026-11-26): a tent's `size` is [length, width], unturned its length north-south and its width
+    # east-west, so [640, 1152] lay 1,152 east-west and ran 170 into the coach house's pen (x 86.41); [1152, 640]
+    # stands north-south as D-174 meant (y 92.475-94.725), 0.26 cells clear of the pen (town_fit_check.py
+    # pieces.overlap)
+    S({'id': 'thing:warzone_coach_wagon', 'kind': 'tent', 'at': [87.3, 93.6], 'size': [1152, 640], 'height': 384,
        'open': False, 'title': "Gorm's coach",
        'notes': 'The Warzone coach (A4 4305): a closed coach standing by the cliff (dressing, no click).'})
     for i, (d, at) in enumerate([('haybale2', (83.5, 97.6)), ('haybale2', (83.85, 97.65)),
@@ -556,8 +562,10 @@ def basenji(S):
     parts = [
         {'id': 'hall', 'at': [192, 1600], 'size': [2688, 1408], 'wall_height': 896, 'roof': 'flat',
          'battlements': True, 'windows': 'none'},
+        # D-180 (2026-11-26): a castle's gate is a double door 384 x 384 (door_check doors.small_for_building; XD-14's
+        # way out is 192 x 352): taller than the 352 walls, the studio cuts it into the gable
         {'id': 'gatehouse', 'at': [1152, 2880], 'size': [768, 352], 'wall_height': 352, 'roof': 'gable',
-         'ridge_along': 'ns', 'roof_pitch': 52, 'windows': 'none',
+         'ridge_along': 'ns', 'roof_pitch': 52, 'windows': 'none', 'door_height': 384,
          'walls': {'s': ['wall', ['door', 384], 'wall']}},
         {'id': 'keep', 'at': [704, 320], 'size': [1664, 1408], 'wall_height': 1664, 'roof': 'flat',
          'battlements': True, 'windows': 'none'},

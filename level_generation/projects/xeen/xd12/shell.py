@@ -60,7 +60,9 @@ room('room:bedchamber', "Darzog's bedchamber", [[B, B], [A, B], [A, 2432], [2432
      notes="L-shaped round the secret cell in the tower's north-east corner; the portrait on its north wall is the cell's door.")
 room('room:crodo_cell', "Crodo's cell", rect(2560, 2560, A, A), FL[3], CE[3], 'theme:darzog', ambient=20,
      notes="The secret room: a bare cell 512 square behind Darzog's portrait, where Crodo has sat since he vanished.")
-stair_hall('room:sky_stair', 'Sky stair', 'e', 3, SKY, 'theme:sky_stair', 'n', ambient=18,
+# F76 (XD-12 p3, 2026-11-26): `solid` names the flight's risers and the gallery's sides; they took the room's wall,
+# here the sky, so the stair read as a bare slab running into the wall (check_clipping.py sky.solid).
+stair_hall('room:sky_stair', 'Sky stair', 'e', 3, SKY, 'theme:sky_stair', 'n', ambient=18, solid=CNB,
            bands=[{'height': 896, 'surface': CNB}],
            notes="Darzog's floor to the roof (2304 to 3072), open to the sky: the flight up the east wall rises north to the roof's level.")
 geo.ROOMS['room:sky_stair']['walls'] = [{'wall': 'n', 'surface': SKYS}]
@@ -208,7 +210,19 @@ op('open:roof_sw', 'room:roof_w', 'room:roof_s', 's', width='full', height='full
 op('open:roof_se', 'room:roof_e', 'room:roof_s', 's', width='full', height='full')
 op('open:skystair_roof_n', 'room:sky_stair', 'room:roof_n', 'n', width='full', height='full')
 op('open:skystair_roof_s', 'room:sky_stair', 'room:roof_s', 's', width='full', height='full')
-op('open:skystair_roof_e', 'room:sky_stair', 'room:roof_e', 'w', width='full', height='full')
+# F76 (XD-12 p4, 2026-11-26): the sky stair's west wall north and south of roof_e (768 each, by roof_n and roof_s)
+# stood as two low walls of no thickness between the gallery and the roof, both at 3,072: a lone stone block on the
+# roof (tools/xeen/check_clipping.py piece.free). Open to roof_n and roof_s too; the studio keeps 16 of wall between
+# two openings of one wall, so the opening to roof_e stops 16 short at each end and a square post of keep stone (a
+# merlon's height) stands on roof_e's side over each 16 (2 in front of it, as the studio's panels), where the roof's
+# three parts and the gallery meet.
+op('open:skystair_roof_e', 'room:sky_stair', 'room:roof_e', 'w', centre=0, width=2016, height='full')
+op('open:skystair_roof_nw', 'room:sky_stair', 'room:roof_n', 'w', width='full', height='full')
+op('open:skystair_roof_sw', 'room:sky_stair', 'room:roof_s', 'w', width='full', height='full')
+for _post in (rect(1856, 960, 1918, 1024), rect(1856, -1024, 1918, -960)):
+    geo.ROOMS['room:roof_e'].setdefault('platforms', []).append(
+        {'outline': _post, 'rise': 160, 'surface': CNB, 'top_surface': CNB,
+         'notes': "A post of keep stone where the roof's three parts and the sky stair's gallery meet."})
 # battlements: the roof over the lake
 op('open:battlement_n', 'room:roof_n', 'room:out_n', 'n', width='full', height='full', sill=64, **PARA)
 op('open:battlement_nw', 'room:roof_n', 'room:out_w', 'w', width='full', height='full', sill=64, **PARA)

@@ -320,7 +320,7 @@ r['levels'] = [{'id': 'level:bowl', 'outline': [[-800, -672], [-32, -672], [-32,
 plat('room:nest', 'platform:eggs', (-416, -288), (192, 192), 48, S('vlcceila', 128, 128), S('vlcceila', 128, 128),
      "The warm rock in the bowl's middle where the eggs lie.")
 room('room:hatchery', 'Hatchery', rect(768, -768, 1536, 960), z, z + 1024, theme='theme:tower_hall', ambient=12,
-     notes="Shell shards and scorched straw in a vault 1,024 high, two pairs; joins the landing and the nest (the "
+     notes="Shell shards and scorched straw in a vault 1,024 high, one pair; joins the landing and the nest (the "
            "floor-2 loop). A third dead climber's bones (q-f1.note_balls).")
 room('room:last_climber', 'The last climber', rect(-1536, 1024, -512, 1536), z, z + 512, ambient=12,
      notes="A dead end off the nest: the last climber's bones and note (q-f1.note_eye), the potion on a shelf "
@@ -440,6 +440,27 @@ room('room:gong_hall', 'Gong hall', rect(-1024, 8832, 1024, 9984), ZM, H3, theme
            "iron shutter north; a chest. 'Touch any treasure and you'll have to start over!'")
 r = room('room:fountain', 'Fountain', rect(1088, 8960, 1792, 9600), ZM, ZM + 512, theme='theme:necro', ambient=14,
          notes="A dead end with a fountain: 'Ahh, refreshing!' (aazex123:5), any time.")
+# D-181 (XD-06 p1, 2026-11-26): MM6's fountain (sta1a) has no basin of its own (it stands in New Sorpigal's pool), so
+# it stands in one here: an octagonal kerb 384 across (inner 320), 64 high, the water 16 under its top, the fountain's
+# base at the water line (tools/xeen/check_fountains.py).
+FOUNTAIN_AT, BASIN_OUT, BASIN_IN, KERB, WATER_TOP = (1568, 9280), 192, 160, 64, 48
+
+
+def octagon(c, apothem):
+    r = apothem / math.cos(math.pi / 8)
+    return [[round(c[0] + r * math.cos(math.pi / 8 + k * math.pi / 4)),
+             round(c[1] + r * math.sin(math.pi / 8 + k * math.pi / 4))] for k in range(8)]
+
+
+_out, _in = octagon(FOUNTAIN_AT, BASIN_OUT), octagon(FOUNTAIN_AT, BASIN_IN)
+for _k in range(8):
+    R_['room:fountain'].setdefault('platforms', []).append(
+        {'id': f'platform:basin_kerb_{_k + 1}', 'outline': [_out[_k], _out[(_k + 1) % 8], _in[(_k + 1) % 8], _in[_k]],
+         'rise': KERB, 'surface': NSTONE, 'top_surface': NFLOOR})
+R_['room:fountain']['platforms'][-8]['notes'] = "The fountain basin's kerb, eight stones round the water."
+R_['room:fountain']['platforms'].append(
+    {'id': 'platform:basin_water', 'outline': _in, 'rise': WATER_TOP, 'surface': NSTONE,
+     'top_surface': S('wtrtyl', 128, 128, liquid='water'), 'notes': "The basin's water, 16 under the kerb's top."})
 room('room:maintenance', 'Maintenance', rect(-768, 10048, 768, 10816), ZM, H3, theme='theme:machine', ambient=16,
      notes="'Maintenance' (aazex124:12): racks and a table with papers; two Autobots; ways north to the machine and "
            "west to the control room.")
@@ -690,17 +711,17 @@ LEVELS = {AC: 66, FI: 75, FR: 85, PH: 90, EN: 100, LL: 65, PL: 75, SL: 85, DK: 7
 # Placed monsters: room, group, [(row, at, facing)].
 PLACED = [
     ('scorched_hall', 11, [(AC, (760, 1150), 270), (AC, (1260, 1150), 270)]),
-    ('ring_hall', 12, [(AC, (-560, -1100), 90), (AC, (-560, 500), 0)]),
-    ('ring_hall', 13, [(AC, (1100, 500), 180), (AC, (1100, -1100), 90)]),
+    ('ring_hall', 12, [(AC, (-560, -1100), 90), (AC, (-432, 436), 0)]),
+    ('ring_hall', 13, [(AC, (1100, 436), 180), (AC, (1100, -1100), 90)]),
     ('ring_hall', 14, [(FI, (288, -1150), 90), (FI, (288, 560), 270)]),
-    ('nest', 21, [(FI, (-1150, -1150), 45), (FI, (-1150, 560), 315)]),
-    ('nest', 22, [(FI, (330, 560), 225), (FI, (330, -1150), 135)]),
+    ('nest', 21, [(FI, (-1150, -1150), 45), (FI, (-1150, 496), 315)]),
+    ('nest', 22, [(FI, (138, 496), 225), (FI, (330, -1150), 135)]),
     ('nest', 23, [(FR, (-416, -1150), 90), (FR, (-1150, -288), 0)]),
     ('hatchery', 24, [(FI, (1000, -480), 90), (FR, (1300, -100), 90)]),
-    ('hatchery', 25, [(FI, (1000, 280), 270), (FR, (1300, 660), 270)]),
+    ('nest', 25, [(FI, (-506, 256), 270), (FR, (100, -450), 180)]),
     ('high_hall', 31, [(FR, (-1150, -1150), 45), (FR, (-1150, -560), 315)]),
-    ('high_hall', 32, [(PH, (-500, -1150), 90), (PH, (-500, -560), 90), (PH, (-20, -860), 180)]),
-    ('crown', 33, [(EN, (0, 900), 270), (PH, (-600, 1100), 270), (PH, (600, 1100), 270)]),
+    ('high_hall', 32, [(PH, (-500, -1150), 90), (PH, (-500, -624), 90), (PH, (-84, -796), 180)]),
+    ('crown', 33, [(EN, (0, 900), 270), (PH, (-600, 1100), 270), (PH, (536, 1164), 270)]),
     ('crossword', 41, [(LL, (-900, 2600), 0), (LL, (900, 1700), 180)]),
     ('welcome', 42, [(LL, (-400, 4950), 270), (LL, (400, 4950), 270)]),
     ('ballroom', 43, [(SL, (-600, 5600), 90), (SL, (-300, 5600), 90)]),
@@ -717,6 +738,25 @@ PLACED = [
     ('machine', 55, [(PL, (-800, 13000), 270), (PL, (800, 13000), 270)]),
     ('machine', 56, [(SL, (-950, 12160), 0), (SL, (950, 12160), 180)]),
 ]
+# F75 (reviews/PLAYER_FEEDBACK_20261126.md, XD-18 p1/p2 "dragon gets stuck"; 2026-11-26): a dragon (487 high, radius
+# 238) that chases the party to one of D-32's 256 x 288 openings stops with its middle 60 from it (the level radius
+# limit) and its body sunk into the frame. Every dragon is leashed (2D about its post, as D-154 on XD-07) so that its
+# body stays 64 clear of every opening it cannot pass; seven posts moved deeper into their rooms for a leash of at least
+# 224. Measured and kept by tools/xeen/check_monster_fit.py (fit.stuck); a leash is the largest that keeps clear, at most
+# 1,536. D-186 (2026-11-26): the hatchery (768 wide) held a second pair at leash 32, and the captures showed the four
+# bodies running through each other at rest (output/xeen_fb/p5_dungeon2/fd04/rest/), so group 25 moved to the nest:
+# north of the eggs' bowl and south-east of it, 687 or more from every other dragon, off the bowl; the nest's
+# south-west quarter, which D-186 named, already holds three of its six.
+LEASH = {  # (room, post) -> leash
+    ('crown', -600, 1100): 192, ('crown', 0, 900): 672, ('crown', 536, 1164): 224, ('hatchery', 1000, -480): 320,
+    ('hatchery', 1300, -100): 320, ('nest', -506, 256): 480, ('nest', 100, -450): 512,
+    ('high_hall', -1150, -1150): 896, ('high_hall', -1150, -560): 448, ('high_hall', -500, -1150): 480,
+    ('high_hall', -500, -624): 224, ('high_hall', -84, -796): 224, ('nest', -1150, -1150): 1536,
+    ('nest', -1150, -288): 992, ('nest', -1150, 496): 224, ('nest', -416, -1150): 1344, ('nest', 138, 496): 224,
+    ('nest', 330, -1150): 992, ('ring_hall', -560, -1100): 928, ('ring_hall', -432, 436): 224,
+    ('ring_hall', 288, -1150): 1440, ('ring_hall', 288, 560): 544, ('ring_hall', 1100, -1100): 1536,
+    ('ring_hall', 1100, 436): 256, ('scorched_hall', 760, 1150): 1088, ('scorched_hall', 1260, 1150): 1056,
+}
 for rid, _, ms in PLACED:
     for _, at, _ in ms:
         assert inside(poly(f'room:{rid}'), at), (rid, at)
@@ -737,8 +777,11 @@ if S_LIZARD:   # the lizard he becomes stands where he stood, hidden till he is 
 for rid, group, ms in PLACED:
     for n, (mon, at, f) in enumerate(ms, 1):
         mid = 'monster:energy_dragon' if mon == EN else f'monster:{rid}_{group}_{n}'
-        objects['monsters'].append({'id': mid, 'room': f'room:{rid}', 'monster': mon, 'at': list(at), 'facing': f,
-                                    'hostile': True, 'group': group})
+        m = {'id': mid, 'room': f'room:{rid}', 'monster': mon, 'at': list(at), 'facing': f, 'hostile': True,
+             'group': group}
+        if (rid, *at) in LEASH:
+            m['leash'] = LEASH[(rid, *at)]
+        objects['monsters'].append(m)
 objects['plates'] = objects_plates
 
 
@@ -820,8 +863,8 @@ objects['decorations'] += [
     {'id': 'deco:scorched_skull', 'room': 'room:scorched_hall', 'decoration': '7dec20', 'at': [390, 100],
      'notes': "On the floor by the west wall, south of the stall (F3, 2026-11-21: at (400, 200) it stood on the "
               "stall wall's end, half over its edge)."},
-    {'id': 'deco:fountain', 'room': 'room:fountain', 'decoration': 'sta1a', 'at': [1600, 9280],
-     'notes': "The fountain (aazex123:4-5)."},
+    {'id': 'deco:fountain', 'room': 'room:fountain', 'decoration': 'sta1a', 'at': list(FOUNTAIN_AT),
+     'floor_height': ZM + WATER_TOP, 'notes': "The fountain in its basin, its base at the water line (aazex123:4-5)."},
     {'id': 'deco:candles_1', 'room': 'room:throne', 'decoration': 'dec02', 'at': [-700, 6560]},
     {'id': 'deco:candles_2', 'room': 'room:throne', 'decoration': 'dec02', 'at': [700, 6560]},
     {'id': 'deco:skulls_crypt', 'room': 'room:crypt', 'decoration': 'sklplrev', 'at': [-920, 5080]},
@@ -1197,8 +1240,8 @@ SPACES = [
     ('room:bone_alcove', 'room', 'S', "Two dead adventurers' notes (q-f1.note_fraud, note_forever)."),
     ('room:ramp12', 'stair', 'M', "The stair (z 1,280 to 2,560)."),
     ('room:landing2', 'stair', 'M', "The second landing."),
-    ('room:nest', 'room', 'L', "Set piece: the bowl with the eggs (q-f1.egg); six dragons."),
-    ('room:hatchery', 'room', 'M', "Four dragons; a note (q-f1.note_balls)."),
+    ('room:nest', 'room', 'L', "Set piece: the bowl with the eggs (q-f1.egg); eight dragons."),
+    ('room:hatchery', 'room', 'M', "Two dragons; a note (q-f1.note_balls)."),
     ('room:last_climber', 'room', 'S', "The note (q-f1.note_eye), the potion (q-f1.endurance), a chest (T6)."),
     ('room:ramp23', 'stair', 'M', "The stair (z 2,560 to 3,840)."),
     ('room:landing3', 'stair', 'M', "The stair's top."),

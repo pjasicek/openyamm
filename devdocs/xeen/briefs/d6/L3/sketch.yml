@@ -436,7 +436,7 @@ areas:
     kind: encounter
     count: 1
     slot: 1
-    circle: {at: [66, 31], r: 1}
+    circle: {at: [29, 65], r: 1}
   - id: pop:field_gazers
     index: 8
     kind: encounter
@@ -472,7 +472,7 @@ areas:
     kind: encounter
     count: 1
     slot: 1
-    circle: {at: [95, 44], r: 1}
+    circle: {at: [45, 71], r: 1}
   - id: pop:field_gazers
     index: 14
     kind: encounter
@@ -942,7 +942,7 @@ structures:
     textures: {band: gn_mtl03, door: swdoora, gable: swll4dk, post_left: swll4dk, post_right: swll4dk, ridge: gn_mtl03, roof: gn_mtl03, trim: gn_mtl03, wall: swll4dk, window: xaenergy}
     facing: s
     parts:
-      - {id: gate, at: [64, 64], size: [1408, 1408], wall_height: 768, walls: {s: [[wall, 448], [door, 512], [wall, 448]]}, windows: none, roof: none, door_height: 256}
+      - {id: gate, at: [64, 64], size: [1408, 1408], wall_height: 768, walls: {s: [[wall, 448], [door, 512], [wall, 448]]}, windows: none, roof: none, door_height: 448}
       - {id: crown, at: [64, 64], size: [1408, 1408], bottom: 768, textures: {roof: gn_mtl03, wall: xahull}, wall_height: 256, windows: none, roof: flat}
     floor: 2304
     door:
@@ -1536,7 +1536,7 @@ structures:
   - id: thing:prospector_bones
     kind: decoration
     at: [40.5, 95.3]
-    raise: -29
+    raise: -19
     decoration: dec05
   - id: thing:griffin_nest
     kind: chest
@@ -1938,12 +1938,14 @@ structures:
     kind: decoration
     at: [44.5, 24.02]
     turn: 0
+    raise: 24
     decoration: xeen_hullfbn
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_042
     kind: decoration
     at: [43.5, 24.02]
     turn: 0
+    raise: 24
     decoration: xeen_hullfbn
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_043
@@ -2040,12 +2042,14 @@ structures:
     kind: decoration
     at: [24.02, 50.5]
     turn: -90
+    raise: 24
     decoration: xeen_hullfbn
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_059
     kind: decoration
     at: [24.02, 51.5]
     turn: -90
+    raise: 24
     decoration: xeen_hullfbn
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_060

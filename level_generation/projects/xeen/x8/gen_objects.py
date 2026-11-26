@@ -115,8 +115,8 @@ def decorations():
     add('rhyme_1', '7dec54', 'witch_perch', -512, 128, facing=0)
     add('rhyme_2', '7dec54', 'rhyme_garden', 0, 0, facing=270)
     add('rhyme_3', '7dec54', 'observatory_isle', 1408, -640, facing=0)
-    add('offering_1', 'sta1a', 'offering_terrace', 512, 512, facing=180)
-    add('offering_2', 'sta1a', 'offering_terrace', 1024, -256, facing=180)
+    add('offering_1', '7dec55', 'offering_terrace', 512, 512, facing=180)
+    add('offering_2', '7dec55', 'offering_terrace', 1024, -256, facing=180)
     # nests: bones and skulls in the straw
     for iid, (dx, dy), tag in (('nest_spires', (-768, 256), 'n1'), ('nest_spires', (896, -192), 'n2'),
                                ('witch_perch', (384, -256), 'n3')):

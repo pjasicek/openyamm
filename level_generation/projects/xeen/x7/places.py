@@ -202,7 +202,19 @@ DEN_CHEST_F6 = (84.4, 102.7)   # F6 (2026-11-21): beside the den, not on its mou
 OUTPOST_CHEST = (31.6, 86.9)
 # the arrivals the neighbours' doors and edges send here (cells; facing)
 CLEFT_ARRIVAL = (71.8, 48.0)     # XD-17's back passage lets out before the cleft, facing west (away from it)
-SOUTH_MARKERS = int(os.environ.get('X7_SOUTH_MARKERS', '13'))   # A2 (Act I 1.166 -> 1.148): 8, no placed Orc Guard; F10 (2026-11-21): 13 markers of 1-2 orcs (19.5; 8 x 2.5 = 20 before), spread over five areas
+SOUTH_MARKERS = int(os.environ.get('X7_SOUTH_MARKERS', '8'))   # A2 (Act I 1.166 -> 1.148): 8, no placed Orc Guard; F10 (2026-11-21): 13 markers of 1-2 orcs (19.5; 8 x 2.5 = 20 before), spread over five areas
+# D-183 (2026-11-26, X7 p1 "more goblins, more than 2 in a group"): 8 markers of 3-4 orcs (map_rows.yml), at least one in
+# each of F10's six areas; within an area the markers kept are the ones farthest from those already kept
+SOUTH_QUOTA = {'pop:west_slopes': 2, 'pop:red_river': 2, 'pop:east_range': 1, 'pop:gap_south': 1,
+               'pop:south_hills': 1, 'pop:pony_ridge': 1}
+# D-183's "an empty zone: move markers": with 8 markers the south-east slopes between Sablewing's cave, the X1 road and
+# the Orc Caves' back gate held no monster within 6,000 over 717 tiles (empty_zones.py; 358 with 13): the red river's
+# second marker stands in the area's west corner, 9 cells from the back gate and 11.5 from the X1 road's arrival.
+# xeen-fb5-outdoor2 (2026-11-26): (81.5, 106) and (82.5, 107) both fall within D-142's 5,888 (+ r) of the XD-05 gate's
+# arrival (87, 100) and D-142 moved the marker back east to (99, 106), leaving the zone at 717 tiles; [82, 112] is the
+# nearest circle D-142 (d142.Rule.why_not) keeps, and leaves the zone's largest piece 326 tiles (searched over the
+# installed map's land and every D-142-passing cell)
+SOUTH_MOVES = {('pop:red_river', 2): (82.5, 112.5)}
 
 
 # ---------------------------------------------------------------- structures

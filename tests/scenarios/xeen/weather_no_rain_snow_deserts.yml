@@ -1,0 +1,102 @@
+# Decision D-184 (2026-11-26, X5 p14 "wouldn't it be better to have snow here?"): Winterkill Tundra snows and never
+# rains; the deserts (X6, D5) never rain. tools/xeen/gen_maps.py writes `-` in bolster_maps.txt's Rain column for
+# `rain: false` (the engine reads it as "rain unless -"; before, every Xeen weather map could rain), and
+# worlds/xeen/rendering/weather/weather.yml gives X5 Kriegspire's 30 % snow chance. The rolled forecast over a year
+# (13 months of 28 days) shows no rain on X5, X6 or D5, and snow on X5.
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/weather_no_rain_snow_deserts.yml --scenario-no-color
+id: xeen.d184.weather_no_rain
+title: "D-184: no rain on Winterkill Tundra or the deserts, snow on Winterkill"
+world: xeen
+mode: faithful
+tags: [xeen, regression]
+steps:
+  - new_game_flow:
+      start_map: xeen_x5.odm
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  # Snow in the coldest months: some winter day of the next year snows.
+  - console: {line: "weather forecast 672", expect_contains: " snow "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_contains: " snow "}
+  - load_map: {map: xeen_x6.odm}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - load_map: {map: xeen_d5.odm}
+  - play_lua: {source: "wait(1); for _ = 1, 3 do if not close() then break end end"}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}
+  - console: {line: "weather forecast 672", expect_not_contains: " rain "}
+  - advance_game_time: {minutes: 40320}

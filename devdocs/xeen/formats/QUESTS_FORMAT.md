@@ -228,7 +228,7 @@ name). Items are A2's keys, or `engine:<id>`. NPCs are A4's numeric ids.
 | `{award: ref}` | the first member has the award |
 | `{gold: n}` | the party has at least n gold |
 | `{promotable: key}` | some member can take promotion `key` (`Xeen.Promotions`) |
-| `{lua: "expr"}` | the Lua expression is true (an `xeen_common.lua` helper, e.g. `Xeen.isNight()`; `Xeen.onMap("Castle Blackfang")` (the map_stats name) for a person met on two maps, Ambrose's D6 and DD-14 topics, D-52) |
+| `{lua: "expr"}` | the Lua expression is true (an `xeen_common.lua` helper, e.g. `Xeen.isNight()`; `Xeen.onMap("Castle Blackfang")` (the map_stats name) for a person met on two maps, Ambrose's D6 and DD-14 topics, D-52; `evt.RulesetInfo().soloRun` for a solo run, M21's arrival, D-191: the quest stub answers it from `Stub.solo`) |
 | `{not: c}`, `{all: [c, ...]}`, `{any: [c, ...]}` | as named |
 
 ### 4.3 Effects (`do`)

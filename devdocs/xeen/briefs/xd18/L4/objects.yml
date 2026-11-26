@@ -291,105 +291,122 @@ monsters:
   - id: monster:bone_hall_1
     room: room:bone_hall
     monster: 11641
-    at: [4400, -3500]
+    at: [4464, -3436]
     facing: 90
     group: 10
+    leash: 224
   - id: monster:bone_hall_2
     room: room:bone_hall
     monster: 11641
     at: [4900, -3100]
     facing: 90
     group: 10
+    leash: 544
   - id: monster:bone_hall_3
     room: room:bone_hall
     monster: 11641
     at: [5400, -2560]
     facing: 90
     group: 14
+    leash: 1184
   - id: monster:bone_hall_4
     room: room:bone_hall
     monster: 11641
     at: [5770, -2900]
     facing: 90
     group: 14
+    leash: 1088
   - id: monster:crossing_1
     room: room:crossing
     monster: 11642
     at: [8800, -1600]
     facing: 180
     group: 15
+    leash: 352
   - id: monster:crossing_2
     room: room:crossing
     monster: 11642
     at: [9200, -1900]
     facing: 180
     group: 15
+    leash: 224
   - id: monster:den_1
     room: room:den
     monster: 11642
-    at: [11000, 1550]
+    at: [11320, 1550]
     facing: 180
     group: 22
+    leash: 256
   - id: monster:den_2
     room: room:den
     monster: 11642
     at: [11450, 2050]
     facing: 180
     group: 22
+    leash: 384
   - id: monster:egg_1
     room: room:egg
     monster: 11642
     at: [8960, -3008]
     facing: 90
     group: 16
+    leash: 256
   - id: monster:ember_1
     room: room:ember
     monster: 11642
     at: [3700, -400]
     facing: 0
     group: 25
+    leash: 448
   - id: monster:ember_2
     room: room:ember
     monster: 11642
     at: [4300, -380]
     facing: 0
     group: 25
+    leash: 1024
   - id: monster:frost_1
     room: room:frost
     monster: 11643
     at: [1800, 1200]
     facing: 0
     group: 28
+    leash: 448
   - id: monster:frost_2
     room: room:frost
     monster: 11643
     at: [2600, 1100]
     facing: 0
     group: 28
+    leash: 416
   - id: monster:hollows_1
     room: room:hollows
     monster: 11641
     at: [4400, -4500]
     facing: 0
     group: 11
+    leash: 256
   - id: monster:hollows_2
     room: room:hollows
     monster: 11641
     at: [4900, -4900]
     facing: 0
     group: 11
+    leash: 448
   - id: monster:hollows_3
     room: room:hollows
     monster: 11641
-    at: [5100, -4300]
+    at: [5100, -4492]
     facing: 180
     group: 12
+    leash: 224
   - id: monster:king
     room: room:throne
     monster: 11645
     at: [-2624, -128]
     facing: 0
     group: 33
+    leash: 384
     notes: "The Dragon King (11645, 110; S's skin xcdr_king to come) on top of his mound of gold."
   - id: monster:library_1
     room: room:library
@@ -397,144 +414,168 @@ monsters:
     at: [1500, -300]
     facing: 270
     group: 31
+    leash: 416
   - id: monster:library_2
     room: room:library
     monster: 11643
     at: [2400, -200]
     facing: 270
     group: 31
+    leash: 224
   - id: monster:old_roost_1
     room: room:old_roost
     monster: 11642
     at: [6900, 1100]
     facing: 0
     group: 23
+    leash: 320
   - id: monster:old_roost_2
     room: room:old_roost
     monster: 11642
     at: [7400, 1700]
     facing: 0
     group: 23
+    leash: 480
   - id: monster:old_roost_3
     room: room:old_roost
     monster: 11642
     at: [6800, 1800]
     facing: 0
     group: 24
+    leash: 1024
   - id: monster:pools_1
     room: room:pools
     monster: 11642
-    at: [8700, 1560]
+    at: [8764, 1624]
     facing: 0
     group: 20
+    leash: 224
   - id: monster:pools_2
     room: room:pools
     monster: 11642
     at: [8800, 2120]
     facing: 0
     group: 20
+    leash: 448
   - id: monster:pools_3
     room: room:pools
     monster: 11642
-    at: [10400, 1800]
+    at: [10208, 1800]
     facing: 180
     group: 21
+    leash: 224
   - id: monster:rime_1
     room: room:rime
     monster: 11643
     at: [100, 1400]
     facing: 0
     group: 29
+    leash: 608
   - id: monster:rime_2
     room: room:rime
     monster: 11643
-    at: [750, 1400]
+    at: [46, 952]
     facing: 0
     group: 29
+    leash: 672
   - id: monster:rime_3
     room: room:rime
     monster: 11643
     at: [450, 900]
     facing: 0
     group: 30
+    leash: 256
   - id: monster:roost_1
     room: room:roost
     monster: 11642
     at: [5800, -1000]
     facing: 0
     group: 17
+    leash: 1536
   - id: monster:roost_2
     room: room:roost
     monster: 11642
     at: [6300, -300]
     facing: 0
     group: 17
+    leash: 864
   - id: monster:roost_3
     room: room:roost
     monster: 11642
     at: [7400, -800]
     facing: 180
     group: 18
+    leash: 608
   - id: monster:roost_4
     room: room:roost
     monster: 11642
-    at: [7000, 100]
+    at: [6936, 36]
     facing: 180
     group: 18
+    leash: 224
   - id: monster:roost_5
     room: room:roost
     monster: 11643
     at: [6000, 200]
     facing: 270
     group: 19
+    leash: 896
   - id: monster:roost_6
     room: room:roost
     monster: 11643
     at: [6800, -1100]
     facing: 90
     group: 19
+    leash: 1280
   - id: monster:starwell_1
     room: room:starwell
     monster: 11643
     at: [4200, 1500]
     facing: 90
     group: 26
+    leash: 576
   - id: monster:starwell_2
     room: room:starwell
     monster: 11643
     at: [5000, 2000]
     facing: 90
     group: 26
+    leash: 1472
   - id: monster:starwell_3
     room: room:starwell
     monster: 11643
     at: [5300, 1200]
     facing: 90
     group: 27
+    leash: 1536
   - id: monster:throne_1
     room: room:throne
     monster: 11643
     at: [-1700, 300]
     facing: 0
     group: 32
+    leash: 928
   - id: monster:throne_2
     room: room:throne
     monster: 11643
     at: [-1700, -800]
     facing: 0
     group: 32
+    leash: 928
   - id: monster:vents_1
     room: room:vents
     monster: 11641
     at: [7200, -4600]
     facing: 180
     group: 13
+    leash: 1248
   - id: monster:vents_2
     room: room:vents
     monster: 11641
     at: [7900, -4500]
     facing: 180
     group: 13
+    leash: 1504
 decorations:
   - id: deco:bones_1
     room: room:bone_hall

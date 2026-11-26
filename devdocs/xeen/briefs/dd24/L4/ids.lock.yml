@@ -14,6 +14,9 @@ sectors:
   room:trophies: 12
 events:
   evt:arrive: 1
+  evt:campfire_hearth_fire: 19
+  evt:campfire_trench_fire_1: 20
+  evt:campfire_trench_fire_2: 21
   evt:chest_hoard: 2
   evt:chest_larder: 3
   evt:door_great: 4
@@ -44,6 +47,9 @@ containers:
   chest:larder: 1
 map_vars:
   once.arrive: 0
+  once.campfire_hearth_fire: 3
+  once.campfire_trench_fire_1: 4
+  once.campfire_trench_fire_2: 5
   once.throne_seen: 1
   war_arrived: 2
 lights:

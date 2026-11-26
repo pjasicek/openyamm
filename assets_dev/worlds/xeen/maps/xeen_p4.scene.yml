@@ -299,7 +299,7 @@ initial_state:
     - actor_index: 11
       name: ""
       npc_id: 0
-      attributes: 524288
+      attributes: 0
       hp: 540
       hostility_type: 0
       monster_info_id: 11474
@@ -323,7 +323,7 @@ initial_state:
     - actor_index: 12
       name: ""
       npc_id: 0
-      attributes: 524288
+      attributes: 0
       hp: 540
       hostility_type: 0
       monster_info_id: 11474
@@ -347,7 +347,7 @@ initial_state:
     - actor_index: 13
       name: ""
       npc_id: 0
-      attributes: 524288
+      attributes: 0
       hp: 540
       hostility_type: 0
       monster_info_id: 11474
@@ -371,7 +371,7 @@ initial_state:
     - actor_index: 14
       name: ""
       npc_id: 0
-      attributes: 524288
+      attributes: 0
       hp: 540
       hostility_type: 0
       monster_info_id: 11474
@@ -380,8 +380,8 @@ initial_state:
       height: 92
       move_speed: 200
       position:
-        x: -604
-        y: 4224
+        x: 420
+        y: 5120
         z: -512
       initial_yaw_units: 0
       leash_radius: 1280
@@ -395,7 +395,7 @@ initial_state:
     - actor_index: 15
       name: ""
       npc_id: 0
-      attributes: 524288
+      attributes: 0
       hp: 540
       hostility_type: 0
       monster_info_id: 11474
@@ -404,8 +404,8 @@ initial_state:
       height: 92
       move_speed: 200
       position:
-        x: -1444
-        y: 4224
+        x: -420
+        y: 5120
         z: -512
       initial_yaw_units: 0
       leash_radius: 1280

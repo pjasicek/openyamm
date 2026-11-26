@@ -2471,11 +2471,11 @@ actors:
   - {monster: "11172", at: [50.3, 89.6], count: 1, spread: 0, group: 1}
   - {monster: "11170", at: [50.8, 67.6], count: 4, spread: 1.2, group: 2}
   - {monster: "11171", at: [50.6, 69.6], count: 2, spread: 0.6, group: 2}
-  - {monster: "11470", at: [60, 64], count: 1, spread: 0, group: 3, hostile: true, leash: 1500}
-  - {monster: "11470", at: [65, 59.5], count: 1, spread: 0, group: 4, hostile: true, leash: 1500}
-  - {monster: "11471", at: [86, 65.5], count: 1, spread: 0, group: 5, hostile: true, leash: 1500}
-  - {monster: "11470", at: [93.5, 66.5], count: 1, spread: 0, group: 6, hostile: true, leash: 1500}
-  - {monster: "11471", at: [85, 74], count: 1, spread: 0, group: 7, hostile: true, leash: 1500}
+  - {monster: "11470", at: [59, 63], count: 1, spread: 0, group: 3, leash: 1500}
+  - {monster: "11471", at: [65, 59.5], count: 1, spread: 0, group: 4, leash: 1500}
+  - {monster: "11470", at: [86, 65.5], count: 1, spread: 0, group: 5, leash: 1500}
+  - {monster: "11470", at: [93.5, 66.5], count: 1, spread: 0, group: 6, leash: 1500}
+  - {monster: "11471", at: [85, 74], count: 1, spread: 0, group: 7, leash: 1500}
   - {monster: "377", at: [70.6, 90.1], spread: 0, group: 8, hostile: false, npc: 5318}
   - {monster: "611", at: [26.5, 51], spread: 0, group: 9, hostile: false, npc: 5317}
   - {monster: "361", at: [34.4, 72.6], spread: 0, group: 10, hostile: false, npc: 5320}

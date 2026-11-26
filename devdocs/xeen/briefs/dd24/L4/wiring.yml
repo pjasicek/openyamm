@@ -8,6 +8,27 @@ events:
     once: true
     text: "The People's hall. Everything is twice too big: the doors, the steps, the smell of meat and smoke."
     seconds: 7
+  - id: evt:campfire_hearth_fire
+    preset: script
+    source: deco:hearth_fire
+    title: Hearth
+    lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end"
+    once: true
+    notes: "D-104: a dungeon campfire feeds the party once and gives a character with Perception a small ring, as the outdoor campfires (level_generation/projects/xeen/common/campfires.py)."
+  - id: evt:campfire_trench_fire_1
+    preset: script
+    source: deco:trench_fire_1
+    title: Campfire
+    lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end"
+    once: true
+    notes: "D-104: a dungeon campfire feeds the party once and gives a character with Perception a small ring, as the outdoor campfires (level_generation/projects/xeen/common/campfires.py)."
+  - id: evt:campfire_trench_fire_2
+    preset: script
+    source: deco:trench_fire_2
+    title: Campfire
+    lua: "local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText(\"Food by the fire (+\" .. food .. \"), and a ring in the ashes.\") else evt.StatusText(\"You find food by the fire (+\" .. food .. \").\") end"
+    once: true
+    notes: "D-104: a dungeon campfire feeds the party once and gives a character with Perception a small ring, as the outdoor campfires (level_generation/projects/xeen/common/campfires.py)."
   - id: evt:chest_hoard
     preset: chest
     source: chest:hoard

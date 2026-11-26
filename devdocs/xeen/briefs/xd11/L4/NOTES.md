@@ -435,3 +435,14 @@ The room-filling beds `sound:tower_bed` take `pan: false` (D-48); the point soun
   (`check_arrivals.py` arrival.hot) and no roof spot was hidden from it: it moved to the foot of the Stairway to Heaven
   (`spawn:stairway_1`, (-1728, 1664, 1920); `dress.py` SPAWNS_B). Rebuilt, installed, baked; playtests 5/5, audit 0
   errors, arrivals 0 errors.
+
+## 2026-11-26, xeen-fb5-dungeon-f76 (F76: p1, p2)
+
+- p1 "here is something wrong": the Stairway to Heaven's flight had no `riser`, so its risers and sides took the
+  room's wall, the sky: the flight read as a ramp with saw-tooth notches of fog in the wall beside it. `geo.py`
+  stairway flight `riser: RUBBLE` (`check_clipping.py sky.solid` 80 -> 0).
+- p2 "maybe here too": the doorway onto the roof (448 high, lintel 3,008) stood in a wall that is only a parapet
+  (band to 2,688, sky above): a bare frame in the sky. `geo.py` "F76" block: rubble panels up to 3,136 round it (the
+  stairway's east wall and 128 of each side wall, the roof's wall over the stair and its 128 end); `piece.free` 2 -> 0.
+- Installed and baked 2026-11-26; audit 0 errors / 27 warnings (as before); 5/5 playtests from the stage; checks 0.
+  Captures `output/xeen_fb/p5_dungeon/f76/after/xd11b/` (before: `output/xeen_fb/p5_dungeon/before/xd11/`).

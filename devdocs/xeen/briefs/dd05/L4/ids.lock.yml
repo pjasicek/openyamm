@@ -46,6 +46,7 @@ events:
   evt:bones_1: 14
   evt:bones_2: 15
   evt:bones_3: 16
+  evt:campfire_kitchen_fire: 57
   evt:chest_dorm3: 17
   evt:chest_guardians: 18
   evt:chest_kitchen: 19
@@ -116,6 +117,7 @@ map_vars:
   bones_2: 8
   bones_3: 9
   once.arrive: 0
+  once.campfire_kitchen_fire: 11
   once.leader_slain: 10
 sounds:
   sound:chapel: 1

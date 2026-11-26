@@ -250,3 +250,8 @@ them: the nave's pillars (were the gold strip gnectr2v, read as glowing tubes; n
   mirror never shattered on screen. Installed from the session-24 build (its BLV, scene and Lua byte for byte the
   installed ones): audit 0/0 from `assets_dev`; the playtest's log now shows `Cinematic: mirror starts (16 s)`.
   **Every later install of XD-19 copies `maps/xeen_xd19.cinematics.yml` too.**
+
+## F75 (2026-11-26, agent:xeen-fb5-dungeon-f75)
+
+Xeen's Pet (487 high, radius 238) leashed 320 so it stops 64 clear of the 256-high openings round its hall instead of
+sinking into the nearest (640 from its post; `tools/xeen/check_monster_fit.py`: 3 stuck -> 0).

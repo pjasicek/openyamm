@@ -952,3 +952,13 @@ Meshy lane total: 330 (session 7: armadillo 10 more (20 in all), guard 15, octop
   (green-tinged), `xeen_peasantgirl1e` `xgirl_rose` and `xgirl_flax`; installed with `tools/install_model.py --world
   xeen` from the MM9 sources; far maps by `lod_repair_claude/scripts/fix_variant_maps.py`. `models/actors.yml`:
   descriptors `Xeen Goblin-eared boy`/`boy 2`/`girl`/`girl 2`. Detail: `reviews/PLAYER_FEEDBACK_20261125.md`, agent `xeen-fb4-dungeon6`.
+
+## Log: 2026-11-26 ~10:20-11:00, agent `xeen-fb5-outdoor2` (R5's map half: the hull's end caps, acting for this lane)
+
+- `level_generation/projects/xeen/common/rim.py` `hull_sink`: a kerbless piece (`xeen_hullf`, `SINKING`) sinks to the
+  lowest land under its 0.64-cell strip (`raise` < 0, at most 128), so its end cap no longer stands over the land
+  where neighbours' tops differ (X6 `hull_093` 1520 -> 1504, `hull_092` 1488 -> 1472; X7's lava-fall faces up to
+  128). Kerbed pieces never sink: the first version sank them too and the party stepped over a kerb (step 128, kerb
+  ~150) into the void (`x4_hull_edge` failed); X1, X2, X3, X6, X7 and D1-D5 were installed with it for ~30 min.
+- `x6_cove_worms_pursue.yml` (engine2's repro) still fails: the first worm passes the 092/093 seam and holds at the
+  cove's east corner (cell 33, 84), 3,605 from the party, not targeting it. Stays in `output/xeen_fb/p5_engine2/r5/`.

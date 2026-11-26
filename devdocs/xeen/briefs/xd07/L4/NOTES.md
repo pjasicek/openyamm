@@ -305,3 +305,7 @@ engine files; the same build audited with `--assets assets_dev` has 0 errors.
 - `panel:tap_landing` stood over 64 of `open:landing_stair` (merge point 30's panel warning) and its top ran 64 above
   the landing's ceiling. Moved to offset 32 (32 clear of the corner and of the stair's doorway) and bottom 64, so the
   tapestry (256 by 448, as the others) ends at the ceiling. Edited in `output/studio_cal/xd07/tools/gen.py`.
+
+## D-104 dungeon campfires (2026-11-26, agent:xeen-fb5-dungeon2)
+
+`deco:hearth_fire`: the outdoor campfire's event (food 1-3 once, a small ring for a character with Perception), `once: true`, added by `level_generation/projects/xeen/common/campfires.py` (regen.py runs it after gen.py). Rebuilt, audit 0 errors, every playtest passing from the stage, installed and baked, MAW reserve rerun.

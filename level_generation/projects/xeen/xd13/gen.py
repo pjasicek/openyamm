@@ -66,6 +66,7 @@ CABS = S('7t1cabs', 64, 128)
 BOOKS = S('7t1books', 128, 256, fit=True)
 IRON = S('t5d1', 128, 256, fit=True)
 GRILLE = S('xngrille', 128, 256, fit=True)
+HOLE = S('7solid01', 128, 256, fit=True)    # F71: black, the hole behind the speaking grille
 
 themes = [
     {'id': 'theme:keep', 'wall': CHB1, 'floor': FLAGS, 'ceiling': CEIL, 'door': OAK_DOOR, 'reveal': CHB1,
@@ -262,10 +263,17 @@ room('room:old_lab', 'Old laboratory', LAB, floor=-640, ceiling=-224, theme='the
                       "The fifth syllable, the last wall before the vault (A3's m23.syllable_ry).")]}],
      notes="The scientists' wrecked workshop, 1,408 by 1,280: bookshelves on the north wall, the workbench on the south, a "
            "cauldron in a corner; the way west to the vault door.")
+# F71 (the player's pin XD-13 p2, 2026-11-26 "is here something missing?"): the grille was a wall panel in xngrille, a
+# cutout (XD-02's hoist gate, with the shaft behind it): on a solid wall its open texels showed the sky between the
+# bars. The grille is now a thin iron frame 4 off the wall, the bars on its face, in front of a black speaking hole
+# (7solid01, a panel in the wall) (tools/xeen/check_cutout_backing.py).
 room('room:vault_door', 'Vault door', VDOOR, floor=-640, ceiling=-224, theme='theme:dungeon', ambient=18,
      walls=[{'wall': 'north', 'panels': [
-                panel('room:vault_door', 'north', 'panel:grille', -448, 128, 64, 224, GRILLE,
-                      "The speaking grille beside the vault door.")]}],
+                panel('room:vault_door', 'north', None, -448, 128, 64, 224, HOLE,
+                      "The speaking hole behind the grille.")]}],
+     platforms=[block('platform:grille', [-448, VDOOR[3] - 8], [128, 8], 224, GRILLE, BRICK,
+                      "The speaking grille beside the vault door, 4 off the wall over its hole.", base=64,
+                      end_surface=BRICK, bottom_surface=BRICK)],
      notes="A short passage, 768 by 384, to the vault's steel door with its speaking grille: 'What is the password?'")
 room('room:sword_vault', 'Sword vault', VAULT, floor=-640, ceiling=-192, theme='theme:dungeon', ambient=12,
      platforms=[block('platform:pedestal', [-1216, -1920], [192, 192], 72, CHB1S, FLAGS,
@@ -742,7 +750,7 @@ events += [
      'notes': "A3's m23.vault_door on the right answer (sets vault_opened 111461, its text) and the door slides open. "
               "The source's 'What is the password?' / 'Incorrect!' (aaze0073:15, 16); the wrong answer's line is "
               "A3's m23.vault_wrong text (a question's wrong answer runs no effects)."},
-    {'id': 'evt:grille', 'preset': 'text', 'source': 'panel:grille', 'title': 'Speaking grille',
+    {'id': 'evt:grille', 'preset': 'text', 'source': 'platform:grille', 'title': 'Speaking grille',
      'text': "A brass grille in the wall beside the steel door. When you lean close, a dry voice asks: \"What is the password?\""},
     {'id': 'evt:pedestal', 'preset': 'text', 'source': 'platform:pedestal', 'title': 'Pedestal',
      'text': "The pedestal is cool to the touch.", 'notes': "Original line (aaze0073:12)."},

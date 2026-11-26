@@ -1,0 +1,28 @@
+# Feedback F77 (2026-11-26, X4 p13 "you cannot port to Winterkill"): Castle Burlock's mirror listed Asp, Newcastle,
+# Nightshadow, Rivercity and Vertigo. By design: Winterkill's mirror (X5 event 69, house 4256, qbit 119004, also its
+# Town Portal row) opens only once Q-C6 Ghosts of Winterkill is done (source/towns/x5.yml `opens: q-c6.done`); before
+# that it shows "A pale face looks back from the mirror. It is not yours." and adds nothing; D-188 adds the quest's hint
+# ("The dead hold Winterkill, and its glass with them. Mayor Randon, by the gongs, wants them driven out."). On 3.3 the quest's ghost
+# waves stood still in the square (F63, fixed for 3.4). Here: shut before Q-C6, then touched after it, the mirror sets
+# its qbit (the mirrors' and Town Portal's Winterkill entry).
+#   build-xeen/game/openyamm --headless-run-scenario tests/scenarios/xeen/x5_winterkill_mirror_opens.yml --scenario-no-color
+id: xeen.f77.x5_winterkill_mirror_opens
+title: "F77: Winterkill's mirror is shut until Q-C6 is done, then joins the mirrors and Town Portal"
+world: xeen
+mode: faithful
+tags: [xeen, regression]
+steps:
+  - new_game_flow:
+      start_map: xeen_x5.odm
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 6, present_dialogs: true}
+  - play_lua: {source: "for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_clear: [112121, 119004]}
+  - play_lua: {source: "click(69); wait(0.5)"}
+  - assert: {dialog: {active: true, text_contains: "A pale face looks back from the mirror. It is not yours."}}
+  - assert: {dialog: {active: true, text_contains: "Mayor Randon, by the gongs"}}
+  - play_lua: {source: "close(); wait(0.3)"}
+  - assert: {qbit_clear: [119004]}
+  - setup_shortcut: {kind: set_qbit, id: 112121, value: true}
+  - play_lua: {source: "click(69); wait(0.5); for _ = 1, 3 do if not close() then break end end"}
+  - assert: {qbit_set: [119004]}

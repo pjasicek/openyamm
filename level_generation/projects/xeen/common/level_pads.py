@@ -305,7 +305,9 @@ SINK_RING = 0.75
 SET_WORDS = ('skl', 'skull', 'pile', 'wagon', 'cart', 'statue', 'altar', 'stall', 'hay')   # hay: haybales
 # by decoration_data.txt's description: what lies where the land puts it (half sunk on a slope reads right)
 NATURAL_WORDS = ('rock', 'boulder', 'stump', 'log', 'bones', 'skeleton', 'corpse', 'trash', 'wood',
-                 'rune stone')   # rock65-70 'ancient rune stone': set in the ground (X3's yard_2)
+                 'rune stone',   # rock65-70 'ancient rune stone': set in the ground (X3's yard_2)
+                 'basalt')       # F73 (2026-11-26, X7 p6): the world's model boulders (xeen_basalt1-3, xeen_boulder)
+                                 # stood upright at their middle's land on the crags, tilted-looking and half in air
 SET_LARGEST = 384        # a set piece wider than this (a Sphinx, a hull piece) is a building's matter, not a pad's
 
 
@@ -343,8 +345,25 @@ def _wet_under(sketch, thing):
     return any(wild._wet(sketch, cx + hx * fx, cy + hy * fy) for fx in (-1, 0, 1) for fy in (-1, 0, 1))
 
 
+def _ground(terrain, cx, cy):
+    """The land at a cell point on the game's triangles (tools/xeen/wall_check.py Terrain.ground), not bilinear:
+    F73 (2026-11-26, X7 p6): on a crag's edge the two differ by tens, and boulders sunk by the bilinear land still
+    stood 28-51 over their rim as the game draws it."""
+    width, scale, heights = terrain['width'], terrain['height_scale'], terrain['height_map']
+    x0, y0 = int(math.floor(cx)), int(math.floor(cy))
+    fx, fy = cx - x0, cy - y0
+
+    def h(x, y):
+        x, y = max(0, min(width - 1, x)), max(0, min(width - 1, y))
+        return heights[y * width + x] * scale
+    z00, z10, z01, z11 = h(x0, y0), h(x0 + 1, y0), h(x0, y0 + 1), h(x0 + 1, y0 + 1)
+    if fx >= fy:
+        return z00 + (z10 - z00) * fx + (z11 - z10) * fy
+    return z00 + (z11 - z01) * fx + (z01 - z00) * fy
+
+
 def _natural(name):
-    return not name.startswith('xeen_') and any(word in deco_footprint.description(name) for word in NATURAL_WORDS)
+    return any(word in deco_footprint.description(name) for word in NATURAL_WORDS)
 
 
 def _is_set_decoration(thing):
@@ -371,7 +390,9 @@ def auto(sketch, key):
         if kind == 'decoration':
             name = str(thing.get('decoration', '')).lower()
             half, _ = deco_footprint.footprint(name)
-            if half < SINK_LEAST or half > SET_LARGEST or 'tree' in name or name.startswith('xeen_'):
+            # the world's own models are set pieces (idols, sphinxes, statues), except its rocks (F73: X7 p6)
+            if half < SINK_LEAST or half > SET_LARGEST or 'tree' in name or (name.startswith('xeen_')
+                                                                              and not _natural(name)):
                 continue
             if _is_set_decoration(thing):
                 probe = dict(thing, radius=half)
@@ -385,9 +406,9 @@ def auto(sketch, key):
             if 'raise' in thing or not _natural(name):
                 continue
             cx, cy = thing['at'][0], thing['at'][1]
-            mid = wild._terrain_at(terrain, cx, cy)
-            ring = min(wild._terrain_at(terrain, cx + math.cos(a) * half * SINK_RING / 512.0,
-                                        cy + math.sin(a) * half * SINK_RING / 512.0)
+            mid = _ground(terrain, cx, cy)
+            ring = min(_ground(terrain, cx + math.cos(a) * half * SINK_RING / 512.0,
+                               cy + math.sin(a) * half * SINK_RING / 512.0)
                        for a in [k * math.pi / 6 for k in range(12)])
             if mid - ring > SINK_DROP:
                 thing['raise'] = -int(round(mid - ring))

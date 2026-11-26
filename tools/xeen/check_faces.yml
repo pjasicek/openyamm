@@ -12,3 +12,6 @@ kept:
 - {map: xeen_d1, rule: faces.back_to_back, model: "building:cv_weapons", reason: "two 256 sq unit beam ends (xvbeam) of the weapon shed's porch meet back to back (on the installed map before D-170); the studio's porch builder (A1)"}
 - {map: xeen_d3, rule: faces.coplanar, model: thing:spring_fall, reason: "the waterfall's water and dirt faces share 72-84 sq units at its lip (on the installed map before D-170); the studio's waterfall builder (A1)"}
 - {map: xeen_d4, rule: shell.open_edge, model: thing:isle_tower_crown, reason: "the isle tower's ruined crown stands on the tower's top as a hanging ruin, whose wall bottoms the studio leaves open (46 edges; on the installed map before D-170); its generator to stand the crown's walls on the tower's inner shelf as D5's broken pyramid now does"}
+# F71 (agent xeen-fb5-outdoor, 2026-11-26): the cave shells' faces wound inward (faces.flipped), baked black (X7 p4/p5).
+# Cause in the studio (OutdoorWaysIn.cpp, the shell's per-triangle `outward` guess); each line ends when the engine
+# agent's shell winding fix (REQUEST of PLAYER_FEEDBACK_20261126.md, F71) is in the released oymap and the map is rebuilt.

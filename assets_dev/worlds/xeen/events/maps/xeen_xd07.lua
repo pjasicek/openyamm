@@ -302,3 +302,12 @@ RegisterEvent(45, "Well", function()
     AddValue(HP, 20)
     evt.StatusText("The water refreshes you.")
 end, "Well")
+
+-- evt:campfire_hearth_fire
+RegisterEvent(47, "Hearth", function()
+    if IsAtLeast(MapVar(3), 1) then
+        return
+    end
+    SetValue(MapVar(3), 1)
+    local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") else evt.StatusText("You find food by the fire (+" .. food .. ").") end
+end, "Hearth")

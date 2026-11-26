@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
 """XD-12 Darzog's Tower, L4: furniture on top of the shell (rooms.yml), objects.yml, wiring.yml, atmosphere.yml."""
 import copy
+import math
+import pathlib
+import sys
 
 import geo
 from geo import *  # noqa: F401,F403
 from emit import dump, rooms_doc
 import plan as P
+from shell import BANK
+
+_REPO_ROOT = str(pathlib.Path(__file__).resolve().parents[4])  # the repository root
 
 # F12d: an open book on each lectern (the picture's own size, fitted over the top; was the bookcase picture 7t1books)
 BOOK_TOP = dict(texture='xnpbook', size=[128, 128], fit=True)
@@ -859,7 +865,21 @@ spawn('spawn:roof_n', 'room:roof_n', [-2048, 2304], 3, 'b')
 spawn('spawn:roof_s', 'room:roof_s', [1024, -2304], 3, 'b')
 
 # ============================================================================================ OUTSIDE
-TREES = ['7tree01', '6tree03', '6tree07', '6tree09', '7tree16', '6tree17']
+TREES = ['6tree03', '6tree07', '6tree09', '6tree17']
+# F76 (XD-12 p1/p2, 2026-11-26): the island is 384 wide between the keep's wall and the bank (W to BANK). The great
+# trees (7tree01, 7tree16: 1,280 high, crowns about 610 round as drawn) reached 400-1,000 through the keep's 256 wall
+# into the gate floor's and the works' corridors (tools/xeen/check_clipping.py deco.through). Only the island's small
+# trees now, each standing its drawn crown (tools/xeen/deco_footprint.py, grown by the binding's height jitter) and 32
+# clear of the wall.
+sys.path.insert(0, str(pathlib.Path(_REPO_ROOT) / 'tools' / 'xeen'))
+import deco_footprint  # noqa: E402
+
+
+def tree_clear(name):
+    entry = deco_footprint._bindings('xeen').get(name) or {}
+    return W + math.ceil(deco_footprint.footprint(name)[0] * (1 + float(entry.get('height_jitter') or 0))) + 32
+
+
 n = 0
 # D-7 (2026-11-20): the walking lines of each band run from the corner opening (the band's arm end, 3328-3840 out)
 # along the keep's wall to its windows, so the trees toward the arm's end stand further out toward the bank's edge
@@ -867,7 +887,8 @@ n = 0
 TREE_OUT = {-2944: 3536, -2176: 3536, -1408: 3536, -640: 3632, 384: 3680, 1024: 3680, 1664: 3712, 2432: 3712}
 for k in range(4):
     for t in (-2944, -2176, -1408, -640, 384, 1024, 1664, 2432):
-        x, y = t, TREE_OUT[t]
+        x, y = t, max(TREE_OUT[t], tree_clear(TREES[n % len(TREES)]))
+        assert y <= BANK, (TREES[n % len(TREES)], y)
         for _ in range(k):
             x, y = -y, x
         rid = ['room:out_n', 'room:out_w', 'room:out_s', 'room:out_e'][k]

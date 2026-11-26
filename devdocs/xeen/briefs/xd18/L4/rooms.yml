@@ -72,7 +72,7 @@ rooms:
     notes: "A cave 1,024 high where the roost's warm air rises through cracks; a Fire Dragon pair. Low openings west onto the roost ledge, south to the egg cave, east to the stair head."
   - id: room:den
     name: East den
-    outline: [[10752, 1408], [10848, 1376], [10880, 1280], [11520, 1280], [11595, 1461], [11776, 1536], [11776, 2112], [11645, 2173], [11584, 2304], [11008, 2304], [10921, 2135], [10752, 2048]]
+    outline: [[10752, 1536], [10944, 1472], [11008, 1280], [11520, 1280], [11595, 1461], [11776, 1536], [11776, 2112], [11645, 2173], [11584, 2304], [11008, 2304], [10921, 2135], [10752, 2048]]
     floor: -1024
     rough: {step: 192, depth: 40}
     ceiling: 0
@@ -236,12 +236,14 @@ rooms:
     notes: "Hot pools steaming in a cave 1,024 high; three Fire Dragons bathing. Low openings south to the stair foot, east to the den, west to the old roost."
   - id: room:rime
     name: Rime cave
-    outline: [[-256, 640], [768, 640], [864, 800], [1024, 896], [1024, 1536], [943, 1583], [896, 1664], [-32, 1664], [-98, 1506], [-256, 1440]]
+    outline: [[-256, 640], [768, 640], [864, 800], [1024, 896], [1024, 1408], [862, 1502], [768, 1664], [-32, 1664], [-98, 1506], [-256, 1440]]
     floor: -1024
     rough: {step: 192, depth: 40}
     ceiling: 0
     ceiling_points: [[192, 1088, 240]]
     theme: theme:cave
+    stalactites:
+      - {at: [553, 1292], radius: 72, length: 288, surface: {texture: t68a02b, size: [256, 256]}}
     ambient: 8
     notes: "A dead end with a chest: icicles from a 1,024 roof, a frozen hoard, three Frost Dragons."
   - id: room:roost

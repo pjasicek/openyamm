@@ -93,7 +93,7 @@ events:
     notes: "Out to X3's Newcastle site, in front of the hatch (A5's arrival, facing south)."
   - id: evt:grille
     preset: text
-    source: panel:grille
+    source: platform:grille
     title: Speaking grille
     text: "A brass grille in the wall beside the steel door. When you lean close, a dry voice asks: \"What is the password?\""
   - id: evt:la

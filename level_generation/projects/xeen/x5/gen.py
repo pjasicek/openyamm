@@ -862,7 +862,7 @@ def build():
         *([{'id': 'entrance:fd03_door', 'at': [55, 59], 'facing': 'n'}] if FD03_LIVE else []),
     ] + ([{'id': 'entrance:east_road', 'at': list(EAST_START), 'facing': 'w'}] if X3_LIVE else []) + (
         [{'id': 'entrance:north_road', 'at': list(NORTH_START), 'facing': 's'}] if X6_LIVE else []) + [
-        {'id': 'entrance:xd09_door', 'at': [XD09_DOOR[0], XD09_DOOR[1] - 0.8], 'facing': 's'},
+        {'id': 'entrance:xd09_door', 'at': [XD09_DOOR[0], XD09_DOOR[1] - 1.65], 'facing': 's'},
         {'id': 'entrance:xd10_north', 'at': [XD10_NORTH[0], XD10_NORTH[1] + 0.9], 'facing': 'n'},
         {'id': 'entrance:xd10_south', 'at': [XD10_SOUTH[0] - 0.9, XD10_SOUTH[1]], 'facing': 'e'},
         {'id': 'junction:lagoon_fork', 'at': [98, 60]}, {'id': 'junction:pass_crest', 'at': [82, 46]},
@@ -1120,10 +1120,15 @@ def build():
        'title': 'Enter the Cave of Illusion', 'hint': 'Cave of Illusion',
        'into': {'map': 'xeen_xd10.blv', 'arrival': 'entrance:x5_north'},
        'crest': 480, 'notes': "XD-10's north mouth (D-4): warm, wet breath from it, ice at its lip."})
-    S({'id': 'thing:xd09_door', 'kind': 'doorway', 'at': [XD09_DOOR[0], XD09_DOOR[1] - 0.25], 'turn': 180,
+    # D-189 (2026-11-26): with a door picture the leaf shows, and 0.25 cell up the rocks' slope the land before the
+    # frame stood 210 over its sill (town_fit houses.buried_door, the lower door hidden): the frame stands at the
+    # slope's foot (y 70.85, the land level at 960 before it), built against the rock; the arrival 0.65 before it
+    S({'id': 'thing:xd09_door', 'kind': 'doorway', 'at': [XD09_DOOR[0], XD09_DOOR[1] - 1.0], 'turn': 180,
        'floor': 960,
-       'height': 352, 'width': 256, 'depth': 384, 'hood': 64, 'arch': 'segment',
-       'textures': {'door': '7solid01', 'wall': 'cwb1'}, 'title': 'Enter the Golem Dungeon',
+       # D-189 (2026-11-26): the slab door shows the tower kit's stone door (xvtdoor) 128 behind its frame, not a
+       # flat black 7solid01 face 384 deep (it read as a texture missing)
+       'height': 352, 'width': 256, 'depth': 128, 'hood': 64, 'arch': 'segment',
+       'textures': {'door': 'xvtdoor', 'wall': 'cwb1'}, 'title': 'Enter the Golem Dungeon',
        'into': {'map': 'xeen_xd09.blv', 'arrival': 'entrance:x5'}, 'condition': {'lua': 'XeenQuests.hook("m10.golem_door")'},
        'notes': "XD-09 (D-4): the slab door in the Golem Rocks' north face; opens with the Golem Stone."})
     S({'id': 'thing:golem_bridge', 'kind': 'bridge', 'line': [[97.5, 61.0], [97.5, 65.0]], 'width': 384, 'rise': 64,
@@ -1158,9 +1163,13 @@ def build():
        'size': [2.5, 2.5], 'kit': 'castle', 'floor': ISLE_H, 'title': 'Darkstone Tower', 'facing': 'n',
        'parts': [
            # texture fit (the user, session 8): hkm3b's frieze once per band, seamless gtrlwal1 between
+           # D-180 rule a (2026-11-26): the door at least FD-03's way out (224 x 448; it was 112 x 256) and 384 high
+           # (within 64), in its 336 facet: a pair of the tower kit's wing (D-189; a single leaf wider than its 128
+           # picture tiles it), two leaves of 128
            {'id': 'base', 'shape': 'round', 'at': [640, 640], 'radius': 544, 'sides': 10, 'wall_height': 896,
-            'roof': 'none', 'windows': 'none',
-            'textures': {'wall': 'gtrlwal1', 'door': '7solid01', 'post_left': 'gtrlwal1', 'post_right': 'gtrlwal1',
+            'roof': 'none', 'windows': 'none', 'door_height': 384,
+            'walls': {'5': [['wall', 40], ['door', 256], ['wall', 40]]},
+            'textures': {'wall': 'gtrlwal1', 'door': 'xvtdoorw', 'post_left': 'gtrlwal1', 'post_right': 'gtrlwal1',
                          'window': 'gtrlwal1', 'trim': 'gtrlwal1'}},
            {'id': 'base_band', 'shape': 'round', 'at': [640, 640], 'radius': 544, 'sides': 10, 'bottom': 896,
             'wall_height': 256, 'roof': 'none', 'windows': 'none',
@@ -1173,7 +1182,7 @@ def build():
             'wall_height': 256, 'roof': 'cone', 'roof_pitch': 74, 'windows': 'alternate',
             'textures': {'wall': 'hkm3b', 'window': 'hkm3elw', 'post_left': 'hkm3b', 'post_right': 'hkm3b',
                          'roof': SLATE}}],
-       'door': {'part': 'base', 'wall': '5'},   # D-56 (session 15): the door on the north face, before P5's fall point
+       'door': {'part': 'base', 'wall': '5', 'leaves': 2},   # D-56 (session 15): the door on the north face, before P5's fall point
        # A3's m41.tower_door (session 7): the keyhole's refusal, or the black key's text; FD-03 is not built yet, so
        # the opened door then shows a sealed line (no exit to an unbuilt map)
        'condition': {'lua': 'XeenQuests.hook("m41.tower_door")'},
@@ -1202,6 +1211,10 @@ def build():
             p['bottom'] = bottom
         PAG.append(p)
     PAG[0]['textures']['door'] = 'hkm2d'
+    # D-180 rule a (2026-11-26): the door 160 wide, XD-22's way out (160 x 320; 256 high is within 64), the north
+    # wall's bays as the rule laid them (posts, windows alternate, the door the seventh bay)
+    PAG[0]['walls'] = {'n': ['post_left', 'window', 'wall', 'window', 'wall', 'window', ['door', 160], 'window', 'wall',
+                             'window', 'wall', 'post_right']}
     S({'id': 'thing:pagoda', 'kind': 'building', 'at': list(PAGODA_AT), 'size': [4, 3], 'kit': 'timber',
        'facing': 'n', 'floor': 1000, 'title': 'The Ninja Pagoda', 'parts': PAG,
        'door': {'part': 'storey_1', 'wall': 'n'},

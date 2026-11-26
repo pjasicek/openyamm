@@ -187,6 +187,14 @@ so in the world's voice. **But the game's refusal says "You can't do that while 
 own line (for example "Darzog's ward stills your spell."); for the user's decision (no game code changed here). Before
 merge 38 a hand-written scene overlay did this (`output/studio_cal/xd12/rules/`, now unused).
 
+**The ward by run (U-18, 2026-11-26):** `rules: {no_spells, no_monster_spells, solo_spells, solo_spell_damage_percent:
+50}` write `allow_spellcasting: false`, `allow_monster_spellcasting: false`, `allow_spellcasting_solo: true` and
+`solo_spell_damage_percent: 50`. A party run: nobody casts, the monsters included (they fight with their attacks). A solo
+run: everyone casts, every spell at half damage (the solo character's spells, scrolls and wands, the monsters' and every
+event spell, D-193). A lone mage otherwise had nothing to fight with in a main-quest tower (a player on Discord). The
+arrival window has a solo state (D-191: `m21.arrival`, `evt.RulesetInfo().soloRun`): "Every spell you shape comes out at
+half its strength, and so does every spell cast at you"; `playtest_solo_arrival.yml` checks it and a solo cast.
+
 ## Measured against shipped large castles and towers
 
 `oymap metrics --reach` (`ref/*.metrics.json`), `scale_bands.py`:
@@ -919,3 +927,20 @@ Main segments `run.py 81 83` and `run.py --reload 81 83` pass on it (A8 30th, `o
 - D-132: `spawn:library_stair` (-2496, 0) -> (-2496, -512) (`dress.py`): its shooters had a thin shot over the
   library flight's edge at 1,952-1,984 (`check_ledge_shots.py` 2 errors, on HEAD's map too) -> 0.
 - Audit 0 errors (9 warnings as before), drops only the island ground, 6/6 playtests; installed, baked, MAW reserve.
+
+## 2026-11-26, xeen-fb5-dungeon-f76 (F76: p1-p4)
+
+- p1/p2 "tree clipping through the wall": the island's great trees (7tree01, 7tree16: 1,280 high, crowns about 690
+  as drawn) stood 208-384 out from the keep's wall and reached 40-1,050 through it into the gate floor's and the
+  works' rooms. `dress.py`: only the small trees (6tree03/07/09/17), each its drawn crown (deco_footprint.py, grown by
+  the height jitter) + 32 clear of the wall (`tree_clear`). `check_clipping.py deco.through` 12 -> 0.
+- p3 "something wrong": the sky stair's risers and gallery sides took the room's wall (the sky): `geo.stair_hall`
+  `solid=` (CNB for the sky stair). `sky.solid` 102 -> 0.
+- p4 "something strange": the sky stair's west wall by roof_n and roof_s (768 each) stood as two low walls of no
+  thickness between the gallery and the roof at one level. `shell.py`: `open:skystair_roof_nw` / `_sw` (full),
+  `open:skystair_roof_e` 2,016 wide, two posts of keep stone (64 x 62, rise 160) on roof_e's side over the 16 of wall
+  left at y +-1,024. `piece.free` 6 -> 2: the east battlement's stone reveals (2 end posts) kept
+  (`tools/xeen/check_clipping.yml`, the sky-reveal trade-off of 2026-11-25).
+- `check_body_fit.py`: Crodo (11900) in his secret cell (128-wide door) is penned on purpose: the prisoner stays there.
+- Installed and baked 2026-11-26; audit 0 errors / 9 warnings (as before); 6/6 playtests from the stage; drops only
+  the island ground; floor_cross 6 lids as before. Captures `output/xeen_fb/p5_dungeon/f76/after/xd12b/`.

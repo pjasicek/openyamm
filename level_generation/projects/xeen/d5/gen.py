@@ -309,7 +309,10 @@ WEST_ROAD = [[80, 77], [76.5, 75], [74, 73], [70, 72.5], [64, 72], [58, 71.5], [
 # Barrier path)
 POLY_SPOT_R = 0.5
 POLY_SPOTS = {
-    'pop:sands_lizards': [(74, 103), (98, 87), (90, 93), (93, 86), (79, 94), (77, 102), (82, 89), (98, 93)],
+    # empty_zones (2026-11-26): the pyramid's forecourt (the land under the Great Pyramid and D-142's 4,096 round
+    # DD-15's door and D7's fall) was one empty zone of 534 tiles since D-142 moved the marker at (68.5, 73) away
+    # (`empty_zones.py --check`, limit 520): the sixth lizard marker from (82, 89) to the forecourt's east (74, 81)
+    'pop:sands_lizards': [(74, 103), (98, 87), (90, 93), (93, 86), (79, 94), (77, 102), (74, 81), (98, 93)],
     'pop:pyramid_lizards': [(56, 98), (53, 101), (69, 95), (71, 102), (57, 94), (56, 99), (50, 89)],
     'pop:cliff_birds': [(41, 56), (39, 58), (45, 52), (57, 53), (40, 50), (55, 61), (71, 59), (77, 57), (95, 60),
                         (98, 58), (107, 61)],
@@ -669,6 +672,7 @@ def build():
     # ---------------------------------------------------------------- the Northern Tower (DD-08)
     tx, ty = TOWER
     storey = 320
+    GROUND = 576           # D-180: the ground storey (448 door, 64 vowel sign, 64 over it)
     tower_parts = []
     for k in range(5):
         off = (0, 2, -2, 2, -2)[k]
@@ -677,19 +681,21 @@ def build():
             walls[w_][3 + off // 2] = 'window'
         if k == 0:
             walls = {w_: ['wall'] * 8 for w_ in 'new'}
-            walls['s'] = ['wall', 'wall', 'wall', ['door', 256], 'wall', 'wall', 'wall']
+            # D-180 rule b (2026-11-26: walls 1,664 on a 1,024 front): a double door 384 wide, 448 high (was 2 x 128 x
+            # 240): the ground storey GROUND high to hold it, its lintel and the vowel sign over it
+            walls['s'] = [['wall', 160], ['wall', 160], ['door', 384], ['wall', 160], ['wall', 160]]
         else:
             walls['s'][3 + off // 2] = 'window'
-        part = {'id': 'storey_%d' % (k + 1), 'at': [128, 128], 'size': [1024, 1024], 'wall_height': storey,
-                'roof': 'flat', 'walls': walls}
+        part = {'id': 'storey_%d' % (k + 1), 'at': [128, 128], 'size': [1024, 1024],
+                'wall_height': GROUND if k == 0 else storey, 'roof': 'flat', 'walls': walls}
         if k:
-            part['bottom'] = storey * k
+            part['bottom'] = GROUND + storey * (k - 1)
         if k == 4:
             part['battlements'] = True
         if k == 0:
-            part['door_height'] = 240
+            part['door_height'] = 448
             part['textures'] = {'window': 'hkm1b1'}      # the strip over the door: the wall's stone
-            part['signs'] = [{'wall': 's', 'bay': 3, 'texture': 'xdvowel', 'size': [256, 64], 'bottom': 252,
+            part['signs'] = [{'wall': 's', 'bay': 2, 'texture': 'xdvowel', 'size': [256, 64], 'bottom': 464,
                               'out': 8}]
         tower_parts.append(part)
     tw = {'id': 'thing:northern_tower', 'kind': 'building', 'at': [tx - 1.25, ty - 1.25], 'size': [2.5, 2.5],

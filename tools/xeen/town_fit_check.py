@@ -13,6 +13,11 @@ draws it (wall_check.py's terrain and models). Errors:
 - `walls.buried` (F26): the land rises over a wall's top just behind it (more than BURIED over the top within
   BURIED_REACH): the wall reads as a band in a slope with a trench of grass between it and what stands behind
   (pin p6). A wall whose top follows the land is looked at too.
+- `houses.plinth` (F73, 2026-11-26): a building's floor more than PLINTH over the lowest dry land under its footprint
+  (D1's mill over the gorge's lip); D-199: each part's own footprint (a round part's ring), not the plot rectangle.
+  `things.edge` (F73): a tent, well, fountain, crate or stone ring within EDGE_REACH of a drop of more than EDGE_DROP
+  (D1's Sardaj tent at the gorge's lip). `things.overhang` no longer skips water under a
+  set piece (only under a platform's or a model's span).
 - `houses.buried_door` (F27): the land before a house door (32 to 160 in front of it, across its leaves) stands more
   than DOOR_BURY over the door's sill: the door is dug into a slope (pin p14).
 - `gates.road_off` (F28): the road tiles through a gate (each `seals` line of tools/xeen/town_walls.yml that a road
@@ -52,6 +57,12 @@ draws it (wall_check.py's terrain and models). Errors:
   alternates (`staged`, `hidden`) and a fitting on a house (a doorless building at most half a cell
   each way: D1's barred jail window) are not looked at, nor gatehouses and towers (a house is a `building:` or a thing with `house:`).
 
+- `pieces.overlap` (F74, X6 p15, 2026-11-26): a set piece (a structure of PIECE_KINDS: a tent, a well, a fountain, an
+  obelisk, a crate, a stone ring, a portal, a model) runs into a building (its porch, pen or awning included) or
+  another set piece: an upright face of the one stands more than PIECE_INTO inside the other's plan hull at the
+  piece's heights (Gorm's coach, a closed tent, through the coach house's pen at the Warzone). A piece standing on the
+  other (its foot at the other's top) is not one; nor a building's own parts, a staged or hidden alternate, a piece
+  and the building it is listed with in town_fit_kept.yml.
 - `props.in_wall` (F40): a decoration whose disc (its radius in decoration_data.txt) reaches more than PROP_INTO into
   a solid upright face of a model, at the decoration's height: a barrel through a tent's wall (Ebenezer's tent, X3
   p2), a crate in a house. A decoration placed on purpose in a model (D4's beacons on Blackfang's wall walk) is
@@ -94,6 +105,8 @@ HOUSE_GAP = 128          # a house this near another building is jammed (a body 
 PROP_INTO = 8            # a decoration's disc this far into a model's face
 CONTAINERS = ('barrel', 'cask', 'keg', 'crate', 'sack', 'box', 'bucket')   # measured by their model's width too
 WALL_FLUSH = 32          # ... unless it backs onto the wall within this (flush)
+PIECE_KINDS = ('tent', 'well', 'fountain', 'obelisk', 'crate', 'stone_ring', 'portal', 'model')
+PIECE_INTO = 16          # a piece's or building's face this far inside the other's plan hull runs into it
 WALL_GAP = 96            # ... this near a wall standing over its floor: a slot behind it, or the wall runs into it
 
 
@@ -348,6 +361,9 @@ OVERHANG = 24
 # buildings carry plinths and lintels over gaps on purpose; F59 (2026-11-25) adds every free-standing thing that has
 # a foot of its own: a tent off a hillside (Freeda's, the troll camp's), a platform (a ledge) over a peak, a stone ring
 OVERHANG_KINDS = ('portal', 'fountain', 'well', 'tent', 'platform', 'obelisk', 'crate', 'stone_ring', 'model')
+EDGE_KINDS = ('fountain', 'well', 'tent', 'crate', 'stone_ring')
+EDGE_REACH = 256         # map units beyond the footprint's box (half a cell)
+EDGE_DROP = 160          # the land there under the thing's foot
 SLOPE_GAP = 24            # a placed decoration's z this far over the land under its rim (F59: a boulder off a slope)
 SLOPE_RADIUS = 32         # decorations smaller than this (flowers, bones, bottles) are not looked at
 SLOPE_RING = 0.75         # where under the decoration the land is read (a share of its radius)
@@ -367,8 +383,10 @@ def check_overhangs(mp, errors, listing):
                     if m.hull is not None and not W.in_polygon((x, y), m.hull):
                         continue
                     drop = bottom - float(mp.terrain.ground(x, y))
-                    if drop > OVERHANG and bool(mp.terrain.blocked(np.array([x]), np.array([y]))[0][0]):
+                    if drop > OVERHANG and s.get('kind') in ('platform', 'model') \
+                            and bool(mp.terrain.blocked(np.array([x]), np.array([y]))[0][0]):
                         continue      # over water: a culvert's cap, a quay's lintel span the water on purpose
+                                      # (a tent or a well over a river bank hangs: F73, D1 p2)
                     if drop > OVERHANG and (worst is None or drop > worst[0]):
                         worst = (drop, x, y)
             if listing:
@@ -377,6 +395,26 @@ def check_overhangs(mp, errors, listing):
                 errors.append(('things.overhang', mp.stem, tid, 'the land falls %d under its foot at cell %.2f, %.2f: '
                                'it hangs over a slope' % (worst[0], *W.world_to_cell(worst[1], worst[2]))))
                 break
+            # F73 (2026-11-26, D1 p2 "tent is in air"): a set piece standing at a cliff's or a bank's edge reads as
+            # hanging in the air even when its foot is on the land: the land EDGE_REACH beyond its footprint falls
+            # more than EDGE_DROP under its foot (the Sardaj tent's end on the gorge's lip, 700 over the river)
+            if s.get('kind') in EDGE_KINDS:
+                edge = None
+                for x in np.linspace(m.lo[0] - EDGE_REACH, m.hi[0] + EDGE_REACH, 9):
+                    for y in np.linspace(m.lo[1] - EDGE_REACH, m.hi[1] + EDGE_REACH, 9):
+                        if m.lo[0] - EDGE_REACH < x < m.hi[0] + EDGE_REACH and \
+                                m.lo[1] - EDGE_REACH < y < m.hi[1] + EDGE_REACH:
+                            continue  # the ring only
+                        drop = bottom - float(mp.terrain.ground(x, y))
+                        if drop > EDGE_DROP and (edge is None or drop > edge[0]):
+                            edge = (drop, x, y)
+                if listing and edge is not None:
+                    print('  %s %s: edge %+d' % (mp.stem, tid, edge[0]))
+                if edge is not None:
+                    errors.append(('things.edge', mp.stem, tid, 'the land falls %d %d beyond its foot at cell %.2f, '
+                                   '%.2f: it stands at an edge and reads as in the air; move it in' % (
+                                       edge[0], EDGE_REACH, *W.world_to_cell(edge[1], edge[2]))))
+                    break
 
 
 def scene_decorations(mp):
@@ -410,7 +448,10 @@ def check_slopes(mp, errors, listing):
         # flag, a banner: drawn less than 16 thick) stands at its middle.
         reach, thick = deco_footprint.footprint(name)
         radius = reach if reach > 0 else sizes.get(name, (0.0, 0.0))[0]
-        if radius < SLOPE_RADIUS or radius > 384 or 'tree' in name or name.startswith('xeen_') or 0 < thick < 16:
+        # the world's own models are set pieces, except its rocks (basalt, boulder: F73 2026-11-26, X7 p6)
+        rock = any(w in deco_footprint.description(name) for w in ('basalt', 'boulder', 'rock'))
+        if radius < SLOPE_RADIUS or radius > 384 or 'tree' in name or (name.startswith('xeen_') and not rock) \
+                or 0 < thick < 16:
             continue
         p = world(s['at'])
         z = None
@@ -573,6 +614,59 @@ def check_houses(mp, cfg, errors, listing):
                 errors.append(('houses.jammed', mp.stem, name, '%s at cell %.2f, %.2f: %s' %
                                (worst[1], *W.world_to_cell(*worst[2]),
                                 'runs into it' if worst[0] < 0 else 'only %d between them' % worst[0])))
+
+
+def _hull_depth(hull, a, b):
+    """How far a segment reaches inside a convex hull (xy): the largest distance from the hull's edge of its points that
+    lie inside (0 when none does)."""
+    best = 0.0
+    for t in np.linspace(0.0, 1.0, 17):
+        p = a + (b - a) * t
+        if W.in_polygon(p, hull):
+            best = max(best, min(_pseg(p, hull[i], hull[(i + 1) % len(hull)]) for i in range(len(hull))))
+    return best
+
+
+def check_pieces(mp, errors, listing):
+    """F74: set pieces running into buildings and into each other (pieces.overlap)."""
+    def kind(name):
+        s = mp.things.get(name) or {}
+        if s.get('staged') or s.get('hidden'):
+            return None
+        if s.get('kind') in PIECE_KINDS:
+            return 'piece'
+        if name.startswith('building:') or s.get('kind') == 'building':
+            return 'building'
+        return None
+    names = [n for n in mp.models if kind(n)]
+    seen = set()
+    for name in names:
+        if kind(name) != 'piece':
+            continue
+        for piece in mp.models[name]:
+            if piece.hull is None:
+                continue
+            for other in names:
+                if other == name or (other, name) in seen:
+                    continue
+                for m in mp.models[other]:
+                    if m.hull is None or np.any(piece.lo[:2] > m.hi[:2]) or np.any(m.lo[:2] > piece.hi[:2]):
+                        continue
+                    if piece.lo[2] >= m.hi[2] - 16 or m.lo[2] >= piece.hi[2] - 16:
+                        continue    # one stands on the other (or hangs over it)
+                    lo, hi = max(piece.lo[2], m.lo[2]), min(piece.hi[2], m.hi[2])
+                    worst = (0.0, None)
+                    for a_model, b_model in ((m, piece), (piece, m)):
+                        for a, b, _ in _upright_segments(a_model, lo, hi):
+                            depth = _hull_depth(b_model.hull, a, b)
+                            if depth > worst[0]:
+                                worst = (depth, (a + b) / 2)
+                    if worst[0] > PIECE_INTO:
+                        seen.add((name, other))
+                        if listing:
+                            print('  %s %s: %s %d inside' % (mp.stem, name, other, worst[0]))
+                        errors.append(('pieces.overlap', mp.stem, name, '%s at cell %.2f, %.2f: runs %d into it' %
+                                       (other, *W.world_to_cell(*worst[1]), worst[0])))
 
 
 # ------------------------------------------------------------------------------------------------ props (F40)
@@ -800,7 +894,9 @@ def check_culverts(mp, faces, errors, listing):
 # ------------------------------------------------------------------------------------------------ actors
 
 def ground_rows():
-    """The monster rows that walk (not `Fly` Y) and do not swim (no swimmer modifier), engine and Xeen tables."""
+    """The monster rows that walk (not `Fly` Y) and do not swim (no swimmer modifier, not of the `Swimmer` kind in
+    bolster_monsters.txt: MM6's sea serpents and, since D-200, the Xeen octopods walk on water), engine and Xeen
+    tables."""
     rows = set()
     for path in (xeenlib.ROOT / 'assets_dev/engine/data_tables/monster_data.txt', xeenlib.WORLD / 'data_tables/monster_data.txt'):
         for line in path.read_text(encoding='latin-1').splitlines():
@@ -811,6 +907,12 @@ def ground_rows():
     for row in list(rows):
         if '\n  %s:' % row in mods and 'swim' in mods.split('\n  %s:' % row, 1)[1].split('\n  1', 1)[0]:
             rows.discard(row)
+    for path in (xeenlib.ROOT / 'assets_dev/engine/data_tables/bolster_monsters.txt',
+                 xeenlib.WORLD / 'data_tables/bolster_monsters.txt'):
+        for line in path.read_text(encoding='latin-1').splitlines():
+            f = line.split('\t')
+            if len(f) > 3 and f[0].strip().isdigit() and 'Swimmer' in (f[2].strip(), *f[3].split(',')):
+                rows.discard(f[0].strip())
     return rows
 
 
@@ -850,6 +952,105 @@ def outdoor_stems():
     return sorted(p.stem for p in (xeenlib.WORLD / 'maps').glob('xeen_*.odm'))
 
 
+PLINTH = 192             # a building's floor this far over the lowest land under its walls stands on a tall plinth
+
+
+PLINTH_RING = 16         # points on a round part's ring (D-199)
+
+
+def plinth_points(s):
+    """The cell points under a building's walls (D-199, 2026-11-26): each part's own footprint, a round part's centre
+    and PLINTH_RING points on its ring at its radius, a rectangle part's corners, edges' middles and middle (parts in
+    units from the plot's north-west corner, turned with the building about its plot's middle); the plot rectangle's
+    for a building without parts."""
+    x0, y0 = float(s['at'][0]), float(s['at'][1])
+    w, h = float(s['size'][0]), float(s['size'][1])
+    parts = [part for part in s.get('parts') or [] if isinstance(part, dict) and 'at' in part]
+    points = []
+    for part in parts:
+        px, py = x0 + float(part['at'][0]) / 512.0, y0 + float(part['at'][1]) / 512.0
+        if part.get('shape') == 'round' or 'radius' in part:
+            r = float(part.get('radius') or 0) / 512.0
+            points.append((px, py))
+            angles = [2 * math.pi * i / PLINTH_RING for i in range(PLINTH_RING)]
+            points += [(px + r * math.cos(a), py + r * math.sin(a)) for a in angles]
+        elif part.get('size'):
+            pw, ph = float(part['size'][0]) / 512.0, float(part['size'][1]) / 512.0
+            points += [(px + pw * fx, py + ph * fy) for fx in (0.0, 0.5, 1.0) for fy in (0.0, 0.5, 1.0)]
+    if not points:
+        points = [(x0 + w * fx, y0 + h * fy) for fx in (0.0, 0.5, 1.0) for fy in (0.0, 0.5, 1.0)]
+    turn = math.radians(float(s.get('turn') or 0))
+    if turn:
+        cx, cy = x0 + w / 2.0, y0 + h / 2.0       # clockwise seen from above, y running south
+        points = [(cx + (x - cx) * math.cos(turn) - (y - cy) * math.sin(turn),
+                   cy + (x - cx) * math.sin(turn) + (y - cy) * math.cos(turn)) for x, y in points]
+    return points
+
+
+def check_plinths(mp, errors, listing):
+    """`houses.plinth` (F73, 2026-11-26, D1 p3 "the mill is in the air"): a building whose sketch `floor` stands more
+    than PLINTH over the lowest land under its walls (plinth_points: each part's own footprint, D-199) stands on a tall
+    stone plinth over a falling bank and reads as built in the air (Miller Dunn's mill over the gorge's lip, 268).
+    A building over water (a quay house, a mill race) is not judged where the land is a water tile."""
+    for tid, s in mp.things.items():
+        if s.get('kind') != 'building' or s.get('floor') is None or 'at' not in s or not s.get('size'):
+            continue
+        if min(float(s['size'][0]), float(s['size'][1])) < 0.5:
+            continue          # posts, benches, lids: they stand where they are put (the rope bridge's posts)
+        low = None
+        for cx, cy in plinth_points(s):
+            p = world((cx, cy))
+            if bool(mp.terrain.blocked(np.array([p[0]]), np.array([p[1]]))[0][0]):
+                continue
+            g = float(mp.terrain.ground(p[0], p[1]))
+            if low is None or g < low[0]:
+                low = (g, cx, cy)
+        if low is None:
+            continue
+        rise = float(s['floor']) - low[0]
+        if listing:
+            print('  %s %s: plinth %d' % (mp.stem, tid, rise))
+        if rise > PLINTH:
+            errors.append(('houses.plinth', mp.stem, tid, 'its floor stands %d over the land at cell %.2f, %.2f: a '
+                           'tall plinth over a bank; move it onto level land or level its plot' % (rise, low[1], low[2])))
+
+
+THROUGH_SHARE = 0.6      # a scattered tree's trunk this far into a placed decoration's drawn radius grows through it
+
+
+def check_through(mp, errors, listing):
+    """`decorations.through` (F73, 2026-11-26, X7 p7 "stone and tree are clipping together"): a scattered tree, bush or
+    rock (a scene decoration the sketch does not place) standing inside a placed decoration's drawn footprint: the
+    studio's scatter keeps off buildings and bmodel things, not placed decorations (REQUEST to the studio), so a dead
+    tree grew out of a basalt boulder on X7's crag."""
+    placed = {}
+    sketch_at = set()     # every decoration the sketch places (hidden ones and long pieces too): not scattered
+    for tid, s in mp.things.items():
+        if s.get('kind') != 'decoration' or 'at' not in s:
+            continue
+        p = world(s['at'])
+        sketch_at.add((int(round(p[0])), int(round(p[1]))))
+        if s.get('hidden'):
+            continue
+        name = str(s.get('decoration', '')).lower()
+        reach, _ = deco_footprint.footprint(name)
+        if 64 <= reach <= 384:    # round pieces; a hull piece or a Sphinx is long, judged by its faces elsewhere
+            placed[tid] = (p, reach, name)
+    if not placed:
+        return
+    for (x, y), items in scene_decorations(mp).items():
+        if any(abs(x - a) <= 1 and abs(y - b) <= 1 for a, b in sketch_at):
+            continue
+        for name, _z in items:
+            for tid, (p, reach, pname) in placed.items():
+                d = math.hypot(x - p[0], y - p[1])
+                if d < reach * THROUGH_SHARE:
+                    if listing:
+                        print('  %s %s: %s %d inside' % (mp.stem, tid, name, d))
+                    errors.append(('decorations.through', mp.stem, tid, 'a scattered %s stands %d from the middle of '
+                                   '%s (drawn radius %d): it grows through it' % (name, d, pname, reach)))
+
+
 def check_map(stem, odm=None, sketch=None, listing=False):
     errors = []
     mp = FitMap(stem, odm, sketch)
@@ -862,10 +1063,13 @@ def check_map(stem, odm=None, sketch=None, listing=False):
     check_actors(mp, errors, listing)
     check_bridges(mp, errors, listing)
     check_houses(mp, cfg, errors, listing)
+    check_pieces(mp, errors, listing)
     check_props(mp, errors, listing)
     check_platforms(mp, errors, listing)
     check_overhangs(mp, errors, listing)
     check_slopes(mp, errors, listing)
+    check_plinths(mp, errors, listing)
+    check_through(mp, errors, listing)
     return errors
 
 
@@ -909,7 +1113,7 @@ def drop_kept(errors):
     entries = (yaml.safe_load(KEPT.read_text()) or []) if KEPT.exists() else []
     out, kept = [], []
     for rule, stem, what, text in errors:
-        hit = next((e for e in entries if e.get('map') == stem and e.get('rule') == rule
+        hit = next((e for e in entries if fnmatch.fnmatch(stem, e.get('map', '')) and e.get('rule') == rule
                     and fnmatch.fnmatch(what, e.get('thing', ''))), None)
         if hit:
             kept.append((rule, stem, what, text, hit.get('reason', '')))

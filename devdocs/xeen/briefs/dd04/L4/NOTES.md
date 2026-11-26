@@ -294,3 +294,7 @@ X
   since A3 35th (`q-d1.throne` has `failStatus = true`: refusal lines of finds default to the status line), so no
   window opens. Not a fault: the two steps now read `status()` and check that 113028 stays clear. All four tests 16/16
   from assets_dev (`output/studio_cal/a8_s26/run/dd04/t021801`). No map change.
+
+## D-104 dungeon campfires (2026-11-26, agent:xeen-fb5-dungeon2)
+
+`deco:barracks_fire`: the outdoor campfire's event (food 1-3 once, a small ring for a character with Perception), `once: true`, added by `level_generation/projects/xeen/common/campfires.py` (regen.py runs it after gen.py). Rebuilt, audit 0 errors, every playtest passing from the stage, installed and baked, MAW reserve rerun.

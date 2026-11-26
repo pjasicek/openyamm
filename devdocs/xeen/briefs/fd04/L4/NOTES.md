@@ -265,3 +265,31 @@ reset_pending.
   room (it faced the tome's stand 20 away). Both exits' `7solid01` at one size. Installed with its bake.
 - F14: `check_drops.py` lists nothing (the descent and the bone stair are steps on a continuous floor, which the check
   now joins; the eggs' rock likewise). Build warning kept: `7solid01` squashed on the roof hatch's trigger (black).
+
+## D-181 (agent xeen-fb5-dungeon, 2026-11-26)
+
+- The fountain room's `sta1a` (MM6's basin-less fountain) stands in a basin now: eight kerb stones (octagon 384
+  across, inner 320, 64 high) round a water floor 16 under the kerb's top, the fountain at (1568, 9280) on the water
+  line (`tools/xeen/check_fountains.py`).
+
+## F75 (2026-11-26, agent:xeen-fb5-dungeon-f75)
+
+Every dragon leashed (gen.py `LEASH`, 32-1,536) so a chase stops 64 clear of D-32's 256 x 288 openings instead of
+sinking into the frame; seven posts moved deeper (ring hall 2, nest 2, high hall 2, crown 1); the hatchery's second
+pair stands beside the first and holds its post (leash 32: 768 wide, too narrow for four dragons to move clear of its
+two openings). `playtest_dragons` allows the nest's egg bowl (96 down). `check_monster_fit.py`: 68 stuck -> 0.
+
+## D-186 (2026-11-26, agent:xeen-fb5-dungeon2)
+
+Captures of the hatchery at rest from both doors and from above (`output/xeen_fb/p5_dungeon2/fd04/rest/`, crops
+`rest_01_crop.jpg`, `rest_04_crop.jpg`; after a 20 s fight from the nest door `fight/`): the second pair's bodies ran
+through the first's (a frost dragon's wing through the red's head, a frost head through a red wing), so D-186's
+fallback applied. Group 25 moved to the nest: the Fire Dragon at (-506, 256) north of the egg bowl (leash 480), the
+Frost Dragon at (100, -450) south-east of it (leash 512), both from `check_monster_fit.py --suggest`, 687+ from every
+other dragon and off the bowl's bank (a post at (-506, 102) stood on the bank at z 2469, which `gen_tests.py`'s hall
+test refuses). D-186 named the nest's south-west quarter; it already holds three of the nest's six. Counts kept
+(`COUNTS`); the hatchery now holds one pair, the nest eight. `gen_tests.py` reads actor indices from
+`output/studio_cal/fd04/root` (of 2026-11-21): its FD-04 scene and BLV were refreshed from the stage before the
+playtests were regenerated. Fit 0, audit 0 errors, playtests 9 of 9, installed and baked; after captures
+`output/xeen_fb/p5_dungeon2/fd04/after/`. Not mine: `check_ledge_shots` reports one error at the machine's lip
+(z -1888, the Autobots of group 54), already on HEAD's FD-04.

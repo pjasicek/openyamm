@@ -256,6 +256,10 @@ def build(ctx):
             if spec.get('value', 0) != 0:
                 raise BuildError(f'{where}: a kept item has value 0 (shops buy every item with a price)')
             flags = flags + ['NoDrop']
+        # `any_class: true` (U-17, the Xeen Slayer Sword): every character may wield it without its weapon skill (the
+        # engine's EquipWithoutSkill); the skill still adds its bonus for those who have it.
+        if spec.get('any_class'):
+            flags = flags + ['EquipWithoutSkill']
         items.add(key, spec, flags, where, rarity=rarity, tier=6,
                   set_id=f'{xeenlib.WORLD_ID}:set/{set_key}' if set_key else '', effect_profile=profile,
                   borrowed_skin=True)

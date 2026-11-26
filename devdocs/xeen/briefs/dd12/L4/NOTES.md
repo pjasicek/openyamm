@@ -230,3 +230,9 @@ first; snapshot `output/studio_cal/a8_s28/before/dd12/`).
   `output/studio_cal/a8_s28/dd12_after_sheet.jpg` (tour `tools/tour.py things`).
 - Rebuilt on oymap merge point 42 (the style world's chest 7gt002 for the chests without a `kind`): reinstalled 02:08,
   baked, audit 0 / 0, tests 12 of 12 (`output/studio_cal/a8_s26/run/dd12/c020752`).
+
+## F71 (agent xeen-fb5-dungeon, 2026-11-26)
+
+- The aviary's eight cages were wall panels in `xwcage` (a cutout): the Darkside sky showed through the bars. Each is
+  now a thin clicked block (`platform:cageN`, the bird's event) 4 off the wall over a black hole panel (`7solid01`)
+  (`tools/xeen/check_cutout_backing.py`). Playtests 3/3, installed and baked.

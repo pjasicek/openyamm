@@ -62,12 +62,19 @@ def main():
             continue   # untouchable (FaceAttribute::Untouchable: a cloud skirt the party falls through), no floor
         floors[i] = [V[v] for v in f['vertices']]
     def zat(poly, x, y):
-        # the face's height at (x, y) from its plane (three corners)
-        (x0, y0, z0), (x1, y1, z1), (x2, y2, z2) = poly[0], poly[1], poly[2]
-        ax, ay, az, bx, by, bz = x1 - x0, y1 - y0, z1 - z0, x2 - x0, y2 - y0, z2 - z0
-        nx, ny, nz = ay * bz - az * by, az * bx - ax * bz, ax * by - ay * bx
-        if abs(nz) < 1e-9:
+        # the face's height at (x, y) from its plane: the first corner and the two after it spanning the most area
+        # (a corner on a straight edge gives no plane); the mean of its corners only for a degenerate face
+        x0, y0, z0 = poly[0]
+        best = None
+        for k in range(1, len(poly) - 1):
+            (x1, y1, z1), (x2, y2, z2) = poly[k], poly[k + 1]
+            ax, ay, az, bx, by, bz = x1 - x0, y1 - y0, z1 - z0, x2 - x0, y2 - y0, z2 - z0
+            n = (ay * bz - az * by, az * bx - ax * bz, ax * by - ay * bx)
+            if best is None or abs(n[2]) > abs(best[2]):
+                best = n
+        if best is None or abs(best[2]) < 1e-9:
             return sum(p[2] for p in poly) / len(poly)
+        nx, ny, nz = best
         return z0 - (nx * (x - x0) + ny * (y - y0)) / nz
 
     bbox = {fi: (min(p[0] for p in poly), min(p[1] for p in poly), max(p[0] for p in poly), max(p[1] for p in poly))
@@ -177,10 +184,11 @@ def main():
     scene = yaml.safe_load(open(a.scene or a.blv[:-4] + '.scene.yml'))
 
     def face_at(x, y, z, tol=64):
+        # a sloping floor is measured at the point (XD-05's pit ladder, D-195)
         best = None
         for fi, poly in floors.items():
             if pip(x, y, poly):
-                fz = sum(p[2] for p in poly) / len(poly)
+                fz = zat(poly, x, y)
                 if fz <= z + tol and (best is None or fz > best[1]):
                     best = (fi, fz)
         return best[0] if best else None

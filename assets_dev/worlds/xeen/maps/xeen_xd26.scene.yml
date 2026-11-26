@@ -110,7 +110,7 @@ initial_state:
       door_id: 2
       time_since_triggered_ms: 0
       direction: [0, 0, -65536]
-      move_length: 226
+      move_length: 258
       open_speed: 96
       close_speed: 96
       state: 2
@@ -118,10 +118,10 @@ initial_state:
       face_ids: [1351, 1352, 1353]
       sector_ids: [3]
       delta_us: [784, -624, 0]
-      delta_vs: [1986, 1986, 0]
+      delta_vs: [2050, 2050, 0]
       x_offsets: [-784, -624, -624, -784, -784, -624, -624, -784]
       y_offsets: [2616, 2616, 2616, 2616, 2632, 2632, 2632, 2632]
-      z_offsets: [1762, 1762, 1986, 1986, 1986, 1986, 1762, 1762]
+      z_offsets: [1794, 1794, 2050, 2050, 2050, 2050, 1794, 1794]
       mover:
         bodies: reverse
     - door_index: 2

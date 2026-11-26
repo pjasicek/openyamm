@@ -197,3 +197,13 @@ The rough wall behind this map's exit stood in front of its black face (no click
 `tools/xeen/check_exits.py` `exits.hidden`). `tools/xeen/cave_shape.py` `flat_behind_panels` now gives the exit's
 wall a flat panel under it (the generator writes it); rebuilt, installed and baked; all playtests pass. See XD-05's
 NOTES.md, same date.
+
+## F75: dragons leashed clear of the low openings (2026-11-26, agent:xeen-fb5-dungeon-f75)
+
+XD-18 p1/p2 ("dragon gets stuck"): a dragon (487 high, radius 238; indoors it meets the level at radius 60, D-32) that
+chased the party to a 288-high party passage stopped 60 from it with its body sunk into the frame. gen.py `LEASH`: every
+dragon and the King leashed (2D about the post, as D-154) so its body stays 64 clear of every opening it cannot pass
+(224-1,536); seven posts moved deeper (bone hall 1, hollows 3, roost 4, pools 1 and 3, den 1, rime 2). New
+`playtest_fit.yml` (p1's mouth, p2's stair foot, the roost's east opening: no dragon within 280 after 30 s; fails on
+the old map at p2). `tools/xeen/check_monster_fit.py --maps xeen_xd18`: 163 stuck -> 0. Playtests 6/6 from the stage.
+Kept audit warnings (not F75's, also on the old map): `prop.wall` bones_3 (14 into a wall) and ember_2 (21).

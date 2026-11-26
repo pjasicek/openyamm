@@ -202,7 +202,9 @@ op('open:shaft_high', 'room:shaft_floor', 'room:high_ledge', link='link:high_sha
    notes="The high ledge's lip, 1,536 over the shaft floor.")
 op('open:high_ledgew', 'room:high_ledge', 'room:ledge_w', link='link:high_drop', width=384, height=256,
    along=0.5, notes="A gap in the high ledge's rim over the west ledge: the 512 drop.")
-op('open:high_hidden', 'room:high_ledge', 'room:hidden_ledge', link='link:high_hidden', width=160, height=224,
+# F75 (reviews/PLAYER_FEEDBACK_20261126.md, big monsters stuck in openings, 2026-11-26): 256 high (was 224) so an
+# Obsidian Gargoyle (244 high) that follows the party passes instead of sticking in the moss (check_monster_fit.py).
+op('open:high_hidden', 'room:high_ledge', 'room:hidden_ledge', link='link:high_hidden', width=160, height=256,
    along=0.5, notes="Behind the hanging moss.")
 op('open:high_roost', 'room:high_ledge', 'room:roost', link='link:high_roost', width=192, height=256,
    notes="The top of the roost ladder: a hole in the rock 512 up.")

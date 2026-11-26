@@ -444,24 +444,28 @@ monsters:
     at: [-7600, 420]
     facing: 0
     group: 18
+    leash: 1152
   - id: monster:crypt_2
     room: room:crypt
     monster: 11672
     at: [-7600, -420]
     facing: 0
     group: 18
+    leash: 1152
   - id: monster:crypt_3
     room: room:crypt
     monster: 11672
     at: [-8150, 380]
     facing: 0
     group: 18
+    leash: 1536
   - id: monster:crypt_4
     room: room:crypt
     monster: 11672
     at: [-8150, -380]
     facing: 0
     group: 18
+    leash: 1536
   - id: monster:gallery_n_1
     room: room:gallery_n
     monster: 11274
@@ -562,12 +566,14 @@ monsters:
     at: [-9200, 380]
     facing: 0
     group: 19
+    leash: 1536
   - id: monster:stalls_2
     room: room:stalls
     monster: 11672
     at: [-9200, -380]
     facing: 0
     group: 19
+    leash: 1536
   - id: monster:swinging_1
     room: room:swinging
     monster: 11273

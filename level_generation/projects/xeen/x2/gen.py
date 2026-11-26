@@ -663,7 +663,10 @@ TOWER_C = (31, 58)                 # Darzog's Tower's middle on the island; its 
 TOWER_R = 896
 SHIP_AT = (83.6, 53.4)             # Nystor's ship's middle, east of his pier, along the river
 SHIP_WORD = True   # A1 merge point 6: `from.world` (2026-11-20)
-PAIR = {11: (0, 0.35), 14: (0, 0.35), 15: (0, 0.35)}   # a town prop's partner offset in cells when not (0.35, 0)
+# P5 F72 (X2 p13, 2026-11-26): prop 15's keg north of its barrel (y 47.4), not south of it: at 48.1 it stood in the
+# quay wall's slab (its back edge 48.0) and the studio stands a decoration on the land, 73 under the slab's paving
+# (tools/xeen/check_props_support.py `support.sunk`)
+PAIR = {11: (0, 0.35), 14: (0, 0.35), 15: (0, -0.35)}   # a town prop's partner offset in cells when not (0.35, 0)
 # (dress_check.py); A5 fifth session (D-14): 11, 14, 15 pair along their walls
 DROPPED_PROPS = (13, 16, 17)      # D-14: a barrel on the south street, kegs on two walking lines (decorations 1573-1582)
 
@@ -1247,9 +1250,10 @@ def build():
     for i, x in enumerate(STAIRS_S):
         S({'id': 'thing:quay_steps_s%d' % (i + 1), 'kind': 'stairs', 'line': [[x, 55.7], [x, S_EDGE + 0.15]],
            'width': 384, 'rise': PLATEAU - BANK, 'textures': {'wall': 'cnb'}, 'notes': 'Down to the south quay.'})
-    # the Robbers' Den: a dark door in the south quay's wall beside the bridge's south abutment
+    # the Robbers' Den: a door in the south quay's wall beside the bridge's south abutment; D-189 (2026-11-26): the
+    # stone kit's door picture (xvsdoor) 128 behind its frame, not a flat black 7solid01 face 448 deep
     S({'id': 'thing:den_door', 'kind': 'doorway', 'at': [DEN_X, DEN_Y], 'turn': 180, 'height': 320, 'width': 224,
-       'depth': 448, 'hood': 64, 'arch': 'round', 'textures': {'door': '7solid01', 'wall': 'cnb'},
+       'depth': 128, 'hood': 64, 'arch': 'round', 'textures': {'door': 'xvsdoor', 'wall': 'cnb'},
        'title': "Enter the Robbers' Den", 'into': {'map': 'xeen_xd21.blv', 'at': [-2560, 320, 0], 'facing': 512},
        'notes': 'XD-21 (DOORS.md): the door in the quay wall under the great bridge\'s south end, facing the river.'})
     # Captain Nystor's dock: the boat house on the south quay, a pier into the river, a ship moored at it
@@ -1401,8 +1405,11 @@ def build():
     S({'id': 'thing:darzog_tower', 'kind': 'building', 'at': [TOWER_C[0] - 2.5, TOWER_C[1] - 2.5], 'size': [5, 5],
        'kit': 'castle', 'floor': ISLE_H, 'title': "Darzog's Tower", 'facing': 'e',
        'parts': [
+           # D-180 rule a (2026-11-26): the door at least as wide as XD-12's way out (128 x 256; it was 116 x 256),
+           # one leaf of the kit's xvtdoor (D-189) at the picture's own 128 (a wider single leaf tiles it)
            {'id': 'base', 'shape': 'round', 'at': [1280, 1280], 'radius': TOWER_R, 'sides': 12, 'wall_height': 1024,
-            'roof': 'none', 'windows': 'none', 'textures': {'wall': 'cwb1', 'door': '7solid01'}},
+            'roof': 'none', 'windows': 'none', 'textures': {'wall': 'cwb1', 'door': 'xvtdoor'},
+            'walls': {'3': [['wall', 168], ['door', 128], ['wall', 168]]}},
            {'id': 'mid', 'shape': 'round', 'at': [1280, 1280], 'radius': 704, 'sides': 12, 'bottom': 1024,
             'wall_height': 1024, 'roof': 'none', 'windows': 'alternate', 'textures': {'wall': 'cwb1'}},
            {'id': 'top', 'shape': 'round', 'at': [1280, 1280], 'radius': 576, 'sides': 12, 'bottom': 2048,
@@ -1424,13 +1431,16 @@ def build():
        'floor': 1088,
        'parts': [{'id': 'front', 'at': [448, 320], 'size': [1152, 896], 'wall_height': 704, 'roof': 'gable',
                   'ridge_along': 'ns', 'roof_pitch': 34, 'windows': 'none',
-                  'textures': {'wall': 'cnb', 'door': '7solid01', 'roof': 'cwb1'},
+                  # D-180 (X2 p14, 2026-11-26): a double door 384 wide and high, two 192 leaves of the tower kit's
+                  # wing (the second mirrored), as D6's Necropolis gate; XD-06's inside exit is 224 x 448
+                  'textures': {'wall': 'cnb', 'door': 'xvtdoorw', 'roof': 'cwb1'}, 'door_height': 384,
+                  'walls': {'n': [['wall', 384], ['door', 384], ['wall', 384]]},
                   'porches': [{'wall': 'n', 'depth': 288, 'posts': 64, 'height': 576, 'floor': 48}]},
                  {'id': 'tower_w', 'at': [96, 384], 'size': [320, 320], 'wall_height': 1088, 'roof': 'hip',
                   'roof_pitch': 62, 'windows': 'none', 'textures': {'wall': 'cnb', 'roof': 'cwb1'}},
                  {'id': 'tower_e', 'at': [1632, 384], 'size': [320, 320], 'wall_height': 1088, 'roof': 'hip',
                   'roof_pitch': 62, 'windows': 'none', 'textures': {'wall': 'cnb', 'roof': 'cwb1'}}],
-       'door': {'part': 'front', 'wall': 'n'},
+       'door': {'part': 'front', 'wall': 'n', 'leaves': 2},
        'into': {'map': 'xeen_xd06.blv', 'at': [0, 384, 0], 'facing': 512},
        'condition': {'lua': 'XeenQuests.hook("q-c12.temple_door")'},
        'notes': 'XD-06 (DOORS.md), moved from X1. D-89 (A5 s29): open without the Yak Stone; A3\'s q-c12.temple_door '

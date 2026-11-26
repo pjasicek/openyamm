@@ -81,18 +81,27 @@ rooms:
     walls:
       - wall: north
         panels:
-          - {id: panel:cage1, offset: 1168, length: 160, bottom: 64, height: 320, surface: {texture: xwcage, size: [128, 256], fit: true}, notes: A cage set in the wall (xwcage).}
-          - {id: panel:cage2, offset: 784, length: 160, bottom: 64, height: 320, surface: {texture: xwcage, size: [128, 256], fit: true}, notes: A cage set in the wall (xwcage).}
-          - {id: panel:cage3, offset: 400, length: 160, bottom: 64, height: 320, surface: {texture: xwcage, size: [128, 256], fit: true}, notes: A cage set in the wall (xwcage).}
-          - {id: panel:cage4, offset: 16, length: 160, bottom: 64, height: 320, surface: {texture: xwcage, size: [128, 256], fit: true}, notes: A cage set in the wall (xwcage).}
+          - {offset: 1168, length: 160, bottom: 64, height: 320, surface: {texture: 7solid01, size: [128, 256], fit: true}, notes: The dark of a cage set in the wall.}
+          - {offset: 784, length: 160, bottom: 64, height: 320, surface: {texture: 7solid01, size: [128, 256], fit: true}, notes: The dark of a cage set in the wall.}
+          - {offset: 400, length: 160, bottom: 64, height: 320, surface: {texture: 7solid01, size: [128, 256], fit: true}, notes: The dark of a cage set in the wall.}
+          - {offset: 16, length: 160, bottom: 64, height: 320, surface: {texture: 7solid01, size: [128, 256], fit: true}, notes: The dark of a cage set in the wall.}
       - wall: west
         panels:
-          - {id: panel:cage5, offset: 304, length: 160, bottom: 64, height: 320, surface: {texture: xwcage, size: [128, 256], fit: true}, notes: A cage set in the wall (xwcage).}
-          - {id: panel:cage6, offset: 688, length: 160, bottom: 64, height: 320, surface: {texture: xwcage, size: [128, 256], fit: true}, notes: A cage set in the wall (xwcage).}
+          - {offset: 304, length: 160, bottom: 64, height: 320, surface: {texture: 7solid01, size: [128, 256], fit: true}, notes: The dark of a cage set in the wall.}
+          - {offset: 688, length: 160, bottom: 64, height: 320, surface: {texture: 7solid01, size: [128, 256], fit: true}, notes: The dark of a cage set in the wall.}
       - wall: south
         panels:
-          - {id: panel:cage7, offset: 176, length: 160, bottom: 64, height: 320, surface: {texture: xwcage, size: [128, 256], fit: true}, notes: A cage set in the wall (xwcage).}
-          - {id: panel:cage8, offset: 560, length: 160, bottom: 64, height: 320, surface: {texture: xwcage, size: [128, 256], fit: true}, notes: A cage set in the wall (xwcage).}
+          - {offset: 176, length: 160, bottom: 64, height: 320, surface: {texture: 7solid01, size: [128, 256], fit: true}, notes: The dark of a cage set in the wall.}
+          - {offset: 560, length: 160, bottom: 64, height: 320, surface: {texture: 7solid01, size: [128, 256], fit: true}, notes: The dark of a cage set in the wall.}
+    platforms:
+      - {id: platform:cage1, at: [-3168, 3000], size: [160, 8], rise: 320, surface: {texture: xwcage, size: [128, 256], fit: true}, end_surface: {texture: trim12_32, size: [32, 64]}, top_surface: {texture: trim12_32, size: [32, 64]}, bottom_surface: {texture: trim12_32, size: [32, 64]}, base: 64, notes: "A cage set in the wall (xwcage), 4 off its dark hole."}
+      - {id: platform:cage2, at: [-2784, 3000], size: [160, 8], rise: 320, surface: {texture: xwcage, size: [128, 256], fit: true}, end_surface: {texture: trim12_32, size: [32, 64]}, top_surface: {texture: trim12_32, size: [32, 64]}, bottom_surface: {texture: trim12_32, size: [32, 64]}, base: 64, notes: "A cage set in the wall (xwcage), 4 off its dark hole."}
+      - {id: platform:cage3, at: [-2400, 3000], size: [160, 8], rise: 320, surface: {texture: xwcage, size: [128, 256], fit: true}, end_surface: {texture: trim12_32, size: [32, 64]}, top_surface: {texture: trim12_32, size: [32, 64]}, bottom_surface: {texture: trim12_32, size: [32, 64]}, base: 64, notes: "A cage set in the wall (xwcage), 4 off its dark hole."}
+      - {id: platform:cage4, at: [-2016, 3000], size: [160, 8], rise: 320, surface: {texture: xwcage, size: [128, 256], fit: true}, end_surface: {texture: trim12_32, size: [32, 64]}, top_surface: {texture: trim12_32, size: [32, 64]}, bottom_surface: {texture: trim12_32, size: [32, 64]}, base: 64, notes: "A cage set in the wall (xwcage), 4 off its dark hole."}
+      - {id: platform:cage5, at: [-3416, 2624], size: [8, 160], rise: 320, surface: {texture: xwcage, size: [128, 256], fit: true}, end_surface: {texture: trim12_32, size: [32, 64]}, top_surface: {texture: trim12_32, size: [32, 64]}, bottom_surface: {texture: trim12_32, size: [32, 64]}, base: 64, notes: "A cage set in the wall (xwcage), 4 off its dark hole."}
+      - {id: platform:cage6, at: [-3416, 2240], size: [8, 160], rise: 320, surface: {texture: xwcage, size: [128, 256], fit: true}, end_surface: {texture: trim12_32, size: [32, 64]}, top_surface: {texture: trim12_32, size: [32, 64]}, bottom_surface: {texture: trim12_32, size: [32, 64]}, base: 64, notes: "A cage set in the wall (xwcage), 4 off its dark hole."}
+      - {id: platform:cage7, at: [-3168, 1608], size: [160, 8], rise: 320, surface: {texture: xwcage, size: [128, 256], fit: true}, end_surface: {texture: trim12_32, size: [32, 64]}, top_surface: {texture: trim12_32, size: [32, 64]}, bottom_surface: {texture: trim12_32, size: [32, 64]}, base: 64, notes: "A cage set in the wall (xwcage), 4 off its dark hole."}
+      - {id: platform:cage8, at: [-2784, 1608], size: [160, 8], rise: 320, surface: {texture: xwcage, size: [128, 256], fit: true}, end_surface: {texture: trim12_32, size: [32, 64]}, top_surface: {texture: trim12_32, size: [32, 64]}, bottom_surface: {texture: trim12_32, size: [32, 64]}, base: 64, notes: "A cage set in the wall (xwcage), 4 off its dark hole."}
     ambient: 20
     notes: "Eight cages set in the walls; the lift's cage in the south wall."
   - id: room:barracks4

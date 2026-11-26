@@ -15,6 +15,12 @@ sectors:
   room:river_ledge: 13
 events:
   evt:arrive: 1
+  evt:campfire_chief_fire: 21
+  evt:campfire_den_fire: 22
+  evt:campfire_pit_cookfire: 23
+  evt:campfire_pit_fire: 24
+  evt:campfire_quarry_fire: 25
+  evt:campfire_yard_fire: 26
   evt:chest_bundle: 2
   evt:chest_cargo: 3
   evt:chest_chief: 4
@@ -57,6 +63,12 @@ map_vars:
   fell: 7
   gate_unbarred: 4
   once.arrive: 0
+  once.campfire_chief_fire: 9
+  once.campfire_den_fire: 10
+  once.campfire_pit_cookfire: 11
+  once.campfire_pit_fire: 12
+  once.campfire_quarry_fire: 13
+  once.campfire_yard_fire: 14
   once.chief_dead: 1
   once.chute_trap: 2
   once.feast_seen: 3

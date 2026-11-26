@@ -1,0 +1,95 @@
+format: 1
+counter: 12
+pins:
+  - id: pin:p1
+    text: tree clipping through the wall
+    source: game
+    world: xeen
+    map: xeen_xd12.blv
+    pose:
+      position: [-2524.048, 1335.277, 768]
+      yaw_radians: 4.364
+      pitch_degrees: -7.747
+      heading_yaw_units: 1423
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-25T21:06:30
+    status: resolved
+    claimed_by: agent:xeen-fb5-dungeon
+    from: 20261125-210630-xeen_xd12.yml
+    replies:
+      - author: agent:xeen-fb5-dungeon
+        text: "The island's great trees (1,280 high, crowns about 690 wide as drawn) stood 200-400 from the keep's wall and reached through it into the corridors. Only the island's small trees now, each its drawn crown + 32 clear of the wall (dress.py measures with tools/xeen/deco_footprint.py); check_clipping.py deco.through finds a 3D decoration reaching through a wall on every Xeen map."
+        created: 2026-11-26T08:16:01
+        revision: b69350b7d140aa04cf4064741fc288c1
+        status: resolved
+        pictures: [.oymap/pins/pictures/p1-r1.png]
+  - id: pin:p2
+    text: tree clipping through
+    source: game
+    world: xeen
+    map: xeen_xd12.blv
+    pose:
+      position: [2687.972, 2996.871, 768]
+      yaw_radians: 6.066
+      pitch_degrees: -4.63
+      heading_yaw_units: 1977
+    picture: .oymap/pins/pictures/p2.png
+    author: user
+    created: 2026-11-25T21:14:04
+    status: resolved
+    claimed_by: agent:xeen-fb5-dungeon
+    from: 20261125-211404-xeen_xd12.yml
+    replies:
+      - author: agent:xeen-fb5-dungeon
+        text: "Same cause as p1: a great tree on the island reached through the keep's wall. Replaced by a small tree standing clear of the wall."
+        created: 2026-11-26T08:16:01
+        revision: b69350b7d140aa04cf4064741fc288c1
+        status: resolved
+        pictures: [.oymap/pins/pictures/p2-r1.png]
+  - id: pin:p3
+    text: here is something wrong
+    source: game
+    world: xeen
+    map: xeen_xd12.blv
+    pose:
+      position: [2201.564, -1080.209, 2304]
+      yaw_radians: 0.633
+      pitch_degrees: 4.42
+      heading_yaw_units: 206
+    picture: .oymap/pins/pictures/p3.png
+    author: user
+    created: 2026-11-25T21:21:14
+    status: resolved
+    claimed_by: agent:xeen-fb5-dungeon
+    from: 20261125-212114-xeen_xd12.yml
+    replies:
+      - author: agent:xeen-fb5-dungeon
+        text: "The sky stair's steps had no riser surface and took the room's wall, the sky, so only the treads and the underside showed: a bare slab running into the wall. Risers and the gallery's sides are keep stone now (geo.stair_hall solid=); check_clipping.py sky.solid finds this on every Xeen map."
+        created: 2026-11-26T08:16:02
+        revision: b69350b7d140aa04cf4064741fc288c1
+        status: resolved
+        pictures: [.oymap/pins/pictures/p3-r1.png]
+  - id: pin:p4
+    text: here is also something strange
+    source: game
+    world: xeen
+    map: xeen_xd12.blv
+    pose:
+      position: [2397.947, 2077.895, 3072]
+      yaw_radians: 4.102
+      pitch_degrees: -5.248
+      heading_yaw_units: 1337
+    picture: .oymap/pins/pictures/p4.png
+    author: user
+    created: 2026-11-25T21:25:04
+    status: resolved
+    claimed_by: agent:xeen-fb5-dungeon
+    from: 20261125-212504-xeen_xd12.yml
+    replies:
+      - author: agent:xeen-fb5-dungeon
+        text: "The sky stair's west wall north and south of the east roof stood as two low walls between the gallery and the roof, both at the same level: a lone stone block. It is open now; a small stone post (merlon height) stands where the roof's parts and the gallery meet, over the 16 of wall the studio keeps between two openings. check_clipping.py piece.free finds such stubs and free-standing frames."
+        created: 2026-11-26T08:16:03
+        revision: b69350b7d140aa04cf4064741fc288c1
+        status: resolved
+        pictures: [.oymap/pins/pictures/p4-r1.png]

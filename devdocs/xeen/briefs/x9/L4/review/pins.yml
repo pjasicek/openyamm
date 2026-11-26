@@ -1,0 +1,233 @@
+format: 1
+counter: 30
+pins:
+  - id: pin:p1
+    text: maybe move it more right
+    source: game
+    world: xeen
+    map: xeen_x9.blv
+    pose:
+      position: [-30.079, 410.475, 416.458]
+      yaw_radians: 2.655
+      pitch_degrees: -6.718
+      heading_yaw_units: 865
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-25T21:27:58
+    status: resolved
+    claimed_by: agent:xeen-fb5-dungeon
+    from: 20261125-212758-xeen_x9.yml
+    replies:
+      - author: agent:xeen-fb5-dungeon
+        text: "Moved: the Might, Speed and Endurance booths (with their games) now stand fully on the plaza, at least 48 inside its edge; nothing hangs over the cloud's rim any more."
+        created: 2026-11-26T08:08:09
+        revision: 02d21406beee26b99bddf5c35a9e1118
+        status: resolved
+        pictures: [.oymap/pins/pictures/p1-r1.png]
+  - id: pin:p2
+    text: bridge clipping through
+    source: game
+    world: xeen
+    map: xeen_x9.blv
+    pose:
+      position: [-158.533, 7604.788, 672.496]
+      yaw_radians: 1.51
+      pitch_degrees: -16.774
+      heading_yaw_units: 492
+    picture: .oymap/pins/pictures/p2.png
+    author: user
+    created: 2026-11-25T21:29:28
+    status: resolved
+    claimed_by: agent:xeen-fb5-dungeon
+    from: 20261125-212928-xeen_x9.yml
+    replies:
+      - author: agent:xeen-fb5-dungeon
+        text: "Already fixed by 3.4 (the decks now lie level on each cloud until they are past its edge); this picture is today's map at your pose."
+        created: 2026-11-26T08:08:09
+        revision: 02d21406beee26b99bddf5c35a9e1118
+        status: resolved
+        pictures: [.oymap/pins/pictures/p2-r1.png]
+  - id: pin:p3
+    text: clipping through
+    source: game
+    world: xeen
+    map: xeen_x9.blv
+    pose:
+      position: [-770.599, 9679.372, 704]
+      yaw_radians: 0.846
+      pitch_degrees: -12.055
+      heading_yaw_units: 276
+    picture: .oymap/pins/pictures/p3.png
+    author: user
+    created: 2026-11-25T21:30:15
+    status: resolved
+    claimed_by: agent:xeen-fb5-dungeon
+    from: 20261125-213015-xeen_x9.yml
+    replies:
+      - author: agent:xeen-fb5-dungeon
+        text: "Already fixed by 3.4 (the decks now lie level on each cloud until they are past its edge); this picture is today's map at your pose."
+        created: 2026-11-26T08:08:09
+        revision: 02d21406beee26b99bddf5c35a9e1118
+        status: resolved
+        pictures: [.oymap/pins/pictures/p3-r1.png]
+  - id: pin:p4
+    text: maybe clipping
+    source: game
+    world: xeen
+    map: xeen_x9.blv
+    pose:
+      position: [-12346.901, -16624.916, 512]
+      yaw_radians: 0.213
+      pitch_degrees: -16.464
+      heading_yaw_units: 69
+    picture: .oymap/pins/pictures/p4.png
+    author: user
+    created: 2026-11-25T21:34:03
+    status: resolved
+    claimed_by: agent:xeen-fb5-dungeon
+    from: 20261125-213403-xeen_x9.yml
+    replies:
+      - author: agent:xeen-fb5-dungeon
+        text: The line was the 8-high edge of a cloud neck lying on the cloud. The necks now start under the cloud's top and show only where they leave the cloud.
+        created: 2026-11-26T08:08:10
+        revision: 02d21406beee26b99bddf5c35a9e1118
+        status: resolved
+        pictures: [.oymap/pins/pictures/p4-r1.png]
+  - id: pin:p5
+    text: clipping
+    source: game
+    world: xeen
+    map: xeen_x9.blv
+    pose:
+      position: [-13978.016, -14716.186, 512]
+      yaw_radians: 1.681
+      pitch_degrees: -9.116
+      heading_yaw_units: 548
+    picture: .oymap/pins/pictures/p5.png
+    author: user
+    created: 2026-11-25T21:34:20
+    status: resolved
+    claimed_by: agent:xeen-fb5-dungeon
+    from: 20261125-213420-xeen_x9.yml
+    replies:
+      - author: agent:xeen-fb5-dungeon
+        text: "The cloud cutting the bridge was fixed in 3.4. Your other point, the rails ending in the air, is fixed now: every rope bridge's rails are tied to a post at each end (here, on X8 and on D7)."
+        created: 2026-11-26T08:08:10
+        revision: 02d21406beee26b99bddf5c35a9e1118
+        status: resolved
+        pictures: [.oymap/pins/pictures/p5-r1.png]
+  - id: pin:p6
+    text: clipping
+    source: game
+    world: xeen
+    map: xeen_x9.blv
+    pose:
+      position: [-16740.947, -4439.451, 448]
+      yaw_radians: 5.15
+      pitch_degrees: -17.702
+      heading_yaw_units: 1679
+    picture: .oymap/pins/pictures/p6.png
+    author: user
+    created: 2026-11-25T21:35:38
+    status: resolved
+    claimed_by: agent:xeen-fb5-dungeon
+    from: 20261125-213538-xeen_x9.yml
+    replies:
+      - author: agent:xeen-fb5-dungeon
+        text: "The cloud cutting the bridge was fixed in 3.4. Your other point, the rails ending in the air, is fixed now: every rope bridge's rails are tied to a post at each end (here, on X8 and on D7)."
+        created: 2026-11-26T08:08:10
+        revision: 02d21406beee26b99bddf5c35a9e1118
+        status: resolved
+        pictures: [.oymap/pins/pictures/p6-r1.png]
+  - id: pin:p7
+    text: clipping
+    source: game
+    world: xeen
+    map: xeen_x9.blv
+    pose:
+      position: [-16918.311, -966.822, 448]
+      yaw_radians: 1.544
+      pitch_degrees: -23.039
+      heading_yaw_units: 503
+    picture: .oymap/pins/pictures/p7.png
+    author: user
+    created: 2026-11-25T21:37:47
+    status: resolved
+    claimed_by: agent:xeen-fb5-dungeon
+    from: 20261125-213747-xeen_x9.yml
+    replies:
+      - author: agent:xeen-fb5-dungeon
+        text: "The cloud cutting the bridge was fixed in 3.4. Your other point, the rails ending in the air, is fixed now: every rope bridge's rails are tied to a post at each end (here, on X8 and on D7)."
+        created: 2026-11-26T08:08:11
+        revision: 02d21406beee26b99bddf5c35a9e1118
+        status: resolved
+        pictures: [.oymap/pins/pictures/p7-r1.png]
+  - id: pin:p8
+    text: clipping
+    source: game
+    world: xeen
+    map: xeen_x9.blv
+    pose:
+      position: [-14209.688, 10234.034, 576]
+      yaw_radians: 5.722
+      pitch_degrees: -8.42
+      heading_yaw_units: 1865
+    picture: .oymap/pins/pictures/p8.png
+    author: user
+    created: 2026-11-25T21:38:54
+    status: resolved
+    claimed_by: agent:xeen-fb5-dungeon
+    from: 20261125-213854-xeen_x9.yml
+    replies:
+      - author: agent:xeen-fb5-dungeon
+        text: "The cloud cutting the bridge was fixed in 3.4. Your other point, the rails ending in the air, is fixed now: every rope bridge's rails are tied to a post at each end (here, on X8 and on D7)."
+        created: 2026-11-26T08:08:11
+        revision: 02d21406beee26b99bddf5c35a9e1118
+        status: resolved
+        pictures: [.oymap/pins/pictures/p8-r1.png]
+  - id: pin:p9
+    text: clipping
+    source: game
+    world: xeen
+    map: xeen_x9.blv
+    pose:
+      position: [13495.595, -14511.041, 512]
+      yaw_radians: 1.357
+      pitch_degrees: -17.625
+      heading_yaw_units: 442
+    picture: .oymap/pins/pictures/p9.png
+    author: user
+    created: 2026-11-25T21:40:08
+    status: resolved
+    claimed_by: agent:xeen-fb5-dungeon
+    from: 20261125-214008-xeen_x9.yml
+    replies:
+      - author: agent:xeen-fb5-dungeon
+        text: "The cloud cutting the bridge was fixed in 3.4. Your other point, the rails ending in the air, is fixed now: every rope bridge's rails are tied to a post at each end (here, on X8 and on D7)."
+        created: 2026-11-26T08:08:11
+        revision: 02d21406beee26b99bddf5c35a9e1118
+        status: resolved
+        pictures: [.oymap/pins/pictures/p9-r1.png]
+  - id: pin:p10
+    text: clipping
+    source: game
+    world: xeen
+    map: xeen_x9.blv
+    pose:
+      position: [15105.489, -3275.458, 512]
+      yaw_radians: 4.72
+      pitch_degrees: -30.851
+      heading_yaw_units: 1539
+    picture: .oymap/pins/pictures/p10.png
+    author: user
+    created: 2026-11-25T21:40:38
+    status: resolved
+    claimed_by: agent:xeen-fb5-dungeon
+    from: 20261125-214038-xeen_x9.yml
+    replies:
+      - author: agent:xeen-fb5-dungeon
+        text: "The cloud cutting the bridge was fixed in 3.4. Your other point, the rails ending in the air, is fixed now: every rope bridge's rails are tied to a post at each end (here, on X8 and on D7)."
+        created: 2026-11-26T08:08:12
+        revision: 02d21406beee26b99bddf5c35a9e1118
+        status: resolved
+        pictures: [.oymap/pins/pictures/p10-r1.png]

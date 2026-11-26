@@ -926,7 +926,9 @@ P4 = dict(
         dict(id='pop:reef_elementals', row='water_b', count=3, at=(4096, -1280), space='room:reef'),
         dict(id='pop:reef_north', row='water_a', count=3, at=(4736, 768), space='room:reef', first=True),
         dict(id='pop:sea_octopods_e', row='octopod_b', count=3, at=(2304, -1152), space='zone:sea', swims=True),
-        dict(id='pop:sea_octopods_n', row='octopod_b', count=2, at=(-1024, 4224), space='zone:sea', swims=True),
+        # D-200 (3): moved from (-1024, 4224) so its leash (1,280) plus the notice range (2,560) stays off the
+        # Whirlpool Court (3,939 from its rim) and the arrival (4,132); D-58's 1,024 from the terrace kept (2,908)
+        dict(id='pop:sea_octopods_n', row='octopod_b', count=2, at=(0, 5120), space='zone:sea', swims=True),
         dict(id='pop:wreck_lesser', row='water_a', count=3, at=(128, -3584), space='room:wreck'),
         dict(id='pop:wreck_elementals', row='water_b', count=2, at=(1536, -3584), space='room:wreck'),
         dict(id='pop:court_north', row='water_b', count=2, at=(-4480, 2560), space='room:arena'),

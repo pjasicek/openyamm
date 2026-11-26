@@ -202,3 +202,9 @@ rooms = the hall and the vault): before `output/studio_cal/a7/s27/xd13/before_sh
 (and `after2_sheet.jpg` with the breach lit and its plug at stage 2). Does it read as Newcastle? The hall reads as a
 burnt-out castle hall open to the sky at stage 0 and as a mended lord's hall at stage 2; the cellar and vault stay
 plain brick (Harmondale's own dungeon brick).
+
+## F71 (agent xeen-fb5-dungeon, 2026-11-26; the player's pin p2)
+
+- The speaking grille was a wall panel in `xngrille` (a cutout): the sky showed between its bars. Now a thin block
+  4 off the wall with the bars on its face, over a black speaking hole (`7solid01` wall panel); `evt:grille` moved to
+  `platform:grille`. `tools/xeen/check_cutout_backing.py` (cutout faces with nothing drawn behind them).

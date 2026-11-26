@@ -603,3 +603,21 @@ end, "Trapdoor")
 RegisterEvent(30, "Trapdoor", function()
     evt.SetDoorState(14, DoorAction.Open)
 end, "Trapdoor")
+
+-- evt:campfire_fire_e
+RegisterEvent(31, "Campfire", function()
+    if IsAtLeast(MapVar(7), 1) then
+        return
+    end
+    SetValue(MapVar(7), 1)
+    local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") else evt.StatusText("You find food by the fire (+" .. food .. ").") end
+end, "Campfire")
+
+-- evt:campfire_fire_w
+RegisterEvent(32, "Campfire", function()
+    if IsAtLeast(MapVar(8), 1) then
+        return
+    end
+    SetValue(MapVar(8), 1)
+    local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") else evt.StatusText("You find food by the fire (+" .. food .. ").") end
+end, "Campfire")

@@ -1,0 +1,49 @@
+format: 1
+counter: 6
+pins:
+  - id: pin:p1
+    text: dragon gets stuck
+    source: game
+    world: xeen
+    map: xeen_xd18.blv
+    pose:
+      position: [2390.827, -3224.681, 0]
+      yaw_radians: 0.146
+      pitch_degrees: -0.146
+      heading_yaw_units: 48
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-25T17:43:00
+    status: resolved
+    claimed_by: agent:xeen-fb5-dungeon
+    from: 20261125-174300-xeen_xd18.yml
+    replies:
+      - author: agent:xeen-fb5-dungeon
+        text: "F75: the dragons are leashed so their bodies stay 64 clear of every opening they cannot pass (D-32's 288-high passages), instead of sinking into the frame when they chase you. 7 posts moved deeper into their rooms. Checked by tools/xeen/check_monster_fit.py (163 stuck -> 0) and playtest_fit.yml (after 30 s at this spot no dragon is within 280 of the opening). The picture shows the pose on the new map with the dragons at their posts."
+        created: 2026-11-26T08:08:03
+        revision: 44a2c2c2682e3584dfeaf2204418141e
+        status: resolved
+        pictures: [.oymap/pins/pictures/p1-r1.png]
+  - id: pin:p2
+    text: they get stuck
+    source: game
+    world: xeen
+    map: xeen_xd18.blv
+    pose:
+      position: [9447.322, 1347.942, -1024]
+      yaw_radians: 2.929
+      pitch_degrees: -2.796
+      heading_yaw_units: 955
+    picture: .oymap/pins/pictures/p2.png
+    author: user
+    created: 2026-11-25T18:19:08
+    status: resolved
+    claimed_by: agent:xeen-fb5-dungeon
+    from: 20261125-181908-xeen_xd18.yml
+    replies:
+      - author: agent:xeen-fb5-dungeon
+        text: "F75: the dragons are leashed so their bodies stay 64 clear of every opening they cannot pass (D-32's 288-high passages), instead of sinking into the frame when they chase you. 7 posts moved deeper into their rooms. Checked by tools/xeen/check_monster_fit.py (163 stuck -> 0) and playtest_fit.yml (after 30 s at this spot no dragon is within 280 of the opening). The picture shows the pose on the new map with the dragons at their posts."
+        created: 2026-11-26T08:08:04
+        revision: 44a2c2c2682e3584dfeaf2204418141e
+        status: resolved
+        pictures: [.oymap/pins/pictures/p2-r1.png]

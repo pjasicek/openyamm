@@ -45,4 +45,7 @@ items:
   skeleton_key: 12100
 rules:
   no_spells: true
+  no_monster_spells: true
+  solo_spells: true
+  solo_spell_damage_percent: 50
 notes: "Xeen design brief, level L1, for a new map (no original). Story step M21 (devdocs/xeen/QUESTS.md). Size L (MAPS.md section 0 and Dungeons): 50-75 sectors, 120-200 M units squared, about 70-80 monsters plus the boss; monster levels 30 to 48, Darzog 55; Tres 4 (chests at 4, Darzog's hoard at 5). Ids: map_stats 9140, qbits 110500-110599, items 12230-12299 (ACT2_BUILD.md)."

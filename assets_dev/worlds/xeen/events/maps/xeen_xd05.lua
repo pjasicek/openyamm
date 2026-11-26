@@ -184,7 +184,7 @@ end, nil)
 
 -- evt:exit_x1
 RegisterEvent(18, "Leave the Orc Caves", function()
-    evt.MoveToMap(9216, 16384, 1376, 1536, 0, 0, 0, 0, "xeen_x1.odm")
+    evt.MoveToMap(9216, 16384, 1280, 1536, 0, 0, 0, 0, "xeen_x1.odm")
 end, "Leave the Orc Caves")
 
 -- evt:exit_x7
@@ -288,3 +288,30 @@ RegisterEvent(28, nil, function()
     evt.SetMonsterRelation(11482, 358, 0)
     evt.SetMonsterRelation(358, 11482, 0)
 end, nil)
+
+-- evt:campfire_cookfire
+RegisterEvent(29, "Cooking fire", function()
+    if IsAtLeast(MapVar(15), 1) then
+        return
+    end
+    SetValue(MapVar(15), 1)
+    local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") else evt.StatusText("You find food by the fire (+" .. food .. ").") end
+end, "Cooking fire")
+
+-- evt:campfire_den_fire
+RegisterEvent(30, "Campfire", function()
+    if IsAtLeast(MapVar(16), 1) then
+        return
+    end
+    SetValue(MapVar(16), 1)
+    local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") else evt.StatusText("You find food by the fire (+" .. food .. ").") end
+end, "Campfire")
+
+-- evt:campfire_hollows_fire
+RegisterEvent(31, "Campfire", function()
+    if IsAtLeast(MapVar(17), 1) then
+        return
+    end
+    SetValue(MapVar(17), 1)
+    local food = math.random(1, 3) evt.Add(Food, food) local ring = IsAtLeast(PerceptionSkill, 1) if ring then evt.GiveItem(1, ItemType.Ring_) end if ring then evt.StatusText("Food by the fire (+" .. food .. "), and a ring in the ashes.") else evt.StatusText("You find food by the fire (+" .. food .. ").") end
+end, "Campfire")

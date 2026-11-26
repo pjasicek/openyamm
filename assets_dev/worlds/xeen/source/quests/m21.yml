@@ -44,8 +44,14 @@ items:
 hooks:
   arrival:
     map: XD-12
-    where: "the first arrival (built: evt:arrive, a one-shot timer); replaces the map's message"
-    text: "Darzog's Tower. The Skeleton Key turns, and the door that has been sealed since Crodo vanished swings in on cold air. Artemus was right about the Baron: somewhere above, Crodo still lives. And the air itself is wrong. Every spell you reach for dies before it is shaped. Here you fight with steel. The stairs climb the west and east halls in turn; the Baron keeps the top floor."
+    where: "the first arrival (built: evt:arrive, a one-shot timer); replaces the map's message; a solo run reads the half-strength line (U-18)"
+    # D-191: a solo run casts in the tower at half strength both ways (U-18: XD-12's scene keys
+    # allow_spellcasting_solo and solo_spell_damage_percent: 50, which is the "half" here); a party keeps the ward.
+    # Both texts are a window (D-90: a long text read once on first entry).
+    states:
+      - when: {lua: "evt.RulesetInfo().soloRun"}
+        text: "Darzog's Tower. The Skeleton Key turns, and the door that has been sealed since Crodo vanished swings in on cold air. Artemus was right about the Baron: somewhere above, Crodo still lives. And the air itself is wrong. Every spell you shape comes out at half its strength, and so does every spell cast at you. The ward was laid against a company; one alone slips half through it. The stairs climb the west and east halls in turn; the Baron keeps the top floor."
+      - text: "Darzog's Tower. The Skeleton Key turns, and the door that has been sealed since Crodo vanished swings in on cold air. Artemus was right about the Baron: somewhere above, Crodo still lives. And the air itself is wrong. Every spell you reach for dies before it is shaped. Here you fight with steel. The stairs climb the west and east halls in turn; the Baron keeps the top floor."
   darzog:
     map: XD-12
     status: true   # D-90: experience, a find's answer or a death on the status line

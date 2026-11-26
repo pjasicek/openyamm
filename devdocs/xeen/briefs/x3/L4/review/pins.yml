@@ -1,5 +1,5 @@
 format: 1
-counter: 9
+counter: 38
 pins:
   - id: pin:p1
     text: maybe set the spawnpoint further away
@@ -14,8 +14,16 @@ pins:
     picture: .oymap/pins/pictures/p1.png
     author: user
     created: 2026-11-23T20:52:06
-    status: open
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
     from: 20261123-205206-xeen_x3.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F45: the return from XD-24 lands 768 south of the coffin facing away from it (xd24/gen.py X3_ARRIVAL [17664, -5888, 992]). The black area at the old pose was the closed coffin seen from inside its own wall (the pose stood on its face), not a fault."
+        created: 2026-11-26T09:00:00
+        revision: a41d4e60544ffc7ec798b17144bbc365
+        status: resolved
+        pictures: [.oymap/pins/pictures/p1-r1.png, .oymap/pins/pictures/p1-r1-2.png]
   - id: pin:p2
     text: z-fighting and the barrel is clipping
     source: game
@@ -29,8 +37,16 @@ pins:
     picture: .oymap/pins/pictures/p2.png
     author: user
     created: 2026-11-23T20:54:10
-    status: open
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
     from: 20261123-205410-xeen_x3.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F40: Ebenezer's rain barrels moved off the tent's wall; F47 gave the tent a closed front."
+        created: 2026-11-26T09:00:02
+        revision: a41d4e60544ffc7ec798b17144bbc365
+        status: resolved
+        pictures: [.oymap/pins/pictures/p2-r1.png]
   - id: pin:p3
     text: moce it to a more even ground
     source: game
@@ -44,8 +60,14 @@ pins:
     picture: .oymap/pins/pictures/p3.png
     author: user
     created: 2026-11-23T20:55:49
-    status: open
+    status: claimed
+    claimed_by: agent:xeen-fb5-outdoor
     from: 20261123-205549-xeen_x3.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "Not judged yet: the map changed round the ring (the pose now stands in the rise); needs a better-placed look (next session)."
+        created: 2026-11-26T09:00:02
+        revision: a41d4e60544ffc7ec798b17144bbc365
   - id: pin:p4
     text: textures missing
     source: game
@@ -59,8 +81,16 @@ pins:
     picture: .oymap/pins/pictures/p4.png
     author: user
     created: 2026-11-23T20:56:17
-    status: open
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
     from: 20261123-205617-xeen_x3.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F30/F49: Newcastle's ruin is in the classic stone kit (xvswall), every face textured."
+        created: 2026-11-26T09:00:02
+        revision: a41d4e60544ffc7ec798b17144bbc365
+        status: resolved
+        pictures: [.oymap/pins/pictures/p4-r1.png]
   - id: pin:p5
     text: texture missing
     source: game
@@ -74,8 +104,16 @@ pins:
     picture: .oymap/pins/pictures/p5.png
     author: user
     created: 2026-11-23T20:56:26
-    status: open
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
     from: 20261123-205626-xeen_x3.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F30/F49: Newcastle's ruin is in the classic stone kit (xvswall), every face textured."
+        created: 2026-11-26T09:00:02
+        revision: a41d4e60544ffc7ec798b17144bbc365
+        status: resolved
+        pictures: [.oymap/pins/pictures/p5-r1.png]
   - id: pin:p6
     text: z-fighting
     source: game
@@ -89,8 +127,16 @@ pins:
     picture: .oymap/pins/pictures/p6.png
     author: user
     created: 2026-11-23T21:11:29
-    status: open
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
     from: 20261123-211129-xeen_x3.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F31: the tent's inner canvas is drawn once; no flicker on the current build."
+        created: 2026-11-26T09:00:01
+        revision: a41d4e60544ffc7ec798b17144bbc365
+        status: resolved
+        pictures: [.oymap/pins/pictures/p6-r1.png]
   - id: pin:p7
     text: i cannot enter the bridge
     source: game
@@ -104,8 +150,16 @@ pins:
     picture: .oymap/pins/pictures/p7.png
     author: user
     created: 2026-11-23T21:12:49
-    status: open
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
     from: 20261123-211249-xeen_x3.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F48/D-170: the causeway's ends meet the land on pads; the map's walk playtest (L4/playtest.yml, 'Out over the causeway to the islet') walks onto it and over it and passes on the current build (2026-11-26)."
+        created: 2026-11-26T09:00:01
+        revision: a41d4e60544ffc7ec798b17144bbc365
+        status: resolved
+        pictures: [.oymap/pins/pictures/p7-r1.png]
   - id: pin:p8
     text: missing texture
     source: game
@@ -119,8 +173,16 @@ pins:
     picture: .oymap/pins/pictures/p8.png
     author: user
     created: 2026-11-23T23:58:23
-    status: open
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
     from: 20261123-235823-xeen_x3.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "Same spot as p10 (2026-11-26): the tomb door now shows the tower kit's door picture xvtdoor."
+        created: 2026-11-26T09:00:00
+        revision: a41d4e60544ffc7ec798b17144bbc365
+        status: resolved
+        pictures: [.oymap/pins/pictures/p8-r1.png]
   - id: pin:p9
     text: i accidentially found out that you can click here. If the other tents are also clickable maybe put the trigger point more to the beginning or put a door in front of it
     source: game
@@ -134,5 +196,86 @@ pins:
     picture: .oymap/pins/pictures/p9.png
     author: user
     created: 2026-11-24T01:04:48
-    status: open
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
     from: 20261124-010448-xeen_x3.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F47: Ebenezer's Tent has a closed front with a door, the click only on the door. Its floor inside is the land, baked black because the closed canvas shuts out sun and sky; the party cannot get in, so it is not seen in play."
+        created: 2026-11-26T09:00:01
+        revision: a41d4e60544ffc7ec798b17144bbc365
+        status: resolved
+        pictures: [.oymap/pins/pictures/p9-r1.png]
+  - id: pin:p10
+    text: texture missing
+    source: game
+    world: xeen
+    map: xeen_x3.odm
+    pose:
+      position: [-15288.216, -9596.299, 1121]
+      yaw_radians: 4.674
+      pitch_degrees: 0.951
+      heading_yaw_units: 1524
+    picture: .oymap/pins/pictures/p10.png
+    author: user
+    created: 2026-11-25T14:05:06
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
+    from: 20261125-140506-xeen_x3.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F71: the Tomb of a Thousand Terrors' door (a built doorway in a door form) shows the tower kit's door picture xvtdoor, not the black 7solid01 (x3/gen.py thing:tomb). The other built doorways with a black face (12 on X1, X2, X4, X5, D1, D2) go to a decider."
+        created: 2026-11-26T08:59:59
+        revision: a41d4e60544ffc7ec798b17144bbc365
+        status: resolved
+        pictures: [.oymap/pins/pictures/p10-r1.png]
+  - id: pin:p11
+    text: z-fighting
+    source: game
+    world: xeen
+    map: xeen_x3.odm
+    pose:
+      position: [9733.312, 14654.621, 1761]
+      yaw_radians: 5.458
+      pitch_degrees: -42.009
+      heading_yaw_units: 1779
+    picture: .oymap/pins/pictures/p11.png
+    author: user
+    created: 2026-11-25T16:58:37
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
+    from: 20261125-165837-xeen_x3.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F58/D-170 (3.4): the gate tower ruin's gone-bay course stands 8 over the land (it lay on it on 3.3); tools/xeen/check_faces.py faces.on_land finds no face on the land on X3."
+        created: 2026-11-26T09:00:00
+        revision: a41d4e60544ffc7ec798b17144bbc365
+        status: resolved
+        pictures: [.oymap/pins/pictures/p11-r1.png]
+  - id: pin:p12
+    text: texture missing
+    source: game
+    world: xeen
+    map: xeen_x3.odm
+    pose:
+      position: [12679.688, 8812.472, 999.78]
+      yaw_radians: 1.287
+      pitch_degrees: 35.804
+      heading_yaw_units: 419
+    picture: .oymap/pins/pictures/p12.png
+    author: user
+    created: 2026-11-25T17:07:06
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor2
+    from: 20261125-170706-xeen_x3.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F71: the band is the roof's own underside (hwm2rf, grey planks) under the 40 verge past the gable, seen from below; a verge has no soffit as eaves do. A studio change (a soffit in the trim under each verge) is requested."
+        created: 2026-11-26T09:00:03
+        revision: a41d4e60544ffc7ec798b17144bbc365
+      - author: agent:xeen-fb5-outdoor2
+        text: "F71/R2 (2026-11-26): the classic kit's verge overhang now has a soffit under it (the studio's raiseRoof, released 10:09), so from below the Camp Shrine's roof shows its eaves' underside, not the roof face's own back. X3 rebuilt and installed with its bake (after picture at the pin's pose)."
+        created: 2026-11-26T11:00:40
+        revision: d7cdbb9c85555273aab6dec67d0a34eb
+        status: resolved
+        pictures: [.oymap/pins/pictures/p12-r2.png]

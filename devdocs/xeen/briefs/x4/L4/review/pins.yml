@@ -1,5 +1,5 @@
 format: 1
-counter: 37
+counter: 41
 pins:
   - id: pin:p1
     text: maybe move the bridge a bit more left
@@ -269,3 +269,28 @@ pins:
         created: 2026-11-25T09:40:38
         revision: 15fc9182c8ab176aacf8ea3c0af9f656
         status: resolved
+  - id: pin:p13
+    text: you cannot port to Winterkill
+    source: game
+    world: xeen
+    map: xeen_x4.odm
+    pose:
+      position: [-1539.413, 4325.706, 1313]
+      yaw_radians: 3.224
+      pitch_degrees: -10.064
+      heading_yaw_units: 1051
+    picture: .oymap/pins/pictures/p13.png
+    author: user
+    created: 2026-11-25T23:12:03
+    status: claimed
+    claimed_by: agent:xeen-fb5-engine
+    from: 20261125-231203-xeen_x4.yml
+    replies:
+      - author: agent:xeen-fb5-engine
+        text: "By design: Winterkill's mirror (and its Town Portal entry) opens once the town is freed from its ghosts (Mayor Randon's quest, Ghosts of Winterkill). Until then the mirror says 'A pale face looks back from the mirror. It is not yours.' Finish the three ghost waves, ring the southern gong after each and report to Randon, then touch Winterkill's mirror once. On 3.3 the second and third waves stood still (fixed in 3.4). Test tests/scenarios/xeen/x5_winterkill_mirror_opens.yml."
+        created: 2026-11-26T08:09:18
+        revision: 3c804c9904ce3aaf843ea10a2dd00adc
+      - author: agent:xeen-fb5-dungeon2
+        text: "D-188: Winterkill's mirror (the only place the hint can go) now says, until Ghosts of Winterkill is done: \"A pale face looks back from the mirror. It is not yours. The dead hold Winterkill, and its glass with them. Mayor Randon, by the gongs, wants them driven out.\" After the quest one touch adds Winterkill to the mirrors and Town Portal (tests/scenarios/xeen/x5_winterkill_mirror_opens.yml)."
+        created: 2026-11-26T09:39:41
+        revision: 3c804c9904ce3aaf843ea10a2dd00adc

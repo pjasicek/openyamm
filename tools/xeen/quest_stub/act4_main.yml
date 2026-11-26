@@ -5,6 +5,13 @@
 name: Acts IV-V, main and promotions
 party: [Cavalier, Priest, Rogue, Wizard]
 steps:
+  # M21's arrival: a party is warded, a solo run reads the half-strength line (D-191)
+  - hook: m21.arrival
+  - expect: {last: "dies before it is shaped"}
+  - lua: "Stub.solo = true"
+  - hook: m21.arrival
+  - expect: {last: "comes out at half its strength"}
+  - lua: "Stub.solo = false"
   # M22
   - set: m21.crodo_freed
   - set: m11.keep

@@ -2187,9 +2187,9 @@ structures:
     turn: 90
     height: 352
     width: 256
-    depth: 384
+    depth: 128
     hood: 96
-    textures: {door: 7solid01, wall: cwb}
+    textures: {door: xvdoor, wall: cwb}
     title: Enter Joe's Warehouse
     into: {map: xeen_xd01.blv, at: [768, -900, 128], facing: 512, screen: {text: 5001}}
     condition: {lua: "XeenQuests.hook(\"m2.warehouse_door\")"}
@@ -2242,9 +2242,9 @@ structures:
     turn: 180
     height: 352
     width: 192
-    depth: 384
+    depth: 128
     hood: 128
-    textures: {door: 7solid01, wall: cnb}
+    textures: {door: xvtdoor, wall: cnb}
     title: Witch Tower
     into: {map: xeen_xd04.blv, at: [0, -2900, 0], facing: 512, screen: {text: 5004}}
     condition: {lua: "XeenQuests.hook(\"m4.tower_door\")"}
@@ -2449,7 +2449,7 @@ structures:
   - id: thing:way_in_dress_23
     kind: decoration
     at: [83.4, 32.2]
-    raise: -18
+    raise: -19
     decoration: dec05
   - id: thing:way_in_dress_24
     kind: decoration
@@ -2470,27 +2470,27 @@ structures:
   - id: thing:way_in_dress_27
     kind: decoration
     at: [80.2, 32.8]
-    raise: -26
+    raise: -28
     decoration: corpse04
   - id: thing:way_in_dress_28
     kind: decoration
     at: [80.4, 30.1]
-    raise: -42
+    raise: -47
     decoration: 7rock08
   - id: thing:way_in_dress_29
     kind: decoration
     at: [83.6, 30.2]
-    raise: -43
+    raise: -46
     decoration: rock12
   - id: thing:way_in_dress_30
     kind: decoration
     at: [82.2, 29]
-    raise: -23
+    raise: -27
     decoration: 7rock04
   - id: thing:way_in_dress_31
     kind: decoration
     at: [79.8, 30.9]
-    raise: -33
+    raise: -28
     decoration: rock26
   - id: thing:way_in_dress_32
     kind: decoration
@@ -2500,7 +2500,7 @@ structures:
   - id: thing:way_in_dress_33
     kind: decoration
     at: [60.65, 28.8]
-    raise: -33
+    raise: -23
     decoration: 7dec16
   - id: thing:way_in_dress_34
     kind: decoration
@@ -2513,17 +2513,17 @@ structures:
   - id: thing:way_in_dress_36
     kind: decoration
     at: [60.6, 28.4]
-    raise: -24
+    raise: -30
     decoration: stump5a
   - id: thing:way_in_dress_37
     kind: decoration
     at: [60.7, 27.8]
-    raise: -21
+    raise: -19
     decoration: rock10
   - id: thing:way_in_dress_38
     kind: decoration
     at: [63.3, 27.4]
-    raise: -32
+    raise: -41
     decoration: rock12
   - id: thing:way_in_dress_39
     kind: decoration
@@ -2801,7 +2801,7 @@ structures:
   - id: thing:west_road_bones
     kind: decoration
     at: [21.8, 43.1]
-    raise: -18
+    raise: -17
     decoration: dec05
   - id: thing:north_road_fire
     kind: decoration
@@ -3550,239 +3550,227 @@ structures:
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_053
     kind: decoration
-    at: [104.98, 61.5]
+    at: [104.98, 57.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_054
     kind: decoration
-    at: [104.98, 58.5]
+    at: [104.98, 56.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_055
     kind: decoration
-    at: [104.98, 57.5]
+    at: [104.98, 55.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_056
     kind: decoration
-    at: [104.98, 56.5]
-    turn: 90
-    decoration: xeen_hull1
-    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_057
-    kind: decoration
-    at: [104.98, 55.5]
-    turn: 90
-    decoration: xeen_hull1
-    notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_058
-    kind: decoration
     at: [104.98, 53]
     turn: 90
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_059
+  - id: thing:hull_057
     kind: decoration
     at: [104.98, 49]
     turn: 90
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_060
+  - id: thing:hull_058
     kind: decoration
     at: [104.98, 45]
     turn: 90
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_061
+  - id: thing:hull_059
     kind: decoration
     at: [104.98, 41]
     turn: 90
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_062
+  - id: thing:hull_060
     kind: decoration
     at: [104.98, 37]
     turn: 90
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_063
+  - id: thing:hull_061
     kind: decoration
     at: [104.98, 34.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_064
+  - id: thing:hull_062
     kind: decoration
     at: [104.98, 33.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_065
+  - id: thing:hull_063
     kind: decoration
     at: [104.98, 32.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_066
+  - id: thing:hull_064
     kind: decoration
     at: [104.98, 31.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_067
+  - id: thing:hull_065
     kind: decoration
     at: [104.98, 30.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_068
+  - id: thing:hull_066
     kind: decoration
     at: [104.98, 29.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_069
+  - id: thing:hull_067
     kind: decoration
     at: [104.98, 28.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_070
+  - id: thing:hull_068
     kind: decoration
     at: [104.98, 27.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_071
+  - id: thing:hull_069
     kind: decoration
     at: [104.98, 26.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_072
+  - id: thing:hull_070
     kind: decoration
     at: [104.98, 25.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_073
+  - id: thing:hull_071
     kind: decoration
     at: [104.98, 24.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_074
+  - id: thing:hull_072
     kind: decoration
     at: [104.98, 22]
     turn: 90
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_075
+  - id: thing:hull_073
     kind: decoration
     at: [104.98, 19.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_076
+  - id: thing:hull_074
     kind: decoration
     at: [104.98, 18.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_077
+  - id: thing:hull_075
     kind: decoration
     at: [104.98, 16]
     turn: 90
     decoration: xeen_hull4
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_078
+  - id: thing:hull_076
     kind: decoration
     at: [104.98, 13.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_079
+  - id: thing:hull_077
     kind: decoration
     at: [104.98, 12.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_080
+  - id: thing:hull_078
     kind: decoration
     at: [104.98, 11.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_081
+  - id: thing:hull_079
     kind: decoration
     at: [104.98, 10.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_082
+  - id: thing:hull_080
     kind: decoration
     at: [104.98, 9.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_083
+  - id: thing:hull_081
     kind: decoration
     at: [104.98, 8.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_084
+  - id: thing:hull_082
     kind: decoration
     at: [104.98, 7.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_085
+  - id: thing:hull_083
     kind: decoration
     at: [104.98, 6.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_086
+  - id: thing:hull_084
     kind: decoration
     at: [104.98, 5.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_087
+  - id: thing:hull_085
     kind: decoration
     at: [104.98, 4.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_088
+  - id: thing:hull_086
     kind: decoration
     at: [104.98, 3.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_089
+  - id: thing:hull_087
     kind: decoration
     at: [104.98, 2.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_090
+  - id: thing:hull_088
     kind: decoration
     at: [104.98, 1.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_091
+  - id: thing:hull_089
     kind: decoration
     at: [104.98, 0.5]
     turn: 90
     decoration: xeen_hull1
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
-  - id: thing:hull_092
+  - id: thing:hull_090
     kind: decoration
     at: [104.98, 104.98]
     turn: 135

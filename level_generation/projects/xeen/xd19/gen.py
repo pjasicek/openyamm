@@ -879,6 +879,11 @@ def objects_yml():
                  'hostile': True, 'group': group}
             if immobile:
                 m['immobile'] = True
+            if mon == PET:
+                # F75 (reviews/PLAYER_FEEDBACK_20261126.md, "dragon gets stuck", 2026-11-26): the Pet (487 high, radius
+                # 238) stops at a 256-high opening with its body in the frame; leashed so it stays 64 clear of the
+                # nearest (640 from its post; tools/xeen/check_monster_fit.py).
+                m['leash'] = 320
             if mon == LORD:
                 m['notes'] = ("Lord Xeen on his dais: immobile until 4 s after the first-sight line (evt:sight_clock frees him by "
                               "ActorIndex); only melee with the Xeen Slayer Sword harms him (evt:lord_damage).")

@@ -1644,7 +1644,7 @@ structures:
     textures: {base: cwb1, door: chb1dl, gable: chb1, post_left: chb1el, post_right: chb1er, ridge: trim2_32, roof: hhm2rf, trim: trim2_32, wall: chb1, window: chbw}
     facing: w
     parts:
-      - {id: portal, at: [96, 0], size: [672, 1024], textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 640, walls: {w: [wall, wall, [door, 384], wall, wall]}, windows: none, roof: flat}
+      - {id: portal, at: [96, 0], size: [672, 1024], textures: {door: xvsdoorw, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, roof: xvshgl, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 640, walls: {w: [wall, wall, [door, 384], wall, wall]}, windows: none, roof: flat, door_height: 384}
     floor: 1504
     door: none
     doors:
@@ -1661,8 +1661,8 @@ structures:
     decoration: dec06
   - id: thing:warzone_coach_wagon
     kind: tent
-    at: [87.2, 93.6]
-    size: [640, 1152]
+    at: [87.3, 93.6]
+    size: [1152, 640]
     height: 384
     title: Gorm's coach
     notes: "The Warzone coach (A4 4305): a closed coach standing by the cliff (dressing, no click)."
@@ -1751,7 +1751,7 @@ structures:
     facing: s
     parts:
       - {id: hall, at: [192, 1600], size: [2688, 1408], textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 896, windows: none, roof: flat, battlements: true}
-      - {id: gatehouse, at: [1152, 2880], size: [768, 352], textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 352, walls: {s: [wall, [door, 384], wall]}, windows: none, roof: gable, roof_pitch: 52, verge: 40, verge_walls: [s], ridge_along: ns}
+      - {id: gatehouse, at: [1152, 2880], size: [768, 352], textures: {door: xvsdoorw, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 352, walls: {s: [wall, [door, 384], wall]}, windows: none, roof: gable, roof_pitch: 52, verge: 40, verge_walls: [s], ridge_along: ns, door_height: 384}
       - {id: keep, at: [704, 320], size: [1664, 1408], textures: {door: xvsdoor, gable: xvswall, post_left: xvswall, post_right: xvswall, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswall}, wall_height: 1664, windows: none, roof: flat, battlements: true}
       - {id: tower_sw, shape: round, at: [256, 2880], radius: 352, sides: 10, textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 1280, windows: none, roof: cone, roof_pitch: 60}
       - {id: tower_se, shape: round, at: [2816, 2880], radius: 352, sides: 10, textures: {door: xvsdoor, gable: xvswall, post_left: xvscornl, post_right: xvscornr, ridge: xvridge, trim: xvbeam, wall: xvswall, window: xvswin}, wall_height: 1280, windows: none, roof: cone, roof_pitch: 60}
@@ -2027,6 +2027,7 @@ structures:
   - id: thing:watch_bones
     kind: decoration
     at: [103.6, 40.4]
+    raise: -18
     decoration: 7dec18
   - id: thing:caravanserai
     kind: building
@@ -2564,6 +2565,7 @@ structures:
     kind: decoration
     at: [24.02, 83.5]
     turn: -90
+    raise: -8
     decoration: xeen_hullf
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_068
@@ -2672,60 +2674,70 @@ structures:
     kind: decoration
     at: [24.5, 83.98]
     turn: -180
+    raise: -8
     decoration: xeen_hullf
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_086
     kind: decoration
     at: [25.5, 83.98]
     turn: -180
+    raise: -12
     decoration: xeen_hullf
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_087
     kind: decoration
     at: [26.5, 83.98]
     turn: -180
+    raise: -24
     decoration: xeen_hullf
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_088
     kind: decoration
     at: [27.5, 83.98]
     turn: -180
+    raise: -12
     decoration: xeen_hullf
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_089
     kind: decoration
     at: [28.5, 83.98]
     turn: -180
+    raise: -28
     decoration: xeen_hullf
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_090
     kind: decoration
     at: [29.5, 83.98]
     turn: -180
+    raise: -24
     decoration: xeen_hullf
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_091
     kind: decoration
     at: [30.5, 83.98]
     turn: -180
+    raise: -24
     decoration: xeen_hullf
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_092
     kind: decoration
     at: [31.5, 83.98]
     turn: -180
+    raise: -28
     decoration: xeen_hullf
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_093
     kind: decoration
     at: [32.5, 83.98]
     turn: -180
+    raise: -28
     decoration: xeen_hullf
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_094
     kind: decoration
     at: [33.02, 84.5]
     turn: -90
+    raise: -12
     decoration: xeen_hullf
     notes: "U-12 (rim agent, 2026-11-23): the world's hull under the rim (common/rim.py)."
   - id: thing:hull_095

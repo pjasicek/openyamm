@@ -168,3 +168,7 @@ the installed L4 first (snapshot `output/studio_cal/a8_s28/before/dd25/`).
   (`output/studio_cal/a8_s26/run/dd25/t015539`).
 - Pictures: before `output/studio_cal/a8_s28/shots/dd25_before.jpg`, after (baked)
   `output/studio_cal/a8_s28/shots/dd25_after.jpg` (tour `shots/t1.yml`).
+
+## D-104 dungeon campfires (2026-11-26, agent:xeen-fb5-dungeon2)
+
+`deco:hearth_fire`: the outdoor campfire's event (food 1-3 once, a small ring for a character with Perception), `once: true`, added by `level_generation/projects/xeen/common/campfires.py` (regen.py runs it after gen.py). Fixtures without a click: `deco:forge_fire`. Rebuilt, audit 0 errors, every playtest passing from the stage, installed and baked, MAW reserve rerun.

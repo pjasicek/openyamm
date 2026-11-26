@@ -20,6 +20,7 @@ events:
   evt:bunk_3: 6
   evt:bunk_4: 7
   evt:bunks_door: 8
+  evt:campfire_boss_fire: 32
   evt:catch: 9
   evt:chest_boss: 10
   evt:chest_fence: 11
@@ -68,6 +69,7 @@ map_vars:
   catch_thrown: 2
   once.arrive: 0
   once.boss_dead: 1
+  once.campfire_boss_fire: 12
   once.dicing_seen: 3
   once.footprints: 4
   once.sluice_seen: 6

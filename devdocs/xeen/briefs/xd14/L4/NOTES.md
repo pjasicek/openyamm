@@ -113,3 +113,7 @@ None.
 
 - Wolfmen 20 in about 6 % of the rest encounters (Xeen Werewolf at Dif 5), under the 24 floor: accepted, D-43 (the
   engine has no tier range per slot; a zero weight would drop the werewolves from rests).
+
+## D-104 dungeon campfires (2026-11-26, agent:xeen-fb5-dungeon2)
+
+`deco:hearth_fire`: the outdoor campfire's event (food 1-3 once, a small ring for a character with Perception), `once: true`, added by `level_generation/projects/xeen/common/campfires.py` (regen.py runs it after gen.py). Fixtures without a click: `deco:study_fire`. Rebuilt, audit 0 errors, every playtest passing from the stage, installed and baked, MAW reserve rerun.

@@ -46,7 +46,8 @@ Open-air maps (D-122, 2026-11-24: D7, P1-P4 and X8, BLVs under the sky) take the
   or a spell) within 2,000 (2D) of the arrival with a clear line (D-15's first-fight buffer).
 - `arrival.disabler` (error): a ranged disabler (d85.py's kinds: Stone, Curse, Paralyze, Asleep, Insane, Afraid,
   Uncon, Dead or Errad on an attack with a missile, or a Paralyze / Finger of Death spell; a spawn marker counts if
-  any row its slot can roll is one) within 5,888 (2D) of the arrival, line or not (D-87).
+  any row its slot can roll is one) within 5,888 (2D) of the arrival, line or not (D-87). A placed actor with a
+  `leash_radius` is measured at its home distance less the leash (D-200: a post reaches any point of its circle).
 - `arrival.open_seen` (warning): what `arrival.hot` would have said (seen within the notice range), for the record.
 Moving the landing out of sight (behind a wall) is not a fix on these maps: the monsters move.
 
@@ -422,12 +423,13 @@ def marker_range(world, rows):
     return rng, 'spawn'
 
 
-def hostiles(world, scene, fname=None, blv_spawns=()):
-    """Placed actors, the BLV's spawn markers (`blv_spawns`: the export's `spawns`) and the scene's spawns."""
+def hostiles(world, scene, fname=None, blv_spawns=(), hidden=False):
+    """Placed actors, the BLV's spawn markers (`blv_spawns`: the export's `spawns`) and the scene's spawns. Hidden
+    (staged) actors count only with `hidden` (check_monster_fit.py: a staged monster chases once it appears)."""
     out = []
     friendly = world.map_friendly(fname) if fname else set()
     for a in scene['initial_state'].get('actors') or []:
-        if a.get('npc_id') or a['attributes'] & INVISIBLE_ACTOR or a.get('hp', 1) <= 0:
+        if a.get('npc_id') or (a['attributes'] & INVISIBLE_ACTOR and not hidden) or a.get('hp', 1) <= 0:
             continue
         mid = a.get('monster_info_id') or a['monster_id']
         if mid in friendly and not a['attributes'] & AGGRESSOR:   # friendly by the map's own load-time relations
@@ -440,10 +442,12 @@ def hostiles(world, scene, fname=None, blv_spawns=()):
         if rng <= 0:
             continue
         p = a['position']
+        # `leash`: a placed post's leash radius (D-200): it can reach any point of its circle, so D-87 measures it at
+        # its home distance less the leash
         out.append({'id': 'actor %d' % a['actor_index'], 'monster': mid, 'name': world.names.get(mid, '?'),
                     'group': a.get('group'), 'at': [p['x'], p['y'], p['z']], 'height': a.get('height') or 128,
                     'range': rng, 'why': why, 'count': 1, 'spread': 0, 'rows': [mid],
-                    'immobile': bool(a.get('immobile'))})
+                    'immobile': bool(a.get('immobile')), 'leash': float(a.get('leash_radius') or 0)})
     for k, s in enumerate(blv_spawns):   # the BLV's own monster markers (the export's `spawns`)
         if s.get('type_id') != 3:
             continue
@@ -454,7 +458,7 @@ def hostiles(world, scene, fname=None, blv_spawns=()):
             continue
         out.append({'id': 'marker %d' % k, 'monster': s.get('index'), 'name': 'slot %s' % s.get('index'),
                     'group': s.get('group'), 'at': [x, y, z], 'height': 128, 'range': rng, 'why': why,
-                    'count': 1, 'spread': s.get('radius') or 0, 'rows': rows, 'immobile': False})
+                    'count': 1, 'spread': s.get('radius') or 0, 'rows': rows, 'immobile': False, 'leash': 0.0})
     for s in scene.get('spawns') or []:
         if s.get('type_id') != 3:
             continue
@@ -466,7 +470,7 @@ def hostiles(world, scene, fname=None, blv_spawns=()):
         out.append({'id': 'spawn %d' % s['spawn_index'], 'monster': s.get('index'), 'name': 'slot %s' % s.get('index'),
                     'group': s.get('group'), 'at': [p['x'], p['y'], p['z']], 'height': 128, 'range': rng,
                     'why': why, 'count': s.get('count', 1), 'spread': s.get('radius') or 0, 'rows': rows,
-                    'immobile': False})
+                    'immobile': False, 'leash': 0.0})
     return out
 
 
@@ -655,11 +659,11 @@ def check_map(world, stem, cache):
         if open_air:
             for h in hs:
                 d2 = math.dist(h['at'][:2], ground[:2]) - h['spread']
-                if d2 > DISABLER_RANGE:
+                if d2 - h['leash'] > DISABLER_RANGE:
                     continue
                 why = [world.disabler(m) for m in h['rows']]
-                if any(why):
-                    disablers.append(dict(h, distance=round(d2), reason='; '.join(
+                if any(why):   # D-200: a leashed post at its home distance less the leash
+                    disablers.append(dict(h, distance=round(d2 - h['leash']), reason='; '.join(
                         '%s %s' % (world.names.get(m, '?'), w) for m, w in zip(h['rows'], why) if w)))
                 moves = not h['immobile'] or any(world.shoots(m) for m in h['rows'])
                 if d2 <= OPEN_BUFFER and moves and sees(geo, h, ground):

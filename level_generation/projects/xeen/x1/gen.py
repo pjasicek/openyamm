@@ -1323,9 +1323,11 @@ def build():
                                 'textures': {'wall': T.RUN_TEX}, 'water_level': 8, 'hint': 'Culvert'},
         # pass five (the user's walk): the door on the tower's north side, the side the party comes from (was south,
         # round the back); in the tower's own grey stone with a dark door (it was a dirt frame)
+        # D-189 (2026-11-26): a built door shows its kit's door picture (the tower's xvtdoor, as X3's tomb), its leaf
+        # 128 behind the frame (was a flat black 7solid01 face 384 deep: it read as a texture missing)
         'thing:witch_tower_door': {'kind': 'doorway', 'at': [88, 82.4], 'turn': 180, 'height': 352, 'width': 192,
-                                   'depth': 384, 'hood': 128, 'arch': 'pointed',
-                                   'textures': {'door': '7solid01', 'wall': 'cnb'}},
+                                   'depth': 128, 'hood': 128, 'arch': 'pointed',
+                                   'textures': {'door': 'xvtdoor', 'wall': 'cnb'}},
     }
     for tid, cell, turn, title, mp, at, facing, cond, locked, entr in ENTRANCES:
         if tid in WAYS_IN:
@@ -1335,11 +1337,12 @@ def build():
             st['title'] = 'Enter ' + title if not cond else title
             st['into'] = {'map': mp, 'at': at, 'facing': facing}
         else:
-            # pass five: the warehouse's loading door, set in the warehouse's west wall (it stood free in the yard);
-            # a dark opening (7solid01, as Erathia's sewer house and every MM7 dungeon door) in a stone frame
+            # pass five: the warehouse's loading door, set in the warehouse's west wall (it stood free in the yard),
+            # in a stone frame; D-189 (2026-11-26): the timber kit's door picture (xvdoor) 128 behind the frame, not
+            # a flat black 7solid01 face 384 deep (it read as a texture missing)
             st = {'id': tid, 'kind': 'doorway', 'at': list(cell), 'turn': turn, 'height': 352, 'width': 256,
-                  'depth': 384, 'hood': 96, 'title': "Enter Joe's Warehouse",
-                  'textures': {'door': '7solid01', 'wall': 'cwb'},
+                  'depth': 128, 'hood': 96, 'title': "Enter Joe's Warehouse",
+                  'textures': {'door': 'xvdoor', 'wall': 'cwb'},
                   'into': {'map': mp, 'at': at, 'facing': facing}}
         if cond:
             st['condition'] = cond

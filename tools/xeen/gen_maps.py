@@ -137,11 +137,17 @@ def build(ctx):
         if continent is None:
             raise BuildError(f"map_rows.yml defaults.continents: no continent for face {entry.get('face')!r} "
                              f"({entry.get('key')})")
+        # The engine reads the Rain column as "rain unless `-`" (MergedBaseTables.cpp), so `rain: false` writes `-`;
+        # an empty cell (or `rain: true`'s `x`) lets it rain. A snow-and-ice map never rains (D-184, X5 p14).
+        rain = settings.get('rain')
+        if settings.get('snow') and rain is not False:
+            raise BuildError(f'{ROWS} {key}: bolster `snow: true` needs `rain: false` (D-184: a snow map never rains)')
         bolster.add([entry['map_id'], entry['name'], continent, settings.get('kind', 'LowerToEqual'),
                      bool(settings.get('spells', True)), bool(settings.get('summons', False)),
                      bool(settings.get('weather', outdoors)), settings.get('extra', 0),
                      settings.get('profs_max_rarity', 0), settings.get('sky', ''),
-                     'x' if settings.get('rain') else '', 'x' if settings.get('snow') else ''], origin=key)
+                     '-' if rain is False else ('x' if rain else ''), 'x' if settings.get('snow') else ''],
+                    origin=key)
 
     days_default = (defaults.get('travel_days') or {}).get('default', 5)
     days_wild = (defaults.get('travel_days') or {}).get('wilderness', 7)

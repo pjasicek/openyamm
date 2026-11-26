@@ -1476,11 +1476,12 @@ structures:
     kit: castle
     facing: n
     parts:
-      - {id: base, shape: round, at: [1024, 1024], radius: 768, sides: 12, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: xtslate, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 1152, windows: none, roof: none}
+      - {id: base, shape: round, at: [1024, 1024], radius: 768, sides: 12, textures: {door: xvtdoorw, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: xtslate, trim: xvbeam, wall: xvtwall, window: xvtwall}, wall_height: 1152, walls: {"6": [[wall, 71], [door, 256], [wall, 71]]}, windows: none, roof: none, door_height: 320}
       - {id: mid, shape: round, at: [1024, 1024], radius: 640, sides: 12, bottom: 1152, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: xtslate, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 1024, windows: alternate, roof: none}
       - {id: top, shape: round, at: [1024, 1024], radius: 512, sides: 12, bottom: 2176, textures: {door: xvtdoor, gable: xvtwall, post_left: xvtwall, post_right: xvtwall, ridge: xvridge, roof: hwm2rf, trim: xvbeam, wall: xvtwall, window: xvtwin}, wall_height: 768, windows: all, roof: cone, roof_pitch: 70}
     floor: 1000
     door:
+      leaves: 2
       part: base
       wall: "6"
     title: Tower of High Magic
@@ -1508,7 +1509,7 @@ structures:
     at: [34, 85]
     size: [1024, 1024]
     turn: 180
-    textures: {door: 7solid01, shell: xvtwall}
+    textures: {door: xvtdoor, shell: xvtwall}
     title: Tomb of a Thousand Terrors
     into: {map: xeen_xd08.blv, at: [0, 384, 0], facing: 512, screen: {text: 5008}}
     condition: {lua: "XeenQuests.hook(\"m10.tomb_door\")"}

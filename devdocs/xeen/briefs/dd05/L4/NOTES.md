@@ -195,3 +195,7 @@ Rebuilt on oymap merge point 42 (2026-11-22 ~02:20). The generator reproduced th
 only the four chests: the style world's 7gt002 chest in place of MM6's ch1, same places, none moved. Installed,
 baked; audit 0/0, check_exits 0, check_drops 0; tests 4 of 4 (12 of 12, output/studio_cal/a8_s26/run/dd05/c021850).
 Chest pictures: output/studio_cal/a8_s29/shots/dd05_chests.jpg (all four on the floor against a wall).
+
+## D-104 dungeon campfires (2026-11-26, agent:xeen-fb5-dungeon2)
+
+`deco:kitchen_fire`: the outdoor campfire's event (food 1-3 once, a small ring for a character with Perception), `once: true`, added by `level_generation/projects/xeen/common/campfires.py` (regen.py runs it after gen.py). Rebuilt, audit 0 errors, every playtest passing from the stage, installed and baked, MAW reserve rerun.

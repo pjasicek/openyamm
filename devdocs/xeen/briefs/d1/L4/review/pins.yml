@@ -1,0 +1,169 @@
+format: 1
+counter: 23
+pins:
+  - id: pin:p1
+    text: z-fighting
+    source: game
+    world: xeen
+    map: xeen_d1.odm
+    pose:
+      position: [-17370.537, -20085.584, 833]
+      yaw_radians: 5.203
+      pitch_degrees: -19.272
+      heading_yaw_units: 1696
+    picture: .oymap/pins/pictures/p1.png
+    author: user
+    created: 2026-11-26T00:54:09
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
+    from: 20261126-005409-xeen_d1.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F72: the hull pieces beside The Vale Falls stood under the edges of the falls' spillway plate (hull-textured, 26 under their decks): common/rim.py kept them clear of a 768-wide plate while the studio gives a fall without a width its river's (1,280 here, plate 1,472). rim.py now reads the river's width as the studio does; the two pieces at the lip are gone and the plate meets the hull's own run. Also: a hull piece whose deck would lie in a river's or lake's plane stands 24 over it (X7 2, D6 4 sites). D1 installed with its bake 2026-11-26 ~08:45."
+        created: 2026-11-26T08:54:11
+        revision: 0511ba88aea1834f346e9209b635c1b3
+        status: resolved
+        pictures: [.oymap/pins/pictures/p1-r1.png]
+  - id: pin:p2
+    text: tent is in air
+    source: game
+    world: xeen
+    map: xeen_d1.odm
+    pose:
+      position: [11474.861, 20280.918, 1537]
+      yaw_radians: 1.517
+      pitch_degrees: -16.348
+      heading_yaw_units: 495
+    picture: .oymap/pins/pictures/p2.png
+    author: user
+    created: 2026-11-26T00:58:25
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
+    from: 20261126-005825-xeen_d1.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F73: the first Sardaj tent's west end stood 0.1 cell from the gorge's lip (700 down to the river); moved to (87.7, 24.4), half a cell clear of the drops, the Sardaj with it. New check town_fit_check.py things.edge (a tent, well, fountain, crate or stone ring within 256 of a drop of more than 160); things.overhang no longer skips water under a set piece. This was the only site on the 13 maps."
+        created: 2026-11-26T08:54:11
+        revision: 0511ba88aea1834f346e9209b635c1b3
+        status: resolved
+        pictures: [.oymap/pins/pictures/p2-r1.png]
+  - id: pin:p3
+    text: "the mill is in the air, also the roof has texture problem"
+    source: game
+    world: xeen
+    map: xeen_d1.odm
+    pose:
+      position: [8191.606, 10239.485, 833]
+      yaw_radians: 4.046
+      pitch_degrees: 9.58
+      heading_yaw_units: 1319
+    picture: .oymap/pins/pictures/p3.png
+    author: user
+    created: 2026-11-26T00:59:57
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor3
+    from: 20261126-005957-xeen_d1.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F73, 'in the air': fixed. The mill ran from the wall road to x 79.2, over the gorge's lip, its floor 268 over the bank on a stone plinth; it is now 1.1 cells wide from the road's edge to 78.6, the plinth at most about 140 over the lip (both the burnt and the mended mill). New check town_fit_check.py houses.plinth (a building's floor more than 192 over the lowest dry land under it: X7's Dragon Tower and D6's Alamar NE tower listed for a look). The roof's look (the gable's thin rake edge, as X2 p15's Rivercity roofs) is the roof family still open: kept open for it."
+        created: 2026-11-26T08:54:11
+        revision: 0511ba88aea1834f346e9209b635c1b3
+        pictures: [.oymap/pins/pictures/p3-r1.png]
+      - author: agent:xeen-fb5-outdoor3
+        text: "F71, the roof half: the studio now closes the underside of a gable's verge with a soffit (R2, released 10:09), and the mended mill takes the classic kit's eaves 24 and verge 40, so its roof has a barge board and a closed overhang instead of a thin edge. The 'in the air' half was fixed earlier today (the mill 1.1 cells wide off the gorge's lip). D1 rebuilt and installed with its bake 2026-11-26 10:41; picture: the pin's pose with the mill mended."
+        created: 2026-11-26T10:42:57
+        revision: 5da2b659cbfd4eaa3571e30316dbfb15
+        status: resolved
+        pictures: [.oymap/pins/pictures/p3-r2.png]
+  - id: pin:p4
+    text: "put the letters on, like the other chests with numbers"
+    source: game
+    world: xeen
+    map: xeen_d1.odm
+    pose:
+      position: [451.364, -89.919, 1147.72]
+      yaw_radians: 0.682
+      pitch_degrees: -14.94
+      heading_yaw_units: 222
+    picture: .oymap/pins/pictures/p4.png
+    author: user
+    created: 2026-11-26T01:08:28
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
+    from: 20261126-010828-xeen_d1.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "F74: the lettered chests now name their letter on hover as the numbered ones name their number ('A chest with the letter P on its lid'), d1/gen.py; the click texts are unchanged."
+        created: 2026-11-26T08:54:12
+        revision: 0511ba88aea1834f346e9209b635c1b3
+        status: resolved
+        pictures: [.oymap/pins/pictures/p4-r1.png]
+  - id: pin:p5
+    text: "is this a quest bug?"
+    source: game
+    world: xeen
+    map: xeen_d1.odm
+    pose:
+      position: [3119.03, 1981.69, 1153]
+      yaw_radians: 0.425
+      pitch_degrees: -5.89
+      heading_yaw_units: 139
+    picture: .oymap/pins/pictures/p5.png
+    author: user
+    created: 2026-11-26T01:11:30
+    status: resolved
+    claimed_by: agent:xeen-fb5-engine
+    from: 20261126-011130-xeen_d1.yml
+    replies:
+      - author: agent:xeen-fb5-engine
+        text: "Fixed: Dreyfus waits in the Temple of Mok, and 'my door' meant his Western Tower's ground door. He now answers each step: rope climbed, Cult Leader slain, key in hand ('turn it in the Western Tower's ground door'). Before, a party back from the top with the key heard 'Bring it down'. Test tests/scenarios/xeen/d1_dreyfus_tower_steps.yml."
+        created: 2026-11-26T08:09:19
+        revision: 0511ba88aea1834f346e9209b635c1b3
+        status: resolved
+        pictures: [.oymap/pins/pictures/p5-r1.png]
+  - id: pin:p6
+    text: z-fighting
+    source: game
+    world: xeen
+    map: xeen_d1.odm
+    pose:
+      position: [-1645.77, 4062.5, 1161]
+      yaw_radians: 4.103
+      pitch_degrees: -34.432
+      heading_yaw_units: 1337
+    picture: .oymap/pins/pictures/p6.png
+    author: user
+    created: 2026-11-26T01:12:06
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
+    from: 20261126-011206-xeen_d1.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "Fixed by 3.4 (checked 2026-11-26 on the installed D1 of 2025-11-25 13:44): the dark '#' was the DD-01 sewer hatch's flat grate lying on the square's paving; D-170 (studio: a level face stands clear of the land under it) and the hatch's wedge form now draw it as a raised iron frame with its grate, no face on the paving (check_faces faces.on_land 0 on D1)."
+        created: 2026-11-26T08:02:25
+        revision: 48a610752d0e3587888b3ef3168f2ab4
+        status: resolved
+        pictures: [.oymap/pins/pictures/p6-r1.png]
+  - id: pin:p7
+    text: z-fighting and missing texture
+    source: game
+    world: xeen
+    map: xeen_d1.odm
+    pose:
+      position: [-7714.09, 4652.772, 1767.422]
+      yaw_radians: 3.111
+      pitch_degrees: -35.283
+      heading_yaw_units: 1014
+    picture: .oymap/pins/pictures/p7.png
+    author: user
+    created: 2026-11-26T01:19:12
+    status: resolved
+    claimed_by: agent:xeen-fb5-outdoor
+    from: 20261126-011912-xeen_d1.yml
+    replies:
+      - author: agent:xeen-fb5-outdoor
+        text: "Fixed by 3.4 (checked 2026-11-26): Lucio's pier now starts from the deck's edge (48.4; xeen-fb4-outdoor5, D-170), so the upper deck's end meets the lower one with no black void between the two plank levels; check_faces shows no face pair there."
+        created: 2026-11-26T08:02:26
+        revision: 48a610752d0e3587888b3ef3168f2ab4
+        status: resolved
+        pictures: [.oymap/pins/pictures/p7-r1.png]

@@ -34,6 +34,7 @@ events:
   evt:bed_k1: 6
   evt:bed_k2: 7
   evt:bed_k3: 8
+  evt:campfire_hearth_fire: 18
   evt:cell_lever: 9
   evt:chest_bone_pit: 10
   evt:chest_dormitory: 11
@@ -110,6 +111,7 @@ map_vars:
   find_k3: 6
   once.arrive: 0
   once.battle_seen: 1
+  once.campfire_hearth_fire: 9
   once.dungeon_seen: 7
   once.kennels_seen: 8
 lights:

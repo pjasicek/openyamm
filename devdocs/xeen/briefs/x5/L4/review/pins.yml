@@ -1,5 +1,5 @@
 format: 1
-counter: 46
+counter: 49
 pins:
   - id: pin:p1
     text: blessing is not working
@@ -300,3 +300,26 @@ pins:
         created: 2026-11-25T09:40:37
         revision: acc4318ed3be69abdc987f9c536a9c6a
         status: resolved
+  - id: pin:p14
+    text: "wouldn't it be better to have snow here?"
+    source: game
+    world: xeen
+    map: xeen_x5.odm
+    pose:
+      position: [-15990.195, 18407.385, 1503.462]
+      yaw_radians: 0.434
+      pitch_degrees: -10.699
+      heading_yaw_units: 141
+    picture: .oymap/pins/pictures/p14.png
+    author: user
+    created: 2026-11-25T19:03:09
+    status: resolved
+    claimed_by: agent:xeen-fb5-engine
+    from: 20261125-190309-xeen_x5.yml
+    replies:
+      - author: agent:xeen-fb5-engine
+        text: "Fixed (D-184): Winterkill Tundra snows (30 % a day before the month factor, as Kriegspire) and never rains; the deserts X6 and D5 never rain either. Cause: the world table generator could not say 'no rain'. Test tests/scenarios/xeen/weather_no_rain_snow_deserts.yml (a year of forecasts)."
+        created: 2026-11-26T08:09:19
+        revision: 0a4f4f2aa975465057ebc1cb0370233f
+        status: resolved
+        pictures: [.oymap/pins/pictures/p14-r1.png]

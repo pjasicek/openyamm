@@ -287,7 +287,24 @@ def markers():
     # D-40 change 2 and A2's count: the south from L1's 10 markers to SOUTH_MARKERS, the farthest from the arrivals go
     farthest = sorted(south, key=lambda m: min(math.hypot(m['at'][0] - a[0], m['at'][1] - a[1])
                                                for a in EDGE_ARRIVALS.values()))
-    south = farthest[:P.SOUTH_MARKERS]
+    # D-183: SOUTH_QUOTA markers an area (one or more in each of F10's six areas), the first of each area its farthest
+    # from the arrivals, then the one farthest from all kept; any quota left over goes to the farthest of the rest
+    kept = []
+    for pid, quota in P.SOUTH_QUOTA.items():
+        mine = [m for m in farthest if m['id'] == pid]
+        mine.sort(key=lambda m: -min(math.hypot(m['at'][0] - a[0], m['at'][1] - a[1]) for a in EDGE_ARRIVALS.values()))
+        for _ in range(min(quota, len(mine))):
+            pick = max(mine, key=lambda m: min([math.hypot(m['at'][0] - k['at'][0], m['at'][1] - k['at'][1])
+                                                for k in kept] or [1e9]))
+            kept.append(pick)
+            mine.remove(pick)
+    rest = [m for m in farthest if m not in kept]
+    south = (kept + rest[::-1])[:P.SOUTH_MARKERS]
+    seen = {}
+    for m in south:
+        seen[m['id']] = seen.get(m['id'], 0) + 1
+        if (m['id'], seen[m['id']]) in P.SOUTH_MOVES:
+            m['at'] = P.SOUTH_MOVES[(m['id'], seen[m['id']])]
     res = []
     idx = {}
     for m in out + south:
