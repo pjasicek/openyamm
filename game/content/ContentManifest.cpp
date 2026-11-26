@@ -1225,4 +1225,26 @@ std::vector<std::string> worldLoadingPages(
 
     return pages.empty() ? world.loadingScreens : pages;
 }
+
+int musicAreaTrack(const std::vector<WorldManifest::MusicArea> &areas, int mapTrack, float x, float y,
+    const std::function<bool(uint32_t)> &hasQuestBit)
+{
+    for (const WorldManifest::MusicArea &area : areas)
+    {
+        if (x < area.rect[0] || x > area.rect[2] || y < area.rect[1] || y > area.rect[3])
+        {
+            continue;
+        }
+
+        // Story conditions are looked up only for a rectangle that holds the party (Hesper's cleansed and raze areas).
+        if ((area.qbit != 0 && !hasQuestBit(area.qbit)) || (area.untilQBit != 0 && hasQuestBit(area.untilQBit)))
+        {
+            continue;
+        }
+
+        return area.track;
+    }
+
+    return mapTrack;
+}
 }

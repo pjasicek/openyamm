@@ -802,7 +802,10 @@ studio writes what they read since S8a, below).
 - **Destructibles** (`objects.yml destructibles`: `of` a platform, level, panel, plate, region, door or decoration;
   `hp`, `damage`, `trigger_only`, `material`, `sound`, `effect_scale`, `on_destroyed`, `on_damaged`), effects
   `destroy`, `damage_destructible`, `breakable`, `unbreakable`, condition `destroyed`; events run by them take
-  `trigger: call` (no source).
+  `trigger: call` (no source). A decoration's collision hull goes with it (2026-11-26): broken (`of` the decoration)
+  or hidden by `hide` (and back with `show`), its hull's faces take a cog (ids.lock.yml `cogs`, by the decoration's
+  id) that the break or the event makes untouchable. Before, the hull stayed solid where nothing was drawn (Hesper
+  D09: the eggs hidden with a crumbled perch held the party in the air).
 - **Translucent surfaces** (any surface's `translucent`: an opacity, or `{opacity, tint, two_sided}`): the faces laid
   with it go into the scene's `translucent_faces` (devdocs/INDOOR_TRANSLUCENT_FACES.md), drawn blended over what lies
   behind and still solid (they collide and block sight, missiles and clicks). A paper screen that breaks (XD-22,

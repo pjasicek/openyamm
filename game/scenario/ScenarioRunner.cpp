@@ -6717,6 +6717,41 @@ bool assertPartyFood(
     return true;
 }
 
+// assert music_track: N: the map plays track N for the party where it stands (world.yml musicAreas, else the map's
+// own track; battle music aside). Read from the same rule the game's frame applies, when asked.
+bool assertMusicTrack(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    const YAML::Node node = step.payload["music_track"];
+
+    if (!node)
+    {
+        return true;
+    }
+
+    if (!node.IsScalar() || !context.runtimeDriver)
+    {
+        failures.push_back(stepLocation(step) + ": music_track assertion requires a track number and a running map");
+        return false;
+    }
+
+    const int expected = node.as<int>();
+    const int actual = std::as_const(*context.runtimeDriver).musicTrack();
+    scenarioLogAssert(
+        context, step, "music_track", std::to_string(expected), std::to_string(actual), actual == expected);
+
+    if (actual != expected)
+    {
+        failures.push_back(stepLocation(step) + ": music track " + std::to_string(actual) + ", expected "
+            + std::to_string(expected));
+        return false;
+    }
+
+    return true;
+}
+
 // assert game_hour: N: the clock shows hour N (0-23) of the current day.
 bool assertGameHour(
     ScenarioExecutionContext &context,
@@ -12596,6 +12631,7 @@ bool runAssert(
     success = assertPartyFood(context, step, failures) && success;
     success = assertWater(context, step, failures) && success;
     success = assertGameHour(context, step, failures) && success;
+    success = assertMusicTrack(context, step, failures) && success;
     success = assertJournalMapNote(context, step, failures) && success;
     success = assertAutonote(context, step, failures) && success;
     success = assertTeacherLedger(context, step, failures) && success;

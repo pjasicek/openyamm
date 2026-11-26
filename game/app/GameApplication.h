@@ -551,6 +551,8 @@ private:
     // The map's ambience bed and music areas (world.yml ambience, musicAreas) and the track playing for its area.
     void startMapAmbienceAndMusic(const std::string &mapFileName, int mapMusicTrack);
     void updateMusicArea(float partyX, float partyY);
+    // The track the map plays for the party at (x, y): its area's (musicAreas) or the map's own (assert music_track).
+    int musicTrackAt(float partyX, float partyY) const;
     const std::vector<WorldManifest::MusicArea> *m_mapMusicAreas = nullptr;
     int m_mapMusicTrack = 0;
     int m_areaMusicTrack = 0;

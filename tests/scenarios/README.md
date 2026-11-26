@@ -129,6 +129,8 @@ the step passes only then; `assert: {food: N}` checks the party's food (`maw_sav
 saved states record another layout identity), so loading it resets them (`release/rebuilt_map_save.yml`,
 [saved map states](../../devdocs/SAVED_MAP_STATE_IDENTITY.md)).
 `assert: {game_hour: N}` checks the clock's hour of the day, 0-23 (`mm7/stone_city_inn_rest.yml`).
+`assert: {music_track: N}` checks the track the map plays for the party where it stands: its world.yml
+`musicAreas` area's (with their `qbit`/`until_qbit`), else the map's own; battle music aside (`GameApplication::musicTrackAt`).
 `quick_load: {save, expect: loaded | warned, expect_status}` presses the quick load key (F10) once with a scenario save
 as the quicksave, from a scratch working folder so the real `saves/quicksave.oysav` is never read
 (`maw_quick_load_warning.yml`).

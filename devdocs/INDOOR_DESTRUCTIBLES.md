@@ -61,7 +61,13 @@ replaces the base scene's). An entry needs a cog or a decoration cog and a posit
   its effect spawns there (`worldEffectRequests`), and its `destroyed_event` runs. An actor standing on one of its faces
   loses that floor (`grounded` off) and falls, also an idle one (2026-11-10: Verhoffin Ruins' ceiling slabs, which the
   busts wait on until KingKong.scr's ForceFall breaks them; a flat brush between two rooms takes `motion: break,
-  doorway: true` like a wall, and the converter gives it a horizontal portal).
+  doorway: true` like a wall, and the converter gives it a horizontal portal). So do the party and the items resting
+  on its faces (2026-11-26): the party is ungrounded at once, an actor that has not moved since loading (no support
+  face yet) and a resting item are found by the floor under them before the faces go, and an item gets a downward
+  nudge so item physics drops it. All land as from any ledge (fall damage over 512 units).
+  `tests/scenarios/mm9/destructibles/verhoffin_slab_party_falls.yml`; the runtime test "a broken destructible drops
+  the party, the monsters and the items standing on it". A Map Studio decoration's collision hull breaks or hides
+  with the decoration (openyamm-studio/README.md, Destructibles).
 - **Events** (`destroyed_event`, `damaged_event`) run at the next world update, never inside the event or blow that
   caused them.
 - **Cost** (2026-11-11: a break on Sturmford cost 200-450 ms of frames, now about one frame): the renderer updates the

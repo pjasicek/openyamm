@@ -17224,12 +17224,61 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
     projectileService().eraseExpiredProjectiles();
 }
 
+void OutdoorWorldRuntime::runMapHookRequests()
+{
+    EventRuntimeState *pEventRuntimeState = eventRuntimeState();
+
+    // Without its view a map event cannot run here: the requests wait for the next event (executeMapEvent).
+    if (pEventRuntimeState == nullptr || pEventRuntimeState->mapHookRequests.empty()
+        || m_pLocalEventProgram == nullptr || !*m_pLocalEventProgram || m_pInteractionView == nullptr)
+    {
+        return;
+    }
+
+    std::vector<std::string> requests;
+    requests.swap(pEventRuntimeState->mapHookRequests);
+
+    for (const std::string &name : requests)
+    {
+        if (const std::optional<uint16_t> eventId = (*m_pLocalEventProgram)->findEventByTitle("hook:" + name))
+        {
+            size_t previousMessageCount = 0;
+            executeMapEvent(*eventId, previousMessageCount);
+        }
+    }
+}
+
+void OutdoorWorldRuntime::refreshStoryWeather()
+{
+    if (!m_outdoorWeatherProfile || m_outdoorWeatherProfile->weatherMap.conditionQBits.empty() || m_pParty == nullptr)
+    {
+        return;
+    }
+
+    const Party *pParty = m_pParty;
+    std::optional<WeatherMapSettings> settings = reresolveWeatherMapSettings(m_outdoorWeatherProfile->weatherRules,
+        m_outdoorWeatherProfile->weatherMap,
+        [pParty](uint32_t questBitId)
+        {
+            return pParty->campaign().hasQuestBit(questBitId);
+        });
+
+    if (settings)
+    {
+        m_outdoorWeatherProfile->weatherMap = std::move(*settings);
+        m_cachedWetnessMinute = -1;
+    }
+}
+
 void OutdoorWorldRuntime::applyEventRuntimeState(bool syncPersistentHostilityMasks)
 {
     if (!m_eventRuntimeState)
     {
         return;
     }
+
+    runMapHookRequests();
+    refreshStoryWeather();
 
     if (m_pOutdoorMapDeltaData != nullptr)
     {

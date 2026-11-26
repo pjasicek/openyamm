@@ -11689,6 +11689,14 @@ private:
                     {
                         body.push_back(indent + "evt.SetSprite(" + std::to_string(number->second) + ", "
                             + (key == "show" ? "1" : "0") + ")");
+
+                        // Its collision hull comes and goes with it.
+                        if (const int hullCog = decorationHullCog(target); hullCog != 0)
+                        {
+                            body.push_back(indent + "evt.SetFacetBit(" + std::to_string(hullCog)
+                                + ", FaceAttribute.Untouchable, " + (key == "hide" ? "1" : "0") + ")");
+                        }
+
                         continue;
                     }
                 }
@@ -16687,6 +16695,24 @@ private:
         return 0;
     }
 
+    // The cog of a decoration's collision hull (ids.lock.yml `cogs`, by the decoration's id; 0: it has no hull). A
+    // decoration that an event hides or a destructible breaks takes its hull away with it: before, the hull stayed
+    // solid where nothing was drawn (Hesper D09, 2026-11-26: a nest's eggs held the party over a crumbled perch).
+    int decorationHullCog(const std::string &decorationId)
+    {
+        const std::vector<MarkerObject>::const_iterator marker = std::find_if(m_markers.begin(), m_markers.end(),
+            [&decorationId](const MarkerObject &placed) { return placed.owner == decorationId; });
+
+        if (marker == m_markers.end() || marker->solid.empty())
+        {
+            return 0;
+        }
+
+        const int cog = IdsLock::number(m_lowered.ids.cogs, decorationId, 1);
+        m_nodeCogs["TRIGGER_solid_" + marker->nodeName] = cog;
+        return cog;
+    }
+
     // objects.yml `destructibles` (S6_PLAN.md item D): what breaks, its faces' or decoration's number, its sound and
     // effect by material, the wiring events it runs.
     void readDestructibles()
@@ -16715,6 +16741,8 @@ private:
                 destructible.decorationCog = IdsLock::number(m_lowered.ids.cogs, of, 1);
                 m_lowered.metadata.entities[static_cast<size_t>(decoration->second)].eventIdPrimary =
                     static_cast<uint16_t>(destructible.decorationCog);
+                // Its collision hull's faces (the same number), which the break makes untouchable.
+                destructible.cog = decorationHullCog(of);
             }
             else
             {

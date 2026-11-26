@@ -519,6 +519,8 @@ public:
     EventRuntimeState *eventRuntimeState();
     const EventRuntimeState *eventRuntimeState() const;
     const IGameplayWorldRuntime *worldRuntime() const;
+    // The music track the map plays for the party where it stands: its world.yml music area's or the map's own.
+    int musicTrack() const;
     // The status lines shown since the last call (" | " between them), over steps, map moves and walks: the lines the
     // events asked for and not yet shown are shown first, as the game's next frame shows them.
     std::string takeStatusLines();

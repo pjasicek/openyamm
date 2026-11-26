@@ -5520,6 +5520,42 @@ int luaReviveMapActor(lua_State *pLuaState)
     return 1;
 }
 
+// evt.CallMapHook(name): the active map's event titled "hook:<name>" runs after this event (EventRuntimeState::
+// mapHookRequests). A map defines a hook as an ordinary event with that title; nothing runs on a map without one.
+int luaCallMapHook(lua_State *pLuaState)
+{
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    const std::string name = sanitizeEventString(luaL_checkstring(pLuaState, 1));
+
+    if (pRuntimeState != nullptr && !name.empty())
+    {
+        pRuntimeState->mapHookRequests.push_back(name);
+    }
+
+    return 0;
+}
+
+// evt.GetMapActorHp(actorIndex) -> hp, maxHp (ISceneEventContext::mapActorHp); nil for no such actor.
+int luaGetMapActorHp(lua_State *pLuaState)
+{
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    const ISceneEventContext *pSceneEventContext = readonlySceneEventContext(pExecutionContext);
+    const lua_Integer actorIndex = luaL_checkinteger(pLuaState, 1);
+    int hp = 0;
+    int maxHp = 0;
+
+    if (pSceneEventContext == nullptr || actorIndex < 0
+        || !pSceneEventContext->mapActorHp(size_t(actorIndex), hp, maxHp))
+    {
+        lua_pushnil(pLuaState);
+        return 1;
+    }
+
+    lua_pushinteger(pLuaState, hp);
+    lua_pushinteger(pLuaState, maxHp);
+    return 2;
+}
+
 // evt.SetMapActorHp(actorIndex, hp): the living actor's hit points become hp, within 1 and its maximum
 // (ISceneEventContext::setMapActorHp). Returns whether there was such a living actor.
 int luaSetMapActorHp(lua_State *pLuaState)
@@ -10684,6 +10720,8 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "SetMapActorPosition", luaSetMapActorPosition);
     registerLuaFunction(pLuaState, "KillMapActor", luaKillMapActor);
     registerLuaFunction(pLuaState, "ReviveMapActor", luaReviveMapActor);
+    registerLuaFunction(pLuaState, "GetMapActorHp", luaGetMapActorHp);
+    registerLuaFunction(pLuaState, "CallMapHook", luaCallMapHook);
     registerLuaFunction(pLuaState, "SetMapActorHp", luaSetMapActorHp);
     registerLuaFunction(pLuaState, "MoveActorTo", luaMoveActorTo);
     registerLuaFunction(pLuaState, "StopActorMove", luaStopActorMove);
@@ -11655,6 +11693,40 @@ bool EventRuntime::executeOnLoadEvents(
                 + " local_count=" + std::to_string(runtimeState.localOnLoadEventsExecuted)
                 + " global_count=" + std::to_string(runtimeState.globalOnLoadEventsExecuted)
                 + " sprite_overrides=" + std::to_string(runtimeState.spriteOverrides.size()));
+        }
+    }
+
+    // The map hooks the load handlers asked for (evt.CallMapHook) run now, in the same session. A world runtime runs
+    // them after an event only once its view and programs are bound, which an outdoor map's are not while it loads:
+    // a hook asked for on load never ran (Hesper's Crown, hiding Vharakesh's shield dome on every load).
+    constexpr size_t MaxLoadHookRuns = 64;
+    size_t hookRuns = 0;
+
+    while (!runtimeState.mapHookRequests.empty() && localProgram && hookRuns < MaxLoadHookRuns)
+    {
+        std::vector<std::string> requests;
+        requests.swap(runtimeState.mapHookRequests);
+
+        for (const std::string &name : requests)
+        {
+            const std::optional<uint16_t> eventId = localProgram->findEventByTitle("hook:" + name);
+
+            if (!eventId || hookRuns >= MaxLoadHookRuns)
+            {
+                continue;
+            }
+
+            const auto iterator = m_luaSessionCache->localScope.handlers.find(*eventId);
+
+            if (iterator == m_luaSessionCache->localScope.handlers.end())
+            {
+                continue;
+            }
+
+            ++hookRuns;
+            executionContext.currentEventId = *eventId;
+            executionContext.executingGlobalHandler = false;
+            invokeLuaHandler(*this, iterator->second, executionContext);
         }
     }
 

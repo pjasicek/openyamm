@@ -287,6 +287,11 @@ struct ScenarioGameApplicationAccess
         return application.m_pMapSceneRuntime.get();
     }
 
+    static int musicTrackAt(const GameApplication &application, float x, float y)
+    {
+        return application.musicTrackAt(x, y);
+    }
+
     static bool runConsoleLine(GameApplication &application, const std::string &line, std::string &output)
     {
         application.registerDebugConsoleCommands();
@@ -5238,5 +5243,12 @@ const IGameplayWorldRuntime *ScenarioRuntimeDriver::worldRuntime() const
     }
 
     return nullptr;
+}
+
+int ScenarioRuntimeDriver::musicTrack() const
+{
+    const IGameplayWorldRuntime *pWorld = worldRuntime();
+    return pWorld != nullptr ? ScenarioGameApplicationAccess::musicTrackAt(m_application, pWorld->partyX(), pWorld->partyY())
+                             : 0;
 }
 }

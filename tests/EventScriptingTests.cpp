@@ -121,6 +121,61 @@ TEST_CASE("a map script's local faction relations reach its program, and malform
     CHECK(error.find("factionRelations entry 1") != std::string::npos);
 }
 
+TEST_CASE("evt.CallMapHook asks for the map event titled hook:<name>, which the map's program finds by title")
+{
+    std::string error;
+    const std::optional<ScriptedEventProgram> global = ScriptedEventProgram::loadFromLuaText(
+        eventSupportText() + "\nRegisterGlobalEvent(9010, \"Boss phase\", function()\n"
+            "    evt.CallMapHook(\"queen_phase\")\n    evt.CallMapHook(\"spire\")\nend)\n",
+        "@hook_global.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(global.has_value(), error.c_str());
+    const std::optional<ScriptedEventProgram> map = ScriptedEventProgram::loadFromLuaText(
+        eventSupportText() + "\nRegisterEvent(7, \"hook:queen_phase\", function()\n"
+            "    evt.SetMapVar(\"hooked\", 1)\nend)\nRegisterEvent(8, \"Chest\", function() end)\n",
+        "@hook_map.lua", ScriptedEventScope::Map, error);
+    REQUIRE_MESSAGE(map.has_value(), error.c_str());
+
+    CHECK(map->findEventByTitle("hook:queen_phase") == std::optional<uint16_t>(7));
+    CHECK_FALSE(map->findEventByTitle("hook:spire").has_value());
+
+    EventRuntime eventRuntime = {};
+    EventRuntimeState runtimeState = {};
+    runtimeState.mapFileName = "hh_test.blv";
+    REQUIRE(eventRuntime.executeEventById(map, global, 9010, runtimeState, nullptr));
+    CHECK(runtimeState.mapHookRequests == std::vector<std::string>{"queen_phase", "spire"});
+
+    // The world runtime runs the request as the map's own event, in the map's program.
+    REQUIRE(eventRuntime.executeEventById(map, global, *map->findEventByTitle("hook:queen_phase"), runtimeState,
+        nullptr));
+    CHECK(runtimeState.namedMapVars.at("hooked") == 1);
+}
+
+TEST_CASE("a map hook asked for by a load event runs during the load and hides the decoration it names")
+{
+    // Hesper asks for Vharakesh's hook:crown on every load once the Crown is broken; the hook hides the shield dome
+    // (evt.SetSprite). An outdoor world runtime has no view yet while its map loads, so the load itself runs it.
+    std::string error;
+    const std::optional<ScriptedEventProgram> map = ScriptedEventProgram::loadFromLuaText(
+        eventSupportText() + "\nSetMapMetadata({onLoad = {5}})\n"
+            "RegisterEvent(5, nil, function()\n    evt.CallMapHook(\"crown\")\nend)\n"
+            "RegisterEvent(7, \"hook:crown\", function()\n    evt.SetSprite(30019, 0)\n"
+            "    evt.CallMapHook(\"chain\")\nend)\n"
+            "RegisterEvent(8, \"hook:chain\", function()\n    evt.SetMapVar(\"chained\", 1)\nend)\n",
+        "@load_hook_map.lua", ScriptedEventScope::Map, error);
+    REQUIRE_MESSAGE(map.has_value(), error.c_str());
+
+    EventRuntime eventRuntime = {};
+    EventRuntimeState runtimeState = {};
+    runtimeState.mapFileName = "hh_test.odm";
+    REQUIRE(eventRuntime.executeOnLoadEvents(map, std::nullopt, runtimeState, nullptr, nullptr));
+
+    CHECK(runtimeState.mapHookRequests.empty());
+    CHECK(runtimeState.spriteOverrides.contains(30019));
+    CHECK((runtimeState.spriteOverrides.contains(30019) && runtimeState.spriteOverrides.at(30019).hidden));
+    // A hook may ask for another: it runs in the same load.
+    CHECK(runtimeState.namedMapVars.contains("chained"));
+}
+
 TEST_CASE("a Lua error in an event handler is logged once with its map and event, and ends only that handler")
 {
     const std::string source = eventSupportText() + "\n"

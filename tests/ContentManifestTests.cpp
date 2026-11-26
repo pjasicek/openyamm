@@ -753,3 +753,32 @@ TEST_CASE("a world's edge spans send one map edge to two maps, by where the part
         "edge_spans: [{map: xeen_x3.odm, edge: north, from: 0, to: 10, to_map: xeen_x4.odm}]", error));
     CHECK(error.find("neither at nor a side") != std::string::npos);
 }
+
+TEST_CASE("world.yml music areas: the first area that holds the party and whose QBits hold gives the track")
+{
+    using OpenYAMM::Game::WorldManifest;
+    // Hesper's Vharakesh: the Crown's battle music until the beacon is lit, then the cleansed theme over the whole map.
+    const std::vector<WorldManifest::MusicArea> areas = {
+        {93005, {0.0f, 0.0f, 100.0f, 100.0f}, 0, 120054},
+        {93011, {-1000.0f, -1000.0f, 1000.0f, 1000.0f}, 120060, 0},
+    };
+    std::vector<uint32_t> asked;
+    bool beacon = false;
+    bool cleansed = false;
+    const auto hasQuestBit = [&](uint32_t questBit)
+    {
+        asked.push_back(questBit);
+        return questBit == 120054 ? beacon : questBit == 120060 && cleansed;
+    };
+
+    CHECK(OpenYAMM::Game::musicAreaTrack(areas, 93002, 50.0f, 50.0f, hasQuestBit) == 93005);
+    CHECK(OpenYAMM::Game::musicAreaTrack(areas, 93002, 500.0f, 50.0f, hasQuestBit) == 93002);
+    beacon = true;
+    CHECK(OpenYAMM::Game::musicAreaTrack(areas, 93002, 50.0f, 50.0f, hasQuestBit) == 93002);
+    cleansed = true;
+    CHECK(OpenYAMM::Game::musicAreaTrack(areas, 93002, 50.0f, 50.0f, hasQuestBit) == 93011);
+    // Outside every rectangle no QBit is looked up.
+    asked.clear();
+    CHECK(OpenYAMM::Game::musicAreaTrack(areas, 93002, 5000.0f, 50.0f, hasQuestBit) == 93002);
+    CHECK(asked.empty());
+}

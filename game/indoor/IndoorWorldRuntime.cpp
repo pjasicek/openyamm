@@ -24053,6 +24053,29 @@ bool IndoorWorldRuntime::checkMonstersKilled(
     return totalActors == defeatedActors;
 }
 
+void IndoorWorldRuntime::runMapHookRequests()
+{
+    EventRuntimeState *pEventRuntimeState = eventRuntimeState();
+
+    if (pEventRuntimeState == nullptr || pEventRuntimeState->mapHookRequests.empty()
+        || m_pLocalEventProgram == nullptr || !*m_pLocalEventProgram)
+    {
+        return;
+    }
+
+    std::vector<std::string> requests;
+    requests.swap(pEventRuntimeState->mapHookRequests);
+
+    for (const std::string &name : requests)
+    {
+        if (const std::optional<uint16_t> eventId = (*m_pLocalEventProgram)->findEventByTitle("hook:" + name))
+        {
+            size_t previousMessageCount = 0;
+            executeMapEvent(*eventId, previousMessageCount);
+        }
+    }
+}
+
 void IndoorWorldRuntime::applyEventRuntimeState(bool syncPersistentHostilityMasks)
 {
     MapDeltaData *pMapDeltaData = mapDeltaData();
@@ -24062,6 +24085,8 @@ void IndoorWorldRuntime::applyEventRuntimeState(bool syncPersistentHostilityMask
     {
         return;
     }
+
+    runMapHookRequests();
 
     // Door commands: a door set moving is followed frame by frame (refreshMechanismRuntimeGeometryCache moves its
     // faces and refreshes the monsters' path map when it stops), so it needs nothing here. Only a door the command
@@ -25020,16 +25045,85 @@ bool IndoorWorldRuntime::destroyIndoorDestructible(const IndoorDestructible &des
 
     pState->hp = 0;
     pState->destroyed = true;
+
+    // Whatever stands on one of its faces loses that floor and falls under gravity, landing (and hurt) as from any
+    // ledge: an actor or corpse, also an idle one (it moves only while airborne or moving: the monsters waiting on
+    // Verhoffin Ruins' ceiling slabs, KingKong.scr ForceFall), the party (Hesper D09's crumbling perches) and the items
+    // resting there (item physics steps only moving items: a downward nudge). Actors that have not moved since loading
+    // and resting items have no support face: the floor under them is sampled while its faces still count.
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+    RuntimeGeometryCache &geometry = runtimeGeometryCache();
+    const auto restsOnDestructible = [&](float x, float y, float z, int16_t sectorId)
+    {
+        constexpr float RestingFloorRise = 8.0f;
+        constexpr float RestingFloorDrop = 16.0f;
+
+        if (m_pIndoorMapData == nullptr || destructible.cog == 0)
+        {
+            return false;
+        }
+
+        const IndoorFloorSample floor = sampleIndoorFloor(*m_pIndoorMapData, geometry.vertices, x, y, z,
+            RestingFloorRise, RestingFloorDrop, sectorId, nullptr, &geometry.geometryCache);
+        return floor.hasFloor && indoorDestructibleOfFace(floor.faceIndex) == &destructible;
+    };
+    std::vector<size_t> fallingActorIndices;
+    std::vector<size_t> fallingItemIndices;
+
+    for (size_t index = 0; index < m_mapActorAiStates.size(); ++index)
+    {
+        const MapActorAiState &aiState = m_mapActorAiStates[index];
+
+        if (aiState.grounded
+            && (indoorDestructibleOfFace(aiState.supportFaceIndex) == &destructible
+                || (aiState.supportFaceIndex == static_cast<size_t>(-1)
+                    && restsOnDestructible(aiState.preciseX, aiState.preciseY, aiState.preciseZ, aiState.sectorId))))
+        {
+            fallingActorIndices.push_back(index);
+        }
+    }
+
+    if (pMapDeltaData != nullptr && m_pObjectTable != nullptr)
+    {
+        for (size_t index = 0; index < pMapDeltaData->spriteObjects.size(); ++index)
+        {
+            const MapDeltaSpriteObject &spriteObject = pMapDeltaData->spriteObjects[index];
+            const ObjectEntry *pObjectEntry = m_pObjectTable->get(spriteObject.objectDescriptionId);
+
+            if (pObjectEntry != nullptr
+                && (spriteObject.attributes & SpriteAttrRemoved) == 0
+                && (pObjectEntry->flags & ObjectDescNoGravity) == 0
+                && spriteObject.velocityX == 0
+                && spriteObject.velocityY == 0
+                && spriteObject.velocityZ == 0
+                && restsOnDestructible(static_cast<float>(spriteObject.x), static_cast<float>(spriteObject.y),
+                    static_cast<float>(spriteObject.z), spriteObject.sectorId))
+            {
+                fallingItemIndices.push_back(index);
+            }
+        }
+    }
+
     hideIndoorDestructible(destructible);
 
-    // An actor standing on one of its faces loses its floor and falls, also one that is idle (it moves only while
-    // airborne or moving): the monsters waiting on Verhoffin Ruins' ceiling slabs (KingKong.scr ForceFall).
-    for (MapActorAiState &aiState : m_mapActorAiStates)
+    for (size_t index : fallingActorIndices)
     {
-        if (aiState.grounded && indoorDestructibleOfFace(aiState.supportFaceIndex) == &destructible)
+        m_mapActorAiStates[index].grounded = false;
+        m_mapActorAiStates[index].supportFaceIndex = static_cast<size_t>(-1);
+    }
+
+    for (size_t index : fallingItemIndices)
+    {
+        pMapDeltaData->spriteObjects[index].velocityZ = -1;
+    }
+
+    if (m_pPartyRuntime != nullptr)
+    {
+        const IndoorMoveState &partyState = m_pPartyRuntime->movementState();
+
+        if (partyState.grounded && indoorDestructibleOfFace(partyState.supportFaceIndex) == &destructible)
         {
-            aiState.grounded = false;
-            aiState.supportFaceIndex = static_cast<size_t>(-1);
+            m_pPartyRuntime->pushPartyPosition(0.0f, 0.0f, 0.0f);
         }
     }
 

@@ -248,3 +248,97 @@ TEST_CASE("Tsantsa safe path keeps the party on the tile under its centre near a
 
     CHECK(reachedTrap);
 }
+
+TEST_CASE("a broken destructible drops the party, the monsters and the items standing on it")
+{
+    OpenYAMM::Engine::AssetFileSystem assets;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", OpenYAMM::Engine::AssetScaleTier::X1, "mm9"));
+    GameDataLoader data;
+    REQUIRE(data.loadForHeadlessGameplay(assets));
+    REQUIRE(data.loadMapByFileNameForHeadlessGameplay(assets, "verhoffinruins.blv"));
+    const MapAssetInfo &loaded = *data.getSelectedMap();
+    REQUIRE(loaded.indoorMapData);
+    IndoorMapData map = *loaded.indoorMapData;
+    map.spawns.clear();
+    std::optional<MapDeltaData> delta = loaded.indoorMapDeltaData;
+    REQUIRE(delta);
+    delta->actors.clear();
+    delta->spriteObjects.clear();
+
+    const MonsterTable::MonsterStatsEntry *pStats = nullptr;
+    uint16_t monsterId = 1;
+
+    for (; monsterId < 700 && (pStats == nullptr || pStats->canFly); ++monsterId)
+    {
+        pStats = data.getMonsterTable().findStatsById(monsterId);
+    }
+
+    REQUIRE(pStats != nullptr);
+    --monsterId;
+
+    // Destructible 598 (BreakOut0) is a ceiling slab whose top lies at z 164 in sector 4, over a room whose floor
+    // lies at z -328 (KingKong.scr's busts wait on it). A monster that never moved yet, a resting item and the party.
+    constexpr float SlabTopZ = 164.0f;
+    constexpr float RoomFloorZ = -328.0f;
+    MapDeltaActor actor = {};
+    actor.monsterId = actor.monsterInfoId = monsterId;
+    actor.hp = pStats->hitPoints;
+    actor.x = -3080;
+    actor.y = -5300;
+    actor.z = static_cast<int>(SlabTopZ);
+    actor.sectorId = 4;
+    actor.radius = 32;
+    actor.height = 128;
+    delta->actors.push_back(actor);
+    MapDeltaSpriteObject loot = {};
+    loot.spriteId = 373;
+    loot.objectDescriptionId = 373;
+    loot.x = -3300;
+    loot.y = -5300;
+    loot.z = static_cast<int>(SlabTopZ) + 1;
+    loot.sectorId = 4;
+    delta->spriteObjects.push_back(loot);
+
+    Party party;
+    party.setItemTable(&data.getItemTable());
+    GameplayActorService actorService;
+    actorService.bindTables(&data.getMonsterTable(), &data.getSpellTable());
+    IndoorSceneRuntime scene(loaded.map.fileName, loaded.map, map,
+        data.getMonsterTable(), data.getMonsterProjectileTable(), data.getObjectTable(), data.getSpellTable(),
+        data.getItemTable(), data.getChestTable(), party, delta, loaded.eventRuntimeState,
+        loaded.localEventProgram, std::nullopt, &actorService, nullptr);
+    IndoorWorldRuntime &world = scene.worldRuntime();
+    IndoorPartyRuntime &partyRuntime = scene.partyRuntime();
+    partyRuntime.teleportPartyPosition(-3220.0f, -5420.0f, SlabTopZ);
+
+    for (int frame = 0; frame < 30; ++frame)
+    {
+        partyRuntime.update(0.0f, 0.0f, false, false, 1.0f / 60.0f);
+        scene.advanceSimulation(1000.0f / 60.0f);
+    }
+
+    REQUIRE(partyRuntime.movementState().grounded);
+    REQUIRE_EQ(partyRuntime.movementState().footZ, doctest::Approx(SlabTopZ).epsilon(0.001));
+    MapDeltaData *pDelta = world.mapDeltaData();
+    REQUIRE(pDelta != nullptr);
+    REQUIRE_EQ(pDelta->spriteObjects.size(), 1u);
+    REQUIRE_EQ(pDelta->spriteObjects[0].z, static_cast<int>(SlabTopZ) + 1);
+    REQUIRE(world.mapActorAiState(0) != nullptr);
+    REQUIRE(world.mapActorAiState(0)->grounded);
+
+    REQUIRE(world.destroyDestructible(598));
+
+    for (int frame = 0; frame < 3 * 60; ++frame)
+    {
+        partyRuntime.update(0.0f, 0.0f, false, false, 1.0f / 60.0f);
+        scene.advanceSimulation(1000.0f / 60.0f);
+        world.updateActorAi(1.0f / 60.0f);
+        world.updateWorld(1.0f / 60.0f);
+    }
+
+    CHECK(partyRuntime.movementState().grounded);
+    CHECK_EQ(partyRuntime.movementState().footZ, doctest::Approx(RoomFloorZ).epsilon(0.01));
+    CHECK_EQ(pDelta->spriteObjects[0].z, doctest::Approx(RoomFloorZ + 1.0f).epsilon(0.01));
+    CHECK_EQ(world.mapActorAiState(0)->preciseZ, doctest::Approx(RoomFloorZ).epsilon(0.01));
+}

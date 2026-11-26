@@ -1,0 +1,21 @@
+# Whatever stands on a destructible falls when it breaks (devdocs/INDOOR_DESTRUCTIBLES.md). On Verhoffin Ruins the
+# party stands still on the ceiling slab BreakOut0 (destructible 598, top at z 164); once it breaks the party falls
+# under gravity to the room's floor below (z -328) and stands there, as from any ledge (2026-11-26, Hesper lane KE: a
+# party standing on a broken Map Studio perch stayed in the air). The unit test "a broken destructible drops the party,
+# the monsters and the items standing on it" covers the monsters and the items.
+# Run: ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/destructibles/verhoffin_slab_party_falls.yml
+id: mm9.destructibles.verhoffin_slab_party_falls
+title: The party standing on a breaking Verhoffin ceiling slab falls to the floor below
+world: mm9
+mode: faithful
+tags: [mm9, destructibles, movement]
+steps:
+  - load_map: {map: verhoffinruins.blv}
+  - advance_runtime: {seconds: 1}
+  - set_pose: {map: verhoffinruins.blv, x: -3220, y: -5420, z: 200, yaw_degrees: 90}
+  - advance_runtime: {seconds: 2}
+  - assert: {party_position: {x: -3220, y: -5420, radius: 16, z_min: 160, z_max: 168}}
+  - console: {line: destructible 598 destroy, expect_contains: destroy}
+  - advance_runtime: {seconds: 3}
+  - console: {line: destructible 598 state, expect_contains: broken}
+  - assert: {party_position: {x: -3220, y: -5420, radius: 64, z_min: -336, z_max: -320}}

@@ -13013,6 +13013,20 @@ void GameApplication::startMapAmbienceAndMusic(const std::string &mapFileName, i
     m_areaMusicTrack = mapMusicTrack;
 }
 
+int GameApplication::musicTrackAt(float partyX, float partyY) const
+{
+    if (m_mapMusicAreas == nullptr)
+    {
+        return m_mapMusicTrack;
+    }
+
+    const IMapSceneRuntime *pScene = m_pMapSceneRuntime.get();
+    return musicAreaTrack(*m_mapMusicAreas, m_mapMusicTrack, partyX, partyY, [pScene](uint32_t questBitId)
+    {
+        return pScene != nullptr && pScene->party().campaign().hasQuestBit(questBitId);
+    });
+}
+
 void GameApplication::updateMusicArea(float partyX, float partyY)
 {
     if (m_mapMusicAreas == nullptr)
@@ -13020,16 +13034,7 @@ void GameApplication::updateMusicArea(float partyX, float partyY)
         return;
     }
 
-    int track = m_mapMusicTrack;
-
-    for (const WorldManifest::MusicArea &area : *m_mapMusicAreas)
-    {
-        if (partyX >= area.rect[0] && partyX <= area.rect[2] && partyY >= area.rect[1] && partyY <= area.rect[3])
-        {
-            track = area.track;
-            break;
-        }
-    }
+    const int track = musicTrackAt(partyX, partyY);
 
     if (track != m_areaMusicTrack)
     {

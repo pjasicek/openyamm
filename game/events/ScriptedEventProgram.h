@@ -70,6 +70,8 @@ public:
     bool isLevitateSensitivePressurePlate(uint16_t eventId, uint32_t faceAttributes) const;
     bool isHintOnlyEvent(uint16_t eventId) const;
     std::optional<std::string> getHint(uint16_t eventId) const;
+    // The event registered with this title (RegisterEvent's second argument, English): a map's "hook:<name>".
+    std::optional<uint16_t> findEventByTitle(const std::string &title) const;
     std::optional<std::string> summarizeEvent(uint16_t eventId) const;
     std::optional<LearnedEffect> learnedEffect(uint16_t eventId) const;
     std::vector<uint32_t> getOpenedChestIds(uint16_t eventId) const;

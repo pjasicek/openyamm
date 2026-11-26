@@ -316,6 +316,11 @@ struct WorldManifest
     const ContentIdRangeDefinition *findIdRange(const std::string &domain) const;
 };
 
+// The track world.yml musicAreas give the party at (x, y): the first area that holds the point and whose QBits hold
+// (hasQuestBit is asked only for such an area), else the map's own track.
+int musicAreaTrack(const std::vector<WorldManifest::MusicArea> &areas, int mapTrack, float x, float y,
+    const std::function<bool(uint32_t)> &hasQuestBit);
+
 WorldManifest loadActiveWorldManifestOrDefault(
     const Engine::AssetFileSystem &assetFileSystem,
     const std::string &worldId,

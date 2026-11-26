@@ -721,6 +721,10 @@ struct EventRuntimeState
     std::optional<bool> snowEnabled;
     std::optional<bool> rainEnabled;
     std::optional<std::string> outdoorSkyTextureOverride;
+    // evt.CallMapHook(name): the active map's own event titled "hook:<name>" runs once the calling event is done (its
+    // world runtime, runMapHookRequests), in the map's program: a world script's (or a behaviour's) way into a map's
+    // own Lua, whichever program called. Not saved.
+    std::vector<std::string> mapHookRequests;
     // evt.SetFog / evt.ClearFog: a map script's fog over an indoor map's scene fog (devdocs/INDOOR_FOG.md "Fog from
     // Lua"), faded in over `seconds` from the fog shown; each call raises `revision`. Not saved: the map's Lua sets it
     // again on load.

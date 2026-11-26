@@ -463,6 +463,8 @@ public:
         uint16_t eventId,
         size_t &previousMessageCount,
         std::optional<uint8_t> continueStep = std::nullopt) override;
+    // evt.CallMapHook's requests: each runs the map's event titled "hook:<name>" (none: nothing).
+    void runMapHookRequests();
     bool executeMapEvent(
         uint16_t eventId,
         size_t &previousMessageCount,
