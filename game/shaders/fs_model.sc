@@ -69,19 +69,21 @@ vec3 modelNormalize(vec3 value)
 #if MODEL_SURFACE_DETAIL
 // The large atlas supplies the colours and the existing relief. Project just the fine grain in native world units,
 // so it crosses UV chart seams and keeps the same scale around a curved horn or on the flat basalt footing.
-void modelSurfaceDetail(inout vec3 albedo, inout vec3 normal, inout float roughness)
+// The varyings come in as arguments: HLSL and Metal shaders see them only inside main().
+void modelSurfaceDetail(vec3 worldPosition, vec3 worldNormal, inout vec3 albedo, inout vec3 normal,
+    inout float roughness)
 {
-    vec3 cameraDelta = (v_worldPosition - u_modelCamera.xyz) * u_modelDetail.x;
+    vec3 cameraDelta = (worldPosition - u_modelCamera.xyz) * u_modelDetail.x;
     float distanceSquared = dot(cameraDelta, cameraDelta);
     if (distanceSquared >= 256.0)
     {
         return;
     }
-    vec3 geometryNormal = modelNormalize(v_worldNormal);
+    vec3 geometryNormal = modelNormalize(worldNormal);
     vec3 weights = geometryNormal * geometryNormal;
     weights *= weights;
     weights /= max(dot(weights, vec3_splat(1.0)), 0.000001);
-    vec3 tile = v_worldPosition * u_modelDetail.x;
+    vec3 tile = worldPosition * u_modelDetail.x;
     // U runs horizontally and texture up points up the wall. On the ground, U points east and up points north.
     vec4 acrossX = texture2D(s_modelSurfaceDetail, vec2(tile.y, -tile.z)) - vec4_splat(128.0 / 255.0);
     vec4 acrossY = texture2D(s_modelSurfaceDetail, vec2(tile.x, -tile.z)) - vec4_splat(128.0 / 255.0);
@@ -429,7 +431,7 @@ void main()
         float metallic = clamp(surface.b * u_modelPbr.x, 0.0, 1.0);
         float roughness = clamp(surface.g * u_modelPbr.y, 0.045, 1.0);
 #if MODEL_SURFACE_DETAIL
-        modelSurfaceDetail(color.rgb, normal, roughness);
+        modelSurfaceDetail(v_worldPosition, v_worldNormal, color.rgb, normal, roughness);
 #endif
         float nv = max(dot(normal, view), 0.0001);
         vec3 f0 = mix(vec3_splat(0.04), color.rgb, metallic);
