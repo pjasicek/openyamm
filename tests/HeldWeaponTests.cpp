@@ -315,6 +315,30 @@ TEST_CASE("held weapon tiers: kinds with a template of their own, clubs capped a
     CHECK(pEngineClub->maxTier == 2);
 }
 
+TEST_CASE("held weapon tiers: template_scales draws a template smaller, the battle axe at 80 percent")
+{
+    HeldSkinRules rules;
+    std::string error;
+    REQUIRE(parseHeldSkinRules("schema: openyamm.heldTiers.v1\ntiers: 4\nvalue_bands: [150, 600, 5000]\n"
+                               "template_scales: {w_battleaxe.glb: 0.8}\n",
+        "t", rules, error));
+    CHECK(heldTemplateScale(rules, "w_battleaxe.glb") == doctest::Approx(0.8f));
+    CHECK(heldTemplateScale(rules, "w_waraxe.glb") == 1.0f);
+    HeldSkinRules bad;
+    CHECK_FALSE(parseHeldSkinRules("schema: openyamm.heldTiers.v1\ntiers: 4\nvalue_bands: [150, 600, 5000]\n"
+                                   "template_scales: {w_battleaxe.glb: 0}\n",
+        "t", bad, error));
+
+    std::ifstream file(std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/engine/world_items/held_tiers.yml");
+    REQUIRE(file);
+    std::stringstream text;
+    text << file.rdbuf();
+    HeldSkinRules engine;
+    REQUIRE_MESSAGE(parseHeldSkinRules(text.str(), "held_tiers.yml", engine, error), error);
+    CHECK(heldTemplateScale(engine, "w_battleaxe.glb") == doctest::Approx(0.8f));
+    CHECK(heldTemplateScale(engine, "w_claymore.glb") == 1.0f);
+}
+
 TEST_CASE("dual wielding: a melee weapon in each hand is the dual kit, anything else keeps the main hand's")
 {
     using ViewModel = FirstPersonViewModel;
