@@ -62,7 +62,7 @@ jobs:
         run: |
           cd openyamm-studio/host
           npm ci
-          node src/call.mjs --list | grep -c '^map_' | grep -qx 15
+          node src/call.mjs --list | grep -c '^map_' | grep -qx 16
 
       - name: Build for WebAssembly
         run: openyamm-studio/build.sh wasm
