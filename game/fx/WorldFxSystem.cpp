@@ -1,4 +1,5 @@
 #include "game/fx/WorldFxSystem.h"
+#include "game/fx/ActorModelAim.h"
 
 #include "game/gameplay/ActorAiTrace.h"
 
@@ -1006,6 +1007,14 @@ bool WorldFxSystem::buildActorModelBinding(const std::string &descriptor, std::s
             {
                 binding.castClip = requireClip("cast");
             }
+            if (const YAML::Node traverse = animation["traverse_node"])
+            {
+                binding.traverseNode = binding.asset->findNode(traverse.as<std::string>());
+                if (!binding.traverseNode)
+                {
+                    throw std::runtime_error("actor traverse node not found: " + traverse.as<std::string>());
+                }
+            }
             if (const YAML::Node look = animation["look"])
             {
                 for (const YAML::Node &nodeName : look["nodes"])
@@ -1682,7 +1691,7 @@ void WorldFxSystem::resolveActorCharge(ActorModelInstance &model) const
             : FxRecipes::projectileRecipeColorAbgr(recipe);
 }
 
-void WorldFxSystem::updateActorLook(ActorModelInstance &model, const GameplayRuntimeActorState &state,
+bool WorldFxSystem::updateActorLook(ActorModelInstance &model, const GameplayRuntimeActorState &state,
     const IGameplayWorldRuntime &world, float scale, float partyDistance, float deltaSeconds, bool canLook,
     bool talking)
 {
@@ -1704,7 +1713,7 @@ void WorldFxSystem::updateActorLook(ActorModelInstance &model, const GameplayRun
     model.lookClock += deltaSeconds;
     if (model.lookClock < interval)
     {
-        return;
+        return false;
     }
     const float stepSeconds = std::min(model.lookClock, 0.25f);
     model.lookClock = 0.0f;
@@ -1741,7 +1750,7 @@ void WorldFxSystem::updateActorLook(ActorModelInstance &model, const GameplayRun
     }
     if (targetYaw == 0.0f && targetPitch == 0.0f && model.lookYaw == 0.0f && model.lookPitch == 0.0f)
     {
-        return;
+        return false;
     }
     const float follow = 1.0f - std::exp(-stepSeconds / (scanning ? ScanEaseSeconds : EaseSeconds));
     model.lookYaw += (targetYaw - model.lookYaw) * follow;
@@ -1750,36 +1759,8 @@ void WorldFxSystem::updateActorLook(ActorModelInstance &model, const GameplayRun
     {
         model.lookYaw = 0.0f;
         model.lookPitch = 0.0f;
-        m_models.setNodeRotations(model.handle, {});
-        return;
     }
-    // World turn: pitch about the body's horizontal side axis (forward x up), then yaw about up. Each node takes an
-    // equal power of it, so the chain's tip ends with the whole turn.
-    using Quaternion = std::array<float, 4>;
-    const auto axisAngle = [](float x, float y, float z, float angle)
-    {
-        const float half = 0.5f * angle;
-        return Quaternion{x * std::sin(half), y * std::sin(half), z * std::sin(half), std::cos(half)};
-    };
-    const auto multiply = [](const Quaternion &a, const Quaternion &b)
-    {
-        return Quaternion{a[3] * b[0] + a[0] * b[3] + a[1] * b[2] - a[2] * b[1],
-            a[3] * b[1] - a[0] * b[2] + a[1] * b[3] + a[2] * b[0],
-            a[3] * b[2] + a[0] * b[1] - a[1] * b[0] + a[2] * b[3],
-            a[3] * b[3] - a[0] * b[0] - a[1] * b[1] - a[2] * b[2]};
-    };
-    const Quaternion turn = multiply(axisAngle(0.0f, 0.0f, 1.0f, model.lookYaw),
-        axisAngle(std::sin(model.yaw), -std::cos(model.yaw), 0.0f, model.lookPitch));
-    const float sinHalf = std::hypot(turn[0], turn[1], turn[2]);
-    const float angle = 2.0f * std::atan2(sinHalf, turn[3]) / float(binding.lookNodes.size());
-    const Quaternion share = axisAngle(turn[0] / sinHalf, turn[1] / sinHalf, turn[2] / sinHalf, angle);
-    std::vector<Engine::ModelNodeRotation> rotations;
-    rotations.reserve(binding.lookNodes.size());
-    for (uint32_t node : binding.lookNodes)
-    {
-        rotations.push_back({node, share});
-    }
-    m_models.setNodeRotations(model.handle, std::move(rotations));
+    return true;
 }
 
 void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float worldDeltaSeconds,
@@ -1880,20 +1861,21 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
         // The gait follows what the AI does (MM9_ANIMATION_AUDIT.md A5): a strike counts as hurrying (MM9's attack tick
         // runs to its target), and the gait changes only while the body moves.
         const bool hurrying = state.hurrying || attacking;
-        if (binding.fixedYaw)
+        const auto fixedHeading = binding.traverseNode ? std::nullopt : binding.fixedYaw;
+        if (fixedHeading)
         {
-            model.yaw = *binding.fixedYaw;
+            model.yaw = *fixedHeading;
         }
         if (!model.initialized || teleported)
         {
             stopActorChargeFx(model, EffectStopMode::Immediate);
             m_namedEffects.stop(model.ambientEffect, EffectStopMode::Immediate);
             model.ambientEffect = {};
-            model.yaw = binding.fixedYaw.value_or(state.yawRadians);
+            model.yaw = fixedHeading.value_or(state.yawRadians);
             model.gaitPhase = 0.0f;
             model.gaitTravelLead = 0.0f;
         }
-        else if (!model.dying && state.animationState != ActorAiAnimationState::Dead && !binding.fixedYaw)
+        else if (!model.dying && state.animationState != ActorAiAnimationState::Dead && !fixedHeading)
         {
             // Visual facing only. Collision, LOS, paths and projectile aiming retain the AI's exact yaw.
             // Footwork faces the target (the AI's yaw) however it moves.
@@ -2333,13 +2315,19 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
         const float sink = actorCorpseSinkDepth(index);
         m_models.setCoverage(model.handle, sink > 0.0f
             ? corpseSinkPresentation(m_corpseSatchelStates.at(index).restSeconds).coverage : 1.0f);
+        const float baseYaw = binding.traverseNode ? binding.fixedYaw.value_or(state.placementYawRadians) : model.yaw;
+        const float traverseYaw = binding.traverseNode
+            ? std::remainder(model.yaw - baseYaw, 2.0f * std::numbers::pi_v<float>) : 0.0f;
         const Engine::ModelTransform transform = Engine::gltfModelPlacement(
             {state.preciseX, state.preciseY, state.preciseZ + binding.zOffset - sink},
-            model.yaw + binding.yawOffset, scale);
-        if (!binding.lookNodes.empty())
+            baseYaw + binding.yawOffset, scale);
+        const bool lookUpdated = !binding.lookNodes.empty() && updateActorLook(model, state, world, scale, partyDistance,
+            deltaSeconds, !dying && !scripted && state.animationState != ActorAiAnimationState::Dead, index == liveActorIndex);
+        if (lookUpdated || traverseYaw != model.traverseYaw)
         {
-            updateActorLook(model, state, world, scale, partyDistance, deltaSeconds,
-                !dying && !scripted && state.animationState != ActorAiAnimationState::Dead, index == liveActorIndex);
+            m_models.setNodeRotations(model.handle, actorModelAimRotations(binding.traverseNode, traverseYaw,
+                binding.lookNodes, model.yaw, model.lookYaw, model.lookPitch));
+            model.traverseYaw = traverseYaw;
         }
         const float transitionSeconds = state.animationState == ActorAiAnimationState::Dead || teleported ? 0.0f
             : dying ? binding.deathBlendSeconds
@@ -2377,7 +2365,8 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
             && (!burn || Engine::modelBurnConsumed(*burn));
         if (corpseStandIn != model.corpseStandIn)
         {
-            m_models.setStaticStandIn(model.handle, corpseStandIn && !binding.burn
+            // The shared baked corpse has one heading. A traversing corpse keeps its individual head pose.
+            m_models.setStaticStandIn(model.handle, corpseStandIn && !binding.burn && !binding.traverseNode
                 ? corpseAsset(binding.asset, deadClip, std::min(time, deadDuration)) : nullptr);
             model.corpseStandIn = corpseStandIn;
         }

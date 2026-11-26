@@ -16841,6 +16841,7 @@ bool IndoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAct
 
     state.actorId = pAiState != nullptr ? pAiState->actorId : uint32_t(actorIndex);
     state.yawRadians = pAiState != nullptr ? pAiState->yawRadians : 0.0f;
+    state.placementYawRadians = static_cast<float>(actor.initialYawUnits % 2048u) * (Pi * 2.0f / 2048.0f);
     state.animationState = pAiState != nullptr ? pAiState->animationState : ActorAiAnimationState::Standing;
     state.animationTimeTicks = pAiState != nullptr ? pAiState->animationTimeTicks : 0.0f;
     state.hitFlash = m_actorHitFeedback.flashAmount(actorIndex);

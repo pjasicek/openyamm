@@ -26,7 +26,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 202;
+constexpr uint32_t SaveVersion = 203;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -360,6 +360,8 @@ constexpr uint32_t SaveVersionRegeneratingDamage = 201;
 // The party's loot pouch (ItemPouch::Loot, the leather pouch tab), after the items that wait for room; older saves have
 // none.
 constexpr uint32_t SaveVersionLootPouch = 202;
+// The original facing of an outdoor runtime spawn, retained independently of its combat heading.
+constexpr uint32_t SaveVersionOutdoorSpawnYaw = 203;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -4671,6 +4673,10 @@ void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::MapActorState &
     writeValue(writer, value.patrolPoints);
     writeValue(writer, value.heldItems);
     writeValue(writer, value.aggressor);
+    if (value.spawnedAtRuntime)
+    {
+        writeValue(writer, value.spawnYawRadians);
+    }
 }
 
 // Versions 133-168 saved the reach of a far hit after provokedByParty; it is read and dropped.
@@ -4684,7 +4690,7 @@ bool skipProvokedAttackReach(BinaryReader &reader)
 
 bool readValue(BinaryReader &reader, OutdoorWorldRuntime::MapActorState &value)
 {
-    return readValue(reader, value.actorId)
+    const bool readActor = readValue(reader, value.actorId)
         && readValue(reader, value.monsterId)
         && readValue(reader, value.displayName)
         && readValue(reader, value.uniqueNameId)
@@ -4851,6 +4857,13 @@ bool readValue(BinaryReader &reader, OutdoorWorldRuntime::MapActorState &value)
         && (reader.version() < SaveVersionOutdoorSpawnPatrol || readValue(reader, value.patrolPoints))
         && (reader.version() < SaveVersionActorHeldItems || readValue(reader, value.heldItems))
         && (reader.version() < SaveVersionOutdoorAggressor || readValue(reader, value.aggressor));
+    if (!readActor || !value.spawnedAtRuntime)
+    {
+        return readActor;
+    }
+    // Older saves stored only the live yaw. Keep the facing the player saw when the game was saved.
+    value.spawnYawRadians = value.yawRadians;
+    return reader.version() < SaveVersionOutdoorSpawnYaw || readValue(reader, value.spawnYawRadians);
 }
 
 void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::ChestItemState &value)

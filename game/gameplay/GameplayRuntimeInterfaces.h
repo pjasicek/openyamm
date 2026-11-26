@@ -190,6 +190,8 @@ struct GameplayRuntimeActorState
 {
     uint32_t actorId = 0;
     float yawRadians = 0.0f;
+    // Original placement or spawn heading. Models with a traverse joint keep their pedestal at this angle.
+    float placementYawRadians = 0.0f;
     ActorAiAnimationState animationState = ActorAiAnimationState::Standing;
     float animationTimeTicks = 0.0f;
     // Presentation observes the same action clock and movement as combat; it never drives either.

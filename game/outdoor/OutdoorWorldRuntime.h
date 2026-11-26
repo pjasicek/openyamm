@@ -258,6 +258,8 @@ public:
         std::string displayName;
         uint32_t uniqueNameId = 0;
         bool spawnedAtRuntime = false;
+        // The original heading of a runtime spawn. A map placement keeps its heading in MapDeltaActor.
+        float spawnYawRadians = 0.0f;
         // A runtime spawn's MM9 placement (an arena's mm9_ai, a death spawn's ScriptParams 1); a map actor's is the
         // map's (MapDeltaActor::mm9Ai, OutdoorWorldRuntime::mm9Placement).
         std::optional<Mm9AiPlacementRecord> mm9Ai;

@@ -17708,6 +17708,10 @@ bool OutdoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAc
 
     state.actorId = pActor->actorId;
     state.yawRadians = pActor->yawRadians;
+    state.placementYawRadians = !pActor->spawnedAtRuntime && m_pOutdoorMapDeltaData != nullptr
+        && actorIndex < m_pOutdoorMapDeltaData->actors.size()
+        ? static_cast<float>(m_pOutdoorMapDeltaData->actors[actorIndex].initialYawUnits % 2048u) * (Pi * 2.0f / 2048.0f)
+        : pActor->spawnYawRadians;
     state.animationState = ActorAiAnimationState(pActor->animation);
     state.animationTimeTicks = pActor->animationTimeTicks;
     state.hitFlash = m_actorHitFeedback.flashAmount(actorIndex);
@@ -23471,6 +23475,7 @@ std::vector<size_t> OutdoorWorldRuntime::spawnMonsters(const GameplayMonsterSpaw
         if (request.yawRadians)
         {
             actor.yawRadians = *request.yawRadians;
+            actor.spawnYawRadians = *request.yawRadians;
         }
 
         if (request.hostile)

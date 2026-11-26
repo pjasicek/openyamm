@@ -4,6 +4,7 @@
 #include "engine/ImageMipmaps.h"
 #include "engine/models/GltfModelLoader.h"
 #include "engine/models/ModelInstance.h"
+#include "game/fx/ActorModelAim.h"
 #include "game/gameplay/ActorModelPresentation.h"
 #include "game/gameplay/GameplayActorAiTypes.h"
 
@@ -837,6 +838,65 @@ TEST_CASE("ModelAnimation recycled instances drop the previous model's node rota
     REQUIRE(instances.nodeMatrix(replacement, "child") != nullptr);
     CHECK((*instances.nodeMatrix(replacement, "child"))[12] == doctest::Approx(1.0f));
     CHECK((*instances.nodeMatrix(replacement, "child"))[13] == doctest::Approx(0.0f));
+}
+
+TEST_CASE("ModelAnimation a turret traverses behind its planted base and its pitched muzzle recoils along the shot")
+{
+    using namespace OpenYAMM::Engine;
+    using OpenYAMM::Game::actorModelAimRotations;
+    auto asset = std::make_shared<ModelAsset>();
+    const std::array<const char *, 5> names = {"Base", "Head", "Barrel", "Recoil", "Muzzle"};
+    for (uint32_t i = 0; i < names.size(); ++i)
+    {
+        ModelNode &node = asset->nodes.emplace_back();
+        node.name = names[i];
+        node.parentIndex = static_cast<int>(i) - 1;
+        if (i > 0)
+        {
+            asset->nodes[i - 1].childIndices = {i};
+        }
+        if (i == 1)
+            node.transform.translation = {0, 1, 0};
+        if (i == 4)
+            node.transform.translation = {0, 0, 1};
+        node.matrix = composeModelTransform(node.transform);
+        asset->hierarchyOrder.push_back(i);
+    }
+    ModelAnimationChannel recoil;
+    recoil.nodeIndex = 3;
+    recoil.target = ModelAnimationTarget::Translation;
+    recoil.times = {0, 1};
+    recoil.values = {{0, 0, 0, 0}, {0, 0, -0.07f, 0}};
+    asset->clips.push_back({"Attack", 1, {recoil}});
+    ModelInstanceSystem instances;
+    const auto actor = instances.create(asset);
+    constexpr float Degree = std::numbers::pi_v<float> / 180.0f;
+    constexpr float BaseYaw = 37 * Degree;
+    const ModelTransform placement = gltfModelPlacement({20, 48, 15}, BaseYaw - 90 * Degree, 100);
+    REQUIRE(instances.sample(actor, 0, 0, placement));
+    const ModelMatrix base = *instances.nodeMatrix(actor, 0);
+    const std::array<uint32_t, 1> barrel{2};
+    for (const float heading : {-139 * Degree, 90 * Degree, 217 * Degree})
+    {
+        for (const float pitch : {-25 * Degree, 0.0f, 30 * Degree})
+        {
+            CAPTURE(heading);
+            CAPTURE(pitch);
+            REQUIRE(instances.setNodeRotations(actor, actorModelAimRotations(1, heading - BaseYaw, barrel, heading, 0, pitch)));
+            for (const float time : {0.0f, 1.0f})
+            {
+                REQUIRE(instances.sample(actor, 0, time, placement));
+                CHECK(*instances.nodeMatrix(actor, 0) == base);
+                const auto &joint = *instances.nodeMatrix(actor, 2);
+                const auto &muzzle = *instances.nodeMatrix(actor, 4);
+                const float distance = 100.0f - 7.0f * time;
+                CHECK(muzzle[12] - joint[12] == doctest::Approx(distance * std::cos(pitch) * std::cos(heading)).epsilon(0.0001));
+                CHECK(muzzle[13] - joint[13] == doctest::Approx(distance * std::cos(pitch) * std::sin(heading)).epsilon(0.0001));
+                CHECK(muzzle[14] - joint[14] == doctest::Approx(distance * std::sin(pitch)).epsilon(0.0001));
+            }
+        }
+    }
+    CHECK(actorModelAimRotations(std::nullopt, 1, barrel, 0, 0, 0).empty());
 }
 
 TEST_CASE("ModelAnimation stand-in minimum size changes the stand-in revision and resets with the slot")

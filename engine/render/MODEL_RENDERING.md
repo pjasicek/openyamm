@@ -260,6 +260,11 @@ or beyond 2048 units. It is decided and applied at most 30 times a second per ac
 animation LOD distance), each actor on its own phase, and costs nothing while the head rests. `ModelInstanceSystem::setNodeRotations` applies such post-clip world rotations about each node's pivot to
 its subtree, so attachments and sockets follow. Regression: `mm6_cleric_actor_head_turns_toward_the_party`.
 
+**Mounted guns.** An `animation.traverse_node` names the joint that follows the actor's gameplay heading through a
+full turn. The pedestal keeps its original map or spawn heading. An explicit `fixed_yaw_degrees` overrides that
+pedestal heading. A barrel below the traverse joint can use the existing combat look for elevation. Its recoil,
+attachments and release sockets then follow both joints. The fallen model holds its individual turret orientation.
+
 ## 4. How `ModelRenderer` draws
 
 Order in a frame: `renderSunShadows` (when shadows are on), then `renderStatic` (decorations), then `render`

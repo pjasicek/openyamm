@@ -462,6 +462,8 @@ private:
         uint32_t runClip = UINT32_MAX;
         // actors.yml `animation.sprint`: optional longer-strided clip for speeds the run would only play too fast.
         uint32_t sprintClip = UINT32_MAX;
+        // A mounted actor holds its placement yaw and turns this joint with its gameplay heading.
+        std::optional<uint32_t> traverseNode;
         // actors.yml `animation.look`: nodes, root to tip (neck, head), that share a turn toward the party's eyes over
         // the clip, and the turn's limits in radians. Empty when the model does not look.
         std::vector<uint32_t> lookNodes;
@@ -641,6 +643,7 @@ private:
         // Current head look relative to the body's facing (radians), eased toward the party on its own clock.
         float lookYaw = 0.0f;
         float lookPitch = 0.0f;
+        float traverseYaw = 0.0f;
         float lookClock = 0.0f;
         bool lookStarted = false;
         // A marked action (ActionEvent) in progress: its clip, marker, wind-up length (the native action up to the
@@ -845,7 +848,7 @@ private:
     // Colour, glow and effect of a charge that just started (chargeResolved), from the projectile it will release.
     void resolveActorCharge(ActorModelInstance &model) const;
     // talking: the actor is the party's dialogue partner (an MM9 one looks at the party only then or when it holds it).
-    void updateActorLook(ActorModelInstance &model, const GameplayRuntimeActorState &state,
+    bool updateActorLook(ActorModelInstance &model, const GameplayRuntimeActorState &state,
         const IGameplayWorldRuntime &world, float scale, float partyDistance, float deltaSeconds, bool canLook,
         bool talking);
     // The frame syncActorModels is about to sample, for the animation trace: a crossfade starts when sampleBlended
