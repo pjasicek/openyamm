@@ -134,6 +134,48 @@ struct FrenzyModifier
     std::string fallbackSound = "roar 1";
 };
 
+// detonate: a telegraphed blast round itself (GameplayActorModifiers). While it fights the party, its cooldown is ready
+// and the party stands within triggerDistance of it (edge to edge, in sight; 0: its melee reach), it charges for
+// windupSeconds: it holds, a growing effect on its body, its glow rising to glowMultiplier, sound. Then it explodes:
+// every party within radius of its body (and in sight) takes damage (its melee attack x meleeMultiplier, or a fixed
+// damage) of damageType ("melee": its attack's own type); other monsters only with hitsMonsters. A stun or paralysis
+// in the charge cancels it (frenzy's rule); hits do not flinch it while it charges. cooldownSeconds runs from the
+// end of one detonation (or a cancelled one) to the next. Turn-based: it charges on one of its turns and explodes at
+// the start of its next; its cooldown is then a count of its own turns (cooldownTurns, 0: cooldownSeconds / 5 rounded
+// up, a turn being about five seconds of real-time play).
+struct DetonateModifier
+{
+    float windupSeconds = 3.0f;
+    float cooldownSeconds = 20.0f;
+    int cooldownTurns = 0;
+    float radius = 768.0f;
+    // 0: the actors' melee reach.
+    float triggerDistance = 0.0f;
+    // 0: its melee attack (Attack1's roll, Attack2's when Attack1 fires a missile) times meleeMultiplier.
+    float damage = 0.0f;
+    float meleeMultiplier = 1.5f;
+    // "melee" (its attack's own type) or a damage type name (fire, air, ..., physical, energy).
+    std::string damageType = "melee";
+    bool hitsMonsters = false;
+    float glowMultiplier = 3.0f;
+    // Carried on its body for the charge, its scale growing from effectScale to effectEndScale.
+    std::string effect = "openyamm:fx/creature_fire_hand";
+    float effectScale = 1.0f;
+    float effectEndScale = 4.0f;
+    // At its body when it explodes, scaled to the radius (scale 1 at 512).
+    std::string blastEffect = "openyamm:fx/ember_impact";
+    // Placeholder sound names (a file of that name in a world's or the engine's audio), and what plays meanwhile.
+    std::string sound = "monster_detonate_charge";
+    std::string fallbackSound = "9armageddon01";
+    std::string explodeSound = "monster_detonate_blast";
+    std::string explodeFallbackSound = "dragonbreath_explosion";
+};
+
+// The monster's own turns a detonation's cooldown lasts in turn-based play: cooldownTurns, or cooldownSeconds / 5
+// rounded up.
+int detonateCooldownTurns(const DetonateModifier &detonate);
+
+
 // stagger (COMBAT "Hesper's rules"): without a shield it flinches only when the damage it took in the last
 // windowSeconds reaches thresholdPercent of its maximum health (0: every hit, as without the modifier), and after a
 // flinch it ignores hit reactions for cooldownSeconds.
@@ -227,11 +269,16 @@ struct MonsterModifierSet
     int16_t monsterId = 0;
     std::optional<TrueAimModifier> trueAim;
     bool neverStaggers = false;
+    bool anchored = false;
     bool indoorMeteorShower = false;
+    // boss: a boss (the skull beside its health bar; under Standard rules MAW's crowd-control durations and
+    // diminishing returns, devdocs/MONSTER_MODIFIERS.md).
+    bool boss = false;
     std::optional<KitesPartyModifier> kitesParty;
     std::optional<BlinkModifier> blink;
     std::optional<ChargeModifier> charge;
     std::optional<FrenzyModifier> frenzy;
+    std::optional<DetonateModifier> detonate;
     std::optional<StaggerModifier> stagger;
     std::optional<TelegraphedAttackModifier> telegraphedAttack;
     std::optional<ActorSoundsModifier> sounds;
@@ -281,6 +328,16 @@ public:
     {
         return m_hasFrenzy;
     }
+    // Some monster detonates.
+    bool hasDetonate() const
+    {
+        return m_hasDetonate;
+    }
+    // Some monster is a boss.
+    bool hasBoss() const
+    {
+        return m_hasBoss;
+    }
     // Some monster has sounds.
     bool hasSounds() const
     {
@@ -305,6 +362,8 @@ private:
     bool m_hasBlink = false;
     bool m_hasCharge = false;
     bool m_hasFrenzy = false;
+    bool m_hasDetonate = false;
+    bool m_hasBoss = false;
     bool m_hasStagger = false;
     bool m_hasSounds = false;
     bool m_hasMm9Ai = false;

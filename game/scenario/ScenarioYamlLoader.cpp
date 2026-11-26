@@ -68,7 +68,8 @@ const std::vector<NestedKeys> AssertBlockKeys = {
         "effect_max", "report"}},
     {"member_points", {"member_index", "spell_points_min", "spell_points_max", "health_min", "health_max"}},
     {"condition", {"name", "present", "member_index"}},
-    {"charges", {"started", "hits", "misses", "frenzies", "min_started", "min_hits", "min_misses", "min_frenzies"}},
+    {"charges", {"started", "hits", "misses", "frenzies", "min_started", "min_hits", "min_misses", "min_frenzies",
+        "detonations", "blasts", "cancels", "min_detonations", "min_blasts", "min_cancels"}},
     {"journal_map_note", {"map", "id", "text", "present"}},
     {"autonote", {"id", "present"}},
     {"teacher_ledger", {"continent", "bought"}},
@@ -208,6 +209,7 @@ const std::vector<StepKeys> &stepKeyTable()
         {ScenarioStepKind::LuaEvent, {"source", "player"}},
         {ScenarioStepKind::ChargeActor, {"actor_index"}},
         {ScenarioStepKind::FrenzyActor, {"actor_index"}},
+        {ScenarioStepKind::DetonateActor, {"actor_index"}},
         {ScenarioStepKind::AiArena, {"path", "log"}},
         {ScenarioStepKind::AiTraceDump, {"actor_index", "arena_monster", "decisions_only", "last"}},
         {ScenarioStepKind::SetupShortcut,
@@ -721,6 +723,12 @@ bool ScenarioYamlLoader::parseStepKind(const std::string &value, ScenarioStepKin
     if (value == "frenzy_actor")
     {
         kind = ScenarioStepKind::FrenzyActor;
+        return true;
+    }
+
+    if (value == "detonate_actor")
+    {
+        kind = ScenarioStepKind::DetonateActor;
         return true;
     }
 

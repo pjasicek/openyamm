@@ -2537,6 +2537,20 @@ bool ScenarioRuntimeDriver::chargeActor(size_t actorIndex, std::string &failure)
     return true;
 }
 
+bool ScenarioRuntimeDriver::detonateActor(size_t actorIndex, std::string &failure)
+{
+    IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
+
+    if (pWorldRuntime == nullptr || actorIndex >= pWorldRuntime->mapActorCount()
+        || !pWorldRuntime->detonateActor(actorIndex))
+    {
+        failure = "detonate_actor: actor " + std::to_string(actorIndex) + " did not start a detonation";
+        return false;
+    }
+
+    return true;
+}
+
 bool ScenarioRuntimeDriver::frenzyActor(size_t actorIndex, std::string &failure)
 {
     IGameplayWorldRuntime *pWorldRuntime = worldRuntime();

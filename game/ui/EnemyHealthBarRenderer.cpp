@@ -287,9 +287,12 @@ void EnemyHealthBarRenderer::render(const GameplayScreenRuntime &context, const 
             quad(diamond->textureHandle, -3.5f * scale, -barHeight * 0.5f - 3.5f * scale, 7 * scale, 7 * scale);
         }
     }
-    // The rules' badges (MAW: a boss's skull left of the bar, its affix right of it).
+    // The badges: the rules' (MAW: a boss's skull left of the bar, its affix right of it), else a boss's skull.
+    const MonsterModifierSet *pModifiers =
+        context.monsterTable() != nullptr ? context.monsterTable()->findModifiers(actor.monsterId) : nullptr;
     const std::vector<std::string> badges = context.partyReadOnly() != nullptr
-        ? context.partyReadOnly()->rules().monsters.actorBadges(actor.rulesetFacts)
+        ? healthBarBadges(context.partyReadOnly()->rules().monsters, actor.rulesetFacts,
+            pModifiers != nullptr && pModifiers->boss)
         : std::vector<std::string>{};
     const float badgeSize = 15.0f * scale;
     const float badgeGap = 1.0f * scale;

@@ -50,6 +50,7 @@ enum class ScenarioStepKind
     LuaEvent,
     ChargeActor,
     FrenzyActor,
+    DetonateActor,
     AiArena,
     AiTraceDump,
     SetupShortcut,

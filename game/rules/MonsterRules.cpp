@@ -287,6 +287,18 @@ std::vector<std::string> MonsterRules::actorBadges(const ActorRulesetFacts &) co
     return {};
 }
 
+std::vector<std::string> healthBarBadges(const MonsterRules &rules, const ActorRulesetFacts &facts, bool bossModifier)
+{
+    std::vector<std::string> badges = rules.actorBadges(facts);
+
+    if (badges.empty() && bossModifier)
+    {
+        badges.emplace_back("maw_boss_skull");
+    }
+
+    return badges;
+}
+
 float MonsterRules::actorDrawScale(const ActorRulesetFacts &, bool) const
 {
     return 1.0f;

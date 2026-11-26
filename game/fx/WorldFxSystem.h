@@ -810,8 +810,21 @@ private:
         // later); empty for the body's middle.
         std::string socket;
         float scale = 1.0f;
+        // Above 0 for a timed effect: its scale at the end, reached evenly over totalSeconds.
+        float endScale = 0.0f;
         bool timed = false;
         float remainingSeconds = 0.0f;
+        float totalSeconds = 0.0f;
+        // The scale drawn now.
+        float currentScale() const
+        {
+            if (endScale <= 0.0f || totalSeconds <= 0.0f)
+            {
+                return scale;
+            }
+            const float share = 1.0f - remainingSeconds / totalSeconds;
+            return scale + (endScale - scale) * (share < 0.0f ? 0.0f : share > 1.0f ? 1.0f : share);
+        }
     };
     std::vector<ScriptedActorEffect> m_scriptedActorEffects;
     // Where a scripted actor effect is now; empty when its actor is gone.

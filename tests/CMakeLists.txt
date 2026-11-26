@@ -34,6 +34,7 @@ add_executable(openyamm_unit_tests
     HeldWeaponTests.cpp
     SoloTalentTests.cpp
     MonsterModifierTests.cpp
+    BossDetonateTests.cpp
     CinematicRuntimeTests.cpp
     SceneOverlayTests.cpp
     Mm9ActorRulesTests.cpp
@@ -394,6 +395,7 @@ add_executable(openyamm_unit_tests
     ../game/tables/MergedBaseTables.cpp
     ../game/tables/PotionEffectTable.cpp
     ../game/rules/CombatRules.cpp
+    ../game/rules/CrowdControlDiminishing.cpp
     ../game/rules/ExperienceRules.cpp
     ../game/rules/GameRules.cpp
     ../game/rules/ItemRules.cpp

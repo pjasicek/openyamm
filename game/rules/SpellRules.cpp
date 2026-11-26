@@ -2,10 +2,12 @@
 
 #include "game/party/Party.h"
 #include "game/party/SpellIds.h"
+#include "game/rules/CrowdControlDiminishing.h"
 #include "game/rules/GameRules.h"
 #include "game/tables/SpellTable.h"
 
 #include <functional>
+#include <random>
 
 namespace OpenYAMM::Game
 {
@@ -198,8 +200,15 @@ SpellTooltipText SpellRules::spellTooltip(const Party &, const Character &caster
     return text;
 }
 
-std::optional<float> SpellRules::crowdControlSeconds(const CrowdControlCast &) const
+std::optional<float> SpellRules::crowdControlSeconds(const CrowdControlCast &cast) const
 {
+    // A boss-modifier monster: MAW's durations and diminishing returns.
+    if (cast.pBossHistory != nullptr)
+    {
+        static thread_local std::mt19937 rng(std::random_device{}());
+        return bossCrowdControlSeconds(cast, rng);
+    }
+
     return std::nullopt;
 }
 
@@ -221,7 +230,8 @@ std::optional<float> partyCrowdControlSeconds(
     bool targetUndead,
     const std::string &mapName,
     size_t actorIndex,
-    double gameMinutes)
+    double gameMinutes,
+    CrowdControlDiminishingReturns *pBossHistory)
 {
     if (!targetUndead && (spellId == spellIdValue(SpellId::TurnUndead) || spellId == spellIdValue(SpellId::ControlUndead)))
     {
@@ -241,6 +251,7 @@ std::optional<float> partyCrowdControlSeconds(
     cast.partySize = pParty != nullptr ? pParty->members().size() : 1;
     // A game minute is two real seconds.
     cast.nowSeconds = gameMinutes * 2.0;
+    cast.pBossHistory = pBossHistory;
     return gameRulesFor(pParty).spells.crowdControlSeconds(cast);
 }
 }

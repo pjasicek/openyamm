@@ -817,3 +817,54 @@ TEST_CASE("outdoors MM9's CanDamage turned off at runtime lets no hit hurt the a
     REQUIRE(world.applyPartyAttackToMapActor(actorIndex, 1, 0.0f, 300.0f, actor.preciseZ + 96.0f));
     CHECK_LT(actor.currentHp, hp);
 }
+
+TEST_CASE("scripted and MAW pushes leave an anchored actor fixed indoors and outdoors")
+{
+    const auto checkPush = [](IGameplayWorldRuntime &world, size_t actorIndex, bool anchored)
+    {
+        CAPTURE(anchored);
+        CHECK(world.pushActor(actorIndex, 1.0f, 0.0f, 250.0f) == !anchored);
+        GameplayRuntimeActorState actor = {};
+        REQUIRE(world.actorRuntimeState(actorIndex, actor));
+        if (anchored)
+        {
+            CHECK(actor.velocityX == 0.0f);
+        }
+        else
+        {
+            CHECK(actor.velocityX > 0.0f);
+        }
+    };
+
+    SUBCASE("indoors")
+    {
+        for (bool anchored : {false, true})
+        {
+            IndoorChargeFixture fixture;
+            REQUIRE(fixture.loadHive());
+            MonsterModifierSet modifiers = {};
+            modifiers.monsterId = rangedMonsterId(fixture.monsters, false);
+            modifiers.anchored = anchored;
+            REQUIRE(fixture.startWith(modifiers.monsterId, &modifiers, 712.0f, 6700.0f));
+            checkPush(fixture.scene->worldRuntime(), 0, anchored);
+        }
+    }
+
+    SUBCASE("outdoors")
+    {
+        for (bool anchored : {false, true})
+        {
+            OutdoorFixture fixture;
+            REQUIRE(fixture.load("mm6", "oute3.odm"));
+            MonsterModifierSet modifiers = {};
+            modifiers.monsterId = rangedMonsterId(fixture.monsters, false);
+            modifiers.anchored = anchored;
+            fixture.monsters.modifiers().set(modifiers);
+            fixture.start();
+            OutdoorWorldRuntime &world = *fixture.world;
+            const size_t actorIndex = world.mapActorCount();
+            REQUIRE(world.summonHostileMonsterById(modifiers.monsterId, 1, 0, 0, fixture.ground(0, 0), 0));
+            checkPush(world, actorIndex, anchored);
+        }
+    }
+}

@@ -99,6 +99,8 @@ void GameplayActorModifiers::bind(const MonsterModifierTable *pTable)
     m_entries.clear();
     m_charges.clear();
     m_frenzies.clear();
+    m_detonations.clear();
+    m_bossCrowdControl.clear();
 }
 
 void GameplayActorModifiers::clear()
@@ -107,6 +109,8 @@ void GameplayActorModifiers::clear()
     m_entries.clear();
     m_charges.clear();
     m_frenzies.clear();
+    m_detonations.clear();
+    m_bossCrowdControl.clear();
 }
 
 GameplayActorModifiers::Entry *GameplayActorModifiers::ensure(size_t actorIndex, int16_t monsterId, uint32_t actorId)
@@ -189,6 +193,12 @@ void GameplayActorModifiers::tickStagger(float deltaSeconds)
 
 bool GameplayActorModifiers::allowsStagger(size_t actorIndex, int16_t monsterId, uint32_t actorId, int maxHp)
 {
+    // A detonation's charge is not interrupted by hits (only a stun or paralysis cancels it).
+    if (detonationHolds(actorIndex, actorId))
+    {
+        return false;
+    }
+
     const StaggerModifier *pStagger = nullptr;
     StaggerEntry *pEntry = staggerEntry(actorIndex, monsterId, actorId, pStagger);
 
@@ -556,7 +566,7 @@ void GameplayActorModifiers::updateCharges(float deltaSeconds, size_t actorCount
                 entry.cooldownSeconds = std::max(0.0f, entry.cooldownSeconds - deltaSeconds);
 
                 if (facts.canAct && facts.engagesParty && entry.cooldownSeconds <= 0.0f
-                    && !frenzyHolds(actorIndex, facts.actorId)
+                    && !frenzyHolds(actorIndex, facts.actorId) && !detonationHolds(actorIndex, facts.actorId)
                     && facts.partyEdgeDistance >= charge.triggerMinDistance
                     && facts.partyEdgeDistance <= charge.triggerMaxDistance
                     && !beyondLeash(facts, facts.partyPosition[0], facts.partyPosition[1])
@@ -703,7 +713,8 @@ bool GameplayActorModifiers::startCharge(size_t actorIndex, int16_t monsterId, u
 {
     ChargeEntry *pEntry = ensureCharge(actorIndex, monsterId, actorId);
 
-    if (pEntry == nullptr || pEntry->phase != ChargePhase::Ready || frenzyHolds(actorIndex, actorId))
+    if (pEntry == nullptr || pEntry->phase != ChargePhase::Ready || frenzyHolds(actorIndex, actorId)
+        || detonationHolds(actorIndex, actorId))
     {
         return false;
     }
@@ -734,6 +745,15 @@ bool GameplayActorModifiers::scriptedClip(size_t actorIndex, uint32_t actorId, c
     if (chargeStrikeClip(actorIndex, actorId, clipSeconds))
     {
         pRole = "charge_strike";
+        return true;
+    }
+
+    const DetonateEntry *pDetonate = detonateEntry(actorIndex, actorId);
+
+    if (pDetonate != nullptr && pDetonate->phase == DetonatePhase::Charging)
+    {
+        pRole = "detonate";
+        clipSeconds = pDetonate->timerSeconds;
         return true;
     }
 
@@ -860,7 +880,7 @@ void GameplayActorModifiers::updateFrenzies(float deltaSeconds, size_t actorCoun
 
                 // A health or shield trigger needs only a hostile actor (a hit may land before it saw the party).
                 if (triggered && facts.canAct && facts.hostileToParty && entry.cooldownSeconds <= 0.0f
-                    && chargePhase(actorIndex) == ChargePhase::Ready)
+                    && chargePhase(actorIndex) == ChargePhase::Ready && !detonationHolds(actorIndex, facts.actorId))
                 {
                     beginRoar(entry, actorIndex, world);
                 }
@@ -961,7 +981,8 @@ bool GameplayActorModifiers::startFrenzy(size_t actorIndex, int16_t monsterId, u
 {
     FrenzyEntry *pEntry = ensureFrenzy(actorIndex, monsterId, actorId);
 
-    if (pEntry == nullptr || pEntry->phase != FrenzyPhase::Ready || chargePhase(actorIndex) != ChargePhase::Ready)
+    if (pEntry == nullptr || pEntry->phase != FrenzyPhase::Ready || chargePhase(actorIndex) != ChargePhase::Ready
+        || detonationHolds(actorIndex, actorId))
     {
         return false;
     }
@@ -979,7 +1000,18 @@ float GameplayActorModifiers::moveSpeedMultiplier(size_t actorIndex, uint32_t ac
 float GameplayActorModifiers::emissionMultiplier(size_t actorIndex, uint32_t actorId) const
 {
     const FrenzyEntry *pEntry = frenzyEntry(actorIndex, actorId);
-    return pEntry != nullptr && pEntry->phase == FrenzyPhase::Active ? pEntry->pFrenzy->glowMultiplier : 1.0f;
+    const float frenzyGlow =
+        pEntry != nullptr && pEntry->phase == FrenzyPhase::Active ? pEntry->pFrenzy->glowMultiplier : 1.0f;
+    const DetonateEntry *pDetonate = detonateEntry(actorIndex, actorId);
+
+    if (pDetonate == nullptr || pDetonate->phase != DetonatePhase::Charging)
+    {
+        return frenzyGlow;
+    }
+
+    // The glow rises over the charge.
+    const float share = detonateChargeShare(actorIndex, actorId);
+    return std::max(frenzyGlow, 1.0f + (pDetonate->pDetonate->glowMultiplier - 1.0f) * share);
 }
 
 void GameplayActorModifiers::queueFrenzyPresentation(EventRuntimeState &eventRuntimeState,
@@ -995,6 +1027,411 @@ void GameplayActorModifiers::queueFrenzyPresentation(EventRuntimeState &eventRun
     sound.soundScope = SoundScope::World;
     sound.soundName = frenzy.sound;
     sound.fallbackSoundName = frenzy.fallbackSound;
+    sound.x = int32_t(std::lround(center[0]));
+    sound.y = int32_t(std::lround(center[1]));
+    sound.z = int32_t(std::lround(center[2]));
+    sound.positional = true;
+    sound.hasExplicitZ = true;
+    eventRuntimeState.pendingSounds.push_back(std::move(sound));
+}
+
+GameplayActorModifiers::DetonateEntry *GameplayActorModifiers::ensureDetonate(size_t actorIndex, int16_t monsterId,
+    uint32_t actorId)
+{
+    if (!detonateActive())
+    {
+        return nullptr;
+    }
+
+    const MonsterModifierSet *pModifiers = m_pTable->find(monsterId);
+
+    if (pModifiers == nullptr || !pModifiers->detonate)
+    {
+        return nullptr;
+    }
+
+    if (actorIndex >= m_detonations.size())
+    {
+        m_detonations.resize(actorIndex + 1);
+    }
+
+    DetonateEntry &entry = m_detonations[actorIndex];
+
+    if (!entry.used || entry.actorId != actorId || entry.monsterId != monsterId)
+    {
+        entry = {};
+        entry.used = true;
+        entry.actorId = actorId;
+        entry.monsterId = monsterId;
+        entry.pDetonate = &*pModifiers->detonate;
+    }
+
+    return &entry;
+}
+
+const GameplayActorModifiers::DetonateEntry *GameplayActorModifiers::detonateEntry(size_t actorIndex,
+    uint32_t actorId) const
+{
+    if (actorIndex >= m_detonations.size() || !m_detonations[actorIndex].used
+        || m_detonations[actorIndex].actorId != actorId)
+    {
+        return nullptr;
+    }
+
+    return &m_detonations[actorIndex];
+}
+
+bool GameplayActorModifiers::detonationHolds(size_t actorIndex, uint32_t actorId) const
+{
+    const DetonateEntry *pEntry = detonateEntry(actorIndex, actorId);
+    return pEntry != nullptr && pEntry->phase != DetonatePhase::Ready;
+}
+
+void GameplayActorModifiers::beginDetonation(DetonateEntry &entry, size_t actorIndex, const ChargeWorld &world)
+{
+    entry.phase = DetonatePhase::Charging;
+    entry.timerSeconds = 0.0f;
+    ++m_detonationCount;
+
+    if (world.detonated)
+    {
+        world.detonated(DetonateEvent{DetonateEventKind::ChargeStarted, actorIndex, entry.pDetonate});
+    }
+}
+
+void GameplayActorModifiers::updateDetonations(float deltaSeconds, size_t actorCount,
+    const std::function<ChargeActorFacts(size_t)> &actorFacts, const ChargeWorld &world,
+    const std::vector<size_t> *pTurnBasedGrants)
+{
+    if (!detonateActive())
+    {
+        return;
+    }
+
+    deltaSeconds = std::max(0.0f, deltaSeconds);
+    const auto granted = [pTurnBasedGrants](size_t actorIndex)
+    {
+        return pTurnBasedGrants == nullptr
+            || std::find(pTurnBasedGrants->begin(), pTurnBasedGrants->end(), actorIndex) != pTurnBasedGrants->end();
+    };
+
+    for (size_t actorIndex = 0; actorIndex < actorCount; ++actorIndex)
+    {
+        const ChargeActorFacts facts = actorFacts(actorIndex);
+        DetonateEntry *pEntry = ensureDetonate(actorIndex, facts.monsterId, facts.actorId);
+
+        if (pEntry == nullptr)
+        {
+            continue;
+        }
+
+        DetonateEntry &entry = *pEntry;
+        const DetonateModifier &detonate = *entry.pDetonate;
+
+        switch (entry.phase)
+        {
+            case DetonatePhase::Ready:
+            {
+                entry.cooldownSeconds = std::max(0.0f, entry.cooldownSeconds - deltaSeconds);
+                const float trigger =
+                    detonate.triggerDistance > 0.0f ? detonate.triggerDistance : DetonateMeleeReach;
+                // Turn-based: the cooldown is the actor's own turns; real time: its seconds.
+                bool cooledDown = entry.cooldownSeconds <= 0.0f;
+
+                if (pTurnBasedGrants != nullptr)
+                {
+                    cooledDown = entry.cooldownTurns <= 0;
+
+                    if (!cooledDown && granted(actorIndex))
+                    {
+                        --entry.cooldownTurns;
+                        break;
+                    }
+                }
+                else if (cooledDown)
+                {
+                    // A cooldown spent in real time leaves no turns to wait in a later turn-based fight.
+                    entry.cooldownTurns = 0;
+                }
+
+                if (facts.canAct && facts.engagesParty && cooledDown && granted(actorIndex)
+                    && facts.partyEdgeDistance <= trigger && chargePhase(actorIndex) == ChargePhase::Ready
+                    && !frenzyHolds(actorIndex, facts.actorId)
+                    && (!world.hasLineOfSightToParty || world.hasLineOfSightToParty(actorIndex)))
+                {
+                    beginDetonation(entry, actorIndex, world);
+                }
+                break;
+            }
+            case DetonatePhase::Charging:
+            {
+                // A stun, paralysis or death in the charge cancels it (frenzy's rule); the cooldown then runs.
+                if (!facts.alive || facts.incapacitated)
+                {
+                    entry.phase = DetonatePhase::Ready;
+                    entry.cooldownSeconds = detonate.cooldownSeconds;
+                    entry.cooldownTurns = detonateCooldownTurns(detonate);
+                    ++m_detonationCancelCount;
+
+                    if (world.detonated)
+                    {
+                        world.detonated(DetonateEvent{DetonateEventKind::Cancelled, actorIndex, entry.pDetonate});
+                    }
+                    break;
+                }
+
+                entry.timerSeconds += deltaSeconds;
+
+                // Real time: after the wind-up. Turn-based: at the start of its next turn.
+                const bool due = pTurnBasedGrants == nullptr ? entry.timerSeconds >= detonate.windupSeconds
+                                                             : granted(actorIndex);
+
+                if (due)
+                {
+                    entry.phase = DetonatePhase::Blasted;
+                    entry.timerSeconds = DetonateBlastHoldSeconds;
+                    ++m_detonationBlastCount;
+
+                    if (world.detonated)
+                    {
+                        world.detonated(DetonateEvent{DetonateEventKind::Exploded, actorIndex, entry.pDetonate});
+                    }
+                }
+                break;
+            }
+            case DetonatePhase::Blasted:
+            {
+                entry.timerSeconds -= deltaSeconds;
+
+                if (entry.timerSeconds <= 0.0f || !facts.alive)
+                {
+                    entry.phase = DetonatePhase::Ready;
+                    entry.cooldownSeconds = detonate.cooldownSeconds;
+                    entry.cooldownTurns = detonateCooldownTurns(detonate);
+                }
+                break;
+            }
+        }
+    }
+}
+
+void GameplayActorModifiers::applyDetonationHolds(ActorAiFrameFacts &facts) const
+{
+    if (m_detonations.empty())
+    {
+        return;
+    }
+
+    const auto applyToActor = [this](ActorAiFacts &actor)
+    {
+        if (detonationHolds(actor.actorIndex, actor.actorId))
+        {
+            actor.behavior.holdActive = true;
+            actor.behavior.holdAnimation = ActorAiAnimationState::Standing;
+        }
+    };
+
+    for (ActorAiFacts &actor : facts.activeActors)
+    {
+        applyToActor(actor);
+    }
+
+    for (ActorAiFacts &actor : facts.backgroundActors)
+    {
+        applyToActor(actor);
+    }
+}
+
+GameplayActorModifiers::DetonatePhase GameplayActorModifiers::detonatePhase(size_t actorIndex, uint32_t actorId) const
+{
+    const DetonateEntry *pEntry = detonateEntry(actorIndex, actorId);
+    return pEntry != nullptr ? pEntry->phase : DetonatePhase::Ready;
+}
+
+float GameplayActorModifiers::detonateChargeShare(size_t actorIndex, uint32_t actorId) const
+{
+    const DetonateEntry *pEntry = detonateEntry(actorIndex, actorId);
+
+    if (pEntry == nullptr || pEntry->phase != DetonatePhase::Charging)
+    {
+        return 0.0f;
+    }
+
+    return std::clamp(pEntry->timerSeconds / std::max(0.001f, pEntry->pDetonate->windupSeconds), 0.0f, 1.0f);
+}
+
+bool GameplayActorModifiers::startDetonation(size_t actorIndex, int16_t monsterId, uint32_t actorId,
+    const ChargeWorld &world)
+{
+    DetonateEntry *pEntry = ensureDetonate(actorIndex, monsterId, actorId);
+
+    if (pEntry == nullptr || pEntry->phase != DetonatePhase::Ready || chargePhase(actorIndex) != ChargePhase::Ready
+        || frenzyHolds(actorIndex, actorId))
+    {
+        return false;
+    }
+
+    beginDetonation(*pEntry, actorIndex, world);
+    return true;
+}
+
+GameplayActorModifiers::ReplicaDetonateEdges GameplayActorModifiers::applyReplicaDetonation(size_t actorIndex,
+    int16_t monsterId, uint32_t actorId, bool charging, bool blasted)
+{
+    ReplicaDetonateEdges edges = {};
+    DetonateEntry *pEntry = ensureDetonate(actorIndex, monsterId, actorId);
+
+    if (pEntry == nullptr)
+    {
+        return edges;
+    }
+
+    DetonateEntry &entry = *pEntry;
+    const DetonatePhase phase = charging ? DetonatePhase::Charging
+        : blasted                        ? DetonatePhase::Blasted
+                                         : DetonatePhase::Ready;
+    edges.chargeStarted = phase == DetonatePhase::Charging && entry.phase != DetonatePhase::Charging;
+    edges.exploded = phase == DetonatePhase::Blasted && entry.phase != DetonatePhase::Blasted;
+    edges.cancelled = phase == DetonatePhase::Ready && entry.phase == DetonatePhase::Charging;
+    entry.timerSeconds = edges.chargeStarted ? 0.0f : entry.timerSeconds;
+    entry.phase = phase;
+    return edges;
+}
+
+CrowdControlDiminishingReturns *GameplayActorModifiers::bossCrowdControl(int16_t monsterId)
+{
+    if (m_pTable == nullptr || !m_pTable->hasBoss())
+    {
+        return nullptr;
+    }
+
+    const MonsterModifierSet *pModifiers = m_pTable->find(monsterId);
+    return pModifiers != nullptr && pModifiers->boss ? &m_bossCrowdControl : nullptr;
+}
+
+GameplayActorModifiers::BossBlowControl GameplayActorModifiers::applyBossBlowCrowdControl(
+    CharacterAttackResult &attack, int16_t monsterId, uint64_t targetKey, double nowSeconds)
+{
+    BossBlowControl control;
+    const bool standardStun = attack.stunTarget && !attack.stunSeconds;
+    const bool standardParalysis = attack.paralyzeTarget && !attack.paralyzeSeconds;
+    CrowdControlDiminishingReturns *pHistory =
+        standardStun || standardParalysis || attack.fearTarget || attack.enrageTarget ? bossCrowdControl(monsterId)
+                                                                                      : nullptr;
+
+    if (pHistory == nullptr)
+    {
+        return control;
+    }
+
+    if (standardStun || standardParalysis)
+    {
+        const float seconds = bossBlowCrowdControlSeconds(*pHistory, targetKey, nowSeconds, standardParalysis);
+        attack.stunTarget = false;
+        attack.paralyzeTarget = seconds > 0.0f;
+        attack.paralyzeSeconds = seconds;
+    }
+
+    const SkillMastery mastery = SkillMastery(std::min<uint32_t>(attack.skillMastery, 4));
+
+    if (attack.fearTarget)
+    {
+        const float seconds =
+            bossBlowControlSeconds(*pHistory, targetKey, nowSeconds, spellIdValue(SpellId::Fear), mastery);
+        attack.fearTarget = seconds > 0.0f;
+        control.fearSeconds = seconds;
+    }
+
+    if (attack.enrageTarget)
+    {
+        const float seconds =
+            bossBlowControlSeconds(*pHistory, targetKey, nowSeconds, spellIdValue(SpellId::Berserk), mastery);
+        attack.enrageTarget = seconds > 0.0f;
+        control.berserkSeconds = seconds;
+    }
+
+    return control;
+}
+
+uint8_t GameplayActorModifiers::replicaPoseFlags(DetonatePhase phase)
+{
+    return phase == DetonatePhase::Charging ? uint8_t(ReplicaActorPose::DetonateCharging)
+        : phase == DetonatePhase::Blasted   ? uint8_t(ReplicaActorPose::DetonateBlasted)
+                                            : uint8_t(0);
+}
+
+void GameplayActorModifiers::tickReplicaDetonations(float deltaSeconds)
+{
+    for (DetonateEntry &entry : m_detonations)
+    {
+        if (entry.used && entry.phase == DetonatePhase::Charging)
+        {
+            entry.timerSeconds += std::max(0.0f, deltaSeconds);
+        }
+    }
+}
+
+void GameplayActorModifiers::queueDetonateChargePresentation(EventRuntimeState &eventRuntimeState,
+    const DetonateModifier &detonate, size_t actorIndex, const std::array<float, 3> &center, float bodyHeight,
+    bool withSound)
+{
+    const float bodyScale = std::max(0.5f, bodyHeight / 200.0f);
+    EventRuntimeState::ActorEffectRequest effect = {};
+    effect.actorIndex = actorIndex;
+    effect.effectId = detonate.effect;
+    effect.seconds = detonate.windupSeconds;
+    effect.scale = detonate.effectScale * bodyScale;
+    effect.endScale = detonate.effectEndScale * bodyScale;
+    eventRuntimeState.actorEffectRequests.push_back(std::move(effect));
+
+    if (!withSound)
+    {
+        return;
+    }
+
+    EventRuntimeState::PendingSound sound = {};
+    sound.soundScope = SoundScope::World;
+    sound.soundName = detonate.sound;
+    sound.fallbackSoundName = detonate.fallbackSound;
+    sound.x = int32_t(std::lround(center[0]));
+    sound.y = int32_t(std::lround(center[1]));
+    sound.z = int32_t(std::lround(center[2]));
+    sound.positional = true;
+    sound.hasExplicitZ = true;
+    eventRuntimeState.pendingSounds.push_back(std::move(sound));
+}
+
+void GameplayActorModifiers::queueDetonateStopPresentation(EventRuntimeState &eventRuntimeState,
+    const DetonateModifier &detonate, size_t actorIndex)
+{
+    EventRuntimeState::ActorEffectRequest stop = {};
+    stop.actorIndex = actorIndex;
+    stop.effectId = detonate.effect;
+    stop.stop = true;
+    eventRuntimeState.actorEffectRequests.push_back(std::move(stop));
+}
+
+void GameplayActorModifiers::queueDetonateBlastPresentation(EventRuntimeState &eventRuntimeState,
+    const DetonateModifier &detonate, size_t actorIndex, const std::array<float, 3> &center, bool withSound)
+{
+    queueDetonateStopPresentation(eventRuntimeState, detonate, actorIndex);
+
+    // The blast effect is authored for a 512 burst (MM8's death blast).
+    EventRuntimeState::WorldEffectRequest effect = {};
+    effect.id = detonate.blastEffect;
+    effect.position = {center[0], center[1], center[2]};
+    effect.scale = std::max(0.25f, detonate.radius / 512.0f);
+    eventRuntimeState.worldEffectRequests.push_back(std::move(effect));
+
+    if (!withSound)
+    {
+        return;
+    }
+
+    EventRuntimeState::PendingSound sound = {};
+    sound.soundScope = SoundScope::World;
+    sound.soundName = detonate.explodeSound;
+    sound.fallbackSoundName = detonate.explodeFallbackSound;
     sound.x = int32_t(std::lround(center[0]));
     sound.y = int32_t(std::lround(center[1]));
     sound.z = int32_t(std::lround(center[2]));

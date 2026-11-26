@@ -343,4 +343,8 @@ public:
     virtual std::optional<std::pair<OpenBounty, std::string>> bountyElsewhere(
         const std::vector<OpenBounty> &openBounties) const;
 };
+// The icons beside a monster's floating health bar: the rules' (MonsterRules::actorBadges; MAW: a boss's skull left
+// of the bar, its affix right), else the boss skull for a monster a world marks with the boss modifier
+// (MonsterModifierSet::boss), under any rules.
+std::vector<std::string> healthBarBadges(const MonsterRules &rules, const ActorRulesetFacts &facts, bool bossModifier);
 }

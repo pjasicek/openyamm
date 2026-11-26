@@ -6022,8 +6022,43 @@ bool runFrenzyActor(
     return true;
 }
 
-// assert charges: {started, hits, misses, frenzies, min_started, min_hits, min_misses, min_frenzies}: the map's charges
-// and frenzies so far (exact or at least).
+// detonate_actor: {actor_index}: the actor starts its detonation's charge now (fails without the detonate modifier).
+bool runDetonateActor(
+    ScenarioExecutionContext &context,
+    const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    if (!payloadIsMap(step, failures))
+    {
+        return false;
+    }
+
+    if (!step.payload["actor_index"] || !step.payload["actor_index"].IsScalar())
+    {
+        failures.push_back(stepLocation(step) + ": detonate_actor requires scalar field 'actor_index'");
+        return false;
+    }
+
+    if (!ensureRuntimeDriver(context, failures))
+    {
+        return false;
+    }
+
+    seedRuntimeDriverFromContext(context);
+    std::string failure;
+
+    if (!context.runtimeDriver->detonateActor(scenarioActorIndex(context, step.payload["actor_index"]), failure))
+    {
+        failures.push_back(stepLocation(step) + ": " + failure);
+        return false;
+    }
+
+    syncContextFromRuntime(context);
+    return true;
+}
+
+// assert charges: {started, hits, misses, frenzies, detonations, blasts, cancels and min_ of each}: the map's charges,
+// frenzies and detonations (charges started, blasts, charges cancelled) so far (exact or at least).
 // combat_log: {min_entries, dealt_min, taken_min, with_stages_min, loot_min, critical_min}: the combat log's entries
 // so far (loot: the loot filter's "Filtered: ... -> N gold" lines; critical: the party's critical hits).
 bool assertCombatLog(
@@ -6098,7 +6133,8 @@ bool assertCharges(
 
     scenarioLog(context, ScenarioLogColor::Cyan, "CHARGES started=" + std::to_string(counts->started) + " hits="
         + std::to_string(counts->hits) + " misses=" + std::to_string(counts->misses) + " frenzies="
-        + std::to_string(counts->frenzies));
+        + std::to_string(counts->frenzies) + " detonations=" + std::to_string(counts->detonations) + " blasts="
+        + std::to_string(counts->blasts) + " cancels=" + std::to_string(counts->cancels));
     bool success = true;
     const auto check = [&](const char *pName, uint32_t actual, bool atLeast)
     {
@@ -6117,6 +6153,12 @@ bool assertCharges(
     check("min_misses", counts->misses, true);
     check("frenzies", counts->frenzies, false);
     check("min_frenzies", counts->frenzies, true);
+    check("detonations", counts->detonations, false);
+    check("blasts", counts->blasts, false);
+    check("cancels", counts->cancels, false);
+    check("min_detonations", counts->detonations, true);
+    check("min_blasts", counts->blasts, true);
+    check("min_cancels", counts->cancels, true);
     return success;
 }
 
@@ -13110,6 +13152,9 @@ ScenarioRunResult ScenarioRunner::run(
             break;
         case ScenarioStepKind::FrenzyActor:
             stepSuccess = runFrenzyActor(context, step, result.failures);
+            break;
+        case ScenarioStepKind::DetonateActor:
+            stepSuccess = runDetonateActor(context, step, result.failures);
             break;
         case ScenarioStepKind::AiArena:
             stepSuccess = runAiArena(context, step, result.failures);

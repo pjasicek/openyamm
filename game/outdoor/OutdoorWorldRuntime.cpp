@@ -573,7 +573,7 @@ bool outdoorActorIsTerminalCorpse(const OutdoorWorldRuntime::MapActorState &acto
 
 bool outdoorActorCorpsePhysicsNeedsStep(const OutdoorWorldRuntime::MapActorState &actor)
 {
-    if (!outdoorActorIsTerminalCorpse(actor) || actor.isInvisible)
+    if (actor.anchored || !outdoorActorIsTerminalCorpse(actor) || actor.isInvisible)
     {
         return false;
     }
@@ -633,19 +633,21 @@ bx::Vec3 actorKnockbackVelocityFromMagnitude(
 }
 
 bx::Vec3 actorKnockbackVelocity(
-    float actorX,
-    float actorY,
-    float actorZ,
+    const OutdoorWorldRuntime::MapActorState &actor,
     float sourceX,
     float sourceY,
     float sourceZ,
     int damage,
     int maxHp)
 {
+    if (actor.anchored)
+    {
+        return {0.0f, 0.0f, 0.0f};
+    }
     return actorKnockbackVelocityFromMagnitude(
-        actorX,
-        actorY,
-        actorZ,
+        actor.preciseX,
+        actor.preciseY,
+        actor.preciseZ + static_cast<float>(actor.height) * 0.5f,
         sourceX,
         sourceY,
         sourceZ,
@@ -2783,6 +2785,12 @@ void populateOutdoorActorStaticCombatFacts(
     }
 
     state.aiType = gameplayActorAiTypeFromMonster(pStats->aiType);
+    state.anchored = pModifiers != nullptr && pModifiers->anchored;
+    if (state.anchored)
+    {
+        state.velocityX = state.velocityY = state.velocityZ = state.intendedSpeed = 0.0f;
+        state.movementState.verticalVelocity = 0.0f;
+    }
     state.canFly = pStats->canFly;
     state.attack1DamageType = GameMechanics::parseCombatDamageType(pStats->attack1Type);
     state.attack2DamageType = GameMechanics::parseCombatDamageType(pStats->attack2Type);
@@ -7693,7 +7701,7 @@ bool OutdoorWorldRuntime::pushActor(size_t actorIndex, float directionX, float d
     }
 
     if (actorIndex >= m_mapActors.size() || distance <= 0.0f || isActorUnavailableForCombat(m_mapActors[actorIndex])
-        || m_mapActors[actorIndex].currentHp <= 0)
+        || m_mapActors[actorIndex].currentHp <= 0 || m_mapActors[actorIndex].anchored)
     {
         return false;
     }
@@ -8056,6 +8064,7 @@ GameplayActorModifiers::ChargeActorFacts OutdoorWorldRuntime::chargeActorFacts(s
         && actor.paralyzeRemainingSeconds <= 0.0f;
     facts.alive = !actor.isDead && actor.currentHp > 0 && actor.aiState != ActorAiState::Dying
         && actor.aiState != ActorAiState::Dead;
+    facts.incapacitated = actor.aiState == ActorAiState::Stunned || actor.paralyzeRemainingSeconds > 0.0f;
     facts.healthShare = actor.maxHp > 0 ? float(actor.currentHp) / float(actor.maxHp) : 1.0f;
     facts.hostileToParty = actor.hostileToParty && actor.controlMode == ActorControlMode::None;
     facts.engagesParty = facts.hostileToParty && actor.hasDetectedParty;
@@ -8104,6 +8113,7 @@ GameplayActorModifiers::ChargeWorld OutdoorWorldRuntime::chargeWorld()
         return GameplayActorModifiers::ChargeStepResult::Moved;
     };
     world.handle = [this](const GameplayActorModifiers::ChargeEvent &event) { handleChargeEvent(event); };
+    world.detonated = [this](const GameplayActorModifiers::DetonateEvent &event) { handleDetonateEvent(event); };
     world.frenzyRoared = [this](size_t actorIndex, const FrenzyModifier &frenzy)
     {
         const MapActorState &actor = m_mapActors[actorIndex];
@@ -8176,6 +8186,62 @@ void OutdoorWorldRuntime::handleChargeEvent(const GameplayActorModifiers::Charge
     }
 }
 
+void OutdoorWorldRuntime::updateActorDetonations(float deltaSeconds)
+{
+    if (!m_actorModifiers.detonateActive())
+    {
+        return;
+    }
+
+    // Turn-based: a charge starts on the monster's turn and explodes at the start of its next.
+    const std::vector<size_t> *pGrants = m_turnBasedActorFacts.mode != ActorTurnBasedMode::RealTime
+        ? &m_turnBasedActorFacts.actionGrantActorIndices
+        : nullptr;
+    m_actorModifiers.updateDetonations(deltaSeconds, m_mapActors.size(),
+        [this](size_t actorIndex) { return chargeActorFacts(actorIndex); }, chargeWorld(), pGrants);
+}
+
+void OutdoorWorldRuntime::handleDetonateEvent(const GameplayActorModifiers::DetonateEvent &event)
+{
+    if (event.actorIndex >= m_mapActors.size() || event.pDetonate == nullptr)
+    {
+        return;
+    }
+
+    const MapActorState &actor = m_mapActors[event.actorIndex];
+    const std::array<float, 3> center = {actor.preciseX, actor.preciseY, actor.preciseZ + float(actor.height) * 0.5f};
+
+    // The blast strikes on the next update, as a death blast does (MonsterDeathExplosion.h).
+    if (event.kind == GameplayActorModifiers::DetonateEventKind::Exploded)
+    {
+        if (std::optional<PendingMonsterDeathExplosion> blast = monsterDetonationFor(*this, event.actorIndex))
+        {
+            m_pendingDeathExplosions.push_back(*blast);
+        }
+    }
+
+    if (!m_eventRuntimeState)
+    {
+        return;
+    }
+
+    switch (event.kind)
+    {
+        case GameplayActorModifiers::DetonateEventKind::ChargeStarted:
+            GameplayActorModifiers::queueDetonateChargePresentation(
+                *m_eventRuntimeState, *event.pDetonate, event.actorIndex, center, float(actor.height));
+            break;
+        case GameplayActorModifiers::DetonateEventKind::Exploded:
+            GameplayActorModifiers::queueDetonateBlastPresentation(
+                *m_eventRuntimeState, *event.pDetonate, event.actorIndex, center);
+            break;
+        case GameplayActorModifiers::DetonateEventKind::Cancelled:
+            GameplayActorModifiers::queueDetonateStopPresentation(
+                *m_eventRuntimeState, *event.pDetonate, event.actorIndex);
+            break;
+    }
+}
+
 bool OutdoorWorldRuntime::chargeActor(size_t actorIndex)
 {
     if (actorIndex >= m_mapActors.size())
@@ -8212,10 +8278,28 @@ bool OutdoorWorldRuntime::frenzyActor(size_t actorIndex)
     return m_actorModifiers.startFrenzy(actorIndex, actor.monsterId, actor.actorId, chargeWorld());
 }
 
+bool OutdoorWorldRuntime::detonateActor(size_t actorIndex)
+{
+    if (actorIndex >= m_mapActors.size())
+    {
+        return false;
+    }
+
+    const MapActorState &actor = m_mapActors[actorIndex];
+
+    if (actor.isDead || actor.currentHp <= 0)
+    {
+        return false;
+    }
+
+    return m_actorModifiers.startDetonation(actorIndex, actor.monsterId, actor.actorId, chargeWorld());
+}
+
 std::optional<GameplayChargeCounts> OutdoorWorldRuntime::chargeCounts() const
 {
     return GameplayChargeCounts{m_actorModifiers.chargeCount(), m_actorModifiers.chargeHitCount(),
-        m_actorModifiers.chargeMissCount(), m_actorModifiers.frenzyCount()};
+        m_actorModifiers.chargeMissCount(), m_actorModifiers.frenzyCount(), m_actorModifiers.detonationCount(),
+        m_actorModifiers.detonationBlastCount(), m_actorModifiers.detonationCancelCount()};
 }
 
 bool OutdoorWorldRuntime::blinkMapActorTo(
@@ -11149,7 +11233,7 @@ std::optional<ActorAiFacts> OutdoorWorldRuntime::collectOutdoorActorAiFacts(
         std::max(0.0f, facts.movement.distanceToParty - static_cast<float>(actor.radius) - m_partyCollisionRadius);
     facts.movement.allowIdleWander = m_pGameplayActorService != nullptr;
     facts.movement.movementAllowed =
-        pStats->movementType != MonsterTable::MonsterMovementType::Stationary
+        !actor.anchored && pStats->movementType != MonsterTable::MonsterMovementType::Stationary
         && (!actor.immobile || actor.mm9FleeingFromParty);
     facts.movement.movementBlocked = false;
     facts.movement.dormant = actor.dormant;
@@ -11639,7 +11723,7 @@ void OutdoorWorldRuntime::ensureOutdoorActorMovementState(
     MapActorState &actor,
     const MonsterTable::MonsterStatsEntry &stats)
 {
-    if (!m_outdoorMovementController || actor.movementStateInitialized)
+    if (!m_outdoorMovementController || actor.movementStateInitialized || actor.anchored)
     {
         return;
     }
@@ -11659,7 +11743,7 @@ void OutdoorWorldRuntime::applyOeOutdoorActorFloorCorrection(
     MapActorState &actor,
     const MonsterTable::MonsterStatsEntry &stats)
 {
-    if (m_pOutdoorMapData == nullptr || actor.moveSpeed == 0)
+    if (m_pOutdoorMapData == nullptr || actor.moveSpeed == 0 || actor.anchored)
     {
         return;
     }
@@ -11887,7 +11971,7 @@ void OutdoorWorldRuntime::applyOutdoorActorMovementIntent(
 
     actor.intendedSpeed = 0.0f;
 
-    if (!movementIntent.applyMovement || pStats == nullptr)
+    if (!movementIntent.applyMovement || pStats == nullptr || actor.anchored)
     {
         return;
     }
@@ -12176,6 +12260,12 @@ bool OutdoorWorldRuntime::applyOutdoorActorPhysicsStep(
     }
 
     MapActorState &actor = m_mapActors[actorIndex];
+    if (actor.anchored)
+    {
+        actor.velocityX = actor.velocityY = actor.velocityZ = actor.intendedSpeed = 0.0f;
+        actor.movementState.verticalVelocity = 0.0f;
+        return false;
+    }
     ensureOutdoorActorMovementState(actor, stats);
 
     const bool terminalCorpse = outdoorActorIsTerminalCorpse(actor);
@@ -13798,6 +13888,8 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
 
         m_actorModifiers.applyChargeHolds(actorAiFacts);
         m_actorModifiers.applyFrenzies(actorAiFacts);
+        updateActorDetonations(ActorUpdateStepSeconds);
+        m_actorModifiers.applyDetonationHolds(actorAiFacts);
 
         if (m_pActorAiTrace != nullptr)
         {
@@ -18669,9 +18761,7 @@ bool OutdoorWorldRuntime::applyReflectedDamageToActor(
             actor.killedByParty = true;
             beginOutdoorActorDeath(actorIndex);
             const bx::Vec3 knockback = actorKnockbackVelocity(
-                actor.preciseX,
-                actor.preciseY,
-                actor.preciseZ + static_cast<float>(actor.height) * 0.5f,
+                actor,
                 partyX(),
                 partyY(),
                 partyFootZ(),
@@ -19367,9 +19457,7 @@ bool OutdoorWorldRuntime::applyMonsterAttackToMapActor(
                 ? pSourceActor->preciseZ + static_cast<float>(pSourceActor->height) * 0.5f
                 : actor.preciseZ + static_cast<float>(actor.height) * 0.5f;
         const bx::Vec3 knockback = actorKnockbackVelocity(
-            actor.preciseX,
-            actor.preciseY,
-            actor.preciseZ + static_cast<float>(actor.height) * 0.5f,
+            actor,
             sourceX,
             sourceY,
             sourceZ,
@@ -19416,9 +19504,7 @@ bool OutdoorWorldRuntime::applyMonsterAttackToMapActor(
                 ? pSourceActor->preciseZ + static_cast<float>(pSourceActor->height) * 0.5f
                 : actor.preciseZ + static_cast<float>(actor.height) * 0.5f;
         const bx::Vec3 knockback = actorKnockbackVelocity(
-            actor.preciseX,
-            actor.preciseY,
-            actor.preciseZ + static_cast<float>(actor.height) * 0.5f,
+            actor,
             sourceX,
             sourceY,
             sourceZ,
@@ -19786,7 +19872,8 @@ bool OutdoorWorldRuntime::captureReplicaActorPose(size_t actorIndex, ReplicaActo
         | (actor.isInvisible ? ReplicaActorPose::Invisible : 0)
         | (actor.hostileToParty ? ReplicaActorPose::HostileToParty : 0)
         | (actor.hasDetectedParty ? ReplicaActorPose::DetectedParty : 0)
-        | (actor.attackImpactTriggered ? ReplicaActorPose::AttackImpactTriggered : 0));
+        | (actor.attackImpactTriggered ? ReplicaActorPose::AttackImpactTriggered : 0)
+        | GameplayActorModifiers::replicaPoseFlags(m_actorModifiers.detonatePhase(actorIndex, actor.actorId)));
     return true;
 }
 
@@ -19929,10 +20016,43 @@ void OutdoorWorldRuntime::applyReplicaActorPose(const ReplicaActorPose &pose)
     {
         spawnBloodSplatForActorIfNeeded(pose.actorIndex);
     }
+
+    // A detonation's charge and blast: the guest's own effects (the host's world sends the sounds).
+    if (m_actorModifiers.detonateActive())
+    {
+        const GameplayActorModifiers::ReplicaDetonateEdges edges = m_actorModifiers.applyReplicaDetonation(
+            pose.actorIndex, actor.monsterId, actor.actorId, (pose.flags & ReplicaActorPose::DetonateCharging) != 0,
+            (pose.flags & ReplicaActorPose::DetonateBlasted) != 0);
+        const MonsterModifierSet *pModifiers =
+            m_pMonsterTable != nullptr ? m_pMonsterTable->findModifiers(actor.monsterId) : nullptr;
+
+        if (pModifiers != nullptr && pModifiers->detonate && m_eventRuntimeState)
+        {
+            const std::array<float, 3> center = {
+                actor.preciseX, actor.preciseY, actor.preciseZ + float(actor.height) * 0.5f};
+
+            if (edges.chargeStarted)
+            {
+                GameplayActorModifiers::queueDetonateChargePresentation(
+                    *m_eventRuntimeState, *pModifiers->detonate, pose.actorIndex, center, float(actor.height), false);
+            }
+            else if (edges.exploded)
+            {
+                GameplayActorModifiers::queueDetonateBlastPresentation(
+                    *m_eventRuntimeState, *pModifiers->detonate, pose.actorIndex, center, false);
+            }
+            else if (edges.cancelled)
+            {
+                GameplayActorModifiers::queueDetonateStopPresentation(
+                    *m_eventRuntimeState, *pModifiers->detonate, pose.actorIndex);
+            }
+        }
+    }
 }
 
 void OutdoorWorldRuntime::updateReplicaActors(float deltaSeconds)
 {
+    m_actorModifiers.tickReplicaDetonations(deltaSeconds);
     if (m_replicaActorSmoothing.size() < m_mapActors.size())
     {
         m_replicaActorSmoothing.resize(m_mapActors.size());
@@ -20400,9 +20520,7 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
         actor.killedByParty = true;
         beginOutdoorActorDeath(actorIndex);
         const bx::Vec3 knockback = actorKnockbackVelocity(
-            actor.preciseX,
-            actor.preciseY,
-            actor.preciseZ + static_cast<float>(actor.height) * 0.5f,
+            actor,
             partyX,
             partyY,
             partyZ,
@@ -20436,9 +20554,7 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
         {
             faceMapActorReaction(actor, partyX - actor.preciseX, partyY - actor.preciseY);
             const bx::Vec3 knockback = actorKnockbackVelocity(
-                actor.preciseX,
-                actor.preciseY,
-                actor.preciseZ + static_cast<float>(actor.height) * 0.5f,
+                actor,
                 partyX,
                 partyY,
                 partyZ,
@@ -20641,8 +20757,6 @@ void OutdoorWorldRuntime::applyPartyAttackMeleeEffects(
         return;
     }
 
-    const uint32_t skillLevel = std::max<uint32_t>(1, attack.skillLevel);
-    const float skillSeconds = static_cast<float>(skillLevel) * 60.0f;
     MapActorState &actor = m_mapActors[actorIndex];
 
     if (actor.currentHp <= 0
@@ -20654,17 +20768,23 @@ void OutdoorWorldRuntime::applyPartyAttackMeleeEffects(
         return;
     }
 
-    if (attack.stunTarget)
+    // A boss's stun or paralysis under Standard rules: MAW's weapon paralysis through diminishing returns; its fear
+    // and berserk: MAW's spell durations through diminishing returns.
+    CharacterAttackResult blow = attack;
+    const GameplayActorModifiers::BossBlowControl bossControl = m_actorModifiers.applyBossBlowCrowdControl(
+        blow, actor.monsterId, mapActorKey(mapName(), actorIndex), m_gameMinutes * 2.0);
+    const uint32_t skillLevel = std::max<uint32_t>(1, blow.skillLevel);
+    const float skillSeconds = static_cast<float>(skillLevel) * 60.0f;
+
+    if (blow.stunTarget)
     {
         actor.stunRemainingSeconds = std::max(
-            actor.stunRemainingSeconds, attack.stunSeconds.value_or(0.5f + 0.35f * static_cast<float>(skillLevel)));
+            actor.stunRemainingSeconds, blow.stunSeconds.value_or(0.5f + 0.35f * static_cast<float>(skillLevel)));
         actor.aiState = ActorAiState::Stunned;
         actor.animation = ActorAnimation::GotHit;
         actor.actionSeconds = std::max(actor.actionSeconds, actor.stunRemainingSeconds);
         const bx::Vec3 knockback = actorKnockbackVelocity(
-            actor.preciseX,
-            actor.preciseY,
-            actor.preciseZ + static_cast<float>(actor.height) * 0.5f,
+            actor,
             source.x,
             source.y,
             source.z,
@@ -20675,24 +20795,26 @@ void OutdoorWorldRuntime::applyPartyAttackMeleeEffects(
         actor.velocityZ = knockback.z;
     }
 
-    if (attack.paralyzeTarget)
+    if (blow.paralyzeTarget)
     {
         actor.paralyzeRemainingSeconds =
-            std::max(actor.paralyzeRemainingSeconds, attack.paralyzeSeconds.value_or(skillSeconds));
+            std::max(actor.paralyzeRemainingSeconds, blow.paralyzeSeconds.value_or(skillSeconds));
     }
 
-    if (attack.fearTarget)
+    if (blow.fearTarget)
     {
-        actor.fearRemainingSeconds = std::max(actor.fearRemainingSeconds, skillSeconds);
+        actor.fearRemainingSeconds =
+            std::max(actor.fearRemainingSeconds, bossControl.fearSeconds.value_or(skillSeconds));
     }
 
-    if (attack.enrageTarget)
+    if (blow.enrageTarget)
     {
         actor.controlMode = ActorControlMode::Berserk;
-        actor.controlRemainingSeconds = std::max(actor.controlRemainingSeconds, skillSeconds);
+        actor.controlRemainingSeconds =
+            std::max(actor.controlRemainingSeconds, bossControl.berserkSeconds.value_or(skillSeconds));
     }
 
-    if (attack.halveTargetArmorClass)
+    if (blow.halveTargetArmorClass)
     {
         actor.armorClassHalvedRemainingSeconds = std::max(actor.armorClassHalvedRemainingSeconds, skillSeconds);
     }
@@ -21179,7 +21301,8 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
                     pActorService->actorLooksUndead(actor.monsterId),
                     mapName(),
                     actorIndex,
-                    m_gameMinutes));
+                    m_gameMinutes,
+                    m_actorModifiers.bossCrowdControl(actor.monsterId)));
 
         if (effectResult.disposition == GameplayActorService::SharedSpellDisposition::Rejected)
         {
@@ -21231,7 +21354,7 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
                         const float deltaY = actor.preciseY - partyY;
                         const float horizontalLength = std::sqrt(deltaX * deltaX + deltaY * deltaY);
 
-                        if (horizontalLength > 0.01f)
+                        if (!actor.anchored && horizontalLength > 0.01f)
                         {
                             const float pushStrength = 160.0f + 8.0f * static_cast<float>(skillLevel);
                             actor.velocityX = (deltaX / horizontalLength) * pushStrength;
@@ -21289,7 +21412,7 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
         const float deltaY = actor.preciseY - partyY;
         const float horizontalLength = std::sqrt(deltaX * deltaX + deltaY * deltaY);
 
-        if (horizontalLength > 0.01f)
+        if (!actor.anchored && horizontalLength > 0.01f)
         {
             const float pushStrength =
                 spellName == "wing buffet"

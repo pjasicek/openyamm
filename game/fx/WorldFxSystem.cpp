@@ -1519,6 +1519,8 @@ void WorldFxSystem::syncScriptedActorEffects(IGameplayWorldRuntime &world, float
                 effect.scale = request.scale;
                 effect.timed = request.seconds > 0.0f;
                 effect.remainingSeconds = request.seconds;
+                effect.totalSeconds = request.seconds;
+                effect.endScale = request.seconds > 0.0f ? request.endScale : 0.0f;
                 // A socket the actor's model lacks is an authoring error; an actor drawn as a sprite has no sockets.
                 const auto model = m_actorModels.find(request.actorIndex);
                 if (!effect.socket.empty() && model != m_actorModels.end() && model->second.pBinding != nullptr
@@ -1613,7 +1615,7 @@ void WorldFxSystem::updateScriptedActorEffects(const IGameplayWorldRuntime &worl
             effect = m_scriptedActorEffects.erase(effect);
             continue;
         }
-        m_namedEffects.setTransform(effect->handle, *point, {0.0f, 0.0f, 0.0f, 1.0f}, effect->scale);
+        m_namedEffects.setTransform(effect->handle, *point, {0.0f, 0.0f, 0.0f, 1.0f}, effect->currentScale());
         ++effect;
     }
 }

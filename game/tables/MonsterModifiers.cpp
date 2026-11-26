@@ -17,6 +17,9 @@ constexpr float DegreesToRadians = 3.14159265f / 180.0f;
 
 using Kind = MonsterModifierParameterInfo::Kind;
 
+constexpr const char *DetonateDamageTypeChoices =
+    "melee|physical|fire|air|water|earth|spirit|mind|body|light|dark|energy";
+
 constexpr const char *SpellConditionChoices = "none|afraid|asleep|cursed|weak|drunk|insane|paralyzed|poisoned_weak|"
     "poisoned_medium|poisoned_severe|diseased_weak|diseased_medium|diseased_severe|stoned";
 
@@ -101,6 +104,9 @@ std::vector<MonsterModifierInfo> buildCatalogue()
                 number("max_seconds", 4.0f, 0.0f, 60.0f, "how long it homes; 0: its whole flight"),
                 choice("then", "straight", "straight|expire", "after max_seconds: fly straight on or expire"),
             }},
+        {"anchored",
+            "Its body stays at its placed or saved position during movement, impacts and death. It can still aim and fire.",
+            {}},
         {"never_staggers",
             "Hits never interrupt it: no hit reaction (the flinch and its knock-back). Stuns and paralysis from "
             "spells, skills and the EMP grenade still apply.",
@@ -202,6 +208,41 @@ std::vector<MonsterModifierInfo> buildCatalogue()
                 text("effect", "openyamm:fx/ember_impact", "effect id of the roar's flash"),
                 text("sound", "monster_frenzy", "placeholder sound of the roar"),
                 text("fallback_sound", "roar 1", "sound played while the placeholder has no file"),
+            }},
+        {"boss",
+            "A boss: the skull beside its health bar, and under Standard rules MAW's crowd-control durations with "
+            "MAW's diminishing returns for paralysis, stun, fear and control (MAW decides its own bosses as before).",
+            {}},
+        {"detonate",
+            "A telegraphed blast round itself: with the party in its melee reach it charges (holds, a growing effect "
+            "on its body, its glow rising, a sound), then explodes for heavy damage to everyone within the radius. "
+            "Stepping out in the charge is the defence; a stun or paralysis cancels it. Turn-based: it charges on its "
+            "turn and explodes at the start of its next, and its cooldown counts its own turns.",
+            {
+                number("windup_seconds", 3.0f, 0.5f, 10.0f, "how long it charges before it explodes"),
+                number("cooldown_seconds", 20.0f, 0.0f, 600.0f, "time from the end of one detonation to the next"),
+                number("cooldown_turns", 0.0f, 0.0f, 100.0f,
+                    "turn-based: its own turns from one detonation to the next (0: cooldown_seconds / 5 rounded up)"),
+                number("radius", 768.0f, 64.0f, 4096.0f, "the blast's reach from the middle of its body"),
+                number("trigger_distance", 0.0f, 0.0f, 4096.0f,
+                    "party edge distance it starts a charge from (0: its melee reach)"),
+                number("damage", 0.0f, 0.0f, 20000.0f, "fixed damage of the blast (0: its melee attack x melee_multiplier)"),
+                number("melee_multiplier", 1.5f, 0.1f, 10.0f, "the blast's damage as a multiple of its melee attack"),
+                choice("damage_type", "melee", DetonateDamageTypeChoices,
+                    "the blast's damage type (melee: its attack's own type)"),
+                boolean("hits_monsters", false, "the blast also hits the other monsters within the radius"),
+                number("glow_multiplier", 3.0f, 1.0f, 8.0f, "its model's emission at the end of the charge"),
+                text("effect", "openyamm:fx/creature_fire_hand", "effect id carried on its body while it charges"),
+                number("effect_scale", 1.0f, 0.05f, 20.0f,
+                    "the charge effect's scale as the charge begins (times its body's height / 200)"),
+                number("effect_end_scale", 4.0f, 0.05f, 40.0f,
+                    "the charge effect's scale as it explodes (times its body's height / 200)"),
+                text("blast_effect", "openyamm:fx/ember_impact", "effect id of the blast (scaled to the radius)"),
+                text("sound", "monster_detonate_charge", "placeholder sound of the charge"),
+                text("fallback_sound", "9armageddon01", "sound played while the charge placeholder has no file"),
+                text("explode_sound", "monster_detonate_blast", "placeholder sound of the blast"),
+                text("explode_fallback_sound", "dragonbreath_explosion",
+                    "sound played while the blast placeholder has no file"),
             }},
         {"skirmisher",
             "MM9's melee footwork: it keeps chasing a target that steps away while it attacks (its model swings over "
@@ -526,6 +567,10 @@ bool applyModifier(const ParsedModifier &parsed, const std::string &line, Monste
         trueAim.expireAfter = parsed.textOf("then") == "expire";
         set.trueAim = trueAim;
     }
+    else if (name == "anchored")
+    {
+        set.anchored = true;
+    }
     else if (name == "never_staggers")
     {
         set.neverStaggers = true;
@@ -627,6 +672,43 @@ bool applyModifier(const ParsedModifier &parsed, const std::string &line, Monste
             return false;
         }
         set.frenzy = frenzy;
+    }
+    else if (name == "boss")
+    {
+        set.boss = true;
+    }
+    else if (name == "detonate")
+    {
+        DetonateModifier detonate;
+        detonate.windupSeconds = parsed.numberOf("windup_seconds");
+        detonate.cooldownSeconds = parsed.numberOf("cooldown_seconds");
+        detonate.cooldownTurns = int(std::lround(parsed.numberOf("cooldown_turns")));
+        detonate.radius = parsed.numberOf("radius");
+        detonate.triggerDistance = parsed.numberOf("trigger_distance");
+        detonate.damage = parsed.numberOf("damage");
+        detonate.meleeMultiplier = parsed.numberOf("melee_multiplier");
+        detonate.damageType = parsed.textOf("damage_type");
+        detonate.hitsMonsters = parsed.flagOf("hits_monsters");
+        detonate.glowMultiplier = parsed.numberOf("glow_multiplier");
+        detonate.effect = parsed.textOf("effect");
+        detonate.effectScale = parsed.numberOf("effect_scale");
+        detonate.effectEndScale = parsed.numberOf("effect_end_scale");
+        detonate.blastEffect = parsed.textOf("blast_effect");
+        detonate.sound = parsed.textOf("sound");
+        detonate.fallbackSound = parsed.textOf("fallback_sound");
+        detonate.explodeSound = parsed.textOf("explode_sound");
+        detonate.explodeFallbackSound = parsed.textOf("explode_fallback_sound");
+        if (parsed.givenOf("damage") && parsed.givenOf("melee_multiplier"))
+        {
+            error = line + ": detonate takes a fixed damage or a melee_multiplier, not both";
+            return false;
+        }
+        if (parsed.givenOf("damage") && detonate.damage <= 0.0f)
+        {
+            error = line + ": detonate.damage must be above 0 (leave it out for its melee attack)";
+            return false;
+        }
+        set.detonate = detonate;
     }
     else if (name == "telegraphed_attack")
     {
@@ -870,6 +952,13 @@ const MonsterModifierInfo *findMonsterModifierInfo(const std::string &name)
     return nullptr;
 }
 
+int detonateCooldownTurns(const DetonateModifier &detonate)
+{
+    constexpr float SecondsPerTurn = 5.0f;
+    return detonate.cooldownTurns > 0 ? detonate.cooldownTurns
+                                      : int(std::ceil(detonate.cooldownSeconds / SecondsPerTurn - 0.0001f));
+}
+
 bool MonsterModifierTable::loadWorldYaml(const std::string &text, const std::string &packageId, uint32_t idBegin,
     uint32_t idEnd, std::string &error)
 {
@@ -1000,6 +1089,8 @@ void MonsterModifierTable::set(const MonsterModifierSet &modifiers)
     m_hasBlink = m_hasBlink || modifiers.blink.has_value();
     m_hasCharge = m_hasCharge || modifiers.charge.has_value();
     m_hasFrenzy = m_hasFrenzy || modifiers.frenzy.has_value();
+    m_hasDetonate = m_hasDetonate || modifiers.detonate.has_value();
+    m_hasBoss = m_hasBoss || modifiers.boss;
     m_hasStagger = m_hasStagger || modifiers.stagger.has_value();
     m_hasSounds = m_hasSounds || modifiers.sounds.has_value();
     m_hasMm9Ai = m_hasMm9Ai || modifiers.mm9Ai.has_value();

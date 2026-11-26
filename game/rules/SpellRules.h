@@ -30,6 +30,8 @@ enum class AuraCastResult : uint8_t
     NotEnoughMana,
 };
 
+class CrowdControlDiminishingReturns;
+
 // A party member's crowd-control spell landing on a monster.
 struct CrowdControlCast
 {
@@ -47,6 +49,9 @@ struct CrowdControlCast
     size_t partySize = 1;
     // The world clock in real seconds, for diminishing returns.
     double nowSeconds = 0.0;
+    // A monster with the boss modifier: its world's diminishing-returns history, which Standard's rules hold it by
+    // (MAW's durations, bossCrowdControlSeconds); null for every other monster. MAW keeps its own.
+    CrowdControlDiminishingReturns *pBossHistory = nullptr;
 };
 
 // Further monsters a single-target spell takes near the one it struck.
@@ -155,7 +160,9 @@ public:
     // Standard: the spell table's texts.
     virtual SpellTooltipText spellTooltip(const Party &party, const Character &caster, const SpellEntry &spell) const;
     // How many real seconds a crowd-control spell holds the monster (MAW: no resistance roll, its own durations and
-    // diminishing returns); 0 when it does not take; nothing for Standard's resistance roll and durations.
+    // diminishing returns); 0 when it does not take; nothing for Standard's resistance roll and durations, except on a
+    // boss-modifier monster (CrowdControlCast::pBossHistory), which Standard holds by MAW's durations and diminishing
+    // returns.
     virtual std::optional<float> crowdControlSeconds(const CrowdControlCast &cast) const;
     // The spellbook's R key: ends every buff the party holds and returns the status line (MAW: every aura is
     // released). Standard: nothing, the key does nothing.
@@ -192,7 +199,8 @@ const SpellRules &standardSpellRules();
 
 // The crowd-control duration the party's rules give a party member's spell on a map actor (SpellRules::
 // crowdControlSeconds), from what the worlds know of the actor; nothing for Standard's, and nothing (no diminishing
-// returns recorded) for Turn Undead or Control Undead on a living monster (SPL-10).
+// returns recorded) for Turn Undead or Control Undead on a living monster (SPL-10). pBossHistory: the world's history
+// for a monster with the boss modifier (null for the others).
 std::optional<float> partyCrowdControlSeconds(
     const Party *pParty,
     uint32_t casterIndex,
@@ -205,5 +213,6 @@ std::optional<float> partyCrowdControlSeconds(
     bool targetUndead,
     const std::string &mapName,
     size_t actorIndex,
-    double gameMinutes);
+    double gameMinutes,
+    CrowdControlDiminishingReturns *pBossHistory = nullptr);
 }

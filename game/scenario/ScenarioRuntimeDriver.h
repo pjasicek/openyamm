@@ -401,6 +401,8 @@ public:
     bool chargeActor(size_t actorIndex, std::string &failure);
     // The actor starts its frenzy now (its frenzy modifier's roar, then the frenzy).
     bool frenzyActor(size_t actorIndex, std::string &failure);
+    // The actor starts its detonation's charge now (its detonate modifier's charge, then the blast).
+    bool detonateActor(size_t actorIndex, std::string &failure);
     // The map's charges so far (empty without a map that runs them).
     std::optional<GameplayChargeCounts> chargeCounts() const;
     // The active map's projectiles (null without a map).

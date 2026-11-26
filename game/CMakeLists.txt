@@ -220,6 +220,7 @@ add_library(openyamm_game STATIC
     tables/MergedBaseTables.cpp
     tables/PotionEffectTable.cpp
     rules/CombatRules.cpp
+    rules/CrowdControlDiminishing.cpp
     rules/ExperienceRules.cpp
     rules/GameRules.cpp
     rules/ItemRules.cpp

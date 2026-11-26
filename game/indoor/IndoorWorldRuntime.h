@@ -81,6 +81,7 @@ public:
         // The monster that last hit it; it fights that one back (not saved).
         std::optional<uint32_t> lastActorAttackerId;
         int16_t monsterId = 0;
+        bool anchored = false; // From current monster modifiers, including when loading a saved actor.
         std::string displayName;
         uint16_t spriteFrameIndex = 0;
         std::array<uint16_t, 8> actionSpriteFrameIndices = {};
@@ -622,6 +623,7 @@ public:
     }
     bool chargeActor(size_t actorIndex) override;
     bool frenzyActor(size_t actorIndex) override;
+    bool detonateActor(size_t actorIndex) override;
     std::optional<GameplayChargeCounts> chargeCounts() const override;
     // Moves a living actor to (x, y) for a blink or a charge's step when the spot is free: a floor in a sector within
     // maxHeightChange of its own (walkable for walkers) with headroom, no wall within its radius, no other actor or
@@ -1255,6 +1257,9 @@ private:
     GameplayActorModifiers::ChargeWorld chargeWorld();
     GameplayActorModifiers::ChargeActorFacts chargeActorFacts(size_t actorIndex) const;
     void handleChargeEvent(const GameplayActorModifiers::ChargeEvent &event);
+    // Before the AI each fixed actor step: detonations' charges and blasts (MonsterModifierSet::detonate).
+    void updateActorDetonations(float deltaSeconds);
+    void handleDetonateEvent(const GameplayActorModifiers::DetonateEvent &event);
     // A monster's missile homes: a true_aim monster's at its target, the rules' cone at the party (MAW).
     void attachTrueAim(uint32_t firstProjectileId, const MapActorAiState &source, ActorAiTargetKind targetKind,
         size_t targetActorIndex, uint32_t spellId);

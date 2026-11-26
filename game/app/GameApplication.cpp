@@ -5561,7 +5561,7 @@ void GameApplication::registerDebugConsoleCommands()
             " | actor immobile <index|last> on|off"
             " | actor shield <index|last> [points] | actor blink <index|last> | actor charge <index|last>"
             " | actor cast <index|last> <spell-id> [skill] [mastery]"
-            " | actor frenzy <index|last>",
+            " | actor frenzy <index|last> | actor detonate <index|last>",
         .callback = [this, activeGameplayWorld, commandResult](const DebugConsole::CommandContext &context)
         {
             // actor remaining: the living monsters the map's progress still counts, nearest first, with where they
@@ -5699,6 +5699,19 @@ void GameApplication::registerDebugConsoleCommands()
                 const bool frenzied = parsedIndex && *parsedIndex >= 0 && pWorld->frenzyActor(size_t(*parsedIndex));
                 return commandResult(frenzied,
                     frenzied ? "Frenzy." : "No frenzy (no frenzy modifier, in a frenzy, or charging).");
+            }
+            if (context.args.size() == 2 && toLowerCopy(context.args[0]) == "detonate")
+            {
+                // A detonation's charge now, as the actor's detonate modifier would, for captures and checks.
+                IGameplayWorldRuntime *pWorld = activeGameplayWorld();
+                const bool last = toLowerCopy(context.args[1]) == "last";
+                const std::optional<int32_t> parsedIndex = pWorld == nullptr ? std::nullopt : last
+                    ? std::optional<int32_t>(int32_t(pWorld->mapActorCount()) - 1)
+                    : parseInt32Argument(context.args[1]);
+                const bool detonating =
+                    parsedIndex && *parsedIndex >= 0 && pWorld->detonateActor(size_t(*parsedIndex));
+                return commandResult(detonating, detonating ? "Detonating."
+                    : "No detonation (no detonate modifier, detonating, charging or in a frenzy).");
             }
             if (context.args.size() >= 3 && context.args.size() <= 5 && toLowerCopy(context.args[0]) == "cast")
             {

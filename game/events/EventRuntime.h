@@ -424,6 +424,8 @@ struct EventRuntimeState
         std::string socket;
         float seconds = 0.0f;
         float scale = 1.0f;
+        // Above 0 (with seconds): the scale grows (or shrinks) to this over the seconds (a detonation's charge).
+        float endScale = 0.0f;
         bool stop = false;
     };
 

@@ -47,7 +47,7 @@ TEST_CASE("monster modifiers load names, parameters with defaults and id ranges"
     MonsterModifierTable table;
     std::string error;
     REQUIRE_MESSAGE(loadModifiers(table,
-        "  10065: [{true_aim: {turn_degrees_per_second: 90, max_seconds: 3}}, never_staggers]\n"
+        "  10065: [{true_aim: {turn_degrees_per_second: 90, max_seconds: 3}}, never_staggers, anchored]\n"
         "  10050-10052: [never_staggers]\n"
         "  10102: [{kites_party: {min_distance: 1024, max_distance: 3072}}]\n"
         "  10040: [{blink: {on_shield_break: true, cooldown_seconds: 8}}]\n"
@@ -62,7 +62,8 @@ TEST_CASE("monster modifiers load names, parameters with defaults and id ranges"
     CHECK(pTurret->trueAim->maxSeconds == doctest::Approx(3.0f));
     CHECK_FALSE(pTurret->trueAim->expireAfter);
     CHECK(pTurret->neverStaggers);
-    CHECK(pTurret->names == std::vector<std::string>{"true_aim", "never_staggers"});
+    CHECK(pTurret->anchored);
+    CHECK(pTurret->names == std::vector<std::string>{"true_aim", "never_staggers", "anchored"});
 
     const MonsterModifierSet *pBastion = table.find(10066);
     REQUIRE(pBastion != nullptr);
@@ -70,6 +71,7 @@ TEST_CASE("monster modifiers load names, parameters with defaults and id ranges"
     CHECK(pBastion->trueAim->turnRadiansPerSecond == doctest::Approx(Pi));
     CHECK(pBastion->trueAim->maxSeconds == doctest::Approx(4.0f));
     CHECK_FALSE(pBastion->neverStaggers);
+    CHECK_FALSE(pBastion->anchored);
     CHECK_FALSE(pBastion->indoorMeteorShower);
     REQUIRE(table.find(10120) != nullptr);
     CHECK(table.find(10120)->indoorMeteorShower);
@@ -151,7 +153,10 @@ TEST_CASE("the catalogue lists every modifier with its parameters and defaults")
     CHECK(findMonsterModifierInfo("reposition") != nullptr);
     CHECK(findMonsterModifierInfo("missile_blast") != nullptr);
     CHECK(findMonsterModifierInfo("wander") != nullptr);
-    CHECK(monsterModifierCatalogue().size() == 16);
+    CHECK(findMonsterModifierInfo("anchored") != nullptr);
+    CHECK(findMonsterModifierInfo("boss") != nullptr);
+    CHECK(findMonsterModifierInfo("detonate") != nullptr);
+    CHECK(monsterModifierCatalogue().size() == 19);
 }
 
 TEST_CASE("homing steering turns at most the turn rate, keeps the speed and settles on the target")

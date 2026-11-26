@@ -30,6 +30,13 @@ struct PendingMonsterDeathExplosion
     GameplayWorldPoint point = {};
     MonsterTable::MonsterStatsEntry::DamageProfile partyDamage = {};
     CombatDamageType partyDamageType = CombatDamageType::Physical;
+    // A detonate modifier's blast (MonsterModifierSet::detonate) rather than MM8's death blast: its own radius, the
+    // party's roll scaled (or a fixed damage), and other actors struck with the party's damage only when it says so.
+    bool detonation = false;
+    float radius = MonsterDeathExplosionRadius;
+    float partyDamageScale = 1.0f;
+    int fixedPartyDamage = 0;
+    bool detonationHitsActors = false;
 };
 
 struct MonsterDeathExplosionActorHit
@@ -53,6 +60,12 @@ struct MonsterDeathExplosion
 
 // The blast of actor actorIndex, which has just died; none when its monster does not explode.
 std::optional<PendingMonsterDeathExplosion> monsterDeathExplosionFor(
+    const IGameplayWorldRuntime &world,
+    size_t actorIndex);
+
+// The blast of a detonate modifier's actor actorIndex as its charge ends (its body's middle, its own Attack1 dice:
+// Attack2's when Attack1 fires a missile and Attack2 does not, as a charge's hit); none without the modifier.
+std::optional<PendingMonsterDeathExplosion> monsterDetonationFor(
     const IGameplayWorldRuntime &world,
     size_t actorIndex);
 

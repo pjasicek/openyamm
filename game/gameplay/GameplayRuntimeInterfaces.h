@@ -149,6 +149,10 @@ struct GameplayChargeCounts
     uint32_t misses = 0;
     // Frenzies (MonsterModifierSet::frenzy) started so far.
     uint32_t frenzies = 0;
+    // Detonations (MonsterModifierSet::detonate): charges started, blasts, charges cancelled.
+    uint32_t detonations = 0;
+    uint32_t blasts = 0;
+    uint32_t cancels = 0;
 };
 
 enum class ActorTurnBasedMode : uint8_t
@@ -777,6 +781,9 @@ struct ReplicaActorPose
         HostileToParty = 1 << 2,
         DetectedParty = 1 << 3,
         AttackImpactTriggered = 1 << 4,
+        // A detonate modifier's charge, and the short hold after its blast (GameplayActorModifiers::DetonatePhase).
+        DetonateCharging = 1 << 5,
+        DetonateBlasted = 1 << 6,
     };
 
     uint16_t actorIndex = 0;
@@ -1620,6 +1627,13 @@ public:
     // Starts the actor's frenzy now (its roar, then the frenzy), regardless of its triggers and cooldown; false
     // without the frenzy modifier, while it is in a frenzy or while it charges.
     virtual bool frenzyActor(size_t actorIndex)
+    {
+        (void)actorIndex;
+        return false;
+    }
+    // Starts the actor's detonation charge now (then its blast), regardless of its trigger distance, sight and
+    // cooldown; false without the detonate modifier, while it detonates, charges or frenzies.
+    virtual bool detonateActor(size_t actorIndex)
     {
         (void)actorIndex;
         return false;

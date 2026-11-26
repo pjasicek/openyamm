@@ -67,40 +67,7 @@ double MawRules::diminishedCrowdControlSeconds(
     double seconds,
     bool boss) const
 {
-    constexpr double WindowSeconds = 20.0;
-
-    if (group < 2 || group > 3)
-    {
-        return seconds;
-    }
-
-    std::vector<std::pair<double, double>> &history = m_crowdControlHistory[targetKey][size_t(group - 2)];
-    const double windowStart = nowSeconds - WindowSeconds;
-    std::erase_if(
-        history,
-        [windowStart](const std::pair<double, double> &entry)
-        {
-            return entry.second <= windowStart;
-        });
-    double recent = 0;
-
-    for (const auto &[start, end] : history)
-    {
-        recent += std::max(0.0, std::min(end, nowSeconds) - std::max(start, windowStart));
-    }
-
-    const double multiplier = mawDiminishingReturnsMultiplier(recent / WindowSeconds);
-
-    if (multiplier <= 0)
-    {
-        return 0;
-    }
-
-    // A boss holds half, but the history counts the whole (MAW's CC rework changelog; its code records the half, see
-    // DEVIATIONS.md).
-    seconds *= multiplier;
-    history.emplace_back(nowSeconds, nowSeconds + seconds);
-    return seconds * (boss ? 0.5 : 1);
+    return m_crowdControlHistory.apply(targetKey, group, nowSeconds, seconds, boss);
 }
 
 MawClassRuntime &MawRules::classRuntime(const Character &member) const

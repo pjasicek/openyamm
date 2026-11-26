@@ -270,7 +270,7 @@ bool indoorActorCorpsePhysicsNeedsStep(
     const MapDeltaActor &actor,
     const IndoorWorldRuntime::MapActorAiState &aiState)
 {
-    if (!indoorActorIsTerminalCorpse(actor, aiState))
+    if (aiState.anchored || !indoorActorIsTerminalCorpse(actor, aiState))
     {
         return false;
     }
@@ -719,19 +719,21 @@ bx::Vec3 actorKnockbackVelocityFromMagnitude(
 }
 
 bx::Vec3 actorKnockbackVelocity(
-    float actorX,
-    float actorY,
-    float actorZ,
+    const IndoorWorldRuntime::MapActorAiState &actor,
     float sourceX,
     float sourceY,
     float sourceZ,
     int damage,
     int maxHp)
 {
+    if (actor.anchored)
+    {
+        return {0.0f, 0.0f, 0.0f};
+    }
     return actorKnockbackVelocityFromMagnitude(
-        actorX,
-        actorY,
-        actorZ,
+        actor.preciseX,
+        actor.preciseY,
+        actor.preciseZ + static_cast<float>(actor.collisionHeight) * 0.5f,
         sourceX,
         sourceY,
         sourceZ,
@@ -3354,6 +3356,7 @@ IndoorWorldRuntime::MapActorAiState buildIndoorMapActorAiState(
         state.attack1DamageType = GameMechanics::parseCombatDamageType(pStats->attack1Type);
         state.attack2DamageType = GameMechanics::parseCombatDamageType(pStats->attack2Type);
         const MonsterModifierSet *pModifiers = pMonsterTable->findModifiers(resolvedMonsterId);
+        state.anchored = pModifiers != nullptr && pModifiers->anchored;
         state.spell1CastSupported = indoorMonsterSpellCastSupported(pStats->spell1Name)
             || monsterConditionSpellCastSupported(pStats->spell1Name, pModifiers, 1);
         state.spell2CastSupported = indoorMonsterSpellCastSupported(pStats->spell2Name)
@@ -3460,6 +3463,11 @@ void refreshIndoorMapActorAiStaticFields(
     state.collisionHeight = defaults.collisionHeight;
     state.projectileHitRadius = defaults.projectileHitRadius;
     state.movementSpeed = defaults.movementSpeed;
+    state.anchored = defaults.anchored;
+    if (state.anchored)
+    {
+        state.velocityX = state.velocityY = state.velocityZ = state.intendedSpeed = 0.0f;
+    }
     state.aiType = defaults.aiType;
     state.canFly = defaults.canFly;
     state.attack1DamageType = defaults.attack1DamageType;
@@ -4847,7 +4855,7 @@ void IndoorWorldRuntime::carryRestingObjectsOnMovedFloors(
         {
             MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
 
-            if (!aiState.grounded)
+            if (!aiState.grounded || aiState.anchored)
             {
                 continue;
             }
@@ -11082,8 +11090,8 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
     MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
     const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(aiState.monsterId);
 
-    // A posed prop is never moved: no collision push, no gravity (MapDeltaActor::posed).
-    if (actor.posed)
+    // A posed prop or a fixed mount keeps its world position through crowd contact and gravity.
+    if (actor.posed || aiState.anchored)
     {
         aiState.velocityX = 0.0f;
         aiState.velocityY = 0.0f;
@@ -12896,7 +12904,7 @@ std::optional<ActorAiFacts> IndoorWorldRuntime::collectIndoorActorAiFacts(
     const bool mm9CivilianWalks = (mm9Civilian || mm9Scripted || mm9Routine >= 0)
         && (mm9Profile->runSpeed > 0.0f || mm9Profile->walkSpeed > 0.0f);
     facts.movement.movementAllowed =
-        (pStats->movementType != MonsterTable::MonsterMovementType::Stationary || mm9CivilianWalks)
+        !aiState.anchored && (pStats->movementType != MonsterTable::MonsterMovementType::Stationary || mm9CivilianWalks)
         && (!bolster.immobile || mm9CivilianWalks)
         && (!actor.immobile || (mm9Civilian && aiState.mm9.fleeMode != Mm9FleeMode::None));
     facts.movement.movementBlocked = false;
@@ -13425,6 +13433,8 @@ void IndoorWorldRuntime::updateActorAi(float deltaSeconds)
         applyIndoorMeteorShowerRule(actorAiFacts);
         m_actorModifiers.applyChargeHolds(actorAiFacts);
         m_actorModifiers.applyFrenzies(actorAiFacts);
+        updateActorDetonations(ActorUpdateStepSeconds);
+        m_actorModifiers.applyDetonationHolds(actorAiFacts);
 
         if (m_pActorAiTrace != nullptr)
         {
@@ -14757,6 +14767,8 @@ GameplayActorModifiers::ChargeActorFacts IndoorWorldRuntime::chargeActorFacts(si
         && aiState.spellEffects.paralyzeRemainingSeconds <= 0.0f;
     facts.alive = actor.hp > 0 && aiState.motionState != ActorAiMotionState::Dying
         && aiState.motionState != ActorAiMotionState::Dead;
+    facts.incapacitated = aiState.motionState == ActorAiMotionState::Stunned
+        || aiState.spellEffects.paralyzeRemainingSeconds > 0.0f;
     const int maxHp = aiState.bolster ? aiState.bolster->maxHp : int(actor.hp);
     facts.healthShare = maxHp > 0 ? float(actor.hp) / float(maxHp) : 1.0f;
     facts.hostileToParty = aiState.hostileToParty && !partyControlled;
@@ -14809,6 +14821,7 @@ GameplayActorModifiers::ChargeWorld IndoorWorldRuntime::chargeWorld()
         return GameplayActorModifiers::ChargeStepResult::Moved;
     };
     world.handle = [this](const GameplayActorModifiers::ChargeEvent &event) { handleChargeEvent(event); };
+    world.detonated = [this](const GameplayActorModifiers::DetonateEvent &event) { handleDetonateEvent(event); };
     world.frenzyRoared = [this](size_t actorIndex, const FrenzyModifier &frenzy)
     {
         const MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
@@ -14821,6 +14834,66 @@ GameplayActorModifiers::ChargeWorld IndoorWorldRuntime::chargeWorld()
         }
     };
     return world;
+}
+
+void IndoorWorldRuntime::updateActorDetonations(float deltaSeconds)
+{
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (!m_actorModifiers.detonateActive() || pMapDeltaData == nullptr)
+    {
+        return;
+    }
+
+    // Turn-based: a charge starts on the monster's turn and explodes at the start of its next.
+    const std::vector<size_t> *pGrants = m_turnBasedActorFacts.mode != ActorTurnBasedMode::RealTime
+        ? &m_turnBasedActorFacts.actionGrantActorIndices
+        : nullptr;
+    m_actorModifiers.updateDetonations(deltaSeconds, std::min(pMapDeltaData->actors.size(), m_mapActorAiStates.size()),
+        [this](size_t actorIndex) { return chargeActorFacts(actorIndex); }, chargeWorld(), pGrants);
+}
+
+void IndoorWorldRuntime::handleDetonateEvent(const GameplayActorModifiers::DetonateEvent &event)
+{
+    if (event.actorIndex >= m_mapActorAiStates.size() || event.pDetonate == nullptr)
+    {
+        return;
+    }
+
+    const MapActorAiState &aiState = m_mapActorAiStates[event.actorIndex];
+    const std::array<float, 3> center = {
+        aiState.preciseX, aiState.preciseY, aiState.preciseZ + float(aiState.collisionHeight) * 0.5f};
+
+    // The blast strikes on the next update, as a death blast does (MonsterDeathExplosion.h).
+    if (event.kind == GameplayActorModifiers::DetonateEventKind::Exploded)
+    {
+        if (std::optional<PendingMonsterDeathExplosion> blast = monsterDetonationFor(*this, event.actorIndex))
+        {
+            m_pendingDeathExplosions.push_back(*blast);
+        }
+    }
+
+    EventRuntimeState *pEventRuntimeState = eventRuntimeState();
+
+    if (pEventRuntimeState == nullptr)
+    {
+        return;
+    }
+
+    switch (event.kind)
+    {
+        case GameplayActorModifiers::DetonateEventKind::ChargeStarted:
+            GameplayActorModifiers::queueDetonateChargePresentation(
+                *pEventRuntimeState, *event.pDetonate, event.actorIndex, center, float(aiState.collisionHeight));
+            break;
+        case GameplayActorModifiers::DetonateEventKind::Exploded:
+            GameplayActorModifiers::queueDetonateBlastPresentation(
+                *pEventRuntimeState, *event.pDetonate, event.actorIndex, center);
+            break;
+        case GameplayActorModifiers::DetonateEventKind::Cancelled:
+            GameplayActorModifiers::queueDetonateStopPresentation(*pEventRuntimeState, *event.pDetonate, event.actorIndex);
+            break;
+    }
 }
 
 void IndoorWorldRuntime::handleChargeEvent(const GameplayActorModifiers::ChargeEvent &event)
@@ -14923,10 +14996,25 @@ bool IndoorWorldRuntime::frenzyActor(size_t actorIndex)
         m_mapActorAiStates[actorIndex].actorId, chargeWorld());
 }
 
+bool IndoorWorldRuntime::detonateActor(size_t actorIndex)
+{
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || actorIndex >= m_mapActorAiStates.size()
+        || actorIndex >= pMapDeltaData->actors.size() || pMapDeltaData->actors[actorIndex].hp <= 0)
+    {
+        return false;
+    }
+
+    return m_actorModifiers.startDetonation(actorIndex, resolveIndoorActorStatsId(pMapDeltaData->actors[actorIndex]),
+        m_mapActorAiStates[actorIndex].actorId, chargeWorld());
+}
+
 std::optional<GameplayChargeCounts> IndoorWorldRuntime::chargeCounts() const
 {
     return GameplayChargeCounts{m_actorModifiers.chargeCount(), m_actorModifiers.chargeHitCount(),
-        m_actorModifiers.chargeMissCount(), m_actorModifiers.frenzyCount()};
+        m_actorModifiers.chargeMissCount(), m_actorModifiers.frenzyCount(), m_actorModifiers.detonationCount(),
+        m_actorModifiers.detonationBlastCount(), m_actorModifiers.detonationCancelCount()};
 }
 
 bool IndoorWorldRuntime::blinkMapActorTo(
@@ -15340,6 +15428,7 @@ bool IndoorWorldRuntime::pushActor(size_t actorIndex, float directionX, float di
 
     if (pMapDeltaData == nullptr || actorIndex >= pMapDeltaData->actors.size()
         || actorIndex >= m_mapActorAiStates.size() || pMapDeltaData->actors[actorIndex].hp <= 0 || distance <= 0.0f
+        || m_mapActorAiStates[actorIndex].anchored
         || m_mapActorAiStates[actorIndex].motionState == ActorAiMotionState::Dying
         || m_mapActorAiStates[actorIndex].motionState == ActorAiMotionState::Dead)
     {
@@ -17585,9 +17674,7 @@ bool IndoorWorldRuntime::applyReflectedDamageToActor(
             : pStats != nullptr && pStats->hitPoints > 0 ? pStats->hitPoints : previousHp;
         const MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
         const bx::Vec3 knockback = actorKnockbackVelocity(
-            aiState.preciseX,
-            aiState.preciseY,
-            aiState.preciseZ + static_cast<float>(aiState.collisionHeight) * 0.5f,
+            aiState,
             partyX(),
             partyY(),
             partyFootZ(),
@@ -18000,7 +18087,8 @@ bool IndoorWorldRuntime::applyPartySpellToActor(
                     pActorService->actorLooksUndead(resolvedMonsterId),
                     mapName(),
                     actorIndex,
-                    m_gameMinutes));
+                    m_gameMinutes,
+                    m_actorModifiers.bossCrowdControl(resolvedMonsterId)));
 
         if (effectResult.disposition == GameplayActorService::SharedSpellDisposition::Rejected)
         {
@@ -18048,7 +18136,7 @@ bool IndoorWorldRuntime::applyPartySpellToActor(
 
         beginMapActorHitReaction(actorIndex, actor, &sourcePoint);
 
-        if (pushVelocity && actorIndex < m_mapActorAiStates.size())
+        if (pushVelocity && actorIndex < m_mapActorAiStates.size() && !m_mapActorAiStates[actorIndex].anchored)
         {
             m_mapActorAiStates[actorIndex].velocityX = pushVelocity->x;
             m_mapActorAiStates[actorIndex].velocityY = pushVelocity->y;
@@ -18094,9 +18182,7 @@ bool IndoorWorldRuntime::applyPartySpellToActor(
         const int maxHp = actor.rulesetFacts.maxHp > 0 ? actor.rulesetFacts.maxHp
             : pStats != nullptr && pStats->hitPoints > 0 ? pStats->hitPoints : previousHp;
         const bx::Vec3 knockback = actorKnockbackVelocity(
-            aiState.preciseX,
-            aiState.preciseY,
-            aiState.preciseZ + static_cast<float>(aiState.collisionHeight) * 0.5f,
+            aiState,
             partyX,
             partyY,
             partyZ,
@@ -19903,6 +19989,12 @@ bool IndoorWorldRuntime::applyIndoorActorPhysicsStep(IndoorMovementController &m
         return false;
     }
 
+    if (aiState.anchored)
+    {
+        aiState.velocityX = aiState.velocityY = aiState.velocityZ = aiState.intendedSpeed = 0.0f;
+        return false;
+    }
+
     // A posed prop is never moved (MapDeltaActor::posed).
     if (actor.posed)
     {
@@ -20592,7 +20684,8 @@ bool IndoorWorldRuntime::captureReplicaActorPose(size_t actorIndex, ReplicaActor
         | ((actor.attributes & uint32_t(EvtActorAttribute::Invisible)) != 0 ? ReplicaActorPose::Invisible : 0)
         | (aiState.hostileToParty ? ReplicaActorPose::HostileToParty : 0)
         | (aiState.hasDetectedParty ? ReplicaActorPose::DetectedParty : 0)
-        | (aiState.attackImpactTriggered ? ReplicaActorPose::AttackImpactTriggered : 0));
+        | (aiState.attackImpactTriggered ? ReplicaActorPose::AttackImpactTriggered : 0)
+        | GameplayActorModifiers::replicaPoseFlags(m_actorModifiers.detonatePhase(actorIndex, aiState.actorId)));
     return true;
 }
 
@@ -20789,10 +20882,45 @@ void IndoorWorldRuntime::applyReplicaActorPose(const ReplicaActorPose &pose)
     {
         spawnBloodSplatForActorIfNeeded(pose.actorIndex);
     }
+
+    // A detonation's charge and blast: the guest's own effects (the host's world sends the sounds).
+    if (m_actorModifiers.detonateActive())
+    {
+        const int16_t monsterId = resolveIndoorActorStatsId(actor);
+        const GameplayActorModifiers::ReplicaDetonateEdges edges = m_actorModifiers.applyReplicaDetonation(
+            pose.actorIndex, monsterId, aiState.actorId, (pose.flags & ReplicaActorPose::DetonateCharging) != 0,
+            (pose.flags & ReplicaActorPose::DetonateBlasted) != 0);
+        const MonsterModifierSet *pModifiers =
+            m_pMonsterTable != nullptr ? m_pMonsterTable->findModifiers(monsterId) : nullptr;
+        EventRuntimeState *pEventRuntimeState = eventRuntimeState();
+
+        if (pModifiers != nullptr && pModifiers->detonate && pEventRuntimeState != nullptr)
+        {
+            const std::array<float, 3> center = {
+                aiState.preciseX, aiState.preciseY, aiState.preciseZ + float(aiState.collisionHeight) * 0.5f};
+
+            if (edges.chargeStarted)
+            {
+                GameplayActorModifiers::queueDetonateChargePresentation(*pEventRuntimeState, *pModifiers->detonate,
+                    pose.actorIndex, center, float(aiState.collisionHeight), false);
+            }
+            else if (edges.exploded)
+            {
+                GameplayActorModifiers::queueDetonateBlastPresentation(
+                    *pEventRuntimeState, *pModifiers->detonate, pose.actorIndex, center, false);
+            }
+            else if (edges.cancelled)
+            {
+                GameplayActorModifiers::queueDetonateStopPresentation(
+                    *pEventRuntimeState, *pModifiers->detonate, pose.actorIndex);
+            }
+        }
+    }
 }
 
 void IndoorWorldRuntime::updateReplicaActors(float deltaSeconds)
 {
+    m_actorModifiers.tickReplicaDetonations(deltaSeconds);
     MapDeltaData *pMapDeltaData = mapDeltaData();
 
     if (pMapDeltaData == nullptr)
@@ -21674,9 +21802,7 @@ bool IndoorWorldRuntime::applyPartyAttackMeleeDamage(
             : pStats != nullptr && pStats->hitPoints > 0 ? pStats->hitPoints : previousHp;
         const MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
         const bx::Vec3 knockback = actorKnockbackVelocity(
-            aiState.preciseX,
-            aiState.preciseY,
-            aiState.preciseZ + static_cast<float>(aiState.collisionHeight) * 0.5f,
+            aiState,
             source.x,
             source.y,
             source.z,
@@ -21741,9 +21867,7 @@ bool IndoorWorldRuntime::applyPartyAttackMeleeDamage(
             : pStats != nullptr && pStats->hitPoints > 0 ? pStats->hitPoints : previousHp;
         const MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
         const bx::Vec3 knockback = actorKnockbackVelocity(
-            aiState.preciseX,
-            aiState.preciseY,
-            aiState.preciseZ + static_cast<float>(aiState.collisionHeight) * 0.5f,
+            aiState,
             source.x,
             source.y,
             source.z,
@@ -21996,21 +22120,24 @@ void IndoorWorldRuntime::applyPartyAttackMeleeEffects(
         return;
     }
 
-    const uint32_t skillLevel = std::max<uint32_t>(1, attack.skillLevel);
+    // A boss's stun or paralysis under Standard rules: MAW's weapon paralysis through diminishing returns; its fear
+    // and berserk: MAW's spell durations through diminishing returns.
+    CharacterAttackResult blow = attack;
+    const GameplayActorModifiers::BossBlowControl bossControl = m_actorModifiers.applyBossBlowCrowdControl(
+        blow, resolveIndoorActorStatsId(actor), mapActorKey(mapName(), actorIndex), m_gameMinutes * 2.0);
+    const uint32_t skillLevel = std::max<uint32_t>(1, blow.skillLevel);
     const float skillSeconds = static_cast<float>(skillLevel) * 60.0f;
     GameplayActorSpellEffectState &spellEffects = m_mapActorAiStates[actorIndex].spellEffects;
 
-    if (attack.stunTarget)
+    if (blow.stunTarget)
     {
         spellEffects.stunRemainingSeconds = std::max(spellEffects.stunRemainingSeconds,
-            attack.stunSeconds.value_or(0.5f + 0.35f * static_cast<float>(skillLevel)));
+            blow.stunSeconds.value_or(0.5f + 0.35f * static_cast<float>(skillLevel)));
         const MonsterTable::MonsterStatsEntry *pStats =
             m_pMonsterTable != nullptr ? m_pMonsterTable->findStatsById(resolveIndoorActorStatsId(actor)) : nullptr;
         const int maxHp = pStats != nullptr && pStats->hitPoints > 0 ? pStats->hitPoints : std::max<int>(1, actor.hp);
         const bx::Vec3 knockback = actorKnockbackVelocity(
-            aiState.preciseX,
-            aiState.preciseY,
-            aiState.preciseZ + static_cast<float>(aiState.collisionHeight) * 0.5f,
+            aiState,
             source.x,
             source.y,
             source.z,
@@ -22021,24 +22148,26 @@ void IndoorWorldRuntime::applyPartyAttackMeleeEffects(
         m_mapActorAiStates[actorIndex].velocityZ = knockback.z;
     }
 
-    if (attack.paralyzeTarget)
+    if (blow.paralyzeTarget)
     {
         spellEffects.paralyzeRemainingSeconds =
-            std::max(spellEffects.paralyzeRemainingSeconds, attack.paralyzeSeconds.value_or(skillSeconds));
+            std::max(spellEffects.paralyzeRemainingSeconds, blow.paralyzeSeconds.value_or(skillSeconds));
     }
 
-    if (attack.fearTarget)
+    if (blow.fearTarget)
     {
-        spellEffects.fearRemainingSeconds = std::max(spellEffects.fearRemainingSeconds, skillSeconds);
+        spellEffects.fearRemainingSeconds =
+            std::max(spellEffects.fearRemainingSeconds, bossControl.fearSeconds.value_or(skillSeconds));
     }
 
-    if (attack.enrageTarget)
+    if (blow.enrageTarget)
     {
         spellEffects.controlMode = GameplayActorControlMode::Berserk;
-        spellEffects.controlRemainingSeconds = std::max(spellEffects.controlRemainingSeconds, skillSeconds);
+        spellEffects.controlRemainingSeconds =
+            std::max(spellEffects.controlRemainingSeconds, bossControl.berserkSeconds.value_or(skillSeconds));
     }
 
-    if (attack.halveTargetArmorClass)
+    if (blow.halveTargetArmorClass)
     {
         spellEffects.armorClassHalvedRemainingSeconds =
             std::max(spellEffects.armorClassHalvedRemainingSeconds, skillSeconds);
@@ -25423,7 +25552,8 @@ void IndoorWorldRuntime::displaceActorByMover(size_t actorIndex, float deltaX, f
 
     if (pMapDeltaData == nullptr
         || actorIndex >= pMapDeltaData->actors.size()
-        || actorIndex >= m_mapActorAiStates.size())
+        || actorIndex >= m_mapActorAiStates.size()
+        || m_mapActorAiStates[actorIndex].anchored)
     {
         return;
     }

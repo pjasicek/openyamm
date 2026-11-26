@@ -2,6 +2,7 @@
 
 #include "game/content/RulesetOptions.h"
 #include "game/gameplay/PlayerId.h"
+#include "game/rules/CrowdControlDiminishing.h"
 #include "game/rules/GameRules.h"
 #include "game/rules/maw/MawBalanceModel.h"
 #include "game/rules/maw/MawClassRules.h"
@@ -391,9 +392,8 @@ private:
     double m_unstuckReadyGameMinutes = 0;
     bool m_austerityIdentifyRespecced = false;
     std::map<uint32_t, int> m_promotionWorlds;
-    // Runtime only: the crowd control each monster was under lately, per diminishing-returns group (2 and 3), as
-    // intervals of the world clock.
-    mutable std::unordered_map<uint64_t, std::array<std::vector<std::pair<double, double>>, 2>> m_crowdControlHistory;
+    // Runtime only: the crowd control each monster was under lately, per diminishing-returns group (2 and 3).
+    mutable CrowdControlDiminishingReturns m_crowdControlHistory;
     MawExperienceRules m_experience;
     MawCombatRules m_combat;
     MawMonsterRules m_monsters;
