@@ -6,6 +6,7 @@ add_executable(openyamm_unit_tests
     AssetPackIndexTests.cpp
     UpdaterTests.cpp
     SettingsFileTests.cpp
+    DisplayModesTests.cpp
     ItemSearchTests.cpp
     ItemVisualTests.cpp
     LootPoolTests.cpp
@@ -220,6 +221,7 @@ add_executable(openyamm_unit_tests
     GameplayScreenRuntimeTestStubs.cpp
     ../game/app/GameSettings.cpp
     ../game/app/GameInputSystem.cpp
+    ../game/app/WindowPointer.cpp
     ../game/app/KeyboardBindings.cpp
     ../game/app/ScreenManager.cpp
     ../engine/AudioSystem.cpp
@@ -229,6 +231,7 @@ add_executable(openyamm_unit_tests
     ../engine/update/AppUpdater.cpp
     ../engine/update/HttpTransport.cpp
     ../engine/update/ReleaseManifest.cpp
+    ../engine/DisplayModes.cpp
     ../engine/FontAsset.cpp
     ../engine/ImageAssetLoader.cpp
     ../engine/ImageMipmaps.cpp
@@ -553,6 +556,10 @@ target_link_libraries(openyamm_unit_tests
 )
 
 add_dependencies(openyamm_unit_tests openyamm_ffmpeg_build)
+
+if (APPLE AND NOT IOS)
+    target_link_libraries(openyamm_unit_tests PRIVATE "-framework CoreFoundation" "-framework CoreGraphics")
+endif()
 
 if (UNIX AND NOT APPLE)
     target_link_options(openyamm_unit_tests

@@ -5,6 +5,7 @@
 #include "game/coop/CoopBodies.h"
 #include "game/debug/AiArena.h"
 #include "game/app/GameSession.h"
+#include "game/app/WindowPointer.h"
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/gameplay/GameplayDialogContextBuilder.h"
 #include "game/gameplay/GameMechanics.h"
@@ -1988,18 +1989,7 @@ void IndoorGameView::syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled
         }
         else if (windowFocused)
         {
-            int windowWidth = 0;
-            int windowHeight = 0;
-            SDL_GetWindowSizeInPixels(pWindow, &windowWidth, &windowHeight);
-
-            if (windowWidth > 0 && windowHeight > 0)
-            {
-                SDL_WarpMouseInWindow(
-                    pWindow,
-                    static_cast<float>(windowWidth) * 0.5f,
-                    static_cast<float>(windowHeight) * 0.5f);
-            }
-
+            warpMouseToWindowCenter(pWindow);
             m_lastGameplayMouseLookCursorSyncTicks = 0;
         }
 
@@ -2058,32 +2048,11 @@ void IndoorGameView::syncCursorToGameplayCrosshair(SDL_Window *pWindow)
         return;
     }
 
-    if (!windowHasInputFocus(pWindow))
+    if (!windowHasInputFocus(pWindow) || !warpMouseToWindowCenter(pWindow))
     {
         return;
     }
 
-    int windowWidth = 0;
-    int windowHeight = 0;
-    SDL_GetWindowSizeInPixels(pWindow, &windowWidth, &windowHeight);
-
-    if (windowWidth <= 0 || windowHeight <= 0)
-    {
-        const GameplayInputFrame *pInputFrame = m_gameSession.currentGameplayInputFrame();
-
-        if (pInputFrame == nullptr || pInputFrame->screenWidth <= 0 || pInputFrame->screenHeight <= 0)
-        {
-            return;
-        }
-
-        windowWidth = pInputFrame->screenWidth;
-        windowHeight = pInputFrame->screenHeight;
-    }
-
-    SDL_WarpMouseInWindow(
-        pWindow,
-        static_cast<float>(windowWidth) * 0.5f,
-        static_cast<float>(windowHeight) * 0.5f);
     m_gameSession.requestRelativeMouseMotionReset();
 }
 

@@ -4,6 +4,8 @@
 # sliders that follow their own toggle; `depends` rows are indented under the setting they depend on.
 # An `action` row stores no setting: the game fills its label, description and button (update_now: the installed
 # version, the update status and Check Now). `updater_only` sections and rows exist only where the game updates itself.
+# `macos_only` rows exist only on macOS; a row a platform leaves out keeps its place in the layout, so it comes last in
+# its tab.
 # `ruleset_desc` replaces a row's description in the pause menu of a game with a ruleset (keep it no longer than `desc`,
 # whose length the layout measures).
 # The `game` section's rows are the ruleset options of the game in progress, not settings.ini values: the menu fills
@@ -614,6 +616,14 @@ settings:
   name: Surface reflections
   type: toggle
   desc: Marble, glass, metal and puddles reflect the buildings around them. Needs surface materials.
+- id: macos_borderless_own_space
+  section: video
+  group: macOS
+  name: Borderless window in its own Space
+  type: toggle
+  desc: 'On: borderless opens in a separate Space you can swipe to, below the camera notch. Off: it covers the whole
+    screen, the notch area included, on the current desktop. Takes effect at the next start.'
+  macos_only: true
 - id: sound_volume
   section: audio
   group: Volume

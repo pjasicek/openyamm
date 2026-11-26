@@ -6,6 +6,7 @@
 #include "game/outdoor/OutdoorSunlight.h"
 
 #include "game/app/GameSession.h"
+#include "game/app/WindowPointer.h"
 #include "game/content/WorldDecorations.h"
 #include "engine/BgfxContext.h"
 #include "game/debug/GameplayDebugTrace.h"
@@ -3884,18 +3885,7 @@ void OutdoorGameView::syncGameplayMouseLookMode(SDL_Window *pWindow, bool enable
         }
         else if (windowFocused)
         {
-            int windowWidth = 0;
-            int windowHeight = 0;
-            SDL_GetWindowSizeInPixels(pWindow, &windowWidth, &windowHeight);
-
-            if (windowWidth > 0 && windowHeight > 0)
-            {
-                SDL_WarpMouseInWindow(
-                    pWindow,
-                    static_cast<float>(windowWidth) * 0.5f,
-                    static_cast<float>(windowHeight) * 0.5f);
-            }
-
+            warpMouseToWindowCenter(pWindow);
             m_lastGameplayMouseLookCursorSyncTicks = 0;
         }
 
@@ -3954,33 +3944,17 @@ void OutdoorGameView::syncCursorToGameplayCrosshair(SDL_Window *pWindow)
         return;
     }
 
-    if (!windowHasInputFocus(pWindow))
+    if (!windowHasInputFocus(pWindow) || !warpMouseToWindowCenter(pWindow))
     {
         return;
     }
 
-    int windowWidth = 0;
-    int windowHeight = 0;
-    SDL_GetWindowSizeInPixels(pWindow, &windowWidth, &windowHeight);
-
-    if (windowWidth <= 0 || windowHeight <= 0)
-    {
-        const GameplayInputFrame *pInputFrame = m_gameSession.currentGameplayInputFrame();
-
-        if (pInputFrame == nullptr || pInputFrame->screenWidth <= 0 || pInputFrame->screenHeight <= 0)
-        {
-            return;
-        }
-
-        windowWidth = pInputFrame->screenWidth;
-        windowHeight = pInputFrame->screenHeight;
-    }
-
-    const float cursorX = static_cast<float>(windowWidth) * 0.5f;
-    const float cursorY = static_cast<float>(windowHeight) * 0.5f;
-    SDL_WarpMouseInWindow(pWindow, cursorX, cursorY);
-    m_lastMouseX = cursorX;
-    m_lastMouseY = cursorY;
+    // The pointer is kept in the window's pixels, like the input frame's.
+    int pixelWidth = 0;
+    int pixelHeight = 0;
+    SDL_GetWindowSizeInPixels(pWindow, &pixelWidth, &pixelHeight);
+    m_lastMouseX = static_cast<float>(pixelWidth) * 0.5f;
+    m_lastMouseY = static_cast<float>(pixelHeight) * 0.5f;
     m_gameSession.requestRelativeMouseMotionReset();
 }
 

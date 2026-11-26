@@ -574,6 +574,23 @@ elements:
         align_y: middle
         scale: 0.4
         pad_x: 0.0
+    - id: SettingsVideoGroup9
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 1728.6696
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: macOS
+        font: fondamento
+        color: '#e0c990'
+        align_x: left
+        align_y: middle
+        scale: 0.4
+        pad_x: 0.0
     - id: SettingsVideoWindowModeLabel
       anchor: top_left
       offset_x: 1.6
@@ -2461,6 +2478,53 @@ elements:
       anchor: top_left
       offset_x: 453.3333
       offset_y: 1683.2613
+      width: 70.4
+      height: 32.158
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_toggle_off.png
+        selected: hud_x2/menus/omenu_toggle_on.png
+    - id: SettingsVideoMacosBorderlessOwnSpaceLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 1754.2696
+      width: 435.7333
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Borderless window in its own Space
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsVideoMacosBorderlessOwnSpaceDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 1770.4781
+      width: 435.7333
+      height: 34.5504
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: 'On: borderless opens in a separate Space you can swipe to, below the camera notch. Off: it covers the
+          whole screen, the notch area included, on the current desktop. Takes effect at the next start.'
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsVideoMacosBorderlessOwnSpaceControl
+      anchor: top_left
+      offset_x: 453.3333
+      offset_y: 1763.5701
       width: 70.4
       height: 32.158
       z_index: 10
