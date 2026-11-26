@@ -3039,6 +3039,8 @@ PartyMissileSource GameplayProjectileService::partyMissileSource(
         // The flight from where it left to where it is now, at the monster (a solo run's Long Shot).
         source.flightDistance = std::hypot(projectile.x - projectile.sourceX, projectile.y - projectile.sourceY,
             projectile.z - projectile.sourceZ);
+        source.carnageArrow = projectile.spellId == 0 && projectile.explosionRadius > 0.0f
+            && projectile.damageType == CombatDamageType::Fire;
     }
 
     return source;

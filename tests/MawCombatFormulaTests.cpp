@@ -176,14 +176,15 @@ TEST_CASE("MAW monster hits on the Champion match the worked examples")
     CHECK(monsterHit(HellDifficulty, 150, fireball, CombatDamageType::Fire, 136, 110) == 1203);
 }
 
-TEST_CASE("MAW mitigation keeps a tenth of the hit and honours immunities")
+TEST_CASE("MAW mitigation keeps a hundredth of the hit and honours immunities")
 {
     MawMitigationInputs inputs;
     inputs.damage = 1000;
     inputs.type = CombatDamageType::Physical;
     inputs.attackerLevel = 1;
     inputs.armorClass = 100000;
-    CHECK(mawMitigatedDamage(inputs) == doctest::Approx(100));
+    // MAW d24bdea5: the floor is 1 % of the input (was 10 %).
+    CHECK(mawMitigatedDamage(inputs) == doctest::Approx(10));
 
     inputs.type = CombatDamageType::Light;
     inputs.resistances = {0, 0, 0, 0, 65000, 0};
@@ -195,4 +196,9 @@ TEST_CASE("MAW mitigation keeps a tenth of the hit and honours immunities")
     inputs.type = CombatDamageType::Irresistible;
     inputs.grandmasterShield = true;
     CHECK(mawMitigatedDamage(inputs) == doctest::Approx(850));
+
+    // MAW 013f04af: the Grandmaster Shield cut leaves physical hits alone.
+    inputs.type = CombatDamageType::Physical;
+    inputs.armorClass = 0;
+    CHECK(mawMitigatedDamage(inputs) == doctest::Approx(1000));
 }

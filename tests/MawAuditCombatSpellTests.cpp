@@ -1687,11 +1687,14 @@ TEST_CASE("Supreme Armsmaster's damage counts item bonuses; the weapon-skill bon
 {
     MawRules rules(RulesetOptions{}, MawMapLevels{});
     Character knight = auditMember("Knight", 50);
-    knight.skills["Armsmaster"] = {"Armsmaster", 25, SkillMastery::Grandmaster};
+    // Supreme at 20 points (MAW e203116c; 30 before).
+    knight.skills["Armsmaster"] = {"Armsmaster", 17, SkillMastery::Grandmaster};
     CHECK_FALSE(mawSupremeArmsmaster(rules, knight, true));
-    knight.itemSkillBonuses["Armsmaster"] = 5;
+    knight.itemSkillBonuses["Armsmaster"] = 3;
     CHECK(mawSupremeArmsmaster(rules, knight, true));
     CHECK_FALSE(mawSupremeArmsmaster(rules, knight));
+    CHECK_EQ(mawSupremeArmsmasterLevel(RulesetChallengeMode::RoadToInsanity), 32u);
+    CHECK_EQ(mawSupremeArmsmasterLevel(RulesetChallengeMode::BeyondMadness), 50u);
 }
 
 TEST_CASE("A mercenary's gear loses its rarity, legendary affix, drop level and quality (SKL-4)")

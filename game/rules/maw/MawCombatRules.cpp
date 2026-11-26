@@ -297,13 +297,21 @@ constexpr int LegendaryManaThreshold = 30;
 constexpr int LegendaryManaLeech = 31;
 constexpr int SparksSpell = 15;
 
-// MAW's area spells (aoespells, SP:2094).
+// MAW's area spells (aoespells, SP:2147; Fire Spike left it in MAW 4d23c690). MAW's 201 is its Soul Drinker leech
+// id; ours is Soul Drinker's own, 99.
 bool isAreaSpell(uint32_t spellId)
 {
-    static constexpr std::array<uint32_t, 17> AreaSpells = {
-        6, 7, 8, 9, 10, 15, 22, 24, 32, 41, 43, 84, 93, 97, 98, 99, 123,
+    static constexpr std::array<uint32_t, 16> AreaSpells = {
+        6, 8, 9, 10, 15, 22, 24, 32, 41, 43, 84, 93, 97, 98, 99, 123,
     };
     return std::find(AreaSpells.begin(), AreaSpells.end(), spellId) != AreaSpells.end();
+}
+
+// The area spells whose hits keep their whole damage on the denser difficulties: Sparks, Poison Spray, Ice Blast and
+// Shrapmetal (shotgunSpells, Damage.lua:1170-1175).
+bool isShotgunSpell(uint32_t spellId)
+{
+    return spellId == 15 || spellId == 24 || spellId == 32 || spellId == 93;
 }
 
 double unitDraw(std::mt19937 &rng)
@@ -498,10 +506,21 @@ std::pair<double, double> powerAndVitality(
     // Endurance and HP.
     double fullHealth = sheet.health.maximum;
 
-    if (character.hasSkill("ManaShield") && !character.rulesetState.manaShieldDisabled)
+    // Mana Shield adds what its mana absorbs, at most what its share of each hit leaves the health to take: the
+    // shield takes `absorb` of a hit, so it runs out after health x absorb / (1 - absorb) (MAW cb4c0633).
+    if (character.hasSkill("ManaShield") && skillLevel(character, "ManaShield") > 0
+        && !character.rulesetState.manaShieldDisabled)
     {
-        fullHealth += sheet.spellPoints.maximum
+        double shield = sheet.spellPoints.maximum
             * mawRound(mawManaShieldEfficiency(skillLevel(character, "ManaShield")) * 100) / 100;
+        const double absorb = mawManaShieldAbsorbFraction(skillMastery(character, "ManaShield"));
+
+        if (absorb < 1)
+        {
+            shield = std::min(shield, fullHealth * absorb / (1 - absorb));
+        }
+
+        fullHealth += shield;
     }
 
     // A dragon's Dodging is Scales and never dodges (zzMaw-Stats.lua:1321-1323).
@@ -1005,9 +1024,10 @@ MawCombatRules::MawCombatRules(MawRules &rules)
             }
 
             // Legendary 17: a physical blow, or any missile or spell, adds 2 % of the monster's current HP through
-            // its physical resistance; half for arrows and area spells; at the weapon's speed multiplier, an
-            // arrow's at the bow's, a Death Knight's or Assassin's spell at the melee one, other spells x 1.015^Learning
-            // (DM:1021-1044). A blaster shot (energy) counts as a spell.
+            // its physical resistance; half for arrows and area spells, and 40 % of that for a Carnage arrow (MAW
+            // 2ef24120); at the weapon's speed multiplier, an arrow's at the bow's, a Death Knight's or Assassin's
+            // spell at the melee one, other spells x 1.015^Learning (DM:1045-1068). A blaster shot (energy) counts as a
+            // spell.
             if (mawWearsLegendaryAffix(*pAttacker, LegendaryHealthDamage) && hit.pItemTable != nullptr
                 && (hit.pMissileAttacker != nullptr || hit.type == CombatDamageType::Physical))
             {
@@ -1021,6 +1041,11 @@ MawCombatRules::MawCombatRules(MawRules &rules)
                 if (arrow || isAreaSpell(hit.missileSpellId))
                 {
                     extra *= 0.5;
+                }
+
+                if (hit.carnageArrow)
+                {
+                    extra *= MawCarnageDamageMultiplier;
                 }
 
                 if (meleeSpeed || arrow)
@@ -1107,6 +1132,21 @@ MawCombatRules::MawCombatRules(MawRules &rules)
             }
 
             hit.amount = int(mawRound(hit.amount * (1 + taken / 100)));
+        });
+    m_damageToMonster.add(
+        "area-density",
+        [this](MonsterDamageHit &hit)
+        {
+            // The denser difficulties cut a Carnage arrow's hits and the party's area spells but the four shotgun ones
+            // (stage_aoeDensity, MAW 4d23c690).
+            if (hit.amount <= 0 || hit.pMissileAttacker == nullptr
+                || !(hit.carnageArrow || (isAreaSpell(hit.missileSpellId) && !isShotgunSpell(hit.missileSpellId))))
+            {
+                return;
+            }
+
+            const double share = mawDensityAreaMultiplier(mawModelConfig(m_rules.options(), 5).difficulty);
+            hit.amount = int(mawRound(hit.amount * share));
         });
     m_damageToMonster.add(
         "solo-talents",
@@ -1227,6 +1267,12 @@ MawCombatRules::MawCombatRules(MawRules &rules)
             if (hit.attackerDebuffed)
             {
                 damage *= 0.7;
+            }
+
+            // A monster's death blast deals 40 % (Object.AttackType 4, MAW 0a2d2863).
+            if (hit.deathBlast)
+            {
+                damage *= 0.4;
             }
 
             // A personal shield took its share of the rolled hit before the rules saw it.
@@ -1904,14 +1950,16 @@ void MawCombatRules::resolveCharacterAttack(
             && skillMastery(character, "Bow") >= SkillMastery::Grandmaster;
     }
 
-    // Each fanned arrow rolls its own damage from the range, at the weapon's speed multiplier. Weak halves and a
-    // Carnage arrow quarters the shot's own roll, on every hit, the one it strikes and each in the explosion; the bow's
-    // aura, enchantment and artifact are added after, whole (stage_weaponRecompute, DM:439-459, 1003-1015,
-    // ART:528-541; Carnage's text says half, GAPS.md D.5; CMB-16). Only a bow's arrow: a BlastBlaster gun's burst
-    // (Hesper's Blaster Cannon) is not MAW's Carnage, and its MAW base sizes it whole.
+    // Each fanned arrow rolls its own damage from the range, at the weapon's speed multiplier. Weak halves the shot's
+    // own roll and a Carnage arrow takes 40 % of it (MAW ed2e57cd; x0.25 before), on every hit, the one it strikes and
+    // each in the explosion. The bow's aura and enchantment are added after, at the same 40 % on a Carnage arrow
+    // (MAW 2ef24120), and its artifact whole (stage_weaponRecompute, stage_legendaries, ART:528-541; GAPS.md D.5;
+    // CMB-16). Only a bow's arrow: a BlastBlaster gun's burst (Hesper's Blaster Cannon) is not MAW's Carnage, and its
+    // MAW base sizes it whole.
     if (attack.mode != CharacterAttackMode::Melee)
     {
-        const double carnage = attack.explosiveArrow && attack.mode == CharacterAttackMode::Bow ? 0.25 : 1;
+        const double carnage =
+            attack.explosiveArrow && attack.mode == CharacterAttackMode::Bow ? MawCarnageDamageMultiplier : 1;
         attack.damage = int(mawRound(attack.damage * weakness * carnage));
         attack.minimumDamage = int(mawRound(minimum * delay.damageMultiplier * weakness * carnage));
         attack.maximumDamage = int(mawRound(maximum * delay.damageMultiplier * weakness * carnage));
@@ -1939,6 +1987,9 @@ void MawCombatRules::resolveCharacterAttack(
                 lowAdd += range.minimum * scale;
                 highAdd += range.maximum * scale;
             }
+
+            lowAdd *= carnage;
+            highAdd *= carnage;
 
             // A bow artifact's on-hit damage rides on its arrows as well.
             if (const std::optional<MawEnchantRange> range = artifactHitRange(
@@ -2115,7 +2166,8 @@ MawPowerReport mawPowerReport(
             }
         }
 
-        extra *= std::pow(1.02, mawAscension(character, MawAscensionUse::Damage).skill)
+        // x 1.015^Ascension as the hit itself (calcPowerVitality, MAW 2ef24120; 1.02 before).
+        extra *= std::pow(1.015, mawAscension(character, MawAscensionUse::Damage).skill)
             / (isAreaSpell(uint32_t(pSpell->id)) ? 2.5 : 1);
         CharacterSpellCast cast;
         cast.pCaster = &character;
@@ -2156,7 +2208,7 @@ MawPowerReport mawPowerReport(
             }
         }
 
-        extra *= std::pow(1.02, mawAscension(character, MawAscensionUse::Damage).skill);
+        extra *= std::pow(1.015, mawAscension(character, MawAscensionUse::Damage).skill);
         CharacterSpellCast cast;
         cast.pCaster = &character;
         cast.pItemTable = &itemTable;

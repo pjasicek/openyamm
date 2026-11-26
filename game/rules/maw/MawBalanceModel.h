@@ -26,6 +26,13 @@ struct MawModelConfig
 
 MawModelConfig mawModelConfig(const RulesetOptions &options, int partyCount);
 
+// What the denser difficulties leave of the party's area damage (monsterDensity AoeMult, MAW 4d23c690): x1 up to MAW,
+// x0.9 Hard and Hell, x0.8 Nightmare, x0.7 Doom, x0.65 Road to Insanity, x0.6 Beyond Madness.
+double mawDensityAreaMultiplier(int difficulty);
+
+// The share of a hit's input that mitigation always leaves (Formulas.damageFloor, 0.01 since MAW d24bdea5).
+constexpr double MawDamageFloor = 0.01;
+
 // What a character's armour class and resistances are divided by against an attacker of the given level
 // (Formulas.armorDamageTaken / resistanceDamageTaken: AC / (200 + L), resistance / (100 + 2 L)).
 inline double mawArmorDivisor(double attackerLevel)

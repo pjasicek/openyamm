@@ -1202,11 +1202,13 @@ private:
         const MapDeltaActor &actor,
         const MonsterTable::MonsterStatsEntry &stats) const;
     void pushIndoorMonsterSound(size_t actorIndex, uint32_t soundId);
+    // melee: a blow, the party's or a monster's, which the rules' hit-reaction gate always lets through.
     void beginMapActorHitReaction(
         size_t actorIndex,
         MapDeltaActor &actor,
         const GameplayWorldPoint *pSource,
-        bool force = false);
+        bool force = false,
+        bool melee = false);
     void beginMapActorDyingState(size_t actorIndex, MapDeltaActor &actor);
     // Damage from a monster's splash or blast (not the party's): shields, event hooks, death and a kill reward for
     // sourceActorId when it is an actor.

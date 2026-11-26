@@ -659,6 +659,7 @@ int adjustedIncomingDamageForMember(
     hit.attackerCurrentHp = sourceActor ? sourceActor->currentHp : 0;
     hit.attackerMaxHp = sourceActor ? sourceActor->maxHp : 0;
     hit.attack2 = event.ability == GameplayActorAttackAbility::Attack2;
+    hit.deathBlast = event.deathBlast;
     hit.spellId = event.spellId;
     hit.rolledAmount = event.damage;
     hit.attackerDebuffed = sourceActor && sourceActor->damageDebuffed;
@@ -2487,6 +2488,17 @@ void GameplayCombatController::recordPartyProjectileImpact(
     queueCombatEvent(
         buildPartyProjectileImpactEvent(sourceId, damage, attackBonus, spellId, affectsAllParty, damageType, ability));
     m_pendingCombatEvents.back().firedDistance = firedDistance;
+}
+
+void GameplayCombatController::recordMonsterBlastImpact(
+    uint32_t sourceId,
+    int damage,
+    CombatDamageType damageType,
+    bool deathBlast)
+{
+    queueCombatEvent(buildPartyProjectileImpactEvent(
+        sourceId, damage, 0, 0, true, damageType, GameplayActorAttackAbility::Attack1));
+    m_pendingCombatEvents.back().deathBlast = deathBlast;
 }
 
 void GameplayCombatController::recordPartyProjectileActorImpact(

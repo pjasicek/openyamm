@@ -1,7 +1,8 @@
 # MAW (devdocs/maw/SKILLS_SPELLS_ALCHEMY.md §0): free selection is always on, so every portrait, the Lich and Zombie
 # ones included, may take the first step of any class kind, the Peasant and the four new class lines included, on
 # every continent, which no longer turns Clerics into Priests or Sorcerers into Necromancers
-# (MenuChooseCharacter.lua:170-185, 424). Replaces engine/data_tables/character_selection.yml for MAW games.
+# (MenuChooseCharacter.lua:167-195, 424). Only the race classes stay with their race: the Dark Elf, Dragon, Minotaur
+# and Troll classes (RaceClasses, MAW 9de08eb9). Replaces engine/data_tables/character_selection.yml for MAW games.
 version: 1
 free_selection: true
 race_class_availability:
@@ -10,16 +11,12 @@ race_class_availability:
     classes:
       - Archer
       - Cleric
-      - DarkElf
-      - Dragon
       - Druid
       - Knight
-      - Minotaur
       - Monk
       - Paladin
       - Ranger
       - Thief
-      - Troll
       - Vampire
       - Sorcerer
       - Necromancer
@@ -33,16 +30,12 @@ race_class_availability:
     classes:
       - Archer
       - Cleric
-      - DarkElf
-      - Dragon
       - Druid
       - Knight
-      - Minotaur
       - Monk
       - Paladin
       - Ranger
       - Thief
-      - Troll
       - Vampire
       - Sorcerer
       - Necromancer
@@ -57,15 +50,12 @@ race_class_availability:
       - Archer
       - Cleric
       - DarkElf
-      - Dragon
       - Druid
       - Knight
-      - Minotaur
       - Monk
       - Paladin
       - Ranger
       - Thief
-      - Troll
       - Vampire
       - Sorcerer
       - Necromancer
@@ -79,8 +69,6 @@ race_class_availability:
     classes:
       - Archer
       - Cleric
-      - DarkElf
-      - Dragon
       - Druid
       - Knight
       - Minotaur
@@ -88,7 +76,6 @@ race_class_availability:
       - Paladin
       - Ranger
       - Thief
-      - Troll
       - Vampire
       - Sorcerer
       - Necromancer
@@ -102,11 +89,8 @@ race_class_availability:
     classes:
       - Archer
       - Cleric
-      - DarkElf
-      - Dragon
       - Druid
       - Knight
-      - Minotaur
       - Monk
       - Paladin
       - Ranger
@@ -125,16 +109,13 @@ race_class_availability:
     classes:
       - Archer
       - Cleric
-      - DarkElf
       - Dragon
       - Druid
       - Knight
-      - Minotaur
       - Monk
       - Paladin
       - Ranger
       - Thief
-      - Troll
       - Vampire
       - Sorcerer
       - Necromancer
@@ -148,16 +129,12 @@ race_class_availability:
     classes:
       - Archer
       - Cleric
-      - DarkElf
-      - Dragon
       - Druid
       - Knight
-      - Minotaur
       - Monk
       - Paladin
       - Ranger
       - Thief
-      - Troll
       - Vampire
       - Sorcerer
       - Necromancer
@@ -171,16 +148,12 @@ race_class_availability:
     classes:
       - Archer
       - Cleric
-      - DarkElf
-      - Dragon
       - Druid
       - Knight
-      - Minotaur
       - Monk
       - Paladin
       - Ranger
       - Thief
-      - Troll
       - Vampire
       - Sorcerer
       - Necromancer
@@ -194,16 +167,12 @@ race_class_availability:
     classes:
       - Archer
       - Cleric
-      - DarkElf
-      - Dragon
       - Druid
       - Knight
-      - Minotaur
       - Monk
       - Paladin
       - Ranger
       - Thief
-      - Troll
       - Vampire
       - Sorcerer
       - Necromancer
@@ -217,16 +186,12 @@ race_class_availability:
     classes:
       - Archer
       - Cleric
-      - DarkElf
-      - Dragon
       - Druid
       - Knight
-      - Minotaur
       - Monk
       - Paladin
       - Ranger
       - Thief
-      - Troll
       - Vampire
       - Sorcerer
       - Necromancer
@@ -240,16 +205,12 @@ race_class_availability:
     classes:
       - Archer
       - Cleric
-      - DarkElf
-      - Dragon
       - Druid
       - Knight
-      - Minotaur
       - Monk
       - Paladin
       - Ranger
       - Thief
-      - Troll
       - Vampire
       - Sorcerer
       - Necromancer

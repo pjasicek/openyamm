@@ -86,8 +86,10 @@ TEST_CASE("MAW spec: the Champion's sheet rows and HP at levels 50 and 150 (COMB
         int armorClass, resistance, health;
     };
 
-    for (const Expected &expected : {Expected{50, 71, 120, 114, 36, 63, 111, 63, 34, 1059},
-             Expected{150, 251, 424, 279, 166, 288, 274, 136, 110, 4087}})
+    // MAW 88a9d7b4 moved the spec's rows: the Bow skill adds 2 % a point (was 4 %), and Supreme Armsmaster comes at
+    // 20 points, so the level-150 Champion's Armsmaster 26 is Supreme (melee 251-424 and bows 36-63, 166-288 before).
+    for (const Expected &expected : {Expected{50, 71, 120, 114, 26, 48, 111, 63, 34, 1059},
+             Expected{150, 281, 454, 279, 106, 189, 274, 136, 110, 4087}})
     {
         CAPTURE(expected.level);
         MawRules rules(RulesetOptions{}, MawMapLevels{}, specGear());

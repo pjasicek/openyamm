@@ -34,6 +34,8 @@ ChainItemArmor = zb(0, 3, 4, 5, 6)
 ChainItemResistance = zb(0, 1, 2, 3, 4)
 BodybuildingHealth = zb(0, 0.5, 1, 1.5, 2)
 BodybuildingFlatPerRank = ob(1, 2, 3)
+# Formulas.damageFloor: the share of a hit that mitigation always leaves (0.01 since MAW d24bdea5).
+DAMAGE_FLOOR = 0.01
 FireAuraDamage = zb(0, 0.1, 0.15, 0.2, 0.25)
 CoverGate = ob(0, 1, 1, 1)
 EnchantsWorn = 3*13.75
@@ -201,9 +203,9 @@ class Model:
         res = worn*self.grow(ChainItemResistance, a_s, am)*a_s/100 + self.buff_flat('resist', bs, L, 4, buffs) + self.stat_effect(stat)
         enres = self.max_enchant(GL)*100/200*g*(1+0.5*legendary_ramp(GL))
         hit = 1/(1+stat/(100+stat)*0.5)
-        phys = max(1/(ac/(200+VL)+1), 0.1)
+        phys = max(1/(ac/(200+VL)+1), DAMAGE_FLOOR)
         magic = 1/(res/(100+2*VL)+1)*max(1-self.buff_mult('shield', bs, buffs), 0.7)*1/(enres/100+1)
-        magic = max(magic, 0.1)
+        magic = max(magic, DAMAGE_FLOOR)
         ramp = legendary_ramp(GL)
         leg = (1-0.10*ramp)*(1-(1-0.97**5)*ramp)
         cover = 1.0  # a solo character has nobody to cover; the expected one counts Cover below

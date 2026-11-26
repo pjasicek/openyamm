@@ -257,7 +257,8 @@ CharacterCombatRows mawCombatRows(
             arms = staff.mastery >= 4 ? Skill{unarmed.level / 2, unarmed.mastery} : Skill{};
         }
 
-        const double percent = weapon.skill == "Bow" || weapon.skill == "Blaster" ? 4 : 2;
+        // skillDamage: 2 % a point, 4 % for a blaster (a bow's was 4 % until MAW ed2e57cd).
+        const double percent = weapon.skill == "Blaster" ? 4 : 2;
         const double multiplier = 1 + weaponSkill.level * percent / 100;
         double side = sides * multiplier;
         double add = bonus * multiplier;
@@ -423,6 +424,7 @@ CharacterCombatRows mawCombatRows(
     }
 
     rows.armorClass = int(armorClass);
+    rows.itemResistanceScale = armor.bodySkillResistanceShare;
     const int allResistances = int(resistance) + mawStatEffect(stats.luck);
     rows.resistances.fire = allResistances;
     rows.resistances.air = allResistances;
@@ -593,8 +595,8 @@ MawArmorBreakdown mawArmorBreakdown(const MawRules &rules, const Character &char
                                                                            : PlateResistancePercent;
         armor.bodySkill = bodySkill;
         armor.bodySkillArmor = int(mawRound(armor.pieces * row(BodyArmorPercent, body.mastery) * body.level / 100));
-        armor.bodySkillResistance =
-            int(mawRound(armor.pieces * row(resistancePercent, body.mastery) * body.level / 100));
+        armor.bodySkillResistanceShare = row(resistancePercent, body.mastery) * body.level / 100;
+        armor.bodySkillResistance = int(mawRound(armor.pieces * armor.bodySkillResistanceShare));
 
         if (austerity && armor.pieces >= 1)
         {

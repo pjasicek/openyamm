@@ -40,6 +40,9 @@ struct MawArmorBreakdown
     std::string bodySkill;
     int bodySkillArmor = 0;
     int bodySkillResistance = 0;
+    // The body armour skill's resistance percent as a share (armorResMult): it also raises the items' own flat
+    // resistances (MAW 79c5a83a).
+    double bodySkillResistanceShare = 0;
     int shieldSkillArmor = 0;
     int shieldSkillResistance = 0;
 };

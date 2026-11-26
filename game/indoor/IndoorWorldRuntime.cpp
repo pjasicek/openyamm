@@ -19323,14 +19323,8 @@ void IndoorWorldRuntime::detonatePendingDeathExplosions()
 
         if (result.hitsParty && m_pGameplayCombatController != nullptr)
         {
-            m_pGameplayCombatController->recordPartyProjectileImpact(
-                explosion.actorId,
-                result.partyDamage,
-                0,
-                0,
-                true,
-                result.partyDamageType,
-                GameplayActorAttackAbility::Attack1);
+            m_pGameplayCombatController->recordMonsterBlastImpact(
+                explosion.actorId, result.partyDamage, result.partyDamageType, !explosion.detonation);
         }
 
         // The other players of a co-op session, each where they stand.
@@ -19352,14 +19346,8 @@ void IndoorWorldRuntime::detonatePendingDeathExplosions()
             if (guestDamage)
             {
                 m_pGameplayCombatController->setRecordingPlayer(guest.player);
-                m_pGameplayCombatController->recordPartyProjectileImpact(
-                    explosion.actorId,
-                    *guestDamage,
-                    0,
-                    0,
-                    true,
-                    result.partyDamageType,
-                    GameplayActorAttackAbility::Attack1);
+                m_pGameplayCombatController->recordMonsterBlastImpact(
+                    explosion.actorId, *guestDamage, result.partyDamageType, !explosion.detonation);
                 m_pGameplayCombatController->setRecordingPlayer(LocalPlayer);
             }
         }
@@ -19777,7 +19765,9 @@ bool IndoorWorldRuntime::applyActorMeleeAttackToMapActor(
         beginMapActorHitReaction(
             attackRequest.targetActorIndex,
             targetActor,
-            &attackRequest.source);
+            &attackRequest.source,
+            false,
+            true);
     }
 
     return true;
@@ -19787,7 +19777,8 @@ void IndoorWorldRuntime::beginMapActorHitReaction(
     size_t actorIndex,
     MapDeltaActor &actor,
     const GameplayWorldPoint *pSource,
-    bool force)
+    bool force,
+    bool melee)
 {
     syncMapActorAiStates();
 
@@ -19861,6 +19852,14 @@ void IndoorWorldRuntime::beginMapActorHitReaction(
     // Stagger rules: only heavy damage, and not again within the cooldown.
     else if (!force && !m_actorModifiers.allowsStagger(actorIndex, aiState.monsterId, aiState.actorId,
             aiState.bolster ? aiState.bolster->maxHp : actor.hp))
+    {
+        return;
+    }
+
+    // The rules may refuse a missile's or a spell's (MAW: once per 3 game minutes per monster); asked last, so a refusal
+    // above never counts as a reaction.
+    if (!force && !gameRulesFor(m_pParty).monsters.allowsHitReaction(mapActorKey(mapName(), actorIndex), melee,
+            gameMinutes()))
     {
         return;
     }
@@ -21887,7 +21886,7 @@ bool IndoorWorldRuntime::applyPartyAttackMeleeDamage(
 
     if (hitReaction && previousHp > 0 && nextHp > 0 && nextHp < previousHp)
     {
-        beginMapActorHitReaction(actorIndex, actor, &source);
+        beginMapActorHitReaction(actorIndex, actor, &source, false, true);
         const MonsterTable::MonsterStatsEntry *pStats =
             m_pMonsterTable != nullptr ? m_pMonsterTable->findStatsById(resolvedMonsterId) : nullptr;
         // MAW monsters have far more HP than the table; knockback scales by the real maximum, as outdoors does.

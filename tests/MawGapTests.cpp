@@ -211,7 +211,7 @@ Character specialBonuses(
 }
 }
 
-TEST_CASE("MAW weapon guard reads the ladder flat plus the top rung x item power / 30 (audit FITM-2-2)")
+TEST_CASE("MAW weapon guard reads the weapon's flat damage row, quality included (FITM-2-2, MAW 03700aea)")
 {
     REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
     const ItemTable &items = OpenYAMM::Tests::regressionGameData().itemTable;
@@ -221,26 +221,26 @@ TEST_CASE("MAW weapon guard reads the ladder flat plus the top rung x item power
     fields.itemPower = 40;
     fields.qualityPercent = 20;
 
-    // Bone Staff (83, top rung): 16 + round(16 x 40 / 30) = 37, quality left out.
+    // Bone Staff (83, top rung): the ladder flat 16 plus 2 x power / 2 = 56, x 1.2 quality = 67 (GetWeaponDamageRows).
     REQUIRE(items.get(83) != nullptr);
-    CHECK_EQ(itemRules.weaponGuardBase(*items.get(83), fields, 50), 37);
-    // A one-handed top-rung weapon halves both: 8 + round(8 x 40 / 30) = 19.
+    CHECK_EQ(itemRules.weaponGuardBase(*items.get(83), fields, 50).value_or(-1), 67);
+    // A one-handed top-rung weapon halves the row: (16 + 40) / 2 = 28, x 1.2 = 34.
     REQUIRE(items.get(5) != nullptr);
-    CHECK_EQ(itemRules.weaponGuardBase(*items.get(5), fields, 50), 19);
-    // The power has no cap: 16 + round(16 x 255 / 30) = 152.
+    CHECK_EQ(itemRules.weaponGuardBase(*items.get(5), fields, 50).value_or(-1), 34);
+    // The power counts up to 100: (16 + 100) x 1.2 = 139.
     fields.itemPower = 255;
-    CHECK_EQ(itemRules.weaponGuardBase(*items.get(83), fields, 50), 152);
-    // An artifact: its printed flat after MAW's upscaler (Volcano 505: 19 x 3).
+    CHECK_EQ(itemRules.weaponGuardBase(*items.get(83), fields, 50).value_or(-1), 139);
+    // An artifact is a top-rung weapon at the party's level: a fresh game's Volcano (505, two-handed) has the flat 16.
     REQUIRE(items.get(505) != nullptr);
-    CHECK_EQ(itemRules.weaponGuardBase(*items.get(505), ItemRulesetFields{}, 50), 57);
+    CHECK_EQ(itemRules.weaponGuardBase(*items.get(505), ItemRulesetFields{}, 50).value_or(-1), 16);
 
-    // Grandmaster Staff 50 with the power-40 staff: 4 % x 37 x (50 + 10) = 89 resistance for the party.
+    // Grandmaster Staff 50 with the power-40 staff: 4 % x 56 x (50 + 10) = 134 resistance for the party.
     Character holder;
     holder.level = 50;
     holder.equipment.mainHand = 83;
     holder.equipmentRuntime.mainHand.rulesetFields.itemPower = 40;
     holder.skills["Staff"] = {"Staff", 50, SkillMastery::Grandmaster};
-    CHECK_EQ(mawStaffPartyResistance(rules, holder, items), 89);
+    CHECK_EQ(mawStaffPartyResistance(rules, holder, items), 134);
 }
 
 TEST_CASE("MAW artifact data and powers: rungs, printed armour, Stoneskin, Excalibur, Medusa's Mirror (audit ITM-A2..A5)")
@@ -2087,7 +2087,7 @@ TEST_CASE("MAW Legendary 17 on missiles and spells, 18 and 22 against hits (L4.1
     CHECK(taken(crowd) == doctest::Approx(base * std::pow(0.97, 5)).epsilon(0.03));
 }
 
-TEST_CASE("Carnage bows shoot exploding fire arrows; MAW's deal a quarter (D.5)")
+TEST_CASE("Carnage bows shoot exploding fire arrows; MAW's deal 40 % (D.5)")
 {
     REQUIRE_MESSAGE(OpenYAMM::Tests::regressionGameDataLoaded(), OpenYAMM::Tests::regressionGameDataFailure().c_str());
     const ItemTable &items = OpenYAMM::Tests::regressionGameData().itemTable;
@@ -2119,8 +2119,9 @@ TEST_CASE("Carnage bows shoot exploding fire arrows; MAW's deal a quarter (D.5)"
     const CharacterAttackResult plain = shoot(false);
     const CharacterAttackResult carnage = shoot(true);
     REQUIRE(plain.maximumDamage > 40);
-    CHECK(carnage.maximumDamage == doctest::Approx(plain.maximumDamage * 0.25).epsilon(0.05));
-    CHECK(carnage.minimumDamage == doctest::Approx(plain.minimumDamage * 0.25).epsilon(0.1));
+    // 40 % of the shot since MAW ed2e57cd (a quarter before).
+    CHECK(carnage.maximumDamage == doctest::Approx(plain.maximumDamage * 0.4).epsilon(0.05));
+    CHECK(carnage.minimumDamage == doctest::Approx(plain.minimumDamage * 0.4).epsilon(0.1));
 }
 
 TEST_CASE("MAW artifacts: on-hit spells, Ethric's Staff, Cycle of Life, the Horn of Ros, Excalibur (L4.3)")
@@ -3370,7 +3371,7 @@ TEST_CASE("MAW skill tooltips show live numbers: Mace paralysis, Retaliation, th
         != std::string::npos);
     CHECK(skills.skillTooltip(party, knight, "Cover", {}).description.find("Currently disabled") != std::string::npos);
     CHECK(skills.skillTooltip(party, knight, "Retaliation", {}).description.find("Melee Power") != std::string::npos);
-    CHECK(skills.skillTooltip(party, knight, "Armsmaster", {}).description.find("30") != std::string::npos);
+    CHECK(skills.skillTooltip(party, knight, "Armsmaster", {}).description.find("20") != std::string::npos);
 }
 
 TEST_CASE("A dragon's Regeneration popup shows its bite leech (L5.4)")

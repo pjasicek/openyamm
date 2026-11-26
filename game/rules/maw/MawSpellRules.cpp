@@ -56,6 +56,8 @@ uint32_t auraBuffSkill(const MawAuraSource &source)
 
 // A scroll read in a solo run holds its aura for a game day, wherever the party goes.
 constexpr double SoloScrollAuraMinutes = 24.0 * 60.0;
+// Divine Intervention's wait between two casts of one caster: a game day (DIVINE_INTERVENTION_COOLDOWN).
+constexpr float DivineInterventionMinutes = 24.0f * 60.0f;
 
 // The time an aura's buff is set to: a timed aura's time left, else AuraSeconds.
 float auraBuffSeconds(const MawAuraSource &source)
@@ -503,6 +505,14 @@ std::optional<SkillMastery> MawSpellRules::classSpellMastery(const Character &ca
 std::optional<std::string> MawSpellRules::castRefusal(const Party &party, size_t casterIndex, uint32_t spellId) const
 {
     const Character *pCaster = party.member(casterIndex);
+
+    // Divine Intervention works once a game day for each caster (MAW 9eae6676).
+    if (pCaster != nullptr && spellId == spellIdValue(SpellId::DivineIntervention)
+        && party.gameMinutes() < pCaster->rulesetState.divineInterventionReadyGameMinutes)
+    {
+        return Engine::tr("Divine Intervention can be cast once a day");
+    }
+
     const MawClassSpell *pClassSpell = pCaster != nullptr ? mawClassSpell(pCaster->className, spellId) : nullptr;
 
     if (pClassSpell == nullptr || pClassSpell->comboCost <= 0
@@ -523,6 +533,11 @@ void MawSpellRules::afterCast(
     bool fromSpellbook) const
 {
     Character *pCaster = party.member(casterIndex);
+
+    if (pCaster != nullptr && spellId == spellIdValue(SpellId::DivineIntervention))
+    {
+        pCaster->rulesetState.divineInterventionReadyGameMinutes = party.gameMinutes() + DivineInterventionMinutes;
+    }
 
     // A solo run's Spell Surge is spent by the damaging cast it made free; a heal or a buff leaves it armed.
     if (pCaster != nullptr && m_rules.options().soloRun && mawSpellCategory(spellId) == MawSpellCategory::Damage)

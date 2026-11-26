@@ -899,7 +899,7 @@ public:
     // hitReaction false: no flinch and no knockback (IGameplayWorldRuntime::applyPartyAttackMeleeDamage).
     bool applyPartyAttackToMapActor(size_t actorIndex, int damage, float partyX, float partyY, float partyZ,
         ShieldAttackTier shieldTier = ShieldAttackTier::Physical, const ShieldHitModifiers &shieldModifiers = {},
-        bool critical = false, bool hitReaction = true);
+        bool critical = false, bool hitReaction = true, bool melee = false);
     bool applyPartyAttackMeleeDamage(
         size_t actorIndex,
         int damage,
@@ -1514,7 +1514,8 @@ private:
         uint32_t sourceActorId,
         ShieldAttackTier shieldTier,
         bool emitAudio = true,
-        bool allowZeroDamageHit = false);
+        bool allowZeroDamageHit = false,
+        bool melee = false);
     // Energy shields: regeneration and presentation per actor step, and the QBit-switched relations of the world
     // add-on (MonsterRelationAddOns) applied to the map's actors whenever they change and after every load.
     void updateActorShields(float deltaSeconds);
@@ -1581,7 +1582,8 @@ private:
         bool positional = true,
         SoundScope soundScope = SoundScope::Engine);
     void pushOutdoorMonsterSound(size_t actorIndex, uint32_t soundId, const char *pReason);
-    bool beginMapActorHitReaction(size_t actorIndex, bool force = false, bool emitAudio = true);
+    // melee: a blow, the party's or a monster's, which the rules' hit-reaction gate always lets through.
+    bool beginMapActorHitReaction(size_t actorIndex, bool force = false, bool emitAudio = true, bool melee = false);
     // A hit on an MM9 walker (ActorMm9WorldFacts): its attacker (the party, or the actor at attackerActorIndex), the
     // largest hit and the count its AI reacts to. Nothing for any other actor.
     void noteMm9ActorHit(size_t actorIndex, ActorAiTargetKind attackerKind, size_t attackerActorIndex, int damage);

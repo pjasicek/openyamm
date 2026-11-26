@@ -3,8 +3,6 @@
 # artifacts: the artifacts a drop can turn into, with their drop weight (list slots), base model
 # (weapon: a top-rung weapon at the party's level; armor: printed AC + reference AC x power / 40; flat: printed AC),
 # and stat budget in units of one perfect Epic enchant at the party's level (see ITEMS.md section 4.2).
-# guard: a weapon artifact's flat damage as Staff, Sword and Spear guard by it, its printed Mod2 after MAW's artifact
-# upscaler (x2 for artWeap1h, x3 for artWeap2h, zzMaw-Items.lua:2330-2346; audit FITM-2-2).
 
 legendary_affixes:
   11: "Killing a monster with a single-target attack halves the recovery time"
@@ -34,106 +32,106 @@ legendary_affixes:
   35: "Overhealing reduces recovery time equal to half overhealing amount"
 
 artifacts:
-  500: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 34, stats: {Accuracy: 3}, on_hit: {kind: Light, damage: 1}}  # Elsenrail
-  501: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 34, stats: {Might: 3}, on_hit: {kind: Dark, damage: 1}}  # Glomenthal
-  502: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 34, stats: {AirResistance: 1.76}, skills: {Armsmaster: 1.24}}  # Terminus
-  503: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 32, stats: {Endurance: 1.5, Luck: 1.5}, on_hit: {kind: Physical, damage: 0.8, versus: {Ogre: 2}}}  # Judicious Measure
-  504: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 4, guard: 32, stats: {Might: 3}, on_hit: {kind: Water, damage: 0.6}, attack_delay: 0.9}  # Elderaxe
-  505: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 3, guard: 57, stats: {FireResistance: 3}, on_hit: {kind: Fire, damage: 1}}  # Volcano
-  506: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 1, guard: 34, stats: {Endurance: 3}, on_hit: {kind: Physical, damage: 0.8, versus: {Dragon: 2}}, attack_delay: 0.9}  # Wyrm Spitter
-  507: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 3, guard: 36, stats: {Might: 0.43, Intellect: 0.43, Personality: 0.43, Speed: 0.43, Accuracy: 0.43, Endurance: 0.43, Luck: 0.43}, on_hit: {kind: Body, damage: 1}}  # Guardian
-  508: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 24, on_hit: {kind: Body, damage: 0.5}}  # Foulfang
-  509: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 32, stats: {Personality: 3}}  # Scepter of Kings
-  510: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 24, stats: {Might: 1.5, Endurance: 1.5}, on_hit: {kind: Body, damage: 1}}  # Breaker
-  511: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 3, guard: 33}  # Staff of the Swamp
-  512: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 6, guard: 28, stats: {Accuracy: 1.67}, skills: {Bow: 1.33}, attack_delay: 0.9}  # Longseeker
+  500: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, stats: {Accuracy: 3}, on_hit: {kind: Light, damage: 1}}  # Elsenrail
+  501: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, stats: {Might: 3}, on_hit: {kind: Dark, damage: 1}}  # Glomenthal
+  502: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, stats: {AirResistance: 1.76}, skills: {Armsmaster: 1.24}}  # Terminus
+  503: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, stats: {Endurance: 1.5, Luck: 1.5}, on_hit: {kind: Physical, damage: 0.8, versus: {Ogre: 2}}}  # Judicious Measure
+  504: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 4, stats: {Might: 3}, on_hit: {kind: Water, damage: 0.6}, attack_delay: 0.9}  # Elderaxe
+  505: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 3, stats: {FireResistance: 3}, on_hit: {kind: Fire, damage: 1}}  # Volcano
+  506: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 1, stats: {Endurance: 3}, on_hit: {kind: Physical, damage: 0.8, versus: {Dragon: 2}}, attack_delay: 0.9}  # Wyrm Spitter
+  507: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 3, stats: {Might: 0.43, Intellect: 0.43, Personality: 0.43, Speed: 0.43, Accuracy: 0.43, Endurance: 0.43, Luck: 0.43}, on_hit: {kind: Body, damage: 1}}  # Guardian
+  508: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, on_hit: {kind: Body, damage: 0.5}}  # Foulfang
+  509: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, stats: {Personality: 3}}  # Scepter of Kings
+  510: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, stats: {Might: 1.5, Endurance: 1.5}, on_hit: {kind: Body, damage: 1}}  # Breaker
+  511: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 3}  # Staff of the Swamp
+  512: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 6, stats: {Accuracy: 1.67}, skills: {Bow: 1.33}, attack_delay: 0.9}  # Longseeker
   513: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 36, reference_ac: 36, stats: {Endurance: 3}}  # Serendine's Preservation
-  514: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 50, reference_ac: 50, stats: {Might: 0.23, Intellect: 0.23, Personality: 0.23, Speed: 0.23, Accuracy: 0.23, Endurance: 0.23, Luck: 0.23, FireResistance: 0.23, AirResistance: 0.23, WaterResistance: 0.23, EarthResistance: 0.23, MindResistance: 0.23, BodyResistance: 0.23}}  # Glomenmail
+  514: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 50, reference_ac: 50, stats: {Might: 0.5, Intellect: 0.5, Personality: 0.5, Speed: 0.5, Accuracy: 0.5, Endurance: 0.5, Luck: 0.5, FireResistance: 0.75, AirResistance: 0.75, WaterResistance: 0.75, EarthResistance: 0.75, MindResistance: 0.75, BodyResistance: 0.75}}  # Glomenmail
   515: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 80, reference_ac: 80, stats: {Speed: 1.5, Accuracy: 1.5}, attack_delay: 0.9}  # Supreme Plate
   517: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 3, reference_ac: 3, skills: {DisarmTraps: 1, Bow: 1, Armsmaster: 1}}  # Fleetfingers
   518: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 12, reference_ac: 12, stats: {Speed: 3}, attack_delay: 0.9}  # Herald's Boots
-  519: {drop: 1, base: flat, slot_mult: 0.75, stats: {FireResistance: 0.75, AirResistance: 0.75, WaterResistance: 0.75, EarthResistance: 0.75}}  # Ring of Planes
+  519: {drop: 1, base: flat, slot_mult: 0.75, stats: {FireResistance: 1.5, AirResistance: 1.5, WaterResistance: 1.5, EarthResistance: 1.5}}  # Ring of Planes
   520: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 15, reference_ac: 15, stats: {Personality: 1.5, Intellect: 1.5}}  # Drogg's Helm
   521: {drop: 1, base: flat, slot_mult: 1.875, stats: {Intellect: 3}, spell_bonus: [DarkMagic]}  # Crown of Final Dominion
-  522: {drop: 1, base: armor, slot_mult: 1, printed_ac: 12, reference_ac: 12, stats: {Intellect: 1.2, FireResistance: 0.3, AirResistance: 0.3, WaterResistance: 0.3, EarthResistance: 0.3, MindResistance: 0.3, BodyResistance: 0.3}}  # Archangel Wings
-  523: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 30, stats: {Speed: 3, WaterResistance: -1.5, Personality: -0.45}, on_hit: {kind: Physical, damage: 0, slow: true}}  # Snake
-  524: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 36, stats: {Speed: 1.5, Accuracy: 1.5, ArmorClass: -0.43}}  # Havoc
-  525: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 4, guard: 57, stats: {Accuracy: 3, Speed: -0.5}, on_hit: {kind: Fire, damage: 1, slow: true}}  # Finality
-  526: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 4, guard: 28, stats: {Might: 1.5, Accuracy: 1.5, Personality: -1.07, Intellect: -1.07}}  # Hell's Cleaver
-  527: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 1, guard: 32, stats: {Might: 3, Luck: -1.5}, on_hit: {kind: Physical, damage: 0}}  # Spiritslayer
-  528: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 32, stats: {WaterResistance: 3, FireResistance: -0.86}}  # Trident of Rulership
-  529: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 30, stats: {Might: 1.5, Accuracy: 1.5}, on_hit: {kind: Air, damage: 0.5}}  # Blade of Mercy
-  530: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 2, guard: 12, stats: {ArmorClass: -1.2}, spell_bonus: [FireMagic, AirMagic, WaterMagic, EarthMagic]}  # Staff of Elements
-  531: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 6, guard: 14, rung: 3.5, stats: {Accuracy: 2.14, ArmorClass: -0.43}, skills: {Bow: 0.86}}  # Tournament Bow
+  522: {drop: 1, base: armor, slot_mult: 1, printed_ac: 12, reference_ac: 12, stats: {Intellect: 1.2, FireResistance: 0.6, AirResistance: 0.6, WaterResistance: 0.6, EarthResistance: 0.6, MindResistance: 0.6, BodyResistance: 0.6}}  # Archangel Wings
+  523: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, stats: {Speed: 3, WaterResistance: -1.5, Personality: -0.45}, on_hit: {kind: Physical, damage: 0, slow: true}}  # Snake
+  524: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, stats: {Speed: 1.5, Accuracy: 1.5, ArmorClass: -0.43}}  # Havoc
+  525: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 4, stats: {Accuracy: 3, Speed: -0.5}, on_hit: {kind: Fire, damage: 1, slow: true}}  # Finality
+  526: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 4, stats: {Might: 1.5, Accuracy: 1.5, Personality: -1.07, Intellect: -1.07}}  # Hell's Cleaver
+  527: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 1, stats: {Might: 3, Luck: -1.5}, on_hit: {kind: Physical, damage: 0}}  # Spiritslayer
+  528: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, stats: {WaterResistance: 3, FireResistance: -0.86}}  # Trident of Rulership
+  529: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, stats: {Might: 1.5, Accuracy: 1.5}, on_hit: {kind: Air, damage: 0.5}}  # Blade of Mercy
+  530: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 2, stats: {ArmorClass: -1.2}, spell_bonus: [FireMagic, AirMagic, WaterMagic, EarthMagic]}  # Staff of Elements
+  531: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 6, rung: 3.5, stats: {Accuracy: 2.14, ArmorClass: -0.43}, skills: {Bow: 0.86}}  # Tournament Bow
   533: {drop: 2, base: armor, slot_mult: 1.5, printed_ac: 21, reference_ac: 21, stats: {Intellect: 1.5, Personality: 1.5, MindResistance: -1.07, BodyResistance: -1.07}}  # Last Stage Cuirass
   534: {drop: 1, base: armor, slot_mult: 1, printed_ac: 16, reference_ac: 16, stats: {Endurance: 3, Luck: -0.9}}  # Herondale's Lost Shield
   535: {drop: 1, base: flat, slot_mult: 0.75, stats: {Intellect: 1.64, Endurance: -0.55}, skills: {Alchemy: 1.36}, spell_bonus: [WaterMagic]}  # Ring of Fusion
   536: {drop: 1, base: flat, slot_mult: 1.875, stats: {Luck: 3, Personality: -1.5}}  # Lucky Hat
   537: {drop: 1, base: flat, slot_mult: 1, stats: {Might: 3, Accuracy: -0.75, ArmorClass: -0.38}}  # Berserker Belt
-  542: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 6, guard: 24, on_hit: {kind: Physical, damage: 1}}  # Noblebone Bow
-  1302: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 34, stats: {Speed: 3}, attack_delay: 0.9}  # Puck
-  1303: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 4, guard: 28, stats: {Might: 3}, on_hit: {kind: Air, damage: 1.2}}  # Iron Feather
-  1304: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 30, stats: {Personality: 0.86}, skills: {Armsmaster: 2.14}}  # Wallace
-  1305: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 32, stats: {Luck: 1.33}, skills: {DisarmTraps: 1.67}}  # Corsair
-  1306: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 42, reference_ac: 0, stats: {Might: 0.43, Intellect: 0.43, Personality: 0.43, Speed: 0.43, Accuracy: 0.43, Endurance: 0.43, Luck: 0.43}}  # Governor's Armor
-  1307: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 70, reference_ac: 0, stats: {Endurance: 3}}  # Yoruba
-  1308: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 4, guard: 26, flat: {FireResistance: 65000}, on_hit: {kind: Fire, damage: 0.7}}  # Splitter
-  1309: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 1, guard: 90, on_hit: {kind: Fire, damage: 1, versus: {Undead: 2}}}  # Ghoulsbane
-  1310: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 60, on_hit: {kind: Fire, damage: 0.9, versus: {Undead: 2, Dragon: 2, Demon: 2}}}  # Gibbet
-  1311: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 60}  # Charele
-  1312: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 6, guard: 28, stats: {Accuracy: 3}, on_hit: {kind: Water, damage: 1.2}}  # Ullyses
-  1313: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 15, reference_ac: 0, skills: {Unarmed: 1.5, Dodging: 1.5}}  # Hands of the Master
-  1314: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 18, reference_ac: 0, stats: {Speed: 3}, spell_bonus: [WaterMagic]}  # Seven League Boots
+  542: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 6, on_hit: {kind: Physical, damage: 1}}  # Noblebone Bow
+  1302: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, stats: {Speed: 3}, attack_delay: 0.9}  # Puck
+  1303: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 4, stats: {Might: 3}, on_hit: {kind: Air, damage: 1.2}}  # Iron Feather
+  1304: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, stats: {Personality: 0.86}, skills: {Armsmaster: 2.14}}  # Wallace
+  1305: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, stats: {Luck: 1.33}, skills: {DisarmTraps: 1.67}}  # Corsair
+  1306: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 42, reference_ac: 42, stats: {Might: 0.43, Intellect: 0.43, Personality: 0.43, Speed: 0.43, Accuracy: 0.43, Endurance: 0.43, Luck: 0.43}}  # Governor's Armor
+  1307: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 70, reference_ac: 70, stats: {Endurance: 3}}  # Yoruba
+  1308: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 4, flat: {FireResistance: 65000}, on_hit: {kind: Fire, damage: 0.7}}  # Splitter
+  1309: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 1, on_hit: {kind: Fire, damage: 1, versus: {Undead: 2}}}  # Ghoulsbane
+  1310: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, on_hit: {kind: Fire, damage: 0.9, versus: {Undead: 2, Dragon: 2, Demon: 2}}}  # Gibbet
+  1311: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3}  # Charele
+  1312: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 6, stats: {Accuracy: 3}, on_hit: {kind: Water, damage: 1.2}}  # Ullyses
+  1313: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 15, reference_ac: 15, skills: {Unarmed: 1.5, Dodging: 1.5}}  # Hands of the Master
+  1314: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 18, reference_ac: 18, stats: {Speed: 3}, spell_bonus: [WaterMagic]}  # Seven League Boots
   1315: {drop: 1, base: flat, slot_mult: 0.75, spell_bonus: [MindMagic, DarkMagic]}  # Ruler's Ring
-  1316: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 1, guard: 30, stats: {Might: 3, Intellect: -0.8, Personality: -0.8, Speed: -0.8}}  # Mash
-  1317: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 2, guard: 11, rung: 1.357, skills: {Meditation: 3}, spell_bonus: [DarkMagic]}  # Ethric's Staff
-  1318: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 32, reference_ac: 17, stats: {Luck: 1.5, FireResistance: -0.3, AirResistance: -0.3, WaterResistance: -0.3, EarthResistance: -0.3, MindResistance: -0.3, BodyResistance: -0.3}, skills: {Dagger: 0.75, Unarmed: 0.75}}  # Hareck's Leather
-  1319: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 20, skills: {DisarmTraps: 3}, on_hit: {kind: Water, damage: 1.1, versus: {Elf: 2}}}  # Old Nick
-  1320: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 3, guard: 45, stats: {Might: 1.5, Endurance: 1.5, ArmorClass: -0.23}}  # Amuck
-  1321: {drop: 1, base: armor, slot_mult: 1, printed_ac: 27, reference_ac: 17, stats: {BodyResistance: -1.2, MindResistance: -1.2}, skills: {Shield: 3}, spell_bonus: [SpiritMagic]}  # Glory Shield
-  1322: {drop: 1, base: armor, slot_mult: 1, printed_ac: 20, reference_ac: 17, stats: {Endurance: 3, EarthResistance: -1.8}}  # Kelebrim
+  1316: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 1, stats: {Might: 3, Intellect: -0.8, Personality: -0.8, Speed: -0.8}}  # Mash
+  1317: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 2, rung: 1.357, skills: {Meditation: 3}, spell_bonus: [DarkMagic]}  # Ethric's Staff
+  1318: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 32, reference_ac: 32, stats: {Luck: 1.5, FireResistance: -0.3, AirResistance: -0.3, WaterResistance: -0.3, EarthResistance: -0.3, MindResistance: -0.3, BodyResistance: -0.3}, skills: {Dagger: 0.75, Unarmed: 0.75}}  # Hareck's Leather
+  1319: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, skills: {DisarmTraps: 3}, on_hit: {kind: Water, damage: 1.1, versus: {Elf: 2}}}  # Old Nick
+  1320: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 3, stats: {Might: 1.5, Endurance: 1.5, ArmorClass: -0.23}}  # Amuck
+  1321: {drop: 1, base: armor, slot_mult: 1, printed_ac: 27, reference_ac: 27, stats: {BodyResistance: -1.2, MindResistance: -1.2}, skills: {Shield: 3}, spell_bonus: [SpiritMagic]}  # Glory Shield
+  1322: {drop: 1, base: armor, slot_mult: 1, printed_ac: 20, reference_ac: 20, stats: {Endurance: 3, EarthResistance: -1.8}}  # Kelebrim
   1323: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 17, reference_ac: 17, stats: {Might: 1.5, Personality: 1.5, Luck: -1.33}, spell_bonus: [LightMagic]}  # Taledon's Helm
-  1324: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 2, reference_ac: 17, stats: {Endurance: -1}, skills: {Learning: 3}}  # Scholar's Cap
+  1324: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 2, reference_ac: 2, stats: {Endurance: -1}, skills: {Learning: 3}}  # Scholar's Cap
   1325: {drop: 1, base: flat, slot_mult: 1.875, stats: {Personality: 0.69, WaterResistance: 2.31, ArmorClass: -0.46}, spell_bonus: [FireMagic]}  # Phynaxian Crown
-  1326: {drop: 1, base: armor, slot_mult: 1, printed_ac: 20, reference_ac: 17, stats: {Might: 3, Speed: -1.04}}  # Titan's Belt
-  1327: {drop: 1, base: armor, slot_mult: 1, printed_ac: 15, reference_ac: 17, stats: {Speed: 1.5, Luck: 1.5, FireResistance: -0.9, AirResistance: -0.9, WaterResistance: -0.9, EarthResistance: -0.9, MindResistance: -0.9, BodyResistance: -0.9}}  # Twilight
-  1328: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 5, guard: 24, stats: {Accuracy: 2.25, ArmorClass: -0.38}, skills: {Bow: 0.75}}  # Ania Selving
-  1329: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 48, stats: {Speed: -1.2}, on_hit: {kind: Physical, damage: 0.8, versus: {Undead: 2}}, spell_bonus: [MindMagic, BodyMagic]}  # Justice
-  1330: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 30, stats: {Might: 3, AirResistance: -4}, spell_bonus: [SpiritMagic]}  # Mekorig's Hammer
+  1326: {drop: 1, base: armor, slot_mult: 1, printed_ac: 20, reference_ac: 20, stats: {Might: 3, Speed: -1.04}}  # Titan's Belt
+  1327: {drop: 1, base: armor, slot_mult: 1, printed_ac: 15, reference_ac: 15, stats: {Speed: 1.5, Luck: 1.5, FireResistance: -0.9, AirResistance: -0.9, WaterResistance: -0.9, EarthResistance: -0.9, MindResistance: -0.9, BodyResistance: -0.9}}  # Twilight
+  1328: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 5, stats: {Accuracy: 2.25, ArmorClass: -0.38}, skills: {Bow: 0.75}}  # Ania Selving
+  1329: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, stats: {Speed: -1.2}, on_hit: {kind: Physical, damage: 0.8, versus: {Undead: 2}}, spell_bonus: [MindMagic, BodyMagic]}  # Justice
+  1330: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, stats: {Might: 3, AirResistance: -4}, spell_bonus: [SpiritMagic]}  # Mekorig's Hammer
   1331: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 23, reference_ac: 23, stats: {Speed: 1.2, Accuracy: 0.6, AirResistance: 1.2}}  # Hermes' Sandals
   1332: {drop: 1, base: armor, slot_mult: 1, printed_ac: 12, reference_ac: 12, stats: {Intellect: -0.6, Personality: -0.6}}  # Cloak of the Sheep
-  1333: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 4, guard: 28, stats: {Speed: 3}, on_hit: {kind: Physical, damage: 0.8, versus: {Elf: 2}}}  # Elfbane
+  1333: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 4, stats: {Speed: 3}, on_hit: {kind: Physical, damage: 0.8, versus: {Elf: 2}}}  # Elfbane
   1334: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 12, reference_ac: 12, stats: {Intellect: 1.5, Personality: 1.5}}  # Mind's Eye
   1335: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 33, reference_ac: 33, stats: {Speed: 1.5, Accuracy: 1.5}}  # Elven Chainmail
   1336: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 12, reference_ac: 12, stats: {Might: 0.75, Endurance: 0.75, FireResistance: 1.5}}  # Forge Gauntlets
   1337: {drop: 1, base: armor, slot_mult: 1, printed_ac: 25, reference_ac: 25, stats: {Might: 1.13}, skills: {Armsmaster: 1.88}}  # Hero's Belt
-  1338: {drop: 1, base: flat, slot_mult: 0.75, stats: {FireResistance: 0.5, AirResistance: 0.5, WaterResistance: 0.5, EarthResistance: 0.5, MindResistance: 0.5, BodyResistance: 0.5}}  # Lady's Escort
-  2021: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 28, stats: {Might: 3}, on_hit: {kind: Physical, damage: 0.7}}  # Thor
-  2022: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 3, guard: 42, stats: {Accuracy: 3}, on_hit: {kind: Physical, damage: 0.9, versus: {Dragon: 2, Demon: 2}}}  # Conan
-  2023: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 30, stats: {Might: 3}, on_hit: {kind: Physical, damage: 1, versus: {Dragon: 2}}}  # Excalibur
-  2024: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 2, guard: 30, stats: {Intellect: 0.82, Personality: 0.82, SP: 1.36}, attack_delay: 0.9}  # Merlin
-  2025: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 6, guard: 26, stats: {Speed: 3}, on_hit: {kind: Fire, damage: 0.6}, attack_delay: 0.9}  # Percival
-  2026: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 44, reference_ac: 3, stats: {Endurance: 3}}  # Galahad
-  2027: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 66, reference_ac: 3, stats: {Endurance: 3}}  # Pellinore
-  2028: {drop: 1, base: armor, slot_mult: 1, printed_ac: 20, reference_ac: 3, stats: {Accuracy: 3}}  # Valeria
+  1338: {drop: 1, base: flat, slot_mult: 0.75, stats: {FireResistance: 1, AirResistance: 1, WaterResistance: 1, EarthResistance: 1, MindResistance: 1, BodyResistance: 1}}  # Lady's Escort
+  2021: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, stats: {Might: 3}, on_hit: {kind: Physical, damage: 0.7}}  # Thor
+  2022: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 3, stats: {Accuracy: 3}, on_hit: {kind: Physical, damage: 0.9, versus: {Dragon: 2, Demon: 2}}}  # Conan
+  2023: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, stats: {Might: 3}, on_hit: {kind: Physical, damage: 1, versus: {Dragon: 2}}}  # Excalibur
+  2024: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 2, stats: {Intellect: 0.82, Personality: 0.82, SP: 1.36}, attack_delay: 0.9}  # Merlin
+  2025: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 6, stats: {Speed: 3}, on_hit: {kind: Fire, damage: 0.6}, attack_delay: 0.9}  # Percival
+  2026: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 44, reference_ac: 44, stats: {Endurance: 3}}  # Galahad
+  2027: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 66, reference_ac: 66, stats: {Endurance: 3}}  # Pellinore
+  2028: {drop: 1, base: armor, slot_mult: 1, printed_ac: 20, reference_ac: 20, stats: {Accuracy: 3}}  # Valeria
   2029: {drop: 1, base: flat, slot_mult: 1.25, printed_ac: 5, stats: {Might: 0.25, Intellect: 0.25, Personality: 0.25, Endurance: 0.25, Accuracy: 0.25, Speed: 0.25, Luck: 0.25, SP: 1.25}}  # Arthur
-  2030: {drop: 1, base: armor, slot_mult: 1, printed_ac: 13, reference_ac: 3, stats: {Luck: 0.86}, skills: {Dagger: 0.71, DisarmTraps: 1.43}}  # Pendragon
-  2031: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 17, reference_ac: 3, stats: {Speed: 3}}  # Lucius
+  2030: {drop: 1, base: armor, slot_mult: 1, printed_ac: 13, reference_ac: 13, stats: {Luck: 0.86}, skills: {Dagger: 0.71, DisarmTraps: 1.43}}  # Pendragon
+  2031: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 17, reference_ac: 17, stats: {Speed: 3}}  # Lucius
   2032: {drop: 1, base: flat, slot_mult: 0.75, printed_ac: 2, stats: {SP: 3}, spell_bonus: [LightMagic, DarkMagic]}  # Guinevere
   2033: {drop: 1, base: flat, slot_mult: 0.75, printed_ac: 2, stats: {SP: 3}, spell_bonus: [SpiritMagic, BodyMagic, MindMagic]}  # Igraine
   2034: {drop: 1, base: flat, slot_mult: 1, printed_ac: 3, stats: {SP: 3}, spell_bonus: [FireMagic, AirMagic, WaterMagic, EarthMagic]}  # Morgan
-  2035: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 36, stats: {Luck: 1.13}, skills: {DisarmTraps: 1.88}, on_hit: {kind: Water, damage: 2}}  # Hades
-  2036: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 32, stats: {FireResistance: 3}, on_hit: {kind: Fire, damage: 1.4}}  # Ares
-  2037: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 38, stats: {Might: 1, Endurance: 1, Accuracy: 1, Speed: -0.25, ArmorClass: -0.25}}  # Poseidon
-  2038: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 4, guard: 32, stats: {Endurance: 3, Luck: -1.5}}  # Cronos
-  2039: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 4, guard: 48, stats: {Might: 1.88, Endurance: 1.13, Intellect: -0.56}}  # Hercules
-  2040: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 6, guard: 30, stats: {FireResistance: -0.6, AirResistance: -0.6, WaterResistance: -0.6, EarthResistance: -0.6}, on_hit: {kind: Air, damage: 1.2}}  # Artemis
-  2041: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 52, reference_ac: 6, stats: {FireResistance: 0.46, AirResistance: 0.46, WaterResistance: 0.46, EarthResistance: 0.46, MindResistance: 0.46, BodyResistance: 0.46, Luck: 0.23, Endurance: -0.35}}  # Apollo
-  2042: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 74, reference_ac: 6, stats: {Endurance: 1, Personality: 1, Luck: 1, Intellect: -1}}  # Zeus
-  2043: {drop: 1, base: armor, slot_mult: 1, printed_ac: 32, reference_ac: 6, stats: {Luck: 3, Speed: -0.6}}  # Aegis
-  2044: {drop: 1, base: flat, slot_mult: 1.25, printed_ac: 10, stats: {FireResistance: 0.75, AirResistance: 0.75, WaterResistance: 0.75, EarthResistance: 0.75, Speed: -0.5}}  # Odin
-  2045: {drop: 1, base: armor, slot_mult: 1, printed_ac: 18, reference_ac: 6, stats: {Might: 3, Speed: -1}}  # Atlas
-  2046: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 20, reference_ac: 6, stats: {Speed: 3, Accuracy: -0.86}}  # Hermes
+  2035: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 3, stats: {Luck: 1.13}, skills: {DisarmTraps: 1.88}, on_hit: {kind: Water, damage: 2}}  # Hades
+  2036: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, stats: {FireResistance: 3}, on_hit: {kind: Fire, damage: 1.4}}  # Ares
+  2037: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 2, stats: {Might: 1, Endurance: 1, Accuracy: 1, Speed: -0.25, ArmorClass: -0.25}}  # Poseidon
+  2038: {drop: 1, base: weapon, slot_mult: 1, two_handed: false, dice: 4, stats: {Endurance: 3, Luck: -1.5}}  # Cronos
+  2039: {drop: 1, base: weapon, slot_mult: 2, two_handed: true, dice: 4, stats: {Might: 1.88, Endurance: 1.13, Intellect: -0.56}}  # Hercules
+  2040: {drop: 1, base: weapon, slot_mult: 1.25, two_handed: false, dice: 6, stats: {FireResistance: -0.6, AirResistance: -0.6, WaterResistance: -0.6, EarthResistance: -0.6}, on_hit: {kind: Air, damage: 1.2}}  # Artemis
+  2041: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 52, reference_ac: 52, stats: {FireResistance: 0.92, AirResistance: 0.92, WaterResistance: 0.92, EarthResistance: 0.92, MindResistance: 0.92, BodyResistance: 0.92, Luck: 0.23, Endurance: -0.35}}  # Apollo
+  2042: {drop: 1, base: armor, slot_mult: 1.5, printed_ac: 74, reference_ac: 74, stats: {Endurance: 1, Personality: 1, Luck: 1, Intellect: -1}}  # Zeus
+  2043: {drop: 1, base: armor, slot_mult: 1, printed_ac: 32, reference_ac: 32, stats: {Luck: 3, Speed: -0.6}}  # Aegis
+  2044: {drop: 1, base: flat, slot_mult: 1.25, printed_ac: 10, stats: {FireResistance: 1.5, AirResistance: 1.5, WaterResistance: 1.5, EarthResistance: 1.5, Speed: -0.5}}  # Odin
+  2045: {drop: 1, base: armor, slot_mult: 1, printed_ac: 18, reference_ac: 18, stats: {Might: 3, Speed: -1}}  # Atlas
+  2046: {drop: 1, base: armor, slot_mult: 1.25, printed_ac: 20, reference_ac: 20, stats: {Speed: 3, Accuracy: -0.86}}  # Hermes
   2047: {drop: 1, base: flat, slot_mult: 0.75, printed_ac: 4, stats: {Personality: 3, Luck: -1.2}}  # Aphrodite
   2048: {drop: 1, base: flat, slot_mult: 0.75, printed_ac: 4, stats: {Intellect: 3, Might: -1.2}}  # Athena
   2049: {drop: 1, base: flat, slot_mult: 1, printed_ac: 6, stats: {HP: 1.2, SP: 1.2, Luck: 0.6, Personality: -0.6}}  # Hera
@@ -144,33 +142,33 @@ artifacts:
   # Artifacts that never drop (quest, placed and shop items): they scale like the rest (IT:2679-2700) but no drop
   # turns into them (drop: 0).
   516: {drop: 0, base: armor, slot_mult: 1, printed_ac: 24, reference_ac: 24, spell_bonus: [SpiritMagic, BodyMagic, MindMagic]}  # Eclipse
-  532: {drop: 0, base: weapon, slot_mult: 1.25, two_handed: false, dice: 5, guard: 15, rung: 3.5, stats: {Might: 1.5, Speed: 1.5}, attack_delay: 0.9}  # Lightning Crossbow
-  538: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 18, on_hit: {kind: Physical, damage: 0.8, versus: {Elemental: 2}}}  # Mace of the Sun
-  539: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 26, on_hit: {kind: Physical, damage: 0.8, versus: {Dragon: 2}}}  # Ebonest
-  540: {drop: 0, base: weapon, slot_mult: 2, two_handed: true, dice: 4, guard: 36, on_hit: {kind: Physical, damage: 0.8, versus: {Dragon: 2}}}  # Sword of Whistlebone
-  541: {drop: 0, base: weapon, slot_mult: 2, two_handed: true, dice: 3, guard: 57, on_hit: {kind: Water, damage: 1}}  # Axe of Balthazar
+  532: {drop: 0, base: weapon, slot_mult: 1.25, two_handed: false, dice: 5, rung: 3.5, stats: {Might: 1.5, Speed: 1.5}, attack_delay: 0.9}  # Lightning Crossbow
+  538: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 3, on_hit: {kind: Physical, damage: 0.8, versus: {Elemental: 2}}}  # Mace of the Sun
+  539: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 2, on_hit: {kind: Physical, damage: 0.8, versus: {Dragon: 2}}}  # Ebonest
+  540: {drop: 0, base: weapon, slot_mult: 2, two_handed: true, dice: 4, on_hit: {kind: Physical, damage: 0.8, versus: {Dragon: 2}}}  # Sword of Whistlebone
+  541: {drop: 0, base: weapon, slot_mult: 2, two_handed: true, dice: 3, on_hit: {kind: Water, damage: 1}}  # Axe of Balthazar
   543: {drop: 0, base: flat, slot_mult: 0.75, stats: {Endurance: 3}}  # Cycle of Life
   1341: {drop: 0, base: flat, slot_mult: 1}  # Medusa's Mirror
   1347: {drop: 0, base: flat, slot_mult: 0.75, spell_bonus: [SpiritMagic]}  # Ghost Ring
   1348: {drop: 0, base: flat, slot_mult: 0.75, spell_bonus: [AirMagic]}  # Faerie Ring
-  2020: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 30, on_hit: {kind: Physical, damage: 0}}  # Mordred
-  1340: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 20}  # Lieutenant's Cutlass
-  1342: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 2, guard: 8}  # Lady Carmine's Dagger
-  1343: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 30}  # Villain's Blade
-  1344: {drop: 0, base: weapon, slot_mult: 1.25, two_handed: false, dice: 5, guard: 12}  # The Perfect Bow
-  1345: {drop: 0, base: weapon, slot_mult: 1.25, two_handed: false, dice: 6, guard: 30}  # The Perfect Bow
+  2020: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 2, on_hit: {kind: Physical, damage: 0}}  # Mordred
+  1340: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 3}  # Lieutenant's Cutlass
+  1342: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 2}  # Lady Carmine's Dagger
+  1343: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 3}  # Villain's Blade
+  1344: {drop: 0, base: weapon, slot_mult: 1.25, two_handed: false, dice: 5}  # The Perfect Bow
+  1345: {drop: 0, base: weapon, slot_mult: 1.25, two_handed: false, dice: 6}  # The Perfect Bow
   1346: {drop: 0, base: armor, slot_mult: 1.25, printed_ac: 12, reference_ac: 12}  # Shadow's Mask
   1349: {drop: 0, base: armor, slot_mult: 1, printed_ac: 11, reference_ac: 11}  # Sun Cloak
   1350: {drop: 0, base: armor, slot_mult: 1, printed_ac: 11, reference_ac: 11}  # Moon Cloak
-  1351: {drop: 0, base: weapon, slot_mult: 2, two_handed: true, dice: 3, guard: 51}  # Zokarr's Axe
+  1351: {drop: 0, base: weapon, slot_mult: 2, two_handed: true, dice: 3}  # Zokarr's Axe
   1352: {drop: 0, base: armor, slot_mult: 1, printed_ac: 11, reference_ac: 11}  # Vampire's Cape
-  1353: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 4, guard: 28}  # Minotaur's Axe
-  1354: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 12}  # Grognard's Cutlass
-  2118: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 4, guard: 18}  # Snergle's Axe
-  866: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 16}  # Blaster
-  867: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 5, guard: 36}  # Blaster Rifle
-  1666: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 3, guard: 16}  # Blaster
-  1667: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 5, guard: 36}  # Blaster Rifle
+  1353: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 4}  # Minotaur's Axe
+  1354: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 3}  # Grognard's Cutlass
+  2118: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 4}  # Snergle's Axe
+  866: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 3}  # Blaster
+  867: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 5}  # Blaster Rifle
+  1666: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 3}  # Blaster
+  1667: {drop: 0, base: weapon, slot_mult: 1, two_handed: false, dice: 5}  # Blaster Rifle
 
 bases:
   1: [1, 2, 0, 0, 0]

@@ -991,14 +991,16 @@ double mawShamanSchoolSum(const Character &caster)
     return sum;
 }
 
+uint32_t mawSupremeArmsmasterLevel(RulesetChallengeMode mode)
+{
+    return mode == RulesetChallengeMode::BeyondMadness ? 50 : mode == RulesetChallengeMode::RoadToInsanity ? 32 : 20;
+}
+
 bool mawSupremeArmsmaster(const MawRules &rules, const Character &character, bool effectiveLevel)
 {
     const CharacterSkill *pSkill = character.findSkill("Armsmaster");
     const std::string className = canonicalClassName(character.className);
-    const RulesetChallengeMode mode = rules.options().challengeMode;
-    const uint32_t supremeLevel = mode == RulesetChallengeMode::BeyondMadness ? 70
-        : mode == RulesetChallengeMode::RoadToInsanity                       ? 50
-                                                                              : 30;
+    const uint32_t supremeLevel = mawSupremeArmsmasterLevel(rules.options().challengeMode);
     const int level = pSkill == nullptr ? 0
         : effectiveLevel                ? int(pSkill->level) + character.skillBonus("Armsmaster")
                                         : int(pSkill->level);

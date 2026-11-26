@@ -28,7 +28,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 ENGINE_TABLES = ROOT / "assets_dev/engine/data_tables"
 OUTPUT = ROOT / "assets_dev/engine/rulesets/maw"
-MAW_COMMIT = "7ddb228c"
+MAW_COMMIT = "88a9d7b4"
 
 
 @dataclass
@@ -352,22 +352,26 @@ SPELL_MASTERY_PERCENTS = {7: ["100", "100", "133", "167"]}
 
 
 def spell_power_patch(maw_root: Path, ours: list[list[str]]) -> list[list[str]]:
-    """spells.txt cells for the dice MAW rolls and the mana it charges: spellPowers {dmgAdd, diceMin, diceMax, cost}
-    per spell id (since 8967ae88 the cost there sets the spell's mana by mastery, over Spells2.txt)."""
+    """spells.txt cells for the dice MAW rolls, the mana it charges and the recovery it sets: spellPowers {dmgAdd,
+    diceMin, diceMax, cost, delay} per spell id (since 8967ae88 the cost there sets the spell's mana by mastery, and
+    since 88a9d7b4 the delay its recovery by mastery, over Spells2.txt)."""
     text = (maw_root / SPELL_POWERS_LUA).read_text(encoding="latin-1")
     block = text[text.index("spellPowers ="):]
     block = block[:block.index("\n\t\t}")]
     pattern = re.compile(r"\[(\d+)\]\s*=\s*\{dmgAdd\s*=\s*([\d.]+),\s*diceMin\s*=\s*([\d.]+),\s*diceMax\s*=\s*([\d.]+),"
-                         r"\s*(?:cost\s*=\s*\{([\d,\s]+)\})?")
+                         r"\s*(?:cost\s*=\s*\{([\d,\s]+)\},)?\s*(?:delay\s*=\s*\{([\d,\s]+)\})?")
     names = {row[0]: row[2] for row in ours[1:] if len(row) > 2 and row[0].isdigit()}
     patch = []
-    for spell_id, add, dice_min, dice_max, cost in pattern.findall(block):
+    for spell_id, add, dice_min, dice_max, cost, delay in pattern.findall(block):
         if spell_id not in names:
             continue
         name = names[spell_id]
         costs = [value.strip() for value in cost.split(",")] if cost else []
         for mastery, value in zip(("Normal", "Expert", "Master", "Grandmaster"), costs):
             patch.append([name, f"{mastery} Mana", value])
+        delays = [value.strip() for value in delay.split(",")] if delay else []
+        for mastery, value in zip(("Normal", "Expert", "Master", "Grandmaster"), delays):
+            patch.append([name, f"{mastery} Recovery", value])
         if int(spell_id) in SPELL_POWERS_SKIPPED:
             continue
         patch += [[name, "DamageBase", add], [name, "DamageDiceMin", dice_min], [name, "DamageDiceSides", dice_max]]

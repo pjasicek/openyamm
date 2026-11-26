@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/content/RulesetOptions.h"
 #include "game/party/SkillData.h"
 #include "game/rules/ClassRules.h"
 
@@ -106,10 +107,12 @@ std::string mawClassLine(const std::string &className);
 // the fixed SP pool and its refills follow the Dragon class (zzClasses.lua, CL:765-818, S:1469-1473).
 bool mawIsDragon(const Character &character);
 
-// The Knight line reaches Supreme Armsmaster at Grandmaster and 30 base points (50 on Road to Insanity, 70 in Beyond
-// Madness; S:2587-2620).
+// The Knight line reaches Supreme Armsmaster at Grandmaster and mawSupremeArmsmasterLevel base points (S:2587-2620).
 // `effectiveLevel`: the level with item and follower bonuses, as the damage rank reads it (IT:2829-2833, SKL-3); the
 // weapon-skill bonus reads the trained level (S:2612-2617).
+// The Armsmaster level Supreme takes in a challenge mode: 20, 32 on Road to Insanity, 50 on Beyond Madness
+// (GetArmsmasterSupremeRequirement; 30/50/70 until MAW e203116c).
+uint32_t mawSupremeArmsmasterLevel(RulesetChallengeMode mode);
 bool mawSupremeArmsmaster(const MawRules &rules, const Character &character, bool effectiveLevel = false);
 
 // The class's flat melee damage, added the Armsmaster way (multiplied by the weapon skill's damage percent, halved

@@ -739,9 +739,11 @@ SkillTooltipText MawSkillRules::skillTooltip(
         {
             armorItems = "\n\n"
                 + Engine::tr("Current Armor Class from items: <value>{items}</>\nBonus Armor Class: <value>{armor}</>\n"
-                             "Bonus resistances: <value>{resistances}</>",
+                             "Bonus resistances: <value>{resistances}</>\n"
+                             "Bonus to the items' own resistances: <value>+{percent} %</>",
                     {{"items", number(mawRound(armor.pieces))}, {"armor", number(armor.bodySkillArmor)},
-                        {"resistances", number(armor.bodySkillResistance)}});
+                        {"resistances", number(armor.bodySkillResistance)},
+                        {"percent", number(mawRound(armor.bodySkillResistanceShare * 100))}});
         }
         else if (canonicalSkill == "Shield" && armor.shield > 0)
         {
@@ -790,10 +792,7 @@ SkillTooltipText MawSkillRules::skillTooltip(
         }
     }
 
-    const RulesetChallengeMode mode = m_rules.options().challengeMode;
-    values["supreme_level"] = mode == RulesetChallengeMode::BeyondMadness ? 70
-        : mode == RulesetChallengeMode::RoadToInsanity                    ? 50
-                                                                           : 30;
+    values["supreme_level"] = int(mawSupremeArmsmasterLevel(m_rules.options().challengeMode));
     const auto state = [](bool off)
     {
         return Engine::tr(off ? "<bad>Currently disabled</>" : "<good>Currently enabled</>");

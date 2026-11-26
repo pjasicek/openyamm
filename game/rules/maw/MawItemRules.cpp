@@ -1691,31 +1691,9 @@ std::optional<int> MawItemRules::weaponGuardBase(
     const ItemRulesetFields &fields,
     int wearerLevel) const
 {
-    const MawItemData &data = m_rules.itemData();
-
-    if (const MawArtifact *pArtifact = data.artifact(itemDefinition.itemId))
-    {
-        return pArtifact->base == MawArtifact::Base::Weapon ? std::optional<int>(pArtifact->guardBase) : std::nullopt;
-    }
-
-    const MawBaseItem *pBase = data.baseItem(itemDefinition.itemId);
-
-    if (pBase == nullptr || pBase->diceCount <= 0)
-    {
-        return std::nullopt;
-    }
-
-    int itemPower = fields.itemPower;
-
-    if (MawRarity(fields.lootRarity) == MawRarity::Celestial)
-    {
-        itemPower = mawItemPower(int(celestialLevel(wearerLevel)), MawRarity::Celestial, 24);
-    }
-
-    // The weapon upscaler's flat for the rung, halved for one-handers (IT:1416-1430); the top rung's is 16 or 8.
-    const double half = pBase->twoHanded ? 1 : 0.5;
-    const int flat = int(mawRound(16 * (pBase->rung - 1) / 5 * half));
-    return flat + int(mawRound(16 * half * itemPower / 30));
+    // The weapon's flat damage row, quality included (GetWeaponDamageRows, MAW 03700aea).
+    const std::optional<MawWeaponDamage> damage = weaponDamage(itemDefinition, fields, wearerLevel);
+    return damage ? std::optional<int>(int(mawRound(damage->bonus))) : std::nullopt;
 }
 
 std::optional<int> MawItemRules::armorClass(
@@ -1781,13 +1759,15 @@ std::optional<ItemBaseStats> MawItemRules::baseStats(
     return stats;
 }
 
-MawArtifactBonuses MawItemRules::artifactBonuses(const MawArtifact &artifact, const ItemDefinition &itemDefinition) const
+MawArtifactBonuses MawItemRules::artifactBonuses(
+    const MawArtifact &artifact, const ItemDefinition &itemDefinition, const ItemRulesetFields &fields) const
 {
     const MawLootConfig config = m_rules.lootConfig();
     const double level = m_rules.state().totalLevel();
     const double lootTier = level / 15 + std::min(1 + level / 15, 6.0);
     const double unit = mawEnchantStrengthCurve(lootTier, config.austerity) * config.enchantPower;
     const bool ring = itemDefinition.equipStat == "Ring";
+    const double quality = 1 + fields.qualityPercent / 100.0;
     static const std::array<const char *, 16> StatNames = {
         "Might", "Intellect", "Personality", "Endurance", "Accuracy", "Speed", "Luck", "HP", "SP",
         "ArmorClass", "FireResistance", "AirResistance", "WaterResistance", "EarthResistance",
@@ -1804,7 +1784,8 @@ MawArtifactBonuses MawItemRules::artifactBonuses(const MawArtifact &artifact, co
     {
         const int type = statType(name);
         const int amount = int(mawRound(coefficient * unit * artifact.slotMultiplier));
-        bonuses.stats.emplace_back(type, mawEnchantReadPower(type, amount, false, artifact.slotMultiplier, ring));
+        const int read = mawEnchantReadPower(type, amount, false, artifact.slotMultiplier, ring);
+        bonuses.stats.emplace_back(type, read > 0 ? int(mawRound(read * quality)) : read);
     }
 
     const double skillUnit = std::ceil(std::max(std::sqrt(unit), unit / 10)) * artifact.slotMultiplier;
@@ -1941,26 +1922,12 @@ void MawItemRules::applyItemEffects(
         bonuses.magicalBonuses.armorClass += itemDefinition.itemId == Galahad || itemDefinition.itemId == Pellinore ? 20 : 0;
         bonuses.itemSkillBonuses = skillsBefore;
 
-        const MawArtifactBonuses budget = artifactBonuses(*pArtifact, itemDefinition);
-        const double resistanceMultiplier = wears(wearer, LegendaryAffix::ResistanceEnchants) ? 1.5 : 1;
+        const MawArtifactBonuses budget = artifactBonuses(*pArtifact, itemDefinition, runtimeState.rulesetFields);
 
+        // The budget's resistances are flat resistances, whole, as its other stats (collectArtifactBonuses, MAW
+        // 79c5a83a; until then they were resistance enchantments, the best per element).
         for (const auto &[type, amount] : budget.stats)
         {
-            // The budget's resistances count as resistance enchantments, the best per element, apart from the
-            // resistances; only the fixed part stays a resistance (collectArtifactBonuses, MAW fc17d917).
-            if (isResistanceEnchant(type))
-            {
-                int &best = resistanceField(bonuses.itemResistanceEnchants, type);
-                best = std::max(best, int(mawRound(std::max(amount, 0) * resistanceMultiplier)));
-
-                if (amount < 0)
-                {
-                    ItemEnchantRuntime::applyStandardEnchantBonus(bonuses, StandardItemEnchantKind(type), amount);
-                }
-
-                continue;
-            }
-
             ItemEnchantRuntime::applyStandardEnchantBonus(bonuses, StandardItemEnchantKind(type), amount);
         }
 
@@ -2295,6 +2262,19 @@ std::string MawItemRules::specialText(
         return ItemRules::enchantDescription(item, itemDefinition, pStandardTable, pSpecialTable, pViewer);
     }
 
+    // Carnage tells the share of the shot each arrow deals: 40 %, less on the denser difficulties (checktext[3],
+    // MAW 2ef24120).
+    if (const SpecialItemEnchantEntry *pEntry =
+            pSpecialTable != nullptr ? pSpecialTable->get(item.specialEnchantId) : nullptr;
+        pEntry != nullptr && pEntry->kind == SpecialItemEnchantKind::Carnage)
+    {
+        const double share = MawCarnageDamageMultiplier
+            * mawDensityAreaMultiplier(mawModelConfig(m_rules.options(), 5).difficulty) * 100;
+        std::ostringstream percent;
+        percent << mawRound(share * 10) / 10;
+        return Engine::tr("Explosive Impact! ({percent} % damage per arrow)", {{"percent", percent.str()}});
+    }
+
     // A damage enchantment shows the range it rolls at the item's level; stat, school and Meditation specials their
     // numbers at the item's power (checktext, IT:1801-1890).
     const int itemPower = item.rulesetFields.itemPower;
@@ -2492,11 +2472,21 @@ std::vector<ItemInspectLine> MawItemRules::inspectLines(
         return lines;
     }
 
+    // The Endless Potion: how many drinks it adds (zzAlchemy.lua:744-748).
+    if (const MawCraftMaterial *pMaterial = m_rules.craftingData().material(itemDefinition.itemId);
+        pMaterial != nullptr && pMaterial->operation == MawCraftOperation::AddPotionCharges && fields.craftState > 0)
+    {
+        lines.push_back({Engine::trn("Adds {count} drink", "Adds {count} drinks", uint64_t(fields.craftState),
+                             {{"count", int(fields.craftState)}}),
+            0xffff1e});
+        return lines;
+    }
+
     // An artifact shows what it gives at the party's level, then its powers (Tooltip.lua:495-534, Artifacts.lua
     // BonusesOf, zzzMaw_Artifacts.lua MawArtifactOnHitText; audit FITM-2-5).
     if (const MawArtifact *pArtifact = data.artifact(itemDefinition.itemId))
     {
-        const MawArtifactBonuses bonuses = artifactBonuses(*pArtifact, itemDefinition);
+        const MawArtifactBonuses bonuses = artifactBonuses(*pArtifact, itemDefinition, fields);
 
         if (!special.empty())
         {

@@ -61,26 +61,26 @@ end
 local G = "Scripts/General/"
 chunk(G .. "zzMaw-Stats.lua", 262, 266)        -- STAT_DAMAGE_DIVISOR, GetMightDamageMultiplier
 chunk(G .. "zzMaw-Stats.lua", 295, 297)        -- getIntellectDamageMultiplier
-chunk(G .. "zzMaw-Stats.lua", 946, 950)        -- events.GetStatisticEffect (>=25 -> floor(v/5))
-chunk(G .. "zzMaw-Stats.lua", 1461, 1529)      -- masteryForSkill .. GetDifficulty
+chunk(G .. "zzMaw-Stats.lua", 945, 949)        -- events.GetStatisticEffect (>=25 -> floor(v/5))
+chunk(G .. "zzMaw-Stats.lua", 1455, 1523)      -- masteryForSkill .. GetDifficulty
 chunk(G .. "zzMAW-Skills.lua", 23, 182)        -- baseRecovery .. skillMasteryLadder
 chunk(G .. "zzMAW-Skills.lua", 408, 418)       -- SPELL_HASTE_DIVISOR, GetSpeedBonusFromStat
 chunk(G .. "zzMaw-Items.lua", 444, 893)        -- enchant strength, loot tier, rarity, expected enchant fraction
-chunk(G .. "zzMaw-Items.lua", 2045, 2062)      -- enchantbonusdamage, ENCHANT_DAMAGE_MULT
-chunk(G .. "zzMaw-Items.lua", 2095, 2095)      -- LEGENDARY19_ENCHANT_MULT
-chunk(G .. "zzMaw-Items.lua", 4282, 4282)      -- fireAuraDamage
+chunk(G .. "zzMaw-Items.lua", 2046, 2063)      -- enchantbonusdamage, ENCHANT_DAMAGE_MULT
+chunk(G .. "zzMaw-Items.lua", 2096, 2096)      -- LEGENDARY19_ENCHANT_MULT
+chunk(G .. "zzMaw-Items.lua", 4261, 4261)      -- fireAuraDamage
 chunk(G .. "zzMaw-Spells.lua", 80, 82)         -- getHealPersonalityBonus
-chunk(G .. "zzMaw-Spells.lua", 2087, 2091)     -- ascendHealingValues
-chunk(G .. "zzMaw-Spells.lua", 2361, 2380)     -- getBaseHealingSpells
-chunk(G .. "zzMaw-Spells.lua", 2682, 2718)     -- GetBuffMultiplier, GetBuffStatPct, buffPower
+chunk(G .. "zzMaw-Spells.lua", 2116, 2120)     -- ascendHealingValues
+chunk(G .. "zzMaw-Spells.lua", 2401, 2420)     -- getBaseHealingSpells
+chunk(G .. "zzMaw-Spells.lua", 2723, 2759)     -- GetBuffMultiplier, GetBuffStatPct, buffPower
 if cfg.buff == "mapping" then
   chunk("Scripts/Global/zzMaw_Mapping.lua", 36, 56)  -- the table AfterLoadMap installs on every map load
 end
-chunk("Scripts/Modules/MawCore/Formulas.lua", 1, 318)
+chunk("Scripts/Modules/MawCore/Formulas.lua", 1, 315)
 chunk("Scripts/Modules/MawCore/ItemLevel.lua", 1, 86)
 chunk(G .. "zzzMaw_Experience.lua", 7, 45)     -- calcLevel / calcExp
 chunk(G .. "zzMaw-Monsters.lua", 5, 25)        -- bolsteredLevel, MawTierB
-chunk(G .. "zzMaw-Monsters.lua", 770, 796)     -- density tables, GetMonsterExpMult
+chunk(G .. "zzMaw-Monsters.lua", 770, 801)     -- density tables, GetMonsterExpMult
 -- encStrUp selection done in zzMaw-Items.lua:895-901 (BeforeLoadMap)
 encStrUp = vars.AusterityMode and encStrUpAusterity or encStrUpNormal
 -- Estimates.lua with its locals exported for the golden table

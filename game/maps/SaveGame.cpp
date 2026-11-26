@@ -27,7 +27,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 205;
+constexpr uint32_t SaveVersion = 206;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -370,6 +370,10 @@ constexpr uint32_t SaveVersionImplantSockets = 204;
 // Evolving implants (DECISIONS H-83): an item's implant kill count, and sockets that hold whole items (version 204 held
 // item ids, which load as items with no kills).
 constexpr uint32_t SaveVersionImplantEvolution = 205;
+// MAW's daily and per-game limits (MAW 88a9d7b4 sync): each member's next Divine Intervention
+// (CharacterRulesetState::divineInterventionReadyGameMinutes) and the gold the ordinary Arena bouts have paid
+// (MawGameState::arenaGoldPaid); older saves have neither.
+constexpr uint32_t SaveVersionMawDailyLimits = 206;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -956,6 +960,7 @@ void writeValue(BinaryWriter &writer, const CharacterRulesetState &value)
 
         writeValue(writer, value.progressionStoredMasteries);
         writeValue(writer, value.soloStoredMasteries);
+        writeValue(writer, value.divineInterventionReadyGameMinutes);
     }
 }
 
@@ -1069,7 +1074,9 @@ bool readValue(BinaryReader &reader, CharacterRulesetState &value)
                 && (reader.version() < SaveVersionProgressionMasteries
                     || (readValue(reader, value.progressionStoredMasteries)
                         && readValue(reader, value.soloStoredMasteries)))
-                && readBagTags()));
+                && readBagTags()
+                && (reader.version() < SaveVersionMawDailyLimits
+                    || readValue(reader, value.divineInterventionReadyGameMinutes))));
 }
 
 // One byte for a Standard item; the fields follow only when a ruleset set any.
@@ -1248,6 +1255,7 @@ void writeMawState(BinaryWriter &writer, const MawGameState &value, const PartyR
     writeValue(writer, party.madnessDeaths);
     writeValue(writer, party.fixedAuraEndMinutes);
     writeValue(writer, value.pendingRefills);
+    writeValue(writer, value.arenaGoldPaid);
 }
 
 void writeValue(BinaryWriter &writer, const MawMapVisit &value)
@@ -1326,7 +1334,8 @@ bool readMawState(BinaryReader &reader, MawGameState &value, PartyRulesetState &
         && (reader.version() < SaveVersionMawUsedStatDecorations || readValue(reader, value.usedStatDecorations))
         && (reader.version() < SaveVersionMawMadnessDeaths || readValue(reader, party.madnessDeaths))
         && (reader.version() < SaveVersionMawScrollAuraEnds || readValue(reader, party.fixedAuraEndMinutes))
-        && (reader.version() < SaveVersionMawPendingRefills || readValue(reader, value.pendingRefills));
+        && (reader.version() < SaveVersionMawPendingRefills || readValue(reader, value.pendingRefills))
+        && (reader.version() < SaveVersionMawDailyLimits || readValue(reader, value.arenaGoldPaid));
 }
 
 bool readValue(BinaryReader &reader, MawGameState &value)

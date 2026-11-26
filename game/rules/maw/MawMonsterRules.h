@@ -102,6 +102,8 @@ public:
     // monTbl (zzMaw-Maps.lua:750-789): the C-tier families that are not wimps, by their table level, less two.
     int16_t arenaWaveMonster(int wave, const MonsterTable &monsterTable) const override;
     size_t arenaMinimumTypes() const override;
+    bool allowsHitReaction(uint64_t actorKey, bool melee, float gameMinutes) const override;
+    int arenaWinGold(int reward) const override;
     int arenaDrawLevel(const MonsterTable::MonsterStatsEntry &stats, const MonsterTable &monsterTable,
         const MapStatsEntry &map) const override;
     // The outdoor maps (and Celeste and the Pit) never refill (zzMaw-Maps.lua:73-85).
@@ -205,6 +207,9 @@ private:
     mutable std::vector<std::pair<double, double>> m_leechCarry;
     // The map whose arrival was last announced (flight maps from Hard up).
     mutable std::string m_announcedMap;
+    // The game minute each monster (mapActorKey) last reacted to a missile or a spell (MonsterHitstun.lua); cleared on
+    // every map load, as MAW's.
+    mutable std::unordered_map<uint64_t, float> m_lastRangedHitReaction;
 };
 
 // A monster's damage before the attack's own ratio (getMonsterDamage): the model's damage at its family level for the

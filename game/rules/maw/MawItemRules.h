@@ -243,9 +243,9 @@ public:
         const ItemDefinition &itemDefinition,
         const ItemRulesetFields &fields,
         int wearerLevel) const;
-    // The flat damage Staff, Sword and Spear guard by (addWeaponACRes, IT:3226-3247): the base's ladder flat plus
-    // the top rung's x item power / 30, no quality and no cap; an artifact's upscaled printed flat. Nothing for
-    // anything that is not one of MAW's weapons.
+    // The flat damage Staff, Sword and Spear guard by (addWeaponACRes, IT:3205-3225): the weapon's flat damage row,
+    // as weaponDamage gives it, quality included (GetWeaponDamageRows; MAW 03700aea). Nothing for anything that is not
+    // one of MAW's weapons.
     std::optional<int> weaponGuardBase(
         const ItemDefinition &itemDefinition,
         const ItemRulesetFields &fields,
@@ -261,8 +261,10 @@ public:
     // A Celestial item as it is at its wearer's level: the item power and the enchantment strengths of a Primordial
     // one there (updateCelestialItem, IT:1622-1661). Other items come back as they are.
     InventoryItem celestialAtLevel(const InventoryItem &item, const ItemDefinition &itemDefinition, int wearerLevel) const;
-    // What an artifact gives at the party's level (MawCore/Artifacts.lua BonusesOf, budget unit at the total level).
-    MawArtifactBonuses artifactBonuses(const MawArtifact &artifact, const ItemDefinition &itemDefinition) const;
+    // What an artifact gives at the party's level (MawCore/Artifacts.lua BonusesOf, budget unit at the total level);
+    // Pandora's Cube's quality raises its positive stats and resistances (MAW f178d17c).
+    MawArtifactBonuses artifactBonuses(
+        const MawArtifact &artifact, const ItemDefinition &itemDefinition, const ItemRulesetFields &fields) const;
 
 private:
     // applyEquippedEnchantEffects before a dragon's triple share.

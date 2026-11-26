@@ -770,9 +770,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       rarity: Artifact
       mismatch: none
     budget:
-      stats: {Might: 0.23, Intellect: 0.23, Personality: 0.23, Speed: 0.23, Accuracy: 0.23, Endurance: 0.23, Luck: 0.23,
-              FireResistance: 0.23, AirResistance: 0.23, WaterResistance: 0.23, EarthResistance: 0.23,
-              MindResistance: 0.23, BodyResistance: 0.23}
+      stats: {Might: 0.5, Intellect: 0.5, Personality: 0.5, Speed: 0.5, Accuracy: 0.5, Endurance: 0.5, Luck: 0.5, FireResistance: 0.75, AirResistance: 0.75, WaterResistance: 0.75, EarthResistance: 0.75, MindResistance: 0.75, BodyResistance: 0.75}
       source: "zzMaw-Items.lua:3538-3550"
     base:
       model: artifact_armor
@@ -879,7 +877,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       rarity: Artifact
       mismatch: none
     budget:
-      stats: {FireResistance: 0.75, AirResistance: 0.75, WaterResistance: 0.75, EarthResistance: 0.75}
+      stats: {FireResistance: 1.5, AirResistance: 1.5, WaterResistance: 1.5, EarthResistance: 1.5}
       source: "zzMaw-Items.lua:3557-3560"
     base:
       model: flat_ac
@@ -961,8 +959,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       rarity: Artifact
       mismatch: none
     budget:
-      stats: {Intellect: 1.2, FireResistance: 0.3, AirResistance: 0.3, WaterResistance: 0.3, EarthResistance: 0.3,
-              MindResistance: 0.3, BodyResistance: 0.3}
+      stats: {Intellect: 1.2, FireResistance: 0.6, AirResistance: 0.6, WaterResistance: 0.6, EarthResistance: 0.6, MindResistance: 0.6, BodyResistance: 0.6}
       source: "zzMaw-Items.lua:3564-3570"
     base:
       model: artifact_armor
@@ -1548,7 +1545,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       model: artifact_armor
       list: "artArmors (zzMaw-Items.lua:2332)"
       printed_ac: 42
-      reference_ac: 0
+      reference_ac: 42
       reference_ac_from: 1315
       slot_mult: 1.5
       base_multiplier: 1
@@ -1578,7 +1575,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       model: artifact_armor
       list: "artArmors (zzMaw-Items.lua:2332)"
       printed_ac: 70
-      reference_ac: 0
+      reference_ac: 70
       reference_ac_from: 1315
       slot_mult: 1.5
       base_multiplier: 1
@@ -1770,7 +1767,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       model: artifact_armor
       list: "artArmors (zzMaw-Items.lua:2332)"
       printed_ac: 15
-      reference_ac: 0
+      reference_ac: 15
       reference_ac_from: 1315
       slot_mult: 1.25
       base_multiplier: 1
@@ -1797,7 +1794,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       model: artifact_armor
       list: "artArmors (zzMaw-Items.lua:2332)"
       printed_ac: 18
-      reference_ac: 0
+      reference_ac: 18
       reference_ac_from: 1315
       slot_mult: 1.25
       base_multiplier: 1
@@ -1912,7 +1909,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       model: artifact_armor
       list: "artArmors (zzMaw-Items.lua:2332)"
       printed_ac: 32
-      reference_ac: 17
+      reference_ac: 32
       reference_ac_from: 1330
       slot_mult: 1.5
       base_multiplier: 1
@@ -1999,7 +1996,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       model: artifact_armor
       list: "artArmors (zzMaw-Items.lua:2332)"
       printed_ac: 27
-      reference_ac: 17
+      reference_ac: 27
       reference_ac_from: 1330
       slot_mult: 1
       base_multiplier: 1
@@ -2027,7 +2024,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       model: artifact_armor
       list: "artArmors (zzMaw-Items.lua:2332)"
       printed_ac: 20
-      reference_ac: 17
+      reference_ac: 20
       reference_ac_from: 1330
       slot_mult: 1
       base_multiplier: 1
@@ -2088,7 +2085,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       model: artifact_armor
       list: "artArmors (zzMaw-Items.lua:2332)"
       printed_ac: 2
-      reference_ac: 17
+      reference_ac: 2
       reference_ac_from: 1330
       slot_mult: 1.25
       base_multiplier: 1
@@ -2145,7 +2142,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       model: artifact_armor
       list: "artArmors (zzMaw-Items.lua:2332)"
       printed_ac: 20
-      reference_ac: 17
+      reference_ac: 20
       reference_ac_from: 1330
       slot_mult: 1
       base_multiplier: 1
@@ -2173,7 +2170,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       model: artifact_armor
       list: "artArmors (zzMaw-Items.lua:2332)"
       printed_ac: 15
-      reference_ac: 17
+      reference_ac: 15
       reference_ac_from: 1330
       slot_mult: 1
       base_multiplier: 1
@@ -2493,8 +2490,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       rarity: Artifact
       mismatch: none
     budget:
-      stats: {FireResistance: 0.5, AirResistance: 0.5, WaterResistance: 0.5, EarthResistance: 0.5, MindResistance: 0.5,
-              BodyResistance: 0.5}
+      stats: {FireResistance: 1, AirResistance: 1, WaterResistance: 1, EarthResistance: 1, MindResistance: 1, BodyResistance: 1}
       source: "zzMaw-Items.lua:3727-3732"
     base:
       model: flat_ac
@@ -2695,7 +2691,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       model: artifact_armor
       list: "artArmors (zzMaw-Items.lua:2332)"
       printed_ac: 44
-      reference_ac: 3
+      reference_ac: 44
       reference_ac_from: 2034
       slot_mult: 1.5
       base_multiplier: 1
@@ -2723,7 +2719,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       model: artifact_armor
       list: "artArmors (zzMaw-Items.lua:2332)"
       printed_ac: 66
-      reference_ac: 3
+      reference_ac: 66
       reference_ac_from: 2034
       slot_mult: 1.5
       base_multiplier: 1
@@ -2752,7 +2748,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       model: artifact_armor
       list: "artArmors (zzMaw-Items.lua:2332)"
       printed_ac: 20
-      reference_ac: 3
+      reference_ac: 20
       reference_ac_from: 2034
       slot_mult: 1
       base_multiplier: 1
@@ -2810,7 +2806,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       model: artifact_armor
       list: "artArmors (zzMaw-Items.lua:2332)"
       printed_ac: 13
-      reference_ac: 3
+      reference_ac: 13
       reference_ac_from: 2034
       slot_mult: 1
       base_multiplier: 1
@@ -2840,7 +2836,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       model: artifact_armor
       list: "artArmors (zzMaw-Items.lua:2332)"
       printed_ac: 17
-      reference_ac: 3
+      reference_ac: 17
       reference_ac_from: 2034
       slot_mult: 1.25
       base_multiplier: 1
@@ -3124,14 +3120,13 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       rarity: Relic
       mismatch: none
     budget:
-      stats: {FireResistance: 0.46, AirResistance: 0.46, WaterResistance: 0.46, EarthResistance: 0.46,
-              MindResistance: 0.46, BodyResistance: 0.46, Luck: 0.23, Endurance: -0.35}
+      stats: {FireResistance: 0.92, AirResistance: 0.92, WaterResistance: 0.92, EarthResistance: 0.92, MindResistance: 0.92, BodyResistance: 0.92, Luck: 0.23, Endurance: -0.35}
       source: "zzMaw-Items.lua:3796-3803"
     base:
       model: artifact_armor
       list: "artArmors (zzMaw-Items.lua:2332)"
       printed_ac: 52
-      reference_ac: 6
+      reference_ac: 52
       reference_ac_from: 2049
       slot_mult: 1.5
       base_multiplier: 1
@@ -3158,7 +3153,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       model: artifact_armor
       list: "artArmors (zzMaw-Items.lua:2332)"
       printed_ac: 74
-      reference_ac: 6
+      reference_ac: 74
       reference_ac_from: 2049
       slot_mult: 1.5
       base_multiplier: 1
@@ -3185,7 +3180,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       model: artifact_armor
       list: "artArmors (zzMaw-Items.lua:2332)"
       printed_ac: 32
-      reference_ac: 6
+      reference_ac: 32
       reference_ac_from: 2049
       slot_mult: 1
       base_multiplier: 1
@@ -3210,7 +3205,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       rarity: Relic
       mismatch: none
     budget:
-      stats: {FireResistance: 0.75, AirResistance: 0.75, WaterResistance: 0.75, EarthResistance: 0.75, Speed: -0.5}
+      stats: {FireResistance: 1.5, AirResistance: 1.5, WaterResistance: 1.5, EarthResistance: 1.5, Speed: -0.5}
       source: "zzMaw-Items.lua:3813-3817"
     base:
       model: flat_ac
@@ -3243,7 +3238,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       model: artifact_armor
       list: "artArmors (zzMaw-Items.lua:2332)"
       printed_ac: 18
-      reference_ac: 6
+      reference_ac: 18
       reference_ac_from: 2049
       slot_mult: 1
       base_multiplier: 1
@@ -3270,7 +3265,7 @@ artifacts:  # 103 unique ids from mawArtifacts (zzMaw-Items.lua:4481; 104 entrie
       model: artifact_armor
       list: "artArmors (zzMaw-Items.lua:2332)"
       printed_ac: 20
-      reference_ac: 6
+      reference_ac: 20
       reference_ac_from: 2049
       slot_mult: 1.25
       base_multiplier: 1

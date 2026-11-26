@@ -51,7 +51,7 @@ selection:
 # ---------------------------------------------------------------------------------------------------------------
 # Per-index numbers. Keys:
 #   monster_hp_hits        hitToKillMonster: monster HP = expected player power x this (Estimates.lua:679)
-#   monster_hp_hits_aust   hitToKillMonsterAusterity (Estimates.lua:680)
+#   monster_hp_hits_aust   hitToKillMonsterAusterity (Estimates.lua:708; raised in 88a9d7b4)
 #   player_hits_to_die     hitToKill: monster damage = expected player vitality / this (Estimates.lua:459)
 #   player_hits_aust       hitToKillAusterity (Estimates.lua:460)
 #   density                monsterDensity {low, hi} (zzMaw-Monsters.lua:771-781); applied rule in density_rules
@@ -68,7 +68,7 @@ difficulties:
     name: "Easy and Normal"     # both bolster 0 and 50 land here (MAW bug: the comments say "bolster 40")
     bolster: [0, 50]
     monster_hp_hits: 1
-    monster_hp_hits_aust: 1
+    monster_hp_hits_aust: 2
     player_hits_to_die: 14
     player_hits_aust: 15
     density: {low: 1, hi: 3}
@@ -81,7 +81,7 @@ difficulties:
     name: "unreachable (bolster 70)"
     bolster: [70]
     monster_hp_hits: 1.5
-    monster_hp_hits_aust: 2
+    monster_hp_hits_aust: 4
     player_hits_to_die: 10
     player_hits_aust: 10
     density: {low: 1, hi: 3}
@@ -94,7 +94,7 @@ difficulties:
     name: MAW
     bolster: [100]
     monster_hp_hits: 2
-    monster_hp_hits_aust: 4
+    monster_hp_hits_aust: 6
     player_hits_to_die: 7
     player_hits_aust: 5
     density: {low: 1, hi: 3}
@@ -107,7 +107,7 @@ difficulties:
     name: Hard
     bolster: [150]
     monster_hp_hits: 2.5
-    monster_hp_hits_aust: 5
+    monster_hp_hits_aust: 8
     player_hits_to_die: 6.5
     player_hits_aust: 4
     density: {low: 1, hi: 4}
@@ -120,7 +120,7 @@ difficulties:
     name: Hell
     bolster: [200]
     monster_hp_hits: 3
-    monster_hp_hits_aust: 6
+    monster_hp_hits_aust: 8
     player_hits_to_die: 6
     player_hits_aust: 3
     density: {low: 1, hi: 4}
@@ -133,7 +133,7 @@ difficulties:
     name: Nightmare
     bolster: [300]               # only reachable through the irreversible prompt (trueNightmare)
     monster_hp_hits: 3.5
-    monster_hp_hits_aust: 7
+    monster_hp_hits_aust: 8
     player_hits_to_die: 5.5
     player_hits_aust: 2.5
     density: {low: 2, hi: 4}

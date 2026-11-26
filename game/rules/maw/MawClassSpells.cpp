@@ -230,8 +230,9 @@ bool mawElementalistOffensiveSpell(uint32_t spellId)
 
 double mawElementalistProgress(uint32_t spellId, int monsterLevel, int partyCount, bool insanity)
 {
-    // MAW's area spells of the four elements (aoespells, SP:2094) but Sparks and Poison Spray.
-    static constexpr std::array<uint32_t, 9> AreaSpells = {6, 7, 8, 9, 10, 22, 32, 41, 43};
+    // MAW's area spells of the four elements (aoespells, SP:2147) but Sparks and Poison Spray; Fire Spike left the
+    // list in MAW 4d23c690.
+    static constexpr std::array<uint32_t, 8> AreaSpells = {6, 8, 9, 10, 22, 32, 41, 43};
 
     if (spellId < 1 || spellId > 44)
     {

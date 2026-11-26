@@ -45,6 +45,9 @@ struct CharacterCombatRows
     std::optional<std::pair<int, int>> blasterDamage;
     int armorClass = 0;
     CharacterResistanceSet resistances;
+    // The share the rules add to the items' own flat resistances (MAW: the body armour skill's resistance percent,
+    // MAW 79c5a83a); 0 for none.
+    double itemResistanceScale = 0;
 };
 
 // A row of the character's stats page as the rules relabel it (MAW: Condition shows the powers, Quick Spell Vitality).

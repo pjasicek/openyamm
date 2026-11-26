@@ -17,6 +17,9 @@ class MawBalanceModel;
 // MAW's `round`: halves go up.
 double mawRound(double value);
 
+// The share of a bow's shot a Carnage arrow deals, its aura and enchantment included (Formulas.carnageDamageMult).
+constexpr double MawCarnageDamageMultiplier = 0.4;
+
 // A statistic's effect (§2.1): floor(v / 5) from 25, the vanilla table below.
 int mawStatEffect(int value);
 

@@ -596,12 +596,14 @@ TEST_CASE("MAW swords guard by their guard, not by a flat point of Armor Class p
     const ItemDefinition *pElsenrail = gameData.itemTable.get(500);
     REQUIRE(pElsenrail != nullptr);
 
-    // Discord, 2026-11-10: Grandmaster Sword 20 with Elsenrail (guard 34) gives 2 % x 34 x (20 + 10) = 20, not 40.
+    // Discord, 2026-11-10: Grandmaster Sword 20 gives 2 % of the guard per point counting ten more, not a point each.
+    // Elsenrail is a one-handed top-rung sword at the party's level (MAW 03700aea): a fresh game's guard is 8, so
+    // 2 % x 8 x (20 + 10) = 5.
     holder.skills["Sword"] = {"Sword", 20, SkillMastery::Grandmaster};
     std::optional<MawWeaponGuard> guard = mawWeaponGuard(rules, holder, *pElsenrail, ItemRulesetFields{});
     REQUIRE(guard.has_value());
-    CHECK_EQ(guard->guard, 34);
-    CHECK_EQ(guard->armorClass, 20);
+    CHECK_EQ(guard->guard, 8);
+    CHECK_EQ(guard->armorClass, 5);
     CHECK_EQ(guard->resistance, 0);
 
     // Below Master the sword gives none; a weapon of another skill has no guard.
@@ -2134,8 +2136,9 @@ TEST_CASE("MAW an Expert staff guards its holder and resists for the party (Disc
     REQUIRE(pPriestly != nullptr);
     REQUIRE(canonicalSkillName(pPriestly->skillGroup) == "Staff");
 
-    // Priestly Staff (rung 3.5, two-handed) at power 20: guard 8 + 11 = 19. Expert Staff 10: 2 % x 19 x (10 + 10) =
-    // 7.6, so 8 Armor Class and 8 resistance for the party (zzMAW-Skills.lua skillAC/skillResistance, Expert 2).
+    // Priestly Staff (rung 3.5, two-handed) at power 20: its flat damage row 8 + 20 = 28 (MAW 03700aea). Expert Staff
+    // 10: 2 % x 28 x (10 + 10) = 11.2, so 11 Armor Class and 11 resistance for the party (zzMAW-Skills.lua
+    // skillAC/skillResistance, Expert 2).
     Character holder = member("Thorn", "Shaman", 20);
     holder.equipment.mainHand = 81;
     holder.equipmentRuntime.mainHand.rulesetFields.itemPower = 20;
@@ -2143,10 +2146,10 @@ TEST_CASE("MAW an Expert staff guards its holder and resists for the party (Disc
     const std::optional<MawWeaponGuard> guard =
         mawWeaponGuard(rules, holder, *pPriestly, holder.equipmentRuntime.mainHand.rulesetFields);
     REQUIRE(guard.has_value());
-    CHECK_EQ(guard->guard, 19);
-    CHECK_EQ(guard->armorClass, 8);
-    CHECK_EQ(guard->resistance, 8);
-    CHECK_EQ(mawStaffPartyResistance(rules, holder, gameData.itemTable), 8);
+    CHECK_EQ(guard->guard, 28);
+    CHECK_EQ(guard->armorClass, 11);
+    CHECK_EQ(guard->resistance, 11);
+    CHECK_EQ(mawStaffPartyResistance(rules, holder, gameData.itemTable), 11);
 
     // The weakest staff of a family has no flat guard: unpowered, it gives nothing at Expert, as in MAW.
     holder.equipmentRuntime.mainHand.rulesetFields.itemPower = 0;

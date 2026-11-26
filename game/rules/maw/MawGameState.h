@@ -132,6 +132,9 @@ struct MawGameState
     // The barrels and cauldrons that raised a stat, by lowercase map file name: decor var index to the state they were
     // left in (empty). They stay so through refills and resets (vars.usedBarrels, zzMaw-Maps.lua:240-283).
     std::unordered_map<std::string, std::unordered_map<uint8_t, uint8_t>> usedStatDecorations;
+    // The gold the ordinary Arena bouts (Page to Lord) have paid in this game; they pay no more past a
+    // million (MawMonsterRules::arenaWinGold; vars.normalArenaGold, MAW 95c34b9d).
+    uint32_t arenaGoldPaid = 0;
 
     // The holder of an aura no party member holds (PartyRulesetState::auraHolders).
     static constexpr uint32_t FixedAuraHolder = PartyRulesetState::FixedAuraHolder;

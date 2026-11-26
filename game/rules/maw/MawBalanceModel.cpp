@@ -326,7 +326,7 @@ double dropsSeenPerSlot(double level, double density)
 constexpr std::array<double, 10> HitsToKillCharacter = {0, 14, 10, 7, 6.5, 6, 5.5, 5, 4.5, 4};
 constexpr std::array<double, 10> HitsToKillCharacterAusterity = {0, 15, 10, 5, 4, 3, 2.5, 2, 1.5, 1};
 constexpr std::array<double, 10> HitsToKillMonster = {0, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5};
-constexpr std::array<double, 10> HitsToKillMonsterAusterity = {0, 1, 2, 4, 5, 6, 7, 8, 9, 9.5};
+constexpr std::array<double, 10> HitsToKillMonsterAusterity = {0, 2, 4, 6, 8, 8, 8, 8.5, 9, 9.5};
 
 // Monster group sizes (Low and Hi) by difficulty.
 constexpr std::array<std::array<double, 2>, 10> MonsterDensity = {{
@@ -341,6 +341,14 @@ constexpr std::array<std::array<double, 2>, 10> MonsterDensity = {{
     {3, 5},
     {3, 6},
 }};
+
+// The share of the party's area damage each difficulty leaves (AoeMult next to monsterDensity).
+constexpr std::array<double, 10> DensityAreaMultiplier = {1, 1, 1, 1, 0.9, 0.9, 0.8, 0.7, 0.65, 0.6};
+}
+
+double mawDensityAreaMultiplier(int difficulty)
+{
+    return DensityAreaMultiplier[size_t(std::clamp(difficulty, 1, 9))];
 }
 
 MawModelConfig mawModelConfig(const RulesetOptions &options, int partyCount)
@@ -702,7 +710,7 @@ double MawBalanceModel::chanceToBeHit(double level)
 
 double MawBalanceModel::physicalDamageTaken(double level)
 {
-    return std::max(1 / (armorClass(level) / mawArmorDivisor(level) + 1), 0.1);
+    return std::max(1 / (armorClass(level) / mawArmorDivisor(level) + 1), MawDamageFloor);
 }
 
 double MawBalanceModel::magicDamageTaken(double level)
@@ -711,7 +719,7 @@ double MawBalanceModel::magicDamageTaken(double level)
     double taken = 1 / (resistance(level) / mawResistanceDivisor(level) + 1);
     taken *= std::max(1 - buffMult(SpellShield, estimatedSkill, mastery(level)), 0.7);
     taken *= 1 / (enchantResistance(level) / 100 + 1);
-    return std::max(taken, 0.1);
+    return std::max(taken, MawDamageFloor);
 }
 
 double MawBalanceModel::legendaryDamageTaken(double level) const

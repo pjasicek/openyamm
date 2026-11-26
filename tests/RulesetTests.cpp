@@ -1451,6 +1451,8 @@ TEST_CASE("saves keep each character's ruleset state: toggles, elemental progres
     member.rulesetState.potionSteps[252] = 3;
     member.rulesetState.progressionStoredMasteries["Sword"] = OpenYAMM::Game::SkillMastery::Master;
     member.rulesetState.soloStoredMasteries["Merchant"] = OpenYAMM::Game::SkillMastery::Expert;
+    // The next Divine Intervention (version 206).
+    member.rulesetState.divineInterventionReadyGameMinutes = 4321.5f;
     save.party.members.push_back(member);
 
     std::string error;
@@ -1490,6 +1492,8 @@ TEST_CASE("saves keep the MAW level banks, loot counters and each actor's rulese
     mawState.usedStatDecorations["d10.blv"] = {{3, 0}, {7, 0}};
     save.party.rulesetState.madnessDeaths = 4;
     mawState.pendingRefills.insert("d11.blv");
+    // The gold the ordinary Arena bouts paid (version 206).
+    mawState.arenaGoldPaid = 654321;
     // A rift (version 195): where the party entered it from, how far it got, and the party standing in it.
     OpenYAMM::Game::MawDimensionRun rift;
     rift.power = 12;
@@ -1810,7 +1814,8 @@ TEST_CASE("the generated MAW patches apply cleanly to the engine tables")
     CHECK_EQ(manaAt(113, OpenYAMM::Game::SkillMastery::Normal), 15);
     CHECK_EQ(manaAt(18, OpenYAMM::Game::SkillMastery::Master), 15);
     CHECK_EQ(manaAt(18, OpenYAMM::Game::SkillMastery::Grandmaster), 20);
-    CHECK_EQ(manaAt(10, OpenYAMM::Game::SkillMastery::Normal), 25);
+    // Inferno 50 since MAW e6dcec35 (25 before).
+    CHECK_EQ(manaAt(10, OpenYAMM::Game::SkillMastery::Normal), 50);
     CHECK_EQ(manaAt(123, OpenYAMM::Game::SkillMastery::Grandmaster), 60);
     CHECK_EQ(manaAt(111, OpenYAMM::Game::SkillMastery::Master), 10);
     CHECK_EQ(manaAt(111, OpenYAMM::Game::SkillMastery::Grandmaster), 15);

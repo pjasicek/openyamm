@@ -1542,6 +1542,38 @@ size_t MawMonsterRules::arenaMinimumTypes() const
     return 12;
 }
 
+bool MawMonsterRules::allowsHitReaction(uint64_t actorKey, bool melee, float gameMinutes) const
+{
+    // A blow always staggers; a missile or a spell once per 3 game minutes per monster (MonsterHitstun.lua, MAW
+    // d405ea42, c1072c66).
+    constexpr float RangedHitReactionMinutes = 3.0f;
+
+    if (melee)
+    {
+        return true;
+    }
+
+    const auto last = m_lastRangedHitReaction.find(actorKey);
+
+    if (last != m_lastRangedHitReaction.end() && gameMinutes - last->second < RangedHitReactionMinutes)
+    {
+        return false;
+    }
+
+    m_lastRangedHitReaction[actorKey] = gameMinutes;
+    return true;
+}
+
+int MawMonsterRules::arenaWinGold(int reward) const
+{
+    // The ordinary bouts pay a million in all in a game (NORMAL_ARENA_GOLD_CAP, zzMaw_Arena.lua:300-313).
+    constexpr uint32_t ArenaGoldCap = 1000000;
+    uint32_t &paid = m_rules.state().arenaGoldPaid;
+    const uint32_t gold = std::min(uint32_t(std::max(reward, 0)), ArenaGoldCap - std::min(paid, ArenaGoldCap));
+    paid += gold;
+    return int(gold);
+}
+
 int MawMonsterRules::arenaDrawLevel(
     const MonsterTable::MonsterStatsEntry &stats, const MonsterTable &monsterTable, const MapStatsEntry &map) const
 {
@@ -1695,6 +1727,7 @@ void MawMonsterRules::decorationsRenumbered(const std::string &mapFileName, std:
 
 void MawMonsterRules::mapLoaded(const std::string &mapFileName, bool refilled) const
 {
+    m_lastRangedHitReaction.clear();
     const std::string fileName = lowerFileName(mapFileName);
     MawGameState &state = m_rules.state();
     m_usedDecorationsMap = fileName;

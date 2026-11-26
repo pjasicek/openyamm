@@ -1,6 +1,6 @@
 # MAW as an optional ruleset
 
-> Formulas updated to MAW `8fbb48d1` (2026-11-05), `8967ae88` (2026-11-12) and `7ddb228c` (2026-11-18) where [UPSTREAM_SYNC_8fbb48d1.md](UPSTREAM_SYNC_8fbb48d1.md), [UPSTREAM_SYNC_8967ae88.md](UPSTREAM_SYNC_8967ae88.md) and [UPSTREAM_SYNC_7ddb228c.md](UPSTREAM_SYNC_7ddb228c.md) list a change.
+> Formulas updated to MAW `8fbb48d1` (2026-11-05), `8967ae88` (2026-11-12), `7ddb228c` (2026-11-18) and `88a9d7b4` (2026-11-26) where [UPSTREAM_SYNC_8fbb48d1.md](UPSTREAM_SYNC_8fbb48d1.md), [UPSTREAM_SYNC_8967ae88.md](UPSTREAM_SYNC_8967ae88.md), [UPSTREAM_SYNC_7ddb228c.md](UPSTREAM_SYNC_7ddb228c.md) and [UPSTREAM_SYNC_88a9d7b4.md](UPSTREAM_SYNC_88a9d7b4.md) list a change.
 
 Status: investigation only (2026-10-22). Built since (2026-10-24): the MAW ruleset in `game/rules/maw/` and
 `assets_dev/engine/rulesets/maw/`; what is left is in [GAPS.md](GAPS.md), the deliberate differences in

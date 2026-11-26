@@ -449,6 +449,7 @@ int resolveDamageToMonster(
         hit.weaponElements = missileSource.weaponElements;
         hit.missileFlightDistance = missileSource.flightDistance;
         hit.blastMonsters = missileSource.blastMonsters;
+        hit.carnageArrow = missileSource.carnageArrow;
     }
 
     hit.amount = damage + missileSource.addedElementalDamage;

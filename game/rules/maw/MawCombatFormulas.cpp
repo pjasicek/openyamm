@@ -221,11 +221,11 @@ double mawMitigatedDamage(const MawMitigationInputs &inputs)
 {
     const double input = inputs.damage;
     const double level = inputs.attackerLevel;
-    // MAW applies the Grandmaster Shield cut a second time to non-physical hits (COMBAT_SPEC §13); we apply it once.
-    double damage = inputs.grandmasterShield ? input * 0.85 : input;
+    // The Grandmaster Shield cut is for non-physical hits only, once (calcMawDamage's magic path; MAW 013f04af).
+    double damage = inputs.grandmasterShield && inputs.type != CombatDamageType::Physical ? input * 0.85 : input;
     const auto withFloor = [&inputs, input](double value)
     {
-        const double floored = std::max(value, 0.1 * input) * inputs.legendaryMultiplier;
+        const double floored = std::max(value, MawDamageFloor * input) * inputs.legendaryMultiplier;
         return inputs.flatReduction > 0 ? std::max(floored - inputs.flatReduction, 0.25 * floored) : floored;
     };
 

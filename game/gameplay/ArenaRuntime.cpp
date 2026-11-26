@@ -198,7 +198,7 @@ bool interactWithArena(IGameplayWorldRuntime &world, uint32_t npcId)
         }
     }
 
-    const int32_t reward = arenaVariable(*pState, RewardVariable);
+    const int32_t reward = gameRulesFor(pParty).monsters.arenaWinGold(arenaVariable(*pState, RewardVariable));
     pState->namedMapVars[ClaimedVariable] = 1;
     pParty->addGold(reward, GoldReason::Event);
     pParty->campaign().addEventVariableValue(uint16_t(EvtVariable::ArenaWinsPage) + difficulty - 1, 1);

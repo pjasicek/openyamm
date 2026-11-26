@@ -129,6 +129,8 @@ struct CharacterRulesetState
     float divineProtectionReadyGameMinutes = 0;
     // The same for legendary 15 (vars.legendaryProtectionCooldown).
     float legendaryProtectionReadyGameMinutes = 0;
+    // The game minute from which the character may cast Divine Intervention again (vars.divineInterventionTime).
+    float divineInterventionReadyGameMinutes = 0;
 
     // The strongest timed potion effect of this kind and key in force, or 0.
     int potionEffect(TimedPotionEffect::Kind kind, uint32_t key) const

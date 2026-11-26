@@ -53,6 +53,8 @@ struct MonsterDamageHit
     // damaged at once, this one included (0: no blast, or unknown).
     float missileFlightDistance = 0.0f;
     int blastMonsters = 0;
+    // The hit is a Carnage bow's arrow or its explosion (PartyMissileSource::carnageArrow).
+    bool carnageArrow = false;
     std::mt19937 *pRng = nullptr;
     bool stop = false;
 };
@@ -73,6 +75,9 @@ struct PartyMissileSource
     // The missile's flight to the monster, and the monsters its blast damaged at once (MonsterDamageHit).
     float flightDistance = 0.0f;
     int blastMonsters = 0;
+    // A Carnage bow's arrow, the monster it strikes or one its explosion reaches: a party arrow (no spell) that
+    // explodes and burns (GameMechanics::applyExplosiveArrows; a BlastBlaster gun's burst keeps the gun's type).
+    bool carnageArrow = false;
 };
 
 // A monster's attack reaching a party member, before it lands.
@@ -245,6 +250,8 @@ struct CharacterDamageHit
     int attackerCurrentHp = 0;
     int attackerMaxHp = 0;
     bool attack2 = false;
+    // A monster's death blast (CombatEvent::deathBlast).
+    bool deathBlast = false;
     int spellId = 0;
     int rolledAmount = 0;
     // Shrinking Ray or Dark Grasp held the attacker.

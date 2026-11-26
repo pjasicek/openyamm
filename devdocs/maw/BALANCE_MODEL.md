@@ -390,7 +390,7 @@ getMonsterDamage(mon, L):
           NameId 220..300: generateBoss(index) if it has no record yet (host only), x bossData.DamageMult
 
 getMonsterHealth(mon, L):
-  hits = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5}[difficulty], Austerity {1, 2, 4, 5, 6, 7, 8, 9, 9.5}
+  hits = {1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5}[difficulty], Austerity {2, 4, 6, 8, 8, 8, 8.5, 9, 9.5} ({1, 2, 4, 5, 6, 7, 8, 9, 9.5} before 88a9d7b4)
   if mon: L = totalLevel[MawTierB(mon.Id)] or L
   health = power(L) x hits
   if mon: x clamp(FullHP(row) / FullHP(B row), 0.6, 1.8) from the unmodified MONSTERS.txt (basetable)
@@ -450,7 +450,7 @@ Two `--[[ ]]` test loops: a healing readout (HPS as a share of max HP for levels
 - `fireAuraDamage`: `{0.1,0.15,0.2,0.25}` (`zzMaw-Items.lua:4283`)
 - `MawCore.ItemLevel`: `PerPower 5`, `POWER_CAP 100`, `POWER_HARD_CAP 255`, `Tiers 6`, `ExpectedTier 3.5`
   (`Modules/MawCore/ItemLevel.lua:5-24`)
-- `Formulas`: `damageFloor 0.1`, `soloCoverDamageTaken 0.5`, armour `200 + L`, resistance `100 + 2 L` (`100 + L` before 7ddb228c),
+- `Formulas`: `damageFloor 0.01` (0.1 before 88a9d7b4), `soloCoverDamageTaken 0.5`, armour `200 + L`, resistance `100 + 2 L` (`100 + L` before 7ddb228c),
   `speedDodgeShare 0.5`, `physicalVitalityShare 0.5`, `hitAtPar 0.75`, `hitMax 1`, Bless hit 0.05-0.10, spell scales,
   crit (`luck/min(500+5L,3000) + 0.05`, `stat/min(250+2.5L, 2000/3000) + 1.5`, spell `/4`), `enlightenmentManaPerSkill
   {0.5,1,1.5,2}`, `ringReductionDivisor 200`, `chargesArmorAC = ref x c/40` (`Modules/MawCore/Formulas.lua`)

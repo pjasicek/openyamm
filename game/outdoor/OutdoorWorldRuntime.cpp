@@ -4668,7 +4668,7 @@ void OutdoorWorldRuntime::pushOutdoorMonsterSound(size_t actorIndex, uint32_t so
     m_pendingAudioEvents.push_back(std::move(event));
 }
 
-bool OutdoorWorldRuntime::beginMapActorHitReaction(size_t actorIndex, bool force, bool emitAudio)
+bool OutdoorWorldRuntime::beginMapActorHitReaction(size_t actorIndex, bool force, bool emitAudio, bool melee)
 {
     MapActorState &actor = m_mapActors[actorIndex];
     const Mm9AiProfile *pMm9Profile = m_actorBehaviors.mm9LoopProfile(actor.monsterId);
@@ -4703,6 +4703,14 @@ bool OutdoorWorldRuntime::beginMapActorHitReaction(size_t actorIndex, bool force
     }
     else if ((!force && monsterNeverStaggers(actor.monsterId))
         || (!force && !m_actorModifiers.allowsStagger(actorIndex, actor.monsterId, actor.actorId, actor.maxHp)))
+    {
+        return false;
+    }
+
+    // The rules may refuse a missile's or a spell's (MAW: once per 3 game minutes per monster); asked last, so a refusal
+    // above never counts as a reaction.
+    if (!force && !gameRulesFor(m_pParty).monsters.allowsHitReaction(mapActorKey(mapName(), actorIndex), melee,
+            gameMinutes()))
     {
         return false;
     }
@@ -5096,14 +5104,8 @@ void OutdoorWorldRuntime::detonatePendingDeathExplosions()
 
         if (result.hitsParty && m_pGameplayCombatController != nullptr)
         {
-            m_pGameplayCombatController->recordPartyProjectileImpact(
-                explosion.actorId,
-                result.partyDamage,
-                0,
-                0,
-                true,
-                result.partyDamageType,
-                GameplayActorAttackAbility::Attack1);
+            m_pGameplayCombatController->recordMonsterBlastImpact(
+                explosion.actorId, result.partyDamage, result.partyDamageType, !explosion.detonation);
         }
 
         // The other players of a co-op session, each where they stand.
@@ -5125,14 +5127,8 @@ void OutdoorWorldRuntime::detonatePendingDeathExplosions()
             if (guestDamage)
             {
                 m_pGameplayCombatController->setRecordingPlayer(guest.player);
-                m_pGameplayCombatController->recordPartyProjectileImpact(
-                    explosion.actorId,
-                    *guestDamage,
-                    0,
-                    0,
-                    true,
-                    result.partyDamageType,
-                    GameplayActorAttackAbility::Attack1);
+                m_pGameplayCombatController->recordMonsterBlastImpact(
+                    explosion.actorId, *guestDamage, result.partyDamageType, !explosion.detonation);
                 m_pGameplayCombatController->setRecordingPlayer(LocalPlayer);
             }
         }
@@ -19500,7 +19496,8 @@ bool OutdoorWorldRuntime::applyMonsterAttackToMapActor(
     uint32_t sourceActorId,
     ShieldAttackTier shieldTier,
     bool emitAudio,
-    bool allowZeroDamageHit)
+    bool allowZeroDamageHit,
+    bool melee)
 {
     if (actorIndex >= m_mapActors.size()
         || damage < 0
@@ -19608,7 +19605,7 @@ bool OutdoorWorldRuntime::applyMonsterAttackToMapActor(
         return true;
     }
 
-    if (damage > 0 && beginMapActorHitReaction(actorIndex, false, emitAudio))
+    if (damage > 0 && beginMapActorHitReaction(actorIndex, false, emitAudio, melee))
     {
         const float sourceX = pSourceActor != nullptr ? pSourceActor->preciseX : actor.preciseX;
         const float sourceY = pSourceActor != nullptr ? pSourceActor->preciseY : actor.preciseY;
@@ -20518,7 +20515,8 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
     ShieldAttackTier shieldTier,
     const ShieldHitModifiers &shieldModifiers,
     bool critical,
-    bool hitReaction)
+    bool hitReaction,
+    bool melee)
 {
     if (actorIndex >= m_mapActors.size() || damage <= 0)
     {
@@ -20663,7 +20661,7 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
     }
     else
     {
-        if (hitReaction && damage > 0 && beginMapActorHitReaction(actorIndex))
+        if (hitReaction && damage > 0 && beginMapActorHitReaction(actorIndex, false, true, melee))
         {
             faceMapActorReaction(actor, partyX - actor.preciseX, partyY - actor.preciseY);
             const bx::Vec3 knockback = actorKnockbackVelocity(
@@ -20727,7 +20725,7 @@ bool OutdoorWorldRuntime::applyPartyAttackMeleeDamage(
     }
 
     return applyPartyAttackToMapActor(
-        actorIndex, damage, source.x, source.y, source.z, shieldTier, shieldModifiers, critical, hitReaction);
+        actorIndex, damage, source.x, source.y, source.z, shieldTier, shieldModifiers, critical, hitReaction, true);
 }
 
 bool OutdoorWorldRuntime::applyPartyAttackMeleeBModelDamage(size_t bModelIndex, int damage)

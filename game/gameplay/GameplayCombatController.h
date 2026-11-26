@@ -53,6 +53,8 @@ public:
         // A monster's missile at the party: how far it stood when it loosed it (ProjectileState::firedDistance);
         // negative when unknown.
         float firedDistance = -1.0f;
+        // A monster's death blast (MM8's Special "explode"), not a detonate modifier's charge: MAW cuts it.
+        bool deathBlast = false;
     };
 
     struct PendingCombatEventContext
@@ -137,6 +139,9 @@ public:
         CombatDamageType damageType,
         GameplayActorAttackAbility ability,
         float firedDistance = -1.0f);
+    // A monster's blast reaching the whole party, as its Attack 1: its death blast (deathBlast) or a detonate
+    // modifier's.
+    void recordMonsterBlastImpact(uint32_t sourceId, int damage, CombatDamageType damageType, bool deathBlast);
     void recordPartyProjectileActorImpact(
         uint32_t sourceId,
         uint32_t sourcePartyMemberIndex,

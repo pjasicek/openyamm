@@ -2576,7 +2576,23 @@ CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(
         && skillMastery(character, "LeatherArmor") >= SkillMastery::Grandmaster;
     const int leatherElementalResistanceBonus =
         leatherGrandmaster && !rulesetRows ? std::max(0, skillLevel(character, "LeatherArmor")) : 0;
-    const CharacterResistanceSet skillResistances = rulesetRows ? rulesetRows->resistances : CharacterResistanceSet{};
+    CharacterResistanceSet skillResistances = rulesetRows ? rulesetRows->resistances : CharacterResistanceSet{};
+
+    // Rules that scale the items' own resistances (MAW's body armour skill) add the scaled share as theirs.
+    if (rulesetRows && rulesetRows->itemResistanceScale != 0)
+    {
+        const double scale = rulesetRows->itemResistanceScale;
+        const auto share = [scale](int resistance)
+        {
+            return int(std::floor(resistance * scale + 0.5));
+        };
+        skillResistances.fire += share(equippedItemBonuses.resistances.fire);
+        skillResistances.air += share(equippedItemBonuses.resistances.air);
+        skillResistances.water += share(equippedItemBonuses.resistances.water);
+        skillResistances.earth += share(equippedItemBonuses.resistances.earth);
+        skillResistances.mind += share(equippedItemBonuses.resistances.mind);
+        skillResistances.body += share(equippedItemBonuses.resistances.body);
+    }
 
     const int fireBase = character.baseResistances.fire
         + character.permanentBonuses.resistances.fire

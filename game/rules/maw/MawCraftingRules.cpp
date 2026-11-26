@@ -25,7 +25,8 @@ constexpr int FirstSkillEnchant = 17;
 constexpr int LastSkillEnchant = 24;
 constexpr int LastResistanceEnchant = 16;
 constexpr int MaxQualityPercent = 20;
-constexpr int ArtifactQualityStep = 2;
+// An artifact's step (CUBE_QUALITY_STEP_ARTIFACT; 2 until MAW f178d17c, when the quality began to raise its bonuses).
+constexpr int ArtifactQualityStep = 1;
 constexpr int ItemPowerCap = 120;
 constexpr int EnchantItemMaxPower = 500;
 constexpr int SecondEnchantMaxStrength = 65535;

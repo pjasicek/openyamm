@@ -255,6 +255,13 @@ public:
     // has set it for the map (MAW: d42's six-fold levels, at most 255). Standard: the table's.
     virtual int arenaDrawLevel(
         const MonsterTable::MonsterStatsEntry &stats, const MonsterTable &monsterTable, const MapStatsEntry &map) const;
+    // Whether a hit may put the monster (mapActorKey) into its hit reaction now, the engine having allowed it; a melee
+    // blow, the party's or a monster's, or another hit (MAW: a missile or spell at most once per 3 game minutes per
+    // monster, MonsterHitstun.lua). Standard: always.
+    virtual bool allowsHitReaction(uint64_t actorKey, bool melee, float gameMinutes) const;
+    // The gold an ordinary Arena bout's win pays, of the reward it offers (MAW: none past a million a game, and the
+    // payment counts towards it). Standard: the reward.
+    virtual int arenaWinGold(int reward) const;
     // Days after which a left map refills its monsters (0: never). Standard: the map table's.
     virtual int mapRespawnDays(const MapStatsEntry &map) const;
     // Whether the party may reset a map it is about to enter (MAW: a completed dungeon, except in Road to Insanity and

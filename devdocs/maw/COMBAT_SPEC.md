@@ -1388,8 +1388,9 @@ Lifedrain) → ×(1 + max(Int, Per)/1000) → ×crit → + Σ slots (enchant + a
 from stage 7 (no weapon recompute).
 
 **Monster → player:** `getMonsterDamage` → attack-2 ratio → ×0.25 Mist → spell multiplier → `round` → ×roll
-(0.75-1.25, triangular) → ×0.7 debuff → GM Shield → AC (`round`) or class cut, Shield buff, GM Shield again,
-resistance (`round`) → floor 10 % of the pre-shield input → ×0.9 legendary 18 → ×legendary 22 → − flat class cut
+(0.75-1.25, triangular) → ×0.7 debuff (→ ×0.4 for a death blast, since 88a9d7b4) → AC (`round`) or class cut,
+Shield buff, GM Shield (non-physical only, once, since 88a9d7b4), resistance (`round`) → floor 1 % of the input (10 %
+before 88a9d7b4) → ×0.9 legendary 18 → ×legendary 22 → − flat class cut
 (≥ 25 %) → ×0.5 solo cover → ×disease → Exploding split → boss on-hit → ×affix 1, ×2 affix 2, + affix 10 → mana
 shield (`round`) → cheat-death checks → engine `trunc` → death thresholds next tick.
 
@@ -1433,7 +1434,9 @@ all others 0. Attack 1 physical melee; its dice do not matter (MAW replaces them
 all seven stats `round(estimateStat(L))`; Sword and Bow `round(1.5·estimateSkill(L))` at the mastery that skill buys;
 Armsmaster, Chain and Bodybuilding `round(estimateSkill(L))` (Bodybuilding capped at Master). Gear without enchants,
 all at item level L (`MaxCharges = L/5`): two-handed sword (3 dice, family of one → ladder tier 3.5), longbow
-(5 dice), chain mail (AC 30, `referenceAC` 30). The sheet below is the output of the real `itemStats`.
+(5 dice), chain mail (AC 30, `referenceAC` 30). The sheet below is the output of the real `itemStats`. Since MAW
+`88a9d7b4` the Bow skill adds 2 % a point and Supreme Armsmaster comes at 20, so the bow rows read 26-48 and 106-189 and
+the L150 melee rows 281-454 (`MawSpecExampleTests.cpp`); the worked hits of §11.2 keep the older numbers.
 
 | | L50 | L150 |
 |---|---|---|

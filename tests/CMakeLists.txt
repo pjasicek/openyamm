@@ -61,6 +61,7 @@ add_executable(openyamm_unit_tests
     MawCraftingTests.cpp
     MawDimensionMapTests.cpp
     MawGapTests.cpp
+    MawUpstreamSyncTests.cpp
     MawBossAffixTests.cpp
     MawSpellClassTests.cpp
     MawAuraReportTests.cpp

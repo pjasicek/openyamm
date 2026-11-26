@@ -243,6 +243,16 @@ size_t MonsterRules::arenaMinimumTypes() const
     return 0;
 }
 
+bool MonsterRules::allowsHitReaction(uint64_t, bool, float) const
+{
+    return true;
+}
+
+int MonsterRules::arenaWinGold(int reward) const
+{
+    return reward;
+}
+
 int MonsterRules::arenaDrawLevel(
     const MonsterTable::MonsterStatsEntry &stats, const MonsterTable &, const MapStatsEntry &) const
 {
