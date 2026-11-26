@@ -1,0 +1,649 @@
+# MM7 (Antagarich) main story walkthrough for the OpenYAMM guide (tools/mm678_site/story/BRIEF.md).
+# Facts from assets_dev/worlds/mm7/events (map scripts, MMMerge overlays, Global_mm7_mmmerge.lua) and the merged
+# global events; chapter ids match site_config.yml's mm7 chapters.
+chapters:
+  - id: 1
+    intro: "You start on Emerald Island as contestants in Lord Markham's scavenger hunt: bring six items to his judge and the fief of Harmondale is yours. The six items can be gathered in any order. Lord Markham also pays for news of the contestants who went missing. Hand that in before you sail, because leaving the island ends it."
+    sections:
+      - title: "Emerald Island: Lord Markham's scavenger hunt"
+        intro: "Lord Markham and Thomas the Judge are in Markham's Headquarters, the large house at the east end of the village. The six items' journal lines are in your journal from the start. The village has a weapon, armour, magic and alchemy shop, the Healer's Tent (temple), the four Initiate guilds of Fire, Air, Spirit and Body, and the Island Training Grounds (training to level 5)."
+        giver: {map: 7out01, npc: "Thomas the Judge"}
+        quests:
+          - quest: q513
+            steps:
+              - "Thomas the Judge's 'Rules of the Hunt' lists the six items: a red potion, a seashell, a longbow, a floor tile from the Temple of the Moon, a musical instrument and a wealthy hat."
+              - "A red potion is a Cure Wounds potion. Mix one yourself: pick up a red reagent such as Widowsweep Berries and right-click it on an empty Potion Bottle. The storage shed on the north-west shore of the island holds both: one crate there has six Potion Bottles and four Widowsweep Berries. The Blue Bottle, the alchemist in the west part of the village, sells reagents and bottles."
+              - "Hand in each item with the judge's 'What do you have?' topic. He takes one item per click (500 XP each), so click it again for every item you carry."
+              - "When the sixth item is in, the judge declares you the winners and leaves. Talk to Lord Markham: 'Congratulations' makes you the Lords of Harmondale (1,000 XP), then 'Your ship' readies your boat."
+              - "Before you sail, hand in the missing contestants' proof (the next quest): the quest closes for good when the ship leaves."
+              - "Board The Lady Margaret, on the pier at the south tip of the village, and choose 'Cast off!' with William Darvees. The voyage takes two weeks (the party rests on board) and lands you in Harmondale, beside Castle Harmondale."
+            tips:
+              - "Brent Filiant, on the north side of the island near the Dragon's Cave, trades a Wealthy Hat for a red potion ('Potion for a Hat?'). Make two potions if you want his hat."
+              - "Dragonflies swarm around the north-west shed. They are fast and spit fire, and more arrive each day once a swarm is dead."
+              - "Mr. Malwick, in the west part of the village, offers a Wand of Fireballs (30 charges) in return for a favour later. Accepting it brings a summons from the Mercenary Guild in Tatalia after the Arbitration ([Go to the Mercenary Guild](#quest-q693)). If you fail that errand, his friends raid Harmondale and empty your bank account. Declining costs nothing."
+              - "The well by the Initiate Guild of Body, at the west end of the village, gives +2 Luck permanently while your Luck is under 15."
+            reward: "500 XP per item; 1,000 XP from Lord Markham for winning."
+            points:
+              - {map: 7out01, name: "Crate"}
+              - {map: 7out01, name: "The Blue Bottle"}
+              - {map: 7out01, name: "The Lady Margaret"}
+              - {map: 7out01, name: "Brent Filiant"}
+              - {map: 7out01, name: "Mr. Malwick"}
+            maps:
+              - map: 7out01
+                show: [quest, vendor, chest, exit, transport]
+                focus: "Markham's Headquarters"
+                caption: "Markham's Headquarters is at the east end of the village. The shed's crates are on the north-west shore, the Lady Margaret on the south pier."
+
+          - quest: q514
+            steps:
+              - "Sally sells seashells on the north shore, near the Dragon's Cave: 'Seashell', then 'Buy Seashell for 100 gold'."
+              - "Or take one for free from a crate in the storage shed on the north-west shore. One of its four crates holds a Seashell."
+              - "Show it to Thomas the Judge ('What do you have?')."
+            reward: "500 XP."
+            points:
+              - {map: 7out01, name: "Sally"}
+            maps:
+              - map: 7out01
+                show: [chest, npc, quest]
+                focus: "Crate L2"
+                caption: "The shed's crates on the north-west shore; Sally stands on the north shore."
+
+          - quest: q515
+            steps:
+              - "The Knight's Blade, the weapon shop near the Two Palms Tavern, sells bows. Buy a Longbow there when one is in stock."
+              - "Two free longbows: one lies on the floor just inside the Dragon's Cave entrance, beside the Contestant's Shield (see [the missing contestants](#quest-q528)). Sal Sharktooth in the Temple of the Moon carries the other (see the wealthy hat)."
+              - "Show it to Thomas the Judge ('What do you have?')."
+            reward: "500 XP."
+            points:
+              - {map: 7out01, name: "The Knight's Blade"}
+              - {map: 7d06, name: "Sal Sharktooth"}
+            maps:
+              - map: 7out01
+                show: [vendor, exit]
+                focus: "The Knight's Blade"
+                caption: "The Knight's Blade is in the east of the village; the Dragon's Cave entrance is in the north."
+
+          - quest: q516
+            steps:
+              - "The Temple of the Moon (the 'Abandoned Temple') is entered through the caves at the top of the hill in the north-east, south of Donna Wyrith's house. The Dragon's Cave is the other cave, behind her house: that one is the dragon's lair."
+              - "Rats, bats, spiders and a band of brigands live inside. In a long north-south corridor in the north-west quarter, fire bolts fly along it every few minutes."
+              - "The floor tile with the moon insignia lies on the floor of the library in the north-west, among the bookcases. Pick it up. Each bookcase gives a spell scroll once (Torch Light, Wizard Eye, Fire Bolt, Fire Resistance, Awaken, Poison Spray)."
+              - "Show the tile to Thomas the Judge ('What do you have?')."
+            reward: "500 XP."
+            points:
+              - {map: 7d06, name: "Bookcase"}
+              - {map: 7d06, name: "Sal Sharktooth"}
+            maps:
+              - map: 7d06
+                show: [exit, chest, npc, objective]
+                focus: "Floor Tile"
+                caption: "The entrance is in the south. The library and its bookcases are in the north-west; Sal Sharktooth's band is in the room west of it."
+              - map: 7out01
+                show: [exit, npc]
+                focus: "The Temple of the Moon"
+                caption: "The temple's cave entrance is on the hill in the north-east, just south of the Dragon's Cave."
+
+          - quest: q517
+            steps:
+              - "Ailyssa the Bard stands near the Two Palms Tavern in the centre of the village. Ask her about 'Lute', then 'Buy Lute for 500 gold'."
+              - "Show the lute to Thomas the Judge ('What do you have?')."
+            reward: "500 XP."
+            points:
+              - {map: 7out01, name: "Ailyssa the Bard"}
+            maps:
+              - map: 7out01
+                show: [npc, service]
+                focus: "Ailyssa"
+                caption: "Ailyssa sells her lute beside the Two Palms Tavern."
+
+          - quest: q518
+            steps:
+              - "Two ways to get a hat. Brent Filiant, north of the village near the Dragon's Cave, trades one for a red potion ('Potion for a Hat?', then 'Trade Potion for Hat')."
+              - "Or take one in the Temple of the Moon. A chest in the far north-west room holds a Wealthy Hat, but Sal Sharktooth's brigands camp there. Once you carry the hat, Sal asks for it."
+              - "If you answer 'Give Hat to Sal', he takes it. 'Keep Hat' turns him and his three swordsmen hostile. Sal is the toughest fight on the island (level 17), but he carries a Longbow, the hunt's longbow item."
+              - "Show the hat to Thomas the Judge ('What do you have?')."
+            reward: "500 XP."
+            points:
+              - {map: 7out01, name: "Brent Filiant"}
+              - {map: 7d06, name: "Sal Sharktooth"}
+            maps:
+              - map: 7d06
+                show: [exit, chest, npc]
+                focus: "Sal Sharktooth"
+                caption: "Sal Sharktooth's room in the far north-west of the temple, with the hat's chest beside him."
+
+          - quest: q528
+            steps:
+              - "Ask Lord Markham about 'Missing Contestants'. He offers 1,000 gold for news of contestants who never came back."
+              - "The villagers' hints point to the Dragon's Cave, the cave behind Donna Wyrith's house on the north shore. Morcarack, the dragon of Emerald Island, lives in it."
+              - "Just inside the entrance lie the missing group's belongings: a battered Contestant's Shield, a Longbow and a Journal Fragment. Pick up the shield, and take the longbow too if you still need one for the hunt."
+              - "Go no further. The dragon in the cave's west chamber is a level 100 Red Dragon with 1,300 hit points."
+              - "Give the shield to Lord Markham ('Missing Contestants')."
+            tips:
+              - "Do this before you choose 'Cast off!': sailing to Harmondale closes the quest."
+            reward: "1,000 XP and 1,000 gold."
+            points:
+              - {map: 7out01, name: "Donna Wyrith's Residence"}
+            maps:
+              - map: 7out01
+                show: [exit, quest, npc]
+                focus: "The Dragon's Lair"
+                caption: "The Dragon's Cave is on the north shore by Donna Wyrith's house; Lord Markham is in his headquarters to the south-east."
+
+  - id: 2
+    intro: "Your new castle is overrun by goblins and half in ruins. Clear it for the Butler, then win the Dwarf King's help in Stone City by rescuing his miners from the Red Dwarf Mines. With the castle rebuilt, Erathia and Avlee send their ambassadors, and chapter III starts."
+    sections:
+      - title: "Harmondale: the Butler"
+        intro: "You land next to Castle Harmondale, on the west side of Harmondale. The town is east of the castle. The Butler waits at the castle door, then moves to the tavern On the House in town; once the goblins are gone, he lives in the castle's throne room."
+        giver: {map: 7out02, npc: "Butler"}
+        quests:
+          - quest: q587
+            steps:
+              - "Click the door of Castle Harmondale. The Butler meets you there: the castle is full of goblins. He leaves for the tavern On the House in the centre of Harmondale."
+              - "Enter the castle and kill everything inside: goblins, hobgoblins, goblin lords, rats and bats. Clear every room and corner."
+              - "Leave the castle. The castle counts as clean only when you leave it with no goblin, rat or bat left alive."
+              - "In On the House, talk to the Butler ('Goblins'). If he still suggests violence, something is left alive in the castle."
+            tips:
+              - "Train in Basic Principles (to level 15) and buy spells at the town's guilds: Adept guilds of Fire, Air, Spirit and Body, Initiate guilds of Water, Earth and Mind."
+              - "Once the castle is rebuilt, resting there costs no food."
+            reward: "5,000 XP."
+            points:
+              - {map: 7out02, name: "Basic Principles"}
+            maps:
+              - map: 7out02
+                show: [exit, service, quest]
+                focus: "Castle Harmondale"
+                caption: "The castle is on the west side of the map; On the House is in the centre of town."
+
+          - quest: q658
+            steps:
+              - "The Butler sends you to the dwarves of Stone City in the Barrow Downs, south of Harmondale. Walk off Harmondale's south edge (5 days)."
+              - "Stone City's entrance is on one of the largest hills in the centre of the Barrow Downs."
+              - "King Hothfarr IX holds court in the throne room at the east end of Stone City. His 'Rescue Dwarves' topic gives you the next quest and an Elixir."
+            maps:
+              - map: out11
+                show: [exit]
+                focus: "Stone City"
+                caption: "Stone City's entrance is in the centre of the Barrow Downs."
+              - map: 7d24
+                show: [quest, exit]
+                focus: "Hothfarr IX"
+                caption: "Hothfarr IX's throne room is at the east end of Stone City."
+
+      - title: "Stone City: King Hothfarr IX"
+        intro: "The Dwarf King repairs your castle once his seven miners are free."
+        giver: {map: 7d24, npc: "Hothfarr IX"}
+        quests:
+          - quest: q588
+            steps:
+              - "The Red Dwarf Mines are in the north-east of the Bracada Desert. From the Barrow Downs, walk off the west edge into Bracada (5 days). Griffins roam the desert, so keep your distance."
+              - "Medusas have taken the mines. Their gaze turns party members to stone, and the Empress Medusa (level 45) is the strongest. Carry potions or spells that cure stone."
+              - "Seven dwarves stand turned to stone in the mine's halls. Click each statue with the Elixir in your packs: the dwarf wakes and follows you. The Elixir is not used up."
+              - "When all seven follow you, return to Hothfarr IX ('Rescue Dwarves'). He sends the dwarves home, and his engineer rebuilds Castle Harmondale."
+              - "Ambassadors from the other courts now wait in your throne room in Castle Harmondale (chapter III)."
+            reward: "12,500 XP and 5,000 gold."
+            maps:
+              - map: 7d34
+                show: [exit, npc]
+                focus: "Statue"
+                caption: "The entrance is in the south; the seven statues are spread over the mine."
+              - map: 7out06
+                show: [exit, transport]
+                focus: "The Red Dwarf Mines"
+                caption: "The mines' entrance is in the north-east of the Bracada Desert."
+
+  - id: 3
+    intro: "Erathia and the elves of Avlee both claim Harmondale. Ellen Rockway (Erathia) and Alain Hani (Avlee) wait in your throne room with 'An invitation'. Queen Catherine and King Eldrich Parson each give you a task that must be done within 28 days, and each offers to double-cross the other's task. When neither task is open any more, a battle in the Tularean Forest brings Gryphonheart's Trumpet."
+    sections:
+      - title: "Erathia: Queen Catherine"
+        intro: "Queen Catherine holds court in Castle Gryphonheart in Steadwick, north of the middle of Erathia (west of Harmondale, 5 days). Her 'Prisoner of War' topic gives the Loren Steel quest; her other topics change with what you do for Parson."
+        giver: {map: 7d33, npc: "Queen Catherine"}
+        quests:
+          - quest: q590
+            steps:
+              - "Catherine's agent Loren Steel is held in the Tularean Caves. You have 28 days from accepting the quest: after that he is executed and the quest closes."
+              - "The caves' entrance is in the north-west of the Tularean Forest. Troglodytes, wyverns and elven warriors live inside."
+              - "Loren's cell door is on the entrance level, east of where you come in. Click the door: Loren comes out and follows you."
+              - "Take him to Queen Catherine ('Prisoner of War')."
+            tips:
+              - "If you would rather side with the elves, see [the Loren imposter](#quest-q607). Never choose 'We rescued Loren!' with King Parson or 'Here's a fake prisoner' with the Queen: each has the whole party executed."
+            reward: "10,000 XP and 5,000 gold to your bank account."
+            maps:
+              - map: 7d08
+                show: [exit, npc, teleporter]
+                focus: "Door"
+                caption: "Loren's cell door is east of the entrance."
+              - map: 7out04
+                show: [exit, transport]
+                focus: "The Tularean Caves"
+                caption: "The caves' entrance is in the north-west of the forest."
+
+          - quest: q606
+            requires: "King Parson's Fort Riverstride task is open, you have opened the plans vault in Fort Riverstride, and his 28 days have not run out."
+            steps:
+              - "Tell Queen Catherine about Parson's request ('Riverstride plans'). Her advisors draw up False Riverstride Plans and give them to you."
+              - "Take the false plans to King Parson in Castle Navan ('Riverstride plans'). Do not carry the real plans when you do: if you have them, he takes the real ones instead."
+              - "Return to the Queen ('Riverstride plans')."
+            tips:
+              - "Never tell the King that the plans are false ('Here's fake plans'), and never tell the Queen you stole her plans ('We stole the plans'): either one gets the party executed."
+            reward: "5,000 XP and 5,000 gold to your bank account from the Queen (Parson pays nothing for false plans)."
+            maps:
+              - map: 7d33
+                show: [quest, exit]
+                focus: "Queen Catherine"
+                caption: "Queen Catherine's throne room in Castle Gryphonheart."
+
+      - title: "The Tularean Forest: King Eldrich Parson"
+        intro: "King Eldrich Parson of Avlee (ElfKing in the castle's throne room) holds court in Castle Navan, west of Pierpont in the Tularean Forest (north of Harmondale, 5 days). Ask him about 'Riverstride plans'."
+        giver: {map: 7d32, npc: "ElfKing"}
+        quests:
+          - quest: q589
+            steps:
+              - "Parson wants the plans of Fort Riverstride, the big fort in the east of Erathia near the Harmondale border. He needs them within 28 days."
+              - "A guard inside the fort's entrance warns you off. Going on past him turns the garrison (archers, swordsmen, soldiers) hostile, unless the party is invisible."
+              - "The plans are in the vault on the bottom level of the fort, in its south-west. Click the vault to open it; the plans lie inside. A second exit on the bottom level leads straight out to Erathia."
+              - "Give the plans to King Parson ('Riverstride plans')."
+            tips:
+              - "To side with Erathia instead, open the vault but go to the Queen. See [the false plans](#quest-q606)."
+              - "The lever on the middle level fires poison spray across the corridor in front of it."
+            reward: "10,000 XP and 5,000 gold to your bank account."
+            points:
+              - {map: 7d31, name: "Vault"}
+            maps:
+              - map: 7d31
+                show: [exit, objective, lever]
+                focus: "Riverstride Plans"
+                caption: "The vault on the bottom level, with the fort's second exit to the east."
+              - map: 7out03
+                show: [exit, transport]
+                focus: "Fort Riverstride"
+                caption: "Fort Riverstride is east of Steadwick; Castle Gryphonheart is in the north of the city."
+
+          - quest: q607
+            requires: "Queen Catherine's Loren Steel quest is open, Loren is still in his cell, and the 28 days have not run out."
+            steps:
+              - "Ask King Parson about the 'Prison Break'. He gives you an imposter who looks like Loren, and the imposter follows you."
+              - "Take the imposter to Queen Catherine ('Prisoner of War'). She thanks you but pays nothing."
+              - "Return to King Parson ('Prison Break')."
+            tips:
+              - "Do not choose 'Here's a fake prisoner' with the Queen: the party is executed on the spot."
+            reward: "5,000 XP and 5,000 gold to your bank account from the King."
+            maps:
+              - map: 7d32
+                show: [quest, exit]
+                focus: "ElfKing"
+                caption: "King Parson's throne room in Castle Navan."
+
+      - title: "The battle in the Tularean Forest"
+        intro: "This comes after you have met the Queen, once neither the plans nor the Loren quest is open."
+        quests:
+          - quest: q591
+            steps:
+              - "Enter the Tularean Forest. A messenger hands you a Message from Erathia, and a battle breaks out near the Tularean Caves in the north-west: dozens of Erathian fighters against elven spearmen."
+              - "Gryphonheart's Trumpet is in a chest right by the caves' entrance. You do not have to fight either side: just reach the chest."
+              - "Give the trumpet to whichever side you choose ('Artifact'). Ellen Rockway or Alain Hani in your throne room pays 10,000 XP and 5,000 gold. Queen Catherine or King Parson pays 10,000 XP and 5,000 gold to your bank account. Judge Grey, in the Arbiter's house in east Harmondale, gives 12,500 XP and keeps it to balance the war."
+              - "The next time you enter Harmondale, a messenger brings news of Judge Grey's death (chapter IV)."
+            reward: "10,000 XP and 5,000 gold from either side, or 12,500 XP from Judge Grey."
+            maps:
+              - map: 7out04
+                show: [chest, exit]
+                focus: "The Tularean Caves"
+                caption: "The trumpet's chest stands beside the Tularean Caves' entrance in the north-west."
+              - map: 7out02
+                show: [quest, exit]
+                focus: "Arbiter"
+                caption: "Judge Grey's house, the Arbiter, is in the east of Harmondale."
+
+  - id: 4
+    intro: "Judge Grey is dead, and the new Arbiter of Harmondale decides whose ally you become. Judge Fairweather speaks for the wizards of Bracada (the Light), Judge Sleen for the necromancers of Deyja (the Dark). The judge you bring to Harmondale fixes your path for the rest of the game; until then you can still change your mind."
+    sections:
+      - title: "Harmondale: the new Arbiter"
+        quests:
+          - quest: q665
+            steps:
+              - "A messenger meets you when you enter Harmondale: Judge Grey has died. Ambassador Wright (Bracada) and Ambassador Scale (Deyja) now wait in your throne room in Castle Harmondale."
+              - "Judge Fairweather is in the tavern Familiar Place in the north-west of the Bracada Desert. Judge Sleen is in The Snobbish Goblin in the south of Deyja."
+              - "Ask the judge you want 'I choose you!'. The judge joins you. If you change your mind before reaching Harmondale, choose the other judge, who takes the first one's place."
+              - "Walk with your judge to the Arbiter's house in east Harmondale, Judge Grey's old house, and enter it. The choice is now permanent and a short film plays."
+              - "Choosing Fairweather is the Light: the new Arbiter sends you to Gavin Magnus in Celeste (chapter V). Choosing Sleen is the Dark: Archibald Ironfist waits in the Pit (chapter VI)."
+              - "Either choice opens both Celeste (the grand teleporter in the Bracada Desert) and the Pit (from the Hall of the Pit in Deyja). Both paths need a visit to the other side's city."
+            tips:
+              - "What the Light closes: Deyja's hobgoblins, harpies and zombies and the guards of the Pit and Castle Gloaming become hostile, Castle Gloaming's throne room stays locked, Archibald's Dark Magic Grandmaster lesson is out of reach, and only the Light second promotions can be taken."
+              - "What the Dark closes: Celeste, Castle Lambent, the Temple of the Light, Bracada's golems and griffins, Castle Gryphonheart, Fort Riverstride and Tatalia's guards turn hostile, Castle Lambent's throne room stays locked, Gavin Magnus's Light Magic Grandmaster lesson is out of reach, and only the Dark second promotions can be taken."
+              - "Each class's second promotion has a Light and a Dark version; only your path's version is offered. The promotion pages say which path each needs."
+              - "Angering the friendly side's guards makes them hostile for about a month."
+            points:
+              - {map: 7out06, name: "Familiar Place"}
+              - {map: 7out05, name: "The Snobbish Goblin"}
+              - {map: 7out02, name: "Arbiter"}
+            maps:
+              - map: 7out02
+                show: [quest, exit]
+                focus: "Arbiter"
+                caption: "Bring your judge to the Arbiter's house in the east of Harmondale."
+              - map: 7out06
+                show: [service, exit]
+                focus: "Familiar Place"
+                caption: "Judge Fairweather is in Familiar Place, in the north-west of the Bracada Desert."
+
+  - id: 5
+    intro: "Bracada's wizards are your allies. Pass Gavin Magnus's test in the Walls of Mist, then do the tasks of his four advisors: Resurectra, Crag Hack and Sir Caneghem in any order, then Robert the Wise. Resurectra then sends you against Xenofex and finally to the Lincoln for the Oscillation Overthruster, which ends the story."
+    sections:
+      - title: "Celeste: Gavin Magnus"
+        intro: "Celeste is a city in the clouds above the Bracada Desert. Step onto the grand teleporter in the north-west of the desert, south of the Familiar Place tavern. Gavin Magnus sits in the throne room of Castle Lambent, at the north end of Celeste. Walking off Celeste's edge drops you into the desert."
+        giver: {map: 7d30, npc: "Gavin Magnus"}
+        quests:
+          - quest: q664
+            steps:
+              - "Walk onto the grand teleporter in the Bracada Desert (it works once you have chosen a path)."
+              - "Go north through Celeste to Castle Lambent and climb to the throne room on the upper floor."
+              - "Ask Gavin Magnus about the 'Proving Grounds'."
+            maps:
+              - map: 7out06
+                show: [exit, teleporter, service]
+                focus: "Celeste"
+                caption: "The grand teleporter to Celeste is in the north-west of the desert."
+              - map: 7d25
+                show: [exit, quest, teacher, promoter]
+                focus: "Castle Lambent"
+                caption: "Castle Lambent is at the north end of Celeste; the advisors' hostels are on the east side."
+
+          - quest: q613
+            steps:
+              - "The Walls of Mist are in the south of Celeste. You must enter by the front door and leave by the back door without killing a single creature inside."
+              - "Do not attack anything. Elementals, djinn and sorcerers live inside: run past them, and use Slow, Paralyze or Invisibility rather than damage."
+              - "The maze is made of walls of mist and teleport pads that move you around the level. The back door is north of the entrance, on the same level."
+              - "Leave through the back door. If nothing died, the test is passed."
+              - "Report to Gavin Magnus ('Proving Grounds'). You join the Guild of Light, and his four advisors move into the hostels on the east side of Celeste."
+              - "Bracada's engineers now extend Castle Harmondale with an upper floor, a cellar, gift chests and shops (the Butler's 'Castle Upgrade')."
+            tips:
+              - "Leaving by the front door, where you came in, does not count."
+            reward: "50,000 XP."
+            maps:
+              - map: 7d11
+                show: [exit, teleporter]
+                focus: "Celeste"
+                caption: "The entrance is in the middle of the level; the back door (the second Celeste exit) is to its north."
+
+      - title: "Celeste: Resurectra"
+        intro: "Resurectra's hostel is on the east side of Celeste. After Robert the Wise's task she moves to Castle Lambent's throne room."
+        giver: {map: 7d25, npc: "Resurectra"}
+        quests:
+          - quest: q615
+            steps:
+              - "Resurectra ('Temple of the Dark') wants the two halves of an altar piece: one from the Temple of the Light here in Celeste, one from the Temple of the Dark in the Pit."
+              - "The Temple of the Light is the temple house in the west of Celeste. Ask 'Enter Temple of Light' inside. Its angels, clerics and monks are your allies, so do not harm them. The altar piece is in a chest at the north end of Level 1."
+              - "The Pit is reached from the Hall of the Pit in the east of Deyja. On the Light path Deyja and the Pit are hostile, so fight your way in. In the Pit, the Temple of Dark house is in the north-west of the main level: ask 'Enter Temple of Dark'."
+              - "In the Temple of the Dark the altar piece is in the chest on the altar, in the middle of Level 1. Acolytes and vampires guard it."
+              - "Bring both halves to Resurectra ('Temple of the Dark'). She joins them into one key."
+            reward: "50,000 XP."
+            maps:
+              - map: t01
+                show: [chest, exit]
+                focus: "Chest L5"
+                caption: "The Temple of the Light's altar piece is at the north end of Level 1."
+              - map: t02
+                show: [chest, exit]
+                focus: "Chest L1"
+                caption: "The Temple of the Dark's altar piece is on the central altar."
+
+          - quest: q616
+            requires: "Robert the Wise's task is done."
+            steps:
+              - "Resurectra ('Strike the Devils') sends you to kill Xenofex, the leader of the Kreegan, in Colony Zod in the Land of the Giants."
+              - "The way in is underground: Stone City (Barrow Downs) → its north-west exit into the Nighon Tunnels → Thunderfist Mountain under Mount Nighon → its north exit into the Tunnels to Eeofol → the Land of the Giants, where you come out on its east side."
+              - "Colony Zod, the Kreegan hive, is in the south-west of the Land of the Giants. Devils fill it, and Dark magic hurts them most."
+              - "Xenofex is a Devil Captain (level 70) at the very top of the hive. Kill him, free King Roland Ironfist, who is held on the level below, and leave the hive: the victory film plays as you go."
+              - "Return to Resurectra ('Strike the Devils')."
+            tips:
+              - "After your first visit, the altar in the middle of Harmondale, south-east of the town, takes you straight to the Land of the Giants."
+            reward: "500,000 XP and 50,000 gold."
+            points:
+              - {map: 7d27, name: "Roland Ironfist"}
+            maps:
+              - map: 7d27
+                show: [exit, npc, monster]
+                focus: "Xenofex"
+                caption: "The hive's entrance is in the south; King Roland is held near the top, and Xenofex is on the topmost level."
+              - map: out12
+                show: [exit]
+                focus: "Colony Zod"
+                caption: "Colony Zod is in the south-west; the tunnel from Thunderfist Mountain comes out in the east."
+
+          - quest: q642
+            requires: "Xenofex is dead."
+            steps:
+              - "Resurectra ('Final Task') reveals the plan: a gate to the Ancients. The last part, the Oscillation Overthruster, is aboard the Lincoln, the wreck in the sea west of Avlee."
+              - "Take the Wetsuits from the two chests just outside the throne room in Castle Lambent (five in all). A member wearing a Wetsuit can wear nothing else, so take off every other item of equipment, then put a suit on each member."
+              - "Walk off Avlee's west edge into the Shoals. The edge lets you through only while you have this quest and every member wears a suit. Swim to the Lincoln and enter it."
+              - "The Lincoln is guarded by droids (levels 50-90). The ship has no power at first and its inner doors stay shut. Find the control panel that brings back the power ('Power Restored')."
+              - "The Oscillation Overthruster is on the top level, in the south. Take it."
+              - "To leave the ship, everyone must be wearing a Wetsuit again. Bring the Overthruster to Resurectra in Castle Lambent's throne room ('Final Task'): the ending film plays and the story of Antagarich is complete."
+            tips:
+              - "Blasters work well against the droids. After Robert the Wise's task, Sir Caneghem, Crag Hack and Resurectra teach the Blaster skill at Expert, Master and Grandmaster, and Robert's 'Ancient Weapon' gives every member who can learn it the skill at Normal."
+            maps:
+              - map: 7d23
+                show: [exit, objective, teleporter, lever]
+                focus: "Oscillation Overthruster"
+                caption: "The Overthruster is on the top level; the exit to the Shoals is in the north of the entry level."
+              - map: 7d30
+                show: [chest, teacher, exit]
+                focus: "Gavin Magnus"
+                caption: "The two Wetsuit chests are just outside the throne room."
+
+      - title: "Celeste: Crag Hack"
+        giver: {map: 7d25, npc: "Crag Hack"}
+        quests:
+          - quest: q618
+            steps:
+              - "Crag Hack ('Vampires') suspects a vampire is preying on Tatalia. The Wine Cellar is in the south-east of Tatalia (west of Erathia)."
+              - "The cellar is a vampire family's house: Elder Vampires (level 48), vampires, necromancers and bats. Carry protection against draining and disease."
+              - "Kill the Elder Vampire who carries the Vampire's Cape. The wine racks give potions; the button in the north opens the way on."
+              - "Leave by the cellar's door, then report to Crag Hack ('Vampires')."
+            reward: "50,000 XP and 20,000 gold."
+            maps:
+              - map: 7d16
+                show: [exit, lever, chest]
+                focus: "Tatalia"
+                caption: "The Wine Cellar's door is in the south-east corner."
+              - map: 7out13
+                show: [exit, transport]
+                focus: "The Wine Cellar"
+                caption: "The Wine Cellar is in the south-east of Tatalia."
+
+      - title: "Celeste: Sir Caneghem"
+        giver: {map: 7d25, npc: "Sir Caneghem"}
+        quests:
+          - quest: q620
+            steps:
+              - "Sir Caneghem ('Soul Jars') wants the necromancers' Case of Soul Jars from Castle Gloaming in the Pit. He advises one quick raid: if you retreat and come back, the castle's guard is stronger."
+              - "Enter the Pit through the Hall of the Pit in the east of Deyja. Castle Gloaming's door is in the south-west of the Pit's main level."
+              - "The castle is full of necromancers, liches and vampires. The Case of Soul Jars is in a chest at the far west end of the entry level."
+              - "Bring the case to Sir Caneghem ('Soul Jars')."
+            reward: "50,000 XP."
+            maps:
+              - map: d03
+                show: [chest, exit, teleporter]
+                focus: "Chest L6"
+                caption: "The soul jars' chest is at the west end of the entry level."
+              - map: 7d26
+                show: [exit, service]
+                focus: "Castle Gloaming"
+                caption: "Castle Gloaming's door is in the south-west of the Pit."
+
+      - title: "Celeste: Robert the Wise"
+        giver: {map: 7d25, npc: "Robert the Wise"}
+        quests:
+          - quest: q621
+            requires: "Resurectra's temples, Crag Hack's vampire and Sir Caneghem's soul jars are done."
+            steps:
+              - "Robert the Wise ('Tolberti') wants the command cube of Tolberti, one of Archibald's advisors, who lives in a hostel in the Pit."
+              - "In the Pit, go to Tolberti's hostel, west of the centre of the main level, and click its door. While this quest is open, the door takes you into his rooms instead of the usual house screen."
+              - "Tolberti is level 80 and fires a Blaster. Kill him and take the Control Cube (and his Blaster) from his body."
+              - "Give the cube to Robert the Wise ('Tolberti'). Resurectra moves to Castle Lambent's throne room, and the advisors now teach the Blaster skill ('Ancient Weapon')."
+            reward: "250,000 XP."
+            maps:
+              - map: 7d26
+                show: [quest, exit]
+                focus: "Hostel"
+                caption: "Tolberti's hostel is west of the Pit's centre, among the advisors' hostels."
+
+  - id: 6
+    intro: "Deyja's necromancers are your allies. Pass Archibald Ironfist's test in the Breeding Zone, then do the tasks of his four advisors: Kastore, Maximus and Dark Shade in any order, then Tolberti. Kastore then sends you against Xenofex and finally to the Lincoln for the Oscillation Overthruster, which ends the story."
+    sections:
+      - title: "The Pit: Archibald Ironfist"
+        intro: "The Hall of the Pit is in the east of Deyja; its passage down leads into the Pit, the necromancers' underground city. Archibald sits in the throne room of Castle Gloaming, whose door is in the south-west of the Pit's main level."
+        giver: {map: d03, npc: "Archibald Ironfist"}
+        quests:
+          - quest: q663
+            steps:
+              - "Enter the Hall of the Pit in the east of Deyja and take its passage down into the Pit (it opens once you have chosen a path)."
+              - "Go to Castle Gloaming in the south-west of the Pit and on to Archibald's throne room."
+              - "Ask Archibald Ironfist about the 'Breeding Pit'."
+            maps:
+              - map: 7out05
+                show: [exit, transport, service]
+                focus: "The Hall of the Pit"
+                caption: "The Hall of the Pit is in the east of Deyja."
+              - map: 7d26
+                show: [exit, quest, teacher, promoter]
+                focus: "Castle Gloaming"
+                caption: "Castle Gloaming is in the south-west of the Pit; the advisors' hostels are west of the centre."
+
+          - quest: q640
+            steps:
+              - "The Breeding Zone's entrance is in the north of the Pit's main level. Jump in: you land in its south-east corner."
+              - "Kill anything you like. Goglings, wardens of fire and behemoths breed here constantly."
+              - "Cross the whole zone to the exit at its far north end and leave by it. The exit beside where you landed does not count."
+              - "Report to Archibald ('Breeding Pit'). You join the Guild of Dark, and his four advisors move into the hostels west of the Pit's centre."
+              - "Deyja's engineers now extend Castle Harmondale with an upper floor, a cellar, gift chests and shops (the Butler's 'Castle Upgrade')."
+            tips:
+              - "A chest in the far west of the zone holds the Book of Divine Intervention, the item that the Light path's Priest of the Light promotion needs."
+            reward: "50,000 XP."
+            points:
+              - {map: 7d10, name: "Chest (Divine Intervention)"}
+            maps:
+              - map: 7d10
+                show: [exit, lever, chest]
+                focus: "The Pit"
+                caption: "You land in the south-east; the exit that completes the test is at the far north end."
+
+      - title: "The Pit: Kastore"
+        intro: "Kastore's hostel is west of the Pit's centre. After Tolberti's task he sits on the throne of Castle Gloaming."
+        giver: {map: 7d26, npc: "Kastore"}
+        quests:
+          - quest: q634
+            steps:
+              - "Kastore ('Temple of the Light') wants the two halves of an altar piece: one from the Temple of the Dark here in the Pit, one from the Temple of the Light in Celeste."
+              - "The Temple of Dark house is in the north-west of the Pit's main level. Ask 'Enter Temple of Dark'. Acolytes and vampires live inside; the altar piece is in the chest on the altar in the middle of Level 1."
+              - "Celeste is reached by the grand teleporter in the north-west of the Bracada Desert. On the Dark path Celeste's guards are hostile. The Temple of Light house is in the west of Celeste: ask 'Enter Temple of Light'."
+              - "In the Temple of the Light, angels, clerics and monks fight you. The altar piece is in a chest at the north end of Level 1."
+              - "Bring both halves to Kastore ('Temple of the Light')."
+            reward: "50,000 XP."
+            maps:
+              - map: t01
+                show: [chest, exit]
+                focus: "Chest L5"
+                caption: "The Temple of the Light's altar piece is at the north end of Level 1."
+              - map: t02
+                show: [chest, exit]
+                focus: "Chest L1"
+                caption: "The Temple of the Dark's altar piece is on the central altar."
+
+          - quest: q635
+            requires: "Tolberti's task is done."
+            steps:
+              - "Kastore ('Strike the Devils') sends you to kill Xenofex, the leader of the Kreegan, in Colony Zod in the Land of the Giants."
+              - "The way in is underground: Stone City (Barrow Downs) → its north-west exit into the Nighon Tunnels → Thunderfist Mountain under Mount Nighon → its north exit into the Tunnels to Eeofol → the Land of the Giants, where you come out on its east side."
+              - "Colony Zod is in the south-west of the Land of the Giants. Xenofex is a Devil Captain (level 70) at the very top of the hive. Kill him; King Roland Ironfist, held on the level below, goes free, and the film plays as you leave the hive."
+              - "Return to Kastore ('Strike the Devils')."
+            tips:
+              - "After your first visit, the altar south-east of Harmondale's town takes you straight to the Land of the Giants."
+            reward: "500,000 XP and 50,000 gold."
+            points:
+              - {map: 7d27, name: "Roland Ironfist"}
+            maps:
+              - map: 7d27
+                show: [exit, npc, monster]
+                focus: "Xenofex"
+                caption: "The hive's entrance is in the south; Xenofex is on the topmost level."
+              - map: out12
+                show: [exit]
+                focus: "Colony Zod"
+                caption: "Colony Zod is in the south-west; the tunnel comes out in the east."
+
+          - quest: q643
+            requires: "Xenofex is dead."
+            steps:
+              - "Kastore ('Final Task') sends you for the Oscillation Overthruster aboard the Lincoln, the wreck in the sea west of Avlee."
+              - "Take the Wetsuits from the two chests on Castle Gloaming's throne-room level (five in all). A member wearing a Wetsuit can wear nothing else, so take off every other item of equipment, then put a suit on each member."
+              - "Walk off Avlee's west edge into the Shoals (it lets you through only while you have this quest and every member wears a suit). Swim to the Lincoln and enter it."
+              - "Droids (levels 50-90) guard the ship, and its inner doors stay shut until you find the control panel that restores the power. The Overthruster is on the top level, in the south."
+              - "Put the Wetsuits back on to leave the ship, and bring the Overthruster to Kastore on the throne of Castle Gloaming ('Final Task'): the ending film plays and the story of Antagarich is complete."
+            tips:
+              - "Blasters work well against the droids. After Tolberti's task, Dark Shade, Maximus and Kastore teach the Blaster skill at Expert, Master and Grandmaster, and Tolberti's 'Ancient Weapon' gives every member who can learn it the skill at Normal."
+            maps:
+              - map: 7d23
+                show: [exit, objective, teleporter, lever]
+                focus: "Oscillation Overthruster"
+                caption: "The Overthruster is on the top level; the exit to the Shoals is in the north of the entry level."
+              - map: d03
+                show: [chest, teacher, exit]
+                focus: "Kastore"
+                caption: "The Wetsuit chests are on the throne room's level, one beside the throne room and one at the level's north end."
+
+      - title: "The Pit: Maximus"
+        giver: {map: 7d26, npc: "Maximus"}
+        quests:
+          - quest: q636
+            steps:
+              - "Maximus ('Soul Jars') needs soul jars for the necromancers. The Warlocks of Thunderfist Mountain make them; take them by force if you have to."
+              - "Thunderfist Mountain is inside Mount Nighon. Reach it underground from Stone City through the Nighon Tunnels, or by one of its four doors on Mount Nighon."
+              - "Warlocks, minotaurs and floating eyes live inside. The Case of Soul Jars is in a chest in the south of the mountain."
+              - "Bring the case to Maximus ('Soul Jars')."
+            reward: "50,000 XP."
+            maps:
+              - map: 7d07
+                show: [chest, exit]
+                focus: "Chest L1"
+                caption: "The soul jars' chest is in the south; the Nighon Tunnels exit is west of the centre."
+
+      - title: "The Pit: Dark Shade"
+        giver: {map: 7d26, npc: "Dark Shade"}
+        quests:
+          - quest: q637
+            steps:
+              - "Dark Shade ('Clanker's Laboratory') wants the laboratory's teleport shield brought down."
+              - "Clanker's Laboratory is on an island east of Pierpont, in the north-east of the Tularean Forest."
+              - "Clanker's creations guard it: golems, goglings and floating eyes, and an Evil Eye (level 50) that carries Clanker's Amulet."
+              - "Walk to the spot at the east end of the entry level: the shield goes down."
+              - "Report to Dark Shade ('Clanker's Laboratory')."
+            reward: "50,000 XP."
+            maps:
+              - map: 7d12
+                show: [objective, lever, exit]
+                focus: "Quest spot"
+                caption: "The shield's spot is at the east end of the entry level."
+              - map: 7out04
+                show: [exit]
+                focus: "Clanker's Laboratory"
+                caption: "Clanker's Laboratory is on the island in the north-east of the forest."
+
+      - title: "The Pit: Tolberti"
+        giver: {map: 7d26, npc: "Tolberti"}
+        quests:
+          - quest: q639
+            requires: "Kastore's temples, Maximus's soul jars and Dark Shade's laboratory are done."
+            steps:
+              - "Tolberti ('Robert the Wise') wants the command cube of Robert the Wise, one of Gavin Magnus's advisors, who lives in a hostel on the east side of Celeste."
+              - "Go to Celeste through the grand teleporter in the Bracada Desert. Its guards are hostile on your path."
+              - "Click the door of Robert's hostel. While this quest is open, the door takes you into his rooms."
+              - "Robert is level 80 and fires a Blaster. Kill him and take the Control Cube (and his Blaster) from his body."
+              - "Give the cube to Tolberti ('Robert the Wise'). The advisors now teach the Blaster skill ('Ancient Weapon')."
+            reward: "250,000 XP."
+            maps:
+              - map: 7d25
+                show: [quest, exit]
+                focus: "Hostel"
+                caption: "Robert the Wise's hostel is on the east side of Celeste."

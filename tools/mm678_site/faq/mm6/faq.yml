@@ -1,0 +1,81 @@
+# The MM6 (Enroth) book's FAQ (tools/mm678_site/story/BRIEF.md; format as tools/mm9_site/faq/faq.yml): `[text](#route)`
+# links. Facts from the engine tables (dimension_doors.yml, transport and house tables), Global.lua's MM6 topics,
+# worlds/mm6/events/Global_mm6_mmmerge.lua and common/mm6_common.lua.
+questions:
+  - id: start
+    short: Getting started
+    q: Where do I start in Enroth?
+    answer:
+      - "A new Enroth game starts in [New Sorpigal](#map-oute3) with Sulman's letter in your first character's pack. Show it to Andover Potbello in A Lonely Knight ([Sulman's letter](#quest-q1105)), then take it to Regent Wilbur Humphrey at Castle Ironfist: that opens the main story."
+      - "Before leaving, do New Sorpigal's errands: the Town Hall's Janice gives the Key to Goblinwatch (the keep stays locked without it, [Goblinwatch](#quest-q1107)), and the Abandoned Temple west of town holds three quests at once (the spider queen, Angela and Andover's candelabra). The New Sorpigal Training Grounds train up to level 15."
+      - "Stuck? The Seer in Castle Ironfist answers 'Hint' with the next main-story step, and 'I lost it' gives back a lost quest item."
+
+  - id: travel
+    short: Travel
+    q: How do I get around Enroth?
+    answer:
+      - "Walking off a map's edge takes 5 days. Coaches (the stables) and boats leave on set weekdays and are faster; the [Travel](#travel) page lists every timetable and plans routes. Free Haven is the hub: its two stables, Travel East and Travel West, reach most of the realm."
+      - "Hermit's Isle has no regular boat. The royal yacht, the Queen Catherine at Castle Ironfist's docks, takes you there once Slicker Silvertongue is exposed ([the traitor](#quest-q1225)); otherwise fly or water-walk off the south edge of Paradise Valley or the west edge of Dragonsand."
+      - "Town Portal and Lloyd's Beacon soon replace most travel. Each town's Dragon Tower shoots fireballs at a flying party that is not invisible, until Lord Stromgard's [Master Archer quest](#quest-q1146) resets the towers."
+
+  - id: continents
+    short: Other continents
+    q: How do I reach Antagarich, Jadame and the other continents?
+    answer:
+      - "OpenYAMM joins the worlds through dimensional travel. In [New Sorpigal](#map-oute3) a pedestal under a glowing orb, at the north edge of the town, opens a screen of portals, one per continent; the fountain in the north-west of town does the same. The Dimension Door spell opens the same screen."
+      - "Antagarich lands you on Emerald Island until its opening quest is done, then in Harmondale; Jadame lands you on Dagger Wound Island until Dadeross's letter is delivered, then in Ravenshore. The Enroth portal brings you back to New Sorpigal. Chedian (MM9) appears when that world is installed."
+      - "Your quests, items and gold travel with you, and the merged item tables mean any continent's treasure can turn up anywhere."
+
+  - id: money
+    short: Money
+    q: How do I make money early?
+    answer:
+      - "Quest rewards pay best: Andover's letter (1,000 gold), Goblinwatch (2,000), the Chime of Harmony (5,000) and the Kilburn shield (5,000) come early. Zoltan Phelps pays 30,000 for Mordred and lets you keep it ([Mordred](#quest-q1161))."
+      - "Some townsfolk buy quest-free curiosities: Temple Gongs (2,000 each; ten are in the Superior Temple of Baa), Amber (500), bones, cobra eggs, teeth, harpy feathers, lodestones, four leaf clovers, golden pyramids and kegs of wine from the circus. Sewer grates, wells and gold veins in dungeons also pay out."
+      - "The fifteen obelisks spell out a riddle. Once you have read all of them, the rock in the north of Dragonsand opens: 250,000 gold and several artifacts."
+
+  - id: training
+    short: Training
+    q: Where do I train, and why can't I go further?
+    answer:
+      - "Each training hall stops at its own level: New Sorpigal 15, Training-by-the-Sea in Bootleg Bay 20, Mist 30, Silver Cove 40, the Frozen Highlands 50, Free Haven 60, Kriegspire 80, Blackshire 100, Castle Ironfist's Royal Gymnasium 200 and The Sparring Ground in Paradise Valley without limit. Each map page lists its services."
+      - "Skills are learnt in guilds and shops ('Learn') and raised to Expert, Master and Grandmaster by teachers in their homes, for gold and with the skill at 4, 7 or 10. The [Teachers](#teachers) page lists every lesson, where it is and what it costs."
+
+  - id: oracle
+    short: The High Council
+    q: Why won't the High Council let me see the Oracle?
+    answer:
+      - "All six lords must back you: Wilbur Humphrey (Lord Kilburn's shield), Albert Newton (the Hourglass of Time), Osric Temper (the Devil Outpost), Anthony Stone (the Prince of Thieves), Loretta Fleise (the stable prices) and Erik Von Stromgard (ending winter). Their councillors vote as told; you need not visit them."
+      - "Slicker Silvertongue never votes for you. After Kilburn's shield, his refusal makes Wilbur hand you a Cloak of Baa for the Superior Temple of Baa, where the Letter from Zenofex proves his treason. Carry it into the High Council to expose him. The [main story](#quests-main) has each step."
+      - "The Prince of Thieves hides in the Free Haven Sewer, which you can only enter from the Supreme Temple of Baa on Hermit's Isle, so that task usually comes after Slicker is gone and the royal yacht sails."
+
+  - id: promotions
+    short: Promotions
+    q: How do promotions work?
+    answer:
+      - "Each of the six lords promotes one class line in two steps: Wilbur Humphrey (Paladin, Crusader, Hero), Albert Newton (Sorcerer, Wizard, Master Wizard), Osric Temper (Knight, Cavalier, Champion), Anthony Stone (Cleric, Priest, High Priest), Loretta Fleise (Druid, Great Druid, Arch Druid) and Erik Von Stromgard (Archer, Warrior Mage, Master Archer). The second quest opens after the first."
+      - "Finishing a quest promotes every party member of that class and makes everyone else an honorary member; all of them get the experience. A character who joins later can still be promoted: talk to the lord again with them in the party. The [Promotions](#quests-promotion) page lists every quest."
+      - "Promoted characters may also choose a path. Ki Lo Nee (Eel Infested Waters), Virginia Standridge (Silver Cove) and Marton Ferris (Blackshire) offer the Path of Light; Su Lang Manchu (Paradise Valley) and Rebecca Calaway (Blackshire) the Path of Dark. Click the topic once to hear the offer, again to be asked, and accept. The character keeps the better of Light and Dark Magic and loses the other with its spells."
+
+  - id: seer
+    short: The Seer and the shrines
+    q: What do the Seer and the shrines do?
+    answer:
+      - "The Seer lives in a house north-west of Castle Ironfist town. 'Hint' gives the next main-story step, 'I lost it' replaces a lost quest item, and 'Pilgrimage' names this month's shrine."
+      - "Twelve shrines across Enroth, one per stat or resistance, bless the party in their own month only: +10 the first time at each shrine, +3 on later years. After a blessing, every shrine stays silent until you ask the Seer about 'Pilgrimage' again, at most once a month. The Shrine of Magic raises Mind, Body and Spirit resistance. Each map page marks its shrine."
+
+  - id: nicolai
+    short: Prince Nicolai
+    q: Why is the Castle Ironfist throne room closed?
+    answer:
+      - "Prince Nicolai has slipped out with you ('Boredom') and run off to the circus. While he is away, no visitors are admitted, Wilbur Humphrey included. Find him at the Circus of the Sun and walk him home ([Find and return Prince Nicolai](#quest-q1119))."
+      - "The circus is open late March to late April in Blackshire, late July to late August in the Mire of the Damned and late November to late December in Bootleg Bay. Taking the prince out when the circus is far away in time can block the main story for months."
+
+  - id: differences
+    short: Differences from MM6
+    q: What does OpenYAMM do differently from the original MM6?
+    answer:
+      - "The party uses the merged game's classes, races and skills, and the merged item tables: any continent's treasure can appear in Enroth."
+      - "Rescued people (Angela, Sharry, Sherell, Emmanuel, Melody Silver, the Prince of Thieves) walk with the party as followers until you hand them over."
+      - "The Control Center's training terminal teaches every party member the Blaster skill; the Hive's reactor takes real damage only from Blasters. Loretta's price fixing is a 'Price Fixing' button in each stable."
+      - "Promotions also reach characters who join after the quest, and the shrines now tell you when they are waiting for the Seer ('The shrine is silent')."

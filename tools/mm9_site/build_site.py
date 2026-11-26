@@ -1222,7 +1222,7 @@ def quest_levels(quests: dict, walkthroughs: dict, maps_out: list[dict], monster
             work = set(overrides[key])
         else:
             work = {v["map"] for v in entry.get("maps", [])} or (set(tagged[key]) | {s["map"] for s in quest["steps"]})
-        rated = [m for m in work if len(by_map.get(m, [])) >= 3]
+        rated = [m for m in sorted(work) if len(by_map.get(m, [])) >= 3]  # sorted: ties go the same way every build
         fights = [m for m in rated if kinds.get(m) != "city"] or rated
         if not fights:
             continue

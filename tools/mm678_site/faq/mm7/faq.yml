@@ -1,0 +1,68 @@
+# The MM7 (Antagarich) book's FAQ (tools/mm678_site/story/BRIEF.md; format as tools/mm9_site/faq/faq.yml).
+# Facts from assets_dev/worlds/mm7 (map scripts and MMMerge overlays), the merged global events and engine tables.
+questions:
+  - id: start
+    short: Getting started
+    q: Where does the game start, and what should I do first?
+    answer:
+      - "An Antagarich game starts on [Emerald Island](#map-7out01), in Lord Markham's scavenger hunt. Bring his judge six items ([the hunt](#quest-q513)) and you win the fief of Harmondale. The island is a safe place to learn the game: dragonflies on the north-west shore, a few brigands in the Temple of the Moon, and a village with shops, the four Initiate guilds of Fire, Air, Spirit and Body and a training hall that trains to level 5."
+      - "Before you sail, report the missing contestants to Lord Markham ([proof from the Dragon's Cave](#quest-q528)): leaving the island closes that quest. Mr. Malwick's free wand comes with a favour you owe later; see [the hunt's tips](#quest-q513)."
+      - "In Harmondale, clear [Castle Harmondale](#quest-q587) of goblins, then rescue the Dwarf King's miners. The [main story](#quests-main) page follows the whole plot in order."
+  - id: money
+    short: Money
+    q: How do I get money early on?
+    answer:
+      - "Quest rewards are the main source. Many of the kings' and advisors' rewards go straight into your bank account rather than your purse; withdraw them at any bank, such as The Vault in Harmondale."
+      - "On Emerald Island, the well by the Initiate Guild of Body gives +2 Luck permanently while a member's Luck is under 15. The well near Erik's Armory gives 1,000 gold when a member with Luck 15 or more drinks while the party carries 200 gold or less: once a week, three times in all."
+      - "Later: sell the treasure from chests and monsters, collect bounties at the town halls, and win at Arcomage. Gina Barnes in Erathia pays 100,000 gold for a win in every tavern ([the Arcomage tour](#quest-q717)). You need your own card deck to play."
+  - id: travel
+    short: Travel
+    q: How do I get around Antagarich?
+    answer:
+      - "Walking off a map's edge takes 5 or 7 days. The stables and docks run coaches and boats on fixed weekdays; the [Travel](#travel) page has the timetables and a route planner. Harmondale's J.V.C Corral goes to Erathia (Mondays, Wednesdays, Fridays) and the Tularean Forest (Tuesdays, Thursdays, Saturdays)."
+      - "Some places are not on any route. Mount Nighon and the Land of the Giants are reached underground: Stone City in the Barrow Downs, then the Nighon Tunnels, Thunderfist Mountain and the Tunnels to Eeofol. After your first visit, the altar south-east of Harmondale's town also takes you to the Land of the Giants. Boats to Evenmorn Island sail only after the Priest promotion's pirate map is found. The Shoals and the Lincoln open only for the last quest of the story."
+      - "Celeste and the Pit open when you choose a path at the Arbitration: Celeste by the grand teleporter in the north-west of the Bracada Desert, the Pit through the Hall of the Pit in the east of Deyja."
+      - "Water magic's Town Portal and Lloyd's Beacon save most of the walking once you have them."
+  - id: training
+    short: Training
+    q: Where can I train, and how high?
+    answer:
+      - "Each training hall trains only up to its own limit: Emerald Island 5, Harmondale 15, Erathia (Steadwick) and the Tularean Forest (Pierpont) 25, Tatalia and Avlee 50, Stone City 100, Celeste and the Pit 200, and Mount Nighon's Applied Instruction without limit."
+      - "Skill lessons are on the [Teachers](#teachers) page: Expert needs the skill at 4, Master at 7 and Grandmaster at 10, plus the mastery before it and a class that can reach it. Some Grandmasters are path teachers: Gavin Magnus (Light Magic) only for the Light, Archibald Ironfist (Dark Magic) only for the Dark."
+  - id: promotions
+    short: Promotions
+    q: How do promotions work in Antagarich?
+    answer:
+      - "Each class line has a first promotion, open to everyone, and then a second promotion in a Light and a Dark version. Only the version that matches the path you chose at the Arbitration is offered. Each promoter's quest is on the [Promotions](#quests-promotion) page, with its path."
+      - "Turning in a promotion quest promotes every member of the right class at once. The others become honorary members of the class: they keep their own class and get half the experience. A member who reaches the class later can come back to the promoter to be promoted without repeating the quest."
+      - "The Druid line is the exception: Anthony Green (Arch Druid) and Tor Anwyn (Warlock) give their tasks on either path. Evenmorn Island, needed by the Druid line and both Priest second promotions, opens only after the pirate map for Daedalus Falk's Priest promotion is delivered ([the lost pirate map](#quest-q555))."
+      - "Lost a quest item? After the Arbitration, the new Arbiter in Harmondale ('I lost it') replaces most lost quest items: promotion items, golem parts, the Elixir, the altar pieces, the soul jars and others."
+  - id: paths
+    short: Light or Dark
+    q: When do I choose between the Light and the Dark, and what do I lose?
+    answer:
+      - "After the war of Erathia and the elves (chapter III), Judge Grey dies, and you choose his successor as the Arbiter of Harmondale: Judge Fairweather for the Light (the wizards of Bracada) or Judge Sleen for the Dark (the necromancers of Deyja). The choice is fixed when you bring the judge to the Arbiter's house in Harmondale ([the Arbitration](#quest-q665))."
+      - "The paths are mirror images: a test, four advisors' tasks, Xenofex and the Lincoln. Either path closes the other path's quests and second promotions and its Grandmaster teacher, and makes the other side's lands and castle guards hostile. On the Light that is Deyja, the Pit and Castle Gloaming; on the Dark it is Celeste, Castle Lambent, the Bracada Desert's golems and griffins, Erathia's castles and Tatalia's guards."
+  - id: castle
+    short: Castle Harmondale
+    q: What does my castle do for me?
+    answer:
+      - "Once the Dwarf King's engineer has rebuilt [Castle Harmondale](#map-7d29), resting there costs no food, and the throne room is where each chapter's ambassadors wait for you. After you pass your path's test (the Walls of Mist or the Breeding Zone), your new allies extend the castle: an upper floor and a cellar with gift chests, artisans' shops in the entry hall, and an old dungeon. The Butler's 'Castle Upgrade' topic tells you when it is done."
+      - "The water in the castle courtyard and the pedestal beside the castle in Harmondale open dimensional travel to the other continents (next question)."
+  - id: continents
+    short: Other continents
+    q: Can I travel to Enroth, Jadame and the other worlds?
+    answer:
+      - "Yes, OpenYAMM plays the merged game. The dimensional travel pedestal just north-east of Castle Harmondale's door, and the water in the castle's courtyard, open a screen with one portal per continent. Enroth lands you in New Sorpigal and Jadame in Ravenshore (Dagger Wound Island before you have reached Ravenshore). The other continents' pedestals bring you back to Harmondale, or to Emerald Island before the hunt is won."
+      - "Quests, teachers and shops stay with their own continent; your party, skills, items and gold travel with you. The MM6 Enroth and MM8 Jadame books cover the other continents."
+  - id: merged
+    short: What is different
+    q: What does the merged game do differently from the original MM7?
+    answer:
+      - "People you rescue or escort walk with you as followers until the quest ends: the seven dwarves from the Red Dwarf Mines, Loren Steel or his imposter, the judge you choose at the Arbitration."
+      - "Arcomage in Antagarich's taverns needs your own card deck. Mr. Malwick's wand has 30 charges. A party member in a Wetsuit can wear nothing else, and the Shoals let you through only when every member wears one. A member who cannot wear armour, such as a dragon, only has to carry one."
+  - id: obelisks
+    short: Obelisks
+    q: What are the obelisks for?
+    answer:
+      - "Fourteen obelisks stand in Antagarich: one on each outdoor map except Emerald Island and the Shoals, and one each in Stone City, Celeste and the Pit. Each one shows a fragment of a message and notes it in your autonotes. Read all fourteen, then go to Evenmorn Island at midnight: during the midnight hour a flower appears south of the island's centre, and clicking it opens the obelisks' treasure."

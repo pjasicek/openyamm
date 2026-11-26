@@ -16,6 +16,11 @@ come in `GUIDE.site`; without it the page is this guide) and loads `build_site.p
 and FAQ loaders and items. Keep both working: after a change here, build both guides, and check that this guide's
 `data/guide.js` and pages did not change unless meant to.
 
+The same `app.js` renders the MM6–MM8, MM9 and Xeen books of the OpenYAMM Guide (`tools/oy_guide/README.md`): it
+exposes `OYGuideApps.world(data, env)`, which the guide's shell mounts per book; on its own page (no shell) it mounts
+`window.GUIDE` itself. Document-wide listeners go through `on()` (the shell's abort signal) and the route through
+`here()`/`goTo()`/`replaceHash()`, never `location.hash` directly.
+
 Open `output/mm9_site/index.html` directly or serve the folder (`python3 -m http.server -d output/mm9_site`).
 Public copy: https://jasicek.net/openyamm/mm9-guide/, updated with `tools/mm9_site/deploy.sh` (rsync to the server, then
 sudo into `/var/www/html/openyamm/mm9-guide/`, beside the MAW guide).

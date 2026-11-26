@@ -1,0 +1,65 @@
+# Hand-kept map points of the MM6-MM8 guides (tools/mm678_site/build_site.py), per book. Only what the generic rules
+# cannot find or name (README "Map points"):
+#   rename  map -> point id -> {n, d, t, quests}: a generated point's name, detail, marker type or quests
+#   add     map -> [{id, t, n, d, x, y, z, quests}]: a point no script event or scene places (world units)
+# Player words only (README "Player text"): what a thing is and does, never how to solve it.
+
+mm6:
+  rename:
+    oracle:
+      e14: {n: Power panel}
+      e16: {n: Memory module altar (north), d: Takes a memory crystal and restores that part of the Oracle's memory}
+      e17: {n: Memory module altar (east), d: Takes a memory crystal and restores that part of the Oracle's memory}
+      e5: {n: Memory module altar (south), d: Takes a memory crystal and restores that part of the Oracle's memory}
+      e15: {n: Memory module altar (west), d: Takes a memory crystal and restores that part of the Oracle's memory}
+    hive:
+      e6: {n: Sanctum door}
+    6d04:
+      e10: {n: Warded door}
+      e20: {n: Warded door (inner)}
+    cd1:
+      e59: {n: Memory Crystal Beta, d: The memory crystal on its stand; taking it gives Memory Crystal Beta}
+      e8: {n: Locked door (Teleporter Key)}
+      e10: {n: Treasure room door}
+    6t1:
+      e22: {n: North door}
+      e19: {n: East door}
+      e21: {n: West door}
+      e20: {n: South door}
+  add: {}
+
+mm7:
+  rename:
+    7d15:
+      e376: {n: Counterweight, t: lever}
+    7d18:
+      e3: {n: Chamber door, t: door}
+    7d23:
+      e475: {n: Power panel, t: lever, d: Power Restored}
+    7d27:
+      a0: {n: Xenofex, d: "The Kreegan leader of Colony Zod; level 70, 700 HP"}
+    out09:
+      e170: {n: Flower (obelisk treasure)}
+  add: {}
+
+mm8:
+  rename:
+    out13:
+      e451: {n: Cannon, d: Fires a Cannonball of Dominion at the Regnan fleet, quests: [q36]}
+    d22:
+      e452: {n: Hidden button}
+      g0: {t: objective, quests: [q28]}
+    d24:
+      e11: {n: Lever A (reset)}
+      e12: {n: Lever B}
+      e13: {n: Lever C}
+      e14: {n: Lever D}
+      e15: {n: Lever E}
+      e16: {n: Lever F}
+      e17: {n: Lever G}
+      e18: {n: Lever H}
+      e19: {n: Lever I}
+      e20: {n: Lever J}
+      e21: {n: Lever K}
+      e22: {n: Lowest lever}
+  add: {}

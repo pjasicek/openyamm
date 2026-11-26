@@ -26,7 +26,7 @@ Public copy: https://jasicek.net/openyamm/maw-guide/, updated with `tools/maw_si
 | `maw_tables.py` | Reads the engine tables with the MAW ruleset's patches applied, as the game does. |
 | `promotions.yml` | Hand-kept: each line's promotion quests on Enroth, Antagarich and Jadame (giver, house, map, task, path, whether MAW counts it). Chedian's and Xeen's come from their guides' data. |
 | `content/*.html` | Hand-kept prose sections, one fragment per section (see below); `content/img/` holds their screenshots and the class icons. `content/RECAPTURE.md` lists screenshots that are stale or missing. |
-| `web/` | `page.html`, `style.css`, `app.js` (no libraries). Hash routes: `#start`, `#locations`, `#continent-<id>`, `#map-<map>`, `#map-<map>-<poi>`, `#teachers`, `#classes`, `#class-<id>`, `#promotions`, `#progression`, `#crafting`, `#tips`, `#combat`, `#loot`, `#spells`, `#deviations`; `#<section>/<heading id>` jumps within a prose section. |
+| `web/` | `page.html`, `style.css`, `app.js` (no libraries). Hash routes: `#start`, `#locations`, `#continent-<id>`, `#map-<map>`, `#map-<map>-<poi>`, `#teachers`, `#classes`, `#class-<id>`, `#promotions`, `#progression`, `#crafting`, `#tips`, `#combat`, `#loot`, `#spells`, `#deviations`; `#<section>/<heading id>` jumps within a prose section. `app.js` is also the MAW book of the OpenYAMM Guide (`OYGuideApps.maw`, see `tools/oy_guide/README.md`); its components' styles are repeated there, scoped to the book, in `tools/oy_guide/web/shell.css`. |
 | `deploy.sh` | Publishes `output/maw_site` to the server, like the MM9 guide's. |
 
 ## Map data

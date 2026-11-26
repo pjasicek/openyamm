@@ -1,0 +1,299 @@
+# MM7 (Antagarich) side quests: one entry per journal line, grouped roughly by where they start.
+quests:
+  - quest: q706
+    steps:
+      - "Darron Temper lives in the Temper Residence in Harmondale town, just south-west of the On the House tavern. Ask him about his quest: his brother Elron went to the White Cliff Caves to practise Arcomage and has not come back."
+      - "The White Cliff Caves are south-east of Harmondale town, in the cliffs near the south-east corner of the valley."
+      - "Inside, fight your way to the far north end of the cave. Elron's Arcomage Deck lies on the floor there, beside the Remains of a Journal. Pick both up."
+      - "Return to Darron with the deck. He lets you keep the cards."
+    tips:
+      - "Keep the Arcomage Deck. Every tavern of Antagarich except Emerald Island's lets you play Arcomage only while the party carries a deck of its own, and this is the one you need for Gina Barnes's Arcomage Champion quest."
+    reward: "2,000 XP and 750 gold; you keep the Arcomage Deck."
+    maps:
+      - map: 7d21
+        show: [exit, chest, objective]
+        focus: "Arcomage Deck"
+        caption: "The deck lies on the floor at the far north end, west of the chests there; the entrance is in the south."
+      - map: 7out02
+        show: [exit, service]
+        focus: "White Cliff Cave"
+        caption: "The caves are south-east of town; Darron lives just south-west of the tavern."
+
+  - quest: q667
+    steps:
+      - "Tarin Withern stands in the WelNin Cathedral, the temple on the west side of Harmondale town. He asks you to find the Lantern of Light, lost in the Barrow Downs."
+      - "Go south to the Barrow Downs. The fifteen Dwarven Barrows are linked to each other; three of them open onto the surface. Enter Barrow IX, the entrance in the north-east of the Barrow Downs."
+      - "Every barrow has its two other exits next to each other, with two levers beside them. The levers switch where each exit leads, so leave them alone. Untouched, Barrow IX's second exit takes you to Barrow V, and Barrow V's second exit takes you to Barrow II."
+      - "Barrow II is four levels deep. The Lantern of Light is in a chest on the bottom level."
+      - "Take it back to Tarin in Harmondale."
+    tips:
+      - "If you pulled a lever by mistake, pull it again to switch the exit back."
+    reward: "5,000 XP and 1,000 gold."
+    maps:
+      - map: mdk03
+        show: [exit, chest, lever]
+        caption: "The Lantern of Light is in the chest marked Chest on the bottom level (Down 3); the exits and levers are on the entrance level."
+      - map: out11
+        show: [exit]
+        focus: "Barrow IX"
+        caption: "Barrow IX's entrance is in the north-east of the Barrow Downs."
+
+  - quest: q669
+    steps:
+      - "Davrik Peladium waits in On the House, the tavern in Harmondale town. Accept his quest before you go: the Bandit Caves' chest holds his Signet Ring only while you are on it."
+      - "Go west to Erathia. The Bandit Caves are in the east of Erathia, east of Castle Gryphonheart and Steadwick, towards the Harmondale border."
+      - "The caves are small and full of bandits and thieves. Kill them and open the chest at the north end of the cave: the Signet Ring is inside."
+      - "Bring the ring to Davrik in the tavern. He leaves Harmondale afterwards."
+    reward: "5,000 XP and 5,000 gold."
+    maps:
+      - map: mdt14
+        show: [exit, chest]
+        focus: "Chest L3"
+        caption: "The ring is in the western of the two chests at the north end."
+      - map: 7out03
+        show: [exit]
+        focus: "The Bandit Caves"
+        caption: "The Bandit Caves are east of Castle Gryphonheart."
+
+  - quest: q670
+    steps:
+      - "Norbert Thrush, a historian, lives in the Thrush Residence on the west side of Steadwick in Erathia. Ask about his quest: he gives you a sealed letter for Lord Markham and wants Parson's Quill."
+      - "Lord Markham now lives in his manor in Tatalia, in the south-east of the map near Tidewater. Royal Steeds (coach) and Lady Catherine (boat) in Steadwick both go to Tatalia."
+      - "In the manor, walk straight north from the entrance to Lord Markham's chamber. Do not open the side doors, chests or cabinets: the guard warns you once, then the guards attack and the chamber door locks."
+      - "Give Markham the letter (his topic appears while you carry it). He hands you Parson's Quill. See the next quest for the way back."
+    tips:
+      - "The Rogue promotion also sends you to this manor, for a vase. Talk to Markham first, before you open anything."
+    reward: "Parson's Quill for the next quest."
+    maps:
+      - map: 7d18
+        show: [exit, quest, npc]
+        focus: "Lord Markham"
+        caption: "Markham's chamber is straight north of the entrance; the guard stands by the side door."
+      - map: 7out13
+        show: [exit, transport]
+        focus: "Lord Markham's Manor"
+        caption: "The manor is in the south-east of Tatalia, south-east of Tidewater's stables."
+
+  - quest: q671
+    requires: "Lord Markham has given you Parson's Quill (the sealed letter, before this)."
+    steps:
+      - "Carry Parson's Quill back to Norbert Thrush in Steadwick, Erathia, and talk to him."
+    reward: "5,000 XP and 2,000 gold."
+    maps:
+      - map: 7out03
+        show: [quest, transport]
+        focus: "Thrush Residence"
+        caption: "Norbert's house is on the west side of Steadwick."
+
+  - quest: q691
+    steps:
+      - "Johann Kerrid lives in the Kerrid Residence in the Tularean Forest, west of the stables and docks of the town. He gives you a sealed letter for the Faerie King."
+      - "Go north to Avlee. The Hall under the Hill, the faerie mound, is in the north of Avlee, north-west of the town."
+      - "Inside, the Faerie King holds court two levels down. Take the teleporter pad at the east end of the entry level, then the one at the west end of the level below. A pad at the north end of the bottom level brings you back to the entrance."
+      - "Walk up to the Faerie King and give him the letter. He gives you the Faerie Pipes, and takes all your food as the price."
+    tips:
+      - "Restock afterwards: the fruit trees on the bottom level of the Hall give apples."
+      - "The Faerie King also promotes Rangers to Hunters; that quest asks you to find the way into the mound."
+    reward: "2,000 XP from the Faerie King, and the Faerie Pipes for the next quest. You lose all your food."
+    maps:
+      - map: 7d22
+        show: [exit, teleporter, promoter]
+        focus: "Faerie King"
+        caption: "The Faerie King two levels down; the teleporter pads lead down from the east of the entry level and the west of the next."
+      - map: out14
+        show: [exit, transport]
+        focus: "The Hall under the Hill"
+        caption: "The mound is in the north of Avlee."
+
+  - quest: q692
+    requires: "The Faerie King has given you the Faerie Pipes (the letter, before this)."
+    steps:
+      - "Take the Faerie Pipes back to Johann Kerrid in the Tularean Forest."
+    reward: "5,000 XP and 1,000 gold."
+    maps:
+      - map: 7out04
+        show: [quest, transport]
+        focus: "Kerrid Residence"
+        caption: "Johann's house is west of the town's stables and docks."
+
+  - quest: q551
+    requires: "Lysander Sweet's Ranger Lord promotion (path of Light): the Oldest Tree speaks of the Heart only after he has sent you to it."
+    steps:
+      - "The Oldest Tree stands in the south-east of the Tularean Forest. Talk to it: thieves took the Heart of the Wood and are hiding in the Mercenary Guild in Tatalia. Until the Heart is back, the forest's trees attack anyone walking past."
+      - "The Mercenary Guild is in the north-east of Tatalia, north of Tidewater. Its mercenaries, archers and swordsmen are hostile."
+      - "The Heart of the Wood is in a chest at the far north of the guild's ground floor, in a sunken room. Click the bookcases you pass: two of them open hidden doors, one of them in the north part of the guild, just south of the Heart's room."
+      - "Take the Heart as soon as you open the chest: the chest opens only once."
+      - "Return to the Oldest Tree and give it the Heart. The trees calm down; then report to Lysander Sweet for the promotion."
+    tips:
+      - "If you took Mr. Malwick's wand on Emerald Island and are on an errand for Niles Stantley, entering the guild only brings Niles out to talk; finish his errand first (see the Mercenary Guild quests below)."
+    reward: "5,000 XP, and the forest's trees stop attacking."
+    maps:
+      - map: 7d20
+        show: [exit, chest, lever]
+        focus: "Heart of the Wood"
+        caption: "The Heart's chest (marked Chest) is at the far north; the entrance is in the south."
+      - map: 7out04
+        show: [quest, exit]
+        focus: "The Oldest Tree"
+        caption: "The Oldest Tree is in the south-east of the forest."
+
+  - quest: q693
+    requires: "Only for a party that accepted Mr. Malwick's fireball wand on Emerald Island, after you have chosen the path of Light or Dark."
+    steps:
+      - "Once you have chosen the path of Light or Dark, a messenger meets you on a later arrival in Harmondale and hands you a Message from Mr. Stantley: Malwick's associates want their favour. You have two weeks to see Niles Stantley at the Mercenary Guild in Tatalia."
+      - "The Mercenary Guild is in the north-east of Tatalia, north of Tidewater. Click its entrance: Niles comes out to talk instead of letting you in."
+      - "Ask him for the job. He sends you to steal a tapestry (the next quest)."
+    tips:
+      - "Missing a deadline is costly: a band of goblins and renegade swordsmen raids Harmondale and Castle Harmondale and your bank account is emptied. The raiders stay until you kill every one of them, in the castle and outside it, and until then the Mercenary Guild stays closed to you."
+    reward: "No reward: the errand keeps the raiders away from Harmondale."
+    maps:
+      - map: 7out13
+        show: [exit, transport]
+        focus: "The Mercenary Guild"
+        caption: "The Mercenary Guild is in the north-east of Tatalia."
+
+  - quest: q694
+    requires: "Niles Stantley's job (the summons, before this)."
+    steps:
+      - "Niles wants the tapestry from the castle of your side: from Castle Lambent in Celeste on the path of Light, from Castle Gloaming in the Pit on the path of Dark."
+      - "In Castle Lambent the Big Tapestry hangs on the upper floor, at the east end. In Castle Gloaming it hangs on the upper floor, in the north-west. Click it to take it."
+      - "Taking it turns the castle against you: its wizards, angels and golems (Lambent) or liches, necromancers and vampires (Gloaming) attack, and the throne room door stays shut while enemies are about. See your lords about the main story first."
+      - "Bring the Big Tapestry to Niles at the Mercenary Guild. That ends your business with Malwick and his associates."
+    tips:
+      - "Niles gives you a month, but the raid on Harmondale also comes if you return to Harmondale more than two weeks after the summons with the job unfinished. Do this errand promptly and keep away from Harmondale until it is done."
+    reward: "No reward: Harmondale is left alone."
+    maps:
+      - map: 7d30
+        show: [exit, objective, teacher]
+        focus: "Big Tapestry"
+        caption: "Castle Lambent (Light): the tapestry is at the east end of the upper floor."
+      - map: d03
+        show: [exit, objective, teacher]
+        focus: "Big Tapestry"
+        caption: "Castle Gloaming (Dark): the tapestry is in the north-west of the upper floor."
+
+  - quest: q698
+    steps:
+      - "Stone City is under the Barrow Downs; its gate is in the middle of the Barrow Downs, where three bridges meet. Spark Burnkindle lives in Spark's House in the south-east corner of the city."
+      - "He asks you to clear the troglodytes from the mines. They fill the western half of the cavern, below the city, up to the tunnel to Nighon in the north-west."
+      - "Kill every Troglodyte Drone, Soldier and Queen in Stone City. Those in the Nighon Tunnels do not count."
+      - "Report to Spark. If he says some remain, search the corners of the mine levels."
+    reward: "5,000 XP and 2,500 gold."
+    maps:
+      - map: 7d24
+        show: [exit, quest, monster]
+        focus: "Spark"
+        caption: "The troglodytes roam the western half; Spark's house is in the south-east of the city."
+
+  - quest: q668
+    steps:
+      - "Mazim Dusk lives in Dusk's Home in the south of Mount Nighon. Ask about his quest: his brother Haldar's remains were lost in the Maze."
+      - "Mount Nighon is reached from Stone City: take the Nighon Tunnels at Stone City's north-west end to Thunderfist Mountain, and leave Thunderfist Mountain by one of its exits to Mount Nighon."
+      - "The Maze is in the north-west of Mount Nighon. Warlocks and their monsters hold it."
+      - "Haldar's Remains are in a chest at the far east of the Maze."
+      - "Bring the jar back to Mazim."
+    tips:
+      - "The chest at the north end of the Maze holds the Angel Statuette, one of the three statuettes Thom Lumbra wants (Retrieve the three statuettes)."
+    reward: "50,000 XP and 35,000 gold."
+    maps:
+      - map: d02
+        show: [exit, chest]
+        focus: "Chest L6"
+        caption: "Haldar's Remains at the far east; the Angel Statuette at the north end; the entrance in the south."
+      - map: out10
+        show: [exit, quest]
+        focus: "The Maze"
+        caption: "The Maze is in the north-west of Mount Nighon; Mazim's home in the south."
+
+  - quest: q699
+    requires: "Path of Dark: Seth Drakkson offers this only to a party that has chosen the Dark."
+    steps:
+      - "Seth Drakkson stays in Slicer's House in the village in the north-west of Deyja."
+      - "Kill every griffin (Griffins, Hunting Griffins and Royal Griffins) in Erathia and in the Bracada Desert. Griffins killed before you took the quest count too."
+      - "In Erathia, Royal Griffins guard the area around Castle Gryphonheart and Steadwick, and Hunting Griffins roost in the south-west. In the Bracada Desert they nest in the middle, in the south-west and in the north-east."
+      - "A map counts as clear when you leave it with every griffin there dead. Seth tells you which of the two is still unfinished."
+      - "Report to Seth when both are clear."
+    reward: "10,000 XP and 5,000 gold."
+    maps:
+      - map: 7out03
+        show: [exit, monster]
+        focus: "Royal Griffin"
+        caption: "Erathia's griffins: around Castle Gryphonheart and in the south-west."
+      - map: 7out06
+        show: [exit, monster]
+        focus: "Griffin group"
+        caption: "Bracada's griffins: the middle, the south-west and the north-east."
+
+  - quest: q707
+    requires: "Path of Light: Gary Zimm offers this only to a party that has chosen the Light. Take the quest before you open the chest."
+    steps:
+      - "Gary Zimm lives in Zimm's House in the north of the Bracada Desert. He asks for the Seasons' Stole, stolen by raiders from Deyja."
+      - "The Hall of the Pit is in the east of Deyja. For a party of the Light its gargoyles, harpies and zombies are hostile."
+      - "The Stole is in a chest at the far north end of the Hall's entry level, beside the gate into the Pit. Work your way north; the teleporter pads link the entry level with the levels below."
+      - "Bring the Stole to Gary."
+    tips:
+      - "Opened before you have the quest, the chest holds only ordinary treasure."
+    reward: "7,500 XP and 7,500 gold."
+    maps:
+      - map: t04
+        show: [exit, chest, teleporter]
+        focus: "Chest L5"
+        caption: "The Stole's chest at the north end of the entry level, by the gate to the Pit; the entrance is in the south."
+      - map: 7out06
+        show: [quest, transport]
+        focus: "Zimm"
+        caption: "Gary's house is in the north of the desert."
+
+  - quest: q712
+    steps:
+      - "Thom Lumbra stays in the Ottin House in the Tularean Forest town. He wants three stolen statuettes put back on their shrines."
+      - "The Knight Statuette is in a chest in the south-west of the Grand Temple of the Sun, and the Eagle Statuette in a chest on the upper floor of the Grand Temple of the Moon, in its south-east. Both temples are on Evenmorn Island and both are hostile. Boats sail to Evenmorn once the way there is open (the Travel page lists them)."
+      - "The Angel Statuette is in the chest at the north end of the Maze on Mount Nighon."
+      - "Click each shrine (an altar) with its statuette: the Knight Statuette goes on the shrine in the west of Avlee, the Eagle Statuette on the one in the south-west of Tatalia, and the Angel Statuette on the one in the north-west of the Bracada Desert."
+      - "Return to Thom when all three are placed."
+    tips:
+      - "The shrines take a statuette only while you are on this quest."
+    reward: "50,000 XP and 50,000 gold."
+    maps:
+      - map: t03
+        show: [exit, chest]
+        focus: "Chest L1"
+        caption: "Grand Temple of the Sun: the Knight Statuette's chest in the south-west."
+      - map: 7d19
+        show: [exit, chest]
+        focus: "Chest L1"
+        caption: "Grand Temple of the Moon: the Eagle Statuette's chest on the upper floor."
+
+  - quest: q716
+    steps:
+      - "Ferdinand Visconti, an art collector, lives in the Visconti Residence in Tidewater, in the south-east of Tatalia. He wants three paintings, and pays only for the full set."
+      - "Two hang in Castle Gryphonheart in Steadwick, Erathia: Roland Ironfist's portrait on the west side of the castle and Archibald Ironfist's in its north-west. Click each portrait to take the painting."
+      - "The Angel Statue Painting hangs in the Haunted Mansion in the north-west of the Barrow Downs, on the west side of the house. The mansion is full of ghosts, ghouls and wights."
+      - "Bring all three paintings to Ferdinand."
+    tips:
+      - "Taking the portraits does not anger Castle Gryphonheart's guards, but opening its chests does. On the path of Dark the castle is hostile anyway."
+    reward: "50,000 XP and 50,000 gold."
+    maps:
+      - map: 7d33
+        show: [exit, objective, quest]
+        focus: "Portrait"
+        caption: "Castle Gryphonheart's two portraits, west and north-west of the throne room."
+      - map: 7d37
+        show: [exit, objective]
+        focus: "Portrait"
+        caption: "The Haunted Mansion's portrait on the west side."
+
+  - quest: q717
+    requires: "An Arcomage Deck: Antagarich's taverns let you play only with your own deck (Darron Temper's quest gives one)."
+    steps:
+      - "Gina Barnes lives in the Barnes Home on the west side of Steadwick in Erathia. To become Arcomage Champion you must win a game of Arcomage in each of thirteen taverns."
+      - "The thirteen: On the House (Harmondale), Griffin's Rest (Erathia), Emerald Inn (Tularean Forest), The Snobbish Goblin (Deyja), Familiar Place (Bracada Desert), The Laughing Monk (Evenmorn Island), Fortune's Folly (Mount Nighon), Miner's Only (Barrow Downs), The Loyal Mercenary (Tatalia), The Potted Pixie (Avlee), Grogg's Grog (Stone City), The Blessed Brew (Celeste) and The Vampyre Lounge (the Pit)."
+      - "Play from each tavern's Arcomage menu; each tavern sets its own victory conditions. Only the first win in each tavern counts, and losses can be retried."
+      - "Celeste and the Pit open once you have chosen the path of Light or Dark (Celeste through the teleporter in the Bracada Desert, the Pit through the Hall of the Pit in Deyja), whichever side you chose."
+      - "Return to Gina. Then open the chest just outside her house for the prize."
+    reward: "50,000 XP and 100,000 gold, and the prize chest by Gina's house: Elfbane, Mind's Eye, Elven Chainmail and Forge Gauntlets."
+    maps:
+      - map: 7out03
+        show: [quest, chest, transport]
+        focus: "Barnes Home"
+        caption: "Gina's house on the west side of Steadwick, with the prize chest beside it."

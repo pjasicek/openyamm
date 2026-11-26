@@ -1,0 +1,465 @@
+chapters:
+  - id: 1
+    intro: "You wake in Blood Drop, the Lizardman village on the Dagger Wound Islands, after a volcano rose from the sea and Regnan pirates raided the islands. Find your caravan master Dadeross, take his letter, and get off the islands: the bridges are gone, so the way to the boat dock runs through the Portals of Stone and the Abandoned Temple."
+    sections:
+      - title: "Blood Drop: Dadeross and Brekish Onefang"
+        intro: "Dadeross and the clan leader Brekish Onefang are both in the Clan Leader's Hall in the middle of Blood Drop, at the north-east end of the main island."
+        giver: {map: out01, npc: "Dadeross"}
+        quests:
+          - quest: q85
+            steps:
+              - "The game starts on the main island's north-east end, in Blood Drop. S'ton, a Lizardman merchant at the west edge of the village, explains what happened if you talk to him."
+              - "Enter the Clan Leader's Hall in the middle of the village. Dadeross stands beside Brekish Onefang. Ask him about 'Quest': he gives you his letter, which closes this note and starts the next one."
+            tips:
+              - "Blood Drop has a temple, a training hall (to level 5), shops, the Elemental Guild, a bank, the Grog and Grub tavern and an Adventurer's Inn where you can swap characters. Its wells give +15 Intellect until you rest and +2 Luck for good (up to 16)."
+            maps:
+              - map: out01
+                show: [quest, service, vendor, guild, transport]
+                focus: "Brekish Onefang"
+                caption: "Blood Drop, at the north-east end of the main island. Dadeross and Brekish are in the Clan Leader's Hall."
+
+          - quest: q3
+            requires: "Dadeross' 'Quest' topic."
+            steps:
+              - "Dadeross wants his letter taken to Elgar Fellmoon of the Merchants of Alvar in Ravenshore. The only boat, the Windling, docks on the small island north-east of Blood Drop, and the bridges to it are gone."
+              - "First do Brekish Onefang's errand (the next entry): with the Power Stone shown to Fredrick Talimere, the portal on the main island's south-west tip takes you to the western island."
+              - "The western island's portal at its north end needs a second Power Stone. If Fredrick has joined your party, he carries one; otherwise open the chests near the middle of the western island: one holds it. That portal takes you to the south tip of the north-west island, where the Abandoned Temple stands."
+              - "Go through the Abandoned Temple (below). Its far exit comes up on the north-east island beside the dock."
+              - "Board the Windling: it sails to Ravenshore every day (4 days, 75 gold). The portal on the dock island's beach takes you back to Blood Drop first if you want to hand in quests; from then on the second portal in Blood Drop's south takes you straight to the dock."
+              - "In Ravenshore, click the door of the Merchant House of Alvar, on the south side of the town square. Elgar Fellmoon answers at the door; ask him about 'Letter'."
+            tips:
+              - "The Abandoned Temple, from the west entrance: in the first room four doors rise when you touch the floor; kill the snakes behind them from range, then press the buttons behind the doors in the order north-west, north-east, south-west, south-east. Stairs rise to the next area."
+              - "Next comes a room whose floor is mostly illusion: follow the glowing red path on the ceiling (falling into the snake pit below three times also reveals it on the floor)."
+              - "Save before the room beyond it. Clicking its east door slams the doors and starts the floor opening: click all eight panels with glowing red snake eyes (two in each corner) before the floor is gone, then leave by the east door."
+              - "The great hall after it has trap tiles that spit poison and fire; walk around the red tiles. Stairs at its east end lead up to the exit on the dock island."
+              - "Lost the letter? The Seers of Jadame can recover lost quest items."
+            reward: "7,500 experience for each character and 2,500 gold from Fellmoon."
+            maps:
+              - map: out01
+                show: [teleporter, exit, chest, transport, quest]
+                focus: "Teleporter"
+                caption: "The portals: Blood Drop to mid-island, the south-west tip to the western island, the western island's north end to the temple island. The dock is on the north-east island."
+              - map: d05
+                show: [lever, exit, chest]
+                focus: "Button"
+                caption: "The Abandoned Temple: the four ordered buttons in the west, the eight snake-eye panels in the middle, the exit stairs in the north-east."
+
+          - quest: q7
+            steps:
+              - "In the Clan Leader's Hall, ask Brekish Onefang about 'Portals of Stone'. That opens his 'Quest' topic: he hands you a Power Stone and asks you to take it to Fredrick Talimere."
+              - "Fredrick Talimere lives in Talimere's Hut on the south-east edge of Blood Drop. Ask him about 'Power Stone' (the topic shows only while you carry the stone)."
+              - "Fredrick explains that the stone powers the portal on the main island's south-west tip, and that the Abandoned Temple may lead under the sea. Walk the length of the main island (the first portal in Blood Drop's south takes you halfway) and step onto the south-west portal with the stone in your packs: it is used up and the portal stays on."
+              - "Optional: take Fredrick into your party ('Roster Join'). He is a Cleric and carries the Power Stone for the next portal."
+            reward: "1,500 experience for each character."
+            maps:
+              - map: out01
+                show: [quest, teleporter]
+                focus: "Talimere"
+                caption: "Fredrick's hut is on the south-east edge of Blood Drop; the stone's portal is on the island's south-west tip."
+
+  - id: 2
+    intro: "Fellmoon, the Merchants of Alvar's agent in Ravenshore, sends you to blackmail the wererat smugglers and then to the guild's master, Bastian Loudrin, in Alvar. Bastian wants an eyewitness to the lake of fire in the Ironsand Desert, and the witness comes only after his brother's ashes are laid to rest."
+    sections:
+      - title: "Ravenshore: Elgar Fellmoon"
+        intro: "Until the witness has reached Alvar, the Merchant House's door only brings Fellmoon to the doorway; talk to him there."
+        giver: {map: out02, npc: "Elgar Fellmoon"}
+        quests:
+          - quest: q9
+            steps:
+              - "Ask Fellmoon about 'Quest' after delivering Dadeross' letter. He gives you a Blackmail Letter for Arion Hunter, leader of the wererat smugglers."
+              - "Smuggler's Cove is on the coast at the far west of the Ravenshore map. Its wererats are hostile until Arion has the letter, so fight your way in."
+              - "Arion's chamber is at the south end of the cove's entry level. Give him the letter (his 'Blackmail' topic): he agrees to lend his boats."
+            tips:
+              - "Once he has the letter, the wererats leave you alone; killing one of them makes the cove hostile again for a day."
+              - "Arion then offers two side quests: a false report for the Dread Pirate Stanley on Regna and the rescue of his daughter from the Ogre Fortress in Alvar."
+              - "His boats now sail to Ravage Roaming: the Wind from Ravenshore and the Smoke from Shadowspire. You need them for the Minotaurs later."
+            maps:
+              - map: d07
+                show: [quest, exit, chest]
+                focus: "Wererat Smuggler Leader"
+                caption: "Arion Hunter's chamber is at the south end; the cove's entrance is at the north."
+              - map: out02
+                show: [exit, quest]
+                focus: "Smuggler's Cove"
+                caption: "Smuggler's Cove is on the far west coast; the Merchant House is on Ravenshore's town square."
+
+          - quest: q284
+            steps:
+              - "Return to the Merchant House door in Ravenshore and ask Fellmoon about 'Quest'. He pays you for the boats."
+              - "Ask him about 'Quest' once more: he sends you to Bastian Loudrin in Alvar (the next entry)."
+            reward: "12,000 experience for each character."
+
+          - quest: q11
+            steps:
+              - "Alvar lies north of Ravenshore: walk off the map's north edge and follow the river up the canyon (5 days), or take the Guild Caravans coach from Ravenshore's stables (Mondays and Saturdays, 2 days)."
+              - "Bastian Loudrin is in the Merchant Guildhouse in the north of Alvar. Ask him about 'Deliver Report'."
+            reward: "15,000 experience for each character and 2,000 gold."
+            maps:
+              - map: out03
+                show: [quest, transport, exit]
+                focus: "Merchant Guildhouse"
+                caption: "Bastian Loudrin is in the Merchant Guildhouse in Alvar's north; the coach station is south-west of it."
+
+      - title: "Alvar and the Ironsand Desert: the witness"
+        intro: "Bastian's second task sends you east to the Troll village in the Ironsand Desert."
+        giver: {map: out03, npc: "Bastian Loudrin"}
+        quests:
+          - quest: q25
+            requires: "Bastian's report (the previous quest)."
+            steps:
+              - "Ask Bastian about 'Quest'. He wants someone who saw the lake of fire form in the Ironsand Desert, east of Alvar (5 days' walk off Alvar's east edge; Alvar's coach does not go there, the Shadowspire coach does on Tuesdays and Saturdays)."
+              - "In the desert's Troll village, Overdune Snapfinger and his father Farhill now live in Overdune's House, in the middle of the village. Ask Overdune about 'Lake of Fire', then 'Come to Alvar'."
+              - "Overdune will not leave before his brother Vilebite's ashes are laid in the village tomb (the next entry). Do that, then take him into your party with his 'Roster Join' topic."
+              - "Overdune must travel with you as a party member, so keep a slot free. Walk him into the Merchant Guildhouse in Alvar: a scene plays as you enter, and Bastian's greeting names the factions he wants in an alliance."
+            tips:
+              - "Overdune can stay in your party afterwards; he is a Troll warrior."
+            reward: "10,000 experience for each character and 4,000 gold when Overdune enters the guildhouse. The alliance quests start at once."
+            maps:
+              - map: out04
+                show: [quest, exit, transport]
+                focus: "Overdune"
+                caption: "Overdune's House is in the middle of the village; the Troll Tomb's entrance is to its south-west."
+
+          - quest: q61
+            steps:
+              - "Ask Overdune about 'Come to Alvar' (after 'Lake of Fire'). He gives you the Urn of Ashes."
+              - "The Troll Tomb's entrance is south-west of the village. Smoke, ember and fire Gogs fill its catacombs, and some doors shut behind you as you pass."
+              - "The Snapfinger crypt is at the far north end. Overdune's 'The Family Tomb' tip: keep a hand on the right-hand wall. Counting rooms from the first door room, the route is north, north, east, east, south, south, west, west, north, north, north."
+              - "In the crypt, step up to the northernmost resting place with the urn in your packs: 'Vilebite is now at rest!'."
+              - "Return to Overdune and ask him about 'Come to Alvar' again."
+            reward: "20,000 experience for each character and 7,500 gold; Overdune agrees to join you."
+            maps:
+              - map: d13
+                show: [objective, exit]
+                focus: "Vilebite"
+                caption: "The entrance is in the south-west; the Snapfinger crypt is at the far north."
+
+  - id: 3
+    intro: "Bastian wants the powers of Jadame allied against the cataclysm. Three partners are enough: the Minotaurs of Ravage Roaming, plus one side of each of two feuds that cannot both be won, the Necromancers' Guild or the Temple of the Sun, and the Dragons of Garrote Gorge or Charles Quixote's Dragon hunters. Finishing one side's task closes the other side's alliance quest for good. When all three have joined, the council meets in Ravenshore's Merchant House."
+    sections:
+      - title: "Alvar: forming the alliance"
+        intro: "Bastian's 'Quest' topic says how many partners you still need."
+        giver: {map: out03, npc: "Bastian Loudrin"}
+        quests:
+          - quest: q13
+            requires: "Overdune delivered to the Merchant Guildhouse."
+            steps:
+              - "Win over the Minotaurs (Ravage Roaming), either the Necromancers' Guild (Shadowspire) or the Temple of the Sun (Murmurwoods), and either the Dragons or Charles Quixote's Dragon hunters (both in Garrote Gorge). The sections below cover each."
+              - "The choices are exclusive. Bringing the Nightshade Brazier to the Necromancers closes the Temple's quest and makes the Temple's clerics your enemies; destroying the Skeleton Transformer for the Temple closes the Necromancers' quest and turns their guild against you. Giving the Dragon Egg to one side of Garrote Gorge closes the other side, and its side quests."
+              - "The choice also decides who will join your party: after the Necromancer alliance Hevatia Deverbero in Shadowspire offers to come along, after the Temple alliance Verish in Murmurwoods, after Quixote's Nelix Uriel in Garrote Gorge. Many other veterans across Jadame agree to join only after the council has met, and some only after the Regnan fleet is sunk."
+              - "When all three partners have joined, go to Ravenshore and click the Merchant House door: it now lets you in. Inside, enter the Council Chamber Door on the hall's east side: the council forms there."
+            tips:
+              - "The Trolls, Dark Elves and Vampires are not alliance partners; their quests are class promotions (see the promotions page). The Dark Elves' merchant guild is Bastian's own."
+              - "Promotions do not depend on your alliance sides: Charles Quixote still promotes Knights and Deftclaw Redreaver still promotes Dragons whichever side you chose, though each grumbles about it."
+              - "Each leader travels to Ravenshore after joining and sits on the council behind the Council Chamber Door."
+              - "A bookshelf on the north wall of the Merchant House hall opens a hidden door while the alliance quest is open; the library's shelves hold scrolls and a torn page."
+            maps:
+              - map: d09
+                show: [objective, quest, exit, chest]
+                focus: "Council Chamber Door"
+                caption: "Inside Ravenshore's Merchant House: the Council Chamber Door is on the east side of the hall."
+
+      - title: "Ravage Roaming: the Minotaurs"
+        intro: "Balthazar Lair, the Minotaurs' underground city, was flooded by the water gateway. Ravage Roaming is reached by Arion Hunter's boats (the Wind from Ravenshore, the Smoke from Shadowspire) or on foot from Garrote Gorge."
+        giver: {map: d24, npc: "Masul"}
+        quests:
+          - quest: q18
+            steps:
+              - "Masul, the Minotaurs' herd leader, is trapped in the flooded depths of Balthazar Lair (the next entry). Reach him, then ask him about 'Alliance'."
+            reward: "20,000 experience for each character; Thanys, the guard by the lair's entrance, then offers to join you."
+            maps:
+              - map: out08
+                show: [exit, transport]
+                focus: "Balthazar Lair"
+                caption: "Balthazar Lair's two entrances are south-west of the middle of Ravage Roaming; the boat dock is in the south-east."
+
+          - quest: q30
+            steps:
+              - "Enter Balthazar Lair. Thanys, in a house beside the entrance hall, tells you of the flood ('Flood', then 'Quest'): the old siege doors can drain the lair."
+              - "Pull the lever in the entrance hall (lever A) and go down the ramp. On the level below lie the Notes from the Minotaurs' emergency meeting: right-click them over a portrait to read the lever order."
+              - "The levers are lettered. Pull them in this order: A, B, C, E, G, D, J, C, E, F, D, I, C, then the lowest lever. The next lever can be far away, but it is always reachable through the passage the last one drained."
+              - "Where the levers are: A in the entrance hall; B one level down; C, D and E three levels down (C and D side by side); F to K on the level below that (F, G and H in a row). The lowest lever, the only one with no letter, is on the bottom level, east of Masul's room."
+              - "A mistake? Pull lever A again: it refills the lair and resets the drains, and you start over."
+              - "Pulling the lowest lever drains the whole lair and a scene shows the survivors. Masul is in the Minotaur Leader's Room at the bottom level's north-west corner, west of the lowest lever. Ask him about 'Alliance'."
+            tips:
+              - "Tritons swim in the flooded halls. Once the lair is drained, its shops, temple, bank, training hall (no level limit) and the Guild of Mind open to you."
+            maps:
+              - map: d24
+                show: [lever, quest, exit, loot]
+                focus: "Minotaur Leader"
+                caption: "Thanys and lever A are at the entrance; the lowest lever and Masul's room are on the bottom level."
+
+      - title: "Shadowspire or Murmurwoods: Necromancers or the Temple of the Sun"
+        intro: "The Necromancers' Guild (east of Shadowspire's town) and the Temple of the Sun (southern Murmurwoods) are at war. Each asks you to strike at the other, and the double agent Dyson Leland, who lives in the Necromancers' Guild, helps either way. You can ally with only one."
+        giver: {map: d19, npc: "Sandro"}
+        quests:
+          - quest: q14
+            steps:
+              - "In the Necromancers' Guild, enter Sandro and Thant's throne room on the guild's top floor. Ask Sandro about 'Alliance', then 'Quest': he wants the Nightshade Brazier stolen back from the Temple of the Sun."
+              - "Enter the throne room's door carrying the Brazier: the alliance is made at once."
+            tips:
+              - "This closes the Temple of the Sun's alliance quest, and the Temple's clerics stay hostile to you."
+            reward: "12,500 experience for each character and 8,000 gold."
+            maps:
+              - map: out06
+                show: [exit, transport, promoter]
+                focus: "Necromancers' Guild"
+                caption: "The Necromancers' Guild is east of Shadowspire's town."
+
+          - quest: q15
+            steps:
+              - "The Temple of the Sun is in southern Murmurwoods. Oskar Tyre sits in its throne room at the east end of the entry level; ask him about 'Alliance', then 'Quest': he wants the Necromancers' Skeleton Transformer destroyed."
+              - "Destroy the Transformer and return to Oskar ('Quest'): the alliance is made."
+            tips:
+              - "This closes the Necromancers' alliance quest, and their guild stays hostile to you."
+            reward: "50,000 experience for each character and 10,000 gold."
+            maps:
+              - map: d22
+                show: [quest, exit, objective]
+                focus: "Oskar Tyre"
+                caption: "Oskar Tyre's throne room is at the east end of the temple's entry level."
+
+          - quest: q28
+            requires: "Sandro's 'Quest' topic."
+            steps:
+              - "In the Necromancers' Guild, visit Dyson Leland's Room on the top floor (a lift in the south-west tower leads up). Ask him about 'Necromancers' and 'Sun Temple', then take him into your party with his 'Roster Join' topic. You need a free party slot."
+              - "Go to the Temple of the Sun in southern Murmurwoods with Dyson in the party. On the entry level, at the east wall under a torch, a small red button appears only while Dyson is with you. Press it."
+              - "Go down through the middle of the temple: the odd-shaped altar on the level below has risen, opening the way down to the Brazier's pedestal."
+              - "Save, then take the Nightshade Brazier. The clerics turn hostile and the way you came closes; the pedestal sinks into a lower room with another exit, so leave that way (or use Town Portal or Lloyd's Beacon)."
+              - "Return to the Necromancers' Guild and enter the throne room door with the Brazier."
+            reward: "The Necromancer alliance (see above)."
+            maps:
+              - map: d22
+                show: [objective, exit, quest]
+                focus: "Hidden button"
+                caption: "The Temple of the Sun: Dyson's hidden button is at the east wall of the entry level."
+
+          - quest: q26
+            requires: "Oskar Tyre's 'Quest' topic."
+            steps:
+              - "Go to the Necromancers' Guild in Shadowspire. The guild is peaceful as long as you attack no one. Dyson Leland's Room is on its top floor (a lift in the south-west tower leads up); ask him about 'Necromancers' and 'Sun Temple', then take him into your party ('Roster Join'). You need a free slot."
+              - "The locked door just up the stairs from the entrance opens only with Dyson in the party; without him the guard turns you back, and invisibility does not help. Take the lift beyond and fight past the guards down to the guild's lowest floor."
+              - "The Transformer's antechamber has five levers in a row with a button at each end and a door beam. Number the levers 1 to 5 from the east end (the left end as you face them). Only lever 1 moves at first; then pull 3, 2, 5 and 4. A lever pulled out of turn will not move."
+              - "Press the button at the east end of the row (left of the door), not the one at the west end, then click the Door Beam to bar the door."
+              - "Walk into the great chamber to the north: Dyson destroys the Transformer in a scene. The guild is hostile from then on; fight your way out."
+              - "Return to Oskar Tyre in the Temple of the Sun ('Quest')."
+            maps:
+              - map: d19
+                show: [lever, objective, door, quest, exit]
+                focus: "Quest spot"
+                caption: "The five levers, two buttons and the door beam on the guild's lowest floor; the Transformer is in the chamber north of them."
+
+      - title: "Garrote Gorge: Dragons or Dragon hunters"
+        intro: "Charles Quixote's Dragon hunters (camp south of Garrote Gorge's town) and Deftclaw Redreaver's Dragons (cave in the north of the map) both want the same Dragon Egg, which the Ogre mage Zog now holds in Ravage Roaming. Whoever gets the egg joins the alliance; the other side's quest closes."
+        giver: {map: d16, npc: "Sir Charles Quixote"}
+        quests:
+          - quest: q16
+            steps:
+              - "In the Dragon Hunter's Camp, south of Garrote Gorge's town, enter Charles Quixote's House and ask him about 'Alliance', then 'Quest'. He wants the egg Zog never paid for (the egg quest below)."
+              - "Bring him the egg and ask about 'Quest': he joins the alliance and leaves for Ravenshore."
+            tips:
+              - "This closes the Dragons' alliance quest and the side quests in the Dragon Cave; Nelix Uriel in Garrote Gorge's town then agrees to join your party."
+            reward: "20,000 experience for each character and 10,000 gold."
+            maps:
+              - map: out05
+                show: [exit, quest, transport]
+                focus: "Dragon Hunter's Camp"
+                caption: "The Dragon Hunter's Camp is south of the town; the Dragon Cave is in the north."
+
+          - quest: q17
+            steps:
+              - "The Dragon Cave is in the north of Garrote Gorge. Deftclaw Redreaver is in the Dragon Leader's Cavern at the cave's north end; ask him about 'Alliance', then 'Quest'. He wants his stolen egg back (the egg quest below)."
+              - "Bring him the egg and ask about 'Quest': he takes his revenge on Quixote's camp and joins the alliance."
+            tips:
+              - "This closes Quixote's alliance quest and the hunters' side quests in the town."
+            reward: "20,000 experience for each character and 10,000 gold."
+            maps:
+              - map: d17
+                show: [quest, promoter, exit]
+                focus: "Dragon Leader"
+                caption: "Deftclaw Redreaver's cavern is at the north end of the Dragon Cave."
+
+          - quest: q31
+            requires: "Quixote's 'Quest' topic."
+            steps:
+              - "Zog's fortress is the Barbarian Fortress in the north-west of Ravage Roaming; its four doors all lead into the same fortress. Ogres, Ogre mages and human mercenaries hold it."
+              - "Climb the stairs of the south-east corner tower and pull the lever in that room's north-west corner: it opens the way down into the keep."
+              - "On the lowest level, go to the southernmost room (Zog, an Ogre Magi, waits nearby). A secret button in the east part of its south wall opens a niche with two chests; one holds the Dragon Leader's Egg."
+              - "Take the egg to the side you choose: Quixote for the Dragon hunters, Deftclaw Redreaver for the Dragons."
+            maps:
+              - map: d25
+                show: [chest, lever, exit]
+                focus: "Button"
+                caption: "The lever in the south-east tower, and the egg's chest behind the south wall of the lowest level."
+
+          - quest: q33
+            requires: "Deftclaw's 'Quest' topic."
+            steps:
+              - "The same egg: take it from the Barbarian Fortress in Ravage Roaming (see the previous entry) and bring it to Deftclaw Redreaver in the Dragon Cave."
+            reward: "The Dragon alliance (see above)."
+
+  - id: 4
+    intro: "The council's first act: sink the Regnan fleet so that Roland and Catherine Ironfist and their sage Xanthor can land in Ravenshore. The road to Regna starts in the pirates' outpost on the Dagger Wound Islands."
+    sections:
+      - title: "Ravenshore: the council"
+        intro: "Elgar Fellmoon chairs the council behind the Council Chamber Door in the Merchant House of Alvar."
+        giver: {map: d09, npc: "Elgar Fellmoon"}
+        quests:
+          - quest: q36
+            requires: "The council formed (three alliances)."
+            steps:
+              - "Ask Fellmoon about 'Ironfists', then 'Quest'. The Regnan fleet lies in a hidden harbour on Regna Island."
+              - "Sail to the Dagger Wound Islands. Once Fellmoon has given this quest, the Regnan Pirate Outpost can be entered, on the barren island south of the main island."
+              - "In the outpost, a button on the left as you come in opens a secret passage. Its leader, Blackwell Cooper (a Regnan Archmage), waits in the south-east of the lowest level and carries the Pirate Leader's Key. The key opens the way to the submarine ('Enter the Submarine'), east of him."
+              - "The submarine takes you to the Small Sub Pen on Regna; its exit leads out onto the island."
+              - "Enter the Abandoned Pirate Keep in the north-west of Regna. In the large room at its south-east, up a flight of stairs, a set of chests holds the Cannonball of Dominion and the Cannon Design Notes."
+              - "The great cannon stands right outside the keep's main entrance. With the Cannonball in your packs, press the large white button on the cannon's right side ('Fire the cannon!'). Wait a few moments: the cannon fires again and again and sinks the fleet in the harbour below."
+              - "Return to the council and ask Fellmoon about 'Quest'."
+            tips:
+              - "Killing Blackwell Cooper starts a clock: if the fleet is not sunk within about eight weeks, the pirates invade Ravenshore. While they hold it, the town's houses and the council door stay shut and your bank balance is lost; kill every invader to free the town."
+              - "After the submarine trip, the Dauntless also sails from Ravenshore to Regna on Sundays (8 days), and the Spindrift sails from Regna to Ravenshore daily."
+              - "The Mace of the Sun, which Oskar Tyre mentions, lies in a chest of the Abandoned Pirate Keep."
+            reward: "100,000 experience for each character and 10,000 gold. The Ironfists and Xanthor arrive at the Hostel in Ravenshore."
+            maps:
+              - map: d06
+                show: [lever, exit]
+                focus: "Small Sub Pen"
+                caption: "The Pirate Outpost: Blackwell Cooper, the key hole and the submarine are in the east of the lowest level."
+              - map: d32
+                show: [chest, exit]
+                caption: "The Abandoned Pirate Keep: the Cannonball's chest is in the south-east."
+
+  - id: 5
+    intro: "Xanthor explains the crystal in Ravenshore's square: it is a gateway to the Plane Between Planes, where Escaton the Destroyer has imprisoned the four elemental lords. He needs a heart from each elemental plane to build a key; then you free the lords."
+    sections:
+      - title: "Ravenshore: Xanthor"
+        intro: "Xanthor stays at the Hostel, on the town square just north of the Merchant House."
+        giver: {map: out02, npc: "Xanthor"}
+        quests:
+          - quest: q91
+            requires: "The Regnan fleet sunk."
+            steps:
+              - "At the council, ask Fellmoon about 'Xanthor', then 'Quest'."
+              - "Go to the Hostel, north of the Merchant House, and ask Xanthor about 'The Crystal'."
+            maps:
+              - map: out02
+                show: [quest, exit]
+                focus: "Hostel"
+                caption: "The Hostel, Escaton's Crystal and the Merchant House around Ravenshore's square."
+
+          - quest: q41
+            requires: "Xanthor's 'The Crystal' topic."
+            steps:
+              - "Ask Xanthor about 'Quest': he needs the four elemental hearts (this entry and the next three). Each plane's gateway opened where the cataclysm struck."
+              - "The gateway to the Plane of Water stands in the middle of the lake in western Ravage Roaming. The plane is outdoors and partly under water; no spell is needed to move there."
+              - "The Heart of Water sits on a frame-like structure a little south-west of the plane's north-east corner, heavily guarded. Town Portal out once you have it."
+              - "When you carry all four hearts, simply walk into the Hostel: Xanthor builds the Conflux Key on the spot."
+            tips:
+              - "Each plane has a fountain or well that raises its element's resistance."
+            reward: "250,000 experience for each character when the four hearts are delivered."
+            maps:
+              - map: out08
+                show: [exit]
+                focus: "Plane of Water"
+                caption: "The Plane of Water's gateway in the Ravage Roaming lake."
+
+          - quest: q42
+            steps:
+              - "The gateway to the Plane of Air is in the north of Murmurwoods. On the plane, the Castle of Air is west of the arrival point (Cloud Nedlon, the Air Magic grandmaster, lives east of it)."
+              - "In the castle, go upstairs to the south-east room. The secret door just left of the tall cabinet leads to a small round room with the Heart of Air."
+            maps:
+              - map: elema
+                show: [exit, teacher]
+                focus: "Castle of Air"
+                caption: "The Plane of Air: the Castle of Air is west of the gateway."
+
+          - quest: q43
+            steps:
+              - "The gateway to the Plane of Earth is on the dark volcano island south-east of the Dagger Wound Islands' main island."
+              - "The plane is all tunnels. Leave the twisting passages by the north-central tunnel to a big room and ride its large lift down (save first: Rockheads wait at the bottom)."
+              - "Take the stairs up and follow the walkway to the north hall: the Heart of Earth is in its round room."
+            maps:
+              - map: out01
+                show: [exit]
+                focus: "Plane of Earth"
+                caption: "The Plane of Earth's gateway on the volcano island."
+
+          - quest: q44
+            steps:
+              - "The gateway to the Plane of Fire is in the north-east of the Ironsand Desert. On the plane, the Castle of Fire is near the north-west corner. Bring Fly and Fire Resistance."
+              - "Cross the castle's narrow twisting path (a Lloyd's Beacon every few turns helps). From the top of the second ramp, jump onto the square metal column: it lowers, and so does the big column by the exit. Ride that big column up from the starting room."
+              - "In the long room with the firefall, press the button on the small raised piece at the east end of the metal structure (Telekinesis reaches it), then walk into the firefall. A teleporter takes you into a harmless tunnel of fire, and the one at its end sets you beside the Heart of Fire's round room."
+            tips:
+              - "Partway up the second ramp, a secret door in the south wall leads to a treasure room with an artifact."
+            maps:
+              - map: elemf
+                show: [exit, teacher]
+                focus: "Castle of Fire"
+                caption: "The Plane of Fire: the Castle of Fire is in the north-west, the War Camp in the south-east."
+
+          - quest: q46
+            requires: "The Conflux Key."
+            steps:
+              - "With the Conflux Key, enter Escaton's Crystal in Ravenshore's square. Crystal walkers and crystal dragons guard it; its exit in the south-west leads to the Plane Between Planes."
+              - "Escaton's Palace stands in the middle of the plane. Its levers and buttons open the halls in a lettered sequence, and several doors are secret: high Perception helps. If you get stuck, click the door of the south-east tower to reveal a secret door north-west of it with another lever."
+              - "Escaton's throne room is on the palace's east side. Ask him 'Who Are You?', then 'Save the World'. He answers with three riddles ('Riddle One', 'Riddle Two', 'Riddle Three'); type the answers: prison, inside, egg."
+              - "With all three answered he gives you the Ring of Keys, which opens the four prisons, and the four rescue quests start."
+            tips:
+              - "The riddles' answers are also written on the Page Torn from a Book in the Merchant House library."
+              - "His other topics (Masters, Cataclysm, Kreegans) tell the story behind the game; ask each more than once for the full account."
+            maps:
+              - map: pbp
+                show: [exit]
+                focus: "Escaton's Palace"
+                caption: "The Plane Between Planes: the palace in the middle, a prison in each corner."
+
+      - title: "The Plane Between Planes: the elemental lords"
+        intro: "Each prison stands in a corner of the Plane Between Planes and is built from the element opposite its prisoner's. The Ring of Keys opens all four; talk to each lord in his cell to free him."
+        giver: {map: d35, npc: "Escaton"}
+        quests:
+          - quest: q48
+            steps:
+              - "The Prison of the Lord of Fire is in the north-west corner of the plane. Press the large button beside the arrival point."
+              - "Do not step on the two floor pads just south of the button: they release Crystal Dragons. Pyrannaste is behind the south door; the north door is the exit."
+              - "Ask Pyrannaste about 'Release Pyrannaste'."
+            reward: "100,000 experience for each character and 10,000 gold."
+            maps:
+              - map: d37
+                show: [lever, quest, exit]
+                focus: "Fire Lord"
+                caption: "Pyrannaste's cell is at the south end."
+
+          - quest: q50
+            steps:
+              - "The Prison of the Lord of Earth is in the south-east corner of the plane: a windy prison of floating platforms."
+              - "Climb from platform to platform, setting Lloyd's Beacons as you go. A fall drops you to the exit room, whose teleporter returns you to the start. At the top, a small lift leads to Gralkor the Cruel's cell."
+              - "Ask Gralkor about 'Release Gralkor'."
+            reward: "100,000 experience for each character and 10,000 gold."
+            maps:
+              - map: d39
+                show: [teleporter, quest, exit]
+                focus: "Earth Lord"
+                caption: "Gralkor's cell near the top of the prison."
+
+          - quest: q52
+            steps:
+              - "The Prison of the Lord of Water is in the south-west corner of the plane: a prison of lava, so bring Levitate and healing."
+              - "Take either the north-west or the north-east branch to where the tunnels meet, then the small cave entrance to the north: Acwalander's cell. Ask him about 'Release Acwalander'."
+            reward: "100,000 experience for each character and 10,000 gold."
+            maps:
+              - map: d38
+                show: [quest, exit]
+                focus: "Water Lord"
+                caption: "Acwalander's cell is at the north end."
+
+          - quest: q54
+            steps:
+              - "The Prison of the Lord of Air is in the north-east corner of the plane: a prison of earthen tunnels (watch for Rock Blast)."
+              - "Take the north-east branch to Shalwend's cell (the south-east branch leads to a chest). Ask him about 'Release Shalwend'."
+              - "The lord you free last warns you that the crystal will collapse: go back to Ravenshore. On arrival the closing scene plays and you are hailed as the Heroes of Jadame."
+            reward: "100,000 experience for each character and 10,000 gold; the ending brings 100,000 more."
+            maps:
+              - map: d36
+                show: [quest, exit]
+                focus: "Air Lord"
+                caption: "Shalwend's cell is in the far north-east."

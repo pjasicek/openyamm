@@ -13,6 +13,8 @@
 #   quest       the journal quest bit whose text is the task (english/quests.txt)
 #   task        the task in words, when the journal's text is missing or misleading
 #   path        MM7's Light or Dark path the quest needs
+#   also        further journal quests that belong to the promotion (the MM6-MM8 guides list them under it; MAW does
+#               not read them)
 #
 # Sources: Enroth, worlds/mm6/events/Global_mm6_mmmerge.lua promotionFamilies; Antagarich,
 # worlds/mm7/events/Global_mm7_mmmerge.lua (MM7.CompletePromotion calls); Jadame,
@@ -74,7 +76,7 @@ quests:
   - {id: antagarich_hunter, continent: Antagarich, npc: 391, map: 7d22.blv, promotes: {Ranger: Hunter},
      bits: [1578, 1579], quest: 549}
   - {id: antagarich_ranger_lord, continent: Antagarich, npc: 383, promotes: {Hunter: Ranger Lord}, bits: [1580, 1581],
-     quest: 548, path: Light}
+     quest: 548, also: [551], path: Light}
   - {id: antagarich_bounty_hunter, continent: Antagarich, npc: 384, promotes: {Hunter: Bounty Hunter},
      bits: [1582, 1583], quest: 550, path: Dark}
   - {id: antagarich_priest, continent: Antagarich, npc: 386, promotes: {Cleric: Priest}, bits: [1607, 1608],

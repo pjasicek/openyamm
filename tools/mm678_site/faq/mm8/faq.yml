@@ -1,0 +1,69 @@
+# The MM8 (Jadame) book's FAQ (tools/mm678_site/build_site.py; format as tools/mm9_site/faq/faq.yml): `[text](#route)`
+# links. Facts from the world package's map scripts (assets_dev/worlds/mm8/events) and the global events.
+questions:
+  - id: start
+    short: Getting started
+    q: Where do I start, and how do I leave the Dagger Wound Islands?
+    answer:
+      - "A new Jadame game starts in Blood Drop, the Lizardman village at the north-east end of the main Dagger Wound island. Talk to Dadeross in the Clan Leader's Hall for his letter ([Find Dadeross](#quest-q85)), and to Brekish Onefang beside him about the Portals of Stone ([the Power Stone](#quest-q7))."
+      - "The bridges to the outer islands are gone. The Power Stones switch on the Portals of Stone: the main island's south-west tip leads to the western island, whose north end leads to the island of the Abandoned Temple. The temple passes under the sea to the boat dock north-east of Blood Drop, where the Windling sails to Ravenshore every day ([Dadeross' letter](#quest-q3))."
+      - "Blood Drop's training hall trains to level 5 only; Ravenshore's trains to 15. Clear the islands' Lizardmen quests and the Abandoned Temple before you sail: they are an easy first round of experience."
+  - id: party
+    short: Your party
+    q: How do I get more party members?
+    answer:
+      - "Jadame's party holds five characters. Many people across Jadame offer to join: they have a 'Roster Join' topic (or 'Join', 'Come with Us', 'Adventure'). Characters you leave behind wait at an Adventurer's Inn (Blood Drop and Ravenshore each have one), where you can swap them back in."
+      - "Some recruits come with the story: Fredrick Talimere (Cleric) on the Dagger Wound Islands, Overdune Snapfinger (Troll), whom the main story needs in your party for a while ([the witness](#quest-q25)), and Dyson Leland in the Necromancers' Guild, whom either alliance task needs ([Nightshade Brazier](#quest-q28), [Skeleton Transformer](#quest-q26)). Keep a slot free for them."
+      - "Others agree only after a milestone: after the witness reached Alvar (Karanya Memoria and Maylander in Ravenshore, Jasp Thelbourne in Alvar), after a particular alliance (Hevatia Deverbero in Shadowspire for the Necromancers, Verish in Murmurwoods for the Temple of the Sun, Nelix Uriel in Garrote Gorge for Charles Quixote), after the council has met (Sethrc Thistlebone, Rionel, Adric Stellare, Infaustus, Brimstone), or after the Regnan fleet is sunk (Tempus, Thorne Understone, Ulbrecht, Artorius Veritas, Duroth the Eternal, Vetrinus Taleshire, Dervish Chevron)."
+  - id: alliances
+    short: The alliances
+    q: Which alliance partners should I choose?
+    answer:
+      - "The council needs three partners ([Form an alliance](#quest-q13)): the Minotaurs of Ravage Roaming ([rescue](#quest-q30)), plus one side of each feud. Necromancers' Guild or Temple of the Sun: whichever task you finish first closes the other side's alliance quest, and the losing faction's home turns hostile. Dragons or Charles Quixote's Dragon hunters: whoever receives the Dragon Egg joins, and the other side's alliance quest and its side quests close."
+      - "Neither choice blocks a promotion: Quixote still makes Knights Champions and Deftclaw Redreaver still makes Dragons Great Wyrms. The choice does decide some side quests (the Dragonbane Flower and the 'kill them all' quests of each side in Garrote Gorge) and one recruit each (Hevatia Deverbero, Verish or Nelix Uriel)."
+      - "Trolls, Dark Elves and Vampires are not alliance partners: their quests are promotions."
+  - id: travel
+    short: Travel
+    q: How do I get around Jadame?
+    answer:
+      - "Walk off a map's edge to reach the next region (5 or 10 days of travel). The Guild Caravans coaches link Ravenshore, Alvar, the Ironsand Desert, Garrote Gorge and Shadowspire on fixed weekdays, and boats run from the Dagger Wound Islands, Ravenshore, Shadowspire, Ravage Roaming and Regna; the [Travel](#travel) page has the timetables."
+      - "Ravage Roaming is far by land: Arion Hunter's boats (the Wind from Ravenshore, the Smoke from Shadowspire) sail there once Fellmoon's blackmail letter has reached him ([blackmail](#quest-q9)). Regna is first reached by the pirates' submarine in their Dagger Wound outpost ([Sink the Regnan Fleet](#quest-q36)); after that the Dauntless sails there from Ravenshore."
+      - "Town Portal reaches Blood Drop, Ravenshore, Alvar, Shadowspire, Balthazar Lair and Regna, each once you have drunk from that town's fountain."
+  - id: continents
+    short: Other continents
+    q: Can I travel to Enroth, Antagarich or Chedian?
+    answer:
+      - "Yes. Drink from the fountain in [Ravenshore](#map-out02)'s town square: it also opens the dimensional travel screen, with a portal to each continent. A dimensional travel pedestal with a glowing orb stands in the north-east of Ravenshore's town and opens the same portals at any time."
+      - "Jadame's own portal brings you back to Ravenshore once Dadeross' letter is delivered (to Blood Drop before that)."
+  - id: training
+    short: Training
+    q: Where can I train to higher levels?
+    answer:
+      - "Training halls have level limits: Blood Drop to 5, Ravenshore to 15, Alvar and Garrote Gorge to 25, Shadowspire to 200, and Balthazar Lair's academy without limit once the lair is drained ([rescue](#quest-q30)). Skills are taught by people in their homes all over Jadame; the [Teachers](#teachers) page lists every lesson."
+  - id: promotions
+    short: Promotions
+    q: How do promotions work in Jadame?
+    answer:
+      - "Each class line has one promotion quest, and finishing it promotes every party member of that class at once; the others get experience and the honour. A character who joins later is promoted by the same person's 'Promote' topic, without repeating the quest."
+      - "Dark Elf to Patriarch: Relburn Jeebes in Alvar ([Cauri Blackthorne](#quest-q39)). Troll to War Troll: Volog Sandwind in the Ironsand Desert ([Troll homeland](#quest-q68)). Knight or Cavalier to Champion: Charles Quixote ([Ebonest](#quest-q70)). Dragon to Great Wyrm: Deftclaw Redreaver ([Dragon Slayers](#quest-q74)). Minotaur to Minotaur Lord: Tessalar in Balthazar Lair ([Axe of Balthazar](#quest-q76)). Cleric or Priest to Priest of the Light: Stephen in Murmurwoods ([Prophecies of the Sun](#quest-q78)). Vampire to Nosferatu: Lathean in Shadowspire ([Korbu](#quest-q80)). Necromancer to Lich: Vetrinus Taleshire in Shadowspire ([Lost Book of Khel](#quest-q82)); each Necromancer also needs a Lich Jar in their own packs."
+  - id: money
+    short: Money
+    q: How do I earn money early on?
+    answer:
+      - "Quest rewards are the main source; Fellmoon and Bastian pay well for the first story steps. Several people buy monster parts: Maddigan in Ravenshore pays 250 gold per Dire Wolf Pelt, Reaver in Ravenshore 500 per Naga Hide, Keldon in Alvar 500 per Ogre Ear, Veldon in Alvar 500 per wasp stinger, Schmecker in the Ironsand Desert 1,000 per Royal Wasp Jelly and Xevius in Ravage Roaming buys Wyvern Horns (he offers 1,500 gold but pays 500)."
+      - "If you are nearly broke (with under 100 gold in the bank and little in hand), the well near Blood Drop's centre gives 1,000 gold to a character with Luck 14 or more, and Ravenshore's fountain gives 200 gold, each twice at most."
+  - id: lost-items
+    short: Lost quest items
+    q: I lost or sold a quest item. What now?
+    answer:
+      - "Visit the Oracle in the north of [Ravenshore](#map-out02) and ask 'I lost it!': the Seer returns lost story items such as Dadeross' letter, the Power Stones, the Dragon Egg, the elemental hearts, the Conflux Key and the Ring of Keys."
+  - id: pirates
+    short: The pirate raid
+    q: Why did the pirates take Ravenshore?
+    answer:
+      - "Killing Blackwell Cooper in the Dagger Wound Pirate Outpost starts a clock. If the Regnan fleet is not sunk within about eight weeks ([Sink the Regnan Fleet](#quest-q36)), Regnan pirates occupy Ravenshore: the houses and the council chamber stay shut and your bank balance is lost. Kill every invader in the town to free it. Head for Regna soon after the outpost."
+  - id: arcomage
+    short: Arcomage
+    q: Where can I play Arcomage?
+    answer:
+      - "In every tavern. Each of Jadame's eleven taverns counts once, at your first win there, and winning in all eleven completes Tonk Blueswan's tournament in Ravenshore ([Arcomage Champion](#quest-q173))."

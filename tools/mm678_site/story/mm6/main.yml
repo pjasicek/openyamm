@@ -1,0 +1,352 @@
+# MM6 (Enroth) main story: tools/mm678_site/story/BRIEF.md. Facts from assets_dev/engine/events/Global.lua (MM6 topics
+# 1300-1700), worlds/mm6/events/Global_mm6_mmmerge.lua, common/mm6_common.lua and the map scripts named per quest.
+chapters:
+  - id: 1
+    intro: "The game opens in New Sorpigal with Sulman's letter in your pack. Show it to Andover Potbello, then carry it to Regent Wilbur Humphrey at Castle Ironfist; his reply opens the rest of the story. The Seer in Castle Ironfist (the 'Hint' topic) always tells you the next main step."
+    sections:
+      - title: "New Sorpigal: Andover Potbello"
+        intro: "Andover sits in A Lonely Knight, the tavern in the middle of New Sorpigal, west of the dock."
+        giver: {map: oute3, npc: "Andover Potbello"}
+        quests:
+          - quest: q1105
+            steps:
+              - "Sulman's letter (The Letter) is in your first character's pack when the game starts. Keep it: every step of this chapter needs it."
+              - "Walk to A Lonely Knight in the middle of town and ask Andover Potbello about 'The Letter'. He recognises the seal, pays 1,000 gold and sends you on to Regent Wilbur Humphrey at Castle Ironfist."
+              - "Before leaving, stock up in New Sorpigal: the Town Hall (Janice, Frank Fairchild) and the houses around it give the first side quests, and Goblinwatch and the Abandoned Temple are good first dungeons."
+            tips:
+              - "If you lose the letter, ask the Seer in Castle Ironfist about 'I lost it'; he gives back lost quest items."
+            reward: "1,000 gold from Andover."
+            maps:
+              - map: oute3
+                show: [quest, service, transport, exit]
+                focus: "A Lonely Knight"
+                caption: "A Lonely Knight is in the middle of town. The coach (New Sorpigal Coach Company) is just south-west of it, the Odyssey boat at the dock to the east."
+
+      - title: "Castle Ironfist: Regent Wilbur Humphrey"
+        intro: "Wilbur Humphrey sits in the throne room of Castle Ironfist, in the walled town in the north-east of the Castle Ironfist map."
+        giver: {map: outd3, npc: "Wilbur Humphrey"}
+        quests:
+          - quest: q1106
+            requires: "Andover's 'The Letter' topic."
+            steps:
+              - "Travel west to Castle Ironfist: the New Sorpigal Coach Company leaves on Monday, Wednesday and Friday (2 days), or walk off the west edge of New Sorpigal (5 days)."
+              - "Enter the Throne Room (the castle at the north end of the town) and ask Wilbur Humphrey about 'The Letter'. He keeps it and pays you."
+              - "His topic changes to 'Lord Kilburn', the first of the High Council tasks (next chapter)."
+            tips:
+              - "Prince Nicolai, also in the throne room, asks you to take him to the circus ('Boredom'). While he is with you or missing, the throne room is closed to visitors, Wilbur included. Leave that errand until you have time to fetch him back (see Entertain Nicolai in the side quests)."
+            reward: "3,000 XP and 5,000 gold."
+            maps:
+              - map: outd3
+                show: [promoter, quest, service, transport, exit]
+                focus: "Wilbur Humphrey"
+                caption: "The throne room and the King's Library share the castle at the north end of town; the Seer's house is north-west of town, the docks to the east."
+
+  - id: 2
+    intro: "To see the Oracle beneath Free Haven, every lord on the High Council must back you. Each of the six lords sets one task; the vote comes with the lord's reward, so the councillors in Free Haven need not be visited. The seventh vote, Slicker Silvertongue's, is never given: you must prove he is a traitor. Start with Wilbur Humphrey's task, since Slicker only shows his hand after it. When all six lords are satisfied and Slicker is exposed, the High Council in Free Haven offers 'Enter', which leads to the Oracle. The Seer advises being level 25 before you start this chapter."
+    sections:
+      - title: "Castle Ironfist: Wilbur Humphrey"
+        giver: {map: outd3, npc: "Wilbur Humphrey"}
+        quests:
+          - quest: q1110
+            requires: "Delivering Sulman's letter (Wilbur's 'Lord Kilburn' topic)."
+            steps:
+              - "Ask Wilbur about 'Lord Kilburn'. Kilburn vanished near Blackshire, slain by devils; Wilbur wants his shield."
+              - "Go to Blackshire, west of Free Haven (Free Haven Travel East runs there on Monday and Thursday). The shield lies in a chest in the open country in the middle of the map, south-east of the town of Blackshire."
+              - "Expect devils and other strong monsters around it; Blackshire is not an early map."
+              - "Bring Lord Kilburn's Shield to Wilbur ('Lord Kilburn' again). His vote is yours and his topic becomes 'The High Council'."
+            reward: "40,000 XP and 5,000 gold."
+            maps:
+              - map: outb2
+                show: [objective, chest, exit, transport]
+                focus: "Lord Kilburn's Shield"
+                caption: "Lord Kilburn's Shield is in the chest in the middle of Blackshire."
+
+          - quest: q1224
+            requires: "Lord Kilburn's Shield returned."
+            steps:
+              - "Go to the High Council in Free Haven (the large hall in the east of town) and talk to Slicker Silvertongue ('Admission to the Oracle'). He refuses to vote for you."
+              - "Return to Wilbur and ask about 'Silvertongue's Refusal'. Wilbur thinks the Baa cult has addled Slicker's mind and hands you a Cloak of Baa so you can get into their temple."
+              - "Go to the Superior Temple of Baa in Kriegspire, in the east of the map near the town. Its door admits only a follower of Baa: keep the Cloak of Baa in a pack (it need not be worn). If you lose it, Wilbur's 'Silvertongue's Cure' topic gives you another."
+              - "Inside, almost every door burns the character who opens it (50 fire damage) unless that character has Perception 4; the one door in the middle needs Perception 8. Let your best-Perception character open the doors; the podium inside says the same ('Expert Perception is the key')."
+              - "The Letter from Zenofex lies in the locked chest in the middle of the temple. It opens only while you carry both the High Cleric's Key and the High Sorcerer's Key, carried by two Priests of Baa: one in the west wing, one in the south-east. Trying it without them summons Druidesses."
+              - "Take the letter back to Wilbur ('Silvertongue's Cure'). He now believes you and tells you to take it to the High Council (next quest)."
+            tips:
+              - "Four chests in the temple hold Temple Gongs (seven in one chest in the middle); a woman rebuilding the Free Haven temple buys them for 2,000 gold each."
+            maps:
+              - map: 6t7
+                show: [chest, exit, monster]
+                focus: "Letter from Zenofex"
+                caption: "The letter's chest is in the middle; the two key-carrying Priests of Baa stand west and south-east of it."
+              - map: outb1
+                show: [exit, transport, quest]
+                focus: "Superior Temple of Baa"
+                caption: "The Superior Temple of Baa is east of Kriegspire town."
+
+          - quest: q1225
+            requires: "Wilbur has read the Letter from Zenofex."
+            steps:
+              - "Walk into the High Council in Free Haven with the Letter from Zenofex in a pack. Slicker is exposed at once (a short scene), curses you and leaves the council."
+              - "Wilbur now offers 'Service to the Crown': the royal yacht, the Queen Catherine, at the Castle Ironfist docks. It sails to Hermit's Isle every day (21 days) from now on; Hermit's Isle holds the Supreme Temple of Baa, the way to the Prince of Thieves and Memory Crystal Alpha."
+            tips:
+              - "You do not need Wilbur's go-ahead: carrying the letter into the High Council is enough, even before you have spoken to Slicker."
+            maps:
+              - map: outc2
+                show: [service, transport, exit]
+                focus: "High Council"
+                caption: "The High Council is in the east of Free Haven."
+
+      - title: "Misty Islands: Albert Newton"
+        intro: "Lord Albert Newton lives in the castle on the main island of Mist, north of the boat dock. Boats: the Odyssey from New Sorpigal and the Zephyr from Castle Ironfist."
+        giver: {map: oute2, npc: "Albert Newton"}
+        quests:
+          - quest: q1134
+            steps:
+              - "Ask Albert Newton about 'Council Quest'. He sends you to an old fort south of Mist for the Hourglass of Time."
+              - "The fort is the Silver Helm Outpost, south-east of Newton's castle. The chest at the east end of its lowest level holds the Key to Gharik's Laboratory (not the hourglass). The same outpost holds Melody Silver, the damsel Wilbur Humphrey's paladin promotion asks for."
+              - "Asked again, Newton remembers: the key opens Gharik's Forge, on the island in the north-east of the New Sorpigal map. Cross the water with Water Walk or Fly."
+              - "Gharik's Forge is a deep maze of levers, fire traps and teleport tiles over four levels. With the key in a pack, pull the Lever in the far north-east of the lowest level (Down 3): it takes the key and unseals the tomb. The Hourglass of Time is in the chest at the far east end of the first level down."
+              - "Bring the Hourglass of Time to Newton ('Council Quest')."
+            tips:
+              - "Gharik's Forge's lava wall in front of one door goes away when you pull the lever beside it, and comes back on the next pull."
+              - "A chest in the middle of the Forge's entry level holds a Scrap from Gharik's Journal."
+            reward: "50,000 XP."
+            maps:
+              - map: 6d07
+                show: [chest, exit, npc]
+                focus: "Key to Gharik"
+                caption: "The Key to Gharik's Laboratory is in the chest at the east end of the outpost's lowest level."
+              - map: 6d18
+                show: [chest, lever, teleporter, exit]
+                focus: "Hourglass"
+                caption: "Gharik's Forge: the Hourglass's chest is at the east end; the key's lever is in the north-east of the bottom level."
+
+      - title: "Castle Temper: Osric Temper"
+        intro: "Lord Osric Temper's castle stands in the south-east corner of the Free Haven map."
+        giver: {map: outc2, npc: "Osric Temper"}
+        quests:
+          - quest: q1137
+            steps:
+              - "Ask Osric Temper about 'Council Quest'. He wants the devils' advance post in Kriegspire destroyed and its plans brought back."
+              - "Go to Kriegspire (Free Haven Travel East runs there on Tuesday and Friday). The Devil Outpost ('Demon Lair') is in the west of the map, near the stone Sentinels."
+              - "It is one cave full of devils. The Devil Warrior inside carries the Devil Plans; kill it and pick them up."
+              - "Return the Devil Plans to Osric ('Council Quest'). He adds that the devils' base is near Sweet Water, which you will need at the end of the game."
+            reward: "40,000 XP."
+            maps:
+              - map: zdwj02
+                show: [monster, exit]
+                focus: "Devil Warrior"
+                caption: "The Devil Warrior with the plans stands in the middle of the outpost."
+              - map: outb1
+                show: [exit, transport]
+                focus: "Devil Outpost"
+                caption: "The outpost is in the west of Kriegspire."
+
+      - title: "Castle Stone: Anthony Stone"
+        intro: "Lord Anthony Stone's castle is in the Frozen Highlands, south-east of Whitecap."
+        giver: {map: outc1, npc: "Anthony Stone"}
+        quests:
+          - quest: q1122
+            steps:
+              - "Ask Anthony Stone about 'The Prince of Thieves'. The prince hides near Free Haven; Stone wants him alive."
+              - "The prince's hideout is the Free Haven Sewer, and its only entrance is the Cylinder on the top level of the Supreme Temple of Baa on Hermit's Isle. Reach Hermit's Isle with the royal yacht (after Slicker is exposed) or by flying or water-walking off the south edge of Paradise Valley or the west edge of Dragonsand."
+              - "In the Supreme Temple, click the Cylinder near the exit on the entry level: you arrive in the south of the sewer."
+              - "The prince's room is in the far north-west corner of the sewer. A locked door in the north of the sewer needs the Sewer Key: the first click on the Sewer Grate in the middle of the main chamber finds it."
+              - "Walk into his room: the Prince of Thieves gives himself up and follows you. The sewer's exits come up in Free Haven."
+              - "Take him to Anthony Stone ('The Prince of Thieves')."
+            tips:
+              - "The other Sewer Grates are worth clicking: four give potion bottles, catalysts and potions (up to four each); the one in the main chamber can also drop gold, or hurt you."
+              - "While you are in the Supreme Temple, pick up Memory Crystal Alpha (next chapter) as well."
+            reward: "30,000 XP and 10,000 gold."
+            maps:
+              - map: sewer
+                show: [npc, exit, chest, door]
+                focus: "The Prince of Thieves"
+                caption: "The prince's room is in the north-west corner; the Cylinder from the Supreme Temple brings you in at the south."
+              - map: 6t6
+                show: [exit, objective]
+                focus: "Free Haven Sewer"
+                caption: "The Cylinder to the sewer is near the temple's exit, on the entry level."
+
+      - title: "Silver Cove: Loretta Fleise"
+        intro: "Lady Loretta Fleise's castle is in the south-east of Silver Cove, near the town."
+        giver: {map: outd1, npc: "Loretta Fleise"}
+        quests:
+          - quest: q1140
+            steps:
+              - "Ask Loretta Fleise about 'Money'. She wants all nine coach companies of Enroth to raise their prices together."
+              - "Visit each stable while it is open and choose 'Price Fixing' in its menu: King's Highway (Kriegspire), Blackshire Coach and Buggy (Blackshire), White Cap Transport Co. (Frozen Highlands), Free Haven Travel East and Free Haven Travel West (Free Haven), Darkmoor Travel (Mire of the Damned), Abdul's Discount Travel (Silver Cove), Royal Lines (Castle Ironfist) and the New Sorpigal Coach Company (New Sorpigal)."
+              - "The order does not matter. The journal lists the companies that have not agreed yet."
+              - "When all nine have signed, ask Loretta about 'Money' again."
+            tips:
+              - "Combine it with travel: the coach you are about to take is a stable to sign."
+            reward: "25,000 XP and 25,000 gold."
+            maps:
+              - map: outd1
+                show: [promoter, transport, exit]
+                focus: "Loretta Fleise"
+                caption: "Loretta's castle and Abdul's Discount Travel, one of the nine stables, are both in Silver Cove."
+
+      - title: "Castle Stromgard: Erik Von Stromgard"
+        intro: "Lord Erik Von Stromgard's castle is in the north-east of the Frozen Highlands, east of Whitecap."
+        giver: {map: outc1, npc: "Erik Von Stromgard"}
+        quests:
+          - quest: q1144
+            steps:
+              - "Ask Erik Von Stromgard about 'Winter'. He has heard of a weather-wise hermit on a mountaintop to the west."
+              - "Go west to Kriegspire. The Hermit's Hut stands on the mountain in the middle of the map."
+              - "Ask The Hermit on the Mountain about 'Winter'. He breaks the enchantment on the weather."
+              - "Return to Stromgard and ask about 'Winter' again. The snow leaves the Frozen Highlands."
+            reward: "50,000 XP."
+            points:
+              - {map: outb1, name: "Hermit's Hut"}
+            maps:
+              - map: outb1
+                show: [house, exit, transport]
+                focus: "Hermit's Hut"
+                caption: "The Hermit's Hut is in the middle of Kriegspire."
+
+  - id: 3
+    intro: "Once the six lords back you and Slicker is gone, the High Council's 'Enter' takes you down to the Oracle. The Oracle, Melian, is asleep: Archibald stole her four memory crystals. Bring them back from Hermit's Isle, Castle Alamos, Castle Darkmoor and Castle Kriegspire in any order, then fetch the Control Cube from the Tomb of VARN."
+    sections:
+      - title: "Free Haven: the Oracle"
+        intro: "Enter the High Council and choose 'Enter'. In the Oracle's halls, click the Panel near the entrance first: it switches the power on ('All systems functional'). Without power the module altars do nothing."
+        giver: {map: oracle, npc: "Oracle"}
+        quests:
+          - quest: q1186
+            requires: "Approval of the High Council."
+            steps:
+              - "Ask the Oracle about 'Crystal Locations': Alpha on Hermit's Isle, Beta in Castle Alamos, Delta in Castle Darkmoor, Epsilon in Castle Kriegspire. The journal gets one line per crystal."
+              - "Memory Crystal Alpha is in the Supreme Temple of Baa on Hermit's Isle (royal yacht from Castle Ironfist). The temple's entrance is in the south-west of the island."
+              - "The temple goes down through several levels. The crystal sits on an altar at the north end of the second level down; click it to take it. A round hall on that level has a switch on each wall that moves the walkways; each switch also undoes others, so try them until a way opens."
+              - "The octagonal pit at the very bottom is deadly: its floor deals 1,000 damage to the whole party. Do not drop into it."
+              - "Back at the Oracle, with the power on, click any of the four memory module altars at the ends of the halls (north, south, east and west) to set the crystal in it."
+            tips:
+              - "The Altars of Fire, Cold and Pain on the top level each hurt the party once (75 damage); after all three, the four Shrines (Fire, Air, Water, Earth) each give +10 to a resistance."
+            reward: "100,000 XP when the crystal is set in an altar."
+            maps:
+              - map: 6t6
+                show: [objective, exit, lever, bonus]
+                focus: "Oracle Memory Crystal"
+                caption: "The crystal's altar is at the north end of the second level down; the four switches are on the same level."
+              - map: outa3
+                show: [exit, bonus]
+                focus: "Supreme Temple"
+                caption: "The Supreme Temple of Baa is in the south-west of Hermit's Isle."
+
+          - quest: q1187
+            steps:
+              - "Castle Alamos is in Eel Infested Waters; its entrance is on the island east of the map's middle. Cerulean Skies (Wednesday) and the Barracuda (Thursday) sail there from Silver Cove."
+              - "The crystal is in the west of the castle, behind a Teleporter guarded by a password. Wrong answers throw you back."
+              - "The password is JBARD. Five Trees in the castle carry the riddle that spells it: the third letter is the first of the alphabet (A), the second is next to it (B), the fourth is eight from the end (R), the first is half the fourth plus one (J), the fifth is twice the second (D)."
+              - "Past the teleporter, click the crystal to take Memory Crystal Beta. From now on the Teleporter in the north-east corner takes you straight to Silver Cove."
+              - "Set the crystal in a module altar at the Oracle."
+            tips:
+              - "Two locked doors in the castle open with keys found inside: the Teleporter Key and the Treasure Room Key (the chests in the east)."
+            reward: "100,000 XP at the altar."
+            maps:
+              - map: cd1
+                show: [objective, teleporter, exit, chest, sign, door]
+                focus: "Memory Crystal Beta"
+                caption: "The crystal is in the west; the password teleporter is just south of it."
+
+          - quest: q1188
+            steps:
+              - "Castle Darkmoor is in the north-west of the Mire of the Damned. The entrance leads into its south-east part."
+              - "Teleporter pads throw you back until you change the floors: each 'crimson embers' Sign and the Lever beside one of them turns a strip of tiles to lava, and the pads near it then stay put ('The way has been cleared')."
+              - "Pull the Lever in the east hall (beside a 'The crimson embers will lead the way' Sign), then use the Sign in the north-middle hall, and follow the lava paths west."
+              - "Memory Crystal Delta sits at the far west end of the castle. Click it to take it."
+              - "Set the crystal in a module altar at the Oracle."
+            tips:
+              - "The sign beside the crystal ('The fires of the dead shall burn forever') turns the pads next to it into a shortcut back to the castle's south-east corner, near the exit."
+              - "The podium in the far south-east holds the Book of Liches (Terry Ros's side quest)."
+            reward: "100,000 XP at the altar."
+            maps:
+              - map: cd2
+                show: [objective, lever, sign, teleporter, exit]
+                focus: "Crystal"
+                caption: "The crystal is at the west end; the lever and signs that change the pads are in the middle halls."
+
+          - quest: q1189
+            steps:
+              - "Castle Kriegspire is in the south-west of Kriegspire. Its door is west of the town; the well on the east side of town ('You feel Strange') also drops you inside."
+              - "Memory Crystal Epsilon is a short walk from the entrance, east of the hall you arrive in. Click it to take it."
+              - "Set the crystal in a module altar at the Oracle."
+            tips:
+              - "The Guardian of Kriegspire offers 'the secret' for 50,000 gold: it is a teleport to a hidden part of the castle."
+              - "The castle's chests hold several Horseshoes and the Jeweled Egg of Emil Lime's side quest."
+            reward: "100,000 XP at the altar."
+            maps:
+              - map: cd3
+                show: [objective, exit, teleporter, chest]
+                focus: "Memory Crystal Epsilon"
+                caption: "The crystal is just east of the entrance."
+
+          - quest: q1190
+            requires: "All four crystals set in the Oracle's altars."
+            steps:
+              - "With the fourth crystal in place, talk to the Oracle ('Control Center'). Melian wakes and asks for the Control Cube from the Tomb of VARN in Dragonsand."
+              - "The Tomb of VARN is the pyramid in Dragonsand. Its halls leak radiation that hurts the party; carrying a Crystal Skull (two of the tomb's chests hold one) protects you."
+              - "Collect the six officers' code scrolls: the First Mate's (with the Water Temple Key, chest in the north of the bottom level), the Captain's (with the Flame Door Key, chest in the south-west of the bottom level), the Navigator's (with the Bibliotheca Chest Key, chest in the north of the top level), the Communication Officer's and Engineer's (the Books on the entry level) and the Doctor's (with the VARN Chest Key, the locked Bibliotheca chest on the entry level)."
+              - "The five Cleansing Pools around the Well of VARN, in the middle of the entry level, each ask one code. The character who carries that code scroll must click the pool. The answers are the officers' names backwards: First Mate kcopS, Navigator uluS, Communication Officer aruhU, Engineer yttocS, Doctor yoccM. A wrong answer costs 5 hit points."
+              - "Last, the Well of VARN takes the Captain's code: kriK. The waters part and the Control Room Entry on the bottom level opens."
+              - "In the control room at the north of the bottom level, open the chest with the VARN Chest Key: it holds the Control Cube."
+              - "Give the Control Cube to the Oracle ('Control Center'). The Oracle's 'Enter' now takes you into the Control Center, under Free Haven."
+              - "In the Control Center, read the Computer Terminal near the entrance: every party member who lacks it learns the Blaster skill. Storage Containers on all three levels hold eight Blasters and four Blaster Rifles; the Hive's reactor can only be harmed by these. Its drones are hostile."
+            tips:
+              - "Several doors in the tomb need a strong character (Might 20, 25 or 35); the Back Door also needs the Back Door Key carried by a Defender of VARN."
+              - "The plaques in the pool room say the rules: 'Only the one bearing the key may speak the code' and 'The Well of VARN must be keyed last'."
+              - "The Bookcases on the entry level give ten fire, air and earth spell scrolls (Meteor Shower, Fly, Town Portal, Lloyd's Beacon and more)."
+              - "Blaster Expert is taught by Igor in New Sorpigal and Pat Skylark in Eel Infested Waters; Rexella in Paradise Valley teaches Master and Grandmaster."
+            reward: "500,000 XP for the Control Cube."
+            maps:
+              - map: pyramid
+                show: [bonus, chest, door, sign, exit]
+                focus: "Well of VARN"
+                caption: "The pools ring the Well of VARN on the entry level; the Control Cube's chest is at the north of the bottom level."
+              - map: sci-fi
+                show: [chest, exit, lever]
+                focus: "Blaster Rifle"
+                caption: "The Control Center's Storage Containers hold the Blasters and Blaster Rifles."
+
+  - id: 4
+    intro: "The Kreegan Hive lies under Sweet Water. Its reactor can only be harmed by Blasters, and destroying it would tear Enroth apart unless you hold Archibald's Ritual of the Void. Free Archibald with Tanir's Bell, then go into the Hive."
+    sections:
+      - title: "Castle Ironfist: Prince Nicolai and Archibald"
+        intro: "After the Control Cube, ask the Oracle about 'Kreegan': Melian names the Ritual of the Void and Archibald, and Prince Nicolai gets a topic about the Third Eye."
+        giver: {map: outd3, npc: "Nicolai Ironfist"}
+        quests:
+          - quest: q1120
+            requires: "The Oracle's 'Kreegan' topic, after the Control Cube."
+            steps:
+              - "Go to the throne room in Castle Ironfist and ask Prince Nicolai about 'The Third Eye'. Tanir's Bell, which turned Archibald to stone, is in a family vault that needs the Third Eye, hidden near the castle."
+              - "Click the Well just west of the castle, north-west of the throne room's door. You find the Third Eye."
+              - "Give it to Nicolai ('Uncle Archibald'). He fetches Tanir's Bell from the vault."
+            tips:
+              - "If you took Nicolai to the circus and he is still missing, bring him home first (Entertain Nicolai in the side quests): the throne room stays closed while he is away."
+            maps:
+              - map: outd3
+                show: [bonus, promoter, quest]
+                focus: "Well"
+                caption: "The well with the Third Eye is just west of the castle."
+
+          - quest: q1259
+            requires: "Tanir's Bell from Nicolai."
+            steps:
+              - "With Tanir's Bell in a pack, enter the King's Library beside the throne room. The bell frees Archibald from the stone."
+              - "Ask Archibald about 'Release Archibald'. He gives you the Ritual of the Void and vanishes. Keep the Ritual in a pack until the end: it is the spell that contains the reactor's blast."
+              - "Prepare for the Hive: Blasters for several characters with Blaster skill, full resistances, plenty of potions. The Hive is a level 50-70 dungeon of devils."
+              - "The Hive's entrance is in the north-west of Sweet Water (walk north from Paradise Valley or west from Kriegspire). Parts of the Hive flush with a damaging tide ('Warning! Flush system activated!', 20 damage to everyone each time). The Switch in the west of the Hive turns the flush system off for good."
+              - "The way north to the reactor is shut by a locked door. The Hive Sanctum Key is in the chest in the east of the Hive, just south of that door."
+              - "The Reactor is in the north. Destroy it with Blasters (other weapons barely scratch it). If you destroy it without the Ritual of the Void in a pack, Enroth is lost and the game ends."
+              - "With the Ritual, the party is moved to the northern chamber, healed, and devils pour in. Kill the Demon Queen, the last Kreegan, just north of there."
+              - "Only then leave through the exit in the north of the Hive, which opens when the Queen dies. Leaving the Hive any other way after the reactor is gone, or before the Queen is dead, ends the game in defeat."
+            reward: "50,000 XP from Archibald; the ending."
+            maps:
+              - map: hive
+                show: [chest, lever, teleporter, exit, monster, door]
+                focus: "Reactor"
+                caption: "The entrance is in the south; the Sanctum Key's chest in the east; the Reactor and the Demon Queen in the north."
+              - map: outa1
+                show: [exit]
+                focus: "The Hive"
+                caption: "The Hive's entrance is in the north-west of Sweet Water."

@@ -1,0 +1,353 @@
+# MM6 (Enroth) side quests: tools/mm678_site/story/BRIEF.md. Facts from assets_dev/engine/events/Global.lua (MM6
+# topics 1300-1700), worlds/mm6/events/Global_mm6_mmmerge.lua, common/mm6_common.lua and the named map scripts.
+quests:
+  # --- New Sorpigal -----------------------------------------------------------------------------------------------
+  - quest: q1107
+    steps:
+      - "Ask Janice in the New Sorpigal Town Hall about 'Goblinwatch'. She gives you the Key to Goblinwatch: the keep's door stays locked without it."
+      - "Goblinwatch is the keep south-west of town. Goblins hold it; it suits a fresh party."
+      - "The Goblinwatch Code is a scroll in the chest in the middle of the first level down."
+      - "Bring the scroll to Janice ('Goblinwatch')."
+    tips:
+      - "Janice's next topic, 'Evil Cults', starts the Chime of Harmony quest."
+    reward: "2,000 XP and 2,000 gold."
+    maps:
+      - map: 6d01
+        show: [chest, exit, teleporter, lever]
+        focus: "Goblinwatch Code"
+        caption: "The code's chest is in the middle of the first level down."
+      - map: oute3
+        show: [exit, service]
+        focus: "Goblinwatch"
+        caption: "Goblinwatch is south-west of New Sorpigal."
+
+  - quest: q1108
+    requires: "The Goblinwatch combination delivered."
+    steps:
+      - "Ask Janice about 'Evil Cults'. The cult's Temple of Baa is in the middle of the Castle Ironfist map, south of the town; bring back the Chime of Harmony."
+      - "The temple is a chain of locked doors. Their keys lie in its chests: the Bathhouse Keys open the two bathhouses in the north, the Store Room Keys (one hidden in a Statue in the south-west) the store rooms in the south, the Secret Door Key the far east door, the Treasure Room Keys the treasure rooms."
+      - "Four doors around the central room open only in order: north, east, west, then south. A wrong door zaps the party (10 fire damage) and resets the order. The four signs beside them hint at it ('As the winds blow...')."
+      - "The Chime of Harmony is in the chest in the north-east of the temple, together with a Treasure Room Key."
+      - "Bring the chime to Janice ('Evil Cults')."
+    reward: "10,000 XP and 5,000 gold."
+    maps:
+      - map: 6t1
+        show: [chest, sign, exit, bonus, door]
+        focus: "Chime of Harmony"
+        caption: "The chime's chest is in the north-east; the four order-locked doors ring the central room."
+
+  - quest: q1154
+    steps:
+      - "Ask Buford T. Allman, in his house in the middle of New Sorpigal, about 'Quest'."
+      - "The Abandoned Temple is in the west of the New Sorpigal map. Spiders fill it."
+      - "The spider queen (a Huge Spider) lives in the far west of the temple. Kill her and take the Spider Queen's Heart from her body."
+      - "Bring the heart to Buford ('Quest')."
+    tips:
+      - "The Teleporter next to the queen's lair takes you back to the entrance."
+      - "Do Angela's rescue and Andover's candelabra on the same visit."
+    reward: "3,000 XP and 1,000 gold."
+    maps:
+      - map: 6d02
+        show: [monster, npc, chest, teleporter, exit]
+        focus: "Huge Spider"
+        caption: "The queen is in the far west; Angela in the north; the candelabra near the entrance in the south-east."
+
+  - quest: q1163
+    steps:
+      - "Ask Violet Dawson, in her house in the middle of New Sorpigal, about 'Quest'."
+      - "Angela is in the north part of the Abandoned Temple, west of town. Walk up to her: she joins the party."
+      - "Bring her home to Violet ('Quest')."
+    reward: "1,000 XP, 500 gold and 10 food."
+    maps:
+      - map: 6d02
+        show: [npc, exit]
+        focus: "Angela Dawson"
+        caption: "Angela waits in the north of the temple."
+
+  - quest: q1150
+    steps:
+      - "Ask Andover Potbello in A Lonely Knight about 'Quest' (his second topic)."
+      - "The candelabra is in a chest in the south-east of the Abandoned Temple, close to the entrance."
+      - "Bring it to Andover ('Quest')."
+    tips:
+      - "Helping the Baa priests costs a little reputation in New Sorpigal."
+    reward: "2,000 XP and 1,000 gold."
+    maps:
+      - map: 6d02
+        show: [chest, exit]
+        focus: "Candelabra"
+        caption: "The candelabra's chest is just inside the entrance."
+
+  - quest: q1162
+    steps:
+      - "Ask Frank Fairchild in the New Sorpigal Town Hall about 'Quest'. The Shadow Guild has kidnapped Sharry Carnegie."
+      - "Their hideout, the Shadow Guild Hideout, is in the north of the Castle Ironfist map, near the Seer's house."
+      - "A chest in the south-west of the hideout holds the Guild Key. The locked door in the south-east needs it; walking up to that door without the key sets off a fireball."
+      - "Sharry is held in the middle of the hideout. Walk up to her and she joins you."
+      - "Bring her to Frank Fairchild ('Quest')."
+    reward: "10,000 XP and 2,000 gold."
+    maps:
+      - map: 6d03
+        show: [npc, chest, lever, exit]
+        focus: "Sharry Carnegie"
+        caption: "Sharry is in the middle; the Guild Key's chest is in the south-west."
+
+  # --- Castle Ironfist and the Mire ---------------------------------------------------------------------------------
+  - quest: q1152
+    steps:
+      - "Ask Andrew Besper, in his house in Castle Ironfist town near the stables, about 'Quest'."
+      - "The Dragoons' Caverns are south-east of the town, near the coast."
+      - "Two chests in the caverns' middle level hold an instrument. The Harp is in the chest in the west; the one in the south-east holds only a Flute, which Andrew will not take."
+      - "Bring the Harp to Andrew ('Quest')."
+    tips:
+      - "A chest in the west of the same level holds Orders from the Shadow Guild."
+    reward: "10,000 XP and 5,000 gold."
+    maps:
+      - map: 6d06
+        show: [chest, lever, exit]
+        focus: "Harp"
+        caption: "The harp's chest is in the west of the middle level; the flute's in the south-east."
+
+  - quest: q1148
+    steps:
+      - "Ask Avinril Smythers in The Haunt, the tavern in Darkmoor village (north-west of the Mire of the Damned), about 'Quest'. He wants Snergle's axe."
+      - "First go to Snergle's Iron Mines in the north-east of the Mire. Walk up to Ghim Hammond, a prisoner in the east of the mines: he gives you the Key to Snergle's Chambers."
+      - "Snergle's Caverns open in the north-west of the Castle Ironfist map. Snergle locks himself in his room in the north; the key opens its door and his guards pour out."
+      - "Kill Snergle (a Dwarf Lord) and take Snergle's Axe from his body."
+      - "Bring the axe to Avinril ('Quest'). His Master Axe lessons open."
+    tips:
+      - "The Glowing dinosaur bones in Snergle's Caverns give +5 Might once to a character below 40 Might. The gold veins can give gold or cause a cave-in."
+      - "Snergle's Iron Mines hold a library of spell scrolls on its bookshelves."
+    reward: "20,000 XP."
+    maps:
+      - map: 6d05
+        show: [monster, exit, lever]
+        focus: "Dwarf Lord"
+        caption: "Snergle stands in his room in the north of the caverns."
+      - map: 6d09
+        show: [npc, exit, chest]
+        focus: "Ghim Hammond"
+        caption: "Ghim Hammond is held in the east of the iron mines."
+
+  - quest: q1228
+    steps:
+      - "Ask Terry Ros, in his house in Darkmoor village (north-west of the Mire of the Damned), about 'Quest'."
+      - "Castle Darkmoor is just north of the village. The Book of Liches lies on a podium in the far south-east of the castle."
+      - "Click the podium: 'The Book of Liches is destroyed'."
+      - "Tell Terry Ros ('Quest')."
+    tips:
+      - "Memory Crystal Delta (main story) is in the same castle, at the far west end; see the Oracle chapter for the lava and teleporter rules."
+    reward: "50,000 XP and 5,000 gold."
+    maps:
+      - map: cd2
+        show: [exit, teleporter, sign]
+        focus: "Mire of the Damned"
+        caption: "The podium is in the far south-east, near the exit."
+
+  - quest: q1155
+    steps:
+      - "Ask Eleanor Vanderbilt, in her house in Silver Cove town, about 'Quest'."
+      - "The Monolith is in the south-west of the Silver Cove map. Cedric Druthers's druids hold it."
+      - "The strange rocks, trees, monoliths and the druid statue each open a hidden way when touched. The Evil Altar is in the west, beside the Sacred Pool."
+      - "Click the Evil Altar to deface it. Druids and Clerics in the party gain +5 Personality."
+      - "Tell Eleanor ('Quest')."
+    reward: "15,000 XP and 3,000 gold."
+    maps:
+      - map: 6d13
+        show: [bonus, lever, chest, exit]
+        focus: "Evil Altar"
+        caption: "The Evil Altar is in the west of the Monolith."
+
+  - quest: q1243
+    steps:
+      - "Ask Twillen, in his house in Blackshire town just east of the stables, about 'Quest'. Then open the chest outside his house: it holds the five statuettes."
+      - "Put each on its Pedestal: the Tiger Statuette in Sweet Water (north), the Bear in Kriegspire (far north-west), the Eagle in Dragonsand (by the circus tents in the south-west), the Wolf in the Mire of the Damned (south-west) and the Dragon in Bootleg Bay (north-west). Click the pedestal with the statuette in a pack."
+      - "When all five stand, Twillen is young again. Talk to him in his house ('Quest')."
+    tips:
+      - "The chest outside his house then holds his payment, a few trinkets."
+    reward: "75,000 XP."
+    points:
+      - {map: outa1, name: "Pedestal"}
+      - {map: outb1, name: "Pedestal"}
+      - {map: outb3, name: "Pedestal"}
+      - {map: outc3, name: "Pedestal"}
+      - {map: outd2, name: "Pedestal"}
+    maps:
+      - map: outb2
+        show: [quest, chest]
+        focus: "Twillen"
+        caption: "Twillen's house and the statuettes' chest are in Blackshire town."
+
+  # --- Free Haven and Bootleg Bay ---------------------------------------------------------------------------------
+  - quest: q1153
+    steps:
+      - "Ask Gabriel Cartman, in his house in Free Haven, about 'Quest'."
+      - "The Tomb of Ethric the Mad is in the west of the Free Haven map."
+      - "Ethric is a Power Lich in the sarcophagus hall at the north end of the tomb. The gate in front of it does not open by hand; work the switches and elevators."
+      - "Kill him and take Ethric's Skull from his remains. Bring it to Gabriel ('Quest')."
+    tips:
+      - "Many burial niches hold gold or items; some release fumes that knock a character out."
+    reward: "15,000 XP and 7,500 gold."
+    maps:
+      - map: 6d14
+        show: [monster, lever, chest, exit]
+        focus: "Power Lich"
+        caption: "Ethric lies at the north end of the tomb."
+
+  - quest: q1164
+    steps:
+      - "Ask Carlo Tormini, in his house in Free Haven, about 'Quest'."
+      - "The cannibals' Temple of Tsantsa is on an island in the north of Bootleg Bay, the map east of Free Haven. The Tsunami ferries around Bootleg Bay on Monday and Wednesday; Water Walk or Fly also get you there."
+      - "Sherell is locked in a Cell in the north-west of the temple. The Cell Key is in a chest at the far south of the temple."
+      - "Open the cell and walk up to her: she joins you. Bring her to Carlo ('Quest')."
+    reward: "10,000 XP and 1,500 gold."
+    maps:
+      - map: 6t3
+        show: [npc, door, chest, lever, exit]
+        focus: "Sherell"
+        caption: "Sherell's cell is in the north-west; the Cell Key's chest at the far south."
+
+  - quest: q1161
+    steps:
+      - "Ask Zoltan Phelps, in his house in Free Haven, about 'Quest'. Raiders took the artifact Mordred to a base west of Castle Temper."
+      - "The Dragoons' Keep is in the south of the Free Haven map."
+      - "Mordred is in the chest in the east of the keep."
+      - "Show it to Zoltan ('Quest'). He decides he does not want it: you keep Mordred and still get paid."
+    reward: "10,000 XP and 30,000 gold; you keep Mordred."
+    maps:
+      - map: 6d10
+        show: [chest, lever, exit]
+        focus: "Mordred"
+        caption: "Mordred's chest is in the east of the keep."
+
+  - quest: q1158
+    steps:
+      - "Ask Winston Schezar, in his house in the west of Bootleg Bay, about 'Quest'."
+      - "The Temple of the Fist is in the west of Bootleg Bay."
+      - "The Evil Crystal stands in the north of the temple, raised above the floor. Click it: 'You have destroyed the evil crystal'."
+      - "Tell Winston ('Quest')."
+    tips:
+      - "The skulls in the middle of the temple sap 10 Might (temporary) from everyone."
+    reward: "10,000 XP and 3,000 gold."
+    maps:
+      - map: 6t2
+        show: [chest, lever, exit, objective]
+        focus: "Evil Crystal"
+        caption: "The entrance is in the south; the crystal is in the north."
+
+  - quest: q1169
+    steps:
+      - "The Hall of the Fire Lord is in the south-east of Bootleg Bay. Walk up to the Lord of Fire, beside the entrance, and ask about 'Quest': two warded doors on the lower level block his channels."
+      - "Collect Amber: chests on the entry level hold several pieces (the bag beside the Lord of Fire holds two)."
+      - "Each warded door takes one Amber. Click both; when the second ward breaks, both doors open."
+      - "Tell the Lord of Fire ('Quest')."
+    tips:
+      - "The Stone Faces on the lower level take you elsewhere; each party member without Amber loses 50 hit points to them ('All must have amber')."
+      - "Amber also sells for 500 gold to a collector in Free Haven."
+    reward: "10,000 XP."
+    maps:
+      - map: 6d04
+        show: [quest, chest, teleporter, exit, objective]
+        focus: "Lord of Fire"
+        caption: "The Lord of Fire stands by the entrance; the Amber chests are on the entry level."
+
+  # --- Blackshire ---------------------------------------------------------------------------------------------------
+  - quest: q1165
+    steps:
+      - "Ask Maria Trepan, in her house in Blackshire town, about 'Quest'. The town turns into werewolves at full moon."
+      - "The Lair of the Wolf is just south of Blackshire town. Near the entrance, in the north-west of the lair, the Ghost of Balthasar speaks to you."
+      - "After meeting the ghost, go to the far north-east corner of the lair: you dig up the Pearl of Purity."
+      - "With the Pearl of Purity in a pack, click the Wolf Altar in the middle of the lair. It is destroyed."
+      - "Tell Maria ('Quest')."
+    reward: "20,000 XP and 4,000 gold."
+    maps:
+      - map: 6d17
+        show: [bonus, objective, quest, monster, exit]
+        focus: "Wolf Altar"
+        caption: "The altar is in the middle; the Pearl of Purity in the north-east; the ghost by the entrance."
+
+  - quest: q1167
+    steps:
+      - "Walk up to the Ghost of Balthasar near the Lair of the Wolf's entrance and ask about 'Quest'."
+      - "The werewolf leader, a Greater Werewolf, prowls the far south-east of the lair. Kill him and take the Pearl of Putrescence."
+      - "Give it to the ghost ('Quest')."
+    reward: "5,000 XP."
+    maps:
+      - map: 6d17
+        show: [monster, quest, exit]
+        focus: "Greater Werewolf"
+        caption: "The werewolf leader is in the far south-east."
+
+  - quest: q1160
+    steps:
+      - "Ask Joanne Cravitz, in her house in Blackshire town, about 'Quest'. Emmanuel went to Star Island."
+      - "The Temple of the Snake is on the island east of Blackshire town. Medusas guard it."
+      - "Emmanuel is in a Cage in the middle of the temple. Click it: he joins you."
+      - "Bring him home to Joanne ('Quest')."
+    tips:
+      - "Two chests in the temple hold five Dragon Wands and the Town Portal, Lloyd's Beacon and Stone to Flesh scrolls."
+    reward: "20,000 XP and 500 gold."
+    maps:
+      - map: 6t8
+        show: [npc, chest, exit]
+        focus: "Cage"
+        caption: "Emmanuel's cage is in the middle of the temple."
+
+  - quest: q1114
+    steps:
+      - "Ask Prince Nicolai in the Castle Ironfist throne room about 'Boredom'. He slips out and joins the party."
+      - "About an hour of game time later (arriving on a new map restarts the hour) he vanishes: 'It seems that Prince Nicolai disappeared while you were resting'. He has run off to the circus; the journal now reads 'Find and return Prince Nicolai'."
+      - "Until he is home, the throne room admits no visitors, Wilbur Humphrey included."
+    tips:
+      - "Take the prince only when you can travel to the circus; see the next quest."
+    maps:
+      - map: outd3
+        show: [promoter, quest]
+        focus: "Nicolai"
+        caption: "Nicolai is in the throne room."
+
+  - quest: q1119
+    requires: "Nicolai has run off (Entertain Nicolai)."
+    steps:
+      - "Nicolai is at the Circus of the Sun. It travels: late March to late April in Blackshire (north-east of the town), late July to late August in the Mire of the Damned (north-east), late November to late December in Bootleg Bay (south-east). It is closed at other times."
+      - "Enter the Circus and talk to Nicolai ('Excuse me, your Highness...'). He follows you again."
+      - "Walk to the Castle Ironfist throne room. He slips back in and thanks you."
+    tips:
+      - "The circus games pay lodestones, harpy feathers and four leaf clovers, which its main tent trades for wine kegs and golden pyramids; several collectors among the townsfolk buy these."
+    reward: "7,500 XP."
+    maps:
+      - map: outb2
+        show: [service, quest]
+        focus: "Circus"
+        caption: "The Circus of the Sun in Blackshire."
+
+  # --- The north and the islands ------------------------------------------------------------------------------------
+  - quest: q1149
+    steps:
+      - "Ask Charles D'Sorpigal, the constable in Mist, about 'Quest'."
+      - "The Silver Helm Outpost is on the main island of Mist, south-east of Newton's castle."
+      - "The Enemies List is in a chest in the east of the outpost's lowest level, near the Key to Gharik's Laboratory."
+      - "Bring it to Charles ('Quest')."
+    tips:
+      - "The outpost also holds Melody Silver (Wilbur Humphrey's paladin promotion) and the Key to Gharik's Laboratory (Newton's Hourglass of Time)."
+    reward: "15,000 XP and 3,000 gold."
+    maps:
+      - map: 6d07
+        show: [chest, npc, exit]
+        focus: "Enemies List"
+        caption: "The Enemies List is in the east of the lowest level."
+
+  - quest: q1168
+    steps:
+      - "Ask Emil Lime, in his house in Kriegspire town, about 'Quest'."
+      - "Castle Kriegspire is west of the town (or drink from the well on the east side of town to be dropped inside)."
+      - "The Jeweled Egg is in a chest in the north-east of the castle."
+      - "Bring it to Emil ('Quest')."
+    tips:
+      - "Memory Crystal Epsilon (main story) is near the entrance of the same castle."
+    reward: "50,000 XP and 5,000 gold."
+    maps:
+      - map: cd3
+        show: [chest, objective, exit]
+        focus: "Jeweled Egg"
+        caption: "The egg's chest is in the north-east."

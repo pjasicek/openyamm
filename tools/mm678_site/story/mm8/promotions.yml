@@ -1,0 +1,123 @@
+quests:
+  - quest: q39
+    steps:
+      - "Dark Elf to Patriarch. Relburn Jeebes keeps the Blackthorne Estate in the north of Alvar. Ask him about 'Promotion to Dark Elf Patriarch': the guild's warrior Cauri Blackthorne went to the Temple of the Sun and never came back."
+      - "In Murmurwoods, Dantillion lives in Dantillion's Residence, north-east of the Temple of the Sun. Ask about 'Cauri Blackthorne': she left for Alvar, and Dantillion gives each character a Stone to Flesh scroll."
+      - "Basilisks turned Cauri and some pilgrims to stone near the Druid Circle in the north-east of Murmurwoods. Click Cauri's statue with a Stone to Flesh scroll in your packs, or cast Stone to Flesh on it. The other statues there are pilgrims you can free the same way."
+      - "Cauri speaks to you at once; ask her about 'Patriarch'. Every Dark Elf in the party becomes a Patriarch."
+      - "Back in Alvar, ask Relburn Jeebes about 'Cauri Blackthorne' for the guild's thanks."
+    tips:
+      - "A Dark Elf who joins later is promoted by Relburn's 'Promote Dark Elves' topic."
+    reward: "Patriarchs gain 35,000 experience, the others 25,000; Relburn adds 15,000 gold."
+    maps:
+      - map: out07
+        show: [promoter, quest, exit]
+        focus: "Statue"
+        caption: "Murmurwoods: Cauri's statue near the Druid Circle in the north-east; Dantillion's house in the south."
+
+  - quest: q68
+    steps:
+      - "Troll to War Troll. Volog Sandwind is in Schmecker's Hovel in the Troll village of the Ironsand Desert. Ask about 'Quest': find the Trolls' ancient homeland, lost to the Curse of the Stone."
+      - "The Ancient Troll Home is a cave in the west of Murmurwoods. Simply entering it counts as finding it; basilisks live inside."
+      - "Return to Volog and ask about 'Ancient Home Found!'. Every Troll in the party becomes a War Troll."
+    tips:
+      - "Volog then offers to join your party."
+    reward: "War Trolls gain 35,000 experience, the others 25,000."
+    maps:
+      - map: out07
+        show: [exit]
+        focus: "Ancient Troll Home"
+        caption: "The Ancient Troll Home is in the west of Murmurwoods."
+
+  - quest: q70
+    steps:
+      - "Knight or Cavalier to Champion. Leane Stormlance lives in the Stormlance Residence in Garrote Gorge's town. Ask about 'Promotion to Champion': her father Blazen went after the Skeletal Dragons of Shadowspire with Charles Quixote's spear, Ebonest, and never returned."
+      - "Blazen is a prisoner in the Mad Necromancer's Lab, in the north-west of Shadowspire: go north from the entrance to the lift, and find him behind a door on the upper floor. Ask him about 'Ebonest' and 'Cure': only the Clerics of the Sun can lift his curses, and his friend Dervish Chevron in Ravenshore may help (Inquire about a cure for Blazen Stormlance)."
+      - "Dervish Chevron lives in Dervish's Cottage in the west of Ravenshore's town, near the Dancing Ogre. Ask about 'Cure for Blazen Stormlance': he gives you the Gem of Restoration."
+      - "Ebonest is in the lab too: take the stairs down to the green maze and open the two chests in its northernmost room."
+      - "Bring the Gem to Blazen ('Cure'). He is freed and waits for you at the Adventurer's Inn in Ravenshore."
+      - "Take Ebonest to Charles Quixote (in the Dragon Hunter's Camp, or at the council in Ravenshore if he sits there) and ask about 'Promotion to Champion'. Every Knight and Cavalier becomes a Champion; Ebonest stays with him."
+      - "Optional: tell Leane ('My Father'): she offers to join you."
+    tips:
+      - "Quixote promotes you even if you sided with the Dragons, though he grumbles about it."
+      - "The lab's chests hold seven Lich Jars, which the Lich promotion needs."
+    reward: "Champions gain 50,000 experience, the others 35,000; 15,000 experience for curing Blazen and 5,000 from Leane."
+    maps:
+      - map: d20
+        show: [quest, chest, exit]
+        focus: "Blazen"
+        caption: "The Mad Necromancer's Lab: Blazen on the upper floor, Ebonest in the north of the lower maze."
+      - map: out02
+        show: [quest]
+        focus: "Dervish"
+        caption: "Dervish Chevron's cottage in Ravenshore."
+
+  - quest: q74
+    steps:
+      - "Dragon to Great Wyrm. Ask Deftclaw Redreaver (in the Dragon Cave, or at the council if he sits there) about 'Promotion to Great Wyrm': kill the Dragon Slayers Quixote trains in a camp south-west of the Dragon Cave and bring back the Sword of Whistlebone."
+      - "The Dragon Slayers' camp is in the south-west of Garrote Gorge. Kill every one of them; their leader, Jeric Whistlebone, carries the sword."
+      - "Return to Deftclaw and ask about 'Sword of the Slayer'. Every Dragon in the party becomes a Great Wyrm."
+    tips:
+      - "Deftclaw promotes you even if you sided with Charles Quixote, though he grumbles about it."
+    reward: "Great Wyrms gain 35,000 experience, the others 25,000."
+    maps:
+      - map: out05
+        show: [npc, quest]
+        focus: "Jeric Whistlebone"
+        caption: "Jeric Whistlebone and the Dragon Slayers' camp in the south-west of Garrote Gorge."
+
+  - quest: q76
+    steps:
+      - "Minotaur to Minotaur Lord. Tessalar lives in Tessalar's House in Balthazar Lair, three levels below the entrance. Ask about 'Promotion to Minotaur Lord': recover the Axe of Balthazar from the Dark Dwarves and have Dadeross vouch for it."
+      - "The Dark Dwarf Compound's entrance is in the middle of Alvar, west of the town. The Axe of Balthazar is in a chest in its south-west."
+      - "Take the axe to Dadeross in Blood Drop on the Dagger Wound Islands. Ask him about 'Balthazar of Ravage Roaming', then 'The Axe of Balthazar': he gives you a Certificate of Authentication."
+      - "Return to Tessalar with the axe and the certificate: his 'Quest' topic appears. Every Minotaur in the party becomes a Minotaur Lord."
+    tips:
+      - "Two chests in the Dark Dwarf Compound's south-east hold the Ring of Planes, which Sandro mentions, and an Infused Metal Rod."
+    reward: "Minotaur Lords gain 35,000 experience, the others 25,000."
+    maps:
+      - map: d41
+        show: [chest, exit]
+        caption: "The Dark Dwarf Compound: the Axe's chest in the south-west."
+
+  - quest: q78
+    steps:
+      - "Cleric or Priest to Priest of the Light. Stephen lives in the Snowtree Residence in Murmurwoods. Ask about 'Promtion to Cleric of the Sun': he wants the lost Prophecies of the Sun, said to lie in the Lair of the Feathered Serpent."
+      - "The Prophecies are in the Abandoned Temple on the Dagger Wound Islands, past the maze of serpent rooms on its lower level. Each room's pair of buttons opens one door and shuts another, and some summon a Serpentman. From the first room, take the doors left, right, left, right, right, left (in a room with more than two doors, the leftmost or rightmost)."
+      - "The last room, the oval chamber, has a gem lying in the open; the Prophecies of the Sun are behind a glowing red panel."
+      - "Return to Stephen ('Quest'). Every Cleric and Priest in the party becomes a Priest of the Light."
+    reward: "Priests of the Light gain 35,000 experience, the others 25,000."
+    maps:
+      - map: d05
+        show: [lever, exit, objective]
+        focus: "Prophecies of the Sun"
+        caption: "The Abandoned Temple: the maze of paired buttons on the lower level leads south to the oval chamber."
+
+  - quest: q80
+    steps:
+      - "Vampire to Nosferatu. Lathean lives in the House of Lathaen in Shadowspire's town. Ask about 'Korbu', then 'Quest': bring Korbu's Remains and his Sarcophagus."
+      - "The Sarcophagus of Korbu is in the Crypt of Korbu, in the north of Ravage Roaming: walk up to it at the crypt's east end to take it."
+      - "The Remains of Korbu are in the Cyclops Larder in the south-east of the Ironsand Desert: a chest at the west end of its lowest level."
+      - "Return to Lathean with both ('Return of Korbu'). Every Vampire in the party becomes a Nosferatu."
+    reward: "Nosferatu gain 35,000 experience, the others 25,000."
+    maps:
+      - map: d26
+        show: [objective, exit]
+        caption: "The Crypt of Korbu: the Sarcophagus at the east end."
+      - map: d14
+        show: [chest, exit]
+        caption: "The Cyclops Larder: Korbu's Remains on the lowest level, west end."
+
+  - quest: q82
+    steps:
+      - "Necromancer to Lich. Vetrinus Taleshire lives in Taleshire Hall in Shadowspire's town. Ask about 'Lich': bring the Lost Book of Khel, and a Lich Jar for every Necromancer to be transformed."
+      - "The Lost Book is in the Uplifted Library, on the volcano island south-east of the Dagger Wound Islands' main island. Its chest is on the library's top floor."
+      - "Lich Jars: the Mad Necromancer's Lab in Shadowspire has seven in its chests. Each Necromancer must carry a jar in their own packs."
+      - "Return to Vetrinus ('Promotion to Lich'). Every Necromancer in the party becomes a Lich."
+    tips:
+      - "Vetrinus joins your party later, once the Regnan fleet is sunk."
+    reward: "Liches gain 35,000 experience, the others 25,000."
+    maps:
+      - map: d40
+        show: [chest, exit]
+        caption: "The Uplifted Library: the Lost Book's chest on the top floor."

@@ -1,0 +1,240 @@
+# Hand-kept presentation data for the MM6, MM7 and MM8 guides (tools/mm678_site/build_site.py). Everything else comes
+# from the merged engine tables (assets_dev/engine/data_tables) and the world packages (assets_dev/worlds/mm6-mm8).
+#
+# Per book:
+#   site        the page texts (GUIDE.site; the shared front end's defaults are the MM9 guide's)
+#   regions     one per outdoor map, the start first (the Maps list follows this order), placed on the schematic
+#               world map (grid cells, x to the east, y to the south; the cells follow outdoor_travels.txt's edges);
+#               dungeons join the region whose map leads into them, `region_of` places the rest by hand
+#   chapters    the main story: quest bits (english/quests.txt) per chapter; every other quest of the continent is a
+#               side quest, or a promotion when tools/maw_site/promotions.yml names it
+#   stages_of   journal lines shown as stages of another quest (MM6's stable price notes)
+#   skip_quests journal lines that are not quests
+
+books:
+  mm6:
+    site:
+      title: MM6 Enroth Guide
+      storeKey: "mm6guide."
+      homeTitle: Enroth
+      homeLead: "Might and Magic VI as OpenYAMM plays it under the Standard ruleset: every map of Enroth with its
+        teachers, shops, guilds, quest givers, chests, wells, fountains, shrines and exits; {npcs} people placed. Data
+        comes straight from the game's tables and map scripts."
+      worldName: Enroth
+      travelFrom: oute3
+      travelTo: outc2
+      tocSections: []
+      hideShopColumns: [tiers, enchanted, restock]
+      leads:
+        maps: "Journal maps of the outdoor maps and floor plans drawn from the geometry of every dungeon, castle and
+          temple, with every point of interest from the maps' scripts. Pick a map; toggle marker types in its legend."
+        travel: "How the maps of Enroth connect: walking borders with their travel days, coaches and boats by weekday,
+          and the ways into dungeons. The world map is a schematic; each tile is the map's own journal map."
+        teachers: "Every Expert, Master and Grandmaster lesson in Enroth. A lesson needs the skill at 4 (Expert), 7
+          (Master) or 10 (Grandmaster), the previous mastery and the class's cap; prices are before the Merchant
+          skill. \"Learn\" is the first lesson, sold by guilds, shops, temples, taverns and training halls."
+        promotions: "Enroth's six lords promote: each sets two quests, the second after the first. A member of the
+          right class is promoted; the others become honorary members of the class."
+        shops: "Weapon, armour, magic and alchemy shops stock by their house's quality: a standard shelf and a special
+          one, each at a treasure level (1-6) that decides the items' power and enchantments. Guilds sell the
+          spellbooks of their school up to the guild's rank. Prices are the item's value times the house's
+          multiplier, before the Merchant skill."
+        bestiary: "Monsters placed on the maps of Enroth by family, weakest to strongest; A, B and C are a family's
+          three tiers. Outdoor maps and dungeons place groups at spawn points (a group of any tier when no tier is
+          given). Click a row for its attacks, spells, resistances, loot and where it lives."
+      itemNotes:
+        artifacts: "Artifacts and relics of the three continents: one table holds MM6, MM7 and MM8's items, and every
+          continent's treasure may hold any of them."
+    regions:
+      - {id: oute3, name: New Sorpigal, hub: oute3, pos: [4.4, 2.2]}
+      - {id: outa1, name: Sweet Water, hub: outa1, pos: [0.0, 0.0]}
+      - {id: outb1, name: Kriegspire, hub: outb1, pos: [1.1, 0.0]}
+      - {id: outc1, name: Frozen Highlands, hub: outc1, pos: [2.2, 0.0]}
+      - {id: outd1, name: Silver Cove, hub: outd1, pos: [3.3, 0.0]}
+      - {id: oute1, name: Eel Infested Waters, hub: oute1, pos: [4.4, 0.0]}
+      - {id: outa2, name: Paradise Valley, hub: outa2, pos: [0.0, 1.1]}
+      - {id: outb2, name: Blackshire, hub: outb2, pos: [1.1, 1.1]}
+      - {id: outc2, name: Free Haven, hub: outc2, pos: [2.2, 1.1]}
+      - {id: outd2, name: Bootleg Bay, hub: outd2, pos: [3.3, 1.1]}
+      - {id: oute2, name: Misty Islands, hub: oute2, pos: [4.4, 1.1]}
+      - {id: outa3, name: Hermit's Isle, hub: outa3, pos: [0.0, 2.2]}
+      - {id: outb3, name: Dragonsand, hub: outb3, pos: [1.1, 2.2]}
+      - {id: outc3, name: Mire of the Damned, hub: outc3, pos: [2.2, 2.2]}
+      - {id: outd3, name: Castle Ironfist, hub: outd3, pos: [3.3, 2.2]}
+    region_of:
+      sci-fi: outc2  # the Control Center, reached through the Oracle beneath Free Haven
+    other_pos: [5.5, 1.1]
+    chapters:
+      - {id: 1, name: "I: Sulman's Letter", quests: [1105, 1106]}
+      - {id: 2, name: "II: The High Council", quests: [1110, 1122, 1134, 1137, 1140, 1144, 1224, 1225]}
+      - {id: 3, name: "III: The Oracle", quests: [1186, 1187, 1188, 1189, 1190]}
+      - {id: 4, name: "IV: The Hive", quests: [1120, 1259]}
+    stages_of:
+      1140: [1515, 1516, 1517, 1518, 1519, 1520, 1521, 1522, 1523]
+    skip_quests: []
+    # Who or what starts a quest that no placed person gives, and the conditions of routes and lessons, in words.
+    giver_text:
+      1105: "Sulman's letter, in the party's pack from the start"
+      1119: "Prince Nicolai's disappearance, after the party entertains him"
+    gate_text:
+      1192: after the traitor on the High Council is exposed
+      1202: once the party has been to Free Haven
+      1203: once the party has been to Silver Cove
+
+  mm7:
+    site:
+      title: MM7 Antagarich Guide
+      storeKey: "mm7guide."
+      homeTitle: Antagarich
+      homeLead: "Might and Magic VII as OpenYAMM plays it under the Standard ruleset: every map of Antagarich with its
+        teachers, shops, guilds, quest givers, chests, wells, fountains, shrines and exits; {npcs} people placed. Data
+        comes straight from the game's tables and map scripts."
+      worldName: Antagarich
+      travelFrom: 7out01
+      travelTo: 7out02
+      tocSections: []
+      hideShopColumns: [tiers, enchanted, restock]
+      leads:
+        maps: "Journal maps of the outdoor maps and floor plans drawn from the geometry of every dungeon, castle and
+          temple, with every point of interest from the maps' scripts. Pick a map; toggle marker types in its legend."
+        travel: "How the maps of Antagarich connect: walking borders with their travel days, coaches and boats by
+          weekday, and the ways into dungeons. The world map is a schematic; each tile is the map's own journal map."
+        teachers: "Every Expert, Master and Grandmaster lesson in Antagarich. A lesson needs the skill at 4 (Expert), 7
+          (Master) or 10 (Grandmaster), the previous mastery and the class's cap; prices are before the Merchant
+          skill. \"Learn\" is the first lesson, sold by guilds, shops, temples, taverns and training halls."
+        promotions: "Each class has a first promotion and then a Light or a Dark one, by the path the party chose at
+          the arbitration in Harmondale. A member of the right class is promoted; the others become honorary members
+          of the class."
+        shops: "Weapon, armour, magic and alchemy shops stock by their house's quality: a standard shelf and a special
+          one, each at a treasure level (1-6) that decides the items' power and enchantments. Guilds sell the
+          spellbooks of their school up to the guild's rank. Prices are the item's value times the house's
+          multiplier, before the Merchant skill."
+        bestiary: "Monsters placed on the maps of Antagarich by family, weakest to strongest; A, B and C are a family's
+          three tiers. Outdoor maps and dungeons place groups at spawn points (a group of any tier when no tier is
+          given). Click a row for its attacks, spells, resistances, loot and where it lives."
+      itemNotes:
+        artifacts: "Artifacts and relics of the three continents: one table holds MM6, MM7 and MM8's items, and every
+          continent's treasure may hold any of them."
+    regions:
+      - {id: 7out01, name: Emerald Island, hub: 7out01, pos: [0.0, 3.7]}
+      - {id: 7out15, name: Shoals, hub: 7out15, pos: [1.1, 0.0]}
+      - {id: out14, name: Avlee, hub: out14, pos: [2.2, 0.0]}
+      - {id: out10, name: Mount Nighon, hub: out10, pos: [3.5, 0.3]}
+      - {id: 7out05, name: Deyja, hub: 7out05, pos: [1.1, 1.1]}
+      - {id: 7out04, name: The Tularean Forest, hub: 7out04, pos: [2.2, 1.1]}
+      - {id: out09, name: Evenmorn Island, hub: out09, pos: [3.5, 1.5]}
+      - {id: 7out13, name: Tatalia, hub: 7out13, pos: [0.0, 2.2]}
+      - {id: 7out03, name: Erathia, hub: 7out03, pos: [1.1, 2.2]}
+      - {id: 7out02, name: Harmondale, hub: 7out02, pos: [2.2, 2.2]}
+      - {id: out12, name: The Land of the Giants, hub: out12, pos: [3.5, 2.8]}
+      - {id: 7out06, name: The Bracada Desert, hub: 7out06, pos: [1.1, 3.3]}
+      - {id: out11, name: The Barrow Downs, hub: out11, pos: [2.2, 3.3]}
+    region_of:
+      t01: 7out06  # the Temple of the Light in Celeste (a topic moves the party there)
+      t02: 7out05  # the Temple of the Dark in the Pit
+    other_pos: [3.5, 3.9]
+    chapters:
+      - {id: 1, name: "I: Emerald Island", quests: [513, 514, 515, 516, 517, 518, 528]}
+      - {id: 2, name: "II: Harmondale", quests: [587, 658, 588]}
+      - {id: 3, name: "III: The War of Erathia and the Elves", quests: [589, 590, 591, 606, 607]}
+      - {id: 4, name: "IV: The Arbitration", quests: [665]}
+      - {id: 5, name: "V: The Light Path", quests: [664, 613, 615, 616, 618, 620, 621, 642]}
+      - {id: 6, name: "VI: The Dark Path", quests: [663, 634, 635, 636, 637, 639, 640, 643]}
+    stages_of: {}
+    skip_quests: [757]
+    paths: {707: Light, 699: Dark}  # side quests only one path offers (the quest's `path`)
+    giver_text:
+      513: "Lord Markham's contest on Emerald Island: in the journal from the start"
+      514: "Lord Markham's contest on Emerald Island: in the journal from the start"
+      515: "Lord Markham's contest on Emerald Island: in the journal from the start"
+      516: "Lord Markham's contest on Emerald Island: in the journal from the start"
+      517: "Lord Markham's contest on Emerald Island: in the journal from the start"
+      518: "Lord Markham's contest on Emerald Island: in the journal from the start"
+    gate_text:
+      576: once the way to Evenmorn Island is open
+      610: once Castle Harmondale is rebuilt
+
+  mm8:
+    site:
+      title: MM8 Jadame Guide
+      storeKey: "mm8guide."
+      homeTitle: Jadame
+      homeLead: "Might and Magic VIII as OpenYAMM plays it under the Standard ruleset: every map of Jadame with its
+        teachers, shops, guilds, quest givers, chests, wells, fountains, shrines and exits; {npcs} people placed. Data
+        comes straight from the game's tables and map scripts."
+      worldName: Jadame
+      travelFrom: out01
+      travelTo: out02
+      tocSections: []
+      hideShopColumns: [tiers, enchanted, restock]
+      leads:
+        maps: "Journal maps of the outdoor maps and floor plans drawn from the geometry of every dungeon, castle and
+          cave, with every point of interest from the maps' scripts. Pick a map; toggle marker types in its legend."
+        travel: "How the maps of Jadame connect: walking borders with their travel days, coaches and boats by weekday,
+          and the ways into dungeons. The world map is a schematic; each tile is the map's own journal map."
+        teachers: "Every Expert, Master and Grandmaster lesson in Jadame. A lesson needs the skill at 4 (Expert), 7
+          (Master) or 10 (Grandmaster), the previous mastery and the class's cap; prices are before the Merchant
+          skill. \"Learn\" is the first lesson, sold by guilds, shops, temples, taverns and training halls."
+        promotions: "Each of Jadame's classes has one promotion quest. A member of the right class is promoted; the
+          others get the quest's honorary title."
+        shops: "Weapon, armour, magic and alchemy shops stock by their house's quality: a standard shelf and a special
+          one, each at a treasure level (1-6) that decides the items' power and enchantments. Guilds sell the
+          spellbooks of their school up to the guild's rank. Prices are the item's value times the house's
+          multiplier, before the Merchant skill."
+        bestiary: "Monsters placed on the maps of Jadame by family, weakest to strongest; A, B and C are a family's
+          three tiers. Outdoor maps and dungeons place groups at spawn points (a group of any tier when no tier is
+          given). Click a row for its attacks, spells, resistances, loot and where it lives."
+      itemNotes:
+        artifacts: "Artifacts and relics of the three continents: one table holds MM6, MM7 and MM8's items, and every
+          continent's treasure may hold any of them."
+    regions:
+      - {id: out01, name: Dagger Wound Island, hub: out01, pos: [2.2, 3.5]}
+      - {id: out07, name: Murmurwoods, hub: out07, pos: [1.1, 1.1]}
+      - {id: out03, name: Alvar, hub: out03, pos: [2.2, 1.1]}
+      - {id: out04, name: Ironsand Desert, hub: out04, pos: [3.3, 0.7]}
+      - {id: out08, name: Ravage Roaming, hub: out08, pos: [0.0, 2.5]}
+      - {id: out05, name: Garrote Gorge, hub: out05, pos: [1.1, 2.2]}
+      - {id: out02, name: Ravenshore, hub: out02, pos: [2.2, 2.2]}
+      - {id: out06, name: Shadowspire, hub: out06, pos: [3.3, 2.2]}
+      - {id: out13, name: Regna, hub: out13, pos: [0.6, 3.5]}
+      - {id: out15, name: Tutorial, hub: out15, pos: [3.6, 3.5]}
+      - {id: planes, name: The Elemental Planes, hub: pbp, pos: [1.6, 4.7], maps: [elema, elemf, elemw]}
+    region_of: {}
+    other_pos: [3.6, 4.7]
+    chapters:
+      - {id: 1, name: "I: The Dagger Wound Islands", quests: [85, 3, 7]}
+      - {id: 2, name: "II: Ravenshore and Alvar", quests: [9, 284, 11, 25, 61]}
+      - {id: 3, name: "III: The Alliances", quests: [13, 14, 15, 16, 17, 18, 26, 28, 30, 31, 33]}
+      - {id: 4, name: "IV: The Regnan Pirates", quests: [5, 36]}
+      - {id: 5, name: "V: The Elemental Lords", quests: [91, 41, 42, 43, 44, 46, 48, 50, 52, 54]}
+    stages_of:
+      70: [72]
+    skip_quests: []
+    giver_text:
+      85: In the journal from the start
+    gate_text:
+      10: once Fellmoon's letter has reached Arion Hunter
+      223: once the party has taken the submarine to Regna
+
+poi_types:
+  teacher: {name: Teacher, color: "#3b82f6", glyph: T, shown: true}
+  promoter: {name: Promotion, color: "#a855f7", glyph: P, shown: true}
+  quest: {name: Quest NPC, color: "#eab308", glyph: "!", shown: true}
+  vendor: {name: Shop, color: "#22c55e", glyph: $, shown: true}
+  guild: {name: Guild, color: "#0ea5e9", glyph: G, shown: true}
+  service: {name: Temple / tavern / bank / training, color: "#14b8a6", glyph: S, shown: true}
+  transport: {name: Stables / boats, color: "#06b6d4", glyph: B, shown: true}
+  house: {name: Home, color: "#a3a3a3", glyph: h, shown: false}
+  npc: {name: Other NPC, color: "#94a3b8", glyph: n, shown: false}
+  objective: {name: Quest objective, color: "#facc15", glyph: Q, shown: true}
+  exit: {name: Exit / entrance, color: "#f43f5e", glyph: E, shown: true}
+  chest: {name: Chest, color: "#f59e0b", glyph: C, shown: true}
+  loot: {name: Item on the floor, color: "#d6a35c", glyph: c, shown: true}
+  pickup: {name: Reagent / potion on the floor, color: "#a3a35c", glyph: r, shown: false}
+  bonus: {name: Well / fountain / shrine, color: "#ec4899", glyph: W, shown: true}
+  lever: {name: Lever / switch, color: "#84cc16", glyph: L, shown: true}
+  hint: {name: Obelisk, color: "#e879f9", glyph: "*", shown: true}
+  teleporter: {name: Teleporter, color: "#818cf8", glyph: "@", shown: true}
+  sign: {name: Sign / lore, color: "#c4b5a0", glyph: i, shown: false}
+  door: {name: Door, color: "#64748b", glyph: d, shown: false}
+  monster: {name: Monster, color: "#dc2626", glyph: m, shown: false}

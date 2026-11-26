@@ -1,0 +1,181 @@
+# MM6 (Enroth) promotions: tools/mm678_site/story/BRIEF.md. Each of the six lords promotes one class line in two steps;
+# the second quest opens after the first. Facts from Global.lua (MM6 topics), worlds/mm6/events/Global_mm6_mmmerge.lua
+# (promotionFamilies: later recruits are promoted by the same topic) and the named map scripts.
+quests:
+  # --- Wilbur Humphrey (Castle Ironfist): Paladin -> Crusader -> Hero ------------------------------------------------
+  - quest: q1112
+    steps:
+      - "Ask Wilbur Humphrey in the Castle Ironfist throne room about 'Crusaders'. Paladins must rescue a damsel in distress; asked again, he names Melody Silver, held on the Island of Mist."
+      - "Sail to Mist and enter the Silver Helm Outpost, south-east of Newton's castle. Melody Silver is on its top level, in the north. Walk up to her: she joins the party."
+      - "Take her to Wilbur and ask about 'Crusaders'."
+    tips:
+      - "The outpost also holds the Key to Gharik's Laboratory (Newton's Hourglass of Time) and the Enemies List (the constable of Mist's quest)."
+    reward: "Paladins become Crusaders, everyone else honorary Crusaders; 15,000 XP each and 5,000 gold."
+    maps:
+      - map: 6d07
+        show: [npc, chest, exit]
+        focus: "Melody Silver"
+        caption: "Melody Silver is on the top level, in the north of the outpost."
+
+  - quest: q1113
+    requires: "Crusader."
+    steps:
+      - "Ask Wilbur about 'Heroes'. A hero must slay a named dragon: Longfang Witherhide."
+      - "Longfang's Dragon's Lair is in the mountains just north of Castle Darkmoor, in the north-west of the Mire of the Damned."
+      - "The lair is a single cave with one Red Dragon (level 80, 880 hit points, fire attacks, immune to fire). Kill it and take the Dragon Claw from its body."
+      - "Bring the claw to Wilbur ('Heroes')."
+    tips:
+      - "Raise Fire resistance first and leave fire spells at home; the dragon has slain twelve would-be heroes, Wilbur says."
+    reward: "Crusaders become Heroes, everyone else honorary Heroes; 30,000 XP each."
+    maps:
+      - map: zddb01
+        show: [monster, exit]
+        focus: "Red Dragon"
+        caption: "Longfang waits in the middle of his cave."
+      - map: outc3
+        show: [exit, transport]
+        focus: "Dragon's Lair"
+        caption: "The Dragon's Lair is just north of Castle Darkmoor."
+
+  # --- Albert Newton (Mist): Sorcerer -> Wizard -> Master Wizard ----------------------------------------------------
+  - quest: q1135
+    steps:
+      - "Ask Albert Newton in his castle on Mist about 'Wizards'. He forgets where the Fountain of Magic is."
+      - "The Fountain of Magic is in Bootleg Bay, south-west of the middle of the map. Drink from it (+20 spell points)."
+      - "Return to Newton and ask about 'Wizards'."
+    reward: "Sorcerers become Wizards, everyone else honorary Wizards; 15,000 XP each."
+    maps:
+      - map: outd2
+        show: [bonus, transport, exit]
+        focus: "Fountain of Magic"
+        caption: "The Fountain of Magic is in Bootleg Bay."
+
+  - quest: q1136
+    requires: "Wizard."
+    steps:
+      - "Ask Newton about 'Master Wizards'. He needs an artifact from Corlagon's Estate, but cannot remember which."
+      - "Corlagon's Estate is in the south-west of the Castle Ironfist map, at the border of the Mire of the Damned. Mummies and wisps haunt it."
+      - "The Crystal of Terrax is in a chest in the far south-east of the estate."
+      - "Bring it to Newton ('Master Wizards')."
+    reward: "Wizards become Master Wizards, everyone else honorary Master Wizards; 30,000 XP each."
+    maps:
+      - map: 6d11
+        show: [chest, lever, teleporter, exit]
+        focus: "Crystal of Terrax"
+        caption: "The Crystal of Terrax is in the far south-east chest."
+
+  # --- Osric Temper (Castle Temper): Knight -> Cavalier -> Champion -------------------------------------------------
+  - quest: q1138
+    steps:
+      - "Ask Osric Temper in Castle Temper, south-east of Free Haven, about 'Cavaliers'. A knight needs a cavalier's nomination."
+      - "Chadwick Blackpoole drinks in Rockham's Pride, the tavern in the village in the north-west of the Free Haven map. Ask him about 'Nomination'."
+      - "Return to Osric and ask about 'Cavaliers'."
+    reward: "Knights become Cavaliers, everyone else honorary Cavaliers; 15,000 XP each."
+    maps:
+      - map: outc2
+        show: [service, promoter]
+        focus: "Rockham's Pride"
+        caption: "Rockham's Pride is in the north-west of the map; Castle Temper in the south-east."
+
+  - quest: q1139
+    requires: "Cavalier."
+    steps:
+      - "Ask Osric about 'Champions'. He wants proof that the Warlord is beaten."
+      - "The Warlord's Fortress is in the north-west of the Silver Cove map. Evil knights fill it."
+      - "Take the Warlord's Key from the Chest of Drawers in the east of the fortress. It opens the locked door just north of it, where a chest holds the Discharge Papers."
+      - "Bring the papers to Osric ('Champions')."
+    tips:
+      - "Two storage rooms need both Storage Keys at once; the chests of drawers hold them."
+    reward: "Cavaliers become Champions, everyone else honorary Champions; 40,000 XP each."
+    maps:
+      - map: 6d16
+        show: [chest, teleporter, lever, exit]
+        focus: "Discharge Papers"
+        caption: "The Discharge Papers are in the north-east; the Warlord's Key in the chest of drawers south of them."
+
+  # --- Anthony Stone (Castle Stone): Cleric -> Priest -> High Priest ------------------------------------------------
+  - quest: q1129
+    steps:
+      - "Ask Anthony Stone in Castle Stone (Frozen Highlands) about 'Priests'. The burned temple in Free Haven must be rebuilt."
+      - "Hire a Stonecutter and a Carpenter. They are among the people you meet in towns; their profession shows when you talk to them. Keep both in the party."
+      - "Click the ruined Free Haven Temple, in the north-west of Free Haven town: 'The stone cutter and carpenter begin rebuilding the temple'. They leave the party."
+      - "Return to Stone and ask about 'Priests'."
+    reward: "Clerics become Priests, everyone else honorary Priests; 15,000 XP each."
+    maps:
+      - map: outc2
+        show: [service, house]
+        focus: "Temple Stone"
+        caption: "The temple in the north-west of Free Haven town."
+
+  - quest: q1131
+    requires: "Priest."
+    steps:
+      - "Ask Stone about 'High Priests'. He wants the Sacred Chalice from the monks' island temple east of Free Haven."
+      - "The Temple of the Sun is on an island west of the middle of Bootleg Bay. The Sacred Chalice is in the Cabinet in the north-east of the temple."
+      - "Click the rebuilt temple in Free Haven with the chalice in a pack: the monks set it in the main altar."
+      - "Return to Stone ('High Priests')."
+    reward: "Priests become High Priests, everyone else honorary High Priests; 30,000 XP each."
+    maps:
+      - map: 6t4
+        show: [objective, chest, exit]
+        focus: "Cabinet"
+        caption: "The chalice's cabinet is in the north-east of the Temple of the Sun."
+
+  # --- Loretta Fleise (Silver Cove): Druid -> Great Druid -> Arch Druid ---------------------------------------------
+  - quest: q1142
+    steps:
+      - "Ask Loretta Fleise in her castle in Silver Cove about 'Great Druids'."
+      - "The Circle of Stones is north of Silver Cove town. Stand in its middle and click it on an equinox or solstice: day 20 of March, day 21 of June, day 23 of September or day 21 of December."
+      - "On the right day, Loretta speaks to you there; choose 'Ceremony of the Sun'. On any other day nothing happens: rest in the circle until the date comes."
+    tips:
+      - "A month has 28 days, so 'March 20th' comes on day 76 of the year."
+    reward: "Druids become Great Druids, everyone else honorary Great Druids; 15,000 XP each."
+    maps:
+      - map: outd1
+        show: [quest, promoter, transport]
+        focus: "Circle of Stones"
+        caption: "The Circle of Stones is north-east of the town; Loretta's castle south of it."
+
+  - quest: q1143
+    requires: "Great Druid."
+    steps:
+      - "Ask Loretta about 'Arch Druids'. The Ceremony of the Moon is held at the Altar of the Moon in the Temple of the Moon."
+      - "The Temple of the Moon is in the north-west of the Free Haven map. Cedric Druthers's renegade druids hold it; you must fight through."
+      - "The Altar of the Moon is in the north-east of the temple. Click it between midnight and 1 a.m.: Loretta appears; choose 'Ceremony of the Moon'. Wait or rest beside the altar until midnight."
+    tips:
+      - "The six small altars in the temple each give +5 to a stat (Life gives Personality) if prayed at in the plaque's order: Life, Accuracy, Might, Endurance, Speed, Luck. A wrong altar hurts the party and ends the blessings."
+    reward: "Great Druids become Arch Druids, everyone else honorary Arch Druids; 40,000 XP each."
+    maps:
+      - map: 6t5
+        show: [quest, bonus, sign, exit]
+        focus: "Altar of the Moon"
+        caption: "The Altar of the Moon is in the north-east; the six stat altars ring the temple."
+
+  # --- Erik Von Stromgard (Castle Stromgard): Archer -> Warrior Mage -> Master Archer -------------------------------
+  - quest: q1145
+    steps:
+      - "Ask Erik Von Stromgard in Castle Stromgard (Frozen Highlands) about 'Warrior Mages'. He left the key to the Dragon Towers in his old keep."
+      - "Icewind Keep is in the south-west of the Frozen Highlands. Ogres hold it."
+      - "Pull the levers you find ('Something rumbles off in the distance'); they open the way north. The Dragon Tower Keys are in the chest at the far north end."
+      - "Bring the keys to Stromgard ('Warrior Mages'). Keep them: the next quest needs them."
+    reward: "Archers become Warrior Mages, everyone else honorary Warrior Mages; 15,000 XP each."
+    maps:
+      - map: 6d15
+        show: [chest, lever, door, exit]
+        focus: "Dragon Tower Keys"
+        caption: "The keys are in the chest at the north end of Icewind Keep."
+
+  - quest: q1146
+    requires: "Warrior Mage; the Dragon Tower Keys."
+    steps:
+      - "Ask Stromgard about 'Master Archers'. Every Dragon Tower must be set to shoot only large flyers."
+      - "There are six towers, one in each of these towns: Whitecap (Frozen Highlands), Free Haven, Silver Cove, Mist, Blackshire and New Sorpigal. Click each tower with the Dragon Tower Keys in a pack; its top changes colour."
+      - "Return to Stromgard ('Master Archers'). He says the Whitecap tower is the easiest."
+    tips:
+      - "An unreset tower shoots fireballs at a flying party that is not invisible. Once reset, it no longer bothers you, so this quest also makes flying over towns safe."
+    reward: "Warrior Mages become Master Archers, everyone else honorary Master Archers; 40,000 XP each."
+    maps:
+      - map: outc1
+        show: [promoter, transport, exit, objective]
+        focus: "Stromgard"
+        caption: "Castle Stromgard; Whitecap's tower stands in the town west of it."

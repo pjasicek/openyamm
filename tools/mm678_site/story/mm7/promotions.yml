@@ -1,0 +1,500 @@
+# MM7 (Antagarich) promotions: one entry per journal line, by class line (first promotion, then Light, then Dark).
+# Facts from the merged promotion topics (worlds/mm7/events/Global_mm7_mmmerge.lua over engine/events/Global.lua),
+# the map scripts and the scenes. Every promoter promotes the members of the right class; the others become honorary
+# members of the class and get half the experience. A later hand-in promotes members who joined since, without the task.
+quests:
+  # ---------------------------------------------------------------- Thief: Rogue, then Spy (Light) or Assassin (Dark)
+  - quest: q530
+    steps:
+      - "William Lasker, the Master Thief, lives at the north end of the Erathian Sewers under Steadwick (three sewer entrances in and around the town). Ask him about 'Rogue'."
+      - "Go to Lord Markham's Manor in the south-east of Tatalia. Inside, the Vase stands on a mantle in the far north-west room. Click it to take it; a spark trap goes off as you do."
+      - "Leave the manor's chests and cabinets alone if you can: opening one turns the guards hostile and locks Lord Markham's chamber."
+      - "Bring the Vase back to Lasker and ask about 'Rogue' again."
+    tips:
+      - "No Thief in the party? The quest still works: everyone becomes an honorary Rogue, and Thieves who join later are promoted for free at the same topic."
+    reward: "Thieves become Rogues (30,000 experience each), the others honorary Rogues (15,000 each); 5,000 gold."
+    maps:
+      - map: 7d18
+        show: [objective, exit, quest, chest, door]
+        focus: "Vase"
+        caption: "The Vase is in the north-west room; the entrance is in the south."
+      - map: d01
+        show: [promoter, exit]
+        focus: "Master Thief"
+        caption: "Lasker's room is at the north end of the sewers."
+
+  - quest: q531
+    requires: "Rogue promotion done and the Light path chosen at the arbitration (Lasker refuses a Dark party; on the Dark path the Rogue's next step is the Assassin)."
+    steps:
+      - "Ask William Lasker in the Erathian Sewers about 'Spy'."
+      - "Watchtower 6 is in the south-west of the Deyja Moors; it has two doors close together. The necromancers' troops inside are hostile, and fireballs fly through the upper halls now and then."
+      - "Climb to the gatehouse over the south gate, two floors above the entrance. The counterweight sits in a slot against the wall with a rope tied to it. Click it: it drops into the box of the lower gatehouse."
+      - "Return to Lasker and ask about 'Spy'."
+    tips:
+      - "Killing the garrison is not needed; only the weight matters."
+    reward: "Rogues become Spies (80,000 experience each), the others honorary Spies (40,000 each); 15,000 gold."
+    maps:
+      - map: 7d15
+        show: [exit, chest, lever]
+        focus: "Counterweight"
+        caption: "The weight hangs over the south gate on the second floor up (Up 2); the main entrance is in the south."
+      - map: 7out05
+        show: [exit]
+        focus: "Watchtower 6"
+        caption: "Watchtower 6 stands in the south-west of the Deyja Moors."
+
+  - quest: q533
+    requires: "Rogue promotion done in Antagarich and the Dark path chosen (Seknit refuses a Light party)."
+    steps:
+      - "Seknit Undershadow lives in the north-west of the Deyja Moors, beside Daedalus Falk. Ask him about 'Assassin'."
+      - "Enter Celeste through the grand teleporter in the north-west of the Bracada Desert. On the Dark path Celeste's guards attack you on sight."
+      - "Lady Eleanor Carmine walks the streets north-west of the city centre, below Castle Lambent. She is weak; kill her and pick up Lady Carmine's Dagger she drops."
+      - "Bring the dagger to Seknit and ask about 'Assassin'."
+    reward: "Rogues become Assassins (80,000 experience each), the others honorary Assassins (40,000 each); 15,000 gold."
+    maps:
+      - map: 7d25
+        show: [npc, exit, promoter]
+        focus: "Lady Carmine"
+        caption: "Lady Carmine is in the north-west of Celeste, near the way up to Castle Lambent."
+      - map: 7out05
+        show: [promoter, exit]
+        focus: "Undershadow"
+        caption: "Seknit's home is in the north-west of the Deyja Moors."
+
+  # ---------------------------------------------------------------- Paladin: Crusader, then Hero (Light) or Villain (Dark)
+  - quest: q534
+    steps:
+      - "Sir Charles Quixote lives in Steadwick in Erathia, west of Castle Gryphonheart. Ask him about 'Crusader': he joins you as a companion for the hunt."
+      - "Wromthrax the Heartless lives in his cave in the north of Tatalia. The dragon is only there while this quest runs, so take the quest before you go."
+      - "Kill Wromthrax, a Blue Dragon of level 90 with 1,080 hit points. Bring fire and poison resistance and plenty of healing."
+      - "Shortly after the kill Sir Charles speaks to you in the cave; choose 'Crusader' to be promoted there and then. He goes home to Steadwick afterwards."
+    reward: "Paladins become Crusaders (30,000 experience each), the others honorary Crusaders (15,000 each)."
+    maps:
+      - map: mdt09
+        show: [exit, monster]
+        focus: "Blue Dragon"
+        caption: "Wromthrax sleeps in the cave's main chamber."
+      - map: 7out13
+        show: [exit]
+        focus: "Wromthrax"
+        caption: "The cave is in the north of Tatalia."
+
+  - quest: q536
+    requires: "Crusader promotion done and the Light path chosen (on the Dark path William Setag offers the Villain's quest instead)."
+    steps:
+      - "Ask Sir Charles Quixote in Steadwick about 'Hero'."
+      - "William Setag's Tower is in the south of the Deyja Moors, east of Watchtower 6. On the Light path its door lets you in."
+      - "A Master of the Sword (level 80) waits near the locked door in the north-east of the tower and carries William's Tower Key. He and his swordsmen only appear once you have this quest."
+      - "With the key, click the north-east door: Alice Hargreaves begs to be taken away and joins you."
+      - "Take her to Sir Charles and ask about 'Hero'."
+    reward: "Crusaders become Heroes (80,000 experience each), the others honorary Heroes (40,000 each)."
+    maps:
+      - map: mdt10
+        show: [npc, monster, exit, chest]
+        focus: "Door"
+        caption: "Alice's cell door is in the north-east; the key carrier stands just west of it."
+      - map: 7out03
+        show: [promoter]
+        focus: "Quixote"
+        caption: "Quixote's house is in Steadwick."
+
+  - quest: q538
+    requires: "Crusader promotion (in Antagarich or in Enroth) and the Dark path chosen."
+    steps:
+      - "William Setag's Tower is in the south of the Deyja Moors. Off the Light path its door does not open: clicking it brings Setag to talk. Ask him about 'Villain'."
+      - "Go to Castle Gryphonheart in Erathia. Alice Hargreaves's room opens off the south-west of the castle; it stays locked until Setag has given you the task."
+      - "Enter her room and talk to her: she is seized and goes with you."
+      - "Bring her to the tower door in Deyja, click it and ask Setag about 'Villain'."
+    reward: "Crusaders become Villains (80,000 experience each), the others honorary Villains (40,000 each)."
+    maps:
+      - map: 7d33
+        show: [house, exit, quest]
+        focus: "Alice Hargreaves"
+        caption: "Alice's room is in the south-west of Castle Gryphonheart."
+      - map: 7out05
+        show: [promoter, exit]
+        focus: "Setag"
+        caption: "Setag answers at his tower's door in the south of the moors."
+
+  # ---------------------------------------------------------------- Monk: Initiate, then Master (Light) or Ninja (Dark)
+  - quest: q539
+    steps:
+      - "Bartholomew Hume lives in the Hume Residence in Harmondale. Ask him about 'Initiate': you must find the barrow built on a site of power and meditate by its water. That barrow is Zokarr's Tomb, reached only through the other barrows of the Barrow Downs."
+      - "The barrows are linked: each has two inner exits, and a lever beside them decides where an exit leads. Each of the three barrows with a door outside (Barrow X, Barrow VII, Barrow IX) also holds a Barrow Key in a chest; use it on the key hole by the exits to open the inner ways in all three."
+      - "A short route: enter Barrow X in the north-west of the Barrow Downs, open the key hole, pull its lever and take the east exit to Barrow III. In Barrow III pull the west lever and take the west exit to Barrow IV. In Barrow IV leave its levers as they are and take the east exit on the upper floor into Zokarr's Tomb."
+      - "In Zokarr's Tomb go down to the lower hall and walk to the pool in its middle, between the four pillars. Hume speaks to you in your mind: choose 'Initiate' and he promotes you there, with no need to go back."
+      - "Leaving the tomb drops you in Barrow IV or Barrow VI at random. Town Portal or Lloyd's Beacon is the easy way out."
+    tips:
+      - "Pulling a lever again sets the exit back. If an exit takes you somewhere unexpected, check the levers in the barrow you just left."
+    reward: "Monks become Initiates (30,000 experience each), the others honorary Initiates (15,000 each)."
+    maps:
+      - map: 7d13
+        show: [quest, objective, exit]
+        focus: "Bartholomew Hume"
+        caption: "The meditation pool is in the middle of the lower hall (Down 1)."
+      - map: mdr01
+        show: [lever, chest, exit, door]
+        focus: "Key Hole"
+        caption: "Barrow X: the Barrow Key chest in the east, the key hole, the lever and the two exits in the south."
+
+  - quest: q540
+    requires: "Initiate promotion done and the Light path chosen (on the Dark path Hume will not teach you)."
+    steps:
+      - "Ask Bartholomew Hume in Harmondale about 'Master'."
+      - "The Temple of Baa is in the south-west of Avlee. Its priests, clerics and acolytes of the Moon attack on sight."
+      - "The High Priest of Baa is the Priest of the Moon in the far north-east room of the middle level. He carries the Cloak of the Sheep."
+      - "Kill him and take the cloak. The kill counts once you leave the temple; carrying the cloak to Hume counts as well."
+      - "Return to Hume and ask about 'Master'."
+    reward: "Initiates become Masters (80,000 experience each), the others honorary Masters (40,000 each)."
+    maps:
+      - map: d04
+        show: [exit, lever, monster]
+        focus: "Lift"
+        caption: "The entrance is on the top level; the High Priest is in the north-east of the middle level (Down 1), the lift in the north."
+      - map: out14
+        show: [exit]
+        focus: "Temple of Baa"
+        caption: "The temple is in the south-west of Avlee."
+
+  - quest: q541
+    requires: "Initiate promotion (in Antagarich) done and the Dark path chosen."
+    steps:
+      - "Stephan Sand lives in the Pit (Sand Residence, on the main level). Ask him about 'Ninja': he hands you the Cipher, an encoded message."
+      - "The key is the third word of the first paragraph of the Scroll of Waves. The scroll is in a bookcase in the east hall of the School of Sorcery in the Bracada Desert. The guard at the entrance warns you once; going on north past him turns the school's wizards, mages and golems hostile."
+      - "The third word is 'pattern'. Decoded, the message says the tomb's code is north, east, south, west and centre."
+      - "The Hidden Tomb is in the south-east of Erathia. Press the buttons at its door in that order: north, east, south, west, then the centre one. A wrong button resets the sequence. The entrance opens."
+      - "Inside, open the north-west sarcophagus of the north row to find Shadow's Mask. Liches and vampires guard the tomb."
+      - "Return to Sand and ask about 'Ninja'. You keep the mask."
+    reward: "Initiates become Ninjas (80,000 experience each), the others honorary Ninjas (40,000 each)."
+    maps:
+      - map: mdt11
+        show: [chest, exit]
+        caption: "Shadow's Mask is in the sarcophagus at the top of the second row from the west (north side)."
+      - map: 7out03
+        show: [exit, lever]
+        focus: "Hidden Tomb"
+        caption: "The Hidden Tomb and its buttons are in the south-east of Erathia."
+
+  # ---------------------------------------------------------------- Archer: Warrior Mage, then Master Archer (Light) or Sniper (Dark)
+  - quest: q543
+    steps:
+      - "Steagal Snick lives in the north of Avlee. Ask him about 'Warrior Mage': he gives you a Worn Belt."
+      - "The Red Dwarf Mines are in the north-east of the Bracada Desert. The lift between the upper and lower sections runs up and down by itself; ride it down."
+      - "The lift's machine is at the far east end of the mines. Click it with the Worn Belt in your packs to fit the belt."
+      - "The belt lasts about an hour, then the lift stops for good. Ride it back up before then."
+      - "Return to Snick and ask about 'Warrior Mage'."
+    tips:
+      - "The beasts below are of two kinds: one that only magic harms and one that only weapons harm. Bring both."
+    reward: "Archers become Warrior Mages (30,000 experience each), the others honorary Warrior Mages (15,000 each); 7,500 gold."
+    maps:
+      - map: 7d34
+        show: [objective, exit]
+        focus: "Quest spot"
+        caption: "The lift machine is at the east end; the entrance is in the south-west."
+      - map: out14
+        show: [promoter]
+        focus: "Snick"
+        caption: "Snick's house is in the north of Avlee."
+
+  - quest: q542
+    requires: "Warrior Mage promotion (Antagarich's) done and the Light path chosen."
+    steps:
+      - "Lawrence Mark lives in the west of Harmondale (Mark Manor). Ask him about 'Master Archer'."
+      - "The Titans' Stronghold is in the south-east of Avlee. Titans hit very hard and cast powerful spells: fight from a distance and retreat to rest when needed."
+      - "The Perfect Bow is in a chest in the west part of the stronghold."
+      - "Bring it to Lawrence Mark and ask about 'Master Archer'. He adjusts the bow and gives it back to you."
+    reward: "Warrior Mages become Master Archers (80,000 experience each), the others honorary Master Archers (40,000 each); you keep the Perfect Bow."
+    maps:
+      - map: 7d09
+        show: [chest, exit]
+        focus: "Chest L6"
+        caption: "The Perfect Bow's chest is in the west of the stronghold."
+      - map: 7out02
+        show: [promoter]
+        focus: "Mark Manor"
+        caption: "Mark Manor is in the west of Harmondale."
+
+  - quest: q544
+    requires: "Warrior Mage promotion done and the Dark path chosen."
+    steps:
+      - "Ask Steagal Snick in Avlee about 'Sniper'."
+      - "Fetch the Perfect Bow from the Titans' Stronghold in Avlee, as for the [Master Archer](#quest-q542)."
+      - "Bring it to Snick and ask about 'Sniper'. He gives the bow back."
+    reward: "Warrior Mages become Snipers (80,000 experience each), the others honorary Snipers (40,000 each); you keep the Perfect Bow."
+    maps:
+      - map: 7d09
+        show: [chest, exit]
+        focus: "Chest L6"
+        caption: "The Perfect Bow's chest is in the west of the stronghold."
+
+  # ---------------------------------------------------------------- Knight: Cavalier, then Champion (Light) or Black Knight (Dark)
+  - quest: q546
+    steps:
+      - "Frederick Org lives in Steadwick in Erathia, west of Castle Gryphonheart. Ask him about 'Cavalier'."
+      - "The Haunted Mansion is in the north-west of the Barrow Downs."
+      - "Kill every monster inside: ghosts, ghouls and wights. The deed counts when you leave the mansion with none left alive."
+      - "Return to Org and ask about 'Cavalier'."
+    reward: "Knights become Cavaliers (30,000 experience each), the others honorary Cavaliers (15,000 each)."
+    maps:
+      - map: 7d37
+        show: [exit, objective]
+        focus: "Barrow Downs"
+        caption: "The mansion's entrance is in the south."
+      - map: out11
+        show: [exit]
+        focus: "Haunted Mansion"
+        caption: "The mansion is in the north-west of the Barrow Downs."
+
+  - quest: q545
+    requires: "Cavalier promotion done in Antagarich and the Light path chosen."
+    steps:
+      - "Leda Rowan lives in the middle of the Bracada Desert. Ask her about 'Champion'."
+      - "The Arena is reached by coach: The J.V.C Corral in Harmondale goes there on Sundays (4 days). Talk to the Arena Master behind the door and choose the Knight level."
+      - "Kill every opponent, then collect your prize from the Arena Master. Win five times at Knight level (other levels do not count)."
+      - "Return to Leda Rowan and ask about 'Champion'."
+    reward: "Cavaliers become Champions (80,000 experience each), the others honorary Champions (40,000 each)."
+    maps:
+      - map: 7out02
+        show: [transport]
+        focus: "J.V.C"
+        caption: "The coach to the Arena leaves Harmondale's stables on Sundays."
+      - map: 7out06
+        show: [promoter]
+        focus: "Rowan"
+        caption: "Leda Rowan's house is in the middle of the desert."
+
+  - quest: q547
+    requires: "Cavalier promotion done and the Dark path chosen."
+    steps:
+      - "Ask Frederick Org in Steadwick about 'Black Knight'."
+      - "Go to Castle Navan in the Tularean Forest. The Elven Treasury is the north-east wing."
+      - "A guard warns you as you head east; if you go on, the castle's elves turn hostile."
+      - "Walk into the treasury: the robbery counts as soon as you are inside. Then return to Org and ask about 'Black Knight'."
+    reward: "Cavaliers become Black Knights (80,000 experience each), the others honorary Black Knights (40,000 each)."
+    maps:
+      - map: 7d32
+        show: [objective, exit, npc]
+        focus: "Quest spot"
+        caption: "The treasury is in the north-east of Castle Navan; the main entrance is in the south."
+
+  # ---------------------------------------------------------------- Ranger: Hunter, then Ranger Lord (Light) or Bounty Hunter (Dark)
+  - quest: q549
+    steps:
+      - "Ebednezer Sower lives in the west of the Tularean Forest. Ask him about 'Hunter'."
+      - "The Hall under the Hill, the faerie mound, is in the north of Avlee."
+      - "Inside, go to the east end of the first level: a teleporter drops you to the level below. Cross that level west to its teleporter, which takes you down again."
+      - "Walk east to the middle of that hall, north of its centre: the Faerie King speaks to you. Choose 'Hunter?' and he promotes you on the spot."
+    tips:
+      - "The faeries' dragonflies are weak. A chest on the same level as the king holds the Faerie Ring."
+    reward: "Rangers become Hunters (30,000 experience each), the others honorary Hunters (15,000 each)."
+    maps:
+      - map: 7d22
+        show: [promoter, teleporter, exit, chest]
+        focus: "Faerie King"
+        caption: "Entrance in the north-west; teleporters at the east of the first level and the west of the next; the king on Down 2."
+      - map: out14
+        show: [exit]
+        focus: "Hall under the Hill"
+        caption: "The mound is in the north of Avlee."
+
+  - quest: q548
+    requires: "Hunter promotion done and the Light path chosen."
+    steps:
+      - "Lysander Sweet lives in the middle of the Bracada Desert, next to Leda Rowan. Ask him about 'Ranger Lord'."
+      - "Talk to the Oldest Tree in the south-east of the Tularean Forest. Its 'Heart of the Wood' topic sends you after the thieves (see [Heart of the Forest](#quest-q551)); the topic only appears while this quest runs."
+      - "The Heart of the Wood is in a chest at the north end of the Mercenary Guild in the north-east of Tatalia. A bookcase south of it is a secret door that opens the way."
+      - "Give the Heart to the Oldest Tree ('Heart of the Wood'): the forest's treants stop attacking walkers."
+      - "Return to Lysander Sweet and ask about 'Ranger Lord'."
+    reward: "Hunters become Ranger Lords (80,000 experience each), the others honorary Ranger Lords (40,000 each); 5,000 experience from the tree."
+    maps:
+      - map: 7d20
+        show: [chest, lever, exit]
+        caption: "The Heart of the Wood's chest is at the north end of the Mercenary Guild."
+      - map: 7out04
+        show: [quest, promoter]
+        focus: "Oldest Tree"
+        caption: "The Oldest Tree stands in the south-east of the forest."
+
+  - quest: q550
+    requires: "The Dark path chosen (Ebednezer refuses a Light party)."
+    steps:
+      - "Ask Ebednezer Sower in the Tularean Forest about 'Bounty Hunter'."
+      - "Every town hall posts a Bounty Hunt: a named monster to kill somewhere nearby. Kill it, then claim the reward at that town hall."
+      - "Once you have claimed 10,000 gold of bounties in all, return to Ebednezer and ask about 'Bounty Hunter'."
+    reward: "Hunters become Bounty Hunters (80,000 experience each), the others honorary Bounty Hunters (40,000 each)."
+    maps:
+      - map: 7out04
+        show: [promoter]
+        focus: "Sower"
+        caption: "Ebednezer's house is in the west of the forest."
+
+  # ---------------------------------------------------------------- Cleric: Priest, then Priest of the Light (Light) or of the Dark (Dark)
+  - quest: q555
+    steps:
+      - "Daedalus Falk lives in the north-west of the Deyja Moors. Ask him about 'Priest'."
+      - "The Tidewater Caverns are in the west of Tatalia. The pirates' Map to Evenmorn Island is in a chest on the upper level, in the middle of the caverns."
+      - "Bring the map to Falk and ask about 'Priest'. He keeps the map, and from then on boats sail to Evenmorn Island."
+    tips:
+      - "Do this one even without a Cleric: Evenmorn Island, needed by the Druid and Priest promotions and the stone circle quests, can only be reached by boat after it."
+    reward: "Clerics become Priests (30,000 experience each), the others honorary Priests (15,000 each); 5,000 gold; the boats to Evenmorn Island."
+    maps:
+      - map: 7d17
+        show: [chest, exit]
+        focus: "Chest L3"
+        caption: "The pirate map's chest is on the upper level (Up 1); the entrance is in the south."
+      - map: 7out05
+        show: [promoter]
+        focus: "Falk"
+        caption: "Falk's house is in the north-west of the moors."
+
+  - quest: q554
+    requires: "Priest promotion done and the Light path chosen."
+    steps:
+      - "Rebecca Devine lives in House Devine in Celeste, east of the middle. Ask her about 'Priest of Light'."
+      - "Sail to Evenmorn Island (boats from the Bracada Desert on Tuesdays and Thursdays, one day, or from Erathia, the Tularean Forest and Tatalia on Sundays)."
+      - "The Grand Temple of the Moon is in the middle of the island. Its priests attack on sight. Fight through to the Altar of Evil at the north end and click it: 'You have Purified the Altar'."
+      - "Return to Rebecca Devine and ask about 'Priest of Light'."
+    reward: "Priests become Priests of the Light (80,000 experience each), the others honorary Priests of the Light (40,000 each); 10,000 gold."
+    maps:
+      - map: 7d19
+        show: [bonus, exit, lever]
+        focus: "Altar"
+        caption: "The altar is at the north end of the temple; the entrance is in the south."
+      - map: out09
+        show: [exit, transport]
+        focus: "Temple of the Moon"
+        caption: "The Temple of the Moon is in the middle of Evenmorn; the Sun's temple in the north-west."
+
+  - quest: q556
+    requires: "Priest promotion done and the Dark path chosen."
+    steps:
+      - "Ask Daedalus Falk in the Deyja Moors about 'Priest of Dark'."
+      - "Sail to Evenmorn Island and enter the Grand Temple of the Sun in its north-west."
+      - "The Altar of Good stands in the middle of the temple's main floor. Click it: 'You have Desecrated the altar'."
+      - "Return to Falk and ask about 'Priest of Dark'."
+    tips:
+      - "In the button room in the north-west, the middle button of the west wall followed by the button on the north wall opens the doors beyond; any other button undoes it."
+    reward: "Priests become Priests of the Dark (80,000 experience each), the others honorary Priests of the Dark (40,000 each); 10,000 gold."
+    maps:
+      - map: t03
+        show: [bonus, exit, lever]
+        focus: "Altar"
+        caption: "The Altar of Good is in the middle of the main floor."
+      - map: out09
+        show: [exit, transport]
+        focus: "Temple of the Sun"
+        caption: "The Temple of the Sun is in the north-west of Evenmorn."
+
+  # ---------------------------------------------------------------- Sorcerer: Wizard, then Arch Mage (Light) or Lich (Dark)
+  - quest: q557
+    steps:
+      - "Thomas Grey teaches behind a door just east of the entrance hall of the School of Sorcery in the Bracada Desert. Click the door and ask about 'Wizard'. The golem's frame joins you as a companion."
+      - "Collect the six parts, each in an outdoor chest: the Golem head in the north-east of the Bracada Desert; the Golem chest (torso) in the south-west of the Barrow Downs; the right leg in the north and the left leg in the east of the Deyja Moors; the right arm in the west of Tatalia; the left arm in the west of Avlee."
+      - "Talk to the golem ('Golem Parts') once for each part you carry; after the last part it is complete."
+      - "Click Grey's door again and ask about 'Wizard'. He animates the golem, which then guards Castle Harmondale."
+    tips:
+      - "A second chest in the north of the Bracada Desert holds the Abbey Normal Golem Head, a dented one. Grey accepts it, but a golem with that head attacks you in Castle Harmondale. Use the plain Golem head."
+    reward: "Sorcerers become Wizards (30,000 experience each), the others honorary Wizards (15,000 each); a golem guard for your castle."
+    maps:
+      - map: 7out06
+        show: [chest, exit]
+        focus: "Chest L5"
+        caption: "The plain Golem head's chest is in the north-east; the dented head's is in the north, nearer the middle."
+      - map: 7out05
+        show: [chest]
+        caption: "The golem's legs: the right leg in the north, the left leg in the east of the moors."
+
+  - quest: q559
+    requires: "The Light path chosen."
+    steps:
+      - "Ask Thomas Grey in the School of Sorcery about 'Archmage'."
+      - "Go to the Pit through the Hall of the Pit in the Deyja Moors; its people are hostile to a Light party. The Breeding Zone opens off the north of the Pit."
+      - "The book Divine Intervention lies in a chest at the west edge of the Breeding Zone; the two buttons in the alcove beside it work its doors."
+      - "Bring it to Grey and ask about 'Archmage'. He has it copied: from then on the Light guilds of Bracada and Celeste stock it."
+    reward: "Wizards become Arch Mages (80,000 experience each), the others honorary Arch Mages (40,000 each); 10,000 gold."
+    maps:
+      - map: 7d10
+        show: [chest, lever, exit]
+        focus: "Divine Intervention"
+        caption: "The book's chest is at the west edge; both exits lead back to the Pit."
+      - map: 7d26
+        show: [exit, promoter]
+        focus: "Breeding Zone"
+        caption: "The Breeding Zone's door is in the north of the Pit."
+
+  - quest: q560
+    requires: "The Dark path chosen, and the Wizard promotion done (or a Necromancer or Lich leads the party)."
+    steps:
+      - "Halfgild Wynac lives in the Darkenmore Residence in the Pit. Ask him about 'Lich'."
+      - "Enter Celeste from the Bracada Desert's grand teleporter (its guards are hostile on the Dark path) and go into the Walls of Mist."
+      - "The jars are at the end of the Walls of Mist: find the West, Central and East Pillar Keys in their chests, put each in its pillar, and the doors to the last room open. The chest beside the last exit holds four Lich Jars. The route is the same as for [the Walls of Mist](#quest-q613)."
+      - "Give one jar to each character to be made a Lich: every Wizard, Necromancer and Master Necromancer must carry a jar in his own packs."
+      - "Return to Halfgild and ask about 'Lich'. The ritual uses up the jars."
+    tips:
+      - "A Lich must keep his jar with him at all times."
+    reward: "Each jar-carrying Wizard, Necromancer or Master Necromancer becomes a Lich (40,000 experience); any other jar carrier becomes an honorary Lich (40,000 experience and 1,500 gold)."
+    maps:
+      - map: 7d11
+        show: [chest, teleporter, exit]
+        focus: "Chest"
+        caption: "The Lich Jars wait at the end of the Walls of Mist, beside the last exit."
+      - map: 7d26
+        show: [promoter, exit]
+        focus: "Darkenmore"
+        caption: "Halfgild lives in the Darkenmore Residence in the Pit."
+
+  # ---------------------------------------------------------------- Druid: Great Druid, then Arch Druid or Warlock
+  - quest: q561
+    requires: "Evenmorn Island open (the [Priest](#quest-q555) promotion's map)."
+    steps:
+      - "Anthony Green lives east of the middle of the Tularean Forest. Ask him about 'Great Druid'."
+      - "Pray at the water altar in the middle of each of the three stone circles. They only count once you have the quest."
+      - "Tatalia: the circle in the middle of the map, north-west of the Wine Cellar. Avlee: the circle in the middle of the map. Evenmorn Island: the circle in the west of the island."
+      - "Return to Green and ask about 'Great Druid'."
+    reward: "Druids become Great Druids (30,000 experience each), the others honorary Great Druids (15,000 each)."
+    maps:
+      - map: 7out13
+        show: [bonus, exit]
+        focus: "Altar"
+        caption: "Tatalia's stone circle."
+      - map: out14
+        show: [bonus, exit]
+        focus: "Altar"
+        caption: "Avlee's stone circle is in the middle of the map."
+
+  - quest: q566
+    requires: "Great Druid promotion done in Antagarich. Green gives this task on either path: to a Dark party he speaks bitterly, but the task is set all the same."
+    steps:
+      - "Ask Anthony Green in the Tularean Forest about 'Arch Druid'."
+      - "Enter Stone City in the middle of the Barrow Downs and leave it by its north-west exit into the Nighon Tunnels."
+      - "Zokarr IV's Skull lies in the far north-east corner of the Nighon Tunnels. Take it."
+      - "Go to Zokarr's Tomb through the barrows (the route is in the [Initiate](#quest-q539) walkthrough). His coffin is at the west end of the tomb's upper level. Click it with the skull in your packs."
+      - "Return to Green and ask about 'Arch Druid'."
+    reward: "Great Druids become Arch Druids (80,000 experience each), the others honorary Arch Druids (40,000 each)."
+    maps:
+      - map: 7d13
+        show: [objective, exit]
+        focus: "Quest spot"
+        caption: "Zokarr's coffin is at the west end of the tomb's entry level."
+      - map: 7d35
+        show: [objective, exit]
+        focus: "Skull"
+        caption: "The skull is in the north-east corner; Stone City's way in is in the south."
+
+  - quest: q567
+    requires: "Great Druid promotion done in Antagarich. Tor Anwyn gives this task on either path: to a Light party he says he cannot help, but the task is set all the same."
+    steps:
+      - "Tor Anwyn lives in the south of Mount Nighon. Ask him about 'Warlock': you need a dragon's egg."
+      - "The Dragon Caves are in the north-west of the Land of the Giants. To get there, go through Thunderfist Mountain into the Tunnels to Eeofol; once you have been to the Land of the Giants, the altar in Harmondale also takes you there."
+      - "Dragon Eggs lie on the cave floor, one in the east cavern and one in the south-west near the Mega-Dragon (level 100, 1,300 hit points). Green, blue and red dragons of level 80-100 live here."
+      - "Bring an egg to Tor Anwyn and ask about 'Warlock'."
+    reward: "Great Druids become Warlocks (80,000 experience each), the others honorary Warlocks (40,000 each); the egg hatches into a dragon that travels with you."
+    maps:
+      - map: mdt12
+        show: [exit, monster, objective]
+        focus: "Dragon Egg"
+        caption: "The Mega-Dragon's lair is in the south-west; one egg is near it, the other in the east cavern."
+      - map: out12
+        show: [exit]
+        focus: "Dragon Caves"
+        caption: "The Dragon Caves are in the north-west of the Land of the Giants."

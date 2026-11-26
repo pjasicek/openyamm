@@ -1,0 +1,71 @@
+# Map Studio (openyamm-studio/, devdocs/map_studio/PLAN.md): builds the studio's core and command line natively and
+# to WebAssembly, runs its unit tests, builds the slice project with both and requires the same bytes from both.
+# The studio links the shared core (core/: game and engine sources and core/compile/), so a change to those sources
+# runs this too: a failure here after such a change is fixed in the core's source lists (core/CMakeLists.txt), never
+# by copying code.
+name: Map Studio
+
+on:
+  push:
+    paths:
+      - "openyamm-studio/**"
+      - ".github/workflows/studio.yml"
+      - "game/**"
+      - "engine/**"
+      - "core/**"
+      - "third_party/cgltf/**"
+  pull_request:
+    paths:
+      - "openyamm-studio/**"
+      - ".github/workflows/studio.yml"
+      - "game/**"
+      - "engine/**"
+      - "core/**"
+      - "third_party/cgltf/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  studio:
+    name: Native and WebAssembly
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Check out sources
+        uses: actions/checkout@v4
+
+      - name: Install the toolchain
+        run: sudo apt-get update && sudo apt-get install -y ninja-build
+
+      - name: Install Emscripten
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          # Pinned: see openyamm-studio/wasm/README.md before raising it.
+          version: 4.0.10
+
+      - name: Build natively
+        run: openyamm-studio/build.sh native
+
+      - name: Unit tests
+        run: openyamm-studio/build/oymap_tests
+
+      - name: The slice project is canonical and builds
+        run: |
+          openyamm-studio/build/oymap fmt openyamm-studio/examples/gatehouse_cellars --check
+          openyamm-studio/build/oymap build openyamm-studio/examples/gatehouse_cellars \
+            --assets openyamm-studio/tests/fixtures/assets --out "$RUNNER_TEMP/slice"
+          git diff --exit-code -- openyamm-studio/examples/gatehouse_cellars/ids.lock.yml
+
+      - name: The MCP host starts and lists its tools
+        run: |
+          cd openyamm-studio/host
+          npm ci
+          node src/call.mjs --list | grep -c '^map_' | grep -qx 15
+
+      - name: Build for WebAssembly
+        run: openyamm-studio/build.sh wasm
+
+      - name: Native and WebAssembly write the same bytes
+        run: openyamm-studio/tests/native_vs_wasm.sh openyamm-studio/tests/fixtures/assets

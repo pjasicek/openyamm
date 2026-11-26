@@ -1,0 +1,333 @@
+quests:
+  # Dagger Wound Islands
+  - quest: q111
+    steps:
+      - "Hiss lives in Hiss' Hut on the south-east edge of Blood Drop. Ask him about 'Quest': he wants the Idol of the Snake from the Abandoned Temple."
+      - "In the temple, the Idol is in the great hall with the trap tiles that spit poison and fire (the hall before the exit stairs). Stepping on the tile directly north of the trap spitter in the middle of the hall opens a wall panel; the chest behind it holds the Idol."
+      - "Return to Hiss ('Do you have the Idol?')."
+    tips:
+      - "Walk around the red tiles; each one sprays poison or fire bolts."
+    reward: "7,500 experience for each character and 2,000 gold."
+    maps:
+      - map: d05
+        show: [chest, exit]
+        focus: "Chest"
+        caption: "The Abandoned Temple: the Idol's chest is behind a wall panel of the trap hall."
+
+  - quest: q113
+    steps:
+      - "Thistle lives in the House of Thistle on the main island's south-west, in the cluster of huts there. Ask about 'Potion of Pure Speed'."
+      - "Bring four red, two blue and one yellow reagent (the 'Ingredients' topic names them). Red: Widowsweep Berries, Wolf's Eye, Phial of Gog Blood, Ruby or Phoenix Feather. Blue: Phima Root, Meteor Fragment, Will O' Wisp Heart, Datura or Dragon Turtle Fang. Yellow: Poppy Pod, Thornbark, Sulfur, Garnet or Unicorn Horn."
+      - "Ask 'Do you have the Ingredients?' with all of them in your packs."
+    tips:
+      - "Reagents drop from monsters and lie in chests; some palm trees and flowers yield one to a character with the Disarm Trap skill."
+    reward: "1,000 experience for each character and a Potion of Pure Speed."
+    maps:
+      - map: out01
+        show: [quest]
+        focus: "Thistle"
+        caption: "Thistle, Languid and Ich live in the huts on the main island's south-west."
+
+  - quest: q101
+    steps:
+      - "Aislen lives in Aislen's House on Blood Drop's west side. Ask about 'Quest' twice: Aislen gives you three Cure Disease scrolls for the six huts on the outer islands sick with Yellow Fever."
+      - "You need three more scrolls. Several chests on the western island hold one each."
+      - "Three of the huts are on the western island (Zevah's Hut, Isthric's House and Bone's House, close together) and three on the north-west island beside the Abandoned Temple (Lasatin's Hut, Menasaur's House and Husk's Hut). They are reached through the Portals of Stone of the main story."
+      - "In each hut, ask the sick person about 'Yellow Fever' with a scroll in your packs."
+      - "Return to Aislen ('Have you stopped the epidemic?')."
+    reward: "250 experience for each character per hut, then 1,500 gold from Aislen."
+    maps:
+      - map: out01
+        show: [quest, teacher, chest, teleporter]
+        focus: "Aislen"
+        caption: "The sick live in the three huts on the western island and the three on the temple island."
+
+  - quest: q137
+    steps:
+      - "Rohtnax lives in Rohtnax's House on Blood Drop's south-east edge. Ask him about 'Quest': his brother Isthric the Tongue is stranded on an outer island."
+      - "Isthric is in Isthric's House on the western island, reached through the south-west portal (see the main story). Ask him about 'Rohtnax': he heads home."
+      - "Return to Rohtnax ('Quest')."
+    reward: "750 experience for each character and two potions of Cure Wounds."
+
+  - quest: q135
+    steps:
+      - "Pascella Tisk lives in Tisk's Hut in Blood Drop. Ask about 'Quest': she wants the Prophecies of the Snake from the Abandoned Temple."
+      - "In the temple, climb the stairs that the four ordered buttons raise. On the walkway beyond, hidden panels open on both sides; the chest behind the left (west) one holds the Prophecies of the Snake."
+      - "Return to Pascella ('Quest')."
+    reward: "750 experience for each character and 500 gold."
+    maps:
+      - map: d05
+        show: [chest, lever, exit]
+        focus: "Button"
+        caption: "The Prophecies of the Snake are in the west chest just past the four-button room."
+
+  - quest: q109
+    steps:
+      - "Languid lives in Languid's Hut on the main island's south-west. Ask about 'Quest': the water supply needs an Anointed Herb Potion."
+      - "The smugglers have one: in Smuggler's Cove in Ravenshore, a chest in the south-east of the cove's entry level holds the Anointed Herb Potion."
+      - "Return to Languid ('Do you have the antidote?')."
+    tips:
+      - "Smuggler's Cove is hostile until Arion Hunter has Fellmoon's blackmail letter (main story), so this fits well with that visit."
+    reward: "7,500 experience for each character and 2,000 gold."
+    maps:
+      - map: d07
+        show: [chest, quest, exit]
+        caption: "Smuggler's Cove: the Anointed Herb Potion is in the south-east, near Arion Hunter's chamber."
+
+  # Ravenshore
+  - quest: q139
+    steps:
+      - "Maddigan the Tracker lives in the Hall of the Tracker in the west of Ravenshore's town. Ask him about 'Quest'."
+      - "Kill the dire wolves: the packs roam the Ravenshore wilderness, and more live in the Dire Wolf Den in the north-west of the map. The quest completes when every dire wolf on one of the two maps is dead ('You have killed all of the Dire Wolves')."
+      - "Return to Maddigan ('Finally!')."
+    tips:
+      - "Maddigan also pays 250 gold for each Dire Wolf Pelt ('Dire Wolf Pelts')."
+      - "The Dire Wolf Den holds the Bone of Doom (Tantilion's quest in Shadowspire)."
+    reward: "7,500 experience for each character and 2,500 gold."
+    maps:
+      - map: out02
+        show: [quest, exit]
+        focus: "Hall of the Tracker"
+        caption: "Maddigan's hall in Ravenshore; the Dire Wolf Den is in the north-west."
+
+  - quest: q173
+    steps:
+      - "Tonk Blueswan lives in the Bluesawn Home in the north-east of Ravenshore's town. Ask about 'Arcomage Tournament'."
+      - "Win a game of Arcomage in each of Jadame's eleven taverns: the Grog and Grub (Dagger Wound), Kessel's Kantina and the Dancing Ogre (Ravenshore), the Profit House and Miho's Roadhouse (Alvar), the Parched Throat (Ironsand Desert), the Dragon's Blood Inn (Garrote Gorge), the Black Company (Shadowspire), the Traveler's Rest (Murmurwoods), the Bull's Eye Inn (Ravage Roaming) and the Pirate's Rest (Regna)."
+      - "Each tavern counts once, at its first win. When all eleven are won, return to Tonk ('Arcomage Tournament')."
+      - "The prize lies in the chest right outside Tonk's house."
+    reward: "50,000 experience for each character, the Arcomage Champion award and the chest outside Tonk's house."
+    maps:
+      - map: out02
+        show: [quest, service]
+        focus: "Bluesawn"
+        caption: "Tonk Blueswan's home; Ravenshore's two taverns."
+
+  - quest: q127
+    steps:
+      - "Lathius lives in Lathius' Home in the south-east of Ravenshore's town. Ask about 'Quest': the shield Eclipse was lost in the Necromancers' war."
+      - "Eclipse is in a chest in the west wing of the Necromancers' Guild's top floor, in Shadowspire. The top floor's private rooms are behind guarded doors: forcing one after the guard's warning turns the guild hostile (if you allied with the Temple of the Sun, the guild is hostile anyway)."
+      - "Return to Lathius ('Eclipse'). You keep the shield."
+    reward: "25,000 experience for each character and 2,000 gold."
+    maps:
+      - map: d19
+        show: [chest, npc, exit]
+        caption: "The Necromancers' Guild: Eclipse is in the west chest room of the top floor."
+
+  # Alvar
+  - quest: q115
+    steps:
+      - "Rihansi lives in the Home of Rihansi in Alvar. Ask about 'Potion of Pure Luck'."
+      - "Bring two red, three blue and three yellow reagents (see Thistle's quest for the list) and ask 'Do you have the Ingredients?'."
+    reward: "5,000 experience for each character and a Potion of Pure Luck."
+
+  - quest: q178
+    steps:
+      - "Asael Fromago lives in Fromago Manor in the north of Alvar. Ask him about 'Quest': he wants three cheeses (this entry and the next two). He accepts them only all at once."
+      - "A merchant tells you where cheese is found: the ratmen of the churches of Eep hoard it. The Ball of Dunduck is in a chest in the Church of Eep in Ravage Roaming, on the west side of its lower level."
+      - "With all three cheeses in your packs, ask Asael about 'Quest'."
+    reward: "20,000 experience for each character and 25,000 gold for the three cheeses."
+    maps:
+      - map: d46
+        show: [chest, exit]
+        caption: "The Church of Eep in Ravage Roaming."
+
+  - quest: q177
+    steps:
+      - "The Log of Eldenbrie is in a chest in the Chapel of Eep, whose entrance is in the west of the Ravenshore map. See Asael's quest above."
+    maps:
+      - map: d45
+        show: [chest, exit]
+        caption: "The Chapel of Eep near Ravenshore."
+
+  - quest: q176
+    steps:
+      - "The Wheel of Frelandeau is in a chest in the south-east of the Grand Temple of Eep, in the east of Garrote Gorge. See Asael's quest above."
+    maps:
+      - map: d44
+        show: [chest, exit]
+        caption: "The Grand Temple of Eep in Garrote Gorge."
+
+  - quest: q129
+    steps:
+      - "Keldon lives in Keldon's Cottage in Alvar. Ask about 'Quest': the Ogre mage Zog's raiders harass the roads."
+      - "Kill the ogres. The quest completes when every ogre of the Alvar wilderness is dead, or every ogre in the Ogre Fortress in Alvar's west ('You have killed all of the Ogres')."
+      - "Return to Keldon ('Quest')."
+    tips:
+      - "Keldon also pays 500 gold for each Ogre Ear ('Bounty for Ogre Ears')."
+      - "The Ogre Fortress also holds Arion Hunter's daughter (the next quest); do both in one trip."
+    reward: "10,000 experience for each character and 5,000 gold."
+    maps:
+      - map: out03
+        show: [quest, exit]
+        focus: "Ogre Fortress"
+        caption: "Keldon's cottage in Alvar; the Ogre Fortress is in the west."
+
+  - quest: q119
+    requires: "Fellmoon's blackmail letter delivered to Arion Hunter."
+    steps:
+      - "In Smuggler's Cove, ask Arion Hunter about 'Quest': Zog holds his daughter Irabelle in the Ogre Fortress in western Alvar."
+      - "In the fortress, two Ogre Warleaders carry the two Prison Keys. Kill both."
+      - "Irabelle's cell is in the west of the fortress's lowest level. Use the Prison Keys at the key holes there: when her cell opens she comes out and thanks you. She is in wererat form; do not attack her."
+      - "Return to Arion ('Quest')."
+    reward: "5,000 experience for each character from Irabelle, then 15,000 experience and 10,000 gold from Arion."
+    maps:
+      - map: d12
+        show: [quest, lever, exit]
+        focus: "Key Hole"
+        caption: "The Ogre Fortress: the key holes and Irabelle's cell on the lowest level."
+
+  - quest: q117
+    requires: "Fellmoon's blackmail letter delivered; Regna reachable (main story, chapter IV)."
+    steps:
+      - "In Smuggler's Cove, ask Arion Hunter about 'Quest' (the report): he gives you a False Report for the Dread Pirate Stanley."
+      - "Stanley drinks in the Pirate's Rest tavern on Regna, in the island's town. Regna is reached by the submarine in the Pirate Outpost (main story, chapter IV); afterwards the Dauntless sails there from Ravenshore on Sundays."
+      - "Ask Stanley about 'Report!'. He takes it and leaves the island."
+      - "Optional: tell Arion ('Report has been delivered?') for a little more experience."
+    reward: "20,000 experience for each character and 15,000 gold from Stanley; 10,000 experience from Arion."
+    maps:
+      - map: out13
+        show: [service, quest, exit, transport]
+        focus: "Pirate's Rest"
+        caption: "The Pirate's Rest is in the middle of Regna's town."
+
+  # Regna
+  - quest: q236
+    steps:
+      - "One-Eye lives in One-eye's Lair in the west of Regna's town. His topics tell you that Stanley travelled to Ravage Roaming to see the Ogre mage Zog about a curse on his memory. Ask about 'Quest' to take the task."
+      - "The treasure is six chests of gold and gems together in Ravage Roaming, south of the map's middle. Opening any one of them counts."
+      - "Return to One-Eye ('Quest')."
+    reward: "15,500 experience for each character, besides the chests' gold, gems and the Judicious Measure."
+    maps:
+      - map: out08
+        show: [chest]
+        caption: "Ravage Roaming: Stanley's six treasure chests stand together south of the middle."
+
+  # Ironsand Desert
+  - quest: q121
+    steps:
+      - "Talion lives in Talion's Hovel in the Troll village of the Ironsand Desert. Ask about 'Potion of Pure Endurance'."
+      - "Bring two red, four blue and one yellow reagent (see Thistle's quest for the list) and ask 'Do you have the Ingredients?'."
+    reward: "5,000 experience for each character and a Potion of Pure Endurance."
+
+  - quest: q142
+    steps:
+      - "Pole lives in Pole's Hovel in the Troll village. Ask about 'Quest': the six southernmost houses still standing need Potions of Fire Resistance. He gives you three."
+      - "Get three more Fire Resistance potions (an alchemist sells them, or brew them)."
+      - "Deliver one to each of the six households in the south of the village: Celia Stone, Brother Hearthsworn, Medwari Elmsmire, Gregory Mist, Hobert and Mikel Smithson. Ask each about 'Fire Resistance Potion'."
+      - "Return to Pole ('Not enough potions?')."
+    reward: "1,000 experience for each character per house, then 1,500 gold from Pole."
+    maps:
+      - map: out04
+        show: [quest, teacher, house]
+        focus: "Pole"
+        caption: "The Troll village: Pole's hovel and the southern houses."
+
+  # Garrote Gorge
+  - quest: q150
+    requires: "Not allied with the Dragons."
+    steps:
+      - "Calindril lives in Calandril's Residence in Garrote Gorge's town. Ask about 'Quest': he wants a Dragonbane Flower to poison the Dragons."
+      - "Three Dragonbane Flowers grow in the north of Garrote Gorge, along the north edge west of the Dragon Cave. Pick one up."
+      - "Return to Calindril ('Poison!')."
+    tips:
+      - "The topic disappears once you have allied with the Dragons."
+    reward: "10,000 experience for each character and 1,500 gold."
+    maps:
+      - map: out05
+        show: [quest, exit, objective]
+        focus: "Dragonbane Flower"
+        caption: "Calindril's house in Garrote Gorge's town; the flowers grow far to the north."
+
+  - quest: q152
+    requires: "Not allied with Charles Quixote."
+    steps:
+      - "Balion Tearwing lives in Scarwing's Cave inside the Dragon Cave in northern Garrote Gorge. Ask about 'Quest': the Dragons want a Dragonbane Flower for its antidote."
+      - "Pick up one of the three Dragonbane Flowers in the north of Garrote Gorge (see Calindril's quest) and bring it back ('Poison!')."
+    tips:
+      - "There are three flowers, enough for both Calindril and Balion if your alliance choice still allows both."
+    reward: "10,000 experience for each character and 1,500 gold."
+    maps:
+      - map: d17
+        show: [quest, exit]
+        focus: "Scarwing"
+        caption: "Balion Tearwing is in Scarwing's Cave."
+
+  - quest: q160
+    steps:
+      - "Zelim lives in the Foestryke Residence in Garrote Gorge's town. Ask about 'Quest': Charles Quixote's Drum of Victory was lost to the Nagas."
+      - "The Naga Vault's entrance is in the west of Garrote Gorge. Naga Queens guard the vault; the Drum of Victory is in a chest in its middle."
+      - "Return to Zelim ('Where is the drum?')."
+    reward: "20,000 experience for each character and 1,500 gold."
+    maps:
+      - map: d18
+        show: [chest, exit]
+        caption: "The Naga Vault: the Drum's chest is in the middle."
+
+  - quest: q154
+    requires: "Not allied with the Dragons."
+    steps:
+      - "Avalon lives in Avalon's Residence in Garrote Gorge's town. Ask about 'Quest'."
+      - "Kill the Dragons. The quest completes when every hatchling, dragonette and young dragon in the Garrote Gorge wilderness is dead, or every dragon in the Dragon Cave ('You have killed all of the Dragons')."
+      - "Return to Avalon ('Quest')."
+    tips:
+      - "Siding against the Dragons this way does not by itself decide the alliance; the Dragon Egg does."
+    reward: "20,000 experience for each character and 2,500 gold."
+
+  - quest: q157
+    requires: "Not allied with Charles Quixote."
+    steps:
+      - "Jerin Flame-eye lives in Ishton's Cave inside the Dragon Cave. Ask about 'Quest'."
+      - "Kill the Dragon hunters. The quest completes when every dragon hunter, crusader and dragonslayer in the Garrote Gorge wilderness is dead, or every one in the Dragon Hunter's Camp ('You have killed all of the Dragon Hunters')."
+      - "Return to Jerin ('Quest')."
+    reward: "20,000 experience for each character and 2,500 gold."
+
+  # Shadowspire
+  - quest: q123
+    steps:
+      - "Kelvin lives in Kelvin's Home in Shadowspire's town. Ask about 'Potion of Pure Intellect'."
+      - "Bring one red, two blue and four yellow reagents (see Thistle's quest for the list) and ask 'Do you have the Ingredients?'."
+    reward: "5,000 experience for each character and a Potion of Pure Intellect."
+
+  - quest: q164
+    steps:
+      - "Hallien lives in Hallien's Cottage in Shadowspire's town. Ask about 'Quest': a Vial of Grave Dirt in the Vampire Crypt could bring Korbu back."
+      - "The Vampire Crypt is north-east of the town. The vial lies on the floor at the crypt's north end, near a chest with a Vampire's Ring and Cloak."
+      - "Return to Hallien ('Do you have the vial?')."
+    tips:
+      - "The vial has nothing to do with the Vampire promotion, which needs Korbu's Remains and Sarcophagus; you can do both."
+    reward: "22,000 experience for each character and 1,500 gold."
+    maps:
+      - map: d21
+        show: [chest, exit, objective]
+        focus: "Vial of Grave Earth"
+        caption: "The Vampire Crypt: the vial lies at the north end."
+
+  - quest: q166
+    steps:
+      - "Tantilion lives in Tantilion's House in Shadowspire's town. Ask about 'Quest': he wants the Bone of Doom."
+      - "The Bone is in a chest in the south-east of the Dire Wolf Den, in the north-west of the Ravenshore map."
+      - "Return to Tantilion ('Great!')."
+    reward: "7,500 experience for each character and 9,000 gold."
+    maps:
+      - map: d08
+        show: [chest, exit]
+        caption: "The Dire Wolf Den: the Bone of Doom's chest is in the south-east."
+
+  - quest: q162
+    steps:
+      - "Benefice lives in the House of Benefice in Shadowspire's town. Ask about 'Quest': Iseldir's Puzzle Box was last owned by Zanthora, the Mad Necromancer."
+      - "The Mad Necromancer's Lab is in the north-west of Shadowspire. Take the stairs down to the green maze and go to its northernmost room: one of the two chests there holds the Puzzle Box (and two Lich Jars), the other Ebonest."
+      - "Return to Benefice ('Hours of Enjoyment!')."
+    reward: "15,000 experience for each character and 1,500 gold."
+    maps:
+      - map: d20
+        show: [chest, quest, exit]
+        caption: "The Mad Necromancer's Lab: the two chests at the north end of the lower maze."
+
+  # Murmurwoods
+  - quest: q125
+    steps:
+      - "Castigeir lives in the Tonk Residence in Murmurwoods. Ask about 'Potion of Pure Personality'."
+      - "Bring one red, four blue and two yellow reagents (see Thistle's quest for the list) and ask 'Thanks for the Ingredients'."
+    reward: "5,000 experience for each character and a Potion of Pure Personality."
