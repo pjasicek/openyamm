@@ -1395,6 +1395,9 @@ struct ActorAiFrameFacts
     // The party's hit reach (GameplayActorService::partyHitReach: 5120, MM9's 3800): monsters shoot and cast at the
     // party from no farther, so the party can always answer.
     float partyHitReach = 5120.0f;
+    // False on a map whose ward bars monster magic (IGameplayWorldRuntime::allowsMonsterSpellcasting): every actor
+    // chooses as if it had no castable spell, in real time and turn-based combat alike.
+    bool monsterSpellcastingAllowed = true;
     std::vector<ActorAiFacts> backgroundActors;
     std::vector<ActorAiFacts> activeActors;
 };

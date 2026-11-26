@@ -1205,7 +1205,7 @@ TEST_CASE("shared actor AI pursues a remembered party target without attack line
     CHECK_FALSE(update.attackRequest.has_value());
 }
 
-TEST_CASE("shared actor AI uses the pursuit speed multiplier and cap")
+TEST_CASE("shared actor AI doubles the pursuit speed without a cap")
 {
     GameplayActorAiSystem system;
     ActorAiFrameFacts frame = makeFrame();
@@ -1236,10 +1236,10 @@ TEST_CASE("shared actor AI uses the pursuit speed multiplier and cap")
     REQUIRE(update.state.motionState.has_value());
     CHECK(*update.state.motionState == ActorAiMotionState::Pursuing);
     CHECK(update.movementIntent.applyMovement);
-    CHECK(update.movementIntent.moveSpeed == doctest::Approx(1000.0f));
+    CHECK(update.movementIntent.moveSpeed == doctest::Approx(1400.0f));
 }
 
-TEST_CASE("turn-based wait stage multiplies movement speed by 5/3 before the cap")
+TEST_CASE("turn-based wait stage multiplies movement speed by 5/3 up to 1000")
 {
     GameplayActorAiSystem system;
     ActorAiFrameFacts frame = makeFrame();
@@ -1278,12 +1278,19 @@ TEST_CASE("turn-based wait stage multiplies movement speed by 5/3 before the cap
     REQUIRE_EQ(realTimeResult.actorUpdates.size(), 1u);
     CHECK(realTimeResult.actorUpdates.front().movementIntent.moveSpeed == doctest::Approx(400.0f));
 
+    // The speed-up stops at the original's 1000; a monster already faster keeps its own speed.
     frame.turnBased.mode = OpenYAMM::Game::ActorTurnBasedMode::MoveOnly;
-    frame.activeActors.front().stats.moveSpeed = 700;
-    frame.activeActors.front().movement.effectiveMoveSpeed = 700.0f;
+    frame.activeActors.front().stats.moveSpeed = 400;
+    frame.activeActors.front().movement.effectiveMoveSpeed = 400.0f;
     const OpenYAMM::Game::ActorAiFrameResult cappedResult = system.updateActors(frame);
     REQUIRE_EQ(cappedResult.actorUpdates.size(), 1u);
     CHECK(cappedResult.actorUpdates.front().movementIntent.moveSpeed == doctest::Approx(1000.0f));
+
+    frame.activeActors.front().stats.moveSpeed = 700;
+    frame.activeActors.front().movement.effectiveMoveSpeed = 700.0f;
+    const OpenYAMM::Game::ActorAiFrameResult fastResult = system.updateActors(frame);
+    REQUIRE_EQ(fastResult.actorUpdates.size(), 1u);
+    CHECK(fastResult.actorUpdates.front().movementIntent.moveSpeed == doctest::Approx(1400.0f));
 
     frame.turnBased.mode = OpenYAMM::Game::ActorTurnBasedMode::Hold;
     const OpenYAMM::Game::ActorAiFrameResult heldResult = system.updateActors(frame);
@@ -1666,6 +1673,64 @@ TEST_CASE("shared actor AI skips spell attacks that the world cannot resolve")
     const OpenYAMM::Game::ActorAiUpdate &update = result.actorUpdates.front();
     REQUIRE(update.state.queuedAttackAbility.has_value());
     CHECK(*update.state.queuedAttackAbility == GameplayActorAttackAbility::Attack1);
+}
+
+namespace
+{
+// A hostile caster in range of the party whose Fire Bolt is always its choice when it may cast.
+ActorAiFacts makeFireBoltCaster()
+{
+    ActorAiFacts actor = makeActor(18, 115);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.stats.hasSpell1 = true;
+    actor.stats.spell1Id = 2;
+    actor.stats.spell1Name = "fire bolt";
+    actor.stats.spell1UseChance = 100;
+    actor.stats.spell1CastSupported = true;
+    actor.stats.hasSpell2 = true;
+    actor.stats.spell2Id = 2;
+    actor.stats.spell2Name = "fire bolt";
+    actor.stats.spell2UseChance = 100;
+    actor.stats.spell2CastSupported = true;
+    actor.stats.attackConstraints.attack1IsRanged = true;
+    actor.runtime.rangedAttackAnimationSeconds = 0.5f;
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {0.0f, 0.0f, 64.0f};
+    actor.target.currentDistance = 512.0f;
+    actor.target.currentEdgeDistance = 512.0f;
+    actor.target.currentCanSense = true;
+    actor.target.partyCanSenseActor = true;
+    return actor;
+}
+}
+
+TEST_CASE("a map's ward against monster magic leaves monsters their attacks, in real time and turn-based combat")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    frame.activeActors.push_back(makeFireBoltCaster());
+
+    const OpenYAMM::Game::ActorAiFrameResult casting = system.updateActors(frame);
+    REQUIRE_EQ(casting.actorUpdates.size(), 1u);
+    REQUIRE(casting.actorUpdates.front().state.queuedAttackAbility.has_value());
+    CHECK(*casting.actorUpdates.front().state.queuedAttackAbility == GameplayActorAttackAbility::Spell1);
+
+    frame.monsterSpellcastingAllowed = false;
+    const OpenYAMM::Game::ActorAiFrameResult warded = system.updateActors(frame);
+    REQUIRE_EQ(warded.actorUpdates.size(), 1u);
+    REQUIRE(warded.actorUpdates.front().state.queuedAttackAbility.has_value());
+    CHECK(*warded.actorUpdates.front().state.queuedAttackAbility == GameplayActorAttackAbility::Attack1);
+
+    // Turn-based: the monster granted its action shoots instead of casting.
+    frame.turnBased.mode = OpenYAMM::Game::ActorTurnBasedMode::Hold;
+    frame.turnBased.actionGrantActorIndices = {18};
+    const OpenYAMM::Game::ActorAiFrameResult turnBased = system.updateActors(frame);
+    REQUIRE_EQ(turnBased.actorUpdates.size(), 1u);
+    REQUIRE(turnBased.actorUpdates.front().state.queuedAttackAbility.has_value());
+    CHECK(*turnBased.actorUpdates.front().state.queuedAttackAbility == GameplayActorAttackAbility::Attack1);
 }
 
 TEST_CASE("shared actor AI skips monster self buff while already active")

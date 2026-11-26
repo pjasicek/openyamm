@@ -443,7 +443,7 @@ std::string writeSceneText(
     const OutdoorThings &things,
     const std::vector<ArrivalPoint> &arrivals,
     const YAML::Node &atmosphere,
-    bool noSpells,
+    const YAML::Node &rules,
     YAML::Node &sceneOut)
 {
     YAML::Node scene(YAML::NodeType::Map);
@@ -542,11 +542,7 @@ std::string writeSceneText(
 
     scene["environment"] = environment;
 
-    // project.yml rules.no_spells (S8g): no spell works on the map (the scene's runtime_restrictions).
-    if (noSpells)
-    {
-        scene["runtime_restrictions"]["allow_spellcasting"] = false;
-    }
+    writeRuleRestrictions(rules, scene);
 
     // atmosphere.yml `view_distance`: the map's far clip and draw distances scaled (A6's D4: the castle across the
     // lake); the scene's rendering.view_distance_scale, 1 when left out.
@@ -2549,8 +2545,19 @@ bool buildOutdoorProject(const Project &project, const BuildOptions &options, Bu
         readWorldTable(options.assetRoot, lowered.world, "decoration_data.txt", "decorations", decorationTable);
     }
 
+    // The scatter keeps clear of the sketch's placed decorations, by how far each one's model reaches as drawn.
+    std::vector<std::string> placedNames;
+
+    for (const OutdoorPlacedDecoration &decoration : things.decorations)
+    {
+        placedNames.push_back(decoration.name);
+    }
+
+    const std::map<std::string, double> drawnReach =
+        decorationDrawnReach(options.assetRoot, lowered.world, lowered.mapStem, placedNames);
+
     if (!placeOutdoorThings(project, lowered, decorationTable, places, result.issues, result.warnings,
-            things.covered))
+            things.covered, things.decorations, drawnReach))
     {
         return false;
     }
@@ -2806,7 +2813,7 @@ bool buildOutdoorProject(const Project &project, const BuildOptions &options, Bu
 
     const std::string sceneText = writeSceneText(lowered, doors, translucentFaces, places, things, arrivals,
         project.has("atmosphere.yml") ? project.document("atmosphere.yml") : YAML::Node(YAML::NodeType::Undefined),
-        textOf(childOf(project.document("project.yml"), "rules"), "no_spells", "") == "true", sceneNode);
+        childOf(project.document("project.yml"), "rules"), sceneNode);
     const std::optional<Game::OutdoorSceneData> scene =
         Game::OutdoorSceneYmlLoader().loadFromText(sceneText, errorMessage);
 

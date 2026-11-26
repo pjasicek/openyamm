@@ -200,6 +200,8 @@ out), the drowning ticks taken on this map and its feet's height; the swim keys 
 `fly_up`, `fly_down` with the pitch from `start` (Verhoffin Ruins' `scenario_swim.yml`).
 `assert: {actor_visible: {actor_index, over_water: bool}}` checks whether an outdoor walker's centre stands over deep
 water with no deck under it, as the water rule tests it (`xeen/x1_bridge_walkers.yml`).
+`assert: {actor_visible: {actor_index, room_matches_place: bool}}` checks indoors whether the room a monster is drawn
+by is the room its place lies in (`coop/net_replica_monsters_indoor.yml`).
 
 For monster AI (AI arenas, [mm9/ai/README.md](mm9/ai/README.md)): `ai_arena: {path, log}` sets an arena up (the map's
 actors hidden, the arena's monsters spawned, the party placed, the decision trace on), `assert: {ai_trace:

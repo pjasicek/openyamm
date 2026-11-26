@@ -176,16 +176,28 @@ struct ScatterOptions
     // more than `LevelSpread`, so it does not hang over a drop or float on one side (F6-R3, 2026-11-22: radius-52
     // bone piles on ground that dropped 49 to 57 under them). Trees, plants and natural rocks are not judged.
     double levelRadius = 0.0;
+    // A scattered decoration's own radius (cells, its table's): it keeps (a placed decoration's radius + this) *
+    // ClearShare from each placed one's middle; negative: not kept off them.
+    double clearRadius = -1.0;
 };
+
+// How much of a placed decoration's radius and a scattered one's must lie between their middles (F73, X7 p7: a dead
+// tree's trunk out of a boulder; tools/xeen/town_fit_check.py `decorations.through` judges by the same share).
+constexpr double ClearShare = 0.6;
+// The largest placed decoration (map units from its middle) kept clear of as a disc (the check's limit too).
+constexpr double MaxClearReach = 384.0;
 
 class Placer
 {
 public:
-    Placer(const LoweredOutdoorMap &lowered, const std::vector<std::array<double, 4>> &keepOff)
+    // `clear`: the sketch's placed decorations, [x, y, radius] in cells.
+    Placer(const LoweredOutdoorMap &lowered, const std::vector<std::array<double, 4>> &keepOff,
+        const std::vector<std::array<double, 3>> &clear = {})
         : m_lowered(lowered)
         , m_keepOff(keepOff)
-        , m_blocked(static_cast<size_t>(Cells) * Cells, 0)
-        , m_steep(static_cast<size_t>(Cells) * Cells, 0)
+        , m_clear(clear)
+        , m_blocked(static_cast<size_t>(sideCells()) * sideCells(), 0)
+        , m_steep(static_cast<size_t>(sideCells()) * sideCells(), 0)
     {
         for (size_t cell = 0; cell < m_blocked.size(); ++cell)
         {
@@ -277,10 +289,25 @@ public:
         return true;
     }
 
+    // Whether a scattered decoration of radius `radius` (cells) at a place keeps clear of the placed decorations:
+    // (their radius + its) * ClearShare from each one's middle. Negative: anything goes.
+    bool clearOfPlaced(double x, double y, double radius) const
+    {
+        if (radius < 0.0)
+        {
+            return true;
+        }
+
+        return std::none_of(m_clear.begin(), m_clear.end(), [x, y, radius](const std::array<double, 3> &placed)
+        {
+            return oy::hypot(placed[0] - x, placed[1] - y) < (placed[2] + radius) * ClearShare;
+        });
+    }
+
     // Up to `count` places in the area in clumps: round each of `centres`, within `reach` cells of it, thinning
     // toward the rim; each at least `spacing` from the others of this call.
     std::vector<Point2> placeRound(const Area &area, const std::vector<Point2> &centres, double reach, size_t count,
-        double spacing, bool walkable, uint32_t entry, double levelRadius = 0.0) const
+        double spacing, bool walkable, uint32_t entry, double levelRadius = 0.0, double clearRadius = -1.0) const
     {
         std::vector<Point2> placed;
 
@@ -294,7 +321,8 @@ public:
             const double x = std::round((centre[0] + distance * oy::cos(angle)) * 16.0) / 16.0;
             const double y = std::round((centre[1] + distance * oy::sin(angle)) * 16.0) / 16.0;
 
-            if (!area.holds(x, y) || !free(x, y, walkable) || (walkable && !level(x, y, levelRadius)))
+            if (!area.holds(x, y) || !free(x, y, walkable) || (walkable && !level(x, y, levelRadius))
+                || !clearOfPlaced(x, y, clearRadius))
             {
                 continue;
             }
@@ -331,7 +359,8 @@ public:
             const double y = std::round((box[1] + (box[3] - box[1]) * tryChance(entry, attempt, 1)) * 16.0) / 16.0;
 
             if (!area.holds(x, y) || !(options.onWater ? onWater(x, y) : free(x, y, walkable))
-                || (walkable && !options.onWater && !level(x, y, options.levelRadius)))
+                || (walkable && !options.onWater && !level(x, y, options.levelRadius))
+                || !clearOfPlaced(x, y, options.clearRadius))
             {
                 continue;
             }
@@ -384,13 +413,16 @@ public:
 private:
     const LoweredOutdoorMap &m_lowered;
     const std::vector<std::array<double, 4>> m_keepOff;
+    const std::vector<std::array<double, 3>> m_clear;
     std::vector<uint8_t> m_blocked;
     std::vector<uint8_t> m_steep;
 };
 
 // The decorations of decoration_data.txt by internal name (lower case): the number an ODM stores, the row's less 1;
-// with `pRadii` also each one's radius (the Radius column, map units).
-std::map<std::string, int> decorationIds(const std::string &table, std::map<std::string, double> *pRadii = nullptr)
+// with `pRadii` also each one's radius for the level rule (the Radius column, map units; 0 for what grows or lies on
+// slopes), with `pTableRadii` the Radius column as it is.
+std::map<std::string, int> decorationIds(const std::string &table, std::map<std::string, double> *pRadii = nullptr,
+    std::map<std::string, double> *pTableRadii = nullptr)
 {
     std::map<std::string, int> ids;
     std::istringstream stream(table);
@@ -419,7 +451,7 @@ std::map<std::string, int> decorationIds(const std::string &table, std::map<std:
         {
             ids[name] = number - 1;
 
-            if (pRadii != nullptr)
+            if (pRadii != nullptr || pTableRadii != nullptr)
             {
                 // # InternalName Hint Type Radius. Trees, plants and natural rocks grow and lie on slopes (as
                 // tools/xeen/check_props_support.py judges them): radius 0, so the level rule passes them.
@@ -440,6 +472,11 @@ std::map<std::string, int> decorationIds(const std::string &table, std::map<std:
                     }
                 }
 
+                if (pTableRadii != nullptr)
+                {
+                    (*pTableRadii)[name] = radius;
+                }
+
                 std::string words = name + " " + hint;
                 std::transform(words.begin(), words.end(), words.begin(), [](unsigned char character)
                 {
@@ -453,7 +490,10 @@ std::map<std::string, int> decorationIds(const std::string &table, std::map<std:
                     radius = words.find(pWord) != std::string::npos ? 0.0 : radius;
                 }
 
-                (*pRadii)[name] = radius;
+                if (pRadii != nullptr)
+                {
+                    (*pRadii)[name] = radius;
+                }
             }
         }
     }
@@ -663,7 +703,9 @@ bool placeOutdoorThings(
     OutdoorPlaces &places,
     std::vector<ProjectIssue> &issues,
     std::vector<std::string> &warnings,
-    const std::vector<std::array<double, 4>> &keepOff)
+    const std::vector<std::array<double, 4>> &keepOff,
+    const std::vector<OutdoorPlacedDecoration> &placed,
+    const std::map<std::string, double> &drawnReach)
 {
     const OutdoorGridScope gridScope(project);
     places = {};
@@ -671,7 +713,33 @@ bool placeOutdoorThings(
     const YAML::Node sketch = project.document(SketchFile);
     const YAML::Node plan = project.document("plan.yml");
     const YAML::Node card = project.document("project.yml");
-    const Placer placer(lowered, keepOff);
+    std::map<std::string, double> tableRadii;
+
+    if (!decorationTable.empty())
+    {
+        decorationIds(decorationTable, nullptr, &tableRadii);
+    }
+
+    // The sketch's placed decorations the scatter keeps clear of, in cells: each by its model's drawn reach (Xeen's
+    // basalt boulders: 170 in the table, drawn 269), else its table radius. Only round pieces, up to MaxClearReach:
+    // a hull piece, a Sphinx or a great tree's crown is long or open, not a disc to keep out of.
+    std::vector<std::array<double, 3>> clear;
+
+    for (const OutdoorPlacedDecoration &decoration : placed)
+    {
+        const std::map<std::string, double>::const_iterator table = tableRadii.find(decoration.name);
+        const std::map<std::string, double>::const_iterator drawn = drawnReach.find(decoration.name);
+        const double radius = drawn != drawnReach.end() ? drawn->second
+            : table == tableRadii.end() ? 0.0 : table->second;
+
+        if (radius > 0.0 && radius <= MaxClearReach)
+        {
+            clear.push_back({decoration.x / OutdoorCellSize + sideCells() / 2,
+                sideCells() / 2 - decoration.y / OutdoorCellSize, radius / OutdoorCellSize});
+        }
+    }
+
+    const Placer placer(lowered, keepOff, clear);
 
     // Spawn points: each encounter area holds `count` markers of one of the map's three monster slots.
     std::map<std::string, std::string> actorOfPopulation;
@@ -1042,11 +1110,16 @@ bool placeOutdoorThings(
         ScatterOptions options;
         options.onWater = on == "water";
 
+        options.clearRadius = 0.0;
+
         for (const std::pair<std::string, double> &kind : kinds)
         {
             const std::map<std::string, double>::const_iterator radius = radii.find(kind.first);
             options.levelRadius = std::max(options.levelRadius,
                 radius == radii.end() ? 0.0 : radius->second / OutdoorCellSize);
+            const std::map<std::string, double>::const_iterator table = tableRadii.find(kind.first);
+            options.clearRadius = std::max(options.clearRadius,
+                table == tableRadii.end() ? 0.0 : table->second / OutdoorCellSize);
         }
         if (const YAML::Node support = childOf(node, "support_radius"); support.IsDefined())
         {
@@ -1115,7 +1188,7 @@ bool placeOutdoorThings(
             }
 
             found = placer.placeRound(area, centres, reach, static_cast<size_t>(count), std::max(spacing, 0.0),
-                offSteep, seed, options.levelRadius);
+                offSteep, seed, options.levelRadius, options.clearRadius);
         }
         else
         {

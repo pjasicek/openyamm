@@ -4630,6 +4630,19 @@ std::string EditorDocument::serializeOutdoorScene(
     emitter << YAML::Key << "allow_rest" << YAML::Value << sceneData.runtimeRestrictions.allowRest;
     emitter << YAML::Key << "allow_spellcasting" << YAML::Value
             << sceneData.runtimeRestrictions.allowSpellcasting;
+    if (sceneData.runtimeRestrictions.allowSoloSpellcasting)
+    {
+        emitter << YAML::Key << "allow_spellcasting_solo" << YAML::Value << true;
+    }
+    if (!sceneData.runtimeRestrictions.allowMonsterSpellcasting)
+    {
+        emitter << YAML::Key << "allow_monster_spellcasting" << YAML::Value << false;
+    }
+    if (sceneData.runtimeRestrictions.soloSpellDamagePercent != 100)
+    {
+        emitter << YAML::Key << "solo_spell_damage_percent" << YAML::Value
+                << sceneData.runtimeRestrictions.soloSpellDamagePercent;
+    }
     emitter << YAML::Key << "arena" << YAML::Value << sceneData.runtimeRestrictions.isArena;
     emitter << YAML::EndMap;
 
@@ -4871,6 +4884,19 @@ std::string EditorDocument::serializeOutdoorAuthoredOverlay(const Game::OutdoorS
     emitter << YAML::Key << "allow_rest" << YAML::Value << sceneData.runtimeRestrictions.allowRest;
     emitter << YAML::Key << "allow_spellcasting" << YAML::Value
             << sceneData.runtimeRestrictions.allowSpellcasting;
+    if (sceneData.runtimeRestrictions.allowSoloSpellcasting)
+    {
+        emitter << YAML::Key << "allow_spellcasting_solo" << YAML::Value << true;
+    }
+    if (!sceneData.runtimeRestrictions.allowMonsterSpellcasting)
+    {
+        emitter << YAML::Key << "allow_monster_spellcasting" << YAML::Value << false;
+    }
+    if (sceneData.runtimeRestrictions.soloSpellDamagePercent != 100)
+    {
+        emitter << YAML::Key << "solo_spell_damage_percent" << YAML::Value
+                << sceneData.runtimeRestrictions.soloSpellDamagePercent;
+    }
     emitter << YAML::Key << "arena" << YAML::Value << sceneData.runtimeRestrictions.isArena;
     emitter << YAML::EndMap;
     emitter << YAML::Key << "environment" << YAML::Value << YAML::BeginMap;
@@ -5010,6 +5036,19 @@ std::string EditorDocument::serializeIndoorScene(
     emitter << YAML::Key << "allow_rest" << YAML::Value << sceneData.runtimeRestrictions.allowRest;
     emitter << YAML::Key << "allow_spellcasting" << YAML::Value
             << sceneData.runtimeRestrictions.allowSpellcasting;
+    if (sceneData.runtimeRestrictions.allowSoloSpellcasting)
+    {
+        emitter << YAML::Key << "allow_spellcasting_solo" << YAML::Value << true;
+    }
+    if (!sceneData.runtimeRestrictions.allowMonsterSpellcasting)
+    {
+        emitter << YAML::Key << "allow_monster_spellcasting" << YAML::Value << false;
+    }
+    if (sceneData.runtimeRestrictions.soloSpellDamagePercent != 100)
+    {
+        emitter << YAML::Key << "solo_spell_damage_percent" << YAML::Value
+                << sceneData.runtimeRestrictions.soloSpellDamagePercent;
+    }
     emitter << YAML::Key << "arena" << YAML::Value << sceneData.runtimeRestrictions.isArena;
     emitter << YAML::EndMap;
 

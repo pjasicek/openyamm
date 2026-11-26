@@ -91,7 +91,7 @@ constexpr size_t PoseRefreshPerTick = 6;
 constexpr float NearPoseDistance = 2560.0f;
 constexpr uint32_t FarPoseTicks = 4;
 // As many poses as fit one datagram, and as many records as make a message of a reasonable size.
-constexpr size_t PosesPerMessage = 24;
+constexpr size_t PosesPerMessage = 22;
 constexpr size_t ActorRecordsPerMessage = 32;
 // How many of the states sent to a guest the host keeps to measure the guest's changes against.
 constexpr size_t SentPartyHistory = 32;
@@ -142,6 +142,7 @@ bool poseDiffers(const ReplicaActorPose &pose, const ReplicaActorPose &sent)
         || pose.intendedSpeed != sent.intendedSpeed || pose.hp != sent.hp || pose.animation != sent.animation
         || pose.aiState != sent.aiState || pose.attackAbility != sent.attackAbility
         || pose.skirmishPhase != sent.skirmishPhase || pose.flags != sent.flags
+        || pose.sectorId != sent.sectorId || pose.eyeSectorId != sent.eyeSectorId
         || pose.animationTimeTicks < sent.animationTimeTicks;
 }
 
@@ -165,6 +166,12 @@ uint64_t mechanismsKey(const std::unordered_map<uint32_t, RuntimeMechanismState>
         mix(mechanism.spinOn ? 1 : 0);
         mix(uint64_t(mechanism.spinDirection + 2));
         mix(mechanism.spinSet ? 1 : 0);
+        // Mixed through before summing (MurmurHash3's finalizer). Bare FNV sums cancelled out: two doors whose ids
+        // differ in the lowest bit changed state together (the Barrow Downs' paired panels) and left the key as it
+        // was, so their movement was never sent.
+        one = (one ^ (one >> 33)) * 0xff51afd7ed558ccdull;
+        one = (one ^ (one >> 33)) * 0xc4ceb9fe1a85ec53ull;
+        one ^= one >> 33;
         // Summed: the map's order is not the same in two games.
         key += one;
     }
@@ -4698,7 +4705,7 @@ void CoopSession::guestHandleMapSection(Engine::ByteReader &reader)
                 }
             }
 
-            pEventState->mechanisms = std::move(mechanisms);
+            pWorldRuntime->applyReplicaMechanisms(std::move(mechanisms));
             break;
         }
 

@@ -45,6 +45,12 @@ private:
     std::map<std::string, std::optional<Shape>> m_shapes;
 };
 
+// How far each named outdoor decoration bound to a 3D model on the ground (engine/models/decorations.yml, the world's
+// replacing an entry of its name) reaches from its middle as the game draws it: the farthest of the model's base-mesh
+// points across x or z, at the binding's height over the model's. Names without a readable model are left out.
+std::map<std::string, double> decorationDrawnReach(const std::filesystem::path &assetRoot, const std::string &world,
+    const std::string &mapStem, const std::vector<std::string> &names);
+
 // Collision for outdoor decorations the game draws as 3D models. The game keeps a decoration's native collision, an
 // upright cylinder of its decoration_data.txt radius and height (none at radius 0), so a long or hollow model (Xeen's
 // world hull, a ship) is walked and flown through. A binding in engine/models/decorations.yml or the world's

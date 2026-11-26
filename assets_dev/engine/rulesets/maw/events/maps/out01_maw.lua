@@ -2,7 +2,9 @@
 
 -- The pirate and lizardman war (event 463, every ten minutes until the Pirate Leader falls): each wiped group comes
 -- back. Road to Insanity and Beyond Madness stop the war once the pirates have come back 25 times
--- (Maps/out01.lua:15-22; PHASE9_SCOPE P9.I8); the count is the map variable MawPiratesSpawned.
+-- (Maps/out01.lua:15-22; PHASE9_SCOPE P9.I8); the count is the map variable MawPiratesSpawned. MAW's other modes
+-- kept the original's endless war, a farm of gold and experience whose corpses pile up until the map lags (Discord,
+-- 2026-11-25: "2K+ kills on the map"): every mode stops at the same count (DEVIATIONS.md 204).
 -- The original event summons the first point of group 10 at y -66192 and of group 13 at y 55504, far past the map's
 -- edge (+-22528), where they can never be reached, so the map is never cleared; MAW pulled them back to its edge every
 -- two seconds (checkOutOfBound). Here they spawn at -6192 and 5504, beside the group's other points.
@@ -17,9 +19,7 @@ local Waves = {
 
 RegisterMapTimerEvent(463, 600, function()
     if IsQBitSet(QBit(6)) then return end -- Pirate Leader in Dagger Wound Pirate Outpost killed
-    local mode = evt.RulesetInfo().challengeMode
-    local insanity = mode == "road_to_insanity" or mode == "beyond_madness"
-    if insanity and evt.GetMapVar("MawPiratesSpawned", 0) > 25 then
+    if evt.GetMapVar("MawPiratesSpawned", 0) > 25 then
         return
     end
     for _, wave in ipairs(Waves) do

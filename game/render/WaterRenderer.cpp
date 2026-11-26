@@ -22,6 +22,8 @@ namespace
 {
 // A mirror farther than this takes no reflection (fs_mirror.sc fades its reflection out before it).
 constexpr float MirrorReflectionDistance = 4096.0f;
+// Seconds a surface must stay hidden behind other geometry before its capture goes to other water.
+constexpr float OccludedCaptureDelay = 0.5f;
 
 // Two mirror surfaces of one plane (indoor batches split a face's plane by sector and texture) share a capture.
 bool sameMirrorPlane(const ReflectionPlane &a, const ReflectionPlane &b)
@@ -304,7 +306,12 @@ void WaterRenderer::prepare(const ViewFrustum &frustum, const bx::Vec3 &camera, 
             const bgfx::OcclusionQueryResult::Enum result = bgfx::getResult(surface.occlusionQuery, &pixels);
             if (result != bgfx::OcclusionQueryResult::NoResult)
             {
-                surface.occluded = result == bgfx::OcclusionQueryResult::Invisible;
+                const bool occluded = result == bgfx::OcclusionQueryResult::Invisible;
+                if (occluded && !surface.occluded)
+                {
+                    surface.occludedSince = seconds;
+                }
+                surface.occluded = occluded;
             }
         }
         surface.queried = false;
@@ -343,9 +350,13 @@ void WaterRenderer::prepare(const ViewFrustum &frustum, const bx::Vec3 &camera, 
         Surface *pNearest = nullptr;
         for (Surface &surface : m_surfaces)
         {
-            // A surface the main view's last occlusion answer found hidden (a well behind a house) takes no capture:
-            // it would spend the budget on water nobody sees (player pin X1 p2).
-            if (surface.reflection < 0 && !surface.occluded && reflectsFrom(surface, camera)
+            // A surface the main view's occlusion answers have found hidden for a while (a well behind a house) takes
+            // no capture: it would spend the budget on water nobody sees (player pin X1 p2). One answer is not enough:
+            // they arrive frames late and can be wrong for a frame, and each change moved a capture between two
+            // waters, which flickered between the reflection and the flat sky (Castle Ironfist, 3.2).
+            const bool longHidden = surface.occluded
+                && (seconds < surface.occludedSince || seconds - surface.occludedSince >= OccludedCaptureDelay);
+            if (surface.reflection < 0 && !longHidden && reflectsFrom(surface, camera)
                 && (pNearest == nullptr || surface.distanceSquared < pNearest->distanceSquared))
             {
                 pNearest = &surface;

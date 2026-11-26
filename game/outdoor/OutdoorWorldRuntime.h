@@ -753,6 +753,8 @@ public:
     bool allowsTownPortal() const override;
     bool allowsRest() const override;
     bool allowsSpellcasting() const override;
+    bool allowsMonsterSpellcasting() const override;
+    int spellDamagePercent() const override;
     Snapshot snapshot() const;
     void restoreSnapshot(const Snapshot &snapshot);
     void stampLastVisitTime();
@@ -779,6 +781,7 @@ public:
         std::optional<GameplayChestViewState> chestView,
         std::optional<GameplayCorpseViewState> corpseView) override;
     void setReplicaGameMinutes(float gameMinutes) override;
+    void applyReplicaMechanisms(std::unordered_map<uint32_t, RuntimeMechanismState> mechanisms) override;
     std::optional<GameplayPlayerBody> takeActingBodyOrder() override;
     std::vector<std::vector<uint8_t>> takeReplicaWorldCalls() override;
     void setReplicaDryRun(bool dryRun) override;

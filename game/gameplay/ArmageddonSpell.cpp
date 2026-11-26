@@ -2,6 +2,7 @@
 
 #include "engine/Localization.h"
 #include "game/gameplay/GameplayProjectileService.h"
+#include "game/maps/MapRuntimeRestrictions.h"
 #include "game/party/Party.h"
 #include "game/party/SpellIds.h"
 
@@ -146,16 +147,18 @@ uint32_t armageddonStrikeSeed(const ArmageddonState &state, uint32_t actorId)
     return actorId * 2246822519u ^ (state.shakeSequence + 1u) * 3266489917u;
 }
 
-int armageddonMonsterDamage(const ArmageddonState &state, const Party *pParty, const SpellTable *pSpellTable)
+int armageddonMonsterDamage(
+    const ArmageddonState &state, const Party *pParty, const SpellTable *pSpellTable, int mapSpellDamagePercent)
 {
     return GameplayProjectileService::partyWorldSpellDamage(pParty, pSpellTable, state.casterMemberIndex,
         spellIdValue(SpellId::Armageddon), state.skillLevel, uint32_t(state.skillMastery),
-        50 + static_cast<int>(state.skillLevel));
+        50 + static_cast<int>(state.skillLevel), mapSpellDamagePercent);
 }
 
-void applyArmageddonToParty(const ArmageddonState &state, Party &party)
+void applyArmageddonToParty(const ArmageddonState &state, Party &party, int mapSpellDamagePercent)
 {
-    const int damage = 50 + static_cast<int>(state.skillLevel);
+    const int damage =
+        MapRuntimeRestrictions::scaledSpellDamage(50 + static_cast<int>(state.skillLevel), mapSpellDamagePercent);
 
     for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
     {

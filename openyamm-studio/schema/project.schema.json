@@ -642,6 +642,20 @@
           "description": "No spell works on the map (S8g): the spellbook, quick spells and scrolls are refused, as in MM7's Shoals. `oymap build` writes the scene's `runtime_restrictions: {allow_spellcasting: false}` (indoor and outdoor maps; not an overlay project). The game's refusal line is its underwater one.",
           "type": "boolean"
         },
+        "solo_spells": {
+          "description": "Beside `no_spells`: a solo run casts on the map all the same, and the map's monsters cast at it even under `no_monster_spells` (Xeen's Darzog's Tower). `oymap build` writes the scene's `runtime_restrictions.allow_spellcasting_solo: true`; without `no_spells` it does nothing (a schema issue).",
+          "type": "boolean"
+        },
+        "solo_spell_damage_percent": {
+          "description": "Beside `solo_spells`: every spell's damage on the map in a solo run, in percent, the solo character's (spells, scrolls, wands) and the monsters' alike (Darzog's Tower: 50). `oymap build` writes the scene's `runtime_restrictions.solo_spell_damage_percent`; without `solo_spells` it does nothing (a schema issue). A party run always deals full damage.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "no_monster_spells": {
+          "description": "The map's monsters cast no spell and fight with their attacks; a solo run on a `solo_spells` map lifts it. `oymap build` writes the scene's `runtime_restrictions: {allow_monster_spellcasting: false}` (indoor and outdoor maps; not an overlay project).",
+          "type": "boolean"
+        },
         "no_teleport": {
           "type": "boolean"
         },
@@ -694,6 +708,9 @@
           [
             "no_fly",
             "no_spells",
+            "solo_spells",
+            "solo_spell_damage_percent",
+            "no_monster_spells",
             "no_teleport"
           ]
         ],

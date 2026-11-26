@@ -1303,6 +1303,26 @@ float faceSignedDistance(const OutdoorFaceGeometryData &geometry, const bx::Vec3
     return vecDot(geometry.normal, vecSubtract(point, geometry.vertices[0]));
 }
 
+// The 2D distance from a point to a face's outline seen from above; 0 inside it.
+float pointPolygonDistance2d(float x, float y, const std::vector<bx::Vec3> &vertices)
+{
+    if (isPointInsideOutdoorPolygon(x, y, vertices))
+    {
+        return 0.0f;
+    }
+
+    float distanceSquared = std::numeric_limits<float>::max();
+
+    for (size_t index = 0; index < vertices.size(); ++index)
+    {
+        const size_t nextIndex = (index + 1) % vertices.size();
+        distanceSquared = std::min(distanceSquared, pointSegmentDistanceSquared2d(
+            x, y, vertices[index].x, vertices[index].y, vertices[nextIndex].x, vertices[nextIndex].y));
+    }
+
+    return std::sqrt(distanceSquared);
+}
+
 bool actorFloorRiseHasClearance(
     const std::vector<OutdoorFaceGeometryData> &faces,
     const std::vector<size_t> &candidateFaceIndices,
@@ -1359,8 +1379,25 @@ bool actorFloorRiseHasClearance(
             continue;
         }
 
-        if (maxZ > bodyMinZ && minZ < bodyMaxZ
-            && isPointInsideOrNearPolygon(position.x, position.y, geometry.vertices, radius - CollisionEpsilon))
+        if (maxZ <= bodyMinZ || minZ >= bodyMaxZ)
+        {
+            continue;
+        }
+
+        const float distance = pointPolygonDistance2d(position.x, position.y, geometry.vertices);
+
+        if (distance > radius - CollisionEpsilon)
+        {
+            continue;
+        }
+
+        // The sweep moves the body's low sphere, its centre radius + 1 over the feet: a face that stays under that
+        // sphere's rounded bottom at its distance is a lip the sweep crosses (a tread's edge a few units over rising
+        // land), not a body in the lift (D-192). A flat bottom here stalled walkers uphill only.
+        const float roundedBottomZ =
+            position.z + GroundSnapHeight + radius - std::sqrt(std::max(0.0f, radius * radius - distance * distance));
+
+        if (maxZ > roundedBottomZ + CollisionEpsilon)
         {
             return false;
         }

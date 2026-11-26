@@ -38,8 +38,9 @@ FirstPersonViewModel::Kit FirstPersonViewModel::kitFor(const std::string &skillG
     }
     else if (skillGroup == "Club")
     {
-        kit.set = WeaponSet::OneHand;
-        kit.weapon = "w_mace.glb";
+        // A two-handed club (U-16: Xeen's Slayer Sword is a Weapon2 Club) is swung as a two-handed mace.
+        kit.set = twoHanded ? WeaponSet::TwoHand : WeaponSet::OneHand;
+        kit.weapon = twoHanded ? "w_warhammer.glb" : "w_mace.glb";
     }
     else if (skillGroup == "Blaster" || skillGroup == "Misc")
     {

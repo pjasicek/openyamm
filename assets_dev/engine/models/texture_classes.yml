@@ -1290,7 +1290,7 @@ textures:
   hkm1b1: {border: [81, 67, 50], class: tile, mirror: 0.58, motif: 0.66, override: true, seam: [1.22, 1.19], size: [128, 256], storey_stack: edge, tiles: [true, true], used: [2.0, 2.0]}
   hkm1b1s: {border: [81, 67, 50], class: tile, mirror: 0.54, motif: 0.21, seam: [1.42, 1.2], size: [128, 256], tiles: [true, true], used: [2.0, 1.0]}
   hkm1bw: {border: [81, 67, 50], class: tile, mirror: 0.6, motif: 0.46, override: true, seam: [1.06, 1.16], size: [128, 256], storey_stack: edge, tiles: [true, true], used: [2.0, 1.0]}
-  hkm1d: {border: [63, 53, 42], class: tile, door: tile, mirror: 0.58, motif: 0.18, seam: [1.02, 4.47], size: [128, 256], tiles: [true, false], used: [1.0, 1.0]}
+  hkm1d: {border: [63, 53, 42], class: feature, door: single, mirror: 0.58, motif: 0.18, override: true, seam: [1.02, 4.47], size: [128, 256], tiles: [true, false], used: [1.0, 1.0]}
   hkm1dl: {border: [62, 53, 42], class: feature, door: wing, mirror: 0.21, motif: 0.61, override: true, seam: [3.69, 2.68], size: [128, 256], tiles: [false, true], twin: hkm1dr, used: [1.0, 1.0]}
   hkm1dr: {border: [62, 53, 42], class: feature, door: wing, mirror: 0.21, motif: 0.62, override: true, seam: [4.01, 2.79], size: [128, 256], tiles: [false, true], twin: hkm1dl, used: [1.0, 1.0]}
   hkm1el: {border: [82, 70, 54], class: tile, mirror: 0.39, mirror_twin: hkm1er, motif: 0.84, seam: [4.04, 1.22], size: [128, 256], tiles: [false, true], used: [1.06, 1.0]}
@@ -1300,13 +1300,13 @@ textures:
   hkm2b: {border: [69, 51, 36], class: tile, mirror: 0.25, motif: 1.06, seam: [1.9, 2.45], size: [128, 256], tiles: [true, true], used: [1.0, 1.0]}
   hkm2bs: {border: [69, 51, 36], class: tile, mirror: 0.24, motif: 0.24, seam: [1.52, 0.07], size: [128, 256], tiles: [true, true], used: [1.0, 1.0]}
   hkm2bw: {border: [69, 51, 36], class: tile, mirror: 0.3, motif: 0.75, seam: [1.62, 2.42], size: [128, 256], tiles: [true, true], used: [2.0, 1.0]}
-  hkm2d: {border: [71, 54, 39], class: tile, door: tile, mirror: 0.44, motif: 0.61, seam: [1.22, 3.16], size: [128, 256], tiles: [true, false], used: [1.0, 1.0]}
+  hkm2d: {border: [71, 54, 39], class: feature, door: single, mirror: 0.44, motif: 0.61, override: true, seam: [1.22, 3.16], size: [128, 256], tiles: [true, false], used: [1.0, 1.0]}
   hkm2els: {border: [68, 49, 34], class: tile, mirror: 0.2, motif: 0.17, seam: [2.95, 0.32], size: [128, 256], tiles: [true, true], used: [0.88, 1.0]}
   hkm2elw: {border: [62, 45, 31], class: tile, mirror: 0.25, motif: 0.5, seam: [3.23, 2.51], size: [128, 256], tiles: [false, true], used: [0.88, 1.0]}
   hkm2ers: {border: [64, 46, 32], class: tile, mirror: 0.19, motif: 0.18, seam: [2.85, 0.49], size: [128, 256], tiles: [true, true], used: [0.88, 1.0]}
   hkm2erw: {border: [68, 49, 34], class: tile, mirror: 0.26, motif: 0.69, seam: [3.05, 2.45], size: [128, 256], tiles: [false, true], used: [0.88, 1.0]}
   hkm3b: {border: [62, 57, 48], class: trim_u, mirror: 0.41, motif: 0.31, override: true, seam: [1.47, 10.42], size: [128, 256], storey_stack: edge, tiles: [true, false], used: [4.0, 1.5]}
-  hkm3dr: {border: [56, 53, 44], class: trim_u, door: tile, mirror: 0.52, motif: 0.46, seam: [1.11, 18.94], size: [128, 256], tiles: [true, false], used: [1.0, 1.0]}
+  hkm3dr: {border: [56, 53, 44], class: feature, door: single, mirror: 0.52, motif: 0.46, override: true, seam: [1.11, 18.94], size: [128, 256], tiles: [true, false], used: [1.0, 1.0]}
   hkm3el: {border: [75, 67, 52], class: feature, mirror: 0.23, motif: 0.73, override: true, seam: [6.24, 13.47], size: [128, 256], storey_stack: edge, tiles: [false, false], used: [1.0, 1.0]}
   hkm3elw: {border: [72, 63, 48], class: tile, material: wood, mirror: 0.21, motif: 0.14, override: true, seam: [4.72, 14.78], size: [128, 256], storey_stack: edge, tiles: [false, false], used: [1.0, 1.0]}
   hkm3er: {border: [75, 67, 52], class: feature, mirror: 0.23, motif: 0.56, override: true, seam: [6.83, 12.97], size: [128, 256], storey_stack: edge, tiles: [false, false], used: [1.0, 1.0]}

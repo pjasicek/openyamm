@@ -441,7 +441,7 @@ TEST_CASE("A party Fire Spike trap rolls MAW's spell damage under MAW, its own d
     const auto damage = [&]()
     {
         return GameplayProjectileService::partyWorldSpellDamage(
-            &party, &gameData.spellTable, 0, fireSpike, 10, uint32_t(SkillMastery::Grandmaster), TrapRoll);
+            &party, &gameData.spellTable, 0, fireSpike, 10, uint32_t(SkillMastery::Grandmaster), TrapRoll, 100);
     };
 
     CHECK_EQ(damage(), TrapRoll);
@@ -458,7 +458,7 @@ TEST_CASE("Armageddon rolls MAW's spell damage on monsters under MAW, 50 + skill
     const auto damage = [&]()
     {
         return GameplayProjectileService::partyWorldSpellDamage(&party, &gameData.spellTable, 0,
-            int(spellIdValue(SpellId::Armageddon)), 20, uint32_t(SkillMastery::Grandmaster), 50 + 20);
+            int(spellIdValue(SpellId::Armageddon)), 20, uint32_t(SkillMastery::Grandmaster), 50 + 20, 100);
     };
 
     CHECK_EQ(damage(), 70);

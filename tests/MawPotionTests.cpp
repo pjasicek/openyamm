@@ -95,6 +95,21 @@ TEST_CASE("MAW potion effects load with MAW's drinking rules")
     CHECK(effects.find(264) == nullptr);
 }
 
+TEST_CASE("world potions append in their item range and keep the ruleset's drinks and rules")
+{
+    PotionEffectTable effects = mawPotionEffects();
+    std::string error;
+    const std::string body = "{effects: [{permanent_stat: {stats: [might], amount: 15, into: bonus}}]}";
+    REQUIRE(effects.appendWorldYaml("potions: {11001: " + body + "}", 11000, 11999, error));
+    REQUIRE(effects.find(11001));
+    CHECK(effects.find(11001)->effects.front().amount.evaluate(0) == 15);
+    CHECK_FALSE(effects.appendWorldYaml("potions: {11002: " + body + ", 11001: " + body + "}", 11000, 11999, error));
+    CHECK_FALSE(effects.appendWorldYaml("potions: {221: " + body + "}", 11000, 11999, error));
+    CHECK_FALSE(effects.find(11002));
+    CHECK(effects.find(231));
+    CHECK(effects.powerCap() == 500);
+}
+
 TEST_CASE("MAW potion auras cast at the strength of CLASSES_SPELLS_SPEC §7.4")
 {
     // Power 10: f 0.79, skill -10.6, level 3.9; Haste 7.9 %, Stone Skin 16.5 AC.

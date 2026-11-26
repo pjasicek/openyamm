@@ -11218,6 +11218,16 @@ bool assertActorVisible(
             && success;
     }
 
+    // Indoors, the room the monster is drawn by is (true) or is not (false) the room its place lies in.
+    if (actorNode["room_matches_place"])
+    {
+        const IGameplayWorldRuntime *pWorldRuntime = std::as_const(*context.runtimeDriver).worldRuntime();
+        success = pWorldRuntime != nullptr
+            && checkRuntimeField(
+                "room_matches_place", boolText(pWorldRuntime->actorRoomMatchesPlace(actorIndex)))
+            && success;
+    }
+
     if (actorNode["shield_raised"])
     {
         success = hasRuntimeState && runtimeState.shield.present

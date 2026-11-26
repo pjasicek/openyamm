@@ -3106,6 +3106,8 @@ TEST_CASE("house service shop standard stock generates and buys")
     REQUIRE(pHouseEntry != nullptr);
 
     harness.party().addGold(50000);
+    // A purchase is no loot: with the loot pouch on it still goes to the bags.
+    harness.party().setLootPouch(true);
     const std::vector<OpenYAMM::Game::InventoryItem> &stock = OpenYAMM::Game::HouseServiceRuntime::ensureStock(
         harness.party(),
         gameData.itemTable,
@@ -3138,6 +3140,7 @@ TEST_CASE("house service shop standard stock generates and buys")
         statusText));
     CHECK_LT(harness.party().gold(), initialGold);
     CHECK_GT(harness.party().inventoryItemCount(), initialInventoryCount);
+    CHECK(harness.party().pouchItems(OpenYAMM::Game::ItemPouch::Loot).empty());
 }
 
 TEST_CASE("a solo run's alchemists in Ravenshore, Free Haven and Erathia stock invisibility scrolls")

@@ -30,6 +30,9 @@ struct OutdoorPathMapBuildResult
     PathMap pathMap;
     size_t terrainTriangleCount = 0;
     size_t skippedWaterTerrainTriangleCount = 0;
+    size_t skippedVoidTerrainTriangleCount = 0;
+    // Upright walls the planner keeps bodies from, one per edge between a void cell and the land.
+    size_t voidRimWallCount = 0;
     size_t sourceBModelFaceCount = 0;
     size_t bModelPathFacetCount = 0;
     size_t skippedBModelFaceCount = 0;

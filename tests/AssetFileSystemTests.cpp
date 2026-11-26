@@ -3,6 +3,7 @@
 #include "engine/AssetScaleTier.h"
 #include "engine/Localization.h"
 #include "game/gameplay/ActorNameText.h"
+#include "game/gameplay/BountyHuntRuntime.h"
 
 #include <doctest/doctest.h>
 
@@ -698,6 +699,10 @@ TEST_CASE("A composed boss name takes the affix's own translation and the langua
     REQUIRE(activateLanguage(fs, "ts"));
     CHECK(OpenYAMM::Game::localizedActorName("Swift Goblin") == "Gobline (speed)");
     CHECK(OpenYAMM::Game::localizedActorName("Resurrected Swift Goblin") == "Gobline (speed) from the dead");
+    // The bounty office names its boss target the same way.
+    OpenYAMM::Game::MonsterTable::MonsterStatsEntry bountyTarget;
+    bountyTarget.name = "Swift Goblin";
+    CHECK(OpenYAMM::Game::bountyHuntTargetText(bountyTarget, nullptr).find("Gobline (speed)") != std::string::npos);
     REQUIRE(activateLanguage(fs, EnglishLanguageId));
     CHECK(OpenYAMM::Game::localizedActorName("Swift Goblin") == "Swift Goblin");
 

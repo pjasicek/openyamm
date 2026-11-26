@@ -2,6 +2,7 @@
 #include "engine/Localization.h"
 
 #include "game/events/ISceneEventContext.h"
+#include "game/gameplay/ActorNameText.h"
 #include "game/gameplay/ArenaRuntime.h"
 #include "game/gameplay/GenericActorDialog.h"
 #include "game/gameplay/HouseInteraction.h"
@@ -1610,9 +1611,10 @@ EventDialogContent buildEventDialogContent(
             }
         }
 
+        // The talking actor's name, which a ruleset may have composed ("Unstoppable Dragonslayer", MAW).
         if (context.titleOverride && !context.titleOverride->empty())
         {
-            dialog.title = Engine::localizeKnown(*context.titleOverride);
+            dialog.title = localizedActorName(*context.titleOverride);
         }
 
         if (context.kind == DialogueContextKind::NpcTalk

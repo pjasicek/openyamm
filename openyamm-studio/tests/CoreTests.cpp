@@ -9687,6 +9687,42 @@ TEST_CASE("what the player sees: things in the air, squashed pictures, chests na
     CHECK(warned("are MM6's: this dungeon is mm7's") == 1);
 }
 
+TEST_CASE("a dungeon chest can open its own model decoration with the same container event")
+{
+    const std::vector<std::pair<std::string, std::string>> tables = {{"decoration_data.txt",
+        "Decoration Data\t\t\tDescriptor\n#\tInternalName\tHint\tType\tRadius\tHeight\tLightRadius"
+        "\tLightRed\tLightGreen\tLightBlue\tSoundId\tFlags\tSpriteId\n\n"
+        "1\tcache\tCache\t0\t20\t48\t0\t0\t0\t0\t0\t0\t0\n"}};
+    const std::string objects =
+        "format: 0\nstart: {room: room:a, at: [100, 100]}\n"
+        "decorations:\n  - {id: deco:cache, room: room:a, at: [180, 200], decoration: cache}\n"
+        "chests:\n  - {id: chest:cache, room: room:a, at: [360, 200], decoration: cache, facing: 90, "
+        "random_levels: [4], trap_level: 2, hidden: true}\n";
+    const std::string wiring = "format: 0\nevents:\n"
+        "  - {id: evt:open, preset: chest, source: chest:cache}\n"
+        "  - {id: evt:show, trigger: load, preset: script, effects: [{show: chest:cache}]}\n";
+    const BuiltPlaced built = buildPlaced(PlacedRooms, objects, tables, CardText, wiring);
+    INFO(issueText(built));
+    REQUIRE(built.built);
+    REQUIRE(built.scene.has_value());
+    const auto &entities = built.map.entities;
+    REQUIRE(entities.size() >= 2);
+    const auto &chest = entities.back();
+    CHECK(chest.x == 360);
+    CHECK(chest.y == 200);
+    CHECK(chest.scriptEventId() != 0);
+    CHECK(chest.decorationListId == entities[entities.size() - 2].decorationListId);
+    CHECK(entities[entities.size() - 2].scriptEventId() == 0);
+    for (const auto &face : built.map.faces)
+    {
+        CHECK(face.cogTriggered != chest.scriptEventId());
+    }
+    CHECK(built.lua.find("evt.OpenChest(0)") != std::string::npos);
+    CHECK(built.lua.find("evt.SetSprite(" + std::to_string(entities.size() - 1) + ", 1)") != std::string::npos);
+    REQUIRE(built.scene->initialState.chests.size() == 1);
+    CHECK(built.scene->initialState.chests.front().flags == 1);
+}
+
 TEST_CASE("D7: a dungeon monster's `leash` and a decoration of the project's world's own table")
 {
     const std::string objects =

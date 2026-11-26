@@ -1257,8 +1257,8 @@ by their speed in between (`ReplicaActorSmoothing`: an error fades over a moment
 | --- | --- | --- |
 | The world (`WorldState`) | On joining and on every map change | Once, reliable; 261 kB for Dagger Wound |
 | A monster's record | When anything in it changed that is not its place (health, state, target, loot) | Reliable, the save's record |
-| Monsters' places | Twenty times a second for those within 2560 units of a guest, every fourth time for the others; each change three times, and a few unchanged ones each time so that a lost one is put right | Newest-only |
-| The map's event state, mechanisms, ground items | When changed | Reliable |
+| Monsters' places | Twenty times a second for those within 2560 units of a guest, every fourth time for the others; each change three times, and a few unchanged ones each time so that a lost one is put right. Indoors with the room the monster stands in, which decides whether a game draws it (protocol 18) | Newest-only |
+| The map's event state, mechanisms, ground items | When changed (the mechanisms by a key over every door's state and motion). The replica takes the mechanisms in its own door step, so that a door that arrives settled elsewhere has its faces and walls moved too | Reliable |
 | Missiles | Appeared, ended and where, impact effects: reliable. Their places: newest-only, and the replica flies them on in between | |
 | Sounds | The world's sounds, for every guest to hear from where it stands; what a guest's own character says or sounds like, to that guest | Reliable |
 | The other players | Bodies twenty times a second; names, classes and health when changed | |
@@ -1316,6 +1316,8 @@ off.
 | --- | --- |
 | `net_join.yml` | A second game joins, stands beside the host and is listed |
 | `net_replica_monsters.yml` | The guest's monsters are the host's: a death, health, places |
+| `net_replica_monsters_indoor.yml` | Indoors a monster the host moved into another room is drawn by that room in the guest's game |
+| `net_paired_doors.yml` | The Barrow Downs' two key-hole panels move and open in the guest's game |
 | `net_character.yml` | The world's hit and the guest's own doing both reach both games |
 | `net_guest_fights.yml`, `net_missiles.yml` | A guest's blow kills the host's monster; the host's stars fall in the guest's game; a guest's Fire Bolt is the host's missile |
 | `net_guest_heals.yml` | A guest raises the host's dead character |

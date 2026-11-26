@@ -563,12 +563,7 @@ std::string writeSceneText(
         scene["party_movement"]["touch_faces"] = "run";
     }
 
-    // project.yml rules.no_spells (S8g): no spell works on the map, as in MM7's Shoals (the scene's
-    // runtime_restrictions; the other restrictions keep the game's defaults).
-    if (textOf(childOf(project.document("project.yml"), "rules"), "no_spells", "") == "true")
-    {
-        scene["runtime_restrictions"]["allow_spellcasting"] = false;
-    }
+    writeRuleRestrictions(childOf(project.document("project.yml"), "rules"), scene);
 
     // objects.yml `arena` (XD-20): the scene's `arena` block and the restrictions of MM7's arena (7d05_1.scene.yml):
     // no saving and no Lloyd's Beacon there, and the arena's fights refilled on every visit.
@@ -1392,6 +1387,33 @@ std::string writeLuaText(const Project &project, const LoweredIndoorMap &lowered
     return lua.str();
 }
 
+}
+
+void writeRuleRestrictions(const YAML::Node &rules, YAML::Node &scene)
+{
+    // rules.no_spells: no spell works on the map, as in MM7's Shoals.
+    if (textOf(rules, "no_spells", "") == "true")
+    {
+        scene["runtime_restrictions"]["allow_spellcasting"] = false;
+
+        // rules.solo_spells: a solo run casts here all the same (Xeen's Darzog's Tower), at
+        // solo_spell_damage_percent of every spell's damage, its own and the monsters'.
+        if (textOf(rules, "solo_spells", "") == "true")
+        {
+            scene["runtime_restrictions"]["allow_spellcasting_solo"] = true;
+
+            if (const YAML::Node percent = childOf(rules, "solo_spell_damage_percent"); percent.IsDefined() && percent.IsScalar())
+            {
+                scene["runtime_restrictions"]["solo_spell_damage_percent"] = percent.as<int>(100);
+            }
+        }
+    }
+
+    // rules.no_monster_spells: the map's monsters cast no spell (lifted for a solo run by solo_spells).
+    if (textOf(rules, "no_monster_spells", "") == "true")
+    {
+        scene["runtime_restrictions"]["allow_monster_spellcasting"] = false;
+    }
 }
 
 void writeNamedArrivals(JsonWriter &writer, const std::vector<MapArrival> &arrivals)
@@ -2712,12 +2734,33 @@ void validateProjectParts(
     const std::string kind = textOf(project.document("project.yml"), "kind", "");
     checkSceneOverlayWords(project, issues);
 
-    // rules.no_spells is written into a new map's scene (S8g); an overlay project writes no scene of its map.
-    if (childOf(project.document("project.yml"), "base").IsDefined()
-        && textOf(childOf(project.document("project.yml"), "rules"), "no_spells", "") == "true")
+    // rules.no_spells and no_monster_spells are written into a new map's scene (S8g); an overlay project writes no
+    // scene of its map.
+    const YAML::Node rules = childOf(project.document("project.yml"), "rules");
+
+    for (const char *pWard : {"no_spells", "no_monster_spells"})
     {
-        issues.push_back({"project.yml", "rules.no_spells", "`no_spells` is written into a new map's scene; an overlay "
-            "project does not write its base map's scene restrictions", "schema"});
+        if (childOf(project.document("project.yml"), "base").IsDefined() && textOf(rules, pWard, "") == "true")
+        {
+            issues.push_back({"project.yml", std::string("rules.") + pWard, "`" + std::string(pWard) + "` is written "
+                "into a new map's scene; an overlay project does not write its base map's scene restrictions",
+                "schema"});
+        }
+    }
+
+    // rules.solo_spells only lifts a no_spells ward for a solo run; alone it would do nothing.
+    if (textOf(rules, "solo_spells", "") == "true" && textOf(rules, "no_spells", "") != "true")
+    {
+        issues.push_back({"project.yml", "rules.solo_spells", "`solo_spells` lets a solo run cast where `no_spells` "
+            "forbids it; without `no_spells` it does nothing", "schema"});
+    }
+
+    // rules.solo_spell_damage_percent is the share of spell damage in a solo run that solo_spells lets cast.
+    if (childOf(rules, "solo_spell_damage_percent").IsDefined() && textOf(rules, "solo_spells", "") != "true")
+    {
+        issues.push_back({"project.yml", "rules.solo_spell_damage_percent", "`solo_spell_damage_percent` is the "
+            "spell damage of a solo run that `solo_spells` lets cast; without `solo_spells` it does nothing",
+            "schema"});
     }
 
     if (childOf(project.document("project.yml"), "base").IsDefined())

@@ -333,7 +333,7 @@ The default file also embeds a full virtual-key-code list (lines 44-226): key re
 | d19 | override | rewritten door 15 / transformer 131: requires Dyson Leyland in party or NPC 11 hireling hack; **drops the base invisibility path, the Necromancer-alliance (QBit 19) path and the transformer relaxation** |
 | d22 | new | MP brazier button visibility; dimensional-map runs (`mapvars.mapAffixes`) force hostile clerics and open door 452; also drops the Dyson Leyland requirement for the secret button and door 452 |
 | d26 | new | Sarcophagus of Korbu pickup made once per game (`vars.sarcophagus`) |
-| out01 | override | pirate respawn timer 463, capped at 25 waves in Insanity |
+| out01 | override | pirate respawn timer 463, capped at 25 waves in every mode (DEVIATIONS 204) |
 | out02 | override | MP Breach/Alvar travel broadcast; **teleporters 2666 "Enroth", 1777 "Antagarich"** |
 | out03 | new | overdune-witness event 197 rewritten (alliance quest bits, 10000 XP, 4000 gold) then enters guild 773 |
 | outb1, outb2, outc1, outc2, outc3, outd1, outd2, outd3, oute1, oute2, oute3 | override/new | MM6 stat/resist shrines (event 261) usable any month (the original `MonthIs` check removed; QBit 1230 still limits to one per month); outb1: the Kriegspire XP well (-5000 gold, +5000 XP) is base; MAW only exempts its XP from MAW's XP scaling and adds a monthly refill back to 10 uses |

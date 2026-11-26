@@ -1436,17 +1436,40 @@ TEST_CASE("roofs: flat can be stood on, lean-to rises to the back, a gable's end
     // texture.
     CHECK(gableEnds == 2);
     // A verge: the slopes run on 48 past each gable end (the ridge east-west, the house 1024 along it), a barge board
-    // 24 high under the roof's edge at each end, two per end; the gable faces stay in the end walls' planes.
+    // 24 high under the roof's edge at each end, two per end; the gable faces stay in the end walls' planes. F71: a
+    // soffit under each slope's run past each end, 24 under it, facing down, from the end wall's plane to the verge.
     const Game::OutdoorBModel verged = raised(", roof: gable, roof_height: 200, eaves: 0, fascia: 0, verge: 48, "
         "textures: {wall: wallx, window: wallx, door: doorx, post_left: wallx, post_right: wallx, roof: roofx, "
         "gable: gablex, trim: trimx}");
     CHECK(verged.maxX - verged.minX == 1024 + 2 * 48);
     CHECK(verged.maxZ == 640 + 256 + 200);
     size_t boards = 0;
+    size_t soffits = 0;
 
     for (const Game::OutdoorBModelFace &face : verged.faces)
     {
-        boards += face.textureName == "trimx" ? 1 : 0;
+        const bool board = face.textureName == "trimx" && face.polygonType == 1;
+        boards += board ? 1 : 0;
+
+        if (face.textureName == "trimx" && !board)
+        {
+            // Under the slope, parallel to it, facing down; within the 48 past one end wall.
+            const std::array<double, 3> normal = faceNormal(verged, face);
+            CHECK(normal[2] < -0.5);
+            CHECK(normal[0] == doctest::Approx(0.0));
+            int lowX = 1 << 30;
+            int highX = -(1 << 30);
+
+            for (const uint16_t index : face.vertexIndices)
+            {
+                lowX = std::min(lowX, static_cast<int>(verged.vertices[index].x));
+                highX = std::max(highX, static_cast<int>(verged.vertices[index].x));
+            }
+
+            CHECK(highX - lowX == 48);
+            CHECK((lowX == verged.minX || highX == verged.maxX));
+            ++soffits;
+        }
 
         if (face.textureName == "gablex")
         {
@@ -1456,7 +1479,7 @@ TEST_CASE("roofs: flat can be stood on, lean-to rises to the back, a gable's end
             }
         }
 
-        if (face.textureName == "trimx")
+        if (board)
         {
             // Out at the verge, upright, facing away from the house.
             CHECK((verged.vertices[face.vertexIndices[0]].x == verged.minX
@@ -1466,14 +1489,16 @@ TEST_CASE("roofs: flat can be stood on, lean-to rises to the back, a gable's end
     }
 
     CHECK(boards == 4);
-    // `verge_walls: [e]`: only the east end runs on (a shed against the west end): two boards, the west end flush.
+    CHECK(soffits == 4);
+    // `verge_walls: [e]`: only the east end runs on (a shed against the west end): two boards and two soffits, the
+    // west end flush.
     const Game::OutdoorBModel eastOnly = raised(", roof: gable, roof_height: 200, eaves: 0, fascia: 0, verge: 48, "
         "verge_walls: [e], textures: {roof: roofx, gable: gablex, trim: trimx}");
     CHECK(eastOnly.maxX - eastOnly.minX == 1024 + 48);
     CHECK(std::count_if(eastOnly.faces.begin(), eastOnly.faces.end(), [](const Game::OutdoorBModelFace &face)
     {
         return face.textureName == "trimx";
-    }) == 2);
+    }) == 4);
     // Refused off a gable: a hip has no gable ends.
     {
         Project project = buildingProject("      - {building: building:home, at: [40, 40], facing: s, roof: hip, "
@@ -3438,6 +3463,63 @@ TEST_CASE("an outdoor map's own monster relations are set on entering the map, a
     }));
     CHECK(issues.empty());
     std::filesystem::remove_all(root, error);
+}
+
+TEST_CASE("F73: scatter keeps clear of the sketch's placed decorations, by their radius and its own")
+{
+    // X7 p7: a dead tree grew out of a placed basalt boulder; the scatter kept off buildings and models only.
+    const std::string table = "#\tInternalName\tHint\tType\tRadius\n1\tnothing\t\t0\t0\n"
+        "464\ttree12\ttree\t0\t16\n500\tbigrock\tboulder\t0\t170\n501\tlongrock\tboulder\t0\t20\n"
+        "502\tsmallpost\tpost\t0\t0\n";
+    for (const char *pClumps : {"", "clusters: 4, cluster_radius: 4, "})
+    {
+        const Project project = buildingProject("      - {building: building:home, at: [40, 40], facing: s}\n",
+            "scatter:\n  - {decoration: tree12, count: 1200, " + std::string(pClumps) + "spacing: 0.1, "
+            "polygon: [[75, 75], [85, 75], [85, 85], [75, 85]]}\n");
+        LoweredOutdoorMap lowered;
+        std::vector<ProjectIssue> issues;
+        REQUIRE(lowerOutdoorProject(project, lowered, issues));
+        // A boulder by its table (170), one whose model is drawn 260 though its table says 20, a long piece drawn
+        // 1,800 (not a disc: kept off as nothing) and a post with no radius.
+        std::vector<OutdoorPlacedDecoration> placed(4);
+        const std::array<std::array<double, 2>, 4> cells = {{{77.0, 77.0}, {83.0, 83.0}, {77.0, 83.0}, {83.0, 77.0}}};
+        const std::array<const char *, 4> names = {"bigrock", "longrock", "hull", "smallpost"};
+
+        for (size_t index = 0; index < placed.size(); ++index)
+        {
+            placed[index].name = names[index];
+            placed[index].x = static_cast<int>((cells[index][0] - 64.0) * 512.0);
+            placed[index].y = static_cast<int>((64.0 - cells[index][1]) * 512.0);
+        }
+
+        const std::map<std::string, double> drawn = {{"longrock", 260.0}, {"hull", 1800.0}};
+        const auto nearest = [&](const OutdoorPlaces &places, size_t which)
+        {
+            double closest = 1.0e9;
+
+            for (const OutdoorPlacedDecoration &decoration : places.decorations)
+            {
+                closest = std::min(closest, std::hypot(decoration.x - placed[which].x, decoration.y - placed[which].y));
+            }
+
+            return closest;
+        };
+        OutdoorPlaces free;
+        std::vector<std::string> warnings;
+        REQUIRE(placeOutdoorThings(project, lowered, table, free, issues, warnings));
+        OutdoorPlaces kept;
+        REQUIRE(placeOutdoorThings(project, lowered, table, kept, issues, warnings, {}, placed, drawn));
+        MESSAGE(pClumps << " nearest without: " << nearest(free, 0) << " " << nearest(free, 1));
+        // Without the placed ones trees stand inside both rocks; with them none within (radius + 16) * 0.6.
+        // (Clumps may stand anywhere, so only the even spread is sure to reach every rock.)
+        const bool even = std::string(pClumps).empty();
+        CHECK((!even || nearest(free, 0) < (170.0 + 16.0) * 0.6));
+        CHECK((!even || nearest(free, 1) < (260.0 + 16.0) * 0.6));
+        CHECK(nearest(kept, 0) >= (170.0 + 16.0) * 0.6);
+        CHECK(nearest(kept, 1) >= (260.0 + 16.0) * 0.6);
+        CHECK((!even || nearest(kept, 2) < 512.0));
+        CHECK(kept.decorations.size() + 20 >= free.decorations.size());
+    }
 }
 
 TEST_CASE("scatter in clumps stands round a few middles; steep ground takes only what says so; roads meet thin")
@@ -8007,6 +8089,90 @@ TEST_CASE("P4: a rough cave mouth's shell has no two faces on each other, whatev
     CHECK(found == 0);
 }
 
+TEST_CASE("F71: a rough cave mouth's shell is one surface wound one way, buried or free, whatever its seed")
+{
+    // Sablewing's cave (X7): each shell triangle's facing was chosen alone from a guess leaning up, so a triangle a
+    // shake tilted down faced into the rock and was lit from behind. Now no edge between two faces of the rock is
+    // run twice the same way, and the shell faces up and out as a whole.
+    size_t builds = 0;
+    size_t sameWay = 0;
+    size_t shared = 0;
+
+    for (const char *pShape : {"size: [1024, 1024], crest: 736, mouth: {width: 512, height: 384, depth: 256}",
+             "size: [1536, 1536], crest: 480, mouth: {width: 448, height: 384, depth: 75}",
+             "size: [1024, 1280], free: true, crest: 400, mouth: {width: 256, height: 256, depth: 128}",
+             "size: [1536, 1024], free: true, crest: 640, mouth: {width: 384, height: 320, depth: 192}"})
+    {
+        for (const char *pRoughness : {"0.5", "1"})
+        {
+            for (int seed = 1; seed <= 12; ++seed)
+            {
+                const CaveBuild build = caveBuild("  - {id: thing:den, kind: cave_mouth, at: [50, 50], "
+                    + std::string(pShape) + ", roughness: " + pRoughness + ", seed: " + std::to_string(seed)
+                    + ", title: In, into: {map: d49.blv}}\n",
+                    "  ridges:\n    - {line: [[44, 47], [56, 47]], height: 1600, width: 1}\n");
+                REQUIRE(build.issues.empty());
+                const Game::OutdoorBModel *pCave = modelNamed(build.things, "thing:den");
+                REQUIRE(pCave != nullptr);
+                using Corner = std::array<int, 3>;
+                std::map<std::pair<Corner, Corner>, int> runs;
+                double up = 0.0;
+
+                for (const Game::OutdoorBModelFace &face : pCave->faces)
+                {
+                    if (face.textureName != "dirttyl" || face.vertexIndices.size() != 3)
+                    {
+                        continue;
+                    }
+
+                    std::array<Corner, 3> corners;
+
+                    for (size_t index = 0; index < 3; ++index)
+                    {
+                        const Game::OutdoorBModelVertex &vertex = pCave->vertices[face.vertexIndices[index]];
+                        corners[index] = {vertex.x, vertex.y, vertex.z};
+                    }
+
+                    for (size_t index = 0; index < 3; ++index)
+                    {
+                        ++runs[{corners[index], corners[(index + 1) % 3]}];
+                    }
+
+                    const double ax = corners[1][0] - corners[0][0];
+                    const double ay = corners[1][1] - corners[0][1];
+                    const double bx = corners[2][0] - corners[0][0];
+                    const double by = corners[2][1] - corners[0][1];
+                    up += ax * by - ay * bx;
+                }
+
+                size_t bad = 0;
+
+                for (const auto &[edge, count] : runs)
+                {
+                    bad += count > 1 ? 1 : 0;
+                    shared += runs.count({edge.second, edge.first}) > 0 ? 1 : 0;
+                }
+
+                if (bad > 0)
+                {
+                    const std::string what = std::string(pShape) + " roughness " + pRoughness + " seed "
+                        + std::to_string(seed) + ": " + std::to_string(bad) + " edges run twice the same way";
+                    MESSAGE(what);
+                }
+
+                sameWay += bad;
+                // Seen from above the rock's triangles together face up (counter-clockwise).
+                CHECK(up > 0.0);
+                ++builds;
+            }
+        }
+    }
+
+    CHECK(builds == 96);
+    CHECK(shared > 0);
+    CHECK(sameWay == 0);
+}
+
 // ---- Masses and roofs (outdoor code batch O-D): domes, batter and buttresses, roofs to the ground, terraces and
 // stairs, ruins, eaves per wall, round and stepped platforms ----
 
@@ -10059,6 +10225,63 @@ TEST_CASE("S8d: a door on a sill stands a whole door high from it, the wall unde
     CHECK(anyIssue(buildingIssues("door: {wall: s, sill: 200}, parts: [{size: [512, 512]}]"), "a door's `sill`"));
     CHECK(anyIssue(buildingIssues("door: {wall: s, sill: 64, hood: 64}, parts: [{size: [512, 512]}]"),
         "a door's `sill`"));
+}
+
+TEST_CASE("D-180: a door of the part's door_height in walls higher than it stands that high, the wall over it")
+{
+    // X6's arena gate: 384 high in walls 512 high (it stood a row, 256, until the walls were lower than the door).
+    const Game::OutdoorBModel gate = raisedPlot("eaves: 0, fascia: 0, textures: {door: t14a03}, door: {wall: s, "
+        "bay: 2, leaves: 2}, parts: [{size: [768, 512], wall_height: 512, roof: flat, door_height: 384, walls: {s: "
+        "[wall, wall, door, wall, wall, wall]}}]");
+    const std::vector<const Game::OutdoorBModelFace *> leaves = facesWith(gate, "t14a03");
+    REQUIRE(leaves.size() == 2);
+
+    for (const Game::OutdoorBModelFace *pLeaf : leaves)
+    {
+        CHECK(heightsOf(gate, *pLeaf) == std::array<int, 2>{640, 640 + 384});
+        // The leaf's picture once from its foot to its head.
+        CHECK(*std::max_element(pLeaf->textureVs.begin(), pLeaf->textureVs.end())
+            - *std::min_element(pLeaf->textureVs.begin(), pLeaf->textureVs.end()) == 256);
+    }
+
+    CHECK(findOutdoorCoplanarFaces({gate}).empty());
+    // Over the door the wall begins at its head; nothing of the wall stands in front of it.
+    const std::array<int, 4> doorBox = planBounds(gate, "t14a03");
+    bool over = false;
+
+    for (const Game::OutdoorBModelFace &face : gate.faces)
+    {
+        if (face.textureName == "t14a03" || std::fabs(faceNormal(gate, face)[2]) > 0.5)
+        {
+            continue;
+        }
+
+        const std::array<int, 2> heights = heightsOf(gate, face);
+        int x0 = 1 << 30;
+        int x1 = -(1 << 30);
+        int y = 0;
+
+        for (const uint16_t index : face.vertexIndices)
+        {
+            x0 = std::min(x0, static_cast<int>(gate.vertices[index].x));
+            x1 = std::max(x1, static_cast<int>(gate.vertices[index].x));
+            y = gate.vertices[index].y;
+        }
+
+        if (y == doorBox[1] && x0 >= doorBox[0] && x1 <= doorBox[2])
+        {
+            CHECK(heights[0] >= 640 + 384);
+            over = over || heights[0] == 640 + 384;
+        }
+    }
+
+    CHECK(over);
+    // A door lower than its row: a lintel of wall over it in the row.
+    const Game::OutdoorBModel low = raisedPlot("eaves: 0, fascia: 0, textures: {door: t14a03}, door: {wall: s, "
+        "bay: 2}, parts: [{size: [768, 512], wall_height: 512, roof: flat, door_height: 192, walls: {s: [wall, wall, "
+        "door, wall, wall, wall]}}]");
+    CHECK(heightsWith(low, "t14a03") == std::array<int, 2>{640, 640 + 192});
+    CHECK(findOutdoorCoplanarFaces({low}).empty());
 }
 
 TEST_CASE("S8d: a bridge's kerbs of their own width; arches of their own spans")

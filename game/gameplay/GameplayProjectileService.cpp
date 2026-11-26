@@ -7,6 +7,7 @@
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/MonsterSpellSupport.h"
 #include "game/items/ItemEnchantRuntime.h"
+#include "game/maps/MapRuntimeRestrictions.h"
 #include "game/party/Party.h"
 #include "game/SpriteObjectDefs.h"
 #include "game/party/SkillData.h"
@@ -1678,9 +1679,24 @@ int GameplayProjectileService::resolveProjectilePartyImpactDamage(
 
     if (input.eventSource)
     {
-        // An event's missile carries its own damage; an event's spell rolls the spell's.
+        // An event's missile carries its own damage; an event's spell rolls the spell's, at the map's share (D-193).
         return input.spellId == 0 ? std::max(0, input.projectileDamage)
-                                  : resolveEventProjectileDamage(input.spellId, input.skillLevel);
+                                  : MapRuntimeRestrictions::scaledSpellDamage(
+                                      resolveEventProjectileDamage(input.spellId, input.skillLevel),
+                                      input.spellDamagePercent);
+    }
+
+    // Every monster spell's damage, to the party or to another actor, comes through here: the map's share applies once.
+    const bool monsterSpell = input.sourceKind == ProjectileState::SourceKind::Actor
+        && (input.monsterAbility == MonsterAttackAbility::Spell1
+            || input.monsterAbility == MonsterAttackAbility::Spell2);
+
+    if (monsterSpell && input.spellDamagePercent != 100)
+    {
+        ProjectilePartyImpactDamageInput fullInput = input;
+        fullInput.spellDamagePercent = 100;
+        return MapRuntimeRestrictions::scaledSpellDamage(
+            resolveProjectilePartyImpactDamage(fullInput), input.spellDamagePercent);
     }
 
     if (input.sourceKind == ProjectileState::SourceKind::Actor && input.projectileDamage > 0)
@@ -1727,14 +1743,15 @@ int GameplayProjectileService::partyWorldSpellDamage(
     int spellId,
     uint32_t skillLevel,
     uint32_t skillMastery,
-    int trapRoll)
+    int trapRoll,
+    int mapSpellDamagePercent)
 {
     const Character *pCaster = pParty != nullptr ? pParty->member(sourcePartyMemberIndex) : nullptr;
     const SpellEntry *pSpell = pSpellTable != nullptr ? pSpellTable->findById(spellId) : nullptr;
 
     if (pCaster == nullptr || pSpell == nullptr)
     {
-        return trapRoll;
+        return MapRuntimeRestrictions::scaledSpellDamage(trapRoll, mapSpellDamagePercent);
     }
 
     CharacterSpellCast cast;
@@ -1746,7 +1763,8 @@ int GameplayProjectileService::partyWorldSpellDamage(
     cast.mastery = SkillMastery(skillMastery);
     cast.skillLevel = skillLevel;
     cast.partyCount = int(std::max<size_t>(1, pParty->members().size()));
-    return pParty->rules().combat.worldSpellDamage(cast).value_or(trapRoll);
+    return MapRuntimeRestrictions::scaledSpellDamage(
+        pParty->rules().combat.worldSpellDamage(cast).value_or(trapRoll), mapSpellDamagePercent);
 }
 
 int GameplayProjectileService::resolvePartyProjectileDamageMultiplier(

@@ -11,6 +11,7 @@
 #include <cmath>
 #include <cstddef>
 #include <optional>
+#include <utility>
 #include <vector>
 
 TEST_SUITE_BEGIN(OpenYAMM::Tests::SharedRegressionMapSuite);
@@ -468,6 +469,106 @@ TEST_CASE("outdoor actor step checks sloped and off-center overhead geometry acr
     }
 }
 
+namespace
+{
+enum class LipKind
+{
+    Tread,
+    WallFront,
+    WallBack
+};
+
+// D-192: terrain level at 2048 or rising 1 in 16 along +x (2048 at x 0), and at x 0 a lip `height` over the land: a
+// tread 48 deep with vertical faces from its top to 300 below it (a Xeen hull piece's shape), or a bare wall seen from
+// its front or its back. A ground actor (radius 40, height 146, step 128) walks at it from x -200 for 256 ticks.
+OpenYAMM::Game::OutdoorMoveState walkAtLip(bool uphill, LipKind kind, int height)
+{
+    OutdoorMapData mapData = makeOutdoorMapWithTerrain();
+    for (size_t gridY = 0; gridY < size_t(OutdoorMapData::TerrainHeight); ++gridY)
+    {
+        for (size_t gridX = 0; gridX < size_t(OutdoorMapData::TerrainWidth); ++gridX)
+        {
+            mapData.heightMap[terrainSampleIndex(gridX, gridY)] = uint8_t(uphill ? gridX : 64);
+        }
+    }
+
+    const int top = 2048 + height;
+    const int bottom = top - 300;
+    OutdoorBModel bModel = {};
+    bModel.name = "lip_test";
+    if (kind == LipKind::Tread)
+    {
+        bModel.vertices = {
+            {0, -256, top}, {48, -256, top}, {48, 256, top}, {0, 256, top},
+            {0, 256, bottom}, {0, -256, bottom}, {0, -256, top}, {0, 256, top},
+            {48, -256, bottom}, {48, 256, bottom}, {48, 256, top}, {48, -256, top}
+        };
+        bModel.faces = {
+            makeOutdoorFace({0, 1, 2, 3}, OutdoorPolygonFloor),
+            makeOutdoorFace({4, 5, 6, 7}, OutdoorPolygonWall),
+            makeOutdoorFace({8, 9, 10, 11}, OutdoorPolygonWall)
+        };
+    }
+    else if (kind == LipKind::WallFront)
+    {
+        bModel.vertices = {{0, 256, bottom}, {0, -256, bottom}, {0, -256, top}, {0, 256, top}};
+        bModel.faces = {makeOutdoorFace({0, 1, 2, 3}, OutdoorPolygonWall)};
+    }
+    else
+    {
+        bModel.vertices = {{0, -256, bottom}, {0, 256, bottom}, {0, 256, top}, {0, -256, top}};
+        bModel.faces = {makeOutdoorFace({0, 1, 2, 3}, OutdoorPolygonWall)};
+    }
+    mapData.bmodels.push_back(std::move(bModel));
+
+    const OutdoorMovementController controller(mapData, std::nullopt, std::nullopt, std::nullopt, std::nullopt);
+    const float startX = -200.0f;
+    OpenYAMM::Game::OutdoorMoveState state = controller.initializeActorStateForBodyPreservingZ(
+        startX, 0.0f, 2048.0f + (uphill ? startX / 16.0f : 0.0f) + 1.0f, 40.0f);
+    for (int tick = 0; tick < 256; ++tick)
+    {
+        state = controller.resolveOutdoorActorMove(
+            state, {40.0f, 146.0f, 128.0f}, 384.0f, 0.0f, state.verticalVelocity, false, 1.0f / 128.0f);
+    }
+    return state;
+}
+}
+
+TEST_CASE("outdoor actor walking uphill crosses a tread a few units over the land as on level ground (D-192)")
+{
+    for (bool uphill : {false, true})
+    {
+        for (int height : {3, 16, 32})
+        {
+            const OpenYAMM::Game::OutdoorMoveState state = walkAtLip(uphill, LipKind::Tread, height);
+            INFO("uphill=" << uphill << " tread=" << height << " at " << state.x << "," << state.footZ);
+            CHECK(state.x > 200.0f);
+            CHECK_FALSE(state.airborne);
+        }
+    }
+}
+
+TEST_CASE("outdoor actor walking uphill is still stopped by a high tread, a wall and the back of a low wall (D-192)")
+{
+    for (bool uphill : {false, true})
+    {
+        for (const auto &[kind, height] : {std::pair{LipKind::Tread, 64}, std::pair{LipKind::Tread, 150},
+                 std::pair{LipKind::WallFront, 64}, std::pair{LipKind::WallBack, 48}})
+        {
+            if (kind == LipKind::WallBack && !uphill)
+            {
+                // On level ground no lift is checked and the sweep ignores a single-sided face from behind.
+                continue;
+            }
+
+            const OpenYAMM::Game::OutdoorMoveState state = walkAtLip(uphill, kind, height);
+            INFO("uphill=" << uphill << " kind=" << int(kind) << " height=" << height << " at " << state.x << ","
+                << state.footZ);
+            CHECK(state.x < 0.0f);
+        }
+    }
+}
+
 TEST_CASE("outdoor pathfinding builder materializes terrain triangles matching rendered terrain height")
 {
     OutdoorMapData mapData = makeOutdoorMapWithTerrain();
@@ -535,6 +636,31 @@ TEST_CASE("outdoor pathfinding builder can exclude water terrain from land-only 
 
     CHECK_EQ(landOnlyResult.skippedWaterTerrainTriangleCount, 2u);
     CHECK_FALSE(landOnlyResult.pathMap.floorAt({waterCellX, waterCellY, 256.0f}).hasFloor);
+}
+
+TEST_CASE("outdoor pathfinding builder leaves the void past the world's edge out for every body")
+{
+    // F75, X6 p14: a route over the Sphinx cove's void led Xeen's sand worms onto the hull's lip, where they stuck.
+    OutdoorMapData mapData = makeOutdoorMapWithTerrain();
+    mapData.voidCells.assign(mapData.terrainSampleCount(), 0);
+    mapData.voidCells[size_t(64) * size_t(mapData.terrainSide) + 64] = 1;
+    const float voidCellX = outdoorGridCornerWorldX(64) + 256.0f;
+    const float voidCellY = outdoorGridCornerWorldY(64) - 256.0f;
+    const float landCellX = outdoorGridCornerWorldX(66) + 256.0f;
+
+    for (const OutdoorPathTerrainMode mode : {OutdoorPathTerrainMode::Full, OutdoorPathTerrainMode::LandOnly})
+    {
+        OutdoorPathMapBuildOptions options = {};
+        options.includeBModels = false;
+        options.terrainMode = mode;
+        const OutdoorPathMapBuildResult result =
+            OutdoorPathfindingBuilder::buildPathMap(mapData, nullptr, nullptr, options);
+        CHECK_EQ(result.skippedVoidTerrainTriangleCount, 2u);
+        // Its four sides are walls the planner keeps a body's radius from.
+        CHECK_EQ(result.voidRimWallCount, 4u);
+        CHECK_FALSE(result.pathMap.floorAt({voidCellX, voidCellY, 256.0f}).hasFloor);
+        CHECK(result.pathMap.floorAt({landCellX, voidCellY, 256.0f}).hasFloor);
+    }
 }
 
 TEST_CASE("outdoor pathfinding builder can route land actors around land-mask water")

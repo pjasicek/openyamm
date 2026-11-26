@@ -3,6 +3,8 @@
 #include "core/OutdoorLowering.h"
 #include "core/Project.h"
 
+#include <array>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -58,7 +60,12 @@ struct OutdoorPlaces
 
 // `decorationTable`: the text of engine/data_tables/decoration_data.txt, which names the decorations; empty when
 // no asset root is at hand (the scatter is then left out, with a warning). False with issues when the sketch asks
-// for what cannot be placed.
+// for what cannot be placed. `keepOff`: boxes [x0, y0, x1, y1] in cells nothing stands in (bmodel things).
+// `placed`: the sketch's own decorations (structures of `kind: decoration`); a scattered decoration keeps at least
+// (the placed one's radius + its own) * 0.6 from each one's middle, so no tree grows out of a boulder (F73, X7 p7).
+// A placed one's radius is `drawnReach` (map units by name: how far its 3D model reaches as drawn,
+// core/OutdoorDecorationCollision), else its decoration_data.txt radius; one reaching over 384 (a hull piece, a
+// Sphinx, a great tree's crown) is not kept clear of. A scattered one's radius is its table radius.
 bool placeOutdoorThings(
     const Project &project,
     const LoweredOutdoorMap &lowered,
@@ -66,5 +73,7 @@ bool placeOutdoorThings(
     OutdoorPlaces &places,
     std::vector<ProjectIssue> &issues,
     std::vector<std::string> &warnings,
-    const std::vector<std::array<double, 4>> &keepOff = {});
+    const std::vector<std::array<double, 4>> &keepOff = {},
+    const std::vector<OutdoorPlacedDecoration> &placed = {},
+    const std::map<std::string, double> &drawnReach = {});
 }

@@ -230,6 +230,37 @@ TEST_CASE("Event scripts see the challenge mode in evt.RulesetInfo (Q8)")
     CHECK_EQ(standardGameRules().monsters.scriptInfo(0).challengeMode, "none");
 }
 
+TEST_CASE("evt.RulesetInfo().soloRun is true in a solo run, false for a party and with no party (D-191)")
+{
+    std::ifstream supportFile(std::filesystem::path(OPENYAMM_SOURCE_DIR)
+        / "assets_dev/engine/scripts/common/event_support.lua");
+    std::ostringstream supportLua;
+    supportLua << supportFile.rdbuf();
+    std::string error;
+    const std::optional<ScriptedEventProgram> program = ScriptedEventProgram::loadFromLuaText(
+        supportLua.str() + R"lua(
+RegisterEvent(1, "Solo query", function()
+    evt.SetMapVar("solo", evt.RulesetInfo().soloRun and 1 or 2)
+end)
+)lua",
+        "@tests/ruleset_info_solo.lua", ScriptedEventScope::Map, error);
+    REQUIRE_MESSAGE(program.has_value(), error);
+
+    const auto soloAnswer = [&](Party *pParty)
+    {
+        EventRuntimeState runtimeState = {};
+        EventRuntime eventRuntime = {};
+        REQUIRE(eventRuntime.executeEventById(program, std::nullopt, 1, runtimeState, pParty));
+        return runtimeState.namedMapVars.at("solo");
+    };
+
+    Party party;
+    CHECK_EQ(soloAnswer(&party), 2);
+    party.setSoloRun(true);
+    CHECK_EQ(soloAnswer(&party), 1);
+    CHECK_EQ(soloAnswer(nullptr), 2);
+}
+
 TEST_CASE("experience is 64 bits: MAW characters train past level 1063, Standard keeps the 4 billion cap")
 {
     // Audit ROB-2-1: MAW's level 1064 needs 4,011,174,940 experience, more than 32 bits hold.

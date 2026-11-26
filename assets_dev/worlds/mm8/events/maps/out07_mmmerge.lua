@@ -71,7 +71,7 @@ local function UpdateUnicornKing(force)
 
     unicornKingShown = shown
 
-    -- The death is remembered here: CheckMonstersKilled counts a hidden actor as slain.
+    -- A slain King is remembered by a map flag (set by the kill hook below); his visibility is then left alone.
     if MM8.GetMapFlag(UnicornKingSlain) then
         return
     end

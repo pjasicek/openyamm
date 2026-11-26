@@ -147,6 +147,9 @@ private:
         bgfx::OcclusionQueryHandle occlusionQuery = BGFX_INVALID_HANDLE;
         bool queried = false;
         bool occluded = false;
+        // When the answers began to find it hidden: only water hidden for a while gives up its capture to other
+        // water, so one late or wrong answer cannot move the capture away and back (flicker).
+        float occludedSince = 0.0f;
     };
 
     bool resizeReflection(size_t index, uint16_t size);

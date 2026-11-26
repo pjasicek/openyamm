@@ -1035,6 +1035,10 @@ Defects and words from the Act II maps (devdocs/xeen/ACT2_BUILD.md; each map's N
 - **`rules.no_spells: true`** (project.yml): the scene's `runtime_restrictions: {allow_spellcasting: false}`, indoors
   and outdoors (the spellbook, quick spells and scrolls refused, as in MM7's Shoals); refused in an overlay project.
   The game's refusal line is its underwater one ("You can't do that while underwater").
+  Beside it, `rules.solo_spells: true` lets a solo run cast there (`allow_spellcasting_solo`) and
+  `rules.solo_spell_damage_percent: <1-100>` sets that run's share of every spell's damage, its own and the monsters'
+  (each a schema issue without the word it needs). `rules.no_monster_spells: true` (`allow_monster_spellcasting:
+  false`): the map's monsters cast no spell, lifted for a solo run by `solo_spells` (Xeen's Darzog's Tower has all four).
 - **`walls[].bands: false`** (rooms.yml): the wall's own `surface` runs from floor to ceiling over the room's bands.
   Left out, as before, the bands lie under the wall's surface (the Hive's dome walls rely on it).
 - **`map_stats.bolster`** (project.yml: `LowerToEqual`, `AllToEqual`, `OriginalStats`, `none`): the `Bolster kind` of

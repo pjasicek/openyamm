@@ -1,0 +1,47 @@
+id: coop.net_paired_doors
+title: "Co-op - a guest's game sees the Barrow Downs' key-hole panels slide open and stay open"
+world: mm7
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        The Barrow Key opens two panels at once in every MM7 barrow (doors 25 and 26), and behind them is the map of
+        the barrows. A guest's game never saw them open (Discord, 2026-11-24). Two faults: the host sends the doors
+        when a key over their states changes, and the sum of the two panels' hashes did not change when both started
+        moving (their ids differ in the lowest bit), so the movement was never sent; and the settled state that came
+        later replaced the guest's doors without moving their faces. Here the host uses the key, and the guest's game
+        has the panels moving and then open.
+  - new_game_flow:
+      start_map: mdk01.blv
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: 7out01.odm
+    game: guest
+  - coop_join: {expect: joined}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      mechanism: {id: 25, state: closed}
+    game: guest
+  - grant_item: {item_id: 1458, member_index: 0}
+  - console: {line: coop net, expect_contains: "mechanisms 0"}
+  - execute_event: {id: 376}
+  - advance_runtime: {seconds: 0.6}
+  - note:
+      text: >-
+        The panels take 2.5 seconds. The host has sent them once, moving; a moving door's state is only a warning to
+        the scenario's checks, so the host's count of door messages is what fails without the fix.
+  - console: {line: coop net, expect_contains: "mechanisms 1"}
+  - assert:
+      mechanism: {id: 26, moving: true}
+    game: guest
+  - advance_runtime: {seconds: 4}
+  - assert:
+      mechanism: {id: 25, state: open}
+  - assert:
+      mechanism: {id: 25, state: open}
+    game: guest
+  - assert:
+      mechanism: {id: 26, state: open}
+    game: guest

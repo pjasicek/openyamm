@@ -423,6 +423,18 @@ TEST_CASE("crossbows: the drawn bow's held kind picks the crossbow set, any othe
     }
 }
 
+TEST_CASE("clubs: a one-handed club takes the one-handed set, a two-handed one the two-handed set as a mace does")
+{
+    using ViewModel = FirstPersonViewModel;
+    CHECK(ViewModel::kitFor("Club", false).set == ViewModel::WeaponSet::OneHand);
+    CHECK(ViewModel::kitFor("Club", false).weapon == "w_mace.glb");
+    // U-16: Xeen's Slayer Sword is a Weapon2 Club.
+    CHECK(ViewModel::kitFor("Club", true).set == ViewModel::WeaponSet::TwoHand);
+    CHECK(ViewModel::kitFor("Club", true) == ViewModel::kitFor("Mace", true));
+    // Two-handed, it is never dual wielded.
+    CHECK(ViewModel::kitForHands("Club", true, true, "Dagger", false) == ViewModel::kitFor("Club", true));
+}
+
 TEST_CASE("pole weapons: spears, tridents, polearms and poleaxes get the pole set, staves keep the two-handed one")
 {
     using ViewModel = FirstPersonViewModel;

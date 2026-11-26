@@ -1,10 +1,13 @@
 #include "doctest/doctest.h"
 
 #include "game/audio/SoundIds.h"
+#include "game/gameplay/ArmageddonSpell.h"
 #include "game/gameplay/GameplayProjectileService.h"
+#include "game/maps/MapRuntimeRestrictions.h"
 #include "game/fx/FxSharedTypes.h"
 #include "game/fx/ParticleRecipes.h"
 #include "game/fx/ParticleSystem.h"
+#include "game/party/Party.h"
 #include "game/party/SkillData.h"
 #include "game/party/SpellIds.h"
 
@@ -17,6 +20,7 @@
 #include <set>
 #include <sstream>
 #include <string>
+#include <utility>
 #include <vector>
 
 using OpenYAMM::Game::GameplayProjectileEndPresentationState;
@@ -149,6 +153,112 @@ TEST_CASE("monster spell projectile damage uses spell dice instead of monster le
         const int damage = service.resolveProjectilePartyImpactDamage(input);
         CHECK_GE(damage, 7);
         CHECK_LE(damage, 56);
+    }
+}
+
+TEST_CASE("a no-magic map's restrictions: one ward for a party, magic on both sides at its share for a solo run")
+{
+    OpenYAMM::Game::MapRuntimeRestrictions open = {};
+    CHECK(open.allowsSpellcasting(false));
+    CHECK(open.allowsMonsterSpellcasting(false));
+    CHECK(open.allowsMonsterSpellcasting(true));
+    CHECK_EQ(open.spellDamagePercent(true), 100);
+
+    // Darzog's Tower.
+    OpenYAMM::Game::MapRuntimeRestrictions tower = {};
+    tower.allowSpellcasting = false;
+    tower.allowSoloSpellcasting = true;
+    tower.allowMonsterSpellcasting = false;
+    tower.soloSpellDamagePercent = 50;
+    CHECK_FALSE(tower.allowsSpellcasting(false));
+    CHECK(tower.allowsSpellcasting(true));
+    CHECK_FALSE(tower.allowsMonsterSpellcasting(false));
+    CHECK(tower.allowsMonsterSpellcasting(true));
+    CHECK_EQ(tower.spellDamagePercent(false), 100);
+    CHECK_EQ(tower.spellDamagePercent(true), 50);
+
+    // Without the solo lift the monsters' ward holds for a solo run too.
+    OpenYAMM::Game::MapRuntimeRestrictions monstersOnly = {};
+    monstersOnly.allowMonsterSpellcasting = false;
+    CHECK_FALSE(monstersOnly.allowsMonsterSpellcasting(true));
+
+    CHECK_EQ(OpenYAMM::Game::MapRuntimeRestrictions::scaledSpellDamage(41, 100), 41);
+    CHECK_EQ(OpenYAMM::Game::MapRuntimeRestrictions::scaledSpellDamage(41, 50), 20);
+    CHECK_EQ(OpenYAMM::Game::MapRuntimeRestrictions::scaledSpellDamage(1, 50), 1);
+    CHECK_EQ(OpenYAMM::Game::MapRuntimeRestrictions::scaledSpellDamage(0, 50), 0);
+}
+
+TEST_CASE("a map's spell damage share halves a monster's and an event's spells, not attacks, event missiles or the party's")
+{
+    GameplayProjectileService service;
+    GameplayProjectileService::ProjectilePartyImpactDamageInput input = {};
+    input.sourceKind = GameplayProjectileService::ProjectileState::SourceKind::Actor;
+    input.hasMonsterFacts = true;
+    input.monsterLevel = 25;
+    input.monsterAbility = GameplayProjectileService::MonsterAttackAbility::Spell1;
+    input.spellId = static_cast<int>(SpellId::LightningBolt);
+    input.spell1Damage.diceSides = 8;
+    input.spell1Damage.skillLevel = 7;
+    input.spell1Damage.skillMastery = SkillMastery::Master;
+    input.spellDamagePercent = 50;
+
+    for (int rollIndex = 0; rollIndex < 32; ++rollIndex)
+    {
+        const int damage = service.resolveProjectilePartyImpactDamage(input);
+        CHECK_GE(damage, 3);
+        CHECK_LE(damage, 28);
+    }
+
+    // A spell missile that carries its damage.
+    input.projectileDamage = 40;
+    CHECK_EQ(service.resolveProjectilePartyImpactDamage(input), 20);
+
+    input.monsterAbility = GameplayProjectileService::MonsterAttackAbility::Attack1;
+    input.spellId = 0;
+    CHECK_EQ(service.resolveProjectilePartyImpactDamage(input), 40);
+
+    // The party's spells take the share as they are rolled (PartySpellSystem, partyWorldSpellDamage).
+    input.sourceKind = GameplayProjectileService::ProjectileState::SourceKind::Party;
+    input.monsterAbility = GameplayProjectileService::MonsterAttackAbility::Spell1;
+    CHECK_EQ(service.resolveProjectilePartyImpactDamage(input), 40);
+
+    // An event's missile (spell id 0) keeps its carried damage; an event's spell rolls its own at the share (D-193).
+    input.sourceKind = GameplayProjectileService::ProjectileState::SourceKind::Actor;
+    input.eventSource = true;
+    input.spellId = 0;
+    CHECK_EQ(service.resolveProjectilePartyImpactDamage(input), 40);
+    input.sourceKind = GameplayProjectileService::ProjectileState::SourceKind::Event;
+    input.spellId = static_cast<int>(SpellId::FireBolt);
+    input.skillLevel = 10;
+    CHECK_EQ(service.resolveProjectilePartyImpactDamage(input), 10);
+    input.spellDamagePercent = 100;
+    CHECK_EQ(service.resolveProjectilePartyImpactDamage(input), 20);
+    input.spellDamagePercent = 50;
+
+    // A world-rolled party spell (Fire Spike, Armageddon) without the rules' roll keeps the world's, at the share.
+    CHECK_EQ(GameplayProjectileService::partyWorldSpellDamage(nullptr, nullptr, 0,
+                 static_cast<int>(SpellId::Armageddon), 10, uint32_t(SkillMastery::Master), 60, 50),
+        30);
+    CHECK_EQ(GameplayProjectileService::partyWorldSpellDamage(nullptr, nullptr, 0,
+                 static_cast<int>(SpellId::Armageddon), 10, uint32_t(SkillMastery::Master), 60, 100),
+        60);
+}
+
+TEST_CASE("Armageddon's strike on its own party takes the map's spell damage share (D-193)")
+{
+    OpenYAMM::Game::ArmageddonState state;
+    state.skillLevel = 10;
+
+    for (const auto &[percent, loss] : {std::pair{50, 30}, std::pair{100, 60}})
+    {
+        OpenYAMM::Game::Party party;
+        party.seed(OpenYAMM::Game::Party::createDefaultSeed());
+        REQUIRE_FALSE(party.members().empty());
+        party.member(0)->health = 500;
+        party.member(0)->maxHealth = 500;
+        OpenYAMM::Game::applyArmageddonToParty(state, party, percent);
+        INFO("percent=" << percent);
+        CHECK_EQ(500 - party.member(0)->health, loss);
     }
 }
 

@@ -9615,14 +9615,14 @@ int luaChangeEvent(lua_State *pLuaState)
 }
 
 // evt.RulesetInfo(): {id, difficulty, bolsterLevel, dimensionRun, challengeMode} of the party's rules on this continent
-// and map.
+// and map, and soloRun (Party::soloRun(); false with no party).
 int luaRulesetInfo(lua_State *pLuaState)
 {
     const EventRuntimeState *pRuntimeState = readableRuntimeState(pLuaState);
     const Party *pParty = readableParty(pLuaState);
     const RulesetScriptInfo info = gameRulesFor(pParty).monsters.scriptInfo(
         pRuntimeState != nullptr ? pRuntimeState->activeHistoryContinentId : 0);
-    lua_createtable(pLuaState, 0, 5);
+    lua_createtable(pLuaState, 0, 6);
     lua_pushstring(pLuaState, info.rulesetId.c_str());
     lua_setfield(pLuaState, -2, "id");
     lua_pushinteger(pLuaState, info.difficulty);
@@ -9633,6 +9633,8 @@ int luaRulesetInfo(lua_State *pLuaState)
     lua_setfield(pLuaState, -2, "dimensionRun");
     lua_pushstring(pLuaState, info.challengeMode.c_str());
     lua_setfield(pLuaState, -2, "challengeMode");
+    lua_pushboolean(pLuaState, pParty != nullptr && pParty->soloRun());
+    lua_setfield(pLuaState, -2, "soloRun");
     return 1;
 }
 

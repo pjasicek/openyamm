@@ -269,8 +269,9 @@ public:
         size_t actorIndex,
         bool requireHostile);
     // What one hit of the caster's damage spell would deal before its target's resistances, as a cast rolls it (the
-    // rules' range with the caster's spell-damage share), and the hits one cast makes (the missiles of Sparks and the
-    // other fans); nothing for a spell that rolls no damage or a caster without the skill.
+    // rules' range with the caster's spell-damage share and the map's, IGameplayWorldRuntime::spellDamagePercent), and
+    // the hits one cast makes (the missiles of Sparks and the other fans); nothing for a spell that rolls no damage or
+    // a caster without the skill.
     struct DamagePreview
     {
         SpellDamagePreview hit;
@@ -280,7 +281,8 @@ public:
         const Party &party,
         const Character &caster,
         const SpellTable &spellTable,
-        uint32_t spellId);
+        uint32_t spellId,
+        int mapSpellDamagePercent);
     // The HP the caster's heal spell would give one member, as a cast applies it (the ruleset's heal, else Standard's
     // Heal), before any crit; nothing for a spell that does not heal or a caster without the skill.
     static std::optional<int> healAmount(

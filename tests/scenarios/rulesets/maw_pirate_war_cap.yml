@@ -1,0 +1,32 @@
+id: rulesets.maw_pirate_war_cap
+title: "Ruleset - MAW: Dagger Wound's pirates stop coming back after 25 returns in every mode, not only Insanity"
+world: mm8
+mode: faithful
+tags: [rulesets, maw]
+steps:
+  # Nightmare without a challenge mode (Discord, 2026-11-25: "pirate waves are infinite, 2K+ kills, lagging"). Each
+  # round wipes the party's enemies and fires the war's timer (event 463, out01_maw.lua): the pirates land again and
+  # MawPiratesSpawned counts them. Past 25 nothing more lands.
+  - new_game_flow:
+      start_map: out01.odm
+      ruleset: {id: maw, difficulty: nightmare}
+  - play_lua:
+      max_seconds: 600
+      source: |
+        clear_hostiles(60000)
+        click(463)
+        wait(2)
+        if clear_hostiles(60000) == 0 then
+          error("the wiped pirates did not come back")
+        end
+  - console: {line: "lua evt.SetMapVar('MawPiratesSpawned', 26)", expect_contains: "Lua ran."}
+  - play_lua:
+      max_seconds: 600
+      source: |
+        click(463)
+        wait(2)
+        if clear_hostiles(60000) ~= 0 then
+          error("pirates landed after the 25th return")
+        end
+  - assert:
+      state_dump_named_map_var: {name: MawPiratesSpawned, value: 26}

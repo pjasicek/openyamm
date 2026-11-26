@@ -9,7 +9,7 @@ namespace OpenYAMM::Game::Coop
 // travels over the network"). Every message starts with its Message byte; the fields follow one by one
 // (Engine::ByteWriter). Larger pieces of state travel as blocks in the save's own encoding (SaveSections.h), which is
 // why both games must be the same build: the admission compares ProtocolVersion and the save version.
-constexpr uint32_t ProtocolVersion = 21;
+constexpr uint32_t ProtocolVersion = 22;
 
 // A message of PackFromBytes or more is sent packed when that makes it smaller: its kind's byte with PackedFlag set,
 // then the rest of it packed (Engine::packBytes). The three messages of the admission are never packed, so that a

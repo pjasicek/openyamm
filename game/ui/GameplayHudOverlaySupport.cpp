@@ -101,8 +101,10 @@ constexpr const char *SpellInspectGoldColorCode = "\f58930";
 constexpr const char *SpellInspectResetColorCode = "\f00000";
 
 // "Damage: 12-36, average 24" in gold with white numbers ("9 x 12-36" for a fan of missiles), and under it in ivory a
-// ruleset's crit (MAW's): what one hit deals before the target's resistances.
-std::string spellInspectDamageLine(const PartySpellSystem::DamagePreview &damage)
+// ruleset's crit (MAW's): what one hit deals before the target's resistances. On a map that takes a share of every
+// spell's damage (mapPercent, IGameplayWorldRuntime::spellDamagePercent) the numbers are the dealt ones and a last
+// line says why (D-194).
+std::string spellInspectDamageLine(const PartySpellSystem::DamagePreview &damage, int mapPercent)
 {
     const auto number = [](int64_t value, const char *pAfter)
     {
@@ -133,6 +135,12 @@ std::string spellInspectDamageLine(const PartySpellSystem::DamagePreview &damage
         line += "\n" + Engine::tr("Critical hit: {chance} % chance, x{multiplier} damage",
             {{"chance", number(chance, SpellInspectResetColorCode)},
                 {"multiplier", SpellInspectNumberColorCode + std::string(multiplier) + SpellInspectResetColorCode}});
+    }
+
+    if (mapPercent != 100)
+    {
+        line += "\n" + Engine::tr("Spells deal {percent} % of their damage here.",
+            {{"percent", number(mapPercent, SpellInspectResetColorCode)}});
     }
 
     return line;
@@ -1809,11 +1817,13 @@ void GameplayHudOverlaySupport::updateSpellInspectOverlay(
     overlay.master = masteryLine(2, Engine::tr("Master"));
     overlay.grandmaster = masteryLine(3, Engine::tr("Grand Master"));
 
+    const int mapPercent = context.worldRuntime() != nullptr ? context.worldRuntime()->spellDamagePercent() : 100;
+
     if (const std::optional<PartySpellSystem::DamagePreview> damage = pActiveMember != nullptr
-            ? PartySpellSystem::damagePreview(*pParty, *pActiveMember, *context.spellTable(), spellId)
+            ? PartySpellSystem::damagePreview(*pParty, *pActiveMember, *context.spellTable(), spellId, mapPercent)
             : std::nullopt)
     {
-        overlay.damage = spellInspectDamageLine(*damage);
+        overlay.damage = spellInspectDamageLine(*damage, mapPercent);
     }
 
     overlay.sourceX = sourceRect.x;

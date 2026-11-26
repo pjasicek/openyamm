@@ -6237,6 +6237,7 @@ ActorAiFrameFacts IndoorWorldRuntime::collectIndoorActorAiFrameFacts(
     facts.meleeVerticalReach =
         m_pGameplayActorService != nullptr ? m_pGameplayActorService->meleeVerticalReach() : 0.0f;
     facts.partyHitReach = partyHitReach();
+    facts.monsterSpellcastingAllowed = allowsMonsterSpellcasting();
     facts.deltaSeconds = deltaSeconds;
     facts.fixedStepSeconds = ActorUpdateStepSeconds;
     facts.party.collisionRadius = PartyCollisionRadius;
@@ -8472,6 +8473,7 @@ GameplayProjectileService::ProjectileFrameFacts IndoorWorldRuntime::collectIndoo
     damageInput.spellId = projectile.spellId;
     damageInput.skillLevel = projectile.skillLevel;
     damageInput.monsterAbility = projectile.ability;
+    damageInput.spellDamagePercent = spellDamagePercent();
 
     if (projectile.sourceKind != GameplayProjectileService::ProjectileState::SourceKind::Party
         && m_pMonsterTable != nullptr)
@@ -9346,6 +9348,7 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
                     projectile.sourcePartyMemberIndex,
                     impact.actorId,
                     appliedDamage,
+                    projectile.damageType,
                     projectile.spellId,
                     impact.hit,
                     beforeHp > 0 && afterHp <= 0,
@@ -9369,6 +9372,7 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
                 projectile.sourcePartyMemberIndex,
                 impact.actorId,
                 impact.damage,
+                projectile.damageType,
                 projectile.spellId,
                 impact.hit,
                 false,
@@ -9670,6 +9674,7 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
                                 projectile.sourcePartyMemberIndex,
                                 actorId,
                                 appliedDamage,
+                                projectile.damageType,
                                 projectile.spellId,
                                 true,
                                 previousHp > 0 && targetActor.hp <= 0,
@@ -10242,7 +10247,8 @@ void IndoorWorldRuntime::applyFireSpikeTrapTriggerResult(
         const int rolledDamage =
             trap.sourceKind == GameplayProjectileService::ProjectileState::SourceKind::Party
             ? GameplayProjectileService::partyWorldSpellDamage(playerParty(trap.sourcePlayer), m_pSpellTable,
-                  trap.sourcePartyMemberIndex, trap.spellId, trap.skillLevel, trap.skillMastery, result.damage)
+                  trap.sourcePartyMemberIndex, trap.spellId, trap.skillLevel, trap.skillMastery, result.damage,
+                  spellDamagePercent())
             : result.damage;
         int appliedDamage = rolledDamage;
 
@@ -10290,6 +10296,7 @@ void IndoorWorldRuntime::applyFireSpikeTrapTriggerResult(
                     trap.sourcePartyMemberIndex,
                     actorId,
                     appliedDamage,
+                    damageType,
                     trap.spellId,
                     true,
                     beforeHp > 0 && pMapDeltaData->actors[triggeredActorIndex].hp <= 0);
@@ -13026,7 +13033,19 @@ bool IndoorWorldRuntime::allowsRest() const
 
 bool IndoorWorldRuntime::allowsSpellcasting() const
 {
-    return !m_map || m_map->runtimeRestrictions.allowSpellcasting;
+    return !m_map
+        || m_map->runtimeRestrictions.allowsSpellcasting(m_pParty != nullptr && m_pParty->soloRun());
+}
+
+bool IndoorWorldRuntime::allowsMonsterSpellcasting() const
+{
+    return !m_map
+        || m_map->runtimeRestrictions.allowsMonsterSpellcasting(m_pParty != nullptr && m_pParty->soloRun());
+}
+
+int IndoorWorldRuntime::spellDamagePercent() const
+{
+    return m_map ? m_map->runtimeRestrictions.spellDamagePercent(m_pParty != nullptr && m_pParty->soloRun()) : 100;
 }
 
 const std::vector<uint8_t> *IndoorWorldRuntime::journalMapFullyRevealedCells() const
@@ -14196,6 +14215,7 @@ void IndoorWorldRuntime::burnWithImmolation(PlayerId player, const Party &party,
                 pBuff->casterMemberIndex,
                 aiState.actorId,
                 appliedDamage,
+                damageType,
                 static_cast<int>(spellId),
                 true,
                 beforeHp > 0 && actor.hp <= 0);
@@ -18082,6 +18102,7 @@ bool IndoorWorldRuntime::applyPartySpellToActor(
                     sourcePartyMemberIndex,
                     actorId,
                     appliedDamage,
+                    damageType,
                     static_cast<int>(spellId),
                     true,
                     beforeHp > 0 && afterHp <= 0,
@@ -19175,7 +19196,8 @@ void IndoorWorldRuntime::resolveArmageddonDetonation(const GameplayWorldPoint &p
 
         const int beforeHp = actor.hp;
         const int damage =
-            armageddonMonsterDamage(m_armageddonState, playerParty(m_armageddonState.sourcePlayer), m_pSpellTable);
+            armageddonMonsterDamage(m_armageddonState, playerParty(m_armageddonState.sourcePlayer), m_pSpellTable,
+                spellDamagePercent());
 
         if (!applyPartyAttackMeleeDamage(actorIndex, damage, damageType, partyFeet, ShieldAttackTier::Spell))
         {
@@ -19190,6 +19212,7 @@ void IndoorWorldRuntime::resolveArmageddonDetonation(const GameplayWorldPoint &p
                 m_armageddonState.casterMemberIndex,
                 m_mapActorAiStates[actorIndex].actorId,
                 damage,
+                GameMechanics::spellCombatDamageType(int(spellId), m_pSpellTable),
                 static_cast<int>(spellId),
                 true,
                 beforeHp > 0 && actor.hp <= 0);
@@ -19206,14 +19229,14 @@ void IndoorWorldRuntime::resolveArmageddonDetonation(const GameplayWorldPoint &p
     // down is out of the fight (GameplayCombatController::handleAndClearPendingCombatEvents).
     if (m_guestBodies.empty() || m_pParty->hasActableMember())
     {
-        applyArmageddonToParty(m_armageddonState, *m_pParty);
+        applyArmageddonToParty(m_armageddonState, *m_pParty, spellDamagePercent());
     }
 
     for (const GameplayGuestBody &guest : m_guestBodies)
     {
         if (guest.pParty != nullptr && guest.pParty->hasActableMember())
         {
-            applyArmageddonToParty(m_armageddonState, *guest.pParty);
+            applyArmageddonToParty(m_armageddonState, *guest.pParty, spellDamagePercent());
         }
     }
 }
@@ -20703,6 +20726,8 @@ bool IndoorWorldRuntime::captureReplicaActorPose(size_t actorIndex, ReplicaActor
     pose.actionSeconds = aiState.actionSeconds;
     pose.skirmishSeconds = aiState.skirmishSeconds;
     pose.hp = actor.hp;
+    pose.sectorId = aiState.sectorId;
+    pose.eyeSectorId = aiState.eyeSectorId;
     pose.animation = uint8_t(aiState.animationState);
     pose.aiState = uint8_t(aiState.motionState);
     pose.attackAbility = uint8_t(aiState.queuedAttackAbility);
@@ -20852,6 +20877,21 @@ bool IndoorWorldRuntime::applyReplicaActor(size_t actorIndex, std::span<const ui
     return true;
 }
 
+bool IndoorWorldRuntime::actorRoomMatchesPlace(size_t actorIndex) const
+{
+    if (m_pIndoorMapData == nullptr || actorIndex >= m_mapActorAiStates.size())
+    {
+        return false;
+    }
+
+    const MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
+    RuntimeGeometryCache &geometry = runtimeGeometryCache();
+    const float height = static_cast<float>(std::max<uint16_t>(aiState.collisionHeight, 16));
+    const std::optional<int16_t> sectorId = findIndoorSectorForPoint(*m_pIndoorMapData, geometry.vertices,
+        {aiState.preciseX, aiState.preciseY, aiState.preciseZ + height * 0.5f}, &geometry.geometryCache, false);
+    return sectorId && *sectorId == aiState.sectorId;
+}
+
 void IndoorWorldRuntime::applyReplicaActorPose(const ReplicaActorPose &pose)
 {
     MapDeltaData *pMapDeltaData = mapDeltaData();
@@ -20879,6 +20919,17 @@ void IndoorWorldRuntime::applyReplicaActorPose(const ReplicaActorPose &pose)
     aiState.actionSeconds = pose.actionSeconds;
     aiState.skirmishSeconds = pose.skirmishSeconds;
     actor.hp = pose.hp;
+    const size_t sectorCount = m_pIndoorMapData != nullptr ? m_pIndoorMapData->sectors.size() : 0;
+
+    // The room it is drawn by: a monster that walked out of the room it had on arriving was hidden for good.
+    if (pose.sectorId >= 0 && size_t(pose.sectorId) < sectorCount)
+    {
+        aiState.sectorId = pose.sectorId;
+        actor.sectorId = pose.sectorId;
+        aiState.eyeSectorId =
+            pose.eyeSectorId >= 0 && size_t(pose.eyeSectorId) < sectorCount ? pose.eyeSectorId : pose.sectorId;
+    }
+
     const ActorAiAnimationState animation = ActorAiAnimationState(pose.animation);
 
     // The clock of an animation that goes on runs here; one that started anew starts where the host has it.
@@ -21042,6 +21093,18 @@ void IndoorWorldRuntime::setReplicaLootViews(
 void IndoorWorldRuntime::setReplicaGameMinutes(float gameMinutes)
 {
     m_gameMinutes = gameMinutes;
+}
+
+void IndoorWorldRuntime::applyReplicaMechanisms(std::unordered_map<uint32_t, RuntimeMechanismState> mechanisms)
+{
+    // Taken in the scene's door step, which compares them with the doors as they stood and moves the faces, the
+    // walls and the drawn geometry of every door that changed.
+    m_replicaMechanisms = std::move(mechanisms);
+}
+
+std::optional<std::unordered_map<uint32_t, RuntimeMechanismState>> IndoorWorldRuntime::takeReplicaMechanisms()
+{
+    return std::exchange(m_replicaMechanisms, std::nullopt);
 }
 
 bool IndoorWorldRuntime::replicaWorldCall(std::vector<uint8_t> call)

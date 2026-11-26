@@ -2,6 +2,7 @@
 #include "engine/Localization.h"
 
 #include "game/events/EvtEnums.h"
+#include "game/gameplay/ActorNameText.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/gameplay/ReputationRuntime.h"
 #include "game/rules/GameRules.h"
@@ -495,7 +496,7 @@ BountyHuntInteractionResult performBountyHuntInteraction(
                 MonsterTable::MonsterStatsEntry named =
                     bountyNamedStats(*pOtherStats, elsewhere->first.bossAffix, pParty);
                 named.name = Engine::tr("{monster} in {place}",
-                                        {{"monster", Engine::localizeKnown(named.name)},
+                                        {{"monster", localizedActorName(named.name)},
                                          {"place", Engine::localizeKnown(elsewhere->second)}});
                 result.messages.push_back(bountyHuntTargetText(named, pNpcDialogTable));
                 result.succeeded = true;
@@ -586,7 +587,7 @@ std::string bountyHuntTargetText(
 {
     const uint32_t reward = bountyHuntRewardForMonster(stats);
     std::optional<std::string> text = npcText(pNpcDialogTable, MMergeBountyHuntTextId);
-    const std::string monsterName = Engine::localizeKnown(stats.name);
+    const std::string monsterName = localizedActorName(stats.name);
 
     if (text && !text->empty())
     {
@@ -606,7 +607,7 @@ std::string bountyHuntRewardText(
 {
     const uint32_t reward = bountyHuntRewardForMonster(stats);
     std::optional<std::string> text = npcText(pNpcDialogTable, MMergeBountyRewardTextId);
-    const std::string monsterName = Engine::localizeKnown(stats.name);
+    const std::string monsterName = localizedActorName(stats.name);
 
     if (text && !text->empty())
     {

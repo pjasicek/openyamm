@@ -45,9 +45,11 @@ constexpr float PursueMoveSpeedMultiplier = 2.0f;
 constexpr float FleeMoveSpeedMultiplier = 2.0f;
 // 16 of the original 2048 angle units.
 constexpr float RangedOrbitStepRadians = Pi / 64.0f;
-constexpr float MaxActorMoveSpeed = 1000.0f;
-// The original speeds monsters up by 5/3 during the turn-based wait stage, before its 1000 cap (MM8 0x46fd09).
+// The original speeds monsters up by 5/3 during the turn-based wait stage, then caps every monster's speed at 1000
+// (MM8 0x46fd09). No MM6-MM8 monster reaches that cap otherwise, so it is kept for the wait stage's speed-up only:
+// faster movers (MAW's Swift bosses, MM9's runners) keep their speed.
 constexpr float TurnBasedWaitMoveSpeedMultiplier = 5.0f / 3.0f;
+constexpr float TurnBasedWaitMaxMoveSpeed = 1000.0f;
 constexpr uint32_t IdleStandChancePercent = 25u;
 // Tactics (ActorTacticsFacts): a post counts as reached within this distance of home; band moves last at most these.
 constexpr float TacticPostArrivalRadius = 48.0f;
@@ -147,7 +149,7 @@ float movementSpeedForMotion(float effectiveMoveSpeed, ActorAiMotionState motion
         moveSpeed *= FleeMoveSpeedMultiplier;
     }
 
-    return std::min(moveSpeed, MaxActorMoveSpeed);
+    return moveSpeed;
 }
 
 struct AttackDamageProfile
@@ -3671,7 +3673,7 @@ void AI_SkirmishMove(ActorAiCommandContext &ai, float directionX, float directio
 
     ai.update().movementIntent.keepYawWhileMoving = true;
     applyActiveMovementCommit(actor, false, ai.update());
-    ai.update().movementIntent.moveSpeed = std::min(skirmishRunSpeed(actor) * speedShare, MaxActorMoveSpeed);
+    ai.update().movementIntent.moveSpeed = skirmishRunSpeed(actor) * speedShare;
 }
 
 void AI_SkirmishStand(ActorAiCommandContext &ai)
@@ -6310,7 +6312,7 @@ void AI_Mm9FlyMove(ActorAiCommandContext &ai, float directionX, float directionY
     ai.update().movementIntent.keepYawWhileMoving = true;
     applyActiveMovementCommit(actor, false, ai.update());
     ai.update().movementIntent.desiredMoveZ = verticalShare;
-    ai.update().movementIntent.moveSpeed = std::min(skirmishRunSpeed(actor) * speedShare, MaxActorMoveSpeed);
+    ai.update().movementIntent.moveSpeed = skirmishRunSpeed(actor) * speedShare;
 }
 
 // A back-off under way (BaseFly.inc DoBackoff, re-aimed as it goes): straight away from its target, rising (a
@@ -6772,7 +6774,12 @@ bool AI_Mm9ScriptedEngage(ActorAiCommandContext &ai)
     ai.setMeleePursuitActive(false);
     ai.resetAnimationOnChange();
 
-    if (script.attack && actorAttackReady(actor, frame))
+    // A script's spell needs one the monster may cast here (a map's ward against monster magic).
+    const bool scriptSpellRefused = script.attack && attackAbilityIsSpell(*script.attack)
+        && !(*script.attack == GameplayActorAttackAbility::Spell1 ? actor.stats.spell1CastSupported
+                                                                  : actor.stats.spell2CastSupported);
+
+    if (script.attack && !scriptSpellRefused && actorAttackReady(actor, frame))
     {
         ai.update().state.earlierDecision = mm9Decision(ActorAiDecisionKind::Script, actor.target.currentKind,
             actor.target.currentActorIndex, "attack");
@@ -9312,7 +9319,7 @@ ActorAiUpdate AI_ActiveBehavior(
         if (update.state.motionState.value_or(actor.runtime.motionState) == ActorAiMotionState::Wandering
             && actor.tactics.mm9Profile->walkSpeed > 0.0f)
         {
-            update.movementIntent.moveSpeed = std::min(actor.tactics.mm9Profile->walkSpeed, MaxActorMoveSpeed);
+            update.movementIntent.moveSpeed = actor.tactics.mm9Profile->walkSpeed;
         }
 
         return update;
@@ -9400,7 +9407,7 @@ ActorAiUpdate AI_ScriptedMove(
 
         if (speed > 0.0f)
         {
-            update.movementIntent.moveSpeed = std::min(speed, MaxActorMoveSpeed);
+            update.movementIntent.moveSpeed = speed;
         }
     }
 
@@ -9626,6 +9633,25 @@ ActorAiUpdate updateActorAfterWorldMovementInternal(const ActorAiFacts &actor)
 
 ActorAiFrameResult GameplayActorAiSystem::updateActors(const ActorAiFrameFacts &facts) const
 {
+    // A map's ward against monster magic: every chooser (real time, turn-based, MM9 loops) sees no castable spell and
+    // falls back to the monster's attacks.
+    if (!facts.monsterSpellcastingAllowed)
+    {
+        ActorAiFrameFacts wardedFacts = facts;
+        wardedFacts.monsterSpellcastingAllowed = true;
+
+        for (std::vector<ActorAiFacts> *pActors : {&wardedFacts.backgroundActors, &wardedFacts.activeActors})
+        {
+            for (ActorAiFacts &actor : *pActors)
+            {
+                actor.stats.spell1CastSupported = false;
+                actor.stats.spell2CastSupported = false;
+            }
+        }
+
+        return updateActors(wardedFacts);
+    }
+
     ActorAiFrameResult result = {};
 
     if (facts.turnBased.mode == ActorTurnBasedMode::Hold)
@@ -9656,9 +9682,9 @@ ActorAiFrameResult GameplayActorAiSystem::updateActors(const ActorAiFrameFacts &
         {
             if (update.movementIntent.applyMovement && update.movementIntent.moveSpeed > 0.0f)
             {
-                update.movementIntent.moveSpeed = std::min(
-                    update.movementIntent.moveSpeed * TurnBasedWaitMoveSpeedMultiplier,
-                    MaxActorMoveSpeed);
+                const float speed = update.movementIntent.moveSpeed;
+                update.movementIntent.moveSpeed =
+                    std::max(speed, std::min(speed * TurnBasedWaitMoveSpeedMultiplier, TurnBasedWaitMaxMoveSpeed));
             }
         }
     }

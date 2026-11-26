@@ -409,6 +409,9 @@ public:
         MonsterProjectileDamageProfile attack2Damage;
         MonsterSpellDamageProfile spell1Damage;
         MonsterSpellDamageProfile spell2Damage;
+        // The map's share of a monster's or an event's spell damage (IGameplayWorldRuntime::spellDamagePercent: half
+        // in Darzog's Tower in a solo run); its attacks and an event's missiles keep theirs.
+        int spellDamagePercent = 100;
     };
 
     struct ProjectileAreaImpactActorFacts
@@ -971,7 +974,7 @@ public:
     std::optional<ProjectileAudioRequest> buildWaterSplashAudioRequest(float x, float y, float z) const;
     int resolveProjectilePartyImpactDamage(const ProjectilePartyImpactDamageInput &input) const;
     // A party spell the world rolls itself (Fire Spike trap, Armageddon): the rules' roll (MAW rolls the spell), else
-    // `trapRoll`, the world's own.
+    // `trapRoll`, the world's own; at the map's share (IGameplayWorldRuntime::spellDamagePercent), as a cast's roll.
     static int partyWorldSpellDamage(
         const Party *pParty,
         const SpellTable *pSpellTable,
@@ -979,7 +982,8 @@ public:
         int spellId,
         uint32_t skillLevel,
         uint32_t skillMastery,
-        int trapRoll);
+        int trapRoll,
+        int mapSpellDamagePercent);
     int resolvePartyProjectileDamageMultiplier(
         const ProjectileState &projectile,
         const Character *pSourceMember,

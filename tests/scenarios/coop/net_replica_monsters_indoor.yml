@@ -1,0 +1,31 @@
+id: coop.net_replica_monsters_indoor
+title: "Co-op - indoors a guest's game draws a monster in the room it walked into"
+world: mm7
+mode: faithful
+tags: [coop, regression]
+steps:
+  - note:
+      text: >-
+        Indoors a game draws a monster only when the room it stands in is in view. A guest's game runs no monsters:
+        it took the room a monster had when the guest arrived and never changed it, so a monster that walked into
+        another room was not drawn there (Discord, 2026-11-24: invisible monsters in MM7 and MM9 dungeons, never
+        outdoors). The host's poses carry the room since 2026-11-25. Barrow VII's first monster is put in the corridor
+        before the key-hole panels, held there, and the guest's game has it in that room.
+  - new_game_flow:
+      start_map: mdk01.blv
+  - advance_runtime: {seconds: 1}
+  - coop_guest: {}
+  - new_game_flow:
+      start_map: 7out01.odm
+    game: guest
+  - coop_join: {expect: joined}
+  - advance_runtime: {seconds: 1}
+  - assert: {actor_visible: {actor_index: 0, room_matches_place: true}}
+    game: guest
+  - lua_event: {source: 'evt.SetActorImmobile(0, true); evt.SetMapActorPosition(0, -100, -1000, 0)'}
+  - advance_runtime: {seconds: 1}
+  - assert: {actor_visible: {actor_index: 0, room_matches_place: true}}
+  - assert: {actor_visible: {actor_index: 0, room_matches_place: true}}
+    game: guest
+  - console: {line: coop net, expect_contains: "joined as player 1"}
+    game: guest

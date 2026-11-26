@@ -365,6 +365,8 @@ public:
     bool allowsTownPortal() const override;
     bool allowsRest() const override;
     bool allowsSpellcasting() const override;
+    bool allowsMonsterSpellcasting() const override;
+    int spellDamagePercent() const override;
     float currentGameMinutes() const override;
     const MapDeltaData *mapDeltaData() const override;
     MapDeltaData *mapDeltaData() override;
@@ -510,6 +512,7 @@ public:
     ) override;
     bool specialJump(uint32_t encodedHorizontalVelocity, uint32_t verticalVelocity) override;
     size_t mapActorCount() const override;
+    bool actorRoomMatchesPlace(size_t actorIndex) const override;
     const MapActorAiState *mapActorAiState(size_t actorIndex) const;
     std::vector<int16_t> activatedIndoorSectorIds() const;
     // The map's sector face grid (IndoorSectorFaceGrid.h): built with the map state, valid for any door pose, so a
@@ -857,6 +860,9 @@ public:
         std::optional<GameplayChestViewState> chestView,
         std::optional<GameplayCorpseViewState> corpseView) override;
     void setReplicaGameMinutes(float gameMinutes) override;
+    void applyReplicaMechanisms(std::unordered_map<uint32_t, RuntimeMechanismState> mechanisms) override;
+    // The host's doors that came since the scene last moved its doors (IndoorSceneRuntime::advanceMechanisms).
+    std::optional<std::unordered_map<uint32_t, RuntimeMechanismState>> takeReplicaMechanisms();
     std::optional<GameplayPlayerBody> takeActingBodyOrder() override;
     std::vector<std::vector<uint8_t>> takeReplicaWorldCalls() override;
     void setReplicaDryRun(bool dryRun) override;
@@ -1349,6 +1355,7 @@ private:
     // A co-op guest's replica of the host's map (IGameplayWorldRuntime::setReplica).
     bool m_replica = false;
     std::vector<ReplicaActorSmoothing> m_replicaActorSmoothing;
+    std::optional<std::unordered_map<uint32_t, RuntimeMechanismState>> m_replicaMechanisms;
     std::vector<ReplicaPositionTrigger> m_replicaPositionTriggers;
     std::vector<std::vector<uint8_t>> m_replicaWorldCalls;
     bool m_replicaDryRun = false;

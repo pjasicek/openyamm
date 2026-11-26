@@ -2,6 +2,7 @@
 
 #include "game/FaceEnums.h"
 #include "game/maps/MapDeltaData.h"
+#include "game/outdoor/OutdoorGeometryUtils.h"
 
 #include <algorithm>
 #include <cmath>
@@ -13,6 +14,9 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr size_t OutdoorBModelSourceFaceStride = 4096;
+// How far the planner's wall round the void (terrain.void) reaches under and over the land at its rim.
+constexpr float VoidRimWallBelow = 512.0f;
+constexpr float VoidRimWallAbove = 2048.0f;
 constexpr size_t OutdoorBModelSourceMaxBModelIndex =
     static_cast<size_t>((std::numeric_limits<int32_t>::max() - 1) / OutdoorBModelSourceFaceStride);
 
@@ -234,6 +238,14 @@ void appendTerrainFacets(
                 continue;
             }
 
+            // The void past the world's edge (the scene's terrain.void) is no ground for anyone: a route over it led
+            // Xeen's sand worms across the Sphinx cove onto its hull's lip and held them there (F75, X6 p14).
+            if (isOutdoorVoidCell(outdoorMapData, static_cast<int>(gridX), static_cast<int>(gridY)))
+            {
+                result.skippedVoidTerrainTriangleCount += 2;
+                continue;
+            }
+
             const float x0 = outdoorGridCornerWorldX(outdoorMapData, static_cast<int>(gridX));
             const float x1 = outdoorGridCornerWorldX(outdoorMapData, static_cast<int>(gridX + 1));
             const float y0 = outdoorGridCornerWorldY(outdoorMapData, static_cast<int>(gridY));
@@ -250,6 +262,69 @@ void appendTerrainFacets(
             pathFacets.push_back(buildTerrainTriangle(p00, p11, p10));
             pathFacets.push_back(buildTerrainTriangle(p00, p01, p11));
             result.terrainTriangleCount += 2;
+        }
+    }
+
+    if (outdoorMapData.voidCells.empty())
+    {
+        return;
+    }
+
+    // The void's rim is a wall to the planner: a route keeps a body's radius from it, as from a model's wall. Without
+    // it a route ran along the rim's last cell with the body hanging over the void, against the hull's kerb there
+    // (F75, X6's Sphinx cove).
+    const auto addRimWall = [&](int cornerX0, int cornerY0, int cornerX1, int cornerY1)
+    {
+        const float zA = terrainHeightAtSample(outdoorMapData, size_t(cornerX0), size_t(cornerY0));
+        const float zB = terrainHeightAtSample(outdoorMapData, size_t(cornerX1), size_t(cornerY1));
+        const float low = std::min(zA, zB) - VoidRimWallBelow;
+        const float high = std::max(zA, zB) + VoidRimWallAbove;
+        const float xA = outdoorGridCornerWorldX(outdoorMapData, cornerX0);
+        const float yA = outdoorGridCornerWorldY(outdoorMapData, cornerY0);
+        const float xB = outdoorGridCornerWorldX(outdoorMapData, cornerX1);
+        const float yB = outdoorGridCornerWorldY(outdoorMapData, cornerY1);
+        PathFacet facet = {};
+        facet.vertices = {{xA, yA, low}, {xB, yB, low}, {xB, yB, high}, {xA, yA, high}};
+        facet.kind = PathFacetKind::Wall;
+        facet.blocking = true;
+        facet.walkableFloor = false;
+        pathFacets.push_back(std::move(facet));
+        ++result.voidRimWallCount;
+    };
+    const auto isVoid = [&outdoorMapData](int cellX, int cellY)
+    {
+        return isOutdoorVoidCell(outdoorMapData, cellX, cellY);
+    };
+    const int cells = static_cast<int>(terrainCells);
+
+    for (int gridY = 0; gridY < cells; ++gridY)
+    {
+        for (int gridX = 0; gridX < cells; ++gridX)
+        {
+            if (isVoid(gridX, gridY))
+            {
+                continue;
+            }
+
+            if (gridX + 1 < cells && isVoid(gridX + 1, gridY))
+            {
+                addRimWall(gridX + 1, gridY, gridX + 1, gridY + 1);
+            }
+
+            if (gridX > 0 && isVoid(gridX - 1, gridY))
+            {
+                addRimWall(gridX, gridY, gridX, gridY + 1);
+            }
+
+            if (gridY + 1 < cells && isVoid(gridX, gridY + 1))
+            {
+                addRimWall(gridX, gridY + 1, gridX + 1, gridY + 1);
+            }
+
+            if (gridY > 0 && isVoid(gridX, gridY - 1))
+            {
+                addRimWall(gridX, gridY, gridX + 1, gridY);
+            }
         }
     }
 }

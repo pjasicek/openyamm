@@ -2756,6 +2756,24 @@ std::optional<IndoorSceneData> IndoorSceneYmlLoader::loadFromText(
                 false)
             || !readScalarNode(
                 runtimeRestrictionsNode,
+                "allow_spellcasting_solo",
+                sceneData.runtimeRestrictions.allowSoloSpellcasting,
+                errorMessage,
+                false)
+            || !readScalarNode(
+                runtimeRestrictionsNode,
+                "allow_monster_spellcasting",
+                sceneData.runtimeRestrictions.allowMonsterSpellcasting,
+                errorMessage,
+                false)
+            || !readScalarNode(
+                runtimeRestrictionsNode,
+                "solo_spell_damage_percent",
+                sceneData.runtimeRestrictions.soloSpellDamagePercent,
+                errorMessage,
+                false)
+            || !readScalarNode(
+                runtimeRestrictionsNode,
                 "arena",
                 sceneData.runtimeRestrictions.isArena,
                 errorMessage,
@@ -3444,6 +3462,24 @@ bool IndoorSceneYmlLoader::applyOverlayFromText(
                 runtimeRestrictionsNode,
                 "allow_spellcasting",
                 sceneData.runtimeRestrictions.allowSpellcasting,
+                errorMessage,
+                false)
+            || !readScalarNode(
+                runtimeRestrictionsNode,
+                "allow_spellcasting_solo",
+                sceneData.runtimeRestrictions.allowSoloSpellcasting,
+                errorMessage,
+                false)
+            || !readScalarNode(
+                runtimeRestrictionsNode,
+                "allow_monster_spellcasting",
+                sceneData.runtimeRestrictions.allowMonsterSpellcasting,
+                errorMessage,
+                false)
+            || !readScalarNode(
+                runtimeRestrictionsNode,
+                "solo_spell_damage_percent",
+                sceneData.runtimeRestrictions.soloSpellDamagePercent,
                 errorMessage,
                 false)
             || !readScalarNode(

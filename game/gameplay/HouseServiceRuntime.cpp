@@ -2,7 +2,6 @@
 #include "engine/Localization.h"
 
 #include "game/gameplay/GameplayLootFilter.h"
-#include "game/gameplay/GameplayWorldItemPolicy.h"
 
 #include "game/gameplay/NpcFollowerRuntime.h"
 #include "game/gameplay/StealingRuntime.h"
@@ -1842,8 +1841,9 @@ bool HouseServiceRuntime::tryBuyStockItem(
         return false;
     }
 
-    // A purchase goes where a pickup would: its pouch (alchemy reagents and bottles, MAW's crafting), OY-257.
-    if (!storePickedUpItem(party, item, &itemTable))
+    // A purchase goes to its pouch (alchemy reagents and bottles, MAW's crafting; OY-257), else to the bags: never the
+    // loot pouch, which holds what the party picked up or looted.
+    if (!party.tryGrantInventoryItem(item))
     {
         statusText = Engine::tr("Inventory full.");
 
@@ -2013,7 +2013,8 @@ bool HouseServiceRuntime::tryStealStockItem(
 
     if (stealResult.outcome == StealingOutcomeKind::Success)
     {
-        if (!storePickedUpItem(party, item, &itemTable))
+        // Like a purchase: its pouch or the bags, not the loot pouch.
+        if (!party.tryGrantInventoryItem(item))
         {
             statusText = Engine::tr("Inventory full.");
 

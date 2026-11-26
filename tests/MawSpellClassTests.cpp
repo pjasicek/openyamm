@@ -5,6 +5,7 @@
 #include "game/gameplay/GameplayActorService.h"
 #include "game/gameplay/GameplayCombatController.h"
 #include "game/gameplay/TurnBasedCombatRuntime.h"
+#include "game/maps/MapRuntimeRestrictions.h"
 #include "game/mm9/Mm9HirelingTable.h"
 #include "game/party/EventSpellBuffs.h"
 #include "game/party/Party.h"
@@ -2017,12 +2018,14 @@ TEST_CASE("MAW missile and spell crits reach the status line: breath's Flame Bla
 
     // A missile's crit rides its impact event to MAW's status line, and only when it hits.
     GameplayCombatController combat;
-    combat.recordPartyProjectileActorImpact(1, 0, 7, 120, 123, true, false, true);
-    combat.recordPartyProjectileActorImpact(1, 0, 7, 120, 123, true, false, false);
-    combat.recordPartyProjectileActorImpact(1, 0, 7, 0, 123, false, false, true);
+    combat.recordPartyProjectileActorImpact(1, 0, 7, 120, CombatDamageType::Fire, 123, true, false, true);
+    combat.recordPartyProjectileActorImpact(1, 0, 7, 120, CombatDamageType::Fire, 123, true, false, false);
+    combat.recordPartyProjectileActorImpact(1, 0, 7, 0, CombatDamageType::Fire, 123, false, false, true);
     const std::vector<GameplayCombatController::CombatEvent> &events = combat.pendingCombatEvents();
     REQUIRE_EQ(events.size(), 3u);
     CHECK(events[0].critical);
+    // The impact keeps its damage kind, which Thorn and Reflecting bosses tell apart.
+    CHECK(events[0].damageType == CombatDamageType::Fire);
     CHECK(GameplayCombatController::formatPartyProjectileActorImpactStatusText("Dragon", "Ogre", events[0],
         &rules.gameRules().combat).find("(CRIT!)") != std::string::npos);
     CHECK(GameplayCombatController::formatPartyProjectileActorImpactStatusText("Dragon", "Ogre", events[1],
@@ -2125,6 +2128,29 @@ TEST_CASE("The spell inspect window's damage range holds every roll that did not
     checkRolls(rules.gameRules().combat, castOf(dragon, *pFlameBlast, SkillMastery::Grandmaster));
     checkRolls(rules.gameRules().combat, castOf(assassin, *pBlades, SkillMastery::Master));
     CHECK_FALSE(rules.gameRules().combat.spellDamagePreview(castOf(sorcerer, *pMassDistortion, SkillMastery::Master)));
+}
+
+TEST_CASE("The spell inspect window shows a warded map's share of the damage, as the cast deals it (D-194)")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    Character &sorcerer = *party.member(3);
+    sorcerer.skills["FireMagic"] = {"FireMagic", 12, SkillMastery::Normal};
+    const uint32_t fireBolt = spellIdValue(SpellId::FireBolt);
+
+    const std::optional<PartySpellSystem::DamagePreview> full =
+        PartySpellSystem::damagePreview(party, sorcerer, gameData.spellTable, fireBolt, 100);
+    const std::optional<PartySpellSystem::DamagePreview> half =
+        PartySpellSystem::damagePreview(party, sorcerer, gameData.spellTable, fireBolt, 50);
+    REQUIRE(full.has_value());
+    REQUIRE(half.has_value());
+    CHECK_EQ(full->hit.minimum, 12);
+    CHECK_EQ(full->hit.maximum, 36);
+    CHECK_EQ(half->hit.minimum, MapRuntimeRestrictions::scaledSpellDamage(full->hit.minimum, 50));
+    CHECK_EQ(half->hit.average, MapRuntimeRestrictions::scaledSpellDamage(full->hit.average, 50));
+    CHECK_EQ(half->hit.maximum, MapRuntimeRestrictions::scaledSpellDamage(full->hit.maximum, 50));
+    CHECK_EQ(half->hits, full->hits);
 }
 
 TEST_CASE("MAW an Expert staff guards its holder and resists for the party (Discord, 2026-11-23)")

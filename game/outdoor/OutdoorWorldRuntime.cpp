@@ -1967,13 +1967,21 @@ OutdoorWaterRestrictionResult applyOutdoorWaterRestriction(
         return OutdoorWaterRestrictionResult::RedirectedToLand;
     }
 
+    // A walker keeps off the void past the world's edge (terrain.void) as off water, unless a deck carries it there
+    // (F75, X6 p14: Xeen's sand worms walked off the land into the Sphinx cove).
+    const auto barred = [&outdoorMapData, &outdoorLandMask](float x, float y)
+    {
+        const int cellX = static_cast<int>(std::floor(outdoorWorldToGridXFloat(outdoorMapData, x)));
+        const int cellY = static_cast<int>(std::floor(outdoorWorldToGridYFloat(outdoorMapData, y)));
+        return isOutdoorMonsterWaterTile(outdoorMapData, outdoorLandMask, x, y)
+            || isOutdoorVoidCell(outdoorMapData, cellX, cellY);
+    };
     const float moveDeltaX = desiredMoveX * moveSpeed * ActorUpdateStepSeconds;
     const float moveDeltaY = desiredMoveY * moveSpeed * ActorUpdateStepSeconds;
     const float candidateX = actor.preciseX + moveDeltaX;
     const float candidateY = actor.preciseY + moveDeltaY;
 
-    if (!isOutdoorMonsterWaterTile(outdoorMapData, outdoorLandMask, candidateX, candidateY)
-        || hasNonFluidBModelSupport(candidateX, candidateY))
+    if (!barred(candidateX, candidateY) || hasNonFluidBModelSupport(candidateX, candidateY))
     {
         return OutdoorWaterRestrictionResult::None;
     }
@@ -1996,7 +2004,7 @@ OutdoorWaterRestrictionResult applyOutdoorWaterRestriction(
     const float rotatedCandidateY = actor.preciseY + desiredMoveY * moveSpeed * ActorUpdateStepSeconds;
 
     if (length2d(desiredMoveX, desiredMoveY) <= 0.001f
-        || (isOutdoorMonsterWaterTile(outdoorMapData, outdoorLandMask, rotatedCandidateX, rotatedCandidateY)
+        || (barred(rotatedCandidateX, rotatedCandidateY)
             && !hasNonFluidBModelSupport(rotatedCandidateX, rotatedCandidateY)))
     {
         desiredMoveX = 0.0f;
@@ -7027,7 +7035,8 @@ void OutdoorWorldRuntime::applyFireSpikeTrapTriggerResult(
         const size_t triggeredActorIndex = result.actorIndex;
         const int damage = trap.sourceKind == ProjectileState::SourceKind::Party
             ? GameplayProjectileService::partyWorldSpellDamage(m_pParty, m_pSpellTable,
-                  trap.sourcePartyMemberIndex, trap.spellId, trap.skillLevel, trap.skillMastery, result.damage)
+                  trap.sourcePartyMemberIndex, trap.spellId, trap.skillLevel, trap.skillMastery, result.damage,
+                  spellDamagePercent())
             : result.damage;
         const int beforeHp = m_mapActors[triggeredActorIndex].currentHp;
 
@@ -7072,6 +7081,7 @@ void OutdoorWorldRuntime::applyFireSpikeTrapTriggerResult(
                     trap.sourcePartyMemberIndex,
                     m_mapActors[triggeredActorIndex].actorId,
                     appliedDamage,
+                    damageType,
                     trap.spellId,
                     true,
                     beforeHp > 0 && m_mapActors[triggeredActorIndex].currentHp <= 0);
@@ -9163,6 +9173,7 @@ void OutdoorWorldRuntime::burnWithImmolation(PlayerId player, const Party &party
                 pBuff->casterMemberIndex,
                 actor.actorId,
                 appliedDamage,
+                damageType,
                 static_cast<int>(spellId),
                 true,
                 beforeHp > 0 && actor.currentHp <= 0);
@@ -9300,7 +9311,17 @@ bool OutdoorWorldRuntime::allowsRest() const
 
 bool OutdoorWorldRuntime::allowsSpellcasting() const
 {
-    return m_map.runtimeRestrictions.allowSpellcasting;
+    return m_map.runtimeRestrictions.allowsSpellcasting(m_pParty != nullptr && m_pParty->soloRun());
+}
+
+bool OutdoorWorldRuntime::allowsMonsterSpellcasting() const
+{
+    return m_map.runtimeRestrictions.allowsMonsterSpellcasting(m_pParty != nullptr && m_pParty->soloRun());
+}
+
+int OutdoorWorldRuntime::spellDamagePercent() const
+{
+    return m_map.runtimeRestrictions.spellDamagePercent(m_pParty != nullptr && m_pParty->soloRun());
 }
 
 const std::vector<uint8_t> *OutdoorWorldRuntime::journalMapFullyRevealedCells() const
@@ -10723,6 +10744,7 @@ ActorAiFrameFacts OutdoorWorldRuntime::collectOutdoorActorAiFrameFacts(
     facts.meleeVerticalReach =
         m_pGameplayActorService != nullptr ? m_pGameplayActorService->meleeVerticalReach() : 0.0f;
     facts.partyHitReach = partyHitReach();
+    facts.monsterSpellcastingAllowed = allowsMonsterSpellcasting();
     facts.deltaSeconds = deltaSeconds;
     facts.fixedStepSeconds = ActorUpdateStepSeconds;
     facts.party.position = GameplayWorldPoint{partyX, partyY, partyZ};
@@ -14679,8 +14701,9 @@ bool OutdoorWorldRuntime::projectileSourceIsFriendlyToActor(
 
 int OutdoorWorldRuntime::resolveProjectilePartyImpactDamage(const ProjectileState &projectile) const
 {
-    const GameplayProjectileService::ProjectilePartyImpactDamageInput input =
+    GameplayProjectileService::ProjectilePartyImpactDamageInput input =
         buildProjectilePartyImpactDamageInput(projectile, m_pMonsterTable, m_pSpellTable, m_mapActors);
+    input.spellDamagePercent = spellDamagePercent();
     return projectileService().resolveProjectilePartyImpactDamage(input);
 }
 
@@ -15079,6 +15102,8 @@ std::shared_ptr<const PathMap> OutdoorWorldRuntime::outdoorPathMap(bool landOnly
                 << "\" mode=" << (landOnly ? "land" : "full")
                 << " terrain_triangles=" << buildResult.terrainTriangleCount
                 << " skipped_water_triangles=" << buildResult.skippedWaterTerrainTriangleCount
+                << " skipped_void_triangles=" << buildResult.skippedVoidTerrainTriangleCount
+                << " void_rim_walls=" << buildResult.voidRimWallCount
                 << " source_bmodel_faces=" << buildResult.sourceBModelFaceCount
                 << " bmodel_facets=" << buildResult.bModelPathFacetCount
                 << " cooked_facets=" << buildResult.cookedNavigationFacetCount
@@ -16691,6 +16716,7 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
                     projectile.sourcePartyMemberIndex,
                     impact.actorId,
                     impact.applyPartyProjectileDamage ? appliedDamage : impact.damage,
+                    projectile.damageType,
                     projectile.spellId,
                     impact.hit,
                     killed,
@@ -16942,6 +16968,7 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
                         projectile.sourcePartyMemberIndex,
                         m_mapActors[actorHit.actorIndex].actorId,
                         appliedDamage,
+                        projectile.damageType,
                         projectile.spellId,
                         true,
                         killed,
@@ -20236,6 +20263,19 @@ void OutdoorWorldRuntime::setReplicaGameMinutes(float gameMinutes)
     m_gameMinutes = gameMinutes;
 }
 
+void OutdoorWorldRuntime::applyReplicaMechanisms(std::unordered_map<uint32_t, RuntimeMechanismState> mechanisms)
+{
+    if (!m_eventRuntimeState)
+    {
+        return;
+    }
+
+    // The renderer draws a mover from its state each frame; its walls move here, which a mover that is not moving
+    // would otherwise never do.
+    m_eventRuntimeState->mechanisms = std::move(mechanisms);
+    refreshOutdoorModelMechanismGeometry();
+}
+
 bool OutdoorWorldRuntime::replicaWorldCall(std::vector<uint8_t> call)
 {
     if (!m_replicaDryRun)
@@ -21231,6 +21271,7 @@ bool OutdoorWorldRuntime::applyDirectSpellImpactToMapActor(
             sourcePartyMemberIndex,
             actor.actorId,
             appliedDamage,
+            damageType,
             static_cast<int>(spellId),
             true,
             beforeHp > 0 && actor.currentHp <= 0,
@@ -25637,7 +25678,8 @@ void OutdoorWorldRuntime::resolveArmageddonDetonation(float partyX, float partyY
         }
 
         const int beforeHp = actor.currentHp;
-        const int monsterDamage = armageddonMonsterDamage(m_armageddonState, pCasterParty, m_pSpellTable);
+        const int monsterDamage =
+            armageddonMonsterDamage(m_armageddonState, pCasterParty, m_pSpellTable, spellDamagePercent());
         const bool applied = applyPartyAttackToMapActor(
             actorIndex, monsterDamage, partyX, partyY, partyZ, ShieldAttackTier::Spell);
 
@@ -25654,6 +25696,7 @@ void OutdoorWorldRuntime::resolveArmageddonDetonation(float partyX, float partyY
                 sourceMemberIndex,
                 actor.actorId,
                 monsterDamage,
+                GameMechanics::spellCombatDamageType(spellIdValue(SpellId::Armageddon), m_pSpellTable),
                 spellIdValue(SpellId::Armageddon),
                 true,
                 beforeHp > 0 && actor.currentHp <= 0);
@@ -25673,14 +25716,14 @@ void OutdoorWorldRuntime::resolveArmageddonDetonation(float partyX, float partyY
     // down is out of the fight (GameplayCombatController::handleAndClearPendingCombatEvents).
     if (m_guestBodies.empty() || m_pParty->hasActableMember())
     {
-        applyArmageddonToParty(m_armageddonState, *m_pParty);
+        applyArmageddonToParty(m_armageddonState, *m_pParty, spellDamagePercent());
     }
 
     for (const GameplayGuestBody &guest : m_guestBodies)
     {
         if (guest.pParty != nullptr && guest.pParty->hasActableMember())
         {
-            applyArmageddonToParty(m_armageddonState, *guest.pParty);
+            applyArmageddonToParty(m_armageddonState, *guest.pParty, spellDamagePercent());
         }
     }
 

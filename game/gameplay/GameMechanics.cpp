@@ -878,6 +878,13 @@ bool isWeaponItem(const ItemDefinition &itemDefinition)
 
 bool requiresLearnedSkillToEquip(const ItemDefinition &itemDefinition)
 {
+    // A world's special item any character may wield whatever their skills (Xeen's Slayer Sword, U-17); the skill still
+    // counts for those who have it.
+    if (itemDefinition.hasContentFlag("EquipWithoutSkill"))
+    {
+        return false;
+    }
+
     const std::string skillName = canonicalSkillName(itemDefinition.skillGroup);
 
     // Anyone can wield a club: it has no skill of its own (MM7, MM8 and MMerge).

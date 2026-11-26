@@ -766,6 +766,42 @@ TEST_CASE("clubs equip without a learned skill")
     }
 }
 
+TEST_CASE("an EquipWithoutSkill weapon equips without its learned skill")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+
+    OpenYAMM::Game::Character character = {};
+
+    OpenYAMM::Game::CharacterDollTypeEntry dollType = {};
+    dollType.canEquipArmor = true;
+    dollType.canEquipHelm = true;
+    dollType.canEquipWeapon = true;
+
+    // MM7's Iron Feather, the two-handed sword Xeen's Slayer Sword (U-17) is drawn as.
+    const OpenYAMM::Game::ItemDefinition *pIronFeather = gameData.itemTable.get(1303);
+    REQUIRE(pIronFeather != nullptr);
+    REQUIRE(pIronFeather->skillGroup == "Sword");
+
+    CHECK_FALSE(OpenYAMM::Game::GameMechanics::canCharacterEquipItem(character, *pIronFeather, &dollType));
+
+    OpenYAMM::Game::ItemDefinition slayerSword = *pIronFeather;
+    slayerSword.contentFlags.push_back("EquipWithoutSkill");
+
+    CHECK(OpenYAMM::Game::GameMechanics::canCharacterEquipItem(character, slayerSword, &dollType));
+    CHECK_FALSE(OpenYAMM::Game::GameMechanics::equipRefusalReason(character, slayerSword, &dollType).has_value());
+
+    const std::optional<OpenYAMM::Game::CharacterEquipPlan> plan =
+        OpenYAMM::Game::GameMechanics::resolveCharacterEquipPlan(
+            character,
+            slayerSword,
+            &gameData.itemTable,
+            &dollType,
+            std::nullopt,
+            false);
+    REQUIRE(plan.has_value());
+    CHECK(plan->targetSlot == OpenYAMM::Game::EquipmentSlot::MainHand);
+}
+
 TEST_CASE("negative accuracy does not block items without a stat requirement")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();

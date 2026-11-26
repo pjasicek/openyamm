@@ -9,6 +9,7 @@
 #include "game/items/ItemEnchantTables.h"
 #include "game/items/InventoryItemMixingRuntime.h"
 #include "game/items/ItemRuntime.h"
+#include "game/maps/MapRuntimeRestrictions.h"
 #include "game/party/LloydsBeaconRuntime.h"
 #include "game/party/SpellSchool.h"
 #include "game/party/SpellIds.h"
@@ -914,15 +915,17 @@ int standardHealAmount(SkillMastery mastery, uint32_t skillLevel)
 }
 
 // A rolled damage spell's damage after the caster's own share: Hesper's item effects (item_effects spell_damage_pct),
-// its Berserker's Seed while a hostile is in melee reach (DECISIONS H-91) and the world's Hum
-// (Party::spellDamagePercentFor, 100 without one).
-int casterSpellDamage(const Party &party, const Character &caster, int damage)
+// its Berserker's Seed while a hostile is in melee reach (DECISIONS H-91), the world's Hum
+// (Party::spellDamagePercentFor, 100 without one) and the map's (IGameplayWorldRuntime::spellDamagePercent: a solo
+// run in Darzog's Tower deals half). Every cast's roll comes here: spells, scrolls and wands.
+int casterSpellDamage(const Party &party, const Character &caster, int damage, int mapPercent)
 {
     const int percent = caster.spellDamagePercent
         + (caster.implantBerserkActive ? int(std::lround(caster.implantBerserkDamagePercent)) : 0);
     damage = percent != 0 ? std::max(0, damage + damage * percent / 100) : damage;
     const int humPercent = party.spellDamagePercentFor(caster);
-    return humPercent < 100 ? damage * humPercent / 100 : damage;
+    damage = humPercent < 100 ? damage * humPercent / 100 : damage;
+    return MapRuntimeRestrictions::scaledSpellDamage(damage, mapPercent);
 }
 
 bool resolveSpellSkill(
@@ -1480,12 +1483,14 @@ PartySpellCastResult PartySpellSystem::castSpell(
         return cast;
     };
     // `critical` learns whether the roll was a critical hit.
-    const auto rollSpellDamage =
-        [&party, &castAtLevel](const SpellEntry &spellEntry, SkillMastery mastery, uint32_t level, bool &critical)
+    const int mapSpellDamagePercent = worldRuntime.spellDamagePercent();
+    const auto rollSpellDamage = [&party, &castAtLevel, mapSpellDamagePercent](
+                                     const SpellEntry &spellEntry, SkillMastery mastery, uint32_t level, bool &critical)
     {
         const CharacterSpellCast cast = castAtLevel(spellEntry, mastery, level);
         const int damage = party.rules().combat.rollSpellDamage(cast, &critical);
-        return cast.pCaster != nullptr ? casterSpellDamage(party, *cast.pCaster, damage) : damage;
+        return cast.pCaster != nullptr ? casterSpellDamage(party, *cast.pCaster, damage, mapSpellDamagePercent)
+                                       : MapRuntimeRestrictions::scaledSpellDamage(damage, mapSpellDamagePercent);
     };
 
     if (party.hasPartyBuff(PartyBuffId::Invisibility))
@@ -2882,7 +2887,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 if (const std::optional<int> share = party.rules().combat.spellDamageOnTarget(
                         castAtLevel(*pSpellEntry, skillMastery, skillLevel), target))
                 {
-                    damage = *share;
+                    damage = MapRuntimeRestrictions::scaledSpellDamage(*share, mapSpellDamagePercent);
                 }
             }
 
@@ -3367,7 +3372,8 @@ std::optional<PartySpellSystem::DamagePreview> PartySpellSystem::damagePreview(
     const Party &party,
     const Character &caster,
     const SpellTable &spellTable,
-    uint32_t spellId)
+    uint32_t spellId,
+    int mapSpellDamagePercent)
 {
     const SpellEntry *pSpellEntry = spellTable.findById(static_cast<int>(spellId));
     uint32_t skillLevel = 0;
@@ -3403,9 +3409,9 @@ std::optional<PartySpellSystem::DamagePreview> PartySpellSystem::damagePreview(
 
     DamagePreview preview;
     preview.hit = *hit;
-    preview.hit.minimum = casterSpellDamage(party, caster, hit->minimum);
-    preview.hit.average = casterSpellDamage(party, caster, hit->average);
-    preview.hit.maximum = casterSpellDamage(party, caster, hit->maximum);
+    preview.hit.minimum = casterSpellDamage(party, caster, hit->minimum, mapSpellDamagePercent);
+    preview.hit.average = casterSpellDamage(party, caster, hit->average, mapSpellDamagePercent);
+    preview.hit.maximum = casterSpellDamage(party, caster, hit->maximum, mapSpellDamagePercent);
     preview.hits = rule->effectKind == PartySpellCastEffectKind::MultiProjectile
         ? spellNumbersAtMastery(*pSpellEntry, skillMastery).projectileCount
         : 1;

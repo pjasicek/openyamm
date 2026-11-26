@@ -260,6 +260,61 @@ TEST_CASE("S8g: rules.no_spells writes the scene's runtime restriction, and only
     CHECK(warded.scene->runtimeRestrictions.allowRest);
     CHECK(warded.scene->runtimeRestrictions.allowSaveGame);
     CHECK(warded.sceneText.find("runtime_restrictions:\n  allow_spellcasting: false\n") != std::string::npos);
+    CHECK_FALSE(warded.scene->runtimeRestrictions.allowSoloSpellcasting);
+    CHECK_FALSE(warded.scene->runtimeRestrictions.allowsSpellcasting(true));
+
+    // rules.solo_spells (Darzog's Tower): the ward holds for a party, a solo run casts.
+    const S8gBuilt soloWarded = buildS8g({{"project.yml", "format: 0\nid: testmap\nworld: mm7\nkind: indoor\n"
+                                                          "rules: {no_spells: true, solo_spells: true}\n"},
+        {"rooms.yml", S8gRoom}, {"objects.yml", objects}});
+    REQUIRE(soloWarded.built);
+    REQUIRE(soloWarded.scene);
+    CHECK(soloWarded.sceneText.find("allow_spellcasting_solo: true") != std::string::npos);
+    CHECK_FALSE(soloWarded.scene->runtimeRestrictions.allowsSpellcasting(false));
+    CHECK(soloWarded.scene->runtimeRestrictions.allowsSpellcasting(true));
+    CHECK(soloWarded.sceneText.find("allow_monster_spellcasting") == std::string::npos);
+    CHECK(soloWarded.sceneText.find("solo_spell_damage_percent") == std::string::npos);
+    CHECK(soloWarded.scene->runtimeRestrictions.allowsMonsterSpellcasting(false));
+    CHECK_EQ(soloWarded.scene->runtimeRestrictions.spellDamagePercent(true), 100);
+
+    // Darzog's Tower's whole ward: monsters cast nothing at a party, a solo run fights with magic on both sides at half
+    // damage, a party run at full.
+    const S8gBuilt tower = buildS8g({{"project.yml", "format: 0\nid: testmap\nworld: mm7\nkind: indoor\n"
+                                                     "rules: {no_spells: true, no_monster_spells: true, "
+                                                     "solo_spells: true, solo_spell_damage_percent: 50}\n"},
+        {"rooms.yml", S8gRoom}, {"objects.yml", objects}});
+    REQUIRE(tower.built);
+    REQUIRE(tower.scene);
+    CHECK(tower.sceneText.find("allow_monster_spellcasting: false") != std::string::npos);
+    CHECK(tower.sceneText.find("solo_spell_damage_percent: 50") != std::string::npos);
+    CHECK_FALSE(tower.scene->runtimeRestrictions.allowsMonsterSpellcasting(false));
+    CHECK(tower.scene->runtimeRestrictions.allowsMonsterSpellcasting(true));
+    CHECK_EQ(tower.scene->runtimeRestrictions.spellDamagePercent(true), 50);
+    CHECK_EQ(tower.scene->runtimeRestrictions.spellDamagePercent(false), 100);
+
+    // no_monster_spells alone: the monsters' ward holds for a solo run too.
+    const S8gBuilt monstersWarded = buildS8g({{"project.yml", "format: 0\nid: testmap\nworld: mm7\nkind: indoor\n"
+                                                              "rules: {no_monster_spells: true}\n"},
+        {"rooms.yml", S8gRoom}, {"objects.yml", objects}});
+    REQUIRE(monstersWarded.built);
+    REQUIRE(monstersWarded.scene);
+    CHECK(monstersWarded.scene->runtimeRestrictions.allowsSpellcasting(false));
+    CHECK_FALSE(monstersWarded.scene->runtimeRestrictions.allowsMonsterSpellcasting(true));
+
+    // A damage share without solo_spells does nothing: a schema issue.
+    const std::filesystem::path strayRoot = s8gScratch("stray_percent");
+    s8gWrite(strayRoot / "project.yml", "format: 0\nid: testmap\nworld: mm7\nkind: indoor\n"
+                                        "rules: {no_spells: true, solo_spell_damage_percent: 50}\n");
+    s8gWrite(strayRoot / "rooms.yml", std::string(S8gTheme) + S8gRoom);
+    s8gWrite(strayRoot / "objects.yml", objects);
+    Project strayProject;
+    std::vector<ProjectIssue> strayIssues;
+    REQUIRE(loadProject(strayRoot, strayProject, strayIssues));
+    validateProject(strayProject, BuildOptions(), strayIssues);
+    CHECK(std::any_of(strayIssues.begin(), strayIssues.end(), [](const ProjectIssue &issue)
+        {
+            return issue.message.find("without `solo_spells` it does nothing") != std::string::npos;
+        }));
 }
 
 TEST_CASE("S8g: an indoor map's bolster row is written when map_stats.bolster asks for it")

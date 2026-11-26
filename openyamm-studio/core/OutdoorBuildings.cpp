@@ -2549,7 +2549,8 @@ private:
             recess.depth = depth;
             recess.recess = true;
             recess.rise = 0.0;
-            recess.height = std::min(part.wallHeight, RowHeight);
+            recess.height = std::min(part.wallHeight,
+                door.storey == 0 && part.doorHeight > 0.0 ? part.doorHeight : RowHeight);
             building.parts[door.part].porches.push_back(recess);
         }
 
@@ -4086,6 +4087,13 @@ private:
     }
 
     // ---- Doors higher than the walls, cut into the roof ----
+
+    // How high a door of this part stands over its foot (its sill): the part's `door_height` on the ground storey,
+    // else a row (256).
+    double doorHigh(const OutdoorDoorPlan &door) const
+    {
+        return door.storey == 0 && m_part.doorHeight > 0.0 ? m_part.doorHeight : RowHeight;
+    }
 
     bool notchDoor(const OutdoorDoorPlan &door) const
     {
@@ -6517,7 +6525,7 @@ private:
             const double to = edges[door.bay + 1];
             const double in = insetAt(door.wall, (from + to) * 0.5);
             const double low = m_floor + door.storey * RowHeight + (door.storey > 0 ? m_part.band : 0.0);
-            const double high = std::min(m_top, low + RowHeight);
+            const double high = std::min(m_top, low + doorHigh(door));
             const std::string &trim = door.frameTexture.empty() ? texture("trim") : door.frameTexture;
             // A block on the wall from `a` to `b` along it, standing `out` from it, between two heights.
             const auto block = [&](double a, double b, double out, double z0, double z1, uint16_t event)
@@ -6655,17 +6663,19 @@ private:
         {
             return m_floor + row * RowHeight + (row > 0 ? m_part.band : 0.0);
         };
-        // S8d: a door on a `sill` stands a whole door high from it, up into the rows (and band) above its own.
+        // S8d: a door on a `sill` stands a whole door high from it, up into the rows (and band) above its own; so does
+        // a door of the part's `door_height` over a row (D-180: X6's arena gate, 384, in walls higher still).
         m_doorHoles.clear();
 
         for (const OutdoorDoorPlan &door : m_building.doors)
         {
-            if (door.sill > 0.0 && door.part == m_partIndex && door.wall == wall)
+            if ((door.sill > 0.0 || doorHigh(door) > RowHeight + 0.5) && door.part == m_partIndex && door.wall == wall
+                && !notchDoor(door))
             {
                 const std::vector<double> edges = bayEdgesOf(m_part, wall, door.storey > 0);
                 const double foot = rowFoot(static_cast<int>(door.storey));
                 const double rowTop = std::min(m_top, foot + RowHeight);
-                const double doorTop = std::min(m_top, foot + door.sill + RowHeight);
+                const double doorTop = std::min(m_top, foot + door.sill + doorHigh(door));
 
                 if (door.bay + 1 < edges.size() && doorTop > rowTop + 0.5)
                 {
@@ -6763,16 +6773,27 @@ private:
                 // A door in a battered wall stands upright at its foot, the slope's wedge round its head.
                 m_upright = pDoor != nullptr && m_part.batter > 0.0;
                 // S8d: a door on a `sill`: the wall's panel under it, the door a whole door high from it (the rows
-                // above begin over it: m_doorHoles).
+                // above begin over it: m_doorHoles). D-180: a door of the part's `door_height` stands that high from
+                // its foot, its picture laid once over it (as a door cut into the roof), up into the rows above or
+                // under a lintel of wall in its own row.
                 const double sill = pDoor != nullptr ? pDoor->sill : 0.0;
+                const double doorTall = pDoor != nullptr ? doorHigh(*pDoor) : RowHeight;
+                const bool ownHeight = pDoor != nullptr && (sill > 0.0 || std::fabs(doorTall - RowHeight) > 0.5);
                 const double pieceLow = low + sill;
-                const double pieceHigh = sill > 0.0 ? std::min(m_top, pieceLow + RowHeight) : high;
-                const double pieceTop = sill > 0.0 ? RowHeight - (pieceHigh - pieceLow) : vTop;
+                const double pieceHigh = ownHeight ? std::min(m_top, pieceLow + doorTall) : high;
+                const double pieceTop = ownHeight ? RowHeight - (pieceHigh - pieceLow) * RowHeight / doorTall : vTop;
 
                 if (sill > 0.0)
                 {
                     wallPiece(wall, edges[bay], edges[end], low, pieceLow, texture("wall"), 0.0, across,
                         RowHeight - sill, RowHeight, m_nameEvent);
+                }
+
+                if (ownHeight && pieceHigh < high - 0.5)
+                {
+                    // The lintel: the wall over a door lower than its row.
+                    wallPiece(wall, edges[bay], edges[end], pieceHigh, high, texture("wall"), 0.0, across, vTop,
+                        RowHeight - (pieceHigh - low), m_nameEvent);
                 }
 
                 // A picture laid once per bay (`fit`): its own texels stretched over the bay's piece.
@@ -7185,6 +7206,33 @@ private:
                         }
 
                         texelFace(points, trim, texels, event);
+                    }
+                }
+            }
+
+            // The soffits: under each slope's run past a gable end, `barge` below it, from the gable wall's plane
+            // out to the verge and from the eaves corner up to the ridge, facing down, so the overhang reads as a
+            // roof `barge` thick from below and not as the slope's own underside (F71, Rivercity's houses).
+            if (roof.barge > 0.0 && !point)
+            {
+                for (const bool far : {false, true})
+                {
+                    if ((far ? vergeFar : vergeNear) <= 0.0)
+                    {
+                        continue;
+                    }
+
+                    const Point2 &wallApex = far ? ridgeTo : ridgeFrom;
+                    const Point2 &apex = far ? slopeTo : slopeFrom;
+                    const std::array<std::array<Point2, 2>, 2> sides = far
+                        ? std::array<std::array<Point2, 2>, 2>{{{b, slopeB}, {c, slopeC}}}
+                        : std::array<std::array<Point2, 2>, 2>{{{a, slopeA}, {d, slopeD}}};
+
+                    for (const std::array<Point2, 2> &side : sides)
+                    {
+                        surface(facing({at(side[0], m_foot - roof.barge), at(side[1], m_foot - roof.barge),
+                            at(apex, tip - roof.barge), at(wallApex, tip - roof.barge)}, {0.0, 0.0, -1.0}), trim,
+                            event);
                     }
                 }
             }

@@ -23,6 +23,12 @@ items, hirelings) is in [MM9_BALANCE_DESIGN.md](MM9_BALANCE_DESIGN.md).
   load with MM9 active. Under a ruleset other than Standard such stock is now sold without that enchantment
   (`HouseTable::removeSpecialEnchantsTheRulesetDoesNotRoll`, 49 of MM9's 287 enchanted stock items); Standard keeps
   the strict check.
+- **A world's placed bosses** (2026-11-25, Hesper, DECISIONS H-86): MAW sizes every row from its level, so a world's
+  own boss row is no tougher than a plain monster of its level. A world balance file may list
+  `bosses: {<row id>: <health multiplier>}` (above 0, at most 20; Hesper's build_world.py writes each boss's hp_x, 2-4).
+  `MawMapLevels::bossHealthMultiplier` reads it; `MawMonsterRules::resolveMonsterByRules` multiplies
+  `ActorRulesetFacts::bossHealthMultiplier` by it on the actor's first resolve (empty facts), the same multiplier a
+  script's summoned boss scales; the saved facts keep it. Rows no file lists, MM6-MM9's included, are unchanged.
 - **Ruleset patches for a world's tables**: a `tables` entry with `world: mm9` and `table: data_tables/<file>` (the
   path world.yml contributes) patches that world's rows (monsters 9000+, items 10000+, vendor stock, trainers,
   hirelings) as they are read, with the same override, append and replace modes. It does nothing when the world is

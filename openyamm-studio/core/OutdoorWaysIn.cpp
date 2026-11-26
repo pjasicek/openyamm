@@ -513,6 +513,28 @@ std::vector<CaveFace> caveFaces(const OutdoorCavePlan &cave)
         }
     }
 
+    // The shell is one surface: every triangle keeps the grid's own order (a->b->c->d round each quad, on either
+    // diagonal), so neighbours share each edge once each way. One sign then turns the whole shell out: the sum over
+    // its triangles of the area normal against a guess that leans up and out. Chosen per triangle, a triangle a
+    // shake tilted down faced into the rock and the bake lit it from behind (F71, X7's Sablewing cave).
+    std::vector<std::vector<Point3>> shell;
+    double outwardSum = 0.0;
+    const auto addShell = [&shell, &outwardSum, &cave](std::vector<Point3> points)
+    {
+        const Point3 normal = newell(points);
+
+        if (oy::hypot(normal[0], normal[1], normal[2]) < 1.0)
+        {
+            return;
+        }
+
+        const Point3 middle = {(points[0][0] + points[1][0] + points[2][0]) / 3.0,
+            (points[0][1] + points[1][1] + points[2][1]) / 3.0, (points[0][2] + points[1][2] + points[2][2]) / 3.0};
+        const Point3 guess = {middle[0] * 0.5, middle[1] - cave.depth * 0.5, middle[2] + cave.depth};
+        outwardSum += normal[0] * guess[0] + normal[1] * guess[1] + normal[2] * guess[2];
+        shell.push_back(std::move(points));
+    };
+
     for (size_t ring = 0; ring + 1 < grid.size(); ++ring)
     {
         for (size_t index = 0; index + 1 < shares.size(); ++index)
@@ -521,25 +543,30 @@ std::vector<CaveFace> caveFaces(const OutdoorCavePlan &cave)
             const Point3 &b = grid[ring][index + 1];
             const Point3 &c = grid[ring + 1][index + 1];
             const Point3 &d = grid[ring + 1][index];
-            const auto outward = [&cave](const Point3 &p, const Point3 &q, const Point3 &r)
-            {
-                return Point3{(p[0] + q[0] + r[0]) / 3.0 * 0.5, (p[1] + q[1] + r[1]) / 3.0 - cave.depth * 0.5,
-                    (p[2] + q[2] + r[2]) / 3.0 + cave.depth};
-            };
             // The left half splits its quads on the mirrored diagonal, so both ends of the front close alike: one
             // diagonal everywhere gave the right end an upright cheek and laid a left-end triangle along the land's
             // front edge and through the hill at the jamb (X1's shaft-head hatch).
             if (grid[0][index][0] + grid[0][index + 1][0] < 0.0)
             {
-                addFacing(faces, {a, b, d}, outward(a, b, d), 0);
-                addFacing(faces, {b, c, d}, outward(b, c, d), 0);
+                addShell({a, b, d});
+                addShell({b, c, d});
             }
             else
             {
-                addFacing(faces, {a, b, c}, outward(a, b, c), 0);
-                addFacing(faces, {a, c, d}, outward(a, c, d), 0);
+                addShell({a, b, c});
+                addShell({a, c, d});
             }
         }
+    }
+
+    for (std::vector<Point3> &points : shell)
+    {
+        if (outwardSum < 0.0)
+        {
+            std::reverse(points.begin(), points.end());
+        }
+
+        faces.push_back({std::move(points), 0});
     }
 
     return faces;

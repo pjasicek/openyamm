@@ -445,8 +445,8 @@ ruleset package that is mounted only for MAW games, see §3.0).
   - MAW: Same pirate and lizardman respawns; in Insanity stops once `mapvars.piratesSpawned > 25` (counts pirate groups
     10/11 only)
   - Base: Same spawns, no cap (`out01.lua` 463)
-  - Port: Replace 463 with a counter and an Insanity check; its two off-map points (y -66192, 55504) corrected to -6192
-    and 5504, and stranded actors in older saves moved back on load (DEVIATIONS 200)
+  - Port: Replace 463 with a counter, its cap of 25 in every mode (DEVIATIONS 204); its two off-map points
+    (y -66192, 55504) corrected to -6192 and 5504, and stranded actors in older saves moved back on load (DEVIATIONS 200)
 - **out03 197 Merchant Guildhouse**
   - MAW: Alliance step when QBit 63 (Overdune's quest done) and not QBit 59, **without Overdune in the party**; same
     rewards (10000 XP, award 5, QBits 13–18 and 59, 4000 gold, topics on NPCs 5/13); always enters house 773

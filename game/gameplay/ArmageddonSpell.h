@@ -85,8 +85,10 @@ std::vector<ArmageddonMeteor> armageddonMeteors(
 bool armageddonStrikesDue(const ArmageddonStep &step);
 uint32_t armageddonStrikeSeed(const ArmageddonState &state, uint32_t actorId);
 
-// The damage a monster takes: the rules' roll of the spell where they have one (MAW), else 50 + skill.
-int armageddonMonsterDamage(const ArmageddonState &state, const Party *pParty, const SpellTable *pSpellTable);
-// Every living member takes 50 + skill.
-void applyArmageddonToParty(const ArmageddonState &state, Party &party);
+// The damage a monster takes: the rules' roll of the spell where they have one (MAW), else 50 + skill; at the map's
+// spell damage share (IGameplayWorldRuntime::spellDamagePercent).
+int armageddonMonsterDamage(
+    const ArmageddonState &state, const Party *pParty, const SpellTable *pSpellTable, int mapSpellDamagePercent);
+// Every living member takes 50 + skill, at the map's spell damage share as the monsters' strike (D-193).
+void applyArmageddonToParty(const ArmageddonState &state, Party &party, int mapSpellDamagePercent);
 }

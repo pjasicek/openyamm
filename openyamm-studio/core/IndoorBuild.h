@@ -95,6 +95,11 @@ YAML::Node sceneActorNode(const LoweredMonster &monster, int actorIndex);
 YAML::Node sceneSpriteObjectNode(const LoweredItem &item, int index);
 YAML::Node sceneLadderNode(const LoweredLadder &ladder);
 
+// project.yml `rules`' magic words as a new map's scene runtime_restrictions (S8g), indoors and outdoors: no_spells
+// (allow_spellcasting: false), solo_spells beside it (allow_spellcasting_solo, and solo_spell_damage_percent),
+// no_monster_spells (allow_monster_spellcasting: false). The other restrictions keep the game's defaults.
+void writeRuleRestrictions(const YAML::Node &rules, YAML::Node &scene);
+
 // build.json's `named_arrivals` (BuildResult::arrivals), which `oymap install` copies into <stem>.studio.yml.
 void writeNamedArrivals(JsonWriter &writer, const std::vector<MapArrival> &arrivals);
 

@@ -758,10 +758,32 @@ bool IndoorSceneRuntime::advanceMechanisms(float deltaMilliseconds)
         return false;
     }
 
+    // A co-op guest's doors as the host last sent them. Taken here, so that a door that arrives settled in another
+    // place is redrawn and its walls moved like one that moved here (the renderer compares the doors before and
+    // after this step).
+    std::optional<std::unordered_map<uint32_t, RuntimeMechanismState>> previousMechanismsForGeometry;
+    std::optional<std::unordered_map<uint32_t, RuntimeMechanismState>> hostMechanisms =
+        m_worldRuntime.takeReplicaMechanisms();
+    const bool tookHostMechanisms = hostMechanisms.has_value();
+
+    if (hostMechanisms)
+    {
+        previousMechanismsForGeometry = std::move(m_eventRuntimeState->mechanisms);
+        m_eventRuntimeState->mechanisms = std::move(*hostMechanisms);
+    }
+
     if (!hasMovingMechanism(*m_eventRuntimeState) && !hasPendingMoverWork())
     {
         m_mechanismAccumulatorMilliseconds = 0.0f;
-        return false;
+
+        if (tookHostMechanisms)
+        {
+            const std::vector<uint32_t> changedDoorIds =
+                m_worldRuntime.refreshMechanismRuntimeGeometryCache(*previousMechanismsForGeometry);
+            m_partyRuntime.applyMechanismGeometryUpdate(changedDoorIds);
+        }
+
+        return tookHostMechanisms;
     }
 
     const bool hasMovers = m_pIndoorMapData != nullptr && !m_pIndoorMapData->moverDefinitions.empty();
@@ -770,7 +792,6 @@ bool IndoorSceneRuntime::advanceMechanisms(float deltaMilliseconds)
     constexpr float MechanismStepMilliseconds = 1000.0f / 120.0f;
     constexpr int MaximumMechanismStepsPerFrame = 8;
     m_mechanismAccumulatorMilliseconds += deltaMilliseconds;
-    std::optional<std::unordered_map<uint32_t, RuntimeMechanismState>> previousMechanismsForGeometry;
 
     while (
         m_mechanismAccumulatorMilliseconds >= MechanismStepMilliseconds
@@ -810,7 +831,7 @@ bool IndoorSceneRuntime::advanceMechanisms(float deltaMilliseconds)
         ++mechanismSteps;
     }
 
-    if (mechanismSteps > 0)
+    if (mechanismSteps > 0 || tookHostMechanisms)
     {
         const std::vector<uint32_t> changedDoorIds =
             m_worldRuntime.refreshMechanismRuntimeGeometryCache(*previousMechanismsForGeometry);
@@ -825,7 +846,7 @@ bool IndoorSceneRuntime::advanceMechanisms(float deltaMilliseconds)
         m_mechanismAccumulatorMilliseconds = MechanismStepMilliseconds;
     }
 
-    return mechanismSteps > 0;
+    return mechanismSteps > 0 || tookHostMechanisms;
 }
 
 namespace

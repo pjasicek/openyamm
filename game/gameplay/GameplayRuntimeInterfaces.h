@@ -801,6 +801,10 @@ struct ReplicaActorPose
     float actionSeconds = 0.0f;
     float skirmishSeconds = 0.0f;
     int32_t hp = 0;
+    // Indoors the room the monster stands in and the one its eyes are in (-1 outdoors). A game draws a monster only
+    // when its room is in view, and a replica cannot work it out from a place between two messages.
+    int16_t sectorId = -1;
+    int16_t eyeSectorId = -1;
     // The world runtime's own values: its animation, its AI state, the attack the monster has chosen and its
     // skirmish phase.
     uint8_t animation = 0;
@@ -924,10 +928,23 @@ public:
     {
         return true;
     }
-    // The map's allow_spellcasting restriction (false only in MM7's Shoals, OY-350).
+    // The map's allow_spellcasting restriction (MM7's Shoals, OY-350; Xeen's Darzog's Tower, where a solo run still
+    // casts: allow_spellcasting_solo).
     virtual bool allowsSpellcasting() const
     {
         return true;
+    }
+    // The map's allow_monster_spellcasting restriction: false, its monsters choose no spell (Darzog's Tower for a
+    // party; a solo run there, with allow_spellcasting_solo, faces their magic).
+    virtual bool allowsMonsterSpellcasting() const
+    {
+        return true;
+    }
+    // The share of every spell's damage on the map, in percent, by the party and by monsters alike:
+    // solo_spell_damage_percent in a solo run (Darzog's Tower: 50), else 100.
+    virtual int spellDamagePercent() const
+    {
+        return 100;
     }
     // An outdoor map under water (its environment's underwater flag): MM7's Shoals, MM8's Plane of Water.
     virtual bool isUnderwaterMap() const
@@ -1069,6 +1086,16 @@ public:
     virtual void setReplicaGameMinutes(float gameMinutes)
     {
         static_cast<void>(gameMinutes);
+    }
+    // The host's doors and movers. A replica moves its doors itself between the host's messages; one that comes
+    // settled in another place (it moved faster than the messages, or the replica fell behind) must have its faces
+    // and walls put there as well.
+    virtual void applyReplicaMechanisms(std::unordered_map<uint32_t, RuntimeMechanismState> mechanisms)
+    {
+        if (EventRuntimeState *pEventState = eventRuntimeState())
+        {
+            pEventState->mechanisms = std::move(mechanisms);
+        }
     }
     // What the local player's blows, shots and talents would do to the map, kept for the host since the last call
     // (game/coop/ReplicaWorldCalls.h). While a dry run lasts nothing is kept: a spell is tried here to see what it
@@ -1319,6 +1346,13 @@ public:
     {
         (void)actorIndex;
         return false;
+    }
+    // Indoors, whether the room an actor is drawn by is the room its place lies in (a scenario's check of a co-op
+    // guest's copy, whose monsters are hidden when it is not). Outdoors there are no rooms.
+    virtual bool actorRoomMatchesPlace(size_t actorIndex) const
+    {
+        (void)actorIndex;
+        return true;
     }
     // The actor as the rules read it; a world may answer it without building the full runtime state.
     virtual bool actorRulesView(size_t actorIndex, GameplayActorRulesView &view) const

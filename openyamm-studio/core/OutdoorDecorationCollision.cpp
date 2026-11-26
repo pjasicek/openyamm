@@ -47,9 +47,10 @@ double placementRandom(int x, int y, uint32_t salt)
 }
 
 // The bindings that ask for collision, by decoration name: the engine's, each replaced by the world's of that name (a
-// world entry without `collision` or with `model: null` takes the engine's away).
+// world entry without `collision` or with `model: null` takes the engine's away). `drawn`: every binding to a model on
+// the ground, collision or not.
 std::map<std::string, CollisionBinding> collisionBindings(const std::filesystem::path &assetRoot,
-    const std::string &world, const std::string &mapStem, bool indoors)
+    const std::string &world, const std::string &mapStem, bool indoors, bool drawn = false)
 {
     std::map<std::string, CollisionBinding> bindings;
     const std::string manifest = indoors ? "indoor_decorations.yml" : "decorations.yml";
@@ -114,7 +115,8 @@ std::map<std::string, CollisionBinding> collisionBindings(const std::filesystem:
                 seen[name] = true;
             }
 
-            if (!entry["model"] || entry["model"].IsNull() || entry["collision"].as<std::string>("") != "model"
+            if (!entry["model"] || entry["model"].IsNull()
+                || (!drawn && entry["collision"].as<std::string>("") != "model")
                 || entry["mount"].as<std::string>("ground") != "ground")
             {
                 continue;
@@ -294,6 +296,49 @@ std::optional<CollisionShape> readCollisionShape(const std::filesystem::path &gl
     shape.triangles.resize(shape.triangles.size() / 3 * 3);
     return shape;
 }
+}
+
+std::map<std::string, double> decorationDrawnReach(const std::filesystem::path &assetRoot, const std::string &world,
+    const std::string &mapStem, const std::vector<std::string> &names)
+{
+    std::map<std::string, double> reach;
+
+    if (assetRoot.empty() || names.empty())
+    {
+        return reach;
+    }
+
+    const std::map<std::string, CollisionBinding> bindings = collisionBindings(assetRoot, world, mapStem, false, true);
+
+    for (const std::string &name : names)
+    {
+        const std::map<std::string, CollisionBinding>::const_iterator found = bindings.find(lowercase(name));
+
+        if (found == bindings.end() || reach.contains(found->first))
+        {
+            continue;
+        }
+
+        const std::optional<CollisionShape> shape = readCollisionShape(assetRoot / found->second.model);
+
+        if (!shape)
+        {
+            continue;
+        }
+
+        // The game scales the model to the binding's height (glTF is y-up): across x and z from its origin.
+        const double scale = found->second.height / (shape->high - shape->low);
+        double farthest = 0.0;
+
+        for (const std::array<double, 3> &point : shape->triangles)
+        {
+            farthest = std::max({farthest, std::fabs(point[0]), std::fabs(point[2])});
+        }
+
+        reach[found->first] = farthest * scale;
+    }
+
+    return reach;
 }
 
 DecorationCollisionModels::DecorationCollisionModels(const std::filesystem::path &assets,

@@ -126,6 +126,8 @@ void writePose(Engine::ByteWriter &writer, const ReplicaActorPose &pose)
     writer.f32(pose.actionSeconds);
     writer.f32(pose.skirmishSeconds);
     writer.i32(pose.hp);
+    writer.i16(pose.sectorId);
+    writer.i16(pose.eyeSectorId);
     writer.u8(pose.animation);
     writer.u8(pose.aiState);
     writer.u8(pose.attackAbility);
@@ -149,6 +151,8 @@ ReplicaActorPose readPose(Engine::ByteReader &reader)
     pose.actionSeconds = reader.f32();
     pose.skirmishSeconds = reader.f32();
     pose.hp = reader.i32();
+    pose.sectorId = reader.i16();
+    pose.eyeSectorId = reader.i16();
     pose.animation = reader.u8();
     pose.aiState = reader.u8();
     pose.attackAbility = reader.u8();

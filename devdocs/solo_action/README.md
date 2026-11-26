@@ -42,6 +42,17 @@ recovery, which counts from the press, so the rate of attacks is unchanged. Rule
   `duration`, plus MAW's Grandmaster alchemist minutes. The alchemists of Ravenshore (111) and Erathia (118) and Free
   Haven's "Alchemy and Incantations" (107) always stock 3–5 Invisibility scrolls in a solo run
   (`engine/data_tables/solo_shop_stock.yml`). MAW's potion notes still say "6 hours".
+- **No-magic maps (user, 2026-11-26).** A scene's `runtime_restrictions.allow_spellcasting_solo: true` lifts its
+  `allow_spellcasting: false` for a solo run (`MapRuntimeRestrictions::allowsSpellcasting`; Map Studio's
+  `rules.solo_spells`). Only Xeen's Darzog's Tower has it; MM7's Shoals stays shut to everyone. The tower also has
+  `allow_monster_spellcasting: false` (`rules.no_monster_spells`: its monsters choose no spell against a party, lifted
+  with the solo lift) and `solo_spell_damage_percent: 50` (`rules.solo_spell_damage_percent`: a solo run's spells and
+  the monsters' at it deal half; melee and bows unchanged). Party spell damage takes the share where it is rolled
+  (`casterSpellDamage`, `GameplayProjectileService::partyWorldSpellDamage`), monster spell damage and map events'
+  spells in `resolveProjectilePartyImpactDamage` (an event's missile, spell id 0, keeps its damage), Armageddon's own
+  strike in `applyArmageddonToParty` (D-193); the spellbook's damage preview shows the dealt numbers and a line "Spells
+  deal 50 % of their damage here." (D-194); the AI's frame facts (`monsterSpellcastingAllowed`) carry the monsters'
+  ward. Map Lua reads a solo run as `evt.RulesetInfo().soloRun` (D-191: XD-12's arrival window).
 - **The Oblivion art ships (user, 2026-11-14).** The converted Oblivion arms, clips and weapons in
   `assets_dev/engine/view_model/` are committed and packaged with the solo run from release 2.4, by the user's decision
   after the licence risk was raised (Bethesda still sells Oblivion). Our own arms, rig, clips and held weapons remain

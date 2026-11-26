@@ -1367,6 +1367,7 @@ GameplayCombatController::CombatEvent GameplayCombatController::buildPartyProjec
     uint32_t sourcePartyMemberIndex,
     uint32_t targetActorId,
     int damage,
+    CombatDamageType damageType,
     int spellId,
     bool hit,
     bool killed,
@@ -1379,6 +1380,7 @@ GameplayCombatController::CombatEvent GameplayCombatController::buildPartyProjec
     event.sourcePartyMemberIndex = sourcePartyMemberIndex;
     event.targetActorId = targetActorId;
     event.damage = hit ? damage : 0;
+    event.damageType = damageType;
     event.spellId = spellId;
     event.hit = hit;
     event.killed = killed;
@@ -2506,6 +2508,7 @@ void GameplayCombatController::recordPartyProjectileActorImpact(
     uint32_t sourcePartyMemberIndex,
     uint32_t targetActorId,
     int damage,
+    CombatDamageType damageType,
     int spellId,
     bool hit,
     bool killed,
@@ -2518,6 +2521,7 @@ void GameplayCombatController::recordPartyProjectileActorImpact(
             sourcePartyMemberIndex,
             targetActorId,
             damage,
+            damageType,
             spellId,
             hit,
             killed,
