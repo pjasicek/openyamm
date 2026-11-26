@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/audio/SoundIds.h"
+#include "game/audio/SoundRef.h"
 #include "game/gameplay/NpcFollowerTypes.h"
 #include "game/items/ItemEnchantTables.h"
 #include "game/outdoor/OutdoorMovementDriver.h"
@@ -519,6 +520,9 @@ public:
 
         Kind kind = Kind::Sound;
         SoundId soundId = SoundId::None;
+        // Which sound table the id names: the engine's (SoundId), or the mounted worlds' (a world's sounds.txt row,
+        // as an implant's fit, remove and evolve sounds).
+        SoundScope scope = SoundScope::Engine;
         SpeechId speechId = SpeechId::None;
         size_t memberIndex = 0;
     };
@@ -691,6 +695,8 @@ public:
     void addGold(int amount, GoldReason reason = GoldReason::Other);
     void addFood(int amount);
     void requestSound(SoundId soundId);
+    // A sound of a world's sound table by its id (0: none).
+    void requestWorldSound(uint32_t soundId);
     void requestDamageImpactSoundForMember(size_t memberIndex);
     void requestSpeech(size_t memberIndex, SpeechId speechId);
     // The Hum where the party is (world.yml hum, set on each map load): its nodes' QBits and shares, and the map's own
@@ -1158,7 +1164,7 @@ private:
     void recordEverOwnedItemIfRelevant(const InventoryItem &item);
     void recordEverOwnedItemsFromCurrentState();
     void applyWeeklyItemEffects();
-    void queueSound(SoundId soundId);
+    void queueSound(SoundId soundId, SoundScope scope = SoundScope::Engine);
     void queueSpeech(size_t memberIndex, SpeechId speechId);
     void pushSelfTextEvent(const SelfTextEvent &event);
     SoundId resolveDamageImpactSoundForMember(size_t memberIndex) const;

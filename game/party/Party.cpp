@@ -3846,6 +3846,11 @@ void Party::requestSound(SoundId soundId)
     queueSound(soundId);
 }
 
+void Party::requestWorldSound(uint32_t soundId)
+{
+    queueSound(SoundId(soundId), SoundScope::World);
+}
+
 void Party::requestDamageImpactSoundForMember(size_t memberIndex)
 {
     queueSound(resolveDamageImpactSoundForMember(memberIndex));
@@ -9199,7 +9204,7 @@ void Party::clearExpiringPotionEffects()
     m_expiringPotionEffects.clear();
 }
 
-void Party::queueSound(SoundId soundId)
+void Party::queueSound(SoundId soundId, SoundScope scope)
 {
     if (soundId == SoundId::None)
     {
@@ -9209,6 +9214,7 @@ void Party::queueSound(SoundId soundId)
     PendingAudioRequest request = {};
     request.kind = PendingAudioRequest::Kind::Sound;
     request.soundId = soundId;
+    request.scope = scope;
     m_pendingAudioRequests.push_back(request);
 }
 

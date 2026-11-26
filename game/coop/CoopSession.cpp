@@ -3574,6 +3574,7 @@ void CoopSession::hostSendSounds()
             {
                 message.u8(uint8_t(requests[index].kind));
                 message.u32(uint32_t(requests[index].soundId));
+                message.u8(uint8_t(requests[index].scope));
                 message.u32(uint32_t(requests[index].speechId));
                 message.u32(uint32_t(requests[index].memberIndex));
             }
@@ -4585,13 +4586,16 @@ void CoopSession::guestHandlePartyAudio(Engine::ByteReader &reader)
         Party::PendingAudioRequest request;
         const uint8_t kind = reader.u8();
         request.soundId = SoundId(reader.u32());
+        const uint8_t scope = reader.u8();
         request.speechId = SpeechId(reader.u32());
         request.memberIndex = reader.u32();
 
-        if (kind > uint8_t(Party::PendingAudioRequest::Kind::Speech))
+        if (kind > uint8_t(Party::PendingAudioRequest::Kind::Speech) || scope > uint8_t(SoundScope::World))
         {
             return;
         }
+
+        request.scope = SoundScope(scope);
 
         request.kind = Party::PendingAudioRequest::Kind(kind);
         requests.push_back(request);

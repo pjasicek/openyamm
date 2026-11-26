@@ -3631,7 +3631,10 @@ void GameplayScreenRuntime::consumePendingPartyAudioRequests()
             position = listenerPosition;
         }
 
-        const bool played = request.soundId == SoundId::DullStrike
+        // A world's sound (an implant's) plays from the mounted worlds' sound table.
+        const bool played = request.scope == SoundScope::World
+            ? m_pAudioSystem->playSound(worldSound(uint32_t(request.soundId)), group, position)
+            : request.soundId == SoundId::DullStrike
             || request.soundId == SoundId::MetalVsMetal01
             || request.soundId == SoundId::MetalArmorStrike01
             || request.soundId == SoundId::MetalArmorStrike02
