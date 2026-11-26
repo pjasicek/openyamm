@@ -125,6 +125,12 @@ sky or fog:
 | `lush` | Murmurwoods, Avlee, Tularean Forest | Slightly richer colour |
 | `otherworldly` | Plane Between Planes | Violet sky, fire-coloured sun |
 
+Outdoor maps and BLV scenes with an open sky can change theme as a quest progresses. A map entry can declare
+`{theme: infested, when_qbit: [{qbit: 120060, theme: cleansed}]}`. Define both named themes in the sky library.
+The last matching rule wins. The sky reads the campaign on map entry, when a quest bit changes and after loading
+a save. A changed theme can select a new preset with the ordinary sky transition. An explicit scene or debug
+preset keeps its selection and still receives the map theme's colours.
+
 Theme fields:
 
 - `sky_tint` multiplies the zenith, horizon, fog and water sky colours.
@@ -195,6 +201,7 @@ presets:
       - {time: "12:00", zenith: [0.1, 0.25, 0.62], horizon: [0.55, 0.68, 0.85]}
       - {time: "20:35", horizon: [0.8, 0.36, 0.18]}
     sun_disc_degrees: 1.6
+    sun_direction: [-0.94, 0.25, 0.23]  # optional fixed sun toward native XYZ, for a world with a low sun
     moon_disc_degrees: 3.4
     moon_texture: moon        # the moon disc's texture; its alpha shapes the disc (a broken moon)
     moon_phase_offset: 0.0    # added to the calendar's phase (0 new, 0.5 full): where the world's moon starts
@@ -275,5 +282,5 @@ Hesper's are cooked into its stage (`level_generation/projects/hesper_stage`).
 
 - No HDR. The sun disc is the brightest display value, and bloom or glare would need an HDR pass.
 - Rain, snow, lightning and thunder belong to the [outdoor weather](WEATHER_PLAN.md); the sky only reacts to them.
-- Indoor sky faces (`FaceAttribute::IndoorSky`) still use the original scrolling texture.
+- A BLV without an open sky uses the original scrolling texture for its `FaceAttribute::IndoorSky` faces.
 - `ambient_tint` is keyed but not yet applied to world lighting. Baked lighting colours are unchanged.

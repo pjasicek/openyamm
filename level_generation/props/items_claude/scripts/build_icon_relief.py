@@ -147,9 +147,7 @@ def sample(alpha, x, y):
     return alpha[min(max(yi, 0), h - 1), min(max(xi, 0), w - 1)]
 
 
-def relief(icon, entry, template):
-    alpha = alpha_of(os.path.join(HERE, 'textures', '..', '..', '..', '..', 'assets_dev', 'engine', 'icons_x2',
-                                  icon + '.png'))
+def relief(alpha, entry, template):
     dense = marching_squares(alpha)
     outline = np.vstack(dense)
     loops = [simplify(loop, template['simplify']) for loop in dense]
@@ -259,7 +257,8 @@ def main():
         if only and icon not in only:
             continue
         pl.reset()
-        bm = relief(icon, entry, template)
+        alpha = alpha_of(os.path.join(HERE, '..', '..', '..', 'assets_dev', 'engine', 'icons_x2', icon + '.png'))
+        bm = relief(alpha, entry, template)
         m = bpy.data.materials.new(icon)
         m.use_nodes = True
         bsdf = next(n for n in m.node_tree.nodes if n.type == 'BSDF_PRINCIPLED')
@@ -271,4 +270,5 @@ def main():
         pl.export(obj, icon)
 
 
-main()
+if __name__ == '__main__':
+    main()

@@ -558,6 +558,9 @@ private:
         // and upright hover). `animation.death_blend_seconds`: blend into the death clip (default none).
         float blendSeconds = -1.0f;
         float deathBlendSeconds = 0.0f;
+        // actors.yml `death_rate`: playback rate of the death clip relative to authored (default 1), for a clip
+        // authored slower than the game's deaths; its clip events, sounds and the corpse's Dead clip follow it.
+        float deathRate = 1.0f;
         std::shared_ptr<const std::vector<float>> upperBodyMask;
         // The sockets named `eye_left` and `eye_right`, lit with eyeColorAbgr; missing eyes have no glow.
         std::array<std::optional<Socket>, 2> eyes;

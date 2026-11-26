@@ -64,6 +64,10 @@ That is all a HUD author has to know. The draw list, the palette redirection and
 
 ## Facts that are costly to work out
 
+The Web of Worlds chart reads planet counters, beacon availability and purge progress together. Its open overlay
+keeps that reading under the selected planet, campaign and `CampaignState::questRevision()`. Drawing, hovering and
+choosing Travel reuse the same rows. Changing a QBit or loading a save refreshes them on the next read.
+
 Two HUD elements need a walk: the MAW map progress (every actor of the map) and whether the party carries any
 scroll or potion (every bag). They use `HudReading<Value, Subject>` (`game/ui/HudReading.h`):
 

@@ -2125,6 +2125,11 @@ const MergedDimensionDoorTable &GameDataLoader::getMergedDimensionDoorTable() co
     return m_mergedDimensionDoorTable;
 }
 
+const WebOfWorldsTable &GameDataLoader::getWebOfWorldsTable() const
+{
+    return m_webOfWorldsTable;
+}
+
 const MergedTransportIndexTable &GameDataLoader::getMergedTransportIndexTable() const
 {
     return m_mergedTransportIndexTable;
@@ -3929,6 +3934,41 @@ bool GameDataLoader::loadMergedBaseTables(const Engine::AssetFileSystem &assetFi
         return true;
     };
 
+    // The Web of Worlds: only the mounted worlds' planets (tableContributions `web_of_worlds`, mode append); no
+    // contribution, no table and no Town Portal tab.
+    const auto loadWebOfWorldsTable = [this, &assetFileSystem]() -> bool
+    {
+        m_webOfWorldsTable = {};
+        const std::vector<WorldManifest> *pManifests = mountedWorldManifests(assetFileSystem);
+
+        for (size_t index = 0; pManifests != nullptr && index < pManifests->size(); ++index)
+        {
+            const WorldManifest &manifest = (*pManifests)[index];
+
+            for (const TableContributionDefinition &contribution : manifest.tableContributions)
+            {
+                if (contribution.table != "web_of_worlds")
+                {
+                    continue;
+                }
+
+                const std::string path = "worlds/" + manifest.id + "/" + contribution.path;
+                const std::optional<std::string> text = assetFileSystem.readTextFile(path);
+                std::string error = contribution.mode != TableContributionMode::Append ? "must be mode append"
+                                                                                       : "cannot read " + path;
+
+                if (contribution.mode != TableContributionMode::Append || !text
+                    || !m_webOfWorldsTable.appendFromYaml(*text, error))
+                {
+                    std::cerr << "web_of_worlds contribution of world '" << manifest.id << "': " << error << '\n';
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    };
+
     const auto loadBaseYamlTable =
         [this, &assetFileSystem](const char *pFileName, auto &table, const char *pDisplayName) -> bool
         {
@@ -4083,6 +4123,7 @@ bool GameDataLoader::loadMergedBaseTables(const Engine::AssetFileSystem &assetFi
             "Overlay.txt")
         && loadTownPortalTable()
         && loadDimensionDoorTable()
+        && loadWebOfWorldsTable()
         && loadComposedKeyedTable(
             "transport_index.txt",
             "transport_index",
@@ -4302,6 +4343,37 @@ bool GameDataLoader::loadPotionEffects(const Engine::AssetFileSystem &assetFileS
     {
         std::cerr << "Failed to load potion effects " << path << (error.empty() ? "" : ": " + error) << '\n';
         return false;
+    }
+
+    const std::vector<WorldManifest> *pManifests = mountedWorldManifests(assetFileSystem);
+    if (pManifests == nullptr)
+    {
+        return false;
+    }
+
+    for (const WorldManifest &world : *pManifests)
+    {
+        for (const TableContributionDefinition &contribution : world.tableContributions)
+        {
+            if (contribution.table != "potion_effects")
+            {
+                continue;
+            }
+
+            const ContentIdRangeDefinition *pItems = world.findIdRange("items");
+            if (contribution.mode != TableContributionMode::Append || contribution.idDomain != "items" || !pItems)
+            {
+                std::cerr << "potion_effects in " << world.id << " must append in its items range\n";
+                return false;
+            }
+            const std::string worldPath = "worlds/" + world.id + "/" + contribution.path;
+            const std::optional<std::string> worldText = assetFileSystem.readTextFile(worldPath);
+            if (!worldText || !effects.appendWorldYaml(*worldText, pItems->begin, pItems->end, error))
+            {
+                std::cerr << "Failed to load potion effects " << worldPath << ": " << error << '\n';
+                return false;
+            }
+        }
     }
 
     m_mergedPotionSettingTable.setEffects(std::move(effects));
@@ -5957,6 +6029,27 @@ const WeatherRules &GameDataLoader::weatherRules(const Engine::AssetFileSystem &
         if (!text || !m_weatherRules->loadFromYaml(*text, errorMessage))
         {
             std::cerr << "Cannot load " << WeatherRulesPath << ": " << errorMessage << '\n';
+        }
+
+        // The mounted worlds' own maps and flake looks (worlds/<id>/rendering/weather/weather.yml), if any.
+        const std::vector<WorldManifest> *pManifests = mountedWorldManifests(assetFileSystem);
+
+        for (size_t index = 0; pManifests != nullptr && index < pManifests->size(); ++index)
+        {
+            const std::string path = "worlds/" + (*pManifests)[index].id + "/rendering/weather/weather.yml";
+
+            if (!assetFileSystem.exists(path))
+            {
+                continue;
+            }
+
+            const std::optional<std::string> worldText = assetFileSystem.readTextFile(path);
+            errorMessage = worldText ? std::string() : std::string("cannot read");
+
+            if (!worldText || !m_weatherRules->appendWorldYaml(*worldText, errorMessage))
+            {
+                std::cerr << "Cannot load " << path << ": " << errorMessage << '\n';
+            }
         }
     }
 

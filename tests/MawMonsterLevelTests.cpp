@@ -299,6 +299,24 @@ TEST_CASE("a world's MAW balance adds its maps, story bands and completion exclu
     CHECK_FALSE(twice.loadWorldBalance("maps:\n  out02.odm: {band: [1, 2, 3]}\n", error));
 }
 
+TEST_CASE("a world's MAW balance names its placed bosses' health multipliers")
+{
+    MawMapLevels mapLevels = exampleMapLevels();
+    std::string error;
+    REQUIRE_MESSAGE(mapLevels.loadWorldBalance("bosses:\n  10239: 4\n  10186: 2.5\n", error), error);
+    CHECK(mapLevels.bossHealthMultiplier(10239) == doctest::Approx(4.0));
+    CHECK(mapLevels.bossHealthMultiplier(10186) == doctest::Approx(2.5));
+    // Every other row, MM's own bosses included, keeps MAW's own sizing.
+    CHECK(mapLevels.bossHealthMultiplier(646) == doctest::Approx(1.0));
+    CHECK(mapLevels.bossHealthMultiplier(10180) == doctest::Approx(1.0));
+
+    MawMapLevels zero = exampleMapLevels();
+    CHECK_FALSE(zero.loadWorldBalance("bosses:\n  10239: 0\n", error));
+    MawMapLevels twice = exampleMapLevels();
+    REQUIRE(twice.loadWorldBalance("bosses:\n  10239: 3\n", error));
+    CHECK_FALSE(twice.loadWorldBalance("bosses:\n  10239: 3\n", error));
+}
+
 TEST_CASE("the installed MAW map levels load")
 {
     MawMapLevels mapLevels;

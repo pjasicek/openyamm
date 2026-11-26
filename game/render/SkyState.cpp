@@ -1,5 +1,6 @@
 #include "game/render/SkyState.h"
 
+#include "game/party/CampaignState.h"
 #include "game/render/SkyClock.h"
 
 #include <algorithm>
@@ -179,7 +180,13 @@ bool isPaintedSkyPreset(const SkyPreset &preset)
         [](const SkyCloudLayer &layer) { return layer.color; });
 }
 
-std::string selectSkyPreset(const SkyPresetLibrary &library, const SkyInputs &inputs)
+static const SkyTheme *selectSkyTheme(const SkyPresetLibrary &library, const SkyInputs &inputs)
+{
+    return inputs.forcedTheme ? library.findTheme(*inputs.forcedTheme)
+                              : library.themeForMap(inputs.mapFileName, inputs.pCampaign);
+}
+
+static std::string selectSkyPreset(const SkyPresetLibrary &library, const SkyInputs &inputs, const SkyTheme *pTheme)
 {
     const SkySpecialPresets &specials = library.specials();
 
@@ -208,7 +215,7 @@ std::string selectSkyPreset(const SkyPresetLibrary &library, const SkyInputs &in
         return specials.alwaysDark;
     }
 
-    if (const SkyTheme *pTheme = selectSkyTheme(library, inputs); pTheme != nullptr && !pTheme->preset.empty())
+    if (pTheme != nullptr && !pTheme->preset.empty())
     {
         return pTheme->preset;
     }
@@ -245,9 +252,9 @@ std::string selectSkyPreset(const SkyPresetLibrary &library, const SkyInputs &in
     return selected;
 }
 
-const SkyTheme *selectSkyTheme(const SkyPresetLibrary &library, const SkyInputs &inputs)
+std::string selectSkyPreset(const SkyPresetLibrary &library, const SkyInputs &inputs)
 {
-    return inputs.forcedTheme ? library.findTheme(*inputs.forcedTheme) : library.themeForMap(inputs.mapFileName);
+    return selectSkyPreset(library, inputs, selectSkyTheme(library, inputs));
 }
 
 void SkyStateModel::setLibrary(const SkyPresetLibrary *pLibrary)
@@ -278,7 +285,18 @@ const SkyFrameState &SkyStateModel::update(const SkyInputs &inputs, float realDe
         return m_frame;
     }
 
-    const std::string target = selectSkyPreset(*m_pLibrary, inputs);
+    const uint64_t questRevision = inputs.pCampaign ? inputs.pCampaign->questRevision() : 0;
+    if (m_snapPending || m_pThemeCampaign != inputs.pCampaign || m_themeQuestRevision != questRevision
+        || m_themeMap != inputs.mapFileName || m_forcedTheme != inputs.forcedTheme)
+    {
+        m_pTheme = selectSkyTheme(*m_pLibrary, inputs);
+        m_themeMap = inputs.mapFileName;
+        m_forcedTheme = inputs.forcedTheme;
+        m_pThemeCampaign = inputs.pCampaign;
+        m_themeQuestRevision = questRevision;
+    }
+    const SkyTheme *pTheme = m_pTheme;
+    const std::string target = selectSkyPreset(*m_pLibrary, inputs, pTheme);
     const bool clockJumped = std::fabs(inputs.gameMinutes - m_lastGameMinutes) > SnapGameMinutes;
     const bool forcedChanged = inputs.forcedPreset != m_lastForcedPreset;
     m_lastGameMinutes = inputs.gameMinutes;
@@ -331,6 +349,7 @@ const SkyFrameState &SkyStateModel::update(const SkyInputs &inputs, float realDe
         frame.values[index] = lerpColor(fromValues[index], toValues[index], blend);
     }
 
+    frame.eclipse = lerp(pFrom->eclipse ? 1.0f : 0.0f, pTo->eclipse ? 1.0f : 0.0f, blend);
     frame.sunDiscDegrees = lerp(pFrom->sunDiscDegrees, pTo->sunDiscDegrees, blend);
     frame.moonDiscDegrees = lerp(pFrom->moonDiscDegrees, pTo->moonDiscDegrees, blend);
     const SkyPreset &dominant = blend >= 0.5f ? *pTo : *pFrom;
@@ -353,7 +372,7 @@ const SkyFrameState &SkyStateModel::update(const SkyInputs &inputs, float realDe
         frame.orbitLightAngles[size_t(light)] = skyOrbitLightAngle(frame.orbitRing, light, inputs.gameMinutes);
     }
 
-    frame.sunDirection = skySunDirection(inputs.gameMinutes);
+    frame.sunDirection = dominant.sunDirection ? *dominant.sunDirection : skySunDirection(inputs.gameMinutes);
     frame.moonDirection = skyMoonDirection(inputs.gameMinutes);
     frame.moonPhase = std::fmod(skyMoonPhase(inputs.gameMinutes) + dominant.moonPhaseOffset, 1.0f);
     frame.starRotationRadians = 2.0f * Pi * minute / static_cast<float>(SkyMinutesPerDay);
@@ -386,8 +405,6 @@ const SkyFrameState &SkyStateModel::update(const SkyInputs &inputs, float realDe
     }
 
     // The map theme recolours whichever preset the weather picked; underwater keeps its flat fog colour.
-    const SkyTheme *pTheme = selectSkyTheme(*m_pLibrary, inputs);
-
     if (pTheme != nullptr && !inputs.underwater)
     {
         if (pTheme->rimGlow)

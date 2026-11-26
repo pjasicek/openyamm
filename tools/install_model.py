@@ -13,7 +13,10 @@ assets_dev (tools/cook_models.py --only <path>). Any other model, until the swit
 hidden back faces culled (tools/model_backface_split.py).
 
     tools/install_model.py <accepted.glb> [--world mm6 | --engine | --world-items [--world mm9] | --view-model]
-                           [--name <file name>]
+                           [--name <file name>] [--root <asset root>]
+
+--root puts the runtime copy into another asset root (a world kept out of assets_dev while it is built, such as
+output/hesper_hive/root for worlds/hesper); the source still goes to assets_source.
 
 Install the unprocessed export: never copy a runtime copy back over a project export or a source.
 Installs are serialised (an exclusive lock on assets_source/.cook-cache/install.lock): several sessions may install
@@ -58,6 +61,7 @@ def main():
     parser.add_argument("--view-model", action="store_true",
                         help="the engine's first-person view model (engine/view_model: arms, weapon templates)")
     parser.add_argument("--name", help="installed file name (default: the model's file name)")
+    parser.add_argument("--root", type=Path, help="asset root for the runtime copy (default assets_dev)")
     args = parser.parse_args()
     if args.engine and (args.world or args.world_items):
         raise SystemExit("--engine excludes --world and --world-items")
@@ -84,26 +88,30 @@ def main():
             scope_path = "engine" if args.engine else f"worlds/{args.world or 'mm6'}"
         relative = Path(scope_path) / "models" / name
     source = ROOT / "assets_source" / relative
-    runtime = ROOT / "assets_dev" / relative
+    output_root = args.root.resolve() if args.root else None
+    if output_root and output_root == (ROOT / "assets_dev").resolve():
+        output_root = None
+    runtime = (output_root or ROOT / "assets_dev") / relative
     if model in (source, runtime):
         raise SystemExit("Install from the project's export, not from an installed copy")
     lock_path = ROOT / "assets_source" / ".cook-cache" / "install.lock"
     lock_path.parent.mkdir(parents=True, exist_ok=True)
     with lock_path.open("w") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
-        return install(model, source, runtime, relative)
+        return install(model, source, runtime, relative, output_root)
 
 
-def install(model, source, runtime, relative):
+def install(model, source, runtime, relative, output_root=None):
     copy_atomically(model, source)
     print(f"source: {source.relative_to(ROOT)}")
     if any(fnmatch.fnmatch(relative.as_posix(), pattern) for pattern in COOKED_MODELS):
-        subprocess.run([sys.executable, str(ROOT / "tools/cook_models.py"), "--profile", "desktop", "--only",
+        output = ["--output", str(output_root)] if output_root else []
+        subprocess.run([sys.executable, str(ROOT / "tools/cook_models.py"), "--profile", "desktop", *output, "--only",
                         relative.as_posix()], check=True)
         return 0
     copy_atomically(source, runtime)
     subprocess.run([sys.executable, str(ROOT / "tools/model_backface_split.py"), str(runtime)], check=True)
-    print(f"runtime copy (uncooked): {runtime.relative_to(ROOT)}")
+    print(f"runtime copy (uncooked): {runtime if output_root else runtime.relative_to(ROOT)}")
     return 0
 
 

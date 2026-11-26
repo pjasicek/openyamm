@@ -11,6 +11,7 @@
 #include "game/party/Party.h"
 #include "game/party/PartySpellSystem.h"
 #include "game/party/SkillData.h"
+#include "game/tables/WebOfWorldsTable.h"
 #include "game/ui/HouseShopLedgerCategory.h"
 #include "game/ui/HudReading.h"
 #include "game/ui/InventoryPouchViewState.h"
@@ -798,6 +799,12 @@ public:
         bool lloydRecallMode = false;
         // The Town Portal map shown (a `town_portal_switch.txt` group); empty: the current map's continent.
         std::string townPortalContinent;
+        // The Web of Worlds chart's selection: a planet (web_of_worlds table index) or one of its signals, and the
+        // beacon Travel goes to (none: the planet's first lit one).
+        size_t webPlanet = 0;
+        WebOfWorldsProgressReading webProgress;
+        std::optional<size_t> webSignal;
+        std::optional<size_t> webBeacon;
         bool lloydSetPreviewCapturePending = false;
         bool lloydSetPreviewScreenshotRequested = false;
         uint32_t lloydSetPreviewStartedTicks = 0;

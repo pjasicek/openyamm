@@ -102,6 +102,35 @@ float nearestHostileDistanceToParty(const IGameplayWorldRuntime &worldRuntime)
     return nearestDistance;
 }
 
+bool partyHasHostileInMeleeReach(const IGameplayWorldRuntime &worldRuntime)
+{
+    const float partyX = worldRuntime.partyX();
+    const float partyY = worldRuntime.partyY();
+    const float partyFootZ = worldRuntime.partyFootZ();
+
+    for (size_t actorIndex = 0; actorIndex < worldRuntime.mapActorCount(); ++actorIndex)
+    {
+        GameplayActorRulesView actor = {};
+
+        if (!worldRuntime.actorRulesView(actorIndex, actor) || actor.isDead || !actor.hostileToParty)
+        {
+            continue;
+        }
+
+        const float deltaX = actor.preciseX - partyX;
+        const float deltaY = actor.preciseY - partyY;
+        const float deltaZ = actor.preciseZ - partyFootZ;
+        const float centerDistance = std::sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+
+        if (centerDistance - float(actor.radius) <= PartyMeleeReachDistance)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool partyHasGreenAlert(const IGameplayWorldRuntime &worldRuntime)
 {
     return nearestHostileDistanceToParty(worldRuntime)

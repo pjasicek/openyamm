@@ -23,9 +23,52 @@
 
 #include <algorithm>
 #include <array>
+#include <chrono>
 #include <cmath>
 #include <filesystem>
+#include <fstream>
 #include <string>
+
+TEST_CASE("headless HUD icon dimensions are cached until the mounted assets change")
+{
+    using namespace OpenYAMM;
+    const std::filesystem::path root = std::filesystem::temp_directory_path()
+        / ("openyamm_headless_pins_" + std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));
+    const std::filesystem::path icon = root / "engine/icons/probe.bmp";
+    std::filesystem::create_directories(icon.parent_path());
+    Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(root, root, Engine::AssetScaleTier::X1));
+    Game::GameplayUiRuntime ui;
+    ui.bindAssetFileSystem(&assets);
+    int width = -1;
+    int height = -1;
+    CHECK_FALSE(ui.ensureHudTextureDimensions("engine/icons/probe", width, height));
+
+    // The headless input path reads just the native bitmap header.
+    std::array<uint8_t, 54> header = {'B', 'M'};
+    header[14] = 40;
+    header[18] = 32;
+    header[22] = 18;
+    {
+        std::ofstream file(icon, std::ios::binary);
+        file.write(reinterpret_cast<const char *>(header.data()), header.size());
+    }
+    CHECK_FALSE(ui.ensureHudTextureDimensions("engine/icons/probe", width, height));
+    assets.refreshLookupCache();
+    CHECK(ui.ensureHudTextureDimensions("engine/icons/probe", width, height));
+    CHECK_EQ(width, 32);
+    CHECK_EQ(height, 18);
+
+    std::filesystem::remove(icon);
+    CHECK(ui.ensureHudTextureDimensions("engine/icons/probe", width, height));
+    assets.refreshLookupCache();
+    CHECK_FALSE(ui.ensureHudTextureDimensions("engine/icons/probe", width, height));
+    CHECK_EQ(width, 0);
+    CHECK_EQ(height, 0);
+    ui.clear();
+    assets.shutdown();
+    std::filesystem::remove_all(root);
+}
 
 TEST_CASE("the journal's continents are the new-game cards in their order, a world's other continents in its card")
 {

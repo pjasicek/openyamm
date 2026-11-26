@@ -3,12 +3,14 @@
 #include "game/events/ISceneEventContext.h"
 #include "game/events/ScriptedEventProgram.h"
 #include "game/events/ScriptedEventTimer.h"
+#include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayMonsterSpawn.h"
 #include "game/gameplay/ScriptedActorMoves.h"
 #include "game/indoor/IndoorLightingRuntime.h"
 #include "game/indoor/IndoorMapData.h"
 #include "game/party/Party.h"
 #include "game/ui/GameplayUiController.h"
+#include "tests/PartySpellTestHarness.h"
 
 #include <filesystem>
 #include <fstream>
@@ -1003,6 +1005,129 @@ TEST_CASE("an event adds and takes magical age; a member immune to aging gains n
     REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9032, runtimeState, &party));
     CHECK_EQ(party.member(0)->ageModifier, 0);
     CHECK_EQ(party.member(1)->ageModifier, 0);
+}
+
+TEST_CASE("evt.AddStatUntilRest adds or takes a primary stat of the selected members until the party rests")
+{
+    const std::string source = eventSupportText() + "\n"
+        "RegisterGlobalEvent(9040, \"Trial\", function()\n"
+        "    evt.ForPlayer(Players.Member0)\n"
+        "    evt.AddStatUntilRest(\"Might\", 40)\n"
+        "    evt.AddStatUntilRest(\"Intellect\", -40)\n"
+        "end)\n"
+        "RegisterGlobalEvent(9041, \"Bad\", function() evt.AddStatUntilRest(\"Strength\", 1) end)\n"
+        "RegisterGlobalEvent(9042, \"Crush\", function()\n"
+        "    evt.ForPlayer(Players.Member0)\n"
+        "    for i = 1, 10 do evt.AddStatUntilRest(\"Intellect\", -100) end\n"
+        "end)\n";
+    std::string error;
+    const std::optional<ScriptedEventProgram> program =
+        ScriptedEventProgram::loadFromLuaText(source, "@stat_until_rest_test.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+    Party party = {};
+    PartySeed seed = {};
+    Character member = {};
+    member.name = "Ada";
+    member.might = 20;
+    member.intellect = 30;
+    member.maxHealth = 10;
+    member.health = 10;
+    seed.members = {member, member};
+    party.seed(seed);
+    EventRuntime eventRuntime = {};
+    EventRuntimeState runtimeState = {};
+    const auto actual = [&party](size_t index, uint32_t rawStatId)
+    {
+        return GameMechanics::resolveCharacterDisplayedActualPrimaryStat(
+            *party.member(index), rawStatId, nullptr, nullptr, nullptr);
+    };
+    constexpr uint32_t ActualMight = 0x27;
+    constexpr uint32_t ActualIntellect = 0x28;
+
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9040, runtimeState, &party));
+    CHECK_EQ(party.member(0)->temporaryEventBonuses.might, 40);
+    CHECK_EQ(party.member(0)->temporaryEventBonuses.intellect, -40);
+    CHECK_EQ(actual(0, ActualMight), 60);
+    CHECK_EQ(actual(0, ActualIntellect), -10);
+    CHECK_EQ(actual(1, ActualMight), 20);
+    CHECK_EQ(actual(1, ActualIntellect), 30);
+    CHECK_EQ(party.member(1)->temporaryEventBonuses.might, 0);
+    CHECK_EQ(party.member(1)->temporaryEventBonuses.intellect, 0);
+
+    // The bonus stays within [-255, 255]; an unknown stat ends the handler with an error.
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9042, runtimeState, &party));
+    CHECK_EQ(party.member(0)->temporaryEventBonuses.intellect, -255);
+    {
+        CerrCapture capture;
+        eventRuntime.executeEventById(std::nullopt, program, 9041, runtimeState, &party);
+        CHECK(capture.text.str().find("unknown stat 'Strength'") != std::string::npos);
+    }
+
+    party.restAndHealAll();
+    CHECK_EQ(party.member(0)->temporaryEventBonuses.might, 0);
+    CHECK_EQ(party.member(0)->temporaryEventBonuses.intellect, 0);
+    CHECK_EQ(actual(0, ActualMight), 20);
+    CHECK_EQ(actual(0, ActualIntellect), 30);
+}
+
+namespace
+{
+// A scene that is also a world runtime, for queries that read the world (turn-based mode).
+class TurnBasedScene : public MissileScene, public OpenYAMM::Tests::PartySpellTestWorldRuntime
+{
+public:
+    // Ground at z 100 for x >= 0, none west of it; the given height is passed on.
+    std::optional<float> eventFloorHeight(float x, float, std::optional<float> z) const override
+    {
+        return x >= 0.0f ? std::optional<float>(100.0f + z.value_or(0.0f)) : std::nullopt;
+    }
+};
+}
+
+TEST_CASE("evt.IsTurnBased is true while the world runs turn-based combat")
+{
+    const std::string source = eventSupportText() + "\n"
+        "RegisterGlobalEvent(9043, \"Tick\", function()\n"
+        "    if evt.IsTurnBased() then evt.StatusText(\"turn\") else evt.StatusText(\"real\") end\n"
+        "end)\n";
+    std::string error;
+    const std::optional<ScriptedEventProgram> program =
+        ScriptedEventProgram::loadFromLuaText(source, "@turn_based_test.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+    EventRuntime eventRuntime = {};
+    EventRuntimeState runtimeState = {};
+    TurnBasedScene scene;
+
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9043, runtimeState, nullptr, &scene));
+    scene.setTurnBasedActorMode(ActorTurnBasedMode::Hold);
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9043, runtimeState, nullptr, &scene));
+    scene.setTurnBasedActorMode(ActorTurnBasedMode::MoveOnly);
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9043, runtimeState, nullptr, &scene));
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9043, runtimeState, nullptr));
+    CHECK_EQ(runtimeState.statusMessages, std::vector<std::string>{"real", "turn", "turn", "real"});
+}
+
+TEST_CASE("evt.FloorHeight returns the world's floor under a point, or nil")
+{
+    const std::string source = eventSupportText() + "\n"
+        "RegisterGlobalEvent(9044, \"Ground\", function()\n"
+        "    local function show(h) evt.StatusText(h and string.format('%.0f', h) or 'nil') end\n"
+        "    show(evt.FloorHeight(10, 20))\n"
+        "    show(evt.FloorHeight(10, 20, 5))\n"
+        "    show(evt.FloorHeight(-10, 20))\n"
+        "end)\n";
+    std::string error;
+    const std::optional<ScriptedEventProgram> program =
+        ScriptedEventProgram::loadFromLuaText(source, "@floor_height_test.lua", ScriptedEventScope::Global, error);
+    REQUIRE_MESSAGE(program.has_value(), error.c_str());
+    EventRuntime eventRuntime = {};
+    EventRuntimeState runtimeState = {};
+    TurnBasedScene scene;
+
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9044, runtimeState, nullptr, &scene));
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, program, 9044, runtimeState, nullptr));
+    CHECK_EQ(runtimeState.statusMessages,
+        std::vector<std::string>{"100", "105", "nil", "nil", "nil", "nil"});
 }
 
 TEST_CASE("an event that gives experience and shows no text of its own says how much (OY-489)")

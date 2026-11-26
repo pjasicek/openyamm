@@ -21,9 +21,10 @@ inline float liquidShaderValue(LiquidKind kind)
     return kind == LiquidKind::Mirror ? 3.0f : kind == LiquidKind::Lava ? 2.0f : kind == LiquidKind::Tar ? 1.0f : 0.0f;
 }
 
+// 4 is indoor lava in its liquid's own colours (liquids.yml tint; fs_indoor_water reads it).
 inline LiquidKind liquidFromShaderValue(float value)
 {
-    return value > 2.5f ? LiquidKind::Mirror : value > 1.5f ? LiquidKind::Lava : value > 0.5f ? LiquidKind::Tar
+    return value > 3.5f ? LiquidKind::Lava : value > 2.5f ? LiquidKind::Mirror : value > 1.5f ? LiquidKind::Lava : value > 0.5f ? LiquidKind::Tar
         : LiquidKind::Water;
 }
 

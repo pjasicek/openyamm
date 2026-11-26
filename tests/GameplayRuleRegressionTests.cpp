@@ -2874,6 +2874,62 @@ TEST_CASE("liquids scoped to a world override the shared ones there alone and sh
         "wade_speed: 0.6, match: {texture_names: [x]}}\n", error));
 }
 
+TEST_CASE("lava pattern scale, crust and tint are opt-in per liquid and leave the shipped liquids unchanged")
+{
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+    REQUIRE(initializeTestAssetFileSystem(assetFileSystem));
+    const std::optional<std::string> liquidYaml = assetFileSystem.readTextFile("engine/liquids/liquids.yml");
+    REQUIRE(liquidYaml.has_value());
+    OpenYAMM::Game::LiquidTable shipped;
+    std::string error;
+    REQUIRE_MESSAGE(shipped.loadFromYaml(*liquidYaml, error), error);
+    // No shipped liquid sets them: every world's lava keeps the shader's own pattern (0 is "unset").
+    for (const char *pTexture : {"lavtyl", "lavatyl", "6wtrtyl", "tartyl"})
+    {
+        const OpenYAMM::Game::LiquidDefinition *pLiquid = shipped.findMatch(pTexture, 0, false);
+        REQUIRE(pLiquid != nullptr);
+        CHECK(pLiquid->lavaPatternScale == 0.0f);
+        CHECK(pLiquid->lavaCrust == 0.0f);
+        CHECK_FALSE(pLiquid->lavaTinted);
+    }
+
+    OpenYAMM::Game::LiquidTable pools;
+    REQUIRE_MESSAGE(pools.loadFromYaml("liquids:\n  - {id: pool, kind: lava, color: [196, 48, 9], applies_to: [face], "
+        "scale: 0.45, crust: 0.4, worlds: [w], match: {texture_names: [pool]}}\n", error), error);
+    const OpenYAMM::Game::LiquidDefinition *pPool = pools.forWorld("w").findMatch("pool", 0, false);
+    REQUIRE(pPool != nullptr);
+    CHECK(pPool->lavaPatternScale == doctest::Approx(0.45f));
+    CHECK(pPool->lavaCrust == doctest::Approx(0.4f));
+    CHECK_FALSE(pPool->lavaTinted);
+
+    // `tint` draws a lava's troughs and veins in its own colour (Hesper's green bile); unset keeps the stock palette.
+    OpenYAMM::Game::LiquidTable bile;
+    REQUIRE_MESSAGE(bile.loadFromYaml("liquids:\n  - {id: bile, kind: lava, color: [125, 145, 24], "
+        "applies_to: [face], tint: true, worlds: [w], match: {texture_names: [bile]}}\n", error), error);
+    REQUIRE(bile.forWorld("w").findMatch("bile", 0, false) != nullptr);
+    CHECK(bile.forWorld("w").findMatch("bile", 0, false)->lavaTinted);
+    // Its faces' shader value (4) still reads back as lava, not as the mirror (3).
+    CHECK(OpenYAMM::Game::liquidFromShaderValue(4.0f) == OpenYAMM::Game::LiquidKind::Lava);
+    CHECK(OpenYAMM::Game::liquidFromShaderValue(3.0f) == OpenYAMM::Game::LiquidKind::Mirror);
+    CHECK(OpenYAMM::Game::liquidFromShaderValue(OpenYAMM::Game::liquidShaderValue(OpenYAMM::Game::LiquidKind::Lava))
+        == OpenYAMM::Game::LiquidKind::Lava);
+
+    // Only lava faces take them, within range.
+    OpenYAMM::Game::LiquidTable bad;
+    for (const char *pEntry : {"{id: x, kind: water, color: [1, 2, 3], applies_to: [face], scale: 0.5, ",
+             "{id: x, kind: lava, color: [1, 2, 3], applies_to: [terrain], crust: 0.5, ",
+             "{id: x, kind: lava, color: [1, 2, 3], applies_to: [face], scale: 0, ",
+             "{id: x, kind: lava, color: [1, 2, 3], applies_to: [face], crust: 1.5, ",
+             "{id: x, kind: lava, color: [1, 2, 3], applies_to: [face], scale: big, ",
+             "{id: x, kind: water, color: [1, 2, 3], applies_to: [face], tint: true, ",
+             "{id: x, kind: lava, color: [1, 2, 3], applies_to: [terrain], tint: true, ",
+             "{id: x, kind: lava, color: [1, 2, 3], applies_to: [face], tint: maybe, "})
+    {
+        CHECK_FALSE(bad.loadFromYaml(std::string("liquids:\n  - ") + pEntry + "match: {texture_names: [x]}}\n",
+            error));
+    }
+}
+
 TEST_CASE("Xeen's mirror liquid is a reflecting face of that world alone")
 {
     OpenYAMM::Engine::AssetFileSystem assetFileSystem;

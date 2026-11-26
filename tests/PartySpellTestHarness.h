@@ -314,7 +314,7 @@ public:
         return grants;
     }
 
-    Game::ActorTurnBasedMode turnBasedActorMode() const
+    Game::ActorTurnBasedMode turnBasedActorMode() const override
     {
         return m_turnBasedActorMode;
     }

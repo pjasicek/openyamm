@@ -21,6 +21,9 @@ $input v_texcoord0, v_worldNormal, v_worldPosition, v_color0, v_texcoord1, v_flo
 #ifndef MODEL_EMISSIVE_MAP
 #define MODEL_EMISSIVE_MAP 0
 #endif
+#ifndef MODEL_SURFACE_DETAIL
+#define MODEL_SURFACE_DETAIL 0
+#endif
 
 SAMPLER2D(s_modelTexture, 0);
 SAMPLER2D(s_modelNormal, 1);
@@ -30,7 +33,7 @@ SAMPLER2D(s_modelEnvironmentBrdf, 4);
 SAMPLER2D(s_modelRegionMask, 8);
 SAMPLER2D(s_modelRegionRamp, 9);
 SAMPLER2D(s_modelBurn, 10);
-#if MODEL_EMISSIVE_MAP
+#if MODEL_EMISSIVE_MAP || MODEL_SURFACE_DETAIL
 SAMPLER2D(s_modelEmissive, 7);
 #define MODEL_EMISSION u_modelSurface.xyz * v_flowInfo.a * texture2D(s_modelEmissive, v_texcoord0).rgb
 #else
@@ -50,6 +53,10 @@ uniform vec4 u_modelOutline;
 // Bloom glow pass: x = 1 to output only the glow, y = a card's glow weight (0: the emission).
 uniform vec4 u_modelGlow;
 uniform vec4 u_modelEdge;
+#if MODEL_SURFACE_DETAIL
+SAMPLER2D(s_modelSurfaceDetail, 12);
+uniform vec4 u_modelDetail; // inverse world units per tile, authored strength
+#endif
 // Burning creature (ModelBurn): [0] front, char, edge and fire widths in burn-map units; [1] emission colour (linear,
 // brightness included) and clock in seconds; [2].x pass: 0 none, 1 the burning surface, 2 the fire over its burnt part.
 uniform vec4 u_modelBurn[3];
@@ -58,6 +65,38 @@ vec3 modelNormalize(vec3 value)
 {
     return value * inversesqrt(max(dot(value, value), 0.000001));
 }
+
+#if MODEL_SURFACE_DETAIL
+// The large atlas supplies the colours and the existing relief. Project just the fine grain in native world units,
+// so it crosses UV chart seams and keeps the same scale around a curved horn or on the flat basalt footing.
+void modelSurfaceDetail(inout vec3 albedo, inout vec3 normal, inout float roughness)
+{
+    vec3 cameraDelta = (v_worldPosition - u_modelCamera.xyz) * u_modelDetail.x;
+    float distanceSquared = dot(cameraDelta, cameraDelta);
+    if (distanceSquared >= 256.0)
+    {
+        return;
+    }
+    vec3 geometryNormal = modelNormalize(v_worldNormal);
+    vec3 weights = geometryNormal * geometryNormal;
+    weights *= weights;
+    weights /= max(dot(weights, vec3_splat(1.0)), 0.000001);
+    vec3 tile = v_worldPosition * u_modelDetail.x;
+    // U runs horizontally and texture up points up the wall. On the ground, U points east and up points north.
+    vec4 acrossX = texture2D(s_modelSurfaceDetail, vec2(tile.y, -tile.z)) - vec4_splat(128.0 / 255.0);
+    vec4 acrossY = texture2D(s_modelSurfaceDetail, vec2(tile.x, -tile.z)) - vec4_splat(128.0 / 255.0);
+    vec4 acrossZ = texture2D(s_modelSurfaceDetail, vec2(tile.x, -tile.y)) - vec4_splat(128.0 / 255.0);
+    float strength = (255.0 / 127.0) * u_modelDetail.y * (1.0 - smoothstep(64.0, 256.0, distanceSquared));
+    vec2 response = (acrossX.ba * weights.x + acrossY.ba * weights.y + acrossZ.ba * weights.z) * strength;
+    albedo *= max(0.0, 1.0 + response.x);
+    roughness = clamp(roughness + response.y, 0.045, 1.0);
+    vec3 slope = vec3(0.0, acrossX.r, acrossX.g) * weights.x
+        + vec3(acrossY.r, 0.0, acrossY.g) * weights.y + vec3(acrossZ.r, acrossZ.g, 0.0) * weights.z;
+    // Add the world-space gradient in the tangent plane of the already normal-mapped surface.
+    slope -= normal * dot(normal, slope);
+    normal = modelNormalize(normal + slope * (dot(normal, geometryNormal) >= 0.0 ? strength : -strength));
+}
+#endif
 
 vec3 modelEncodeSrgb(vec3 value)
 {
@@ -389,6 +428,9 @@ void main()
         vec4 surface = texture2D(s_modelMetallicRoughness, v_texcoord0);
         float metallic = clamp(surface.b * u_modelPbr.x, 0.0, 1.0);
         float roughness = clamp(surface.g * u_modelPbr.y, 0.045, 1.0);
+#if MODEL_SURFACE_DETAIL
+        modelSurfaceDetail(color.rgb, normal, roughness);
+#endif
         float nv = max(dot(normal, view), 0.0001);
         vec3 f0 = mix(vec3_splat(0.04), color.rgb, metallic);
         vec3 fresnel = f0 + (max(vec3_splat(1.0 - roughness), f0) - f0) * pow(max(1.0 - nv, 0.0), 5.0);

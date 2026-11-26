@@ -807,6 +807,19 @@ bool ScriptedEventProgram::hasEvent(uint16_t eventId) const
     return std::find(m_eventIds.begin(), m_eventIds.end(), eventId) != m_eventIds.end();
 }
 
+std::optional<uint16_t> ScriptedEventProgram::findEventByTitle(const std::string &title) const
+{
+    for (const auto &[eventId, text] : m_summaries)
+    {
+        if (text == title)
+        {
+            return eventId;
+        }
+    }
+
+    return std::nullopt;
+}
+
 bool ScriptedEventProgram::isHintOnlyEvent(uint16_t eventId) const
 {
     return !hasEvent(eventId) && getHint(eventId).has_value();

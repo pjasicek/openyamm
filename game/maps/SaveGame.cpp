@@ -15,6 +15,7 @@
 #include <cstdint>
 #include <cstring>
 #include <fstream>
+#include <iostream>
 #include <limits>
 #include <span>
 #include <type_traits>

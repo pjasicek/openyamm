@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <array>
 #include <cstdint>
+#include <functional>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -229,16 +230,29 @@ struct WorldManifest
     // world.yml loadingScreens: the full-screen loading pages this world shows (icon names), picked at random; empty:
     // the engine's loading1-loading5.
     std::vector<std::string> loadingScreens;
+    // A destination map filename can select its own full-screen loading icon.
+    std::unordered_map<std::string, std::string> mapLoadingScreens;
     WorldCompletionDefinition completion;
-    // world.yml ambience: {map file: sound name}, a looping bed under the music on that map, at ambienceVolume.
-    std::unordered_map<std::string, std::string> ambience;
+    // world.yml ambience: {map file: sound name}, a looping bed under the music on that map, at ambienceVolume. A map
+    // may instead list story choices, [{sound, qbit, until_qbit}, ...]: the first whose QBits hold when the map loads
+    // (qbit set, until_qbit not set; either optional) plays, none if none holds.
+    struct AmbienceChoice
+    {
+        std::string sound;
+        uint32_t qbit = 0;
+        uint32_t untilQBit = 0;
+    };
+    std::unordered_map<std::string, std::vector<AmbienceChoice>> ambience;
     float ambienceVolume = 0.6f;
-    // world.yml musicAreas: {map file: [{track, rect: [minX, minY, maxX, maxY]}]}: on an outdoor map the party inside
-    // a rectangle hears its track instead of the map's (the first that holds the party).
+    // world.yml musicAreas: {map file: [{track, rect: [minX, minY, maxX, maxY], qbit, until_qbit}]}: the party inside
+    // a rectangle hears its track instead of the map's (the first that holds the party and whose optional QBits hold:
+    // qbit set, until_qbit not set; checked only for a rectangle that holds the party).
     struct MusicArea
     {
         int track = 0;
         std::array<float, 4> rect = {};
+        uint32_t qbit = 0;
+        uint32_t untilQBit = 0;
     };
     std::unordered_map<std::string, std::vector<MusicArea>> musicAreas;
     WorldMusicDefinition music;
@@ -333,12 +347,12 @@ std::vector<std::string> surfaceGlowListWorlds(
     const std::string &mapWorldId,
     bool surfaceMaterials);
 
-// The full-screen loading pages for a map of the world (icon names, one picked at random; empty: the engine's own).
-// A map on one of the world's own continents (its `continents` id range) shows its continent_settings row's pages
-// ("Loading pics", extensions dropped); a map whose continent is not known yet (a save being read) any of the world's
-// continents' pages; otherwise, or when those rows name none, world.yml loadingScreens.
+// The full-screen loading page assigned to the destination, or the pages of its continent and then its world.
+// Full-screen loads use the fallback pools. Dungeon transitions request only an explicitly assigned page.
 std::vector<std::string> worldLoadingPages(
     const WorldManifest &world,
     const MergedContinentSettingTable &continents,
-    std::optional<uint32_t> mapContinentId);
+    std::optional<uint32_t> mapContinentId,
+    const std::string &mapFileName = {},
+    bool includeFallbackPages = true);
 }

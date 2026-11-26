@@ -72,6 +72,8 @@ struct OutdoorTerrainMaterialConfig
     float slopeEnd = 0.5f;
     // 0 keeps the native flat triangles, 1 renders the full bicubic surface through the native heights.
     float smoothing = 1.0f;
+    // Use a shared projection across bank triangles that meet a flat top.
+    bool continuousBankProjection = false;
     // Noise that frays transitions between ground layers into islands and holes: strength, and the world size of
     // one repeat of the noise texture used for it (smaller gives finer clumps).
     float fringeStrength = 0.0f;

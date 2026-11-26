@@ -90,6 +90,11 @@ struct ModelMaterial
     ModelSampler normalSampler;
     ModelSampler metallicRoughnessSampler;
     float normalScale = 1.0f;
+    // World-projected repeating microrelief, colour and roughness for stationary opaque surfaces.
+    int detailImageIndex = -1;
+    ModelSampler detailSampler;
+    float detailTileWorldUnits = 0.0f;
+    float detailStrength = 1.0f;
     // glTF emissiveFactor (linear RGB) times KHR_materials_emissive_strength: light the surface gives off, added unlit
     // to its shaded colour. With emissiveImageIndex (glTF emissiveTexture, sRGB, UV0) it is factor x texel.
     std::array<float, 3> emissive = {};

@@ -838,6 +838,12 @@ bool WorldFxSystem::buildActorModelBinding(const std::string &descriptor, std::s
             binding.fixedYaw = degrees * std::numbers::pi_v<float> / 180.0f;
         }
         binding.zOffset = entry["z_offset"].as<float>(0.0f);
+        binding.deathRate = entry["death_rate"].as<float>(1.0f);
+        if (!std::isfinite(binding.deathRate) || binding.deathRate < 0.25f || binding.deathRate > 4.0f)
+        {
+            error = "actor death_rate must be within [0.25, 4]: " + descriptor;
+            return false;
+        }
         const YAML::Node deathNode = entry["death_effect"];
         const std::string deathEffect = !deathNode ? "none"
             : deathNode.IsMap() ? deathNode["type"].as<std::string>() : deathNode.as<std::string>();
@@ -2161,6 +2167,7 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
         instance->second.dying = dying;
         if (dying && !binding.disintegrates)
         {
+            time *= binding.deathRate;
             model.deathClipTime = time;
         }
         else if (state.animationState == ActorAiAnimationState::Dead && model.deathClipTime >= 0.0f)
@@ -2168,7 +2175,7 @@ void WorldFxSystem::syncActorModels(const IGameplayWorldRuntime &world, float wo
             // The AI switches to the corpse after the native sprite death length; a longer model death clip
             // finishes first, then the dead clip holds.
             const uint32_t deathClip = binding.clips[size_t(ActorAiAnimationState::Dying)];
-            model.deathClipTime += deltaSeconds;
+            model.deathClipTime += deltaSeconds * binding.deathRate;
             if (model.deathClipTime < binding.asset->clips[deathClip].durationSeconds)
             {
                 clip = deathClip;
@@ -2532,7 +2539,7 @@ bool WorldFxSystem::burningRemains(ActorModelInstance &model, float deltaSeconds
     if (model.deathClipTime >= 0.0f)
     {
         const uint32_t deathClip = binding.clips[size_t(ActorAiAnimationState::Dying)];
-        model.deathClipTime += deltaSeconds;
+        model.deathClipTime += deltaSeconds * binding.deathRate;
         if (model.deathClipTime < binding.asset->clips[deathClip].durationSeconds)
         {
             clip = deathClip;
@@ -3978,9 +3985,8 @@ const ProjectileEffectBinding *WorldFxSystem::projectileEffectBinding(
 
 bool WorldFxSystem::loadProjectileModels(const Engine::AssetFileSystem &assets, std::string &error)
 {
-    constexpr const char *BindingsPath = "engine/models/projectiles.yml";
     ProjectileModelBindings bindings;
-    if (!loadProjectileModelBindings(assets, BindingsPath, bindings, error))
+    if (!loadAllProjectileModelBindings(assets, bindings, error))
     {
         return false;
     }
@@ -3990,14 +3996,14 @@ bool WorldFxSystem::loadProjectileModels(const Engine::AssetFileSystem &assets, 
         const Engine::ModelLoadResult result = m_modelAssets.load(assets, binding.model);
         if (!result)
         {
-            error = std::string(BindingsPath) + ": object " + std::to_string(objectId) + ": " + result.error;
+            error = binding.sourcePath + ": object " + std::to_string(objectId) + ": " + result.error;
             return false;
         }
         const Engine::ModelBounds &bounds = result.asset->staticBounds;
         const float extent = bounds.valid ? bounds.max[2] - bounds.min[2] : 0.0f;
         if (extent <= 1.0e-4f)
         {
-            error = std::string(BindingsPath) + ": object " + std::to_string(objectId) + ": " + binding.model +
+            error = binding.sourcePath + ": object " + std::to_string(objectId) + ": " + binding.model +
                 " has no extent along +Z";
             return false;
         }

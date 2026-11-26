@@ -15,7 +15,10 @@ lacks. Geometry, UVs, skins, clips and every other material stay byte-identical.
 transfer; the nearest-point maps were grainy on pleats, mail and scales) and drops the images it replaced.
 --param <built.glb> passes the repair's built GLB (build_lods.py output, LOD0 UVs on the far triangles) so the
 transfer uses its UV correspondence first (transfer_textures.transfer param_uv).
-Usage: fix_variant_maps.py <in.glb> <out.glb> [--all] [--param <built.glb>]"""
+Use --levels 2,3 to retain an authored LOD1 that has its own material instance and follows LOD0's UVs.
+The same transfer applies to a held item's static mesh when it declares its own LOD chain.
+Usage: fix_variant_maps.py <in.glb> <out.glb> [--all] [--param <built.glb>] [--levels 2,3]"""
+import argparse
 import io
 import sys
 from pathlib import Path
@@ -31,7 +34,8 @@ from splice_lods import compact, floats  # noqa: E402
 from transfer_textures import image, material_maps, own_map_variants, transfer  # noqa: E402
 
 SLOTS = {'basecolor': ('pbr', 'baseColorTexture'), 'mr': ('pbr', 'metallicRoughnessTexture'),
-         'normal': ('material', 'normalTexture'), 'mask': ('extras', 'openyamm_region_mask')}
+         'normal': ('material', 'normalTexture'), 'mask': ('extras', 'openyamm_region_mask'),
+         'emissive': ('material', 'emissiveTexture')}
 
 
 def add_png(doc, binary, name, picture, sampler):
@@ -109,21 +113,27 @@ def prune_textures(doc):
 
 
 def main():
-    source, out = Path(sys.argv[1]), Path(sys.argv[2])
-    everything = '--all' in sys.argv[3:]
-    built = None
-    if '--param' in sys.argv[3:]:
-        built_doc, built_binary = read_glb(Path(sys.argv[sys.argv.index('--param') + 1]))
-        built = (built_doc, built_binary)
+    parser = argparse.ArgumentParser(description='Reproject a model’s material variants onto their existing far UVs.')
+    parser.add_argument('source', type=Path)
+    parser.add_argument('output', type=Path)
+    parser.add_argument('--all', dest='everything', action='store_true')
+    parser.add_argument('--param', type=Path)
+    parser.add_argument('--levels', help='Only refill the listed LOD levels, for example 2,3')
+    args = parser.parse_args()
+    source, out = args.source, args.output
+    wanted = {int(level) for level in args.levels.split(',')} if args.levels else None
+    built = read_glb(args.param) if args.param else None
     doc, binary = read_glb(source)
     binary = bytearray(binary)
     names = {m['name']: i for i, m in enumerate(doc['materials'])}
     changes = []
     for node in doc['nodes']:
-        if 'mesh' not in node or 'skin' not in node:
+        if 'mesh' not in node:
             continue
         lod0 = doc['meshes'][node['mesh']]
         for level, mesh_index in enumerate((lod0.get('extras') or {}).get('openyamm_lods', []), start=1):
+            if wanted is not None and level not in wanted:
+                continue
             suffix = f'_LOD{level}'
             mesh = doc['meshes'][mesh_index]
             if len(mesh['primitives']) != len(lod0['primitives']):
@@ -136,7 +146,13 @@ def main():
                 own = own_map_variants(doc, primitive)
                 corners = source_faces(doc, binary, lod_primitive)
                 corner_uv = floats(doc, binary, lod_primitive['attributes']['TEXCOORD_0'])[corners]
-                size = image(doc, binary, material_maps(default)['basecolor']).shape[0]
+                # Factor-only base materials can have a textured variant. All far maps of a primitive
+                # share its baked resolution.
+                far_materials = [default, *(doc['materials'][m['material']] for m in mappings)]
+                reference = next((index for material in far_materials for index in material_maps(material).values()), None)
+                if reference is None:
+                    continue
+                size = image(doc, binary, reference).shape[0]
                 lod0_default = material_maps(doc['materials'][primitive['material']])
                 param_uv = None
                 if built is not None:
@@ -151,13 +167,13 @@ def main():
                                           built_primitive['attributes']['TEXCOORD_0'])[built_faces]
                     else:
                         changes.append(f'{mesh["name"]} p{index}: built GLB does not match, no UV correspondence')
-                if everything:
-                    sampler = doc['textures'][next(iter(lod0_default.values()))].get('sampler')
+                if args.everything and lod0_default:
                     maps, _ = transfer(doc, binary, primitive, lod_primitive, corners, corner_uv, size,
                                        param_uv=param_uv)
                     changes.append(f'{default["name"]}: {transfer.param_share:.0%} by UV correspondence')
-                    set_maps(default, {kind: add_png(doc, binary, f'{default["name"]}_{kind}', maps[kind], sampler)
-                                       for kind in lod0_default})
+                    set_maps(default, {kind: add_png(doc, binary, f'{default["name"]}_{kind}', maps[kind],
+                                                    doc['textures'][texture].get('sampler'))
+                                       for kind, texture in lod0_default.items()})
                     changes.append(f'{default["name"]}: maps')
                 far_default = material_maps(default)
                 for mapping in mappings:
@@ -169,12 +185,12 @@ def main():
                     # Maps the variant shares with the default at LOD0 keep the default's far map.
                     shared = {kind for kind, t in kinds.items() if lod0_default.get(kind) == t}
                     if variant in own and set(kinds) - shared:
-                        sampler = doc['textures'][next(iter(kinds.values()))].get('sampler')
                         maps, _ = transfer(doc, binary, primitive, lod_primitive, corners, corner_uv, size, variant,
                                            param_uv)
                         textures = {kind: far_default[kind] if kind in shared
-                                    else add_png(doc, binary, f'{copy["name"]}_{kind}', maps[kind], sampler)
-                                    for kind in kinds}
+                                    else add_png(doc, binary, f'{copy["name"]}_{kind}', maps[kind],
+                                                 doc['textures'][texture].get('sampler'))
+                                    for kind, texture in kinds.items()}
                         changes.append(f'{copy["name"]}: own maps ({", ".join(sorted(set(kinds) - shared))})')
                     else:
                         textures = {kind: far_default[kind] for kind in kinds if kind in far_default}

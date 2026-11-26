@@ -34,7 +34,8 @@ struct WaterVertex
     float layer;
     float shoreline;
     uint32_t colorAbgr;
-    // liquidShaderValue: 0 water, 1 tar, 2 lava.
+    // liquidShaderValue: 0 water, 1 tar, 2 lava, 3 mirror; indoors 4 is lava in its liquid's own colours (liquids.yml
+    // tint).
     float liquid = 0.0f;
 };
 

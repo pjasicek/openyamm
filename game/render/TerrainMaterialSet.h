@@ -30,6 +30,8 @@ struct TerrainMaterialSources
     std::vector<float> layerWetSheen;
     // Per configured material: the library's emissive glow (rgb, 0: none) and its start (w); see library.yml.
     std::vector<std::array<float, 4>> layerEmissive;
+    // Per configured material: its glow's slow pulse (emissive.pulse: {amount, seconds}; amount 0: steady).
+    std::vector<std::array<float, 2>> layerPulse;
 };
 
 // RGBA8 mip chain of a square image by 2x2 averaging.
@@ -102,6 +104,7 @@ private:
     bgfx::UniformHandle m_layerMacro = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_layerVariants = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_layerEmissive = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_layerPulse = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_control = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_misc = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_meadow = BGFX_INVALID_HANDLE;
@@ -112,6 +115,8 @@ private:
     std::array<std::array<float, 4>, OutdoorTerrainMaterialConfig::MaxLayers> m_layerVariantValues = {};
     // Per layer: rgb = glow colour of the material's emissive texels (0: none), w = where the glow starts.
     std::array<std::array<float, 4>, OutdoorTerrainMaterialConfig::MaxLayers> m_layerEmissiveValues = {};
+    // Per layer: the glow pulse's amount and period in seconds (bind turns the period into this frame's phase).
+    std::array<std::array<float, 2>, OutdoorTerrainMaterialConfig::MaxLayers> m_layerPulseValues = {};
     std::array<float, 4> m_controlValues = {};
     std::array<float, 4> m_miscValues = {};
     std::array<std::array<float, 4>, 2> m_meadowValues = {};

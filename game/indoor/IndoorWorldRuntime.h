@@ -374,6 +374,7 @@ public:
     std::optional<bool> indoorMoverSpinStartsOn(uint32_t doorId) const override;
     bool isMapActorHostile(size_t actorIndex) const override;
     bool isMapActorDead(size_t actorIndex) const override;
+    bool mapActorHp(size_t actorIndex, int &hp, int &maxHp) const override;
     bool isMapActorWithinPartyDistance(size_t actorIndex, float distance) const override;
     bool searchLootProp(const std::string &sourceId) override;
     bool useMm9Barrel(const std::string &sourceId) override;
@@ -440,6 +441,11 @@ public:
     void advanceTurnBasedWorldTime(float seconds) override;
     void setGameSpeed(float speed) override;
     void setTurnBasedActorMode(ActorTurnBasedMode mode) override;
+    ActorTurnBasedMode turnBasedActorMode() const override
+    {
+        return m_turnBasedActorFacts.mode;
+    }
+    std::optional<float> eventFloorHeight(float x, float y, std::optional<float> z) const override;
     void grantTurnBasedActorAction(size_t actorIndex) override;
     bool turnBasedActorActionGrantPending() const override;
     int turnBasedActorRecoveryTicks(size_t actorIndex) const override;

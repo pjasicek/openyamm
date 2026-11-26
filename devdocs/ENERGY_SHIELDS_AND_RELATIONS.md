@@ -51,7 +51,22 @@ monsters:
           link: {radius: 2560, regen_multiplier: 2, drop_on_death: true}}   # an Overseer
   10081: {energy_immune: true}                          # a Glassback: energy weapons do nothing to its body
   10054: {shield: 400, grade: Light, machine: true}     # an EMP grenade stuns it
+  10059: {shield: 2500, grade: Light, requires_link: true}
+  10050: {link: {source_group: 41, radius: 2560, regen_multiplier: 2, drop_on_death: true}}
 ```
+
+`shield_fraction` (0.01-10, beside `shield`; DECISIONS H-86) makes the pool that share of the actor's live maximum HP,
+after a ruleset such as MAW sized it (`monsterShieldPool`; `GameplayActorShields` resizes it when the maximum changes and
+keeps the share the shield holds); `shield` stays the pool of an actor whose maximum is not known. Hesper's plain Wards
+use 0.33 (the High Pyre, the Ossuary Tyrant), its mechanic shields 0.5 (the Gullet Maw, the Hierarch, the Hive Queen,
+the Conductor's Ward III); its build_world.py writes `shield` as that share of the table's HP.
+
+A monster with `requires_link` draws its shield from a living allied emitter in range. It starts full when the map
+has a source, including when a save restores the actors. Without a source it starts empty and any raised shield
+drops. Restoring a source lets it recharge after the usual hit delay. A source with `drop_on_death` still breaks
+nearby allied shields when it dies. Another surviving source can then recharge them. An emitter's optional
+`link.source_group` identifies which placements of that monster supply power and emit a death pulse. A passing
+drone from another group leaves the shield alone, even when it dies nearby. The default includes every placement.
 
 Hesper's stage derives `link` from the design's `ShieldLink` rule flag (its `shield_link` block), `energy_immune` from
 `EnergyImmune`, and `machine` from its `machines` list.

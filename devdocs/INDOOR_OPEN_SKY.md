@@ -8,6 +8,10 @@ MM6–MM8 BLV, draws exactly as before.
 sky: {mode: open, sky_texture: plansky3}     # sky_texture and preset are optional
 ```
 
+An open BLV sky follows the same map theme and campaign `when_qbit` rules as an outdoor map. The map key is
+the BLV file name. An explicit scene `preset` fixes the underlying sky and the active theme supplies its tint.
+See [map themes](../level_generation/lighting/SKY_RENDERING.md#map-themes).
+
 - **What it does.** The map's sky faces (faces with `IndoorSky`, 0x00400000, usually set by the scene's
   `initial_state.face_attribute_overrides`) are left out of the drawn faces (`IndoorRenderer::rebuildAllTexturedBatches`,
   `indoorFaceShowsOpenSky`), and after the opaque scene (faces, decorations, creatures) the Enhanced outdoor sky

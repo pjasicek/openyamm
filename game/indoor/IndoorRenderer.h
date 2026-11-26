@@ -358,6 +358,12 @@ private:
         bool hasBounds = false;
         uint32_t waterColorAbgr = 0;
         LiquidKind liquid = LiquidKind::None;
+        // Lava pattern size and crust share of its liquid (liquids.yml; 0: the shader's own), in the water vertices'
+        // otherwise unused layer and shoreline.
+        float lavaPatternScale = 0.0f;
+        float lavaCrust = 0.0f;
+        // Lava drawn in the liquid's own colours (liquids.yml tint): the water vertices' liquid value 4 instead of 2.
+        bool lavaTinted = false;
         // Its faces take the scene daylight: vertex-lit faces of a sector open to the sky (a lightmap has it).
         bool daylit = false;
         // A batch of lightmapped faces (devdocs/INDOOR_BAKED_LIGHTING.md): its page of the map's baked lighting and

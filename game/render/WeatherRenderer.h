@@ -31,6 +31,8 @@ struct WeatherDrawFrame
     // How snow and ash flakes look and fall (weather.yml flakes).
     WeatherFlakeLook snowLook = {};
     WeatherFlakeLook ashLook = {};
+    // Drawn with the ash at its strength (the ash look's `embers`, e.g. glowing sparks rising), if any.
+    std::optional<WeatherFlakeLook> emberLook;
     // The rain's colour before the light (weather.yml rain_color).
     std::array<float, 3> rainColor = DefaultRainColor;
     float windX = 0.0f;
@@ -105,6 +107,8 @@ private:
     Layer m_farSnow;
     Layer m_nearAsh;
     Layer m_farAsh;
+    Layer m_nearEmbers;
+    Layer m_farEmbers;
     float m_timeSeconds = 0.0f;
     float m_curtainPhase = 0.0f;
     bool m_hasCamera = false;

@@ -1,6 +1,7 @@
 #include "game/render/SkyPresets.h"
 
 #include "game/StringUtils.h"
+#include "game/party/CampaignState.h"
 #include "game/render/SkyClock.h"
 
 #include <yaml-cpp/yaml.h>
@@ -366,7 +367,7 @@ public:
     {
         if (!checkKeys(node, {"inherits", "keys", "sun_disc_degrees", "moon_disc_degrees", "moon_texture",
                 "moon_phase_offset", "below_horizon", "fog_tint_sky_mix", "horizon_ring", "stars", "orbit_ring",
-                "clouds", "storm", "draw_sky", "void"}, where)
+                "clouds", "storm", "draw_sky", "void", "eclipse", "sun_direction"}, where)
             || !applyVoidLook(node["void"], preset.voidLook, where + ".void"))
         {
             return false;
@@ -384,6 +385,32 @@ public:
             || !readOptionalFloat(node, "moon_phase_offset", preset.moonPhaseOffset, 0.0f, 1.0f, where))
         {
             return false;
+        }
+
+        if (const YAML::Node sun = node["sun_direction"]; sun)
+        {
+            if (!sun.IsSequence() || sun.size() != 3)
+            {
+                return fail(where + ".sun_direction must be [x, y, z]");
+            }
+            std::array<float, 3> direction = {};
+            for (size_t axis = 0; axis < direction.size(); ++axis)
+            {
+                if (!readFloat(sun[axis], direction[axis], -1.0f, 1.0f, where + ".sun_direction"))
+                {
+                    return false;
+                }
+            }
+            const float length = std::hypot(direction[0], direction[1], direction[2]);
+            if (length < 0.0001f)
+            {
+                return fail(where + ".sun_direction must point toward the sun");
+            }
+            for (float &component : direction)
+            {
+                component /= length;
+            }
+            preset.sunDirection = direction;
         }
 
         if (const YAML::Node belowNode = node["below_horizon"]; belowNode)
@@ -406,6 +433,12 @@ public:
             {
                 return fail(where + ".below_horizon must be fog, sky or flat");
             }
+        }
+
+        if (const YAML::Node eclipse = node["eclipse"];
+            eclipse && !YAML::convert<bool>::decode(eclipse, preset.eclipse))
+        {
+            return fail(where + ".eclipse must be a boolean");
         }
 
         if (const YAML::Node drawNode = node["draw_sky"]; drawNode)
@@ -811,7 +844,10 @@ bool SkyPresetLibrary::loadFromYaml(const std::string &yamlText, std::string &er
         for (const auto &entry : mapsNode)
         {
             const std::string mapName = toLowerCopy(entry.first.as<std::string>());
-            const std::string themeName = entry.second.IsScalar() ? toLowerCopy(entry.second.as<std::string>()) : "";
+            // A theme name, or {theme, when_qbit: [{qbit, theme}]} (a sky that changes with the party's QBits).
+            const YAML::Node themeNode = entry.second.IsMap() ? entry.second["theme"] : entry.second;
+            const std::string themeName =
+                themeNode && themeNode.IsScalar() ? toLowerCopy(themeNode.as<std::string>()) : "";
 
             if (!library.m_themes.contains(themeName))
             {
@@ -819,6 +855,19 @@ bool SkyPresetLibrary::loadFromYaml(const std::string &yamlText, std::string &er
             }
 
             library.m_mapThemes[mapName] = themeName;
+            library.m_mapThemeQBitRules.erase(mapName);
+
+            for (const YAML::Node &rule : entry.second.IsMap() ? entry.second["when_qbit"] : YAML::Node())
+            {
+                const std::string ruleTheme = rule["theme"] ? toLowerCopy(rule["theme"].as<std::string>()) : "";
+
+                if (!rule["qbit"] || !library.m_themes.contains(ruleTheme))
+                {
+                    return parser.fail("map '" + mapName + "': a when_qbit rule needs a qbit and a known theme");
+                }
+
+                library.m_mapThemeQBitRules[mapName].emplace_back(rule["qbit"].as<uint32_t>(), ruleTheme);
+            }
         }
     }
 
@@ -873,10 +922,30 @@ const SkySpecialPresets &SkyPresetLibrary::specials() const
     return m_specials;
 }
 
-const SkyTheme *SkyPresetLibrary::themeForMap(const std::string &mapFileName) const
+const SkyTheme *SkyPresetLibrary::themeForMap(const std::string &mapFileName, const CampaignState *pCampaign) const
 {
-    const auto mapIt = m_mapThemes.find(toLowerCopy(mapFileName));
-    return mapIt != m_mapThemes.end() ? findTheme(mapIt->second) : nullptr;
+    const std::string mapName = toLowerCopy(mapFileName);
+    const auto mapIt = m_mapThemes.find(mapName);
+
+    if (mapIt == m_mapThemes.end())
+    {
+        return nullptr;
+    }
+
+    const auto rulesIt = pCampaign ? m_mapThemeQBitRules.find(mapName) : m_mapThemeQBitRules.end();
+
+    if (rulesIt != m_mapThemeQBitRules.end())
+    {
+        for (auto rule = rulesIt->second.rbegin(); rule != rulesIt->second.rend(); ++rule)
+        {
+            if (pCampaign->hasQuestBit(rule->first))
+            {
+                return findTheme(rule->second);
+            }
+        }
+    }
+
+    return findTheme(mapIt->second);
 }
 
 const SkyTheme *SkyPresetLibrary::findTheme(const std::string &name) const

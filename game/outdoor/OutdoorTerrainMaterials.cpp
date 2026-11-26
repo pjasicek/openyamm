@@ -618,6 +618,25 @@ bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
         }
     }
     capRenderedTerrainUnderBModels(map, heights, side, steps);
+    std::vector<float> faceUp;
+    bgfx::VertexLayout layout;
+    layout.begin().add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
+        .add(bgfx::Attrib::Normal, 3, bgfx::AttribType::Float);
+    if (config.continuousBankProjection)
+    {
+        faceUp = outdoorTerrainVertexFaceUp(heights, side, spacing);
+        if (faceUp.size() != heights.size())
+        {
+            return false;
+        }
+        layout.add(bgfx::Attrib::TexCoord1, 3, bgfx::AttribType::Float);
+    }
+    else
+    {
+        layout.add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float);
+    }
+    layout.end();
+    const size_t stride = layout.getStride();
     const auto height = [&](int i, int j)
     {
         return heights[size_t(std::clamp(j, 0, side - 1)) * side + size_t(std::clamp(i, 0, side - 1))];
@@ -723,7 +742,12 @@ bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
                         std::min(chunk.boundsMin.z, vertex.z)};
                     chunk.boundsMax = {std::max(chunk.boundsMax.x, vertex.x), std::max(chunk.boundsMax.y, vertex.y),
                         std::max(chunk.boundsMax.z, vertex.z)};
-                    vertices.push_back(vertex);
+                    uint8_t *pVertex = vertices.data() + (size_t(row) * columns + column) * stride;
+                    std::memcpy(pVertex, &vertex, sizeof(vertex));
+                    if (config.continuousBankProjection)
+                    {
+                        std::memcpy(pVertex + sizeof(vertex), &faceUp[size_t(j) * side + i], sizeof(float));
+                    }
                 }
             }
             std::vector<uint16_t> single;

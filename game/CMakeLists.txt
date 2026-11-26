@@ -218,6 +218,7 @@ add_library(openyamm_game STATIC
     tables/MonsterModifiers.cpp
     tables/MonsterRelationAddOns.cpp
     tables/MergedBaseTables.cpp
+    tables/WebOfWorldsTable.cpp
     tables/PotionEffectTable.cpp
     rules/CombatRules.cpp
     rules/CrowdControlDiminishing.cpp
@@ -374,6 +375,7 @@ add_library(openyamm_game STATIC
     ui/GameplayAlchemyBenchView.cpp
     ui/GameplayLootSummaryRenderer.cpp
     ui/GameplayFormationBuilder.cpp
+    ui/GameplayWebOfWorlds.cpp
     ui/GameplayBattleOrders.cpp
     ui/GameplayCraftingBenchRenderer.cpp
     ui/GameplayCraftingBenchView.cpp

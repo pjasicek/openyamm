@@ -78,11 +78,13 @@ GameplayActorShields::Entry *GameplayActorShields::ensure(size_t actorIndex, int
     Entry &entry = m_entries[actorIndex];
     if (!entry.used || entry.monsterId != monsterId)
     {
-        // A new actor (or a reused index): its shield starts full.
+        // Source positions and restored deaths are known together on the first actor update.
         entry = {};
         entry.used = true;
         entry.monsterId = monsterId;
-        entry.current = float(pProfile->pool);
+        entry.awaitingInitialLink = pProfile->requiresLink;
+        entry.pool = monsterShieldPool(*pProfile, 0);
+        entry.current = pProfile->requiresLink ? 0.0f : entry.pool;
         entry.secondsSinceDamage = pProfile->regenDelaySeconds;
         for (std::array<float, 4> &hit : entry.hits)
         {
@@ -136,9 +138,18 @@ void GameplayActorShields::update(
             continue;
         }
         Entry &entry = *pEntry;
+        // A shield_fraction pool follows the actor's live maximum HP, keeping the share it holds.
+        const float pool = monsterShieldPool(*entry.pProfile, facts.maxHp);
+        if (pool != entry.pool)
+        {
+            entry.current = entry.pool > 0.0f ? entry.current / entry.pool * pool : entry.current;
+            entry.pool = pool;
+        }
         entry.center = facts.center;
         entry.hostileToParty = facts.hostileToParty;
-        if (entry.alive && !facts.alive && entry.pProfile->linkRadius > 0.0f && entry.pProfile->linkDropsOnDeath)
+        entry.suppliesLink = entry.pProfile->linkRadius > 0.0f
+            && (!entry.pProfile->linkSourceGroup || *entry.pProfile->linkSourceGroup == facts.group);
+        if (entry.alive && !facts.alive && entry.suppliesLink && entry.pProfile->linkDropsOnDeath)
         {
             m_deadLinkers.push_back(actorIndex);
         }
@@ -173,6 +184,16 @@ void GameplayActorShields::update(
         {
             continue;
         }
+        const MonsterShieldProfile &profile = *entry.pProfile;
+        const float linkRate = actorIndex < m_regenMultipliers.size() ? m_regenMultipliers[actorIndex] : -1.0f;
+        if (entry.awaitingInitialLink)
+        {
+            entry.awaitingInitialLink = false;
+            if (linkRate >= 0.0f && entry.suspendedSeconds == 0.0f)
+            {
+                entry.current = entry.pool;
+            }
+        }
         if (entry.suspendedSeconds != 0.0f)
         {
             entry.suspendedSeconds = entry.suspendedSeconds > 0.0f
@@ -180,11 +201,20 @@ void GameplayActorShields::update(
             entry.current = 0.0f;
             continue;
         }
-        const MonsterShieldProfile &profile = *entry.pProfile;
         const float before = entry.current;
-        const float multiplier = actorIndex < m_regenMultipliers.size() ? m_regenMultipliers[actorIndex] : 1.0f;
-        entry.current =
-            regenerateMonsterShield(profile, entry.current, entry.secondsSinceDamage, deltaSeconds, multiplier);
+        if (profile.requiresLink && linkRate < 0.0f)
+        {
+            if (before > 0.0f)
+            {
+                breakShield(entry, entry.center);
+                entry.secondsSinceDamage = 0.0f;
+            }
+        }
+        else
+        {
+            entry.current = regenerateMonsterShield(profile, before, entry.secondsSinceDamage, deltaSeconds,
+                std::max(1.0f, linkRate), entry.pool);
+        }
         entry.secondsSinceDamage = std::min(entry.secondsSinceDamage + deltaSeconds, 3600.0f);
         if (before <= 0.0f && entry.current > 0.0f && profile.pool > 0)
         {
@@ -208,7 +238,7 @@ bool GameplayActorShields::allied(const Entry &linker, const Entry &other) const
 
 void GameplayActorShields::updateLinks()
 {
-    m_regenMultipliers.assign(m_entries.size(), 1.0f);
+    m_regenMultipliers.assign(m_entries.size(), -1.0f);
     const auto inReach = [](const Entry &linker, const Entry &other)
     {
         const float deltaX = other.center[0] - linker.center[0];
@@ -219,7 +249,7 @@ void GameplayActorShields::updateLinks()
     };
     for (const Entry &linker : m_entries)
     {
-        if (!linker.used || !linker.alive || linker.pProfile == nullptr || linker.pProfile->linkRadius <= 0.0f)
+        if (!linker.alive || !linker.suppliesLink)
         {
             continue;
         }
@@ -406,7 +436,7 @@ void GameplayActorShields::view(size_t actorIndex, GameplayActorShieldView &view
     const MonsterShieldProfile &profile = *entry.pProfile;
     view.present = true;
     view.raised = entry.current > 0.0f;
-    view.fraction = std::clamp(entry.current / float(profile.pool), 0.0f, 1.0f);
+    view.fraction = std::clamp(entry.current / std::max(entry.pool, 1.0f), 0.0f, 1.0f);
     if (const ShieldGradeDefinition *pGrade = m_pTable->grade(profile))
     {
         view.color = pGrade->color;
@@ -433,7 +463,7 @@ bool GameplayActorShields::setShieldPoints(size_t actorIndex, float points)
         return false;
     }
     Entry &entry = m_entries[actorIndex];
-    entry.current = std::clamp(points, 0.0f, float(entry.pProfile->pool));
+    entry.current = std::clamp(points, 0.0f, entry.pool);
     return true;
 }
 

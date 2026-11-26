@@ -144,7 +144,10 @@ void main()
 {
     clipWorldPosition(v_worldPosition);
     vec3 position = v_worldPosition;
-    // The triangle's own normal.z from the screen-space derivatives, taken before any branch.
+#if CONTINUOUS_BANK_PROJECTION
+    float faceUp = TERRAIN_VARYING.z;
+#else
+    // The native projection uses the triangle's own normal, taken before any fragment branches.
     vec3 faceNormal = cross(dFdx(position), dFdy(position));
     float faceUp = abs(faceNormal.z) * inversesqrt(max(dot(faceNormal, faceNormal), 1.0e-12));
 #endif
@@ -210,10 +213,11 @@ void main()
         vec4 weights1 = texture2DArray(s_terrainWeights, vec3(mapUv, 1.0));
         vec4 macroSample = texture2D(s_terrainMacro, position.xy / 16384.0);
         // The meadow field is smooth; mid-scale noise frays the borders of its dry and lush patches.
-        float meadow = clamp(v_texcoord0.y + (macroSample.g - 0.5) * 0.5 + (macroSample.a - 0.5) * 0.3, -1.0, 1.0);
-        blendTerrainMaterial(weights0, weights1, position, geometricNormal, faceUp, v_texcoord0.x, macroSample, meadow,
-            plain, u_terrainShore.w, albedo, shadingNormal, occlusion, roughness, layerSpecular, layerWetSheen, glow,
-            pool);
+        float meadow = clamp(TERRAIN_VARYING.y + (macroSample.g - 0.5) * 0.5
+            + (macroSample.a - 0.5) * 0.3, -1.0, 1.0);
+        blendTerrainMaterial(weights0, weights1, position, geometricNormal, faceUp, TERRAIN_VARYING.x, macroSample,
+            meadow, plain, u_terrainShore.w, albedo, shadingNormal, occlusion, roughness, layerSpecular, layerWetSheen,
+            glow, pool);
         if (u_terrainShore.y > 0.5)
         {
             albedo = shoreAlbedo(albedo, position, shore);

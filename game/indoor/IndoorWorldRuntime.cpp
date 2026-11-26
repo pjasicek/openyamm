@@ -13152,6 +13152,19 @@ float IndoorWorldRuntime::partyY() const
     return m_pPartyRuntime != nullptr ? m_pPartyRuntime->partyY() : 0.0f;
 }
 
+std::optional<float> IndoorWorldRuntime::eventFloorHeight(float x, float y, std::optional<float> z) const
+{
+    if (m_pIndoorMapData == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    // The standing floor nearest the height (the party's feet without one), as an exact summon point finds its ground.
+    RuntimeGeometryCache &geometry = runtimeGeometryCache();
+    return findIndoorStandingFloorHeight(*m_pIndoorMapData, geometry.vertices, geometry.geometryCache, x, y,
+        z.value_or(partyFootZ()), SpawnPointGroundReach);
+}
+
 float IndoorWorldRuntime::partyFootZ() const
 {
     if (m_actingBody)
@@ -14284,6 +14297,8 @@ void IndoorWorldRuntime::updateActorShields(float deltaSeconds)
             .center = {aiState.preciseX, aiState.preciseY,
                 aiState.preciseZ + static_cast<float>(aiState.collisionHeight) * 0.5f},
             .hostileToParty = aiState.hostileToParty,
+            .group = actor.group,
+            .maxHp = aiState.bolster ? aiState.bolster->maxHp : 0,
         };
     });
 
@@ -24399,6 +24414,22 @@ bool IndoorWorldRuntime::isMapActorDead(size_t actorIndex) const
     const MapDeltaData *pMapDeltaData = mapDeltaData();
     return pMapDeltaData != nullptr && actorIndex < pMapDeltaData->actors.size()
         && pMapDeltaData->actors[actorIndex].hp <= 0;
+}
+
+bool IndoorWorldRuntime::mapActorHp(size_t actorIndex, int &hp, int &maxHp) const
+{
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || actorIndex >= pMapDeltaData->actors.size())
+    {
+        return false;
+    }
+
+    hp = pMapDeltaData->actors[actorIndex].hp;
+    maxHp = actorIndex < m_mapActorAiStates.size() && m_mapActorAiStates[actorIndex].bolster
+        ? m_mapActorAiStates[actorIndex].bolster->maxHp
+        : hp;
+    return true;
 }
 
 bool IndoorWorldRuntime::isMapActorWithinPartyDistance(size_t actorIndex, float distance) const

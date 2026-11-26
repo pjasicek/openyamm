@@ -274,28 +274,14 @@ bool DecorationModelSet::raycast(size_t billboardIndex, const std::array<float, 
     {
         return false;
     }
-    const Engine::ModelMatrix &matrix = group.placements[slot.index].matrix;
-    bool hit = false;
     float best = std::numeric_limits<float>::max();
-    // Camera-facing cards (flames) face the ray's origin, as they face the camera when drawn. They turn outside the
-    // rest bounds, so they skip the broad phase; models carry only a few of them.
-    const std::vector<std::array<float, 3>> &cards = m_bindings[slot.group].billboardPickTriangles;
-    const std::vector<std::array<float, 3>> &pivots = m_bindings[slot.group].billboardPickPivots;
-    for (size_t index = 0; index + 2 < cards.size(); index += 3)
+    bool hit = hitPlacement(size_t(slot.group), slot.index, origin, direction, best);
+    for (const auto &[partGroup, partIndex] : slot.parts)
     {
-        float t = 0.0f;
-        const std::array<float, 3> a = facingCardCorner(matrix, cards[index], origin, pivots[index]);
-        const std::array<float, 3> b = facingCardCorner(matrix, cards[index + 1], origin, pivots[index + 1]);
-        const std::array<float, 3> c = facingCardCorner(matrix, cards[index + 2], origin, pivots[index + 2]);
-        if (intersectTriangle(origin, direction, a, b, c, t) && t >= 0.0f && t < best)
+        if (hitPlacement(size_t(partGroup), partIndex, origin, direction, best))
         {
-            best = t;
             hit = true;
         }
-    }
-    if (rigidHit(slot, origin, direction, best))
-    {
-        hit = true;
     }
     if (hit)
     {
@@ -309,21 +295,40 @@ std::array<float, 3> DecorationModelSet::posedOffset(size_t billboardIndex) cons
     return billboardIndex < m_slots.size() ? m_slots[billboardIndex].posedOffset : std::array<float, 3>{};
 }
 
-bool DecorationModelSet::rigidHit(const Slot &slot, const std::array<float, 3> &origin,
+bool DecorationModelSet::hitPlacement(size_t groupIndex, size_t placementIndex, const std::array<float, 3> &origin,
     const std::array<float, 3> &direction, float &best) const
 {
-    const Engine::ModelStaticGroup &group = m_groups[size_t(slot.group)];
+    const Engine::ModelStaticGroup &group = m_groups[groupIndex];
+    const Binding &binding = m_bindings[groupIndex];
+    const Engine::ModelMatrix &matrix = group.placements[placementIndex].matrix;
+    bool hit = false;
+    // Camera-facing cards (flames) face the ray's origin, as they face the camera when drawn. They turn outside the
+    // rest bounds, so they skip the broad phase; models carry only a few of them.
+    const std::vector<std::array<float, 3>> &cards = binding.billboardPickTriangles;
+    const std::vector<std::array<float, 3>> &pivots = binding.billboardPickPivots;
+    for (size_t index = 0; index + 2 < cards.size(); index += 3)
+    {
+        float t = 0.0f;
+        const std::array<float, 3> a = facingCardCorner(matrix, cards[index], origin, pivots[index]);
+        const std::array<float, 3> b = facingCardCorner(matrix, cards[index + 1], origin, pivots[index + 1]);
+        const std::array<float, 3> c = facingCardCorner(matrix, cards[index + 2], origin, pivots[index + 2]);
+        if (intersectTriangle(origin, direction, a, b, c, t) && t >= 0.0f && t < best)
+        {
+            best = t;
+            hit = true;
+        }
+    }
     // Broad phase against the placement's world bounds.
-    const Engine::ModelBounds &bounds = group.bounds[slot.index];
+    const Engine::ModelBounds &bounds = group.bounds[placementIndex];
     float enter = 0.0f;
-    float leave = std::numeric_limits<float>::max();
+    float leave = best;
     for (size_t axis = 0; axis < 3; ++axis)
     {
         if (std::abs(direction[axis]) < 1e-9f)
         {
             if (origin[axis] < bounds.min[axis] || origin[axis] > bounds.max[axis])
             {
-                return false;
+                return hit;
             }
             continue;
         }
@@ -337,14 +342,13 @@ bool DecorationModelSet::rigidHit(const Slot &slot, const std::array<float, 3> &
         leave = std::min(leave, far);
         if (enter > leave)
         {
-            return false;
+            return hit;
         }
     }
     // The ray in asset space: the placement matrix is affine, so the ray parameter is the same in both spaces.
-    const std::array<float, 3> localOrigin = transformInverse(group.placements[slot.index].matrix, origin, true);
-    const std::array<float, 3> localDirection = transformInverse(group.placements[slot.index].matrix, direction, false);
-    const std::vector<std::array<float, 3>> &triangles = m_bindings[size_t(slot.group)].pickTriangles;
-    bool hit = false;
+    const std::array<float, 3> localOrigin = transformInverse(matrix, origin, true);
+    const std::array<float, 3> localDirection = transformInverse(matrix, direction, false);
+    const std::vector<std::array<float, 3>> &triangles = binding.pickTriangles;
     for (size_t index = 0; index + 2 < triangles.size(); index += 3)
     {
         float t = 0.0f;
@@ -981,6 +985,8 @@ bool DecorationModelSet::loadParts(const Engine::AssetFileSystem &assets, const 
         }
         Binding part;
         part.asset = loaded.asset;
+        part.pickTriangles = pickTriangles(*part.asset, false);
+        part.billboardPickTriangles = pickTriangles(*part.asset, true, &part.billboardPickPivots);
         part.lodPixels = m_bindings[served].lodPixels;
         part.materialVariant = m_bindings[served].materialVariant;
         if (!rigidMovingNode(part, error))

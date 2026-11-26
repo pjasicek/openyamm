@@ -3247,6 +3247,10 @@ bool IndoorRenderer::initialize(
             loadProgram("vs_model_skinned_instanced", "fs_model_emissive"),
             loadProgram("vs_model_instanced", "fs_model_emissive")};
     });
+    m_modelRenderer.setStaticDetailProgramLoader([]()
+    {
+        return loadProgram("vs_model_instanced", "fs_model_detail");
+    });
     m_modelRenderer.setShieldShellProgramLoader([]()
     {
         return loadProgram("vs_model_shield", "fs_model_shield");
@@ -7204,6 +7208,7 @@ void IndoorRenderer::renderOpenSky(uint16_t viewId, const float *pViewMatrix, co
     if (m_pSceneRuntime != nullptr)
     {
         inputs.gameMinutes = m_pSceneRuntime->worldRuntime().gameMinutes();
+        inputs.pCampaign = &m_pSceneRuntime->partyRuntime().party().campaign();
     }
     inputs.weatherSkyName = m_openSky.skyTexture;
     inputs.forcedPreset = m_openSky.preset;
@@ -11161,7 +11166,8 @@ bool IndoorRenderer::updateWaterGeometry()
             for (const bx::Vec3 &position : positions)
             {
                 vertices.push_back({position.x, position.y, position.z, 0.0f, 0.0f, 1.0f,
-                    flow[0], flow[1], 0.0f, 0.0f, batch.waterColorAbgr, liquidShaderValue(batch.liquid)});
+                    flow[0], flow[1], batch.lavaPatternScale, batch.lavaCrust, batch.waterColorAbgr,
+                    batch.lavaTinted ? 4.0f : liquidShaderValue(batch.liquid)});
             }
         }
         std::vector<WaterSurfaceGeometry> surfaces =
@@ -12826,6 +12832,9 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
                 : int16_t(-1);
         uint32_t waterColorAbgr = 0;
         LiquidKind liquid = LiquidKind::None;
+        float lavaPatternScale = 0.0f;
+        float lavaCrust = 0.0f;
+        bool lavaTinted = false;
         const uint32_t attributes = runtimeMapDeltaData() && faceIndex < runtimeMapDeltaData()->faceAttributes.size()
             ? runtimeMapDeltaData()->faceAttributes[faceIndex] : face.attributes;
         // An open-sky map's sky faces are not drawn: the sky pass shows behind them (renderOpenSky).
@@ -12838,6 +12847,12 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
         {
             liquid = faceLiquidKind(attributes, materialTexture->second->liquid);
             waterColorAbgr = liquid != LiquidKind::None ? materialTexture->second->waterColorAbgr : 0;
+            if (liquid == LiquidKind::Lava)
+            {
+                lavaPatternScale = materialTexture->second->lavaPatternScale;
+                lavaCrust = materialTexture->second->lavaCrust;
+                lavaTinted = materialTexture->second->lavaTinted;
+            }
         }
         // A lightmapped face batches with the faces of its page; every other face (and every face of a map without
         // baked lighting) takes page -1, as before. A door-moved face is lightmapped only when the bake has it (in the
@@ -12871,6 +12886,9 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
             batch.backSectorId = backSectorId;
             batch.waterColorAbgr = waterColorAbgr;
             batch.liquid = liquid;
+            batch.lavaPatternScale = lavaPatternScale;
+            batch.lavaCrust = lavaCrust;
+            batch.lavaTinted = lavaTinted;
             batch.lightmapPage = lightmapPage;
             batch.daylit = indoorDaylightSector(m_daylight, sectorId);
             if (pTranslucency != nullptr)

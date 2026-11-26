@@ -298,6 +298,7 @@ void IndoorOpenSkyWeather::render(uint16_t viewId, const std::array<float, 3> &c
     frame.ashLevel = m_presentation.ashLevel();
     frame.snowLook = rules.snowFlakes;
     frame.ashLook = settings.ashLook.value_or(rules.ashFlakes);
+    frame.emberLook = settings.emberLook;
     frame.rainColor = settings.rainColor;
     frame.windX = m_presentation.windX();
     frame.windY = m_presentation.windY();

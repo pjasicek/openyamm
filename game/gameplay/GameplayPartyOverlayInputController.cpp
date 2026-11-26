@@ -1,5 +1,6 @@
 #include "game/gameplay/GameplayPartyOverlayInputController.h"
 #include "game/ui/GameplaySoloTalentsPage.h"
+#include "game/ui/GameplayWebOfWorlds.h"
 #include "engine/Localization.h"
 
 #include "engine/Utf8Text.h"
@@ -865,6 +866,11 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
         }
 
         const Party *pParty = context.partyReadOnly();
+        if (GameplayWebOfWorlds::pageShown(context))
+        {
+            GameplayWebOfWorlds::greetOnFirstOpen(context);
+        }
+
         const auto findTownPortalTarget =
             [&context, screenWidth, screenHeight, pParty](
                 float pointerX,
@@ -890,11 +896,48 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                     }
                 }
 
-                const size_t continentCount = context.townPortalContinents().size();
+                // The Web of Worlds page: its chart's own targets (with its own Close) over the whole page.
+                const GameplayScreenRuntime::HudLayoutElement *pPageLayout =
+                    context.findHudLayoutElement("TownPortalBackground");
 
-                for (size_t index = 0; continentCount > 1 && index < continentCount; ++index)
+                if (GameplayWebOfWorlds::pageShown(context) && pPageLayout != nullptr)
                 {
-                    const std::string buttonId = townPortalContinentButtonId(index);
+                    const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> pageResolved =
+                        context.resolveHudLayoutElement("TownPortalBackground", screenWidth, screenHeight,
+                            pPageLayout->width, pPageLayout->height);
+
+                    if (!pageResolved)
+                    {
+                        return {};
+                    }
+
+                    GameplayResolvedHudLayoutElement page = *pageResolved;
+                    page.scale = pageResolved->width / 640.0f;
+                    return GameplayWebOfWorlds::pointerTarget(
+                        GameplayWebOfWorlds::targetAt(context, page, pointerX, pointerY));
+                }
+
+                const bool webTab = GameplayWebOfWorlds::hasPage(context);
+                const size_t continentCount = context.townPortalContinents().size() - (webTab ? 1 : 0);
+
+                if (webTab)
+                {
+                    const GameplayScreenRuntime::HudLayoutElement *pWebLayout =
+                        context.findHudLayoutElement("TownPortalWebButton");
+                    const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> webResolved =
+                        pWebLayout == nullptr ? std::nullopt
+                                              : context.resolveHudLayoutElement("TownPortalWebButton", screenWidth,
+                                                    screenHeight, pWebLayout->width, pWebLayout->height);
+
+                    if (webResolved && context.isPointerInsideResolvedElement(*webResolved, pointerX, pointerY))
+                    {
+                        return {GameplayUtilitySpellPointerTargetType::TownPortalWebTab, 0};
+                    }
+                }
+
+                for (size_t index = 0; (continentCount > 1 || webTab) && index < continentCount; ++index)
+                {
+                    const std::string buttonId = townPortalContinentButtonId(index, webTab);
                     const GameplayScreenRuntime::HudLayoutElement *pButtonLayout =
                         context.findHudLayoutElement(buttonId);
 
@@ -1029,6 +1072,31 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                 if (target.type == GameplayUtilitySpellPointerTargetType::TownPortalContinent)
                 {
                     context.selectTownPortalContinent(target.index);
+                    return;
+                }
+
+                if (target.type == GameplayUtilitySpellPointerTargetType::TownPortalWebTab)
+                {
+                    if (!GameplayWebOfWorlds::unlocked(context))
+                    {
+                        context.setStatusBarEvent(GameplayWebOfWorlds::tabHint(context), 3.0f);
+                        return;
+                    }
+
+                    context.selectTownPortalContinent(context.townPortalContinents().size() - 1);
+                    return;
+                }
+
+                if (target.type == GameplayUtilitySpellPointerTargetType::WebOfWorlds)
+                {
+                    PartySpellCastRequest request = context.utilitySpellOverlayReadOnly().castRequest();
+
+                    if (GameplayWebOfWorlds::activate(
+                            context, GameplayWebOfWorlds::fromPointerTarget(target), request))
+                    {
+                        context.tryCastSpellRequest(request, resolveSpellName());
+                    }
+
                     return;
                 }
 

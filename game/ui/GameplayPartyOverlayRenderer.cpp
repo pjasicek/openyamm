@@ -38,6 +38,7 @@
 #include "game/ui/GameplayJournalAuras.h"
 #include "game/ui/GameplayJournalProgress.h"
 #include "game/ui/GameplayJournalTrainers.h"
+#include "game/ui/GameplayWebOfWorlds.h"
 #include "game/party/SkillData.h"
 #include "game/party/WorldSpells.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
@@ -81,8 +82,6 @@ constexpr int RestSkyFrameCount = 244;
 constexpr int RestDaysPerMonth = 28;
 constexpr int RestMonthsPerYear = 12;
 constexpr int RestStartingYear = 1168;
-constexpr int JournalRevealWidth = 88;
-constexpr int JournalRevealHeight = 88;
 constexpr float JournalMainIconAnimationFps = 10.0f;
 constexpr char JournalMapTextureCacheName[] = "__journal_map_composited__";
 constexpr float ActorInspectMonsterHpBarMaxWidth = 200.0f;
@@ -1672,9 +1671,7 @@ size_t quickReferenceSkillCount(const Character &character)
 
     for (const auto &[skillName, skill] : character.skills)
     {
-        (void)skillName;
-
-        if (skill.level > 0 && skill.mastery != SkillMastery::None)
+        if (skill.level > 0 && skill.mastery != SkillMastery::None && skillAvailable(skillName))
         {
             ++count;
         }
@@ -5257,6 +5254,15 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(GameplayScreenRunti
             return;
         }
 
+        // The Web of Worlds page: the star chart over the whole page, with its own buttons (GameplayWebOfWorlds).
+        if (GameplayWebOfWorlds::pageShown(context))
+        {
+            GameplayResolvedHudLayoutElement page = *backgroundResolved;
+            page.scale = backgroundResolved->width / 640.0f;
+            GameplayWebOfWorlds::renderChart(context, page, mouseX, mouseY, isLeftMousePressed);
+            return;
+        }
+
         renderTexture(context.townPortalBackgroundTextureName(), *backgroundResolved);
 
         const float townPortalScale = backgroundResolved->width / 640.0f;
@@ -5346,20 +5352,29 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(GameplayScreenRunti
             context.renderLayoutLabel(*pDoorNameLayout, nameResolved, Engine::localize(destination.label));
         }
 
-        // Every continent this installation has towns on; Dimension Door's single map has no buttons.
+        // Every continent this installation has towns on; Dimension Door's single map has no buttons. With the Web of
+        // Worlds (always the last page) the row is the compact one and the Web has its own tab.
         const std::vector<GameplayTownPortalContinent> &continents = context.townPortalContinents();
+        const bool webTab = GameplayWebOfWorlds::hasPage(context);
+        const size_t continentButtons = continents.size() - (webTab ? 1 : 0);
 
-        for (size_t index = 0; continents.size() > 1 && index < continents.size(); ++index)
+        for (size_t index = 0; continents.size() > 1 && index < continentButtons; ++index)
         {
             const std::string label = Engine::localize(continents[index].label);
             GameplayUiSkin::renderButton(
                 context,
-                townPortalContinentButtonId(index),
+                townPortalContinentButtonId(index, webTab),
                 width,
                 height,
                 index == context.townPortalContinentIndex(),
                 true,
                 &label);
+        }
+
+        if (webTab)
+        {
+            GameplayWebOfWorlds::renderTab(context, width, height, mouseX, mouseY,
+                isLeftMousePressed && pressedTarget.type == GameplayUtilitySpellPointerTargetType::TownPortalWebTab);
         }
 
         const GameplayScreenRuntime::HudLayoutElement *pCloseLayout =
@@ -10626,7 +10641,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         }
 
         if (normalizedLayoutId == "characterdollrighthand"
-            && !characterScreen.dollJewelryOverlayOpen
+            && !dollOverlayOpen
             && pCharacterDollEntry != nullptr
             && pCharacterDollType != nullptr)
         {
@@ -10645,7 +10660,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         }
 
         if (normalizedLayoutId == "characterdolllefthand"
-            && !characterScreen.dollJewelryOverlayOpen
+            && !dollOverlayOpen
             && pCharacterDollEntry != nullptr
             && pCharacterDollType != nullptr)
         {
@@ -10684,7 +10699,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         }
 
         if (normalizedLayoutId == "characterdollrighthandfingers"
-            && !characterScreen.dollJewelryOverlayOpen
+            && !dollOverlayOpen
             && pCharacterDollEntry != nullptr
             && pCharacterDollType != nullptr
             && (pMainHandItem != nullptr || offHandWeaponGripAbove))

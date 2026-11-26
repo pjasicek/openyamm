@@ -5,6 +5,7 @@
 #include <yaml-cpp/yaml.h>
 
 #include <algorithm>
+#include <functional>
 #include <cmath>
 #include <exception>
 #include <initializer_list>
@@ -262,15 +263,27 @@ public:
 
         const std::string where = std::string("flakes.") + pKey;
 
-        if (!checkKeys(node, {"color", "fall_speed", "size", "alpha", "sway", "sway_rate", "haze"}, where)
+        if (!checkKeys(node, {"color", "fall_speed", "size", "alpha", "sway", "sway_rate", "haze", "density", "embers"},
+                where)
             || !readOptionalFloats(node, "color", look.color, 0.0f, 4.0f, where)
-            || !readOptionalFloat(node, "fall_speed", look.fallSpeed, 1.0f, 2000.0f, where)
+            || !readOptionalFloat(node, "fall_speed", look.fallSpeed, -2000.0f, 2000.0f, where)
+            || !readOptionalFloat(node, "density", look.density, 0.0f, 1.0f, where)
             || !readOptionalFloats(node, "size", look.size, 0.1f, 100.0f, where)
             || !readOptionalFloats(node, "alpha", look.alpha, 0.0f, 1.0f, where)
             || !readOptionalFloat(node, "sway", look.sway, 0.0f, 500.0f, where)
             || !readOptionalFloat(node, "sway_rate", look.swayRate, 0.0f, 20.0f, where))
         {
             return false;
+        }
+
+        if (std::abs(look.fallSpeed) < 1.0f)
+        {
+            return fail(where + ".fall_speed must be at least 1 either way (negative rises)");
+        }
+
+        if (node["embers"])
+        {
+            look.embers = toLowerCopy(node["embers"].as<std::string>());
         }
 
         if (const YAML::Node haze = node["haze"]; haze && haze.IsScalar() && haze.as<std::string>() == "none")
@@ -339,35 +352,36 @@ bool WeatherRules::loadFromYaml(const std::string &yamlText, std::string &errorM
                 return parser.fail("maps must be a map");
             }
 
-            for (const auto &entry : maps)
+            std::function<bool(const YAML::Node &, const std::string &, WeatherMapChances &)> parseEntry;
+            parseEntry = [&](const YAML::Node &node, const std::string &where, WeatherMapChances &chances) -> bool
             {
-                const std::string mapName = toLowerCopy(entry.first.as<std::string>());
-                const std::string where = "maps." + mapName;
-                WeatherMapChances chances;
                 float value = 0.0f;
 
-                if (!parser.checkKeys(entry.second,
-                        {"rain", "snow", "ash", "ash_look", "dry_lightning", "rain_color", "always", "peak", "fog"},
+                if (!parser.checkKeys(node,
+                        {"rain", "snow", "ash", "ash_look", "dry_lightning", "rain_color", "always", "peak", "fog",
+                            "until_qbit", "then"},
                         where))
                 {
                     return false;
                 }
 
-                if (entry.second["always"])
+                if (node["always"])
                 {
-                    const std::string kind = toLowerCopy(entry.second["always"].as<std::string>());
+                    const std::string kind = toLowerCopy(node["always"].as<std::string>());
 
-                    if (kind != "rain" && kind != "snow")
+                    if (kind != "rain" && kind != "snow" && kind != "ash")
                     {
-                        return parser.fail(where + ".always must be rain or snow");
+                        return parser.fail(where + ".always must be rain, snow or ash");
                     }
 
-                    chances.always = kind == "rain" ? PrecipitationKind::Rain : PrecipitationKind::Snow;
+                    chances.always = kind == "rain" ? PrecipitationKind::Rain
+                        : kind == "snow"            ? PrecipitationKind::Snow
+                                                    : PrecipitationKind::Ash;
                 }
 
-                if (entry.second["peak"])
+                if (node["peak"])
                 {
-                    if (!parser.readFloat(entry.second["peak"], value, 0.05f, 1.0f, where + ".peak"))
+                    if (!parser.readFloat(node["peak"], value, 0.05f, 1.0f, where + ".peak"))
                     {
                         return false;
                     }
@@ -375,14 +389,14 @@ bool WeatherRules::loadFromYaml(const std::string &yamlText, std::string &errorM
                     chances.alwaysPeak = value;
                 }
 
-                if (entry.second["ash_look"])
+                if (node["ash_look"])
                 {
-                    chances.ashLook = entry.second["ash_look"].as<std::string>();
+                    chances.ashLook = node["ash_look"].as<std::string>();
                 }
 
-                if (entry.second["dry_lightning"])
+                if (node["dry_lightning"])
                 {
-                    if (!parser.readFloat(entry.second["dry_lightning"], value, 0.0f, 100.0f, where + ".dry_lightning"))
+                    if (!parser.readFloat(node["dry_lightning"], value, 0.0f, 100.0f, where + ".dry_lightning"))
                     {
                         return false;
                     }
@@ -390,11 +404,11 @@ bool WeatherRules::loadFromYaml(const std::string &yamlText, std::string &errorM
                     chances.dryLightningPercent = value;
                 }
 
-                if (entry.second["rain_color"])
+                if (node["rain_color"])
                 {
                     std::array<float, 3> color = DefaultRainColor;
 
-                    if (!parser.readOptionalFloats(entry.second, "rain_color", color, 0.0f, 4.0f, where))
+                    if (!parser.readOptionalFloats(node, "rain_color", color, 0.0f, 4.0f, where))
                     {
                         return false;
                     }
@@ -402,9 +416,9 @@ bool WeatherRules::loadFromYaml(const std::string &yamlText, std::string &errorM
                     chances.rainColor = color;
                 }
 
-                if (entry.second["rain"])
+                if (node["rain"])
                 {
-                    if (!parser.readFloat(entry.second["rain"], value, 0.0f, 100.0f, where + ".rain"))
+                    if (!parser.readFloat(node["rain"], value, 0.0f, 100.0f, where + ".rain"))
                     {
                         return false;
                     }
@@ -412,9 +426,9 @@ bool WeatherRules::loadFromYaml(const std::string &yamlText, std::string &errorM
                     chances.rainPercent = value;
                 }
 
-                if (entry.second["snow"])
+                if (node["snow"])
                 {
-                    if (!parser.readFloat(entry.second["snow"], value, 0.0f, 100.0f, where + ".snow"))
+                    if (!parser.readFloat(node["snow"], value, 0.0f, 100.0f, where + ".snow"))
                     {
                         return false;
                     }
@@ -422,9 +436,9 @@ bool WeatherRules::loadFromYaml(const std::string &yamlText, std::string &errorM
                     chances.snowPercent = value;
                 }
 
-                if (entry.second["ash"])
+                if (node["ash"])
                 {
-                    if (!parser.readFloat(entry.second["ash"], value, 0.0f, 100.0f, where + ".ash"))
+                    if (!parser.readFloat(node["ash"], value, 0.0f, 100.0f, where + ".ash"))
                     {
                         return false;
                     }
@@ -432,11 +446,11 @@ bool WeatherRules::loadFromYaml(const std::string &yamlText, std::string &errorM
                     chances.ashPercent = value;
                 }
 
-                if (entry.second["fog"])
+                if (node["fog"])
                 {
                     std::array<float, 3> fog = {};
 
-                    if (!parser.readFloats(entry.second["fog"], fog, 0.0f, 100.0f, where + ".fog"))
+                    if (!parser.readFloats(node["fog"], fog, 0.0f, 100.0f, where + ".fog"))
                     {
                         return false;
                     }
@@ -447,6 +461,48 @@ bool WeatherRules::loadFromYaml(const std::string &yamlText, std::string &errorM
                     }
 
                     chances.fogPercent = fog;
+                }
+
+                // Lane V-W (Hesper, DECISIONS H-84): the entry holds until the QBit is set; then `then` (the same keys,
+                // its own until_qbit allowed), or no weather of this entry's at all.
+                if (node["until_qbit"])
+                {
+                    chances.untilQBit = node["until_qbit"].as<uint32_t>(0);
+
+                    if (chances.untilQBit == 0)
+                    {
+                        return parser.fail(where + ".until_qbit must be a QBit number");
+                    }
+                }
+
+                if (node["then"])
+                {
+                    if (chances.untilQBit == 0 || !node["then"].IsMap())
+                    {
+                        return parser.fail(where + ".then needs an until_qbit and must be a map");
+                    }
+
+                    WeatherMapChances next;
+
+                    if (!parseEntry(node["then"], where + ".then", next))
+                    {
+                        return false;
+                    }
+
+                    chances.then = std::make_shared<const WeatherMapChances>(std::move(next));
+                }
+
+                return true;
+            };
+
+            for (const auto &entry : maps)
+            {
+                const std::string mapName = toLowerCopy(entry.first.as<std::string>());
+                WeatherMapChances chances;
+
+                if (!parseEntry(entry.second, "maps." + mapName, chances))
+                {
+                    return false;
                 }
 
                 rules.maps[mapName] = chances;
@@ -616,13 +672,76 @@ bool WeatherRules::loadFromYaml(const std::string &yamlText, std::string &errorM
 
     for (const auto &[mapName, chances] : rules.maps)
     {
-        if (chances.ashLook && *chances.ashLook != "ash" && !rules.namedFlakes.contains(toLowerCopy(*chances.ashLook)))
+        for (const WeatherMapChances *pEntry = &chances; pEntry != nullptr; pEntry = pEntry->then.get())
         {
-            return parser.fail("maps." + mapName + ".ash_look names no flakes entry: " + *chances.ashLook);
+            if (pEntry->ashLook && *pEntry->ashLook != "ash"
+                && !rules.namedFlakes.contains(toLowerCopy(*pEntry->ashLook)))
+            {
+                return parser.fail("maps." + mapName + ".ash_look names no flakes entry: " + *pEntry->ashLook);
+            }
+        }
+    }
+
+    for (const auto &[name, look] : rules.namedFlakes)
+    {
+        if (!look.embers.empty() && !rules.namedFlakes.contains(look.embers))
+        {
+            return parser.fail("flakes." + name + ".embers names no flakes entry: " + look.embers);
         }
     }
 
     *this = std::move(rules);
+    return true;
+}
+
+bool WeatherRules::appendWorldYaml(const std::string &yamlText, std::string &errorMessage)
+{
+    errorMessage.clear();
+
+    try
+    {
+        const YAML::Node root = YAML::Load(yamlText);
+
+        for (const auto &entry : root)
+        {
+            const std::string key = entry.first.as<std::string>();
+
+            if (key != "version" && key != "maps" && key != "flakes")
+            {
+                errorMessage = "a world's weather.yml holds only version, maps and flakes, not " + key;
+                return false;
+            }
+        }
+
+        if (const YAML::Node flakes = root["flakes"]; flakes && (flakes["snow"] || flakes["ash"]))
+        {
+            errorMessage = "a world's weather.yml cannot change flakes.snow or flakes.ash; name its own look";
+            return false;
+        }
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = std::string("weather: ") + exception.what();
+        return false;
+    }
+
+    WeatherRules world;
+
+    if (!world.loadFromYaml(yamlText, errorMessage))
+    {
+        return false;
+    }
+
+    for (auto &[name, look] : world.namedFlakes)
+    {
+        namedFlakes[name] = std::move(look);
+    }
+
+    for (auto &[mapName, chances] : world.maps)
+    {
+        maps[mapName] = std::move(chances);
+    }
+
     return true;
 }
 
@@ -642,7 +761,8 @@ std::optional<float> WeatherRules::namedIntensity(const std::string &name) const
 }
 
 WeatherMapSettings resolveWeatherMapSettings(const WeatherRules &rules, uint32_t mapId,
-    const std::string &mapFileName, bool rainEnabled, bool snowEnabled, float sceneAshPercent)
+    const std::string &mapFileName, bool rainEnabled, bool snowEnabled, float sceneAshPercent,
+    const std::function<bool(uint32_t)> &isQBitSet)
 {
     WeatherMapSettings settings;
     settings.mapId = mapId;
@@ -652,35 +772,87 @@ WeatherMapSettings resolveWeatherMapSettings(const WeatherRules &rules, uint32_t
     settings.snowChancePercent = rules.snowChancePercent;
     settings.ashChancePercent = std::clamp(sceneAshPercent, 0.0f, 100.0f);
     settings.ashEnabled = settings.ashChancePercent > 0.0f;
+    settings.mapFileName = mapFileName;
+    settings.requestedRain = rainEnabled;
+    settings.requestedSnow = snowEnabled;
+    settings.sceneAshPercent = sceneAshPercent;
 
-    if (const auto it = rules.maps.find(toLowerCopy(mapFileName)); it != rules.maps.end())
+    if (const auto found = rules.maps.find(toLowerCopy(mapFileName)); found != rules.maps.end())
     {
-        settings.rainChancePercent = it->second.rainPercent.value_or(settings.rainChancePercent);
-        settings.snowChancePercent = it->second.snowPercent.value_or(settings.snowChancePercent);
-        settings.ashChancePercent = it->second.ashPercent.value_or(settings.ashChancePercent);
-        settings.ashEnabled = settings.ashChancePercent > 0.0f;
-        settings.dryLightningPercent = it->second.dryLightningPercent.value_or(0.0f);
-        settings.rainColor = it->second.rainColor.value_or(DefaultRainColor);
-        settings.fogChancePercent = it->second.fogPercent.value_or(std::array<float, 3>{});
+        // The until_qbit chain: each entry holds until its QBit is set; past an entry without `then`, nothing of it.
+        static const WeatherMapChances NoWeather = {.ashPercent = 0.0f, .dryLightningPercent = 0.0f};
+        const WeatherMapChances *pEntry = &found->second;
 
-        // Only a kind the map can have (the scene's or bolster row's rain and snow).
-        if ((it->second.always == PrecipitationKind::Rain && rainEnabled)
-            || (it->second.always == PrecipitationKind::Snow && snowEnabled))
+        for (const WeatherMapChances *pLink = &found->second; pLink != nullptr && pLink->untilQBit != 0;
+             pLink = pLink->then.get())
         {
-            settings.always = it->second.always;
-            settings.alwaysPeak = it->second.alwaysPeak;
+            settings.conditionQBits.push_back(pLink->untilQBit);
         }
 
-        if (it->second.ashLook)
+        while (pEntry->untilQBit != 0 && isQBitSet && isQBitSet(pEntry->untilQBit))
         {
-            if (const auto look = rules.namedFlakes.find(toLowerCopy(*it->second.ashLook)); look != rules.namedFlakes.end())
+            ++settings.conditionStage;
+            pEntry = pEntry->then ? pEntry->then.get() : &NoWeather;
+        }
+
+        const WeatherMapChances &entry = *pEntry;
+        settings.rainChancePercent = entry.rainPercent.value_or(settings.rainChancePercent);
+        settings.snowChancePercent = entry.snowPercent.value_or(settings.snowChancePercent);
+        settings.ashChancePercent = entry.ashPercent.value_or(settings.ashChancePercent);
+        settings.ashEnabled = settings.ashChancePercent > 0.0f;
+        settings.dryLightningPercent = entry.dryLightningPercent.value_or(0.0f);
+        settings.rainColor = entry.rainColor.value_or(DefaultRainColor);
+        settings.fogChancePercent = entry.fogPercent.value_or(std::array<float, 3>{});
+
+        // Only a kind the map can have (the scene's or bolster row's rain and snow; ash anywhere).
+        if ((entry.always == PrecipitationKind::Rain && rainEnabled)
+            || (entry.always == PrecipitationKind::Snow && snowEnabled)
+            || entry.always == PrecipitationKind::Ash)
+        {
+            settings.always = entry.always;
+            settings.alwaysPeak = entry.alwaysPeak;
+            settings.ashEnabled = settings.ashEnabled || entry.always == PrecipitationKind::Ash;
+        }
+
+        if (entry.ashLook)
+        {
+            if (const auto look = rules.namedFlakes.find(toLowerCopy(*entry.ashLook)); look != rules.namedFlakes.end())
             {
                 settings.ashLook = look->second;
+
+                if (const auto embers = rules.namedFlakes.find(look->second.embers); embers != rules.namedFlakes.end())
+                {
+                    settings.emberLook = embers->second;
+                }
             }
         }
     }
 
     return settings;
+}
+
+std::optional<WeatherMapSettings> reresolveWeatherMapSettings(const WeatherRules &rules,
+    const WeatherMapSettings &settings, const std::function<bool(uint32_t)> &isQBitSet)
+{
+    if (settings.conditionQBits.empty() || !isQBitSet)
+    {
+        return std::nullopt;
+    }
+
+    size_t stage = 0;
+
+    while (stage < settings.conditionQBits.size() && isQBitSet(settings.conditionQBits[stage]))
+    {
+        ++stage;
+    }
+
+    if (stage == settings.conditionStage)
+    {
+        return std::nullopt;
+    }
+
+    return resolveWeatherMapSettings(rules, settings.mapId, settings.mapFileName, settings.requestedRain,
+        settings.requestedSnow, settings.sceneAshPercent, isQBitSet);
 }
 
 int weatherDayIndex(double gameMinutes)
@@ -726,7 +898,9 @@ WeatherDayPlan planWeatherDay(const WeatherRules &rules, const WeatherMapSetting
     if (settings.always != PrecipitationKind::None)
     {
         // A spell from each midnight past the next day's ramp up: the days overlap, so it never stops.
-        const WeatherSpellShape &shape = settings.always == PrecipitationKind::Snow ? rules.snow : rules.rain;
+        const WeatherSpellShape &shape = settings.always == PrecipitationKind::Snow ? rules.snow
+            : settings.always == PrecipitationKind::Ash                             ? rules.ash
+                                                                                    : rules.rain;
         plan.kind = settings.always;
         plan.peak = settings.alwaysPeak;
         plan.startMinute = 0.0f;

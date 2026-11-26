@@ -12,6 +12,8 @@
 
 namespace OpenYAMM::Game
 {
+class CampaignState;
+
 using SkyColor = std::array<float, 3>;
 
 // Every value a sky preset keys by game time. Colours are linear RGB; scalars use component 0.
@@ -132,6 +134,8 @@ struct SkyPreset
     std::string name;
     std::array<SkyTrack, SkyValueCount> tracks;
     float sunDiscDegrees = 1.6f;
+    std::optional<std::array<float, 3>> sunDirection;
+    bool eclipse = false;
     float moonDiscDegrees = 2.2f;
     // The moon disc's texture (engine/rendering/sky/<name>.oytex): a world's preset may draw its own moon.
     std::string moonTexture = "moon";
@@ -213,7 +217,9 @@ public:
     std::string presetForWeatherState(int state, int stateCount) const;
     const SkySpecialPresets &specials() const;
     // Theme for a map file name (any case, such as "out04.odm"), or null when the map has none.
-    const SkyTheme *themeForMap(const std::string &mapFileName) const;
+    // The map's theme; a map entry with `when_qbit` rules ({theme, when_qbit: [{qbit, theme}]}) takes the theme of the
+    // last rule whose QBit the party has (a cleansed sky), else its own.
+    const SkyTheme *themeForMap(const std::string &mapFileName, const CampaignState *pCampaign = nullptr) const;
     const SkyTheme *findTheme(const std::string &name) const;
     float transitionSeconds() const;
     std::vector<std::string> textureNames() const;
@@ -224,6 +230,7 @@ private:
     std::unordered_map<std::string, std::string> m_aliases;
     std::unordered_map<std::string, SkyTheme> m_themes;
     std::unordered_map<std::string, std::string> m_mapThemes;
+    std::unordered_map<std::string, std::vector<std::pair<uint32_t, std::string>>> m_mapThemeQBitRules;
     std::vector<std::string> m_weatherLadder;
     SkySpecialPresets m_specials;
     std::string m_fallback;

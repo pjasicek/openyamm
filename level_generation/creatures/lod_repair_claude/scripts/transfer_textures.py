@@ -3,7 +3,8 @@
 
 For every texel of a LOD triangle in its new UVs (unwrap_lods.py): the nearest point of LOD0 on the same connected
 piece as the triangle and facing the same way (a coat over the body, a cape over the back or a thin sheet's far side
-cannot be picked up), then LOD0's base colour, metal/roughness (bilinear) and region mask (nearest) at that point.
+cannot be picked up), then LOD0's base colour, emission and metal/roughness (bilinear) and region mask
+(nearest) at that point.
 
 The normal map is converted in the engine's own frame: fs_model.sc builds the tangent frame per pixel from position
 and UV derivatives (no stored tangents), which over a triangle is the frame of its edges and UVs. LOD0's shaded normal
@@ -147,14 +148,15 @@ def pieces(positions, faces):
     return label[welded[:, 0]], label[point]
 
 
-MAPS = ('basecolor', 'mr', 'mask', 'normal')
+MAPS = ('basecolor', 'mr', 'mask', 'normal', 'emissive')
 
 
 def material_maps(material):
     """Texture index of each map a material has (colour tiers need the region mask; effect parts lack some maps)."""
     pbr = material.get('pbrMetallicRoughness', {})
     found = {'basecolor': pbr.get('baseColorTexture'), 'mr': pbr.get('metallicRoughnessTexture'),
-             'mask': material.get('extras', {}).get('openyamm_region_mask'), 'normal': material.get('normalTexture')}
+             'mask': material.get('extras', {}).get('openyamm_region_mask'), 'normal': material.get('normalTexture'),
+             'emissive': material.get('emissiveTexture')}
     return {kind: texture['index'] for kind, texture in found.items() if texture is not None}
 
 
@@ -325,21 +327,24 @@ def main():
         lod_mesh = doc['meshes'][lod0['extras']['openyamm_lods'][level - 1]]
         # build_lods.py writes one LOD primitive per LOD0 primitive, in order.
         for index, (primitive, lod_primitive) in enumerate(zip(lod0['primitives'], lod_mesh['primitives'])):
-            if not material_maps(doc['materials'][primitive['material']]):
+            default_maps = material_maps(doc['materials'][primitive['material']])
+            own = own_map_variants(doc, primitive)
+            if not default_maps and not own:
                 continue
             corners, corner_uv = unwrapped_uvs(doc, binary, lod_primitive, index, data)
             size = int(data[f'p{index}_size'])
             # The built LOD's own UVs (build_lods.py: LOD0 UVs per triangle) are the UV correspondence.
             param_uv = floats(doc, binary, lod_primitive['attributes']['TEXCOORD_0'])[corners] \
                 if 'TEXCOORD_0' in lod_primitive['attributes'] else None
-            maps, coverage = transfer(doc, binary, primitive, lod_primitive, corners, corner_uv, size,
-                                      param_uv=param_uv)
-            for kind, picture in maps.items():
-                picture.save(unwrap_dir / f'lod{level}_p{index}_{kind}.png')
-            print(f'TRANSFERRED lod{level} primitive {index} {size}px, {coverage:.0%} of texels covered, '
-                  f'{transfer.param_share:.0%} by UV correspondence', flush=True)
+            if default_maps:
+                maps, coverage = transfer(doc, binary, primitive, lod_primitive, corners, corner_uv, size,
+                                          param_uv=param_uv)
+                for kind, picture in maps.items():
+                    picture.save(unwrap_dir / f'lod{level}_p{index}_{kind}.png')
+                print(f'TRANSFERRED lod{level} primitive {index} {size}px, {coverage:.0%} of texels covered, '
+                      f'{transfer.param_share:.0%} by UV correspondence', flush=True)
             # A variant with maps of its own (an MM9 tier with its own paint rather than ramps) gets its own far maps.
-            for variant in own_map_variants(doc, primitive):
+            for variant in own:
                 maps, _ = transfer(doc, binary, primitive, lod_primitive, corners, corner_uv, size, variant, param_uv)
                 for kind, picture in maps.items():
                     picture.save(unwrap_dir / f'lod{level}_p{index}_m{variant}_{kind}.png')

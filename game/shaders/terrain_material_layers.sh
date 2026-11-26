@@ -33,6 +33,8 @@ uniform vec4 u_terrainLayerVariant[8];
 // Per layer: rgb = glow colour of its emissive texels (0 for every material without library emissive), w = the albedo
 // warmth (red minus blue, untinted) where the glow starts: lava and creep veins glow whatever the light.
 uniform vec4 u_terrainLayerEmissive[8];
+// Per layer: x = the glow's pulse amount (0: steady), y = the pulse's phase now in radians (TerrainMaterialSet::bind).
+uniform vec4 u_terrainLayerPulse[8];
 // x = weighted layer count, y = slope layer (negative: none), z/w = slope start/end as 1 - normal.z.
 uniform vec4 u_terrainMaterialControl;
 // x = fringe strength, y = 1 / world size of the fringe noise repeat, z = 1 for second projections (anti-tiling,
@@ -87,11 +89,26 @@ vec3 detailTangent(vec4 detail, float strength)
 }
 
 
+// A layer's glow pulse at a ground point: 1 +/- amount, two slow waves drifting across the ground out of step, so
+// seams breathe in patches rather than all at once.
+float terrainGlowPulse(float layer, vec2 ground)
+{
+    vec4 pulse = u_terrainLayerPulse[int(layer + 0.5)];
+    if (pulse.x == 0.0)
+    {
+        return 1.0;
+    }
+    float wave = sin(pulse.y + dot(ground, vec2(0.00093, 0.00061))) * 0.65
+        + sin(pulse.y * 2.0 + dot(ground, vec2(-0.0021, 0.0013))) * 0.35;
+    return 1.0 + pulse.x * wave;
+}
+
 // One layer: albedo with height, world-space shading normal, and ambient occlusion with roughness. Ground layers
 // project from above; the slope layer projects onto the vertical planes so cliffs are not stretched. With
 // u_terrainMaterialMisc.z, a second projection (rotated from above, or the other vertical plane) hides the repeat
 // and blends cliff sides; detail scales its share (zero on the plain seabed). That branch is uniform, so
-// anisotropic filtering keeps its implicit derivatives. faceUp is the triangle's own normal.z.
+// anisotropic filtering keeps its implicit derivatives. The default projection uses the triangle's normal.
+// With continuous bank projection, faceUp interpolates the flattest incident face at each vertex.
 // The glow of a layer's sample: its untinted albedo where it is warm enough, in the layer's glow colour.
 vec3 terrainLayerGlow(vec3 tintedAlbedo, vec3 tint, float layer)
 {
@@ -225,9 +242,9 @@ void sampleTerrainLayer(float layer, vec3 tint, vec3 world, vec3 geometric, floa
 }
 // The ground at a point from its layer weights (weights0: layers 0-3, weights1: layers 4-7): the two strongest
 // layers, the slope layer where steepness (1 - normal.z of the broadly smoothed ground) passes the slope start, blended
-// by height with the fringe noise across their soft band. geometricNormal: the smooth surface normal; faceUp: the
-// triangle's own normal.z; macroSample: s_terrainMacro at position.xy / 16384; meadow: -1 lush .. +1 dry; plain and
-// shoreLayer: the outdoor seabed's plain share and its layer (0 and -1 elsewhere).
+// by height with the fringe noise across their soft band. geometricNormal: the smooth surface normal; faceUp:
+// the upward component for the projection blend; macroSample: s_terrainMacro at position.xy / 16384;
+// meadow: -1 lush .. +1 dry; plain and shoreLayer: the outdoor seabed's plain share and its layer (0 and -1 elsewhere).
 void blendTerrainMaterial(vec4 weights0, vec4 weights1, vec3 position, vec3 geometricNormal, float faceUp,
     float steepness, vec4 macroSample, float meadow, float plain, float shoreLayer, out vec3 albedo,
     out vec3 shadingNormal, out float occlusion, out float roughness, out float layerSpecular, out float layerWetSheen,
@@ -370,8 +387,9 @@ void blendTerrainMaterial(vec4 weights0, vec4 weights1, vec3 position, vec3 geom
     vec3 secondEmissive = u_terrainLayerEmissive[int(secondLayer + 0.5)].rgb;
     if (dot(firstEmissive + secondEmissive, vec3_splat(1.0)) > 0.0)
     {
-        glow = mix(terrainLayerGlow(firstColor.rgb, firstTint, firstLayer),
-            terrainLayerGlow(secondColor.rgb, secondTint, secondLayer), secondMix) * (1.0 - plain);
+        glow = mix(terrainLayerGlow(firstColor.rgb, firstTint, firstLayer) * terrainGlowPulse(firstLayer, position.xy),
+            terrainLayerGlow(secondColor.rgb, secondTint, secondLayer) * terrainGlowPulse(secondLayer, position.xy),
+            secondMix) * (1.0 - plain);
     }
     pool = mix(u_terrainLayerVariant[int(firstLayer + 0.5)].w * terrainSmoothstep(0.2, 0.12, firstSurface.y),
         u_terrainLayerVariant[int(secondLayer + 0.5)].w * terrainSmoothstep(0.2, 0.12, secondSurface.y), secondMix)

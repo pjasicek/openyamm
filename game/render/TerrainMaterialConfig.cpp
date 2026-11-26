@@ -117,6 +117,10 @@ std::optional<OutdoorTerrainMaterialConfig> parseTerrainMaterialConfig(
                 throw std::runtime_error("invalid slope layer");
             }
         }
+        if (const YAML::Node projection = root["continuous_bank_projection"])
+        {
+            config.continuousBankProjection = projection.as<bool>();
+        }
         config.smoothing = boundedFloat(root, "smoothing", 1.0f, 0.0f, 1.0f);
         if (const YAML::Node fringe = root["fringe"])
         {

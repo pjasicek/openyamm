@@ -44,7 +44,8 @@ const KeyList AssertKeys = {
     "mechanism", "gold", "food", "game_hour", "charges", "dimension_door", "combat_log", "journal_map_note",
     "quick_item_ring", "quick_item_popup", "implants_shown", "water", "ai_trace", "autonote", "teacher_ledger", "sprite_hidden",
     "sprite_shown",
-    "chest_view", "party_position", "turn_based", "member_points", "light", "scripted_fog", "recovering_members",
+    "chest_view", "decoration_clip", "party_position", "turn_based", "member_points", "light", "scripted_fog",
+    "recovering_members",
     // recorded:
     "scene_kind", "new_game_starting", "new_game_started", "state_dump_party", "state_dump_party_member",
     "state_dump_party_skill", "follower_hired", "follower_left", "gold_received", "starting_items"};
@@ -75,6 +76,7 @@ const std::vector<NestedKeys> AssertBlockKeys = {
     {"teacher_ledger", {"continent", "bought"}},
     {"quick_item_ring", {"open", "member_index"}},
     {"chest_view", {"open", "chest_id"}},
+    {"decoration_clip", {"key", "name"}},
     {"party_position", {"x", "y", "radius", "z_min", "z_max", "facing", "facing_within"}},
     {"quick_item_popup", {"kind", "member_index"}},
     {"implants_shown", {"member_index", "value"}},
@@ -165,7 +167,8 @@ const std::vector<StepKeys> &stepKeyTable()
         {ScenarioStepKind::CombatLoot, {"actor_index", "map", "name", "target", "item_id", "expected_item_id",
             // recorded:
             "scene_kind", "monster_id", "delivery", "pos", "item_name", "quest_like", "method"}},
-        {ScenarioStepKind::DamageActor, {"actor_index", "amount", "tier", "skip_dead", "all", "spare", "expect"}},
+        {ScenarioStepKind::DamageActor, {"actor_index", "amount", "tier", "skip_dead", "all", "spare", "expect",
+            "monster_ids", "name"}},
         {ScenarioStepKind::PartyAttack, {"actor_index", "member_index", "count", "conditions", "record", "ratio_to",
             "damage_ratio", "applied_ratio", "recovery_ratio", "min_hit_rate", "max_hit_rate", "min_average",
             "max_average", "report", "attack_spell", "min_weapon_attacks", "max_weapon_attacks", "player", "kill"}},
@@ -208,7 +211,7 @@ const std::vector<StepKeys> &stepKeyTable()
         {ScenarioStepKind::FireActorProjectile, {"actor_index", "ability", "damage"}},
         {ScenarioStepKind::BlinkActor, {"actor_index"}},
         {ScenarioStepKind::ExecuteEvent, {"id"}},
-        {ScenarioStepKind::LuaEvent, {"source", "player"}},
+        {ScenarioStepKind::LuaEvent, {"source", "player", "world_common"}},
         {ScenarioStepKind::ChargeActor, {"actor_index"}},
         {ScenarioStepKind::FrenzyActor, {"actor_index"}},
         {ScenarioStepKind::DetonateActor, {"actor_index"}},

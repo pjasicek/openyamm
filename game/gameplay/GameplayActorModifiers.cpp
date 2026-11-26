@@ -3,6 +3,7 @@
 #include "game/events/EventRuntime.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
+#include "game/party/SpellIds.h"
 
 #include <algorithm>
 #include <cmath>

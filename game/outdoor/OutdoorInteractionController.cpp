@@ -3768,7 +3768,14 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
             float distance = 0.0f;
             bool hasBillboardHit = false;
 
-            // A decoration drawn as a 3D model picks against the model, not its sprite's camera-facing card.
+            // A headless frame only needs the visual geometry when a real pick reaches a decoration candidate.
+            if (needsHeadlessDecorationPose)
+            {
+                OutdoorRenderer::ensureDecorationModels(view);
+                OutdoorRenderer::poseDecorationModels(view);
+                needsHeadlessDecorationPose = false;
+            }
+            // A model-bound decoration uses the same triangle raycast on desktop and headless.
             if (allowDecorationBillboardHit && view.m_decorationModels.drawsBillboard(decorationIndex))
             {
                 hasBillboardHit = view.m_decorationModels.raycast(decorationIndex,

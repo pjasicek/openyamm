@@ -597,6 +597,14 @@ TEST_CASE("terrain material config: the outdoor format, refusals named by the fi
     const std::optional<OutdoorTerrainMaterialConfig> config =
         parseTerrainMaterialConfig(text, "worlds/mm9/terrain_materials/", "isle.yml", error);
     REQUIRE_MESSAGE(config.has_value(), error);
+    CHECK_FALSE(config->continuousBankProjection);
+    const std::optional<OutdoorTerrainMaterialConfig> continuous = parseTerrainMaterialConfig(
+        text + "continuous_bank_projection: true\n", "d/", "cinder.yml", error);
+    REQUIRE_MESSAGE(continuous.has_value(), error);
+    CHECK(continuous->continuousBankProjection);
+    CHECK_FALSE(parseTerrainMaterialConfig(text + "continuous_bank_projection: sometimes\n",
+        "d/", "bad-bank.yml", error));
+    CHECK(error.find("bad-bank.yml") != std::string::npos);
     CHECK_EQ(config->directory, "worlds/mm9/terrain_materials/");
     CHECK_EQ(config->weightedLayers, 2);
     REQUIRE_EQ(config->layers.size(), 2u);

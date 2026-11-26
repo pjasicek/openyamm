@@ -211,6 +211,44 @@ bool LiquidTable::loadFromYaml(const std::string &yamlText, std::string &errorMe
             return false;
         }
 
+        if (const YAML::Node scaleNode = liquidNode["scale"]; scaleNode)
+        {
+            liquid.lavaPatternScale = scaleNode.as<float>(std::numeric_limits<float>::quiet_NaN());
+            if (!(liquid.lavaPatternScale > 0.0f && liquid.lavaPatternScale <= 8.0f))
+            {
+                errorMessage = context + ": scale must lie in (0, 8]";
+                return false;
+            }
+        }
+
+        if (const YAML::Node crustNode = liquidNode["crust"]; crustNode)
+        {
+            liquid.lavaCrust = crustNode.as<float>(std::numeric_limits<float>::quiet_NaN());
+            if (!(liquid.lavaCrust >= 0.0f && liquid.lavaCrust <= 1.0f))
+            {
+                errorMessage = context + ": crust must lie in [0, 1]";
+                return false;
+            }
+        }
+
+        if (const YAML::Node tintNode = liquidNode["tint"]; tintNode)
+        {
+            bool tinted = false;
+            if (!YAML::convert<bool>::decode(tintNode, tinted))
+            {
+                errorMessage = context + ": tint must be true or false";
+                return false;
+            }
+            liquid.lavaTinted = tinted;
+        }
+
+        if ((liquid.lavaPatternScale > 0.0f || liquid.lavaCrust > 0.0f || liquid.lavaTinted)
+            && (liquid.kind != LiquidKind::Lava || !liquid.appliesToFaces))
+        {
+            errorMessage = context + ": scale, crust and tint need a lava liquid of faces";
+            return false;
+        }
+
         if (liquid.kind == LiquidKind::Mirror && (liquid.appliesToTerrain || liquid.opacity < 1.0f || liquid.shallow
             || !liquid.reflects))
         {

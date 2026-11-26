@@ -2,6 +2,8 @@
 
 #include <array>
 #include <cstdint>
+#include <functional>
+#include <memory>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -53,6 +55,11 @@ struct WeatherMapChances
     // Daily chances of small, average and dense fog (weather.yml `fog: [small, average, dense]`, percent). Only the
     // open sky of an indoor map rolls them (IndoorOpenSkyWeather); outdoor maps keep their scene's and MMerge's fog.
     std::optional<std::array<float, 3>> fogPercent;
+    // weather.yml `until_qbit`: the entry holds while the party lacks this QBit; once set, `then` (an entry of its own,
+    // which may chain further) takes over, or none of the entry's weather when there is no `then` (Hesper's storm
+    // ending with Ward III). 0: unconditional.
+    uint32_t untilQBit = 0;
+    std::shared_ptr<const WeatherMapChances> then;
 };
 
 // The fog levels a daily fog roll picks (weather.yml `open_sky_fog`).
@@ -80,6 +87,11 @@ struct WeatherFlakeLook
     float swayRate = 1.1f;
     // Weak and strong fog distances the haze closes to at full strength; a strong distance of 0 is no haze.
     std::array<float, 2> haze = {0.0f, 0.0f};
+    // The share of the quality budget's flakes drawn (1: as many as snow).
+    float density = 1.0f;
+    // Another named look drawn with this one at the same strength (glowing embers rising through falling ash: a
+    // negative fall_speed rises); empty: none.
+    std::string embers;
 };
 
 // One weather sound: asset paths (one-shots pick one at random) and a volume that levels it with the others.
@@ -137,6 +149,9 @@ struct WeatherRules
     std::array<std::array<float, 2>, 3> openSkyFog = {{{3072.0f, 14336.0f}, {1024.0f, 8192.0f}, {0.0f, 4096.0f}}};
 
     bool loadFromYaml(const std::string &yamlText, std::string &errorMessage);
+    // A mounted world's worlds/<id>/rendering/weather/weather.yml: only `version`, `maps` and named `flakes` (their
+    // unset fields take the built-in ash defaults), added over the engine file's.
+    bool appendWorldYaml(const std::string &yamlText, std::string &errorMessage);
     // A named intensity level ("light", "medium", "heavy", "very_heavy"), if defined.
     std::optional<float> namedIntensity(const std::string &name) const;
 };
@@ -154,6 +169,8 @@ struct WeatherMapSettings
     float ashChancePercent = 0.0f;
     // The map's own ash look (weather.yml ash_look); unset: the rules' ash flakes.
     std::optional<WeatherFlakeLook> ashLook;
+    // The look drawn with the ash (its `embers`), if any.
+    std::optional<WeatherFlakeLook> emberLook;
     float dryLightningPercent = 0.0f;
     std::array<float, 3> rainColor = DefaultRainColor;
     // Rain or snow all the time at this peak (weather.yml always), none: the daily rolls.
@@ -161,11 +178,26 @@ struct WeatherMapSettings
     float alwaysPeak = 0.5f;
     // Daily chances of small, average and dense fog (percent; weather.yml fog).
     std::array<float, 3> fogChancePercent = {};
+    // The QBits of the map entry's until_qbit chain (empty: the entry does not change with the story) and how many of
+    // them the resolution passed; with the inputs below a world runtime re-resolves when an event sets one.
+    std::vector<uint32_t> conditionQBits;
+    size_t conditionStage = 0;
+    std::string mapFileName;
+    bool requestedRain = false;
+    bool requestedSnow = false;
+    float sceneAshPercent = 0.0f;
 };
 
-// sceneAshPercent: the map's scene's own ash chance, used when weather.yml gives the map none.
+// sceneAshPercent: the map's scene's own ash chance, used when weather.yml gives the map none. isQBitSet: the party's
+// QBits for an entry's until_qbit chain (none: the chain's first entry).
 WeatherMapSettings resolveWeatherMapSettings(const WeatherRules &rules, uint32_t mapId,
-    const std::string &mapFileName, bool rainEnabled, bool snowEnabled, float sceneAshPercent = 0.0f);
+    const std::string &mapFileName, bool rainEnabled, bool snowEnabled, float sceneAshPercent = 0.0f,
+    const std::function<bool(uint32_t)> &isQBitSet = {});
+
+// The settings again for the party's QBits now (the inputs kept in `settings`); nullopt when the story has not moved
+// the map's until_qbit chain since `settings` were resolved (nothing to do: no per-frame cost).
+std::optional<WeatherMapSettings> reresolveWeatherMapSettings(const WeatherRules &rules,
+    const WeatherMapSettings &settings, const std::function<bool(uint32_t)> &isQBitSet);
 
 // One day's rolled weather: an optional rain, snow or ash spell starting that day, plus the day's calm wind.
 struct WeatherDayPlan

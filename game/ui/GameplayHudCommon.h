@@ -44,6 +44,8 @@ struct GameplayAssetLoadCache
 {
     std::unordered_map<std::string, std::unordered_map<std::string, std::string>> directoryAssetPathsByPath;
     std::unordered_map<std::string, std::optional<std::string>> assetPathByKey;
+    std::unordered_map<std::string, std::array<int, 2>> headlessHudIconSizes;
+    uint64_t headlessHudIconGeneration = 0;
     std::unordered_map<std::string, std::optional<std::vector<uint8_t>>> binaryFilesByPath;
     std::unordered_map<std::string, std::optional<std::array<uint8_t, 256 * 3>>> actPalettesByKey;
 };

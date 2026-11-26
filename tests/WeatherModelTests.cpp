@@ -9,6 +9,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <unordered_set>
 
 using namespace OpenYAMM::Game;
 
@@ -515,6 +516,84 @@ TEST_CASE("a map's weather entry gives dry lightning days, its own ash look and 
     CHECK(errorMessage.find("ash_look names no flakes entry") != std::string::npos);
 }
 
+TEST_CASE("a map's weather entry follows its until_qbit chain as the story sets QBits")
+{
+    WeatherRules rules;
+    std::string errorMessage;
+    REQUIRE_MESSAGE(rules.loadFromYaml("version: 1\n"
+        "flakes:\n  storm: {fall_speed: 52}\n"
+        "maps:\n"
+        "  shelf.odm: {always: ash, peak: 0.35, ash_look: storm, dry_lightning: 100, until_qbit: 71,\n"
+        "              then: {always: ash, peak: 0.2, until_qbit: 60}}\n"
+        "  plain.odm: {ash: 30}\n", errorMessage), errorMessage);
+
+    std::unordered_set<uint32_t> bits;
+    const auto isSet = [&bits](uint32_t bit) { return bits.contains(bit); };
+
+    // Before Ward III: the storm (dry lightning every day, ash).
+    const WeatherMapSettings storm = resolveWeatherMapSettings(rules, 1, "shelf.odm", false, false, 0.0f, isSet);
+    CHECK(storm.dryLightningPercent == doctest::Approx(100.0f));
+    CHECK(storm.always == PrecipitationKind::Ash);
+    CHECK(storm.conditionQBits == std::vector<uint32_t>{71, 60});
+    CHECK(storm.conditionStage == 0);
+    CHECK_FALSE(reresolveWeatherMapSettings(rules, storm, isSet).has_value());
+
+    // Ward III: no lightning, thinner ash; nothing to do again until the next QBit.
+    bits.insert(71);
+    const std::optional<WeatherMapSettings> eclipse = reresolveWeatherMapSettings(rules, storm, isSet);
+    REQUIRE(eclipse.has_value());
+    CHECK(eclipse->dryLightningPercent == doctest::Approx(0.0f));
+    CHECK(eclipse->alwaysPeak == doctest::Approx(0.2f));
+    CHECK(eclipse->conditionStage == 1);
+    CHECK_FALSE(reresolveWeatherMapSettings(rules, *eclipse, isSet).has_value());
+
+    // Cleansed: past the last entry, none of its weather (no ash, no lightning).
+    bits.insert(60);
+    const std::optional<WeatherMapSettings> cleansed = reresolveWeatherMapSettings(rules, *eclipse, isSet);
+    REQUIRE(cleansed.has_value());
+    CHECK(cleansed->always == PrecipitationKind::None);
+    CHECK_FALSE(cleansed->ashEnabled);
+    CHECK(cleansed->dryLightningPercent == doctest::Approx(0.0f));
+    for (int day = 0; day < 20; ++day)
+    {
+        CHECK(planWeatherDay(rules, *cleansed, day).kind == PrecipitationKind::None);
+    }
+
+    // Without QBits (the loader at map load) the chain's first entry; a map without until_qbit never re-resolves.
+    CHECK(resolveWeatherMapSettings(rules, 1, "shelf.odm", false, false).dryLightningPercent
+        == doctest::Approx(100.0f));
+    const WeatherMapSettings plain = resolveWeatherMapSettings(rules, 2, "plain.odm", false, false, 0.0f, isSet);
+    CHECK(plain.conditionQBits.empty());
+    CHECK_FALSE(reresolveWeatherMapSettings(rules, plain, isSet).has_value());
+
+    // Parity: the repository's maps (MM6-MM9, Xeen: the engine file holds them all) have no chain, so a party with
+    // every QBit set resolves each exactly as before and never re-resolves.
+    const WeatherRules repository = loadRepositoryRules();
+    const auto everyBit = [](uint32_t) { return true; };
+    for (const auto &[mapName, chances] : repository.maps)
+    {
+        CHECK(chances.untilQBit == 0);
+        const WeatherMapSettings before = resolveWeatherMapSettings(repository, 7, mapName, true, true, 10.0f);
+        const WeatherMapSettings after =
+            resolveWeatherMapSettings(repository, 7, mapName, true, true, 10.0f, everyBit);
+        CHECK(after.conditionQBits.empty());
+        CHECK(after.rainChancePercent == before.rainChancePercent);
+        CHECK(after.snowChancePercent == before.snowChancePercent);
+        CHECK(after.ashChancePercent == before.ashChancePercent);
+        CHECK(after.dryLightningPercent == before.dryLightningPercent);
+        CHECK(after.always == before.always);
+        CHECK(after.fogChancePercent == before.fogChancePercent);
+        CHECK_FALSE(reresolveWeatherMapSettings(repository, after, everyBit).has_value());
+    }
+
+    WeatherRules bad;
+    CHECK_FALSE(bad.loadFromYaml("version: 1\nmaps:\n  shelf.odm: {ash: 50, then: {ash: 10}}\n", errorMessage));
+    CHECK(errorMessage.find("then needs an until_qbit") != std::string::npos);
+    CHECK_FALSE(bad.loadFromYaml("version: 1\nmaps:\n  shelf.odm: {ash: 5, until_qbit: 7, then: {ash_look: smoke}}\n",
+        errorMessage));
+    CHECK(errorMessage.find("ash_look names no flakes entry") != std::string::npos);
+}
+
 TEST_CASE("weather presentation throws dry lightning without rain, mostly far off")
 {
     const WeatherRules rules = loadRepositoryRules();
@@ -541,18 +620,21 @@ TEST_CASE("weather presentation throws dry lightning without rain, mostly far of
     CHECK_FALSE(presentation.storm());
 }
 
-TEST_CASE("a map's always weather rains or snows without a break, only where the map can")
+TEST_CASE("a map's always weather falls without a break, respecting rain and snow availability")
 {
     WeatherRules rules;
     std::string errorMessage;
     REQUIRE_MESSAGE(rules.loadFromYaml("version: 1\nmaps:\n  wet.blv: {always: rain, peak: 0.85}\n"
-        "  cold.blv: {always: snow, peak: 0.4}\n", errorMessage), errorMessage);
+        "  cold.blv: {always: snow, peak: 0.4}\n  cinder.odm: {always: ash, peak: 0.6}\n", errorMessage),
+        errorMessage);
     const WeatherMapSettings wet = resolveWeatherMapSettings(rules, 9001, "wet.blv", true, false);
     const WeatherMapSettings cold = resolveWeatherMapSettings(rules, 9002, "cold.blv", false, true);
+    const WeatherMapSettings cinder = resolveWeatherMapSettings(rules, 9004, "cinder.odm", false, false);
     // A kind the map cannot have is ignored: the daily rolls apply.
     const WeatherMapSettings dryCold = resolveWeatherMapSettings(rules, 9003, "cold.blv", true, false);
     CHECK(wet.always == PrecipitationKind::Rain);
     CHECK(cold.always == PrecipitationKind::Snow);
+    CHECK(cinder.always == PrecipitationKind::Ash);
     CHECK(dryCold.always == PrecipitationKind::None);
     bool storm = false;
 
@@ -561,6 +643,9 @@ TEST_CASE("a map's always weather rains or snows without a break, only where the
     {
         const WeatherSample rain = sampleRolledWeather(rules, wet, minute);
         const WeatherSample snow = sampleRolledWeather(rules, cold, minute);
+        const WeatherSample ash = sampleRolledWeather(rules, cinder, minute);
+        REQUIRE(ash.precipitation == PrecipitationKind::Ash);
+        CHECK_FALSE(ash.storm);
         REQUIRE(rain.precipitation == PrecipitationKind::Rain);
         REQUIRE(snow.precipitation == PrecipitationKind::Snow);
         CHECK(rain.intensity >= 0.85f * (1.0f - rules.variationAmount) - 0.01f);
@@ -571,7 +656,7 @@ TEST_CASE("a map's always weather rains or snows without a break, only where the
 
     CHECK(storm);
     WeatherRules bad;
-    CHECK_FALSE(bad.loadFromYaml("version: 1\nmaps:\n  ash.blv: {always: ash}\n", errorMessage));
+    CHECK_FALSE(bad.loadFromYaml("version: 1\nmaps:\n  unknown.blv: {always: hail}\n", errorMessage));
 }
 
 TEST_CASE("an open sky's fog days roll by weather.yml chances and blend in after 3 am")

@@ -73,7 +73,7 @@ struct GameplayActorShieldSound
 
 // Energy shields of one world runtime's actors (MonsterTable::shields), indexed by its actor indices. Only actors
 // whose monster has a shield profile get an entry; without profiles every call returns at once. Runtime state:
-// shields start full on every map load, like the original game's regenerating stats.
+// an independent shield starts full on map load. A link-powered shield starts full if its source is present.
 class GameplayActorShields
 {
 public:
@@ -85,6 +85,9 @@ public:
         std::array<float, 3> center = {};
         // Shield links join allies: actors on the same side of the party whose monsters are not hostile.
         bool hostileToParty = false;
+        uint32_t group = 0;
+        // Live maximum HP (0 unknown): a shield_fraction profile's pool is a share of it (monsterShieldPool).
+        int maxHp = 0;
     };
 
     // pRelations (optional) decides which actors a shield link joins (MonsterTable::getRelationBetweenMonsters).
@@ -129,9 +132,13 @@ private:
     {
         bool used = false;
         bool alive = false;
+        bool awaitingInitialLink = false;
+        bool suppliesLink = false;
         bool hostileToParty = false;
         int16_t monsterId = 0;
         const MonsterShieldProfile *pProfile = nullptr;
+        // Full shield of this actor (monsterShieldPool) and what it holds now.
+        float pool = 0.0f;
         float current = 0.0f;
         float secondsSinceDamage = 0.0f;
         float secondsSinceBreak = -1.0f;
@@ -155,7 +162,7 @@ private:
 
     const MonsterShieldTable *m_pTable = nullptr;
     const MonsterTable *m_pRelations = nullptr;
-    // Per entry, rebuilt each update while some monster links (1 without a link in reach).
+    // Strongest living allied link per entry, negative when none is in reach.
     std::vector<float> m_regenMultipliers;
     // Linkers (linkDropsOnDeath) that died this update.
     std::vector<size_t> m_deadLinkers;

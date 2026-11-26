@@ -33,6 +33,7 @@
 #include "game/tables/MonsterProjectileTable.h"
 #include "game/tables/MonsterTable.h"
 #include "game/tables/MergedBaseTables.h"
+#include "game/tables/WebOfWorldsTable.h"
 #include "game/tables/NpcDialogTable.h"
 #include "game/tables/ObjectTable.h"
 #include "game/tables/PortraitFrameTable.h"
@@ -211,6 +212,7 @@ public:
     const MergedOverlayTable &getMergedOverlayTable() const;
     const MergedTownPortalSwitchTable &getMergedTownPortalSwitchTable() const;
     const MergedDimensionDoorTable &getMergedDimensionDoorTable() const;
+    const WebOfWorldsTable &getWebOfWorldsTable() const;
     const MergedTransportIndexTable &getMergedTransportIndexTable() const;
     const MergedTransportLocationTable &getMergedTransportLocationTable() const;
 
@@ -427,6 +429,7 @@ private:
     MergedOverlayTable m_mergedOverlayTable;
     MergedTownPortalSwitchTable m_mergedTownPortalSwitchTable;
     MergedDimensionDoorTable m_mergedDimensionDoorTable;
+    WebOfWorldsTable m_webOfWorldsTable;
     MergedTransportIndexTable m_mergedTransportIndexTable;
     MergedTransportLocationTable m_mergedTransportLocationTable;
     MapAssetLoadSharedCache m_mapAssetLoadSharedCache;

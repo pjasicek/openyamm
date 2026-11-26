@@ -4,6 +4,7 @@
 #include "game/data/GameDataLoader.h"
 #include "game/gameplay/InteractiveDecorationRules.h"
 #include "game/indoor/IndoorLightingRuntime.h"
+#include "game/maps/DecorationModelSet.h"
 #include "game/maps/SaveGame.h"
 #include "game/outdoor/OutdoorMovementController.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
@@ -14,6 +15,43 @@
 #include <set>
 
 using namespace OpenYAMM::Game;
+
+TEST_CASE("a chest can be picked on its lid in its current pose")
+{
+    OpenYAMM::Engine::AssetFileSystem assets;
+    const std::filesystem::path root = OPENYAMM_SOURCE_DIR;
+    REQUIRE(assets.initialize(root, root / "assets_dev", OpenYAMM::Engine::AssetScaleTier::X1, "mm9"));
+    DecorationBillboardSet decorations;
+    REQUIRE(decorations.decorationTable.loadRows({
+        {"1", "mm9_chest", "Chest", "0", "27", "45", "0", "0", "0", "0", "0", "0", "1"}}));
+    decorations.billboards.push_back({.spriteId = 1});
+    DecorationModelSet models;
+    std::string error;
+    REQUIRE_MESSAGE(models.load(assets, "mm9", "chest.blv", decorations, error), error);
+
+    const std::array<float, 3> forward = {0, 1, 0};
+    float distance = 0;
+    // The lock and the raised lid are both above the fixed bowl at these positions.
+    REQUIRE(models.raycast(0, {3, -200, 43}, forward, distance));
+    CHECK(distance == doctest::Approx(172.7).epsilon(0.01));
+    CHECK_FALSE(models.raycast(0, {0, -200, 64}, forward, distance));
+
+    const auto play = [&](const char *pName)
+    {
+        models.poseParts(decorations.billboards, [pName](uint32_t, std::string &clip, float &seconds, bool &loop)
+        {
+            clip = pName;
+            seconds = 60.0f;
+            loop = false;
+            return true;
+        }, 0.0f);
+    };
+    play("open");
+    REQUIRE(models.raycast(0, {0, -200, 64}, forward, distance));
+    CHECK(distance == doctest::Approx(196.6).epsilon(0.01));
+    play("close");
+    CHECK_FALSE(models.raycast(0, {0, -200, 64}, forward, distance));
+}
 
 TEST_CASE("New Sorpigal temple braziers toggle and retain their light state across save and reentry")
 {

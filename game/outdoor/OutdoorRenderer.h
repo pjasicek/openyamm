@@ -32,6 +32,7 @@ public:
     static void applySkyFogUniform(const OutdoorGameView &view);
     // Loads the map's decoration models once (also on the first world pass); without them decorations are sprites.
     static void ensureDecorationModels(OutdoorGameView &view);
+    static void poseDecorationModels(OutdoorGameView &view);
 
     static void renderWorldPasses(
         OutdoorGameView &view,

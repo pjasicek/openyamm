@@ -279,7 +279,7 @@ bgfx::TextureHandle uploadTexture(const PreparedModelTexture &prepared)
 }
 
 // The images a material samples, in MaterialTextures order without the colour ramps (base, normal,
-// metallic-roughness, region mask, burn map, emissive).
+// metallic-roughness, region mask, burn map, emissive, static surface detail).
 struct MaterialImageUse
 {
     int imageIndex = -1;
@@ -288,7 +288,7 @@ struct MaterialImageUse
     bool mips = true;
 };
 
-std::array<MaterialImageUse, 6> materialImageUses(const ModelMaterial &material)
+std::array<MaterialImageUse, 7> materialImageUses(const ModelMaterial &material)
 {
     const uint8_t cutoff = material.alphaMode == ModelAlphaMode::Mask
         ? uint8_t(std::clamp(std::ceil(material.alphaCutoff * 255 / std::max(material.baseColor[3], 1.0e-6f)),
@@ -301,6 +301,7 @@ std::array<MaterialImageUse, 6> materialImageUses(const ModelMaterial &material)
         {material.regionMaskImageIndex, ImageMipSemantic::Linear, 0, samplerUsesMips(material.regionMaskSampler)},
         {material.burnMapImageIndex, ImageMipSemantic::Linear, 0, samplerUsesMips(material.burnMapSampler)},
         {material.emissiveImageIndex, ImageMipSemantic::Srgb, 0, samplerUsesMips(material.emissiveSampler)},
+        {material.detailStrength > 0.0f ? material.detailImageIndex : -1, ImageMipSemantic::Linear, 0, true},
     }};
 }
 
@@ -866,7 +867,7 @@ bool ModelRenderer::ensureEmissivePrograms()
         const bool complete = bgfx::isValid(programs.single)
             && (!bgfx::isValid(m_skinnedInstancedProgramHandle) || bgfx::isValid(programs.skinnedInstanced))
             && (!bgfx::isValid(m_staticProgramHandle) || bgfx::isValid(programs.staticInstanced));
-        if (complete)
+        if (complete && !bgfx::isValid(m_emissiveSamplerHandle))
         {
             m_emissiveSamplerHandle = bgfx::createUniform("s_modelEmissive", bgfx::UniformType::Sampler);
         }
@@ -889,6 +890,36 @@ bool ModelRenderer::ensureEmissivePrograms()
         throw std::runtime_error("Cannot load the emissive model programs (fs_model_emissive)");
     }
     return bgfx::isValid(m_emissivePrograms.single);
+}
+
+void ModelRenderer::ensureStaticDetailProgram()
+{
+    if (!m_staticDetailProgramLoader)
+    {
+        throw std::runtime_error("No static model surface detail shader loader");
+    }
+    if (!bgfx::isValid(m_detailSamplerHandle))
+    {
+        m_detailSamplerHandle = bgfx::createUniform("s_modelSurfaceDetail", bgfx::UniformType::Sampler);
+    }
+    if (!bgfx::isValid(m_detailUniformHandle))
+    {
+        m_detailUniformHandle = bgfx::createUniform("u_modelDetail", bgfx::UniformType::Vec4);
+    }
+    if (!bgfx::isValid(m_emissiveSamplerHandle))
+    {
+        m_emissiveSamplerHandle = bgfx::createUniform("s_modelEmissive", bgfx::UniformType::Sampler);
+    }
+    if (!bgfx::isValid(m_detailSamplerHandle) || !bgfx::isValid(m_detailUniformHandle)
+        || !bgfx::isValid(m_emissiveSamplerHandle))
+    {
+        throw std::runtime_error("Cannot allocate static model surface detail uniforms");
+    }
+    m_staticDetailProgram = m_staticDetailProgramLoader();
+    if (!bgfx::isValid(m_staticDetailProgram))
+    {
+        throw std::runtime_error("Cannot load the static model surface detail program (fs_model_detail)");
+    }
 }
 
 std::array<float, 4> ModelRenderer::surfaceUniform(const ModelMaterial &material,
@@ -1885,8 +1916,25 @@ void ModelRenderer::submitStatic(const std::vector<ModelStaticGroup> &groups, ui
                 const bgfx::ProgramHandle emissiveProgram = materialIndex < 0 ? noProgram
                     : colorProgram(batch.pResources->materialTextures[materialIndex], noProgram,
                         m_emissivePrograms.staticInstanced);
-                const bgfx::ProgramHandle program = bgfx::isValid(emissiveProgram) ? emissiveProgram
+                bgfx::ProgramHandle program = bgfx::isValid(emissiveProgram) ? emissiveProgram
                     : prepassed ? m_staticPrepassedProgramHandle : m_staticProgramHandle;
+                if (materialIndex >= 0 && bgfx::isValid(batch.pResources->materialTextures[materialIndex].detail))
+                {
+                    if (!bgfx::isValid(m_staticDetailProgram))
+                    {
+                        ensureStaticDetailProgram();
+                    }
+                    program = m_staticDetailProgram;
+                    const float detail[4] = {1.0f / material.detailTileWorldUnits, material.detailStrength, 0, 0};
+                    bgfx::setUniform(m_detailUniformHandle, detail);
+                    bgfx::setTexture(12, m_detailSamplerHandle, batch.pResources->materialTextures[materialIndex].detail,
+                        samplerFlags(material.detailSampler));
+                    if (!bgfx::isValid(emissiveProgram))
+                    {
+                        // The detail program also supports ordinary emissive factors, using a neutral texture.
+                        bgfx::setTexture(7, m_emissiveSamplerHandle, m_whiteTextureHandle);
+                    }
+                }
                 // Emitters also draw their glow into the bloom view, with the same bindings.
                 const bool emissive = material.emissive[0] > 0.0f || material.emissive[1] > 0.0f
                     || material.emissive[2] > 0.0f;
@@ -2231,7 +2279,8 @@ void ModelRenderer::shutdown(bool destroyGpu)
         for (const bgfx::ProgramHandle handle :
             {m_staticProgramHandle, m_staticShadowProgramHandle, m_staticPrepassedProgramHandle,
                 m_staticCoverageProgramHandle, m_skinnedInstancedProgramHandle, m_emissivePrograms.single,
-                m_emissivePrograms.skinnedInstanced, m_emissivePrograms.staticInstanced, m_shieldShellProgram})
+                m_emissivePrograms.skinnedInstanced, m_emissivePrograms.staticInstanced, m_staticDetailProgram,
+                m_shieldShellProgram})
         {
             if (bgfx::isValid(handle))
             {
@@ -2246,6 +2295,14 @@ void ModelRenderer::shutdown(bool destroyGpu)
         {
             bgfx::destroy(m_emissiveSamplerHandle);
         }
+        if (bgfx::isValid(m_detailSamplerHandle))
+        {
+            bgfx::destroy(m_detailSamplerHandle);
+        }
+        if (bgfx::isValid(m_detailUniformHandle))
+        {
+            bgfx::destroy(m_detailUniformHandle);
+        }
     }
     m_assets.clear();
     m_sharedTextures.clear();
@@ -2259,6 +2316,9 @@ void ModelRenderer::shutdown(bool destroyGpu)
     m_skinnedInstancedProgramHandle = BGFX_INVALID_HANDLE;
     m_emissivePrograms = {};
     m_emissiveProgramsAttempted = false;
+    m_staticDetailProgram = BGFX_INVALID_HANDLE;
+    m_detailSamplerHandle = BGFX_INVALID_HANDLE;
+    m_detailUniformHandle = BGFX_INVALID_HANDLE;
     m_shieldShellProgram = BGFX_INVALID_HANDLE;
     m_shieldShellUniformHandle = BGFX_INVALID_HANDLE;
     m_shieldShellProgramAttempted = false;
@@ -3321,7 +3381,7 @@ const ModelRenderer::AssetResources *ModelRenderer::prepare(std::shared_ptr<cons
     {
         for (const ModelMaterial &material : asset->materials)
         {
-            const std::array<MaterialImageUse, 6> uses = materialImageUses(material);
+            const auto uses = materialImageUses(material);
             resources.materialTextures.push_back({
                 textureFor(uses[0]),
                 textureFor(uses[1]),
@@ -3332,6 +3392,7 @@ const ModelRenderer::AssetResources *ModelRenderer::prepare(std::shared_ptr<cons
                 // Its programs load with the first emissive texture; models without one never ask for them.
                 uses[5].imageIndex >= 0 && ensureEmissivePrograms() ? textureFor(uses[5])
                     : bgfx::TextureHandle{bgfx::kInvalidHandle},
+                textureFor(uses[6]),
             });
             if (bgfx::isValid(resources.materialTextures.back().regionRamps))
             {

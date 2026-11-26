@@ -97,7 +97,7 @@ public:
         const float *pView, const float *pProjection, const SkySurroundings &surroundings, bool behindScene = false);
 
 private:
-    // Loads engine/rendering/sky/<name>.oytex (tools/cook_sky_textures.py) on first use.
+    // Shared sky textures are relative to engine/rendering/sky. World art can name its full package path.
     bgfx::TextureHandle texture(const std::string &name, bool cloudLayer);
     // A panorama (horizon ring, night sky, moon) while the frame draws it; released while it does not.
     bgfx::TextureHandle panorama(const std::string &name, bool visible);

@@ -839,6 +839,7 @@ public:
     bool setMm9ActorCanReceiveDamage(size_t actorIndex, bool canReceiveDamage) override;
     bool isMapActorHostile(size_t actorIndex) const override;
     bool isMapActorDead(size_t actorIndex) const override;
+    bool mapActorHp(size_t actorIndex, int &hp, int &maxHp) const override;
     bool reviveMapActor(size_t actorIndex) override;
     bool isMapActorWithinPartyDistance(size_t actorIndex, float distance) const override;
     bool searchLootProp(const std::string &sourceId) override;
@@ -1161,6 +1162,11 @@ public:
     void advanceTurnBasedWorldTime(float seconds) override;
     void setGameSpeed(float speed) override;
     void setTurnBasedActorMode(ActorTurnBasedMode mode) override;
+    ActorTurnBasedMode turnBasedActorMode() const override
+    {
+        return m_turnBasedActorFacts.mode;
+    }
+    std::optional<float> eventFloorHeight(float x, float y, std::optional<float> z) const override;
     void grantTurnBasedActorAction(size_t actorIndex) override;
     bool turnBasedActorActionGrantPending() const override;
     int turnBasedActorRecoveryTicks(size_t actorIndex) const override;
@@ -1511,6 +1517,8 @@ private:
     // add-on (MonsterRelationAddOns) applied to the map's actors whenever they change and after every load.
     void updateActorShields(float deltaSeconds);
     void refreshConditionalMonsterRelations();
+    // weather.yml's until_qbit chain of this map: re-resolved after events (a QBit the story just set), never per frame.
+    void refreshStoryWeather();
     // A hit through the actor's shield (GameplayActorShields::applyHit), the ripple at the source's side of the body.
     GameplayActorShieldHit applyActorShieldHit(size_t actorIndex, int damage, ShieldAttackTier shieldTier,
         float sourceX, float sourceY, float sourceZ, const ShieldHitModifiers &shieldModifiers = {});

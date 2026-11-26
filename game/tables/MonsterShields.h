@@ -62,6 +62,9 @@ struct MonsterShieldProfile
     int16_t monsterId = 0;
     // Shield pool; 0 is a monster without a shield that still follows the shield rules (its body is exposed).
     int pool = 0;
+    // shields.yml `shield_fraction`: when above 0, each actor's pool is this share of its live maximum HP (after a
+    // ruleset sized it); `pool` stays the size for an actor whose maximum HP is not known. 0: the fixed pool.
+    float poolFraction = 0.0f;
     // Index into MonsterShieldTable::grades(); -1 without a pool.
     int gradeIndex = -1;
     // Seconds without damage before a lowered or broken shield regenerates.
@@ -77,6 +80,10 @@ struct MonsterShieldProfile
     float linkRadius = 0.0f;
     float linkRegenMultiplier = 2.0f;
     bool linkDropsOnDeath = false;
+    // This pool is supplied by a living allied shield link within its radius.
+    bool requiresLink = false;
+    // When set, only placements of this monster in the named group emit its link.
+    std::optional<uint32_t> linkSourceGroup;
 };
 
 // Energy Blades Grandmaster: each hit on a raised shield may cut it to remainingFraction of what is left.
@@ -221,7 +228,11 @@ private:
 ShieldHitResolution resolveMonsterShieldHit(const MonsterShieldTable &table, const MonsterShieldProfile &profile,
     float currentShield, int damage, ShieldAttackTier tier, const ShieldHitModifiers &modifiers = {});
 // The shield after deltaSeconds, given the seconds since the last damage before the step (regeneration starts once
-// they pass the profile's delay); rateMultiplier speeds it up (a shield link).
+// they pass the profile's delay); rateMultiplier speeds it up (a shield link). pool is the actor's full shield
+// (monsterShieldPool); negative: the profile's pool.
 float regenerateMonsterShield(const MonsterShieldProfile &profile, float currentShield, float secondsSinceDamage,
-    float deltaSeconds, float rateMultiplier = 1.0f);
+    float deltaSeconds, float rateMultiplier = 1.0f, float pool = -1.0f);
+// An actor's full shield: the profile's share of its maximum HP (shield_fraction) when both are known, else the
+// profile's pool; 0 without one.
+float monsterShieldPool(const MonsterShieldProfile &profile, int maxHp);
 }

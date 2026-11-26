@@ -623,6 +623,17 @@ GameplayProjectileService::ProjectileSpawnResult GameplayProjectileService::spaw
     float speed = request.definition.speed;
     projectile.lifetimeTicks = request.definition.lifetimeTicks;
 
+    if (!request.eventMissile && request.speedMultiplier > 1.0f)
+    {
+        speed *= request.speedMultiplier;
+
+        if (projectile.lifetimeTicks > 0)
+        {
+            projectile.lifetimeTicks = std::max<uint32_t>(
+                1, uint32_t(std::ceil(float(projectile.lifetimeTicks) / request.speedMultiplier)));
+        }
+    }
+
     if (request.eventMissile)
     {
         // Whole ticks of flight, the speed fitted to them, so the flight ends on the target.

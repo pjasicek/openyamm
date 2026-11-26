@@ -238,6 +238,12 @@ bool MonsterShieldTable::loadWorldYaml(const std::string &text, const std::strin
                     return false;
                 }
                 profile.gradeIndex = int(found - m_grades.begin());
+                profile.poolFraction = node["shield_fraction"].as<float>(0.0f);
+                if (node["shield_fraction"] && !finiteIn(profile.poolFraction, 0.01f, 10.0f))
+                {
+                    error = where + "monster " + std::to_string(id) + ": shield_fraction out of range (0.01-10)";
+                    return false;
+                }
                 profile.regenDelaySeconds = node["regen_delay_seconds"].as<float>(4.0f);
                 profile.regenSeconds = node["regen_seconds"].as<float>(found->regenSeconds);
                 if (!finiteIn(profile.regenDelaySeconds, 0.0f, 600.0f)
@@ -249,6 +255,12 @@ bool MonsterShieldTable::loadWorldYaml(const std::string &text, const std::strin
             }
             if (node.IsMap())
             {
+                profile.requiresLink = node["requires_link"].as<bool>(false);
+                if (profile.requiresLink && profile.pool == 0)
+                {
+                    error = where + "monster " + std::to_string(id) + ": requires_link needs a shield pool";
+                    return false;
+                }
                 profile.energyImmune = node["energy_immune"].as<bool>(false);
                 profile.machine = node["machine"].as<bool>(false);
                 if (const YAML::Node link = node["link"])
@@ -256,6 +268,10 @@ bool MonsterShieldTable::loadWorldYaml(const std::string &text, const std::strin
                     profile.linkRadius = link["radius"].as<float>(2560.0f);
                     profile.linkRegenMultiplier = link["regen_multiplier"].as<float>(2.0f);
                     profile.linkDropsOnDeath = link["drop_on_death"].as<bool>(false);
+                    if (const YAML::Node group = link["source_group"])
+                    {
+                        profile.linkSourceGroup = group.as<uint32_t>();
+                    }
                     if (!finiteIn(profile.linkRadius, 1.0f, 20000.0f)
                         || !finiteIn(profile.linkRegenMultiplier, 0.0f, 20.0f))
                     {
@@ -369,12 +385,23 @@ ShieldHitResolution resolveMonsterShieldHit(const MonsterShieldTable &table, con
     return result;
 }
 
-float regenerateMonsterShield(const MonsterShieldProfile &profile, float currentShield, float secondsSinceDamage,
-    float deltaSeconds, float rateMultiplier)
+float monsterShieldPool(const MonsterShieldProfile &profile, int maxHp)
 {
-    if (profile.pool <= 0 || currentShield >= float(profile.pool) || deltaSeconds <= 0.0f)
+    if (profile.pool <= 0)
     {
-        return std::min(currentShield, float(std::max(profile.pool, 0)));
+        return 0.0f;
+    }
+    return profile.poolFraction > 0.0f && maxHp > 0 ? std::max(1.0f, std::round(profile.poolFraction * float(maxHp)))
+                                                    : float(profile.pool);
+}
+
+float regenerateMonsterShield(const MonsterShieldProfile &profile, float currentShield, float secondsSinceDamage,
+    float deltaSeconds, float rateMultiplier, float pool)
+{
+    pool = pool < 0.0f ? float(std::max(profile.pool, 0)) : pool;
+    if (pool <= 0.0f || currentShield >= pool || deltaSeconds <= 0.0f)
+    {
+        return std::min(currentShield, std::max(pool, 0.0f));
     }
     // Only the part of the step after the delay regenerates.
     const float regenerating = std::min(deltaSeconds, secondsSinceDamage + deltaSeconds - profile.regenDelaySeconds);
@@ -382,7 +409,7 @@ float regenerateMonsterShield(const MonsterShieldProfile &profile, float current
     {
         return currentShield;
     }
-    const float rate = float(profile.pool) / std::max(profile.regenSeconds, 0.05f) * std::max(rateMultiplier, 0.0f);
-    return std::min(float(profile.pool), currentShield + rate * regenerating);
+    const float rate = pool / std::max(profile.regenSeconds, 0.05f) * std::max(rateMultiplier, 0.0f);
+    return std::min(pool, currentShield + rate * regenerating);
 }
 }

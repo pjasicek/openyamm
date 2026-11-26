@@ -35,8 +35,6 @@ struct MawArtifact
     // The weapon ladder rung it counts as (6, the top, but for a few ladder artifacts).
     double rung = 6;
     int diceCount = 1;
-    // A weapon's flat damage as Staff, Sword and Spear guard by it: its printed one after MAW's artifact upscaler.
-    int guardBase = 0;
     int printedArmorClass = 0;
     int referenceArmorClass = 0;
     // Stat and skill budgets in units of one perfect Epic enchant at the party's level; flat numbers outside it.

@@ -2761,9 +2761,12 @@ GameplayInteractionController::updateWorldInteractionFrame(
             .updateTickNanoseconds = currentTickNanoseconds,
         };
 
-    result.hover = updateHoverState(standardHoverInput, pWorldRuntime);
+    if (input.refreshWorldHover)
+    {
+        result.hover = updateHoverState(standardHoverInput, pWorldRuntime);
+    }
 
-    if (runtime.settingsSnapshot().contextActionPopup && pWorldRuntime != nullptr)
+    if (runtime.settingsSnapshot().contextActionPopup && pWorldRuntime != nullptr && input.refreshWorldHover)
     {
         GameplayWorldHit contextActionHit = {};
         std::optional<std::string> contextActionEventStatusText;
@@ -2825,7 +2828,7 @@ GameplayInteractionController::updateWorldInteractionFrame(
             }
         }
     }
-    else
+    else if (!runtime.settingsSnapshot().contextActionPopup)
     {
         runtime.clearContextActionState();
     }

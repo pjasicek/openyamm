@@ -17,6 +17,8 @@ They stay ordinary decorations: native collision, events, picking, SetSprite and
   static renderer draws the node at rest, so a part's placement is `decoration x node(t) x node(rest)^-1`
   (`DecorationModelSet::poseParts`). The binding's `model` is the rest of the prop and its `height` that rest's own
   (the same scale as before the split).
+- Aiming at a moving part targets its decoration. The interaction ray uses each part's current transformed mesh,
+  including the raised lid of an open chest.
 - A **binding model with clips** must have one rigid mesh node; its placement is posed the same way from its rest
   (aims and swings do not apply to it). Its parts then move from the decoration's rest, not from the posed model.
 - An **animated** binding keeps its static `model` for picking only (never drawn); each placement is drawn by an
@@ -67,6 +69,7 @@ and length). `scripts/statue_overlay.py <statue>` overlays the fit.
 
 Testing: the debug console's `lua <code>` runs a line of Lua as a map event (`lua evt.PlayDecorationClip(412,
 [[taunt]], [[loop]])`; the console strips double quotes, so strings go in `[[...]]`).
+In a faithful scenario, `assert: {decoration_clip: {key: 412, name: open}}` checks the clip on the placed decoration.
 
 ## Code
 

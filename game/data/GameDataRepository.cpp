@@ -61,6 +61,7 @@ void GameDataRepository::clear()
     m_pTransitionTable = nullptr;
     m_pMergedTownPortalSwitchTable = nullptr;
     m_pMergedDimensionDoorTable = nullptr;
+    m_pWebOfWorldsTable = nullptr;
     m_pMergedCharacterSelectionTable = nullptr;
     m_pMergedNewsAreaTopicTable = nullptr;
     m_pMergedNewsContinentTopicTable = nullptr;
@@ -125,6 +126,7 @@ void GameDataRepository::bind(const GameDataLoader &loader)
     m_pTransitionTable = &loader.getTransitionTable();
     m_pMergedTownPortalSwitchTable = &loader.getMergedTownPortalSwitchTable();
     m_pMergedDimensionDoorTable = &loader.getMergedDimensionDoorTable();
+    m_pWebOfWorldsTable = &loader.getWebOfWorldsTable();
     m_pMergedCharacterSelectionTable = &loader.getMergedCharacterSelectionTable();
     m_pMergedNewsAreaTopicTable = &loader.getMergedNewsAreaTopicTable();
     m_pMergedNewsContinentTopicTable = &loader.getMergedNewsContinentTopicTable();
@@ -366,6 +368,11 @@ const MergedTownPortalSwitchTable &GameDataRepository::mergedTownPortalSwitchTab
 const MergedDimensionDoorTable &GameDataRepository::mergedDimensionDoorTable() const
 {
     return requireBound(m_pMergedDimensionDoorTable);
+}
+
+const WebOfWorldsTable &GameDataRepository::webOfWorldsTable() const
+{
+    return requireBound(m_pWebOfWorldsTable);
 }
 
 const MergedCharacterSelectionTable &GameDataRepository::mergedCharacterSelectionTable() const

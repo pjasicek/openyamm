@@ -11,7 +11,8 @@ before the textures.
 The cook is incremental and idempotent: a model whose source, rules, COOKER_REVISION and cook scripts are unchanged,
 and whose outputs are intact, is skipped without being read further; anything else is cooked again, and the same
 inputs give the same bytes. A full run (no --only) also removes cooked GLBs whose source is gone and textures that no
-model references. assets_dev then holds only cooked models; sources live in assets_source.
+model references. A full production cook includes only worlds with a manifest in assets_dev. World projects can
+cook unpublished models with --only and --output. Sources live in assets_source.
 
   tools/cook_models.py --plan [--only PATTERN]       decisions and projected sizes; writes nothing
   tools/cook_models.py --profile desktop|android     cook changed models (receipts in assets_source/.cook-cache)
@@ -133,6 +134,12 @@ def texture_uses(document):
         burn = material.get("extras", {}).get("openyamm_burn_map")
         if burn is not None:
             uses.append((material_index, ("extras", "openyamm_burn_map"), burn["index"], "linear", 0, False))
+        detail = material.get("extras", {}).get("openyamm_surface_detail")
+        if detail is not None:
+            index = detail.get("index") if isinstance(detail, dict) else None
+            if type(index) is not int or not 0 <= index < len(document.get("textures", [])):
+                raise ValueError(f"material {material_index} surface detail names no texture")
+            uses.append((material_index, ("extras", "openyamm_surface_detail"), index, "linear", 0, False))
         if "emissiveTexture" in material:
             # Emission (sRGB, like a colour map): the glow of energy parts, ModelMaterial::emissiveImageIndex.
             uses.append((material_index, ("emissiveTexture",), material["emissiveTexture"]["index"], "srgb", 0,
@@ -144,7 +151,7 @@ def texture_uses(document):
 def role_of(slot):
     return {"baseColorTexture": "colour", "normalTexture": "normal", "metallicRoughnessTexture": "metallic_roughness",
             "openyamm_region_mask": "region_mask", "openyamm_burn_map": "burn_map",
-            "emissiveTexture": "emissive"}[slot[-1]]
+            "openyamm_surface_detail": "surface_detail", "emissiveTexture": "emissive"}[slot[-1]]
 
 
 class Rules:
@@ -341,8 +348,11 @@ def plan_model(rules, source_root, path, profiles, cooker=None):
         source_index = texture["source"]
         png = image_bytes(document, binary, source_index)
         mips = sampler_uses_mips(document, texture)
-        key = sha256(png + f"|{semantic}|{cutoff}|{int(mips)}".encode())[:32]
         role = role_of(slot)
+        # All four linear channels carry detail. If the source image also serves as RGB metal/roughness, its
+        # three-channel cook cannot represent the detail's alpha roughness response.
+        purpose = "|rgba-detail" if role == "surface_detail" else ""
+        key = sha256(png + f"|{semantic}|{cutoff}|{int(mips)}{purpose}".encode())[:32]
         uses_alpha = role == "colour" and blended and alpha_in_use(png, threshold)
         name = document["images"][source_index].get("name", str(source_index))
         if key not in textures:
@@ -410,11 +420,14 @@ def plan_model(rules, source_root, path, profiles, cooker=None):
 MODEL_FOLDERS = ("models", "view_model")
 
 
-def source_models(source_root, only):
+def source_models(source_root, only, mounted_worlds=None):
     paths = sorted(path for path in source_root.rglob("*.glb")
                    if ".cook-cache" not in path.parts and path.parent.name in MODEL_FOLDERS)
     if only:
         paths = [path for path in paths if fnmatch.fnmatch(path.relative_to(source_root).as_posix(), only)]
+    elif mounted_worlds is not None:
+        paths = [path for path in paths if not path.is_relative_to(source_root / "worlds")
+                 or path.relative_to(source_root).parts[1] in mounted_worlds]
     return paths
 
 
@@ -680,15 +693,16 @@ def cook(args, rules, paths):
                     path.unlink()
                     cache.pop(str(path.relative_to(output_root)), None)
                     pruned += 1
-        # Cooked models whose source is gone (sources that are still there were all listed).
+        # An unpublished world's source and receipts can belong to a separate development output.
         current = {model["relative"] for model in models}
         if profile == "desktop":
             for path, document in cooked_models(output_root):
                 relative = path.relative_to(output_root).as_posix()
-                if relative not in current:
+                if relative not in current and not (source_root / relative).is_file():
                     path.unlink()
                     removed_models += 1
-        for key in [key for key in cache if key.startswith("model:") and key[len("model:"):] not in current]:
+        for key in [key for key in cache if key.startswith("model:") and key[len("model:"):] not in current
+                    and not (source_root / key[len("model:"):]).is_file()]:
             del cache[key]
     save_cache(cache_path, cache)
     print(f"Model cook ({profile}): {len(models)} models ({skipped} unchanged and skipped, {written} GLBs "
@@ -800,7 +814,12 @@ def main():
         return migrate(args)
     rules = Rules(args.rules)
     profiles = [args.profile] if args.profile else ["desktop", "android"]
-    paths = source_models(args.source.resolve(), args.only)
+    source = args.source.resolve()
+    mounted_worlds = None
+    production_outputs = {ROOT / directory for directory in DEFAULT_OUTPUT.values()}
+    if source == ROOT / "assets_source" and (not args.output or args.output.resolve() in production_outputs):
+        mounted_worlds = {manifest.parent.name for manifest in (ROOT / "assets_dev/worlds").glob("*/world.yml")}
+    paths = source_models(source, args.only, mounted_worlds)
     if not paths:
         raise SystemExit(f"No source models under {args.source}")
     if args.plan:

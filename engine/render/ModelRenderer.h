@@ -168,6 +168,10 @@ public:
     {
         m_emissiveProgramLoader = std::move(loader);
     }
+    void setStaticDetailProgramLoader(std::function<bgfx::ProgramHandle()> loader)
+    {
+        m_staticDetailProgramLoader = std::move(loader);
+    }
     // Loads the energy shield shell program (vs_model_shield, fs_model_shield) the first time an instance with a
     // shield shell (ModelInstanceSystem::setShieldShell) draws, so scenes without shields cost nothing.
     void setShieldShellProgramLoader(std::function<bgfx::ProgramHandle()> loader)
@@ -289,6 +293,7 @@ private:
             bgfx::TextureHandle burnMap = BGFX_INVALID_HANDLE;
             // Only while the emissive programs are loaded (ensureEmissivePrograms).
             bgfx::TextureHandle emissive = BGFX_INVALID_HANDLE;
+            bgfx::TextureHandle detail = BGFX_INVALID_HANDLE;
         };
         // A material's colour ramps turned to a colour (ModelInstanceSystem::setRegionRecolor), made when first
         // drawn and kept with the asset: a material's index, the colour's key and the texture.
@@ -354,6 +359,7 @@ private:
         uint16_t viewId, bool depthPass);
     // Loads the emissive programs once (setEmissiveProgramLoader); true when they are available.
     bool ensureEmissivePrograms();
+    void ensureStaticDetailProgram();
     // u_modelSurface: the emission (scaled, e.g. by a creature's pulse; none for an emissive texture without its
     // program) and the normal map scale (-1 without one).
     std::array<float, 4> surfaceUniform(const ModelMaterial &material, const AssetResources::MaterialTextures &textures,
@@ -488,6 +494,10 @@ private:
     bgfx::ProgramHandle m_skinnedInstancedProgramHandle = BGFX_INVALID_HANDLE;
     // Emissive-texture programs and their sampler, created on first use (ensureEmissivePrograms).
     std::function<ModelEmissivePrograms()> m_emissiveProgramLoader;
+    std::function<bgfx::ProgramHandle()> m_staticDetailProgramLoader;
+    bgfx::ProgramHandle m_staticDetailProgram = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_detailSamplerHandle = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_detailUniformHandle = BGFX_INVALID_HANDLE;
     std::function<bgfx::ProgramHandle()> m_shieldShellProgramLoader;
     bool m_shieldShellProgramAttempted = false;
     bgfx::ProgramHandle m_shieldShellProgram = BGFX_INVALID_HANDLE;

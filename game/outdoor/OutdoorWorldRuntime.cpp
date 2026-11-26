@@ -750,14 +750,16 @@ constexpr float OutdoorActorWaterRestrictionStepReach = 8.0f;
 constexpr float MaxAccumulatedActorUpdateSeconds = 0.1f;
 constexpr float ProjectileUpdateStepSeconds = 1.0f / 60.0f;
 constexpr int MaxProjectileUpdateStepsPerFrame = 4;
-constexpr int JournalRevealWidth = 88;
-constexpr int JournalRevealHeight = 88;
-constexpr int JournalRevealBytesPerRow = 11;
-constexpr float JournalMapWorldHalfExtent = 32768.0f;
-
-void ensureJournalRevealMaskSize(std::vector<uint8_t> &bytes)
+// The journal reveal mask: side x side cells (88 on a classic map, 968 bytes) as packed bits, over the terrain frame
+// (+/-32768 on a classic map).
+size_t journalRevealMaskBytes(int side)
 {
-    const size_t expectedSize = JournalRevealHeight * JournalRevealBytesPerRow;
+    return size_t(side) * size_t((side + 7) / 8);
+}
+
+void ensureJournalRevealMaskSize(std::vector<uint8_t> &bytes, int side)
+{
+    const size_t expectedSize = journalRevealMaskBytes(side);
 
     if (bytes.size() != expectedSize)
     {
@@ -765,14 +767,14 @@ void ensureJournalRevealMaskSize(std::vector<uint8_t> &bytes)
     }
 }
 
-void setPackedRevealBit(std::vector<uint8_t> &bytes, int cellX, int cellY)
+void setPackedRevealBit(std::vector<uint8_t> &bytes, int side, int cellX, int cellY)
 {
-    if (cellX < 0 || cellX >= JournalRevealWidth || cellY < 0 || cellY >= JournalRevealHeight)
+    if (cellX < 0 || cellX >= side || cellY < 0 || cellY >= side)
     {
         return;
     }
 
-    const size_t index = static_cast<size_t>(cellY * JournalRevealWidth + cellX);
+    const size_t index = static_cast<size_t>(cellY * side + cellX);
     const size_t byteIndex = index / 8;
 
     if (byteIndex >= bytes.size())
@@ -784,22 +786,26 @@ void setPackedRevealBit(std::vector<uint8_t> &bytes, int cellX, int cellY)
     bytes[byteIndex] |= mask;
 }
 
-void updateOutdoorJournalRevealMask(const OutdoorPartyRuntime &partyRuntime, MapDeltaData &outdoorMapDeltaData)
+void updateOutdoorJournalRevealMask(
+    int side,
+    float halfExtent,
+    const OutdoorPartyRuntime &partyRuntime,
+    MapDeltaData &outdoorMapDeltaData)
 {
-    ensureJournalRevealMaskSize(outdoorMapDeltaData.fullyRevealedCells);
-    ensureJournalRevealMaskSize(outdoorMapDeltaData.partiallyRevealedCells);
+    ensureJournalRevealMaskSize(outdoorMapDeltaData.fullyRevealedCells, side);
+    ensureJournalRevealMaskSize(outdoorMapDeltaData.partiallyRevealedCells, side);
 
     const OutdoorMoveState &moveState = partyRuntime.movementState();
     const float centerU = std::clamp(
-        (moveState.x + JournalMapWorldHalfExtent) / (JournalMapWorldHalfExtent * 2.0f),
+        (moveState.x + halfExtent) / (halfExtent * 2.0f),
         0.0f,
         0.999999f);
     const float centerV = std::clamp(
-        (JournalMapWorldHalfExtent - moveState.y) / (JournalMapWorldHalfExtent * 2.0f),
+        (halfExtent - moveState.y) / (halfExtent * 2.0f),
         0.0f,
         0.999999f);
-    const int centerCellX = static_cast<int>(std::floor(centerU * static_cast<float>(JournalRevealWidth)));
-    const int centerCellY = static_cast<int>(std::floor(centerV * static_cast<float>(JournalRevealHeight)));
+    const int centerCellX = static_cast<int>(std::floor(centerU * static_cast<float>(side)));
+    const int centerCellY = static_cast<int>(std::floor(centerV * static_cast<float>(side)));
 
     for (int offsetY = -10; offsetY < 10; ++offsetY)
     {
@@ -815,11 +821,11 @@ void updateOutdoorJournalRevealMask(const OutdoorPartyRuntime &partyRuntime, Map
                 continue;
             }
 
-            setPackedRevealBit(outdoorMapDeltaData.partiallyRevealedCells, cellX, cellY);
+            setPackedRevealBit(outdoorMapDeltaData.partiallyRevealedCells, side, cellX, cellY);
 
             if (distanceSquared <= 49)
             {
-                setPackedRevealBit(outdoorMapDeltaData.fullyRevealedCells, cellX, cellY);
+                setPackedRevealBit(outdoorMapDeltaData.fullyRevealedCells, side, cellX, cellY);
             }
         }
     }
@@ -7357,6 +7363,8 @@ void OutdoorWorldRuntime::updateActorShields(float deltaSeconds)
             .alive = !actor.isDead && actor.currentHp > 0,
             .center = {actor.preciseX, actor.preciseY, actor.preciseZ + static_cast<float>(actor.height) * 0.5f},
             .hostileToParty = actor.hostileToParty,
+            .group = actor.group,
+            .maxHp = actor.maxHp,
         };
     });
 
@@ -8420,7 +8428,8 @@ std::optional<float> OutdoorWorldRuntime::checkMapActorSpot(
     }
 
     if (!canFly && !destinationOnBModel
-        && (isOutdoorTerrainWater(*m_pOutdoorMapData, x, y) || isOutdoorLandMaskWater(m_outdoorLandMask, x, y)
+        && (isOutdoorTerrainWater(*m_pOutdoorMapData, x, y)
+            || isOutdoorLandMaskWater(*m_pOutdoorMapData, m_outdoorLandMask, x, y)
             || outdoorTerrainSlopeTooHigh(*m_pOutdoorMapData, x, y)))
     {
         return std::nullopt;
@@ -9819,7 +9828,15 @@ WeatherMapSettings OutdoorWorldRuntime::weatherMapSettings() const
         settings.ashEnabled = map.ashEnabled;
         settings.ashChancePercent = map.ashChancePercent;
         settings.ashLook = map.ashLook;
+        settings.emberLook = map.emberLook;
         settings.dryLightningPercent = map.dryLightningPercent;
+
+        // Ash that never stops (weather.yml `always: ash`) needs no rain or snow weather.
+        if (map.always == PrecipitationKind::Ash)
+        {
+            settings.always = map.always;
+            settings.alwaysPeak = map.alwaysPeak;
+        }
         settings.rainColor = map.rainColor;
     }
 
@@ -16283,7 +16300,7 @@ OutdoorWorldRuntime::ProjectileCollisionFacts OutdoorWorldRuntime::buildProjecti
     {
         best.waterTerrainImpact =
             isOutdoorTerrainWater(*m_pOutdoorMapData, best.point.x, best.point.y)
-            || isOutdoorLandMaskWater(m_outdoorLandMask, best.point.x, best.point.y);
+            || isOutdoorLandMaskWater(*m_pOutdoorMapData, m_outdoorLandMask, best.point.x, best.point.y);
     }
 
     return best;
@@ -18019,6 +18036,20 @@ bool OutdoorWorldRuntime::isMapActorDead(size_t actorIndex) const
     return pActor != nullptr && (pActor->isDead || pActor->currentHp <= 0);
 }
 
+bool OutdoorWorldRuntime::mapActorHp(size_t actorIndex, int &hp, int &maxHp) const
+{
+    const MapActorState *pActor = mapActorState(actorIndex);
+
+    if (pActor == nullptr)
+    {
+        return false;
+    }
+
+    hp = pActor->currentHp;
+    maxHp = pActor->maxHp;
+    return true;
+}
+
 bool OutdoorWorldRuntime::isMapActorWithinPartyDistance(size_t actorIndex, float distance) const
 {
     const MapActorState *pActor = mapActorState(actorIndex);
@@ -19409,6 +19440,7 @@ bool OutdoorWorldRuntime::applyMonsterActorMeleeAttackToMapActor(
         appliedDamage,
         sourceActorId,
         shieldAttackTierForDamageType(damageType, false),
+        true,
         true,
         true);
 }
@@ -23823,6 +23855,31 @@ float OutdoorWorldRuntime::partyY() const
     return m_pPartyRuntime != nullptr ? m_pPartyRuntime->partyY() : 0.0f;
 }
 
+std::optional<float> OutdoorWorldRuntime::eventFloorHeight(float x, float y, std::optional<float> z) const
+{
+    if (m_pOutdoorMapData == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const float gridX = outdoorWorldToGridXFloat(*m_pOutdoorMapData, x);
+    const float gridY = outdoorWorldToGridYFloat(*m_pOutdoorMapData, y);
+    const float lastGridCorner = static_cast<float>(m_pOutdoorMapData->terrainSide - 1);
+
+    if (gridX < 0.0f || gridY < 0.0f || gridX > lastGridCorner || gridY > lastGridCorner)
+    {
+        return std::nullopt;
+    }
+
+    // Without a height, the topmost floor (a roof, a bridge, else the terrain); with one, the floor the party would
+    // stand on there (at most a step above it).
+    constexpr float TopmostQueryHeight = 1.0e6f;
+    constexpr float StepTolerance = 5.0f;
+    const OutdoorSupportFloorSample support = sampleOutdoorSupportFloor(
+        *m_pOutdoorMapData, x, y, z.value_or(TopmostQueryHeight), StepTolerance, StepTolerance);
+    return support.hasFloor ? std::optional<float>(support.height) : std::nullopt;
+}
+
 float OutdoorWorldRuntime::partyFootZ() const
 {
     if (m_actingBody)
@@ -24812,24 +24869,7 @@ bool OutdoorWorldRuntime::activateWorldHit(const GameplayWorldHit &hit)
         return false;
     }
 
-    // A decoration's click: the chest it opens opens its lid (openChestDecoration).
-    EventRuntimeState *pEvents = eventRuntimeState();
-    const std::optional<uint32_t> previousKey = pEvents != nullptr ? pEvents->activeEventDecorationKey : std::nullopt;
-    if (pEvents != nullptr && hit.eventTarget && hit.eventTarget->targetKind == GameplayWorldEventTargetKind::Entity)
-    {
-        pEvents->activeEventDecorationKey = hit.eventTarget->eventIdPrimary != 0
-            ? uint32_t(hit.eventTarget->eventIdPrimary) : uint32_t(hit.eventTarget->targetIndex);
-    }
-    const bool activated = OutdoorInteractionController::dispatchWorldActivation(*m_pInteractionView, hit);
-    if (pEvents != nullptr)
-    {
-        if (activated && pEvents->activeEventDecorationKey != previousKey && pEvents->activeEventDecorationKey)
-        {
-            ++pEvents->decorationUses[*pEvents->activeEventDecorationKey];
-        }
-        pEvents->activeEventDecorationKey = previousKey;
-    }
-    return activated;
+    return OutdoorInteractionController::dispatchWorldActivation(*m_pInteractionView, hit);
 }
 
 bool OutdoorWorldRuntime::activateWorldHitFromSpell(const GameplayWorldHit &hit, uint32_t spellId)
@@ -25289,10 +25329,10 @@ void OutdoorWorldRuntime::collectGameplayMinimapLines(std::vector<GameplayMinima
             }
 
             GameplayMinimapLineState line = {};
-            line.u0 = (static_cast<float>(edge[0]) + 32768.0f) / 65536.0f;
-            line.v0 = (32768.0f - static_cast<float>(edge[1])) / 65536.0f;
-            line.u1 = (static_cast<float>(edge[2]) + 32768.0f) / 65536.0f;
-            line.v1 = (32768.0f - static_cast<float>(edge[3])) / 65536.0f;
+            line.u0 = (static_cast<float>(edge[0]) + halfExtent) / (halfExtent * 2.0f);
+            line.v0 = (halfExtent - static_cast<float>(edge[1])) / (halfExtent * 2.0f);
+            line.u1 = (static_cast<float>(edge[2]) + halfExtent) / (halfExtent * 2.0f);
+            line.v1 = (halfExtent - static_cast<float>(edge[3])) / (halfExtent * 2.0f);
             line.colorAbgr = 0xffa0a0a0u;
             lines.push_back(line);
         }

@@ -17,6 +17,7 @@ codecs:
     normal: bc5
     metallic_roughness: bc1
     region_mask: bc7
+    surface_detail: bc7
     burn_map: bc5
   android:
     colour: etc2_rgb
@@ -25,6 +26,7 @@ codecs:
     normal: eac_rg
     metallic_roughness: etc2_rgb
     region_mask: etc2_rgba
+    surface_detail: etc2_rgba
     burn_map: eac_rg
 
 # Every cooked texture is power-of-two: the cooker area-downscales other sources first (OpenGL leaves

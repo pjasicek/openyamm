@@ -124,6 +124,8 @@ float outdoorSmoothedTerrainHeight(const OutdoorMapData &map, float gridX, float
 // Keeps a rendered terrain grid (side x side vertices, steps per native cell) under the BModels' upward-facing faces:
 // the smoothed surface may rise above the native one the BModels were fitted to, through pools, channels and floors.
 void capRenderedTerrainUnderBModels(const OutdoorMapData &map, std::vector<float> &heights, int side, int steps);
+// The largest upward normal component among the rendered triangles touching each terrain vertex.
+std::vector<float> outdoorTerrainVertexFaceUp(const std::vector<float> &heights, int side, float spacing);
 bx::Vec3 sampleOutdoorRenderedTerrainNormal(const OutdoorMapData &outdoorMapData, float x, float y);
 float sampleOutdoorTerrainNormalZ(const OutdoorMapData &outdoorMapData, float x, float y);
 bool outdoorTerrainSlopeTooHigh(const OutdoorMapData &outdoorMapData, float x, float y);

@@ -5,6 +5,7 @@
 #include "game/outdoor/OutdoorDistantSea.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorMapData.h"
+#include "game/party/CampaignState.h"
 #include "game/render/SkyClock.h"
 #include "game/render/SkyPresets.h"
 #include "game/render/SkyState.h"
@@ -247,6 +248,61 @@ TEST_CASE("sky preset selection follows underwater, debug, environment, weather 
     CHECK(selectSkyPreset(library, inputs) == "hot");
     inputs.underwater = true;
     CHECK(selectSkyPreset(library, inputs) == "deep");
+}
+
+TEST_CASE("conditional sky themes follow the live campaign on outdoor and open indoor maps")
+{
+    const std::string worldSky = R"(version: 1
+maps:
+  hive.odm: &changing {theme: ember, when_qbit: [{qbit: 41, theme: pinned}, {qbit: 42, theme: ember}]}
+  courtyard.blv: *changing
+)";
+    SkyPresetLibrary library;
+    std::string composed, error;
+    REQUIRE(composeSkyLibraryYaml(TestLibraryYaml, {{"fixture", worldSky}}, composed, error));
+    REQUIRE(library.loadFromYaml(composed, error));
+    SkyStateModel model;
+    model.setLibrary(&library);
+    CampaignState campaign;
+    SkyInputs inputs;
+    inputs.pCampaign = &campaign;
+    for (const char *map : {"hive.odm", "Courtyard.BLV"})
+    {
+        inputs.mapFileName = map;
+        CHECK(model.update(inputs, 0).themeName == "ember");
+        campaign.setQuestBit(41, true);
+        const auto saved = campaign.snapshot();
+        const auto &changed = model.update(inputs, 0);
+        CHECK(changed.themeName == "pinned");
+        CHECK(changed.presetName == "stormy");
+        campaign.setQuestBit(42, true);
+        CHECK(model.update(inputs, 0).themeName == "ember"); // the last matching rule
+        campaign.restoreSnapshot(saved);
+        CHECK(model.update(inputs, 0).themeName == "pinned");
+        inputs.forcedPreset = "wet"; // explicit scene or debug preset retains the map's tint
+        CHECK(model.update(inputs, 0).presetName == "wet");
+        CHECK(model.frame().themeName == "pinned");
+        inputs.forcedPreset.clear();
+        inputs.forcedTheme = "";
+        CHECK(model.update(inputs, 0).themeName.empty());
+        inputs.forcedTheme.reset();
+        campaign.resetForNewParty();
+        CHECK(model.update(inputs, 0).themeName == "ember");
+    }
+    CampaignState other;
+    CampaignState replacement;
+    other.setQuestBit(41, true);
+    replacement.setQuestBit(42, true);
+    REQUIRE(other.questRevision() == replacement.questRevision());
+    inputs.pCampaign = &other;
+    CHECK(model.update(inputs, 0).themeName == "pinned");
+    inputs.pCampaign = &replacement;
+    CHECK(model.update(inputs, 0).themeName == "ember");
+    inputs.mapFileName = "stock.odm";
+    CHECK(model.update(inputs, 0).themeName.empty());
+    inputs.mapFileName = "hive.odm";
+    inputs.pCampaign = nullptr;
+    CHECK(model.update(inputs, 0).themeName == "ember");
 }
 
 TEST_CASE("sky map themes recolour the selected preset or pin their own")
@@ -558,7 +614,7 @@ TEST_CASE("a world adds its own skies to the library and redefines none")
         "version: 1\n"
         "aliases: {worldsky1: world_day}\n"
         "presets:\n"
-        "  world_day: {inherits: base}\n"
+        "  world_day: {inherits: base, eclipse: true}\n"
         "maps: {world_x1.odm: scorched}\n";
     std::string composed;
     std::string error;
@@ -566,7 +622,8 @@ TEST_CASE("a world adds its own skies to the library and redefines none")
     SkyPresetLibrary library;
     REQUIRE(library.loadFromYaml(composed, error));
     CHECK(library.presetForSkyName("WorldSky1") == "world_day");
-    CHECK(library.find("world_day") != nullptr);
+    REQUIRE(library.find("world_day") != nullptr);
+    CHECK(library.find("world_day")->eclipse);
     REQUIRE(library.themeForMap("World_X1.odm") != nullptr);
 
     CHECK_FALSE(composeSkyLibraryYaml(
@@ -730,6 +787,27 @@ std::string withPreset(const std::string &preset)
     yaml.insert(yaml.find(marker) + marker.size(), preset);
     return yaml;
 }
+}
+
+TEST_CASE("a sky preset can keep its sun low over the same horizon as its baked sunlight")
+{
+    SkyPresetLibrary library;
+    std::string error;
+    REQUIRE(library.loadFromYaml(withPreset("  low: {inherits: day, sun_direction: [-0.8, 0, 0.2]}\n"), error));
+    SkyStateModel model;
+    model.setLibrary(&library);
+    SkyInputs inputs = {};
+    inputs.forcedPreset = "low";
+    inputs.gameMinutes = 600.0f;
+    const auto direction = model.update(inputs, 0.0f).sunDirection;
+    CHECK(direction[0] == doctest::Approx(-4.0 / std::sqrt(17.0)));
+    CHECK(direction[2] == doctest::Approx(1.0 / std::sqrt(17.0)));
+    inputs.gameMinutes = 900.0f;
+    CHECK(model.update(inputs, 0.0f).sunDirection == direction);
+    inputs.forcedPreset = "day";
+    model.snap();
+    CHECK(model.update(inputs, 0.0f).sunDirection == skySunDirection(inputs.gameMinutes));
+    CHECK_FALSE(library.loadFromYaml(withPreset("  low: {inherits: day, sun_direction: [0, 0, 0]}\n"), error));
 }
 
 TEST_CASE("sky orbit ring is off unless a preset asks for it")
@@ -940,7 +1018,10 @@ TEST_CASE("terrain.void rectangles parse into the map's void cells, and bad ones
     CHECK(scene->terrainVoidRects[0] == std::array<int, 4>{105, 0, 126, 126});
 
     CHECK_FALSE(loader.loadFromText(withVoid("[[5, 0, 4, 3]]"), error).has_value());
-    CHECK_FALSE(loader.loadFromText(withVoid("[[0, 0, 128, 3]]"), error).has_value());
+    // Past the largest grid side the scene is refused outright; past the map's own side when it is applied below.
+    CHECK_FALSE(loader.loadFromText(withVoid("[[0, 0, 256, 3]]"), error).has_value());
+    const std::optional<OutdoorSceneData> outside = loader.loadFromText(withVoid("[[0, 0, 128, 3]]"), error);
+    REQUIRE_MESSAGE(outside.has_value(), error);
     CHECK_FALSE(loader.loadFromText(withVoid("[[0, 0, 3]]"), error).has_value());
     CHECK_FALSE(loader.loadFromText(withVoid("{x: 1}"), error).has_value());
 
@@ -965,6 +1046,11 @@ TEST_CASE("terrain.void rectangles parse into the map's void cells, and bad ones
     MapDeltaData plainState;
     REQUIRE_MESSAGE(buildOutdoorMapStateFromScene(*plain, *plainMap, plainState, error), error);
     CHECK(plainMap->voidCells.empty());
+
+    std::optional<OutdoorMapData> classicMap = OutdoorMapDataLoader{}.loadFromBytes(geometryBytes);
+    REQUIRE(classicMap);
+    MapDeltaData classicState;
+    CHECK_FALSE(buildOutdoorMapStateFromScene(*outside, *classicMap, classicState, error));
 }
 
 TEST_CASE("a sky preset's and a theme's void block set the space below the horizon over the void")

@@ -18,6 +18,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parents[3] / 'tools'))
 sys.path.insert(0, str(HERE))
 from build_actor_lods import append_accessor, read_glb, write_glb  # noqa: E402
+from cook_model_geometry import mapped_materials  # noqa: E402
 from build_lods import rows  # noqa: E402
 from splice_lods import compact, triangles  # noqa: E402
 from transfer_textures import material_maps, own_map_variants, unwrapped_uvs  # noqa: E402
@@ -53,10 +54,18 @@ def lod_material(doc, index, level, textures):
     if 'normal' in textures:
         # The transferred normal map already carries LOD0's normal-map strength.
         material['normalTexture'] = {'index': textures['normal']}
+    if 'emissive' in textures:
+        material['emissiveTexture'] = {'index': textures['emissive']}
     if 'mask' in textures:
         material['extras']['openyamm_region_mask'] = {'index': textures['mask']}
     doc['materials'].append(material)
     return len(doc['materials']) - 1
+
+
+def has_baked_materials(doc, lod0, levels):
+    planned = {f"{material['name']}_LOD{level}" for primitive in lod0['primitives']
+               for material in mapped_materials(doc, primitive) for level in levels}
+    return any(material['name'] in planned for material in doc['materials'])
 
 
 def main():
@@ -66,8 +75,8 @@ def main():
     binary = bytearray(binary)
     node = next(n for n in doc['nodes'] if n.get('name') == node_name and 'mesh' in n)
     lod0 = doc['meshes'][node['mesh']]
-    if any(m['name'].endswith(tuple(f'_LOD{level}' for level in levels)) for m in doc['materials']):
-        raise ValueError('the input already has baked LOD materials: rebuild from the original GLB')
+    if has_baked_materials(doc, lod0, levels):
+        raise ValueError(f'{node_name} already has baked LOD materials: rebuild from the original GLB')
     for level in levels:
         unwrapped = np.load(bake_dir / f'lod{level}.npz')
         mesh = doc['meshes'][lod0['extras']['openyamm_lods'][level - 1]]
@@ -76,13 +85,13 @@ def main():
             primitive_index = index  # `index` is reused for accessors below
             material = doc['materials'][primitive['material']]
             kinds = material_maps(material)
-            if not kinds:
+            own = own_map_variants(doc, primitive)
+            if not kinds and not own:
                 new_primitives.append(primitive)
                 continue
-            first = next(iter(kinds.values()))
-            sampler = doc['textures'][first].get('sampler')
             textures = {kind: add_image(doc, binary, f'{material["name"]}_lod{level}_{kind}',
-                                        bake_dir / f'lod{level}_p{index}_{kind}.png', sampler) for kind in kinds}
+                                        bake_dir / f'lod{level}_p{index}_{kind}.png', doc['textures'][t].get('sampler'))
+                        for kind, t in kinds.items()}
             faces, face_uv = unwrapped_uvs(doc, binary, primitive, index, unwrapped)
             corners = [[(int(v), tuple(np.round(uv, 7))) for v, uv in zip(triangle, uvs)]
                        for triangle, uvs in zip(faces, face_uv)]
@@ -109,7 +118,6 @@ def main():
                 indices.astype(np.uint16 if index_type == 5123 else np.uint32).tobytes())
             if 'extensions' in primitive:
                 extension = copy.deepcopy(primitive['extensions'])
-                own = own_map_variants(doc, primitive)
                 for mapping in extension.get('KHR_materials_variants', {}).get('mappings', []):
                     variant = mapping['material']
                     variant_kinds = material_maps(doc['materials'][variant])
@@ -119,7 +127,7 @@ def main():
                         variant_name = doc['materials'][variant]['name']
                         variant_textures = {kind: textures[kind] if kinds.get(kind) == t
                                             else add_image(doc, binary, f'{variant_name}_lod{level}_{kind}',
-                                                           bake_dir / f'{stem}_{kind}.png', sampler)
+                                                           bake_dir / f'{stem}_{kind}.png', doc['textures'][t].get('sampler'))
                                             for kind, t in variant_kinds.items()}
                     else:
                         # Same maps as the default: share its far maps, only those the variant has (no mask

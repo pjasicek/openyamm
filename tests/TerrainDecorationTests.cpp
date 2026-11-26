@@ -997,6 +997,32 @@ TEST_CASE("Smoothed terrain passes through native vertices and stays near the na
             outdoorGridCornerWorldY(50) - 0.6f * 512.0f)).epsilon(0.001));
 }
 
+TEST_CASE("Terrain projection stays flat at a bank's lip and foot and follows the steep faces between")
+{
+    std::vector<float> heights;
+    for (int row = 0; row < 5; ++row)
+    {
+        heights.insert(heights.end(), {0.0f, 0.0f, 128.0f, 256.0f, 256.0f});
+    }
+    CHECK(outdoorTerrainVertexFaceUp({}, 5, 64.0f).empty());
+    CHECK(outdoorTerrainVertexFaceUp(heights, 5, 0.0f).empty());
+    const std::vector<float> up = outdoorTerrainVertexFaceUp(heights, 5, 64.0f);
+    REQUIRE(up.size() == heights.size());
+    for (size_t row = 0; row < 5; ++row)
+    {
+        CHECK(up[5 * row + 1] == 1.0f);
+        CHECK(up[5 * row + 2] == doctest::Approx(1.0f / std::sqrt(5.0f)));
+        CHECK(up[5 * row + 3] == 1.0f);
+    }
+    // The northwest-southeast diagonal places the isolated southwest corner on one steep triangle.
+    const std::vector<float> corner = outdoorTerrainVertexFaceUp({0.0f, 0.0f, 64.0f, 0.0f}, 2, 64.0f);
+    REQUIRE(corner.size() == 4);
+    CHECK(corner[0] == 1.0f);
+    CHECK(corner[1] == 1.0f);
+    CHECK(corner[2] == doctest::Approx(1.0f / std::sqrt(3.0f)));
+    CHECK(corner[3] == 1.0f);
+}
+
 TEST_CASE("Rendered terrain stays under a pool cut into a hillside terrace")
 {
     // Every row climbs west to east onto a flat terrace (grid columns 64-65) that the smoothed surface bulges over.

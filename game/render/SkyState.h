@@ -38,6 +38,8 @@ struct SkyInputs
     std::string mapFileName;
     // Debug `sky theme` override: a theme name, or empty for no theme; unset selects by map.
     std::optional<std::string> forcedTheme;
+    // The campaign whose quest revision drives this map's conditional theme.
+    const CampaignState *pCampaign = nullptr;
     // An indoor map's sky in fog (scene fog `sky`, devdocs/INDOOR_FOG.md "The sky in fog"): the share of the sky drawn
     // in fogCoverDisplay (display space, 0-1), as MM9 draws its fogged sky box in the fog colour. 0 changes nothing.
     float fogCover = 0.0f;
@@ -69,6 +71,7 @@ struct SkyFrameState
     SkyColor fogFlatDisplay = {};
     std::array<float, 3> sunDirection = {0.0f, 0.0f, 1.0f};
     float sunDiscDegrees = 1.6f;
+    float eclipse = 0.0f;
     std::array<float, 3> moonDirection = {0.0f, 0.0f, -1.0f};
     float moonDiscDegrees = 2.2f;
     std::string moonTexture = "moon";
@@ -127,7 +130,6 @@ float skyOrbitLightAngle(const SkyOrbitRing &ring, int index, double gameMinutes
 // Whether the preset draws an original painted sky (a colour cloud layer).
 bool isPaintedSkyPreset(const SkyPreset &preset);
 std::string selectSkyPreset(const SkyPresetLibrary &library, const SkyInputs &inputs);
-const SkyTheme *selectSkyTheme(const SkyPresetLibrary &library, const SkyInputs &inputs);
 
 // u_skyRim values for fs_sky's rim glow (SkyRimGlow): [0] its middle's direction on the horizon (x east, y north),
 // half width and height (radians); [1] colour times strength (linear), depth below the horizon (radians). All zero
@@ -148,6 +150,11 @@ private:
     void buildCloudLayers(const SkyPreset &from, const SkyPreset &to, float blend, float realDeltaSeconds);
 
     const SkyPresetLibrary *m_pLibrary = nullptr;
+    std::string m_themeMap;
+    std::optional<std::string> m_forcedTheme;
+    const CampaignState *m_pThemeCampaign = nullptr;
+    uint64_t m_themeQuestRevision = 0;
+    const SkyTheme *m_pTheme = nullptr;
     SkyFrameState m_frame;
     std::string m_fromPreset;
     std::string m_toPreset;

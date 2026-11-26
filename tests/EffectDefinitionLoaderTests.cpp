@@ -776,6 +776,41 @@ TEST_CASE("Projectile model bindings parse object ids, models and lengths")
     CHECK(error.find("bound twice") != std::string::npos);
 }
 
+TEST_CASE("Projectile model bindings merge a world's rows inside its objects range")
+{
+    using namespace OpenYAMM;
+    std::string error;
+    Game::ProjectileModelBindings bindings;
+    REQUIRE(Game::parseProjectileModelBindings("schema: openyamm.projectileModels.v1\nprojectiles:\n"
+        "  - {object: 545, model: engine/models/projectile_arrow.glb, length: 130}\n",
+        "engine/models/projectiles.yml", bindings, error));
+    const auto merge = [&](const std::string &projectiles)
+    {
+        return Game::mergeWorldProjectileModelBindings(
+            "schema: openyamm.projectileModels.v1\nprojectiles:\n" + projectiles,
+            "worlds/hesper/models/projectiles.yml", 20000, 20999, bindings, error);
+    };
+    REQUIRE_MESSAGE(merge("  - {object: 20010, model: worlds/hesper/models/bolt.glb, length: 60}\n"), error);
+    REQUIRE(bindings.size() == 2);
+    CHECK_EQ(bindings.at(545).sourcePath, "engine/models/projectiles.yml");
+    CHECK_EQ(bindings.at(20010).model, "worlds/hesper/models/bolt.glb");
+    CHECK_EQ(bindings.at(20010).sourcePath, "worlds/hesper/models/projectiles.yml");
+    // Outside the world's objects range: an error naming the file, nothing added.
+    CHECK_FALSE(merge("  - {object: 20020, model: b.glb, length: 10}\n  - {object: 546, model: a.glb, length: 10}\n"));
+    CHECK(error.find("worlds/hesper/models/projectiles.yml") != std::string::npos);
+    CHECK(error.find("outside the world's objects id range") != std::string::npos);
+    CHECK_FALSE(bindings.contains(20020));
+    // An object the engine (or an earlier world) binds already.
+    CHECK_FALSE(Game::mergeWorldProjectileModelBindings("schema: openyamm.projectileModels.v1\nprojectiles:\n"
+        "  - {object: 545, model: a.glb, length: 10}\n", "worlds/other/models/projectiles.yml", 1, 30000, bindings,
+        error));
+    CHECK(error.find("worlds/other/models/projectiles.yml") != std::string::npos);
+    CHECK(error.find("already bound by engine/models/projectiles.yml") != std::string::npos);
+    CHECK_FALSE(merge("  - {object: 20010, model: c.glb, length: 10}\n"));
+    CHECK(error.find("already bound") != std::string::npos);
+    CHECK_EQ(bindings.size(), 2);
+}
+
 TEST_CASE("Projectile model bindings name installed models")
 {
     using namespace OpenYAMM;

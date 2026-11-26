@@ -180,6 +180,156 @@ elements:
           align_y: middle
           scale: 0.41666665625
 
+      # With the Web of Worlds (a planet world mounted, its web_of_worlds table contribution): the continent buttons
+      # in a tighter row and the Web's own tab (GameplayWebOfWorlds draws its glyph, glow and hint).
+      - id: TownPortalCompactButton1
+        anchor: bottom_left
+        offset_x: 6
+        offset_y: -5
+        width: 70
+        height: 26
+        z_index: 300
+        interactive: true
+        asset:
+          default: obsidian_button_tab_normal
+          highlighted: obsidian_button_tab_hover
+          pressed: obsidian_button_tab_pressed
+          selected: obsidian_button_tab_selected
+        text:
+          value: "{continent}"
+          font: Fondamento
+          color: "#e8d1a4"
+          align_x: center
+          align_y: middle
+          scale: 0.375
+
+      - id: TownPortalCompactButton2
+        anchor: bottom_left
+        offset_x: 79
+        offset_y: -5
+        width: 70
+        height: 26
+        z_index: 300
+        interactive: true
+        asset:
+          default: obsidian_button_tab_normal
+          highlighted: obsidian_button_tab_hover
+          pressed: obsidian_button_tab_pressed
+          selected: obsidian_button_tab_selected
+        text:
+          value: "{continent}"
+          font: Fondamento
+          color: "#e8d1a4"
+          align_x: center
+          align_y: middle
+          scale: 0.375
+
+      - id: TownPortalCompactButton3
+        anchor: bottom_left
+        offset_x: 152
+        offset_y: -5
+        width: 70
+        height: 26
+        z_index: 300
+        interactive: true
+        asset:
+          default: obsidian_button_tab_normal
+          highlighted: obsidian_button_tab_hover
+          pressed: obsidian_button_tab_pressed
+          selected: obsidian_button_tab_selected
+        text:
+          value: "{continent}"
+          font: Fondamento
+          color: "#e8d1a4"
+          align_x: center
+          align_y: middle
+          scale: 0.375
+
+      - id: TownPortalCompactButton4
+        anchor: bottom_left
+        offset_x: 225
+        offset_y: -5
+        width: 70
+        height: 26
+        z_index: 300
+        interactive: true
+        asset:
+          default: obsidian_button_tab_normal
+          highlighted: obsidian_button_tab_hover
+          pressed: obsidian_button_tab_pressed
+          selected: obsidian_button_tab_selected
+        text:
+          value: "{continent}"
+          font: Fondamento
+          color: "#e8d1a4"
+          align_x: center
+          align_y: middle
+          scale: 0.375
+
+      - id: TownPortalCompactButton5
+        anchor: bottom_left
+        offset_x: 298
+        offset_y: -5
+        width: 70
+        height: 26
+        z_index: 300
+        interactive: true
+        asset:
+          default: obsidian_button_tab_normal
+          highlighted: obsidian_button_tab_hover
+          pressed: obsidian_button_tab_pressed
+          selected: obsidian_button_tab_selected
+        text:
+          value: "{continent}"
+          font: Fondamento
+          color: "#e8d1a4"
+          align_x: center
+          align_y: middle
+          scale: 0.375
+
+      - id: TownPortalCompactButton6
+        anchor: bottom_left
+        offset_x: 371
+        offset_y: -5
+        width: 70
+        height: 26
+        z_index: 300
+        interactive: true
+        asset:
+          default: obsidian_button_tab_normal
+          highlighted: obsidian_button_tab_hover
+          pressed: obsidian_button_tab_pressed
+          selected: obsidian_button_tab_selected
+        text:
+          value: "{continent}"
+          font: Fondamento
+          color: "#e8d1a4"
+          align_x: center
+          align_y: middle
+          scale: 0.375
+
+      - id: TownPortalWebButton
+        anchor: bottom_left
+        offset_x: 446
+        offset_y: -5
+        width: 105
+        height: 26
+        z_index: 300
+        interactive: true
+        asset:
+          default: obsidian_button_tab_normal
+          highlighted: obsidian_button_tab_hover
+          pressed: obsidian_button_tab_pressed
+          selected: obsidian_button_tab_selected
+          disabled: obsidian_button_tab_normal
+        text:
+          value: "Web of Worlds"
+          font: Fondamento
+          color: "#ffd3b0"
+          align_x: center
+          align_y: middle
+          scale: 0.375
+
       - id: TownPortalCloseButton
         anchor: bottom_right
         offset_x: -3

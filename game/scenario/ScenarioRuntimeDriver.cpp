@@ -31,6 +31,7 @@
 #include "game/pathfinding/PathPlanner.h"
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/scene/OutdoorSceneRuntime.h"
+#include "game/data/MapScriptSources.h"
 #include "game/tables/MapStats.h"
 
 #include <SDL3/SDL.h>
@@ -519,6 +520,7 @@ bool pendingMapMoveStaysOnMap(const EventRuntimeState::PendingMapMove &move, con
 GameplayInputFrame buildMovementInputFrame(const ScenarioMovementCommand &command)
 {
     GameplayInputFrame input = {};
+    input.refreshWorldHover = false;
     input.screenWidth = ScenarioViewWidth;
     input.screenHeight = ScenarioViewHeight;
     input.pointerX = ScenarioViewWidth * 0.5f;
@@ -3271,6 +3273,21 @@ MawRules *ScenarioRuntimeDriver::mawRules()
     return ScenarioGameApplicationAccess::gameSession(m_application).mawRules();
 }
 
+void ScenarioRuntimeDriver::clickHud(float x, float y)
+{
+    GameSession &session = ScenarioGameApplicationAccess::gameSession(m_application);
+    GameplayInputFrame input = {};
+    input.screenWidth = ScenarioViewWidth;
+    input.screenHeight = ScenarioViewHeight;
+    input.pointerX = x;
+    input.pointerY = y;
+    input.leftMouseButton = {true, true, false};
+    session.updateGameplay(input, RuntimeStepSeconds, false);
+    input.leftMouseButton = {false, false, true};
+    session.updateGameplay(input, RuntimeStepSeconds, false);
+    session.bindCurrentGameplayInputFrame(nullptr);
+}
+
 bool ScenarioRuntimeDriver::runConsoleLine(const std::string &line, std::string &output, std::string &failure)
 {
     if (!ScenarioGameApplicationAccess::runConsoleLine(m_application, line, output))
@@ -4284,7 +4301,8 @@ bool ScenarioRuntimeDriver::healAtTemple(
     return true;
 }
 
-bool ScenarioRuntimeDriver::runLuaEvent(const std::string &source, PlayerId player, std::string &failure)
+bool ScenarioRuntimeDriver::runLuaEvent(
+    const std::string &source, PlayerId player, bool worldCommon, std::string &failure)
 {
     IMapSceneRuntime *pSceneRuntime = ScenarioGameApplicationAccess::mapSceneRuntime(m_application);
     EventRuntimeState *pEventRuntimeState = eventRuntimeState();
@@ -4299,8 +4317,27 @@ bool ScenarioRuntimeDriver::runLuaEvent(const std::string &source, PlayerId play
     constexpr uint16_t ScenarioLuaEventId = 65535;
     const std::optional<std::string> support =
         m_pAssetFileSystem->readTextFile("scripts/common/event_support.lua");
-    const std::string text = support.value_or("") + "\n\nRegisterGlobalEvent(" + std::to_string(ScenarioLuaEventId)
-        + ", \"scenario\", function()\n" + source + "\nend)\n";
+    std::string common;
+
+    if (worldCommon)
+    {
+        const MapStatsEntry *pMap =
+            ScenarioGameApplicationAccess::gameDataLoader(m_application).getMapStats().findByFileName(
+                pEventRuntimeState->mapFileName);
+
+        if (pMap == nullptr || pMap->worldId.empty())
+        {
+            failure = "lua_event world_common: the current map has no world";
+            return false;
+        }
+
+        std::string resolvedPath;
+        common = readExistingTexts(*m_pAssetFileSystem,
+            buildLuaWorldCommonPathCandidates(*m_pAssetFileSystem, pMap->worldId), resolvedPath).value_or("");
+    }
+
+    const std::string text = support.value_or("") + "\n\n" + common + "\n\nRegisterGlobalEvent("
+        + std::to_string(ScenarioLuaEventId) + ", \"scenario\", function()\n" + source + "\nend)\n";
     std::string error;
     const std::optional<ScriptedEventProgram> program =
         ScriptedEventProgram::loadFromLuaText(text, "@scenario_lua_event", ScriptedEventScope::Global, error);
@@ -4712,6 +4749,7 @@ bool ScenarioRuntimeDriver::advanceRuntime(float seconds, std::string &failure, 
     float remaining = seconds;
     GameSession &session = ScenarioGameApplicationAccess::gameSession(m_application);
     GameplayInputFrame input = {};
+    input.refreshWorldHover = false;
     input.screenWidth = ScenarioViewWidth;
     input.screenHeight = ScenarioViewHeight;
     input.pointerX = ScenarioViewWidth * 0.5f;

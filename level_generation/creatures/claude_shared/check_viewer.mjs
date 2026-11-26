@@ -72,13 +72,17 @@ if (state.ready === 'true') {
     await send('Runtime.evaluate', { expression: `(() => { const s = document.getElementById('modelRevision');
       s.value = ${JSON.stringify(model)}; s.dispatchEvent(new Event('change')); })()` });
     let ok = false;
+    let clips = [];
     for (let i = 0; i < 60 && !ok; i++) {
       await sleep(500);
       const r = await send('Runtime.evaluate', { expression: probe, returnByValue: true });
       const s = JSON.parse(r.result.value);
-      ok = s.ready === 'true' && s.errorHidden; if (!ok && s.error && /could not load/i.test(s.error)) { switches.push({ model, error: s.error }); break; }
+      ok = s.ready === 'true' && s.errorHidden;
+      if (ok) clips = s.clips;
+      if (!ok && s.error && /could not load|cannot load/i.test(s.error)) { switches.push({ model, error: s.error }); break; }
     }
-    for (const clip of state.clips) {
+    if (!ok && !switches.some(s => s.model === model && s.error)) switches.push({model, error:'Model load timed out'});
+    for (const clip of clips) {
       await send('Runtime.evaluate', { expression: `(() => { const s = document.getElementById('clip');
         s.value = ${JSON.stringify(clip)}; s.dispatchEvent(new Event('change')); })()` });
       await sleep(150);

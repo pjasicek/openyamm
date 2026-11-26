@@ -372,6 +372,13 @@ void main()
     if (sunStrength > 0.0001 && sunFacing > 0.99)
     {
         color += u_skyParams[0].rgb * sunStrength * (sunDisc * 6.0 + pow(sunFacing, 1800.0) * 0.6);
+        if (u_skyParams[7].w > 0.0)
+        {
+            // The eclipsing disc and corona lie behind the cloud layers.
+            float corona = exp(-2400.0 * abs(sunFacing - u_skyParams[0].w));
+            vec3 eclipse = (color + u_skyFog[2].rgb * corona) * (1.0 - sunDisc);
+            color = mix(color, eclipse, u_skyParams[7].w * smoothstep(0.0, 0.2, sunVisibility));
+        }
     }
 
     // The rim glow sits behind the cloud banks and clouds.

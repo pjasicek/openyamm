@@ -42,6 +42,8 @@ distant sea, plus the coverage mask of every liquid edge tile (`worlds/<world>/t
   as sawtooth edges) with side projections (from above where the surface itself is level, as on the flat strip at
   a cliff's foot that the broad blur still counts as steep; side projections smeared it into streaks), tinted
   per dominant ground layer (`cliff_from`), so a volcanic island gets dark cliffs and meadows earthy ones.
+  Outdoors, each mesh vertex stores the highest upward normal component of its adjacent triangles. The shader
+  interpolates that value across the bank so the top projection meets the side projection smoothly at its lip and foot.
 - **Edge fringe**: the weight tool blurs transitions over `edge_softness` world units; inside that band, fine noise
   (`fringe.strength`, and `fringe.scale` = the world size of one repeat of the macro noise used, 2048 giving ~32-unit
   clumps and ~128-unit islands) tips the balance between the two layers, scattering grass islands into dirt and
@@ -141,6 +143,11 @@ dropped items stay. `reflections: false` keeps its surfaces out of the planar re
 one look on level and sloping cells). Hesper's rust brine uses all three, on the MM8 water tiles with their shore masks
 (`level_generation/projects/hesper_stage/liquids.yml`). A harmful variant (D2's cistern, the acid marsh) would add a
 damage key beside `depth`; none exists yet. No MM6-MM8 liquid uses these keys.
+
+Banks normally use each triangle’s surface normal for the transition between top and side projection. A world can set
+`continuous_bank_projection: true` in its terrain material `world.yml` before running `weights`. Its generated map files
+then request interpolation from the flattest face beside each terrain vertex. The ordinary terrain vertex occupies 32
+bytes, and the opt-in vertex stores one extra float.
 
 ## Adding a map or world
 

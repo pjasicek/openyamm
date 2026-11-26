@@ -965,6 +965,38 @@ float outdoorSmoothedTerrainHeight(const OutdoorMapData &map, float gridX, float
     return native + MaximumTerrainSmoothingDeviation * std::tanh((cubic - native) / MaximumTerrainSmoothingDeviation) * smoothing;
 }
 
+std::vector<float> outdoorTerrainVertexFaceUp(const std::vector<float> &heights, int side, float spacing)
+{
+    if (side < 2 || spacing <= 0.0f || heights.size() != size_t(side) * side)
+    {
+        return {};
+    }
+    std::vector<float> faceUp(heights.size(), 0.0f);
+    const auto normalZ = [spacing](float riseX, float riseY)
+    {
+        return spacing / std::sqrt(spacing * spacing + riseX * riseX + riseY * riseY);
+    };
+    for (int y = 0; y + 1 < side; ++y)
+    {
+        for (int x = 0; x + 1 < side; ++x)
+        {
+            const size_t nw = size_t(y) * side + x;
+            const size_t ne = nw + 1;
+            const size_t sw = nw + side;
+            const size_t se = sw + 1;
+            // The mesh splits each quad from northwest to southeast. Its two triangles share those vertices.
+            const float upper = normalZ(heights[ne] - heights[nw], heights[se] - heights[ne]);
+            const float lower = normalZ(heights[se] - heights[sw], heights[sw] - heights[nw]);
+            const float shared = std::max(upper, lower);
+            faceUp[nw] = std::max(faceUp[nw], shared);
+            faceUp[se] = std::max(faceUp[se], shared);
+            faceUp[ne] = std::max(faceUp[ne], upper);
+            faceUp[sw] = std::max(faceUp[sw], lower);
+        }
+    }
+    return faceUp;
+}
+
 void capRenderedTerrainUnderBModels(const OutdoorMapData &map, std::vector<float> &heights, int side, int steps)
 {
     // A pool cut into a hillside sits a dozen units above a flat native terrace, while the bicubic surface bulges up

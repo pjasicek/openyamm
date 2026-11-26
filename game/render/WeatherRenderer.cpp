@@ -442,6 +442,13 @@ void WeatherRenderer::render(uint16_t viewId, const WeatherDrawFrame &frame)
     {
         advanceLayer(m_nearAsh, ashVelocity, NearSnowBox, dt);
         advanceLayer(m_farAsh, ashVelocity, FarSnowBox, dt);
+
+        if (frame.emberLook)
+        {
+            const std::array<float, 3> emberVelocity = {frame.windX, frame.windY, -frame.emberLook->fallSpeed};
+            advanceLayer(m_nearEmbers, emberVelocity, NearSnowBox, dt);
+            advanceLayer(m_farEmbers, emberVelocity, FarSnowBox, dt);
+        }
     }
     // The curtain's streak pattern scrolls down at the rain's fall speed.
     m_curtainPhase = wrapPositive(
@@ -559,6 +566,12 @@ void WeatherRenderer::render(uint16_t viewId, const WeatherDrawFrame &frame)
     {
         submitFlakes(viewId, frame, frame.ashLook, frame.ashLevel, m_nearAsh, m_farAsh, budget.nearSnow,
             budget.farSnow, blendState);
+
+        if (frame.emberLook)
+        {
+            submitFlakes(viewId, frame, *frame.emberLook, frame.ashLevel, m_nearEmbers, m_farEmbers,
+                budget.nearSnow, budget.farSnow, blendState);
+        }
     }
 }
 
@@ -566,7 +579,7 @@ void WeatherRenderer::submitFlakes(uint16_t viewId, const WeatherDrawFrame &fram
     float shownLevel, const Layer &nearLayer, const Layer &farLayer, uint32_t nearCount, uint32_t farCount,
     uint64_t state)
 {
-    const float level = std::clamp(shownLevel, 0.0f, 1.0f);
+    const float level = std::clamp(shownLevel, 0.0f, 1.0f) * std::clamp(look.density, 0.0f, 1.0f);
     const std::array<float, 4> sway = {look.sway, look.swayRate, 0.0f, frame.pixelWorldSize};
     const std::array<float, 4> relativeVelocity = {
         frame.windX - m_cameraVelocity[0] * RainCameraMotionShare,

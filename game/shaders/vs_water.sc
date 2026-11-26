@@ -8,7 +8,9 @@ void main()
     // Tar and lava sit a little above the ground and faces they cover: where their edge art blends them into the land
     // (and the materials terrain's smoothed ground meets them), the liquid is drawn over it instead of depth-fighting.
     // A mirror (3) stays on its plane: its reflection is captured about it.
-    vec3 position = a_texcoord2 > 0.5 && a_texcoord2 < 2.5 ? a_position + a_normal * 3.0 : a_position;
+    // Tar and lava (1, 2; 4 is indoor lava in its own colours) lie a little off their face; mirrors (3) do not.
+    bool raised = (a_texcoord2 > 0.5 && a_texcoord2 < 2.5) || a_texcoord2 > 3.5;
+    vec3 position = raised ? a_position + a_normal * 3.0 : a_position;
     gl_Position = mul(u_modelViewProj, vec4(position, 1.0));
     v_worldPosition = position;
     v_worldNormal = a_normal;

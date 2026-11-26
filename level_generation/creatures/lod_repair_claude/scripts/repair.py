@@ -54,14 +54,19 @@ SIZES = {2: 512, 3: 256}
 GATE = {2: (6.0, 16.0), 3: (13.0, 19.5)}
 
 
-def lod_node(path):
+def lod_node(path, name=None):
     """The body: of the skinned nodes with LODs, the one with the most LOD0 triangles. Separate effect meshes (flames,
     sparks, clouds) and death rubble keep their own LODs (retopology playbook, MM8 batch lessons)."""
     sys.path.insert(0, str(ROOT / 'tools'))
     from build_actor_lods import read_glb
     doc, _ = read_glb(path)
-    nodes = [n for n in doc['nodes'] if 'mesh' in n and 'skin' in n
+    nodes = [n for n in doc['nodes'] if 'mesh' in n
              and (doc['meshes'][n['mesh']].get('extras') or {}).get('openyamm_lods')]
+    if name is not None:
+        if sum(n.get('name') == name for n in nodes) != 1:
+            raise ValueError(f'{path.name}: expected one LOD node named {name!r}')
+        return name
+    nodes = [n for n in nodes if 'skin' in n]
     if not nodes:
         raise ValueError(f'{path.name}: no skinned node with LODs')
     triangles = lambda n: sum(doc['accessors'][p['indices']]['count'] for p in doc['meshes'][n['mesh']]['primitives'])
@@ -129,8 +134,15 @@ def gate_ratio(entry, levels):
     return worst
 
 
-def source_glb(stem, choice):
-    installed = next(ROOT.glob(f'assets_source/worlds/*/models/{stem}.glb'))
+def source_glb(stem, choice, world=None):
+    worlds = ROOT / 'assets_source/worlds'
+    installed = (worlds / world / 'models' / f'{stem}.glb' if world else
+                 next(worlds.glob(f'*/models/{stem}.glb'), None))
+    if choice not in ('installed', 'original'):
+        origin = Path(choice).resolve(strict=True)
+        return origin, installed
+    if installed is None or not installed.is_file():
+        raise FileNotFoundError(f'{stem}: installed model missing. Supply --source <glb> for a new model.')
     if choice == 'installed':
         return installed, installed
     if choice == 'original':
@@ -139,11 +151,10 @@ def source_glb(stem, choice):
             original.parent.mkdir(exist_ok=True)
             shutil.copy(installed, original)
         return original, installed
-    return Path(choice).resolve(), installed
 
 
-def repair(stem, choice, ladder, require_not_worse):
-    origin, installed = source_glb(stem, choice)
+def repair(stem, choice, ladder, require_not_worse, world=None, node_name=None):
+    origin, installed = source_glb(stem, choice, world)
     run_name = os.environ.get('LOD_REPAIR_RUN', '')
     work = PROJECT / 'work' / run_name / stem
     work.mkdir(parents=True, exist_ok=True)
@@ -152,10 +163,10 @@ def repair(stem, choice, ladder, require_not_worse):
     # Work from a private copy: the installed file can change under a long run (another stream's install).
     source = work / 'installed.glb'
     shutil.copy(origin, source)
-    node = lod_node(source)
+    node = lod_node(source, node_name)
     result = {'source': str(origin.relative_to(ROOT)) if origin.is_relative_to(ROOT) else str(origin),
               'source_sha256': hashlib.sha256(source.read_bytes()).hexdigest(),
-              'world': installed.parts[-3], 'node': node, 'ladder': ladder, 'not_worse': require_not_worse,
+              'world': installed.parts[-3] if installed else None, 'node': node, 'ladder': ladder, 'not_worse': require_not_worse,
               'lining_fix': os.environ.get('LOD_LINING_FIX', '1') != '0', 'steps': []}
     chosen = None
     levels = [level for level in (2, 3) if level <= lod_count(source, node)]
@@ -221,8 +232,10 @@ def repair(stem, choice, ladder, require_not_worse):
 def main():
     parser = argparse.ArgumentParser(description='Repair the far LODs of installed creatures (module docstring).')
     parser.add_argument('--source', default='installed', help='installed (default), original, or a .glb (one stem)')
+    parser.add_argument('--world', help='World id of an installed or newly authored model')
     parser.add_argument('--ladder', default=os.environ.get('LOD_LADDER', 'fallback'),
                         help='plain, fallback (default) or a spec such as 0.25/0.125,c0.4/0.25')
+    parser.add_argument('--node', help='repair the named mesh and its LODs, including static props')
     parser.add_argument('--not-worse', action='store_true',
                         help='a passing step must also score no worse than the installed far levels')
     parser.add_argument('stems', nargs='+')
@@ -231,7 +244,7 @@ def main():
         parser.error('--source <glb> takes one stem')
     ladder_steps(arguments.ladder)
     for stem in arguments.stems:
-        repair(stem, arguments.source, arguments.ladder, arguments.not_worse)
+        repair(stem, arguments.source, arguments.ladder, arguments.not_worse, arguments.world, arguments.node)
 
 
 if __name__ == '__main__':

@@ -836,6 +836,8 @@ def weights(world, map_name, texels, preview):
     slot_file = {"version": 1, "texels_per_cell": texels, "weights": files, "weighted_layers": len(weighted),
                  "fringe": config.get("fringe", {"strength": 0.0, "scale": 2048.0}),
                  "layers": entries}
+    if "continuous_bank_projection" in config:
+        slot_file["continuous_bank_projection"] = config["continuous_bank_projection"]
     if config.get("meadow"):
         slot_file["meadow"] = config["meadow"]
     if slope:

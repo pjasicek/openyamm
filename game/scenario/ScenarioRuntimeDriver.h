@@ -324,7 +324,8 @@ public:
         std::string &failure);
     bool executeMapEvent(uint16_t eventId, std::string &failure);
     // A scenario's own Lua (lua_event) run as an event of the current map, after the map's event support.
-    bool runLuaEvent(const std::string &source, PlayerId player, std::string &failure);
+    // worldCommon: the map's world's events/common scripts load before the source (its helpers, as map events have).
+    bool runLuaEvent(const std::string &source, PlayerId player, bool worldCommon, std::string &failure);
     bool selectDialogAction(size_t actionIndex, std::string &failure);
     bool selectDialogActionById(uint32_t actionId, std::string &failure);
     bool answerPendingInputPrompt(
@@ -437,6 +438,8 @@ public:
     MawRules *mawRules();
     // Runs a debug console line as typed; output gets what the console printed. False when it reported an error.
     bool runConsoleLine(const std::string &line, std::string &output, std::string &failure);
+    // A left press and release in the scenario's 640 x 480 gameplay viewport.
+    void clickHud(float x, float y);
     // The launch directives debug.startup_console_file and debug.exit_pose_path, done as the game does them; output
     // is the console's report, or the exit pose file's text.
     bool runStartupConsoleFile(const std::filesystem::path &path, std::string &output, std::string &failure);

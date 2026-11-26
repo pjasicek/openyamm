@@ -336,7 +336,7 @@ private:
     void beginLoadingOverlay(
         LoadingOverlayScreen::Presentation presentation = LoadingOverlayScreen::Presentation::Fullscreen,
         const std::string &mapFileName = {});
-    std::vector<std::string> loadingPagesForMap(const std::string &mapFileName);
+    std::vector<std::string> loadingPagesForMap(const std::string &mapFileName, bool includeFallbackPages);
     void drawLoadingOverlay();
     uint32_t renderLoadingOverlayProgress(int progressPercent);
     void prepareGameplayRendering();

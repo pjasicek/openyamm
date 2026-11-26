@@ -22,7 +22,7 @@ sys.path.insert(0, str(HERE))
 from build_actor_lods import read_glb  # noqa: E402
 from build_lods import source_faces  # noqa: E402
 from splice_lods import floats  # noqa: E402
-from transfer_textures import material_maps  # noqa: E402
+from transfer_textures import material_maps, own_map_variants  # noqa: E402
 
 PADDING = 4  # texels between charts, for filtering and the smaller mips
 
@@ -66,7 +66,7 @@ def main():
     for level, size in sorted(plan.items()):
         mesh = doc['meshes'][lod0['extras']['openyamm_lods'][level - 1]]
         textured = [(index, primitive) for index, primitive in enumerate(mesh['primitives'])
-                    if material_maps(doc['materials'][primitive['material']])]
+                    if material_maps(doc['materials'][primitive['material']]) or own_map_variants(doc, primitive)]
         areas = {index: area(floats(doc, binary, primitive['attributes']['POSITION']),
                              source_faces(doc, binary, primitive)) for index, primitive in textured}
         arrays = {}

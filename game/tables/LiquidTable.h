@@ -36,6 +36,14 @@ struct LiquidDefinition
     // Faces of a liquid below 1 are see-through: drawn blended over the bed after the solid scene, the body at this
     // opacity and its reflections and highlights on top. 1: opaque, as before. Water and tar faces only.
     float opacity = 1.0f;
+    // Lava faces indoors (opt-in; 0 keeps the shader's own look): `scale` multiplies the size of the lava pattern
+    // (0.5 is half as large, for small pools), `crust` is the share (0-1) of the surface under dark crust plates
+    // with glowing seams between them.
+    float lavaPatternScale = 0.0f;
+    float lavaCrust = 0.0f;
+    // Lava faces indoors (opt-in; false keeps the shader's own palette): `tint: true` draws the cool troughs and the
+    // hottest veins in shades of the liquid's colour instead of the stock dark red and orange-yellow (a green bile).
+    bool lavaTinted = false;
 };
 
 // The ABGR tint a liquid's faces draw with: its colour, with its opacity in the alpha byte.

@@ -52,6 +52,7 @@
 #include "game/tables/ItemTable.h"
 #include "game/tables/NpcDialogTable.h"
 #include "game/ui/GameplayFormationBuilder.h"
+#include "game/ui/GameplayWebOfWorlds.h"
 #include "game/ui/GameplaySoloBarSelector.h"
 #include "game/ui/screens/ArcomageScreen.h"
 #include "game/ui/screens/CutsceneVideoScreen.h"
@@ -5557,7 +5558,7 @@ void GameApplication::registerDebugConsoleCommands()
         .description = "Count or spawn ordinary table-driven monsters on the current map.",
         .usage = "actor count <id> [ids...] | actor spawn <id> [count] [x y z] [group|friendly|boss]"
             " | actor kill <radius> | actor remaining"
-            " | actor behavior [<index> <behavior-id>] | actor damage <index|last> <amount> [tier] [crit]"
+            " | actor behavior [<index> <behavior-id>] | actor damage <index|last|last-N> <amount> [tier] [crit]"
             " | actor immobile <index|last> on|off"
             " | actor shield <index|last> [points] | actor blink <index|last> | actor charge <index|last>"
             " | actor cast <index|last> <spell-id> [skill] [mastery]"
@@ -5797,9 +5798,12 @@ void GameApplication::registerDebugConsoleCommands()
                 {
                     return commandResult(false, "No actors on the current map.");
                 }
-                const bool last = toLowerCopy(context.args[1]) == "last";
-                const std::optional<int32_t> parsedIndex = last
-                    ? std::optional<int32_t>(int32_t(pWorld->mapActorCount() - 1))
+                // last, or last-N: the N-th actor before the last (spawned in a row, as the scenario runner reads it).
+                const std::string indexText = toLowerCopy(context.args[1]);
+                const std::optional<int32_t> back = indexText == "last" ? std::optional<int32_t>(0)
+                    : indexText.rfind("last-", 0) == 0 ? parseInt32Argument(indexText.substr(5)) : std::nullopt;
+                const std::optional<int32_t> parsedIndex = back
+                    ? std::optional<int32_t>(int32_t(pWorld->mapActorCount()) - 1 - *back)
                     : parseInt32Argument(context.args[1]);
                 const std::optional<int32_t> amount = parseInt32Argument(context.args[2]);
                 const bool critical = context.args.size() > 3 && toLowerCopy(context.args.back()) == "crit";
@@ -6099,6 +6103,75 @@ void GameApplication::registerDebugConsoleCommands()
                 mode == "heal" ? GameplayUiController::RestMode::Heal : GameplayUiController::RestMode::Wait,
                 float(*minutes));
             return commandResult(true, "Resting from " + formatDebugGameDate(m_gameSession.gameMinutes()));
+        }});
+
+    m_debugConsole.registerCommand({
+        .name = "townportal",
+        .description = "Open Town Portal, show the Web of Worlds or cast the selected character's spell.",
+        .usage = "townportal [web|cast]",
+        .callback = [this, commandResult](const DebugConsole::CommandContext &context)
+        {
+            GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
+            const Party *pParty = screenRuntime.partyReadOnly();
+            if (context.args.size() == 1 && toLowerCopy(context.args[0]) == "cast")
+            {
+                if (pParty == nullptr || !screenRuntime.tryCastSpellFromMember(
+                        pParty->activeMemberIndex(), spellIdValue(SpellId::TownPortal), "Town Portal"))
+                {
+                    return commandResult(false, screenRuntime.statusBarEventText());
+                }
+                return commandResult(true, screenRuntime.statusBarEventText());
+            }
+            if (!context.args.empty() && (context.args.size() != 1 || toLowerCopy(context.args[0]) != "web"))
+            {
+                return commandResult(false, "Usage: townportal [web|cast]");
+            }
+            screenRuntime.openUtilitySpellOverlay(GameplayUiController::UtilitySpellOverlayMode::TownPortal,
+                spellIdValue(SpellId::TownPortal),
+                pParty == nullptr || pParty->members().empty() ? 0u : pParty->activeMemberIndex());
+            GameplayUiController::UtilitySpellOverlayState &overlay = screenRuntime.utilitySpellOverlay();
+            overlay.skillLevelOverride = 10;
+            overlay.skillMasteryOverride = SkillMastery::Grandmaster;
+            overlay.spendMana = false;
+            overlay.applyRecovery = false;
+            overlay.bypassGameplayCasterValidation = true;
+
+            if (!screenRuntime.ensureTownPortalDestinationsLoaded())
+            {
+                screenRuntime.utilitySpellOverlay() = {};
+                return commandResult(false, "Town Portal has no page for this map.");
+            }
+
+            const std::vector<GameplayTownPortalContinent> &pages = screenRuntime.townPortalContinents();
+
+            if (!context.args.empty() && toLowerCopy(context.args[0]) == "web")
+            {
+                if (pages.empty() || !pages.back().webOfWorlds)
+                {
+                    screenRuntime.utilitySpellOverlay() = {};
+                    return commandResult(false, "No Web of Worlds page: no planet world is mounted.");
+                }
+
+                if (!GameplayWebOfWorlds::unlocked(screenRuntime))
+                {
+                    screenRuntime.utilitySpellOverlay() = {};
+                    return commandResult(false,
+                        "The Web of Worlds is locked: " + GameplayWebOfWorlds::tabHint(screenRuntime));
+                }
+
+                screenRuntime.selectTownPortalContinent(pages.size() - 1);
+            }
+
+            const size_t shown = screenRuntime.townPortalContinentIndex();
+            std::string result = "Town Portal open on " + (shown < pages.size() ? pages[shown].label : "?");
+
+            if (GameplayWebOfWorlds::hasPage(screenRuntime))
+            {
+                result += GameplayWebOfWorlds::unlocked(screenRuntime)
+                    ? "; Web of Worlds open" : "; Web of Worlds locked";
+            }
+
+            return commandResult(true, result);
         }});
 
     m_debugConsole.registerCommand({
@@ -12911,9 +12984,29 @@ void GameApplication::startMapAmbienceAndMusic(const std::string &mapFileName, i
 {
     const std::string map = toLowerCopy(mapFileName);
     m_pActorSoundWorld = nullptr;
+    std::string ambienceSound;
+
     const auto ambience = m_activeWorldManifest.ambience.find(map);
-    m_gameAudioSystem.setAmbience(ambience != m_activeWorldManifest.ambience.end() ? ambience->second : std::string(),
-        m_activeWorldManifest.ambienceVolume);
+
+    if (ambience != m_activeWorldManifest.ambience.end())
+    {
+        // Story choices are resolved once, here: the session's party carries the QBits into the new map.
+        const std::optional<Party> &party = m_gameSession.partyState();
+
+        for (const WorldManifest::AmbienceChoice &choice : ambience->second)
+        {
+            const bool qbitHolds = choice.qbit == 0 || (party && party->campaign().hasQuestBit(choice.qbit));
+            const bool untilHolds = choice.untilQBit == 0 || !party || !party->campaign().hasQuestBit(choice.untilQBit);
+
+            if (qbitHolds && untilHolds)
+            {
+                ambienceSound = choice.sound;
+                break;
+            }
+        }
+    }
+
+    m_gameAudioSystem.setAmbience(ambienceSound, m_activeWorldManifest.ambienceVolume);
     const auto areas = m_activeWorldManifest.musicAreas.find(map);
     m_mapMusicAreas = areas != m_activeWorldManifest.musicAreas.end() ? &areas->second : nullptr;
     m_mapMusicTrack = mapMusicTrack;
@@ -12945,7 +13038,7 @@ void GameApplication::updateMusicArea(float partyX, float partyY)
     }
 }
 
-std::vector<std::string> GameApplication::loadingPagesForMap(const std::string &mapFileName)
+std::vector<std::string> GameApplication::loadingPagesForMap(const std::string &mapFileName, bool includeFallbackPages)
 {
     const MapStatsEntry *pMap =
         mapFileName.empty() ? nullptr : m_gameDataLoader.getMapStats().findByFileName(mapFileName);
@@ -12957,14 +13050,16 @@ std::vector<std::string> GameApplication::loadingPagesForMap(const std::string &
     }
     const MergedContinentSettingTable &continents = m_gameDataLoader.getMergedContinentSettingTable();
     const std::string mapWorldId = pMap != nullptr ? normalizeWorldId(pMap->worldId) : std::string();
+    const std::string &destination = pMap != nullptr ? pMap->fileName : mapFileName;
     if (mapWorldId.empty() || mapWorldId == m_activeWorldManifest.id)
     {
-        return worldLoadingPages(m_activeWorldManifest, continents, continentId);
+        return worldLoadingPages(m_activeWorldManifest, continents, continentId, destination, includeFallbackPages);
     }
     // A move into another world: its pages, before it is activated.
     std::string error;
     const WorldManifest mapWorld = loadActiveWorldManifestOrDefault(*m_pAssetFileSystem, mapWorldId, error);
-    return worldLoadingPages(error.empty() ? mapWorld : m_activeWorldManifest, continents, continentId);
+    return worldLoadingPages(
+        error.empty() ? mapWorld : m_activeWorldManifest, continents, continentId, destination, includeFallbackPages);
 }
 
 void GameApplication::beginLoadingOverlay(
@@ -12999,6 +13094,12 @@ void GameApplication::beginLoadingOverlay(
         m_pLoadingOverlayScreen = std::make_unique<LoadingOverlayScreen>(*m_pAssetFileSystem);
     }
 
+    const std::vector<std::string> worldPages = loadingPagesForMap(
+        mapFileName, presentation == LoadingOverlayScreen::Presentation::Fullscreen);
+    if (!worldPages.empty())
+    {
+        presentation = LoadingOverlayScreen::Presentation::Fullscreen;
+    }
     m_pLoadingOverlayScreen->setPresentation(presentation);
     m_loadingOverlayPresentation = presentation;
     m_loadingOverlayCurrentProgressPercent = 0;
@@ -13008,8 +13109,6 @@ void GameApplication::beginLoadingOverlay(
     {
         std::random_device randomDevice;
         std::mt19937 rng(randomDevice());
-        // The map's world's own pages (its continent's, or world.yml loadingScreens), else the engine's.
-        const std::vector<std::string> worldPages = loadingPagesForMap(mapFileName);
         const int backgroundIndex = std::uniform_int_distribution<int>(
             1, worldPages.empty() ? LoadingOverlayBackgroundCount : int(worldPages.size()))(rng);
         m_loadingOverlayBackgroundTextureName = worldPages.empty()

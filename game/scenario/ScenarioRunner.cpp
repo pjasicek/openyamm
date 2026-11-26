@@ -3574,7 +3574,9 @@ bool runSetRuleset(
 // party), for combat scenarios on maps whose actors are friendly. tier (default physical): what the hit is to an energy
 // shield, physical, classic_blaster, kreegan_energy or spell. `all: true` instead of `actor_index` hits every living
 // actor, again until none lives (monsters summoned meanwhile count), for clearing a whole map; `spare: N` leaves the
-// first N actors it would hit alone, for a map left almost cleared. expect: refused passes when the hit does nothing.
+// first N actors it would hit alone, for a map left almost cleared; with `monster_ids: [...]` or `name` it hits only
+// those actors (a map's placed pods or a boss found by row or name, whatever their index). expect: refused passes when
+// the hit does nothing.
 bool runDamageActor(
     ScenarioExecutionContext &context,
     const ScenarioStep &step,
@@ -3616,6 +3618,36 @@ bool runDamageActor(
         constexpr int MaximumPasses = 10;
         bool anyHit = true;
         const size_t firstActorIndex = step.payload["spare"].as<size_t>(0);
+        // monster_ids: [...] and name: only the actors of those monster rows or with that name (a map's placed
+        // actors whatever their index, which a rebuilt map may change).
+        std::vector<int> monsterIds;
+        if (const YAML::Node idsNode = step.payload["monster_ids"]; idsNode && idsNode.IsSequence())
+        {
+            for (const YAML::Node &idNode : idsNode)
+            {
+                monsterIds.push_back(idNode.as<int>());
+            }
+        }
+        const std::string name = step.payload["name"].as<std::string>("");
+        const auto selected = [&context, &monsterIds, &name](size_t actorIndex)
+        {
+            if (monsterIds.empty() && name.empty())
+            {
+                return true;
+            }
+            GameplayActorInspectState inspectState = {};
+            GameplayRuntimeActorState runtimeState = {};
+            bool hasRuntimeState = false;
+            std::string failure;
+            if (!context.runtimeDriver->actorInspectState(actorIndex, inspectState, runtimeState, hasRuntimeState,
+                    failure))
+            {
+                return false;
+            }
+            return (monsterIds.empty() || std::find(monsterIds.begin(), monsterIds.end(),
+                        int(inspectState.monsterId)) != monsterIds.end())
+                && (name.empty() || inspectState.displayName == name);
+        };
 
         for (int pass = 0; pass < MaximumPasses && anyHit; ++pass)
         {
@@ -3624,6 +3656,10 @@ bool runDamageActor(
             for (size_t actorIndex = firstActorIndex; actorIndex < context.runtimeDriver->mapActorCount();
                  ++actorIndex)
             {
+                if (!selected(actorIndex))
+                {
+                    continue;
+                }
                 std::string ignored;
                 anyHit = context.runtimeDriver->damageActor(
                              actorIndex, step.payload["amount"].as<int>(1), *shieldTier, ignored)
@@ -4470,6 +4506,14 @@ int scenarioPlayWait(lua_State *pLuaState)
     return 0;
 }
 
+int scenarioPlayHudClick(lua_State *pLuaState)
+{
+    const float x = float(luaL_checknumber(pLuaState, 1));
+    const float y = float(luaL_checknumber(pLuaState, 2));
+    scenarioPlayContext(pLuaState).pContext->runtimeDriver->clickHud(x, y);
+    return 0;
+}
+
 int scenarioPlayStatus(lua_State *pLuaState)
 {
     ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
@@ -4493,14 +4537,16 @@ int scenarioPlayJournalQuest(lua_State *pLuaState)
     ScenarioPlayContext &play = scenarioPlayContext(pLuaState);
     const Party *pParty = play.pContext->runtimeDriver->party();
     const uint32_t qbitId = uint32_t(luaL_checkinteger(pLuaState, 1));
-    const JournalQuestTable &table = play.pContext->gameDataLoader.getJournalQuestTable();
-
-    for (const JournalQuestEntry &entry : table.entries())
+    const JournalQuestTable *pTable = pParty != nullptr ? pParty->journalQuestTable() : nullptr;
+    if (pTable != nullptr)
     {
-        if (pParty != nullptr && entry.qbitId == qbitId && table.isVisible(entry, *pParty))
+        for (const JournalQuestEntry &entry : pTable->entries())
         {
-            lua_pushstring(pLuaState, entry.text.c_str());
-            return 1;
+            if (entry.qbitId == qbitId && pTable->isVisible(entry, *pParty))
+            {
+                lua_pushstring(pLuaState, entry.text.c_str());
+                return 1;
+            }
         }
     }
 
@@ -4907,7 +4953,7 @@ bool runPlayLua(
     luaL_requiref(pLuaState, LUA_TABLIBNAME, luaopen_table, 1);
     luaL_requiref(pLuaState, LUA_MATHLIBNAME, luaopen_math, 1);
     lua_settop(pLuaState, 0);
-    const std::array<std::pair<const char *, lua_CFunction>, 29> functions = {{
+    const std::array<std::pair<const char *, lua_CFunction>, 30> functions = {{
         {"clear_hostiles", scenarioPlayClearHostiles}, {"party", scenarioPlayParty}, {"held", scenarioPlayHeld},
         {"hover", scenarioPlayHover},
         {"stow", scenarioPlayStow}, {"conditions", scenarioPlayConditions},
@@ -4915,7 +4961,8 @@ bool runPlayLua(
         {"classes", scenarioPlayClasses}, {"experience", scenarioPlayExperience}, {"gold", scenarioPlayGold},
         {"remember", scenarioPlayRemember}, {"recall", scenarioPlayRecall},
         {"discard", scenarioPlayDiscard}, {"door_state", scenarioPlayDoorState},
-        {"click", scenarioPlayClick}, {"wait", scenarioPlayWait}, {"status", scenarioPlayStatus},
+        {"click", scenarioPlayClick}, {"hud_click", scenarioPlayHudClick}, {"wait", scenarioPlayWait},
+        {"status", scenarioPlayStatus},
         {"qbit", scenarioPlayQBit}, {"journal_quest", scenarioPlayJournalQuest}, {"has_item", scenarioPlayHasItem},
         {"mapvar", scenarioPlayMapVar},
         {"ground_items", scenarioPlayGroundItems},
@@ -5942,7 +5989,8 @@ bool runExecuteEvent(
 }
 
 // lua_event: {source}: the scenario's own Lua run as an event of the current map, with the map's event support and
-// world (evt.SummonMonstersById, evt.SetActorTarget ...); a Lua error fails the step.
+// world (evt.SummonMonstersById, evt.SetActorTarget ...); a Lua error fails the step. world_common: true also loads the
+// map's world's events/common scripts first (a world's helpers, such as Hesper's hesper_common.lua).
 bool runLuaEvent(
     ScenarioExecutionContext &context,
     const ScenarioStep &step,
@@ -5963,7 +6011,8 @@ bool runLuaEvent(
     std::string failure;
 
     if (!context.runtimeDriver->runLuaEvent(
-            step.payload["source"].as<std::string>(), PlayerId(step.payload["player"].as<int>(LocalPlayer)), failure))
+            step.payload["source"].as<std::string>(), PlayerId(step.payload["player"].as<int>(LocalPlayer)),
+            step.payload["world_common"].as<bool>(false), failure))
     {
         failures.push_back(stepLocation(step) + ": " + failure);
         return false;
@@ -12467,6 +12516,30 @@ bool assertRuntimeEventVariable(
     return success;
 }
 
+bool assertDecorationClip(ScenarioExecutionContext &context, const ScenarioStep &step,
+    std::vector<std::string> &failures)
+{
+    const YAML::Node node = step.payload["decoration_clip"];
+    if (!node)
+    {
+        return true;
+    }
+    const EventRuntimeState *pState = context.runtimeDriver ? context.runtimeDriver->eventRuntimeState() : nullptr;
+    if (pState == nullptr || !node.IsMap() || !node["key"].IsScalar() || !node["name"].IsScalar())
+    {
+        failures.push_back(stepLocation(step) + ": decoration_clip needs {key, name} and an active runtime");
+        return false;
+    }
+    const uint32_t key = node["key"].as<uint32_t>();
+    const auto found = pState->decorationClips.find(key);
+    if (found == pState->decorationClips.end())
+    {
+        failures.push_back(stepLocation(step) + ": decoration " + std::to_string(key) + " has no active clip");
+        return false;
+    }
+    return appendStringMismatch(step, "decoration_clip", "name", found->second.clip, node, failures);
+}
+
 bool runAssert(
     ScenarioExecutionContext &context,
     const ScenarioStep &step,
@@ -12531,6 +12604,7 @@ bool runAssert(
     success = assertImplantsShown(context, step, failures) && success;
     success = assertDimensionDoor(context, step, failures) && success;
     success = assertLight(context, step, failures) && success;
+    success = assertDecorationClip(context, step, failures) && success;
     success = assertScriptedFog(context, step, failures) && success;
     success = assertCharges(context, step, failures) && success;
     success = assertCombatLog(context, step, failures) && success;

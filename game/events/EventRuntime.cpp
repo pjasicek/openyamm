@@ -5244,6 +5244,43 @@ int luaGetPartyPosition(lua_State *pLuaState)
     return 3;
 }
 
+// evt.IsTurnBased(): true while turn-based combat runs on the current map.
+int luaIsTurnBased(lua_State *pLuaState)
+{
+    const LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    const ISceneEventContext *pSceneEventContext = readonlySceneEventContext(pExecutionContext);
+    const IGameplayWorldRuntime *pWorldRuntime = dynamic_cast<const IGameplayWorldRuntime *>(pSceneEventContext);
+    lua_pushboolean(pLuaState,
+        pWorldRuntime != nullptr && pWorldRuntime->turnBasedActorMode() != ActorTurnBasedMode::RealTime ? 1 : 0);
+    return 1;
+}
+
+// evt.FloorHeight(x, y[, z]): the floor height under a point, or nil (IGameplayWorldRuntime::eventFloorHeight).
+int luaFloorHeight(lua_State *pLuaState)
+{
+    const float x = static_cast<float>(luaL_checknumber(pLuaState, 1));
+    const float y = static_cast<float>(luaL_checknumber(pLuaState, 2));
+    const std::optional<float> z = lua_isnoneornil(pLuaState, 3)
+        ? std::nullopt
+        : std::optional<float>(static_cast<float>(luaL_checknumber(pLuaState, 3)));
+    const LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    const ISceneEventContext *pSceneEventContext = readonlySceneEventContext(pExecutionContext);
+    const IGameplayWorldRuntime *pWorldRuntime = dynamic_cast<const IGameplayWorldRuntime *>(pSceneEventContext);
+    const std::optional<float> floorHeight =
+        pWorldRuntime != nullptr ? pWorldRuntime->eventFloorHeight(x, y, z) : std::nullopt;
+
+    if (floorHeight)
+    {
+        lua_pushnumber(pLuaState, *floorHeight);
+    }
+    else
+    {
+        lua_pushnil(pLuaState);
+    }
+
+    return 1;
+}
+
 int luaGetEnemyDetectorState(lua_State *pLuaState)
 {
     const LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
@@ -10641,6 +10678,8 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "QuestCompleteFeedback", luaQuestCompleteFeedback);
     registerLuaFunction(pLuaState, "ClearQuestBit", luaClearQuestBit);
     registerLuaFunction(pLuaState, "GetPartyPosition", luaGetPartyPosition);
+    registerLuaFunction(pLuaState, "IsTurnBased", luaIsTurnBased);
+    registerLuaFunction(pLuaState, "FloorHeight", luaFloorHeight);
     registerLuaFunction(pLuaState, "GetEnemyDetectorState", luaGetEnemyDetectorState);
     registerLuaFunction(pLuaState, "SetMapActorPosition", luaSetMapActorPosition);
     registerLuaFunction(pLuaState, "KillMapActor", luaKillMapActor);
@@ -10728,6 +10767,7 @@ void registerEventBindings(LuaSessionCache &session)
         "SetPersistentItemMechanismVariant",
         luaSetPersistentItemMechanismVariant);
     registerLuaFunction(pLuaState, "ApplyPartyPrimaryStatBuff", luaApplyPartyPrimaryStatBuff);
+    registerLuaFunction(pLuaState, "AddStatUntilRest", luaAddStatUntilRest);
     registerLuaFunction(pLuaState, "RemovePartyBuff", luaRemovePartyBuff);
     registerLuaFunction(pLuaState, "ApplyPartyBuff", luaApplyPartyBuff);
     registerLuaFunction(pLuaState, "HasPartyBuff", luaHasPartyBuff);

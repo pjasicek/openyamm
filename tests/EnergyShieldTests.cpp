@@ -515,6 +515,8 @@ monsters:
           drop_on_death: true}}
   10010: {shield: 1000, grade: Light, regen_delay_seconds: 4}
   10054: {shield: 400, grade: Light, regen_delay_seconds: 4, machine: true}
+  10050: {link: {radius: 2000, regen_multiplier: 2, drop_on_death: true, source_group: 41}}
+  10059: {shield: 1000, grade: Light, regen_delay_seconds: 1, requires_link: true}
   10081: {energy_immune: true}
 )";
 
@@ -618,6 +620,58 @@ TEST_CASE("a living shield link doubles its allies' regeneration and its death d
         shields.update(0.1f, monsters.size(), facts);
     }
     CHECK(shields.shieldPoints(1) == doctest::Approx(500.0f).epsilon(0.05));
+}
+
+TEST_CASE("a shield that requires a link draws power only from a living allied source in range")
+{
+    const MonsterShieldTable table = loadFollowUpShields();
+    REQUIRE(table.find(10059)->requiresLink);
+    CHECK_FALSE(table.find(10010)->requiresLink);
+    CHECK(table.find(10050)->linkSourceGroup == 41);
+    CHECK_FALSE(table.find(10030)->linkSourceGroup.has_value());
+    GameplayActorShields shields;
+    shields.bind(&table);
+    std::array<GameplayActorShields::ActorFacts, 4> actors = {{
+        {10059, true, {}, true},
+        {10050, true, {100, 0, 0}, true, 41},
+        {10050, true, {200, 0, 0}, true, 41},
+        {10050, true, {10, 0, 0}, true, 0}}};
+    const auto step = [&](float seconds)
+    {
+        shields.update(seconds, actors.size(), [&](size_t index) { return actors[index]; });
+    };
+    step(0.1f);
+    CHECK(shields.shieldPoints(0) == 1000.0f);
+    actors[3].alive = false; // A passing drone has neither a power link nor a death pulse.
+    step(0.1f);
+    CHECK(shields.shieldPoints(0) == 1000.0f);
+    actors[3].alive = true;
+
+    actors[1].alive = false; // Its death pulse drops the shield, and the other drone can recharge it.
+    step(0.1f);
+    CHECK(shields.shieldPoints(0) == 0.0f);
+    step(2.0f);
+    CHECK(shields.shieldPoints(0) == 1000.0f);
+
+    actors[2].center[0] = 2001.0f;
+    step(2.0f);
+    CHECK(shields.shieldPoints(0) == 0.0f);
+    actors[2].center[0] = 200.0f;
+    actors[2].hostileToParty = false;
+    step(2.0f);
+    CHECK(shields.shieldPoints(0) == 0.0f);
+    actors[2].hostileToParty = true;
+    step(0.25f);
+    CHECK(shields.shieldPoints(0) == doctest::Approx(250.0f));
+
+    actors[2].alive = false;
+    step(10.0f);
+    CHECK(shields.shieldPoints(0) == 0.0f);
+    shields.clear(); // The saved map retains the drones' deaths; shields rebuild from those actor facts.
+    CHECK_FALSE(shields.applyHit(0, 10059, 5, ShieldAttackTier::Physical).absorbed);
+    step(10.0f);
+    CHECK(shields.shieldPoints(0) == 0.0f);
+    CHECK(shields.drainSounds().empty());
 }
 
 TEST_CASE("cutting a raised shield keeps a share, ripples, and reports how long a broken shield stays down")
@@ -736,4 +790,54 @@ TEST_CASE("tactic shield_break falls back while a hostile actor's shield is down
     CHECK_FALSE(frame.activeActors[2].status.forceFleeFromParty);
     CHECK_FALSE(frame.activeActors[3].status.forceFleeFromParty);
     CHECK_FALSE(frame.activeActors[4].status.forceFleeFromParty);
+}
+
+TEST_CASE("a shield_fraction pool is a share of the actor's live maximum HP and keeps its share when that changes")
+{
+    MonsterShieldTable table;
+    std::string error;
+    REQUIRE_MESSAGE(table.loadWorldYaml(R"(schema: openyamm.shields.v1
+grades:
+  Ward:
+    rates: {physical: 1.0, classic_blaster: 1.0, kreegan_energy: 1.0, spell: 1.0}
+monsters:
+  10049: {shield: 900, shield_fraction: 0.33, grade: Ward}
+  10050: {shield: 900, grade: Ward}
+)", "hesper", 10000, 10999, error), error);
+    REQUIRE(table.find(10049)->poolFraction == doctest::Approx(0.33f));
+    CHECK(monsterShieldPool(*table.find(10049), 3000) == doctest::Approx(990.0f));
+    // Unknown maximum HP: the fixed pool. A profile without the key ignores the HP.
+    CHECK(monsterShieldPool(*table.find(10049), 0) == doctest::Approx(900.0f));
+    CHECK(monsterShieldPool(*table.find(10050), 3000) == doctest::Approx(900.0f));
+    CHECK(regenerateMonsterShield(*table.find(10049), 0.0f, 100.0f, 0.5f, 1.0f, 990.0f) <= 990.0f);
+
+    GameplayActorShields shields;
+    shields.bind(&table);
+    int maxHp = 3000;
+    const auto facts = [&](size_t)
+    {
+        GameplayActorShields::ActorFacts actor{10049, true, {0.0f, 0.0f, 90.0f}};
+        actor.maxHp = maxHp;
+        return actor;
+    };
+    shields.update(0.01f, 1, facts);
+    CHECK(shields.shieldPoints(0) == doctest::Approx(990.0f));
+    shields.applyHit(0, 10049, 495, ShieldAttackTier::Spell);
+    CHECK(shields.shieldPoints(0) == doctest::Approx(495.0f));
+    // MAW sizes the boss anew (difficulty, a map reload): the pool follows, still half full.
+    maxHp = 30000;
+    shields.update(0.01f, 1, facts);
+    CHECK(shields.shieldPoints(0) == doctest::Approx(4950.0f));
+    GameplayActorShieldView view;
+    shields.view(0, view);
+    CHECK(view.fraction == doctest::Approx(0.5f));
+
+    MonsterShieldTable bad;
+    CHECK_FALSE(bad.loadWorldYaml(R"(schema: openyamm.shields.v1
+grades:
+  Ward:
+    rates: {physical: 1.0, classic_blaster: 1.0, kreegan_energy: 1.0, spell: 1.0}
+monsters:
+  10049: {shield: 900, shield_fraction: 0, grade: Ward}
+)", "hesper", 10000, 10999, error));
 }

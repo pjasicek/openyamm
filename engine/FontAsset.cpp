@@ -37,6 +37,12 @@ void reportMissingGlyph(uint32_t point)
 
 int FontAtlas::glyphIndex(uint32_t point) const
 {
+    // A no-break space (U+00A0) draws as a space; Utf8::wrap never breaks a line there ("6 % per level").
+    if (point == 0xa0)
+    {
+        point = ' ';
+    }
+
     if (unicode)
     {
         const auto found = unicodeGlyphIndices.find(point);

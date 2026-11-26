@@ -81,6 +81,21 @@ class DecorationBakeTests(unittest.TestCase):
                 for field in ('width', 'height', 'mask', 'sources', 'policy'):
                     self.assertEqual(card[field], baseline[field])
                 self.assertEqual(card['policy'], 'static')
+                self.assertEqual(result['changing_models'], [])
+
+    def test_scene_entities_drive_markers_and_replaceable_models_on_a_stripped_odm(self):
+        entity = self.entities.pop()
+        entity['entity_index'] = entity.pop('index')
+        (self.world / 'maps/test.scene.yml').write_text(yaml.safe_dump({'entities': [entity]}))
+        self.assertEqual(self.export()['cards'][0]['name'], 'tree')
+        self.script.write_text('evt.SetSprite(7, 0)\n')
+        self.assertEqual(self.export()['changing_models'], [0])
+        with (self.assets / 'engine/data_tables/decoration_data.txt').open('a') as table:
+            table.write('4\tstump\t-\t0\t0\t0\t0\t0\t0\t0\t0\t0\t1\t-\n')
+        self.script.write_text('evt.SetSprite(7, 1, "stump")\n')
+        replacement = self.export()
+        self.assertEqual(replacement['changing_models'], [0])
+        self.assertEqual(replacement['cards'][0]['policy'], 'shared_states')
 
     def test_empty_initial_name_is_null_regardless_of_raw_descriptor(self):
         self.entities[0]['name'] = ''

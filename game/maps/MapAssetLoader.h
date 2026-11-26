@@ -55,6 +55,11 @@ struct OutdoorBitmapTexture
     // ABGR tint of faces drawn by the liquid shader: the liquid's colour, or for a Fluid face of an ordinary texture
     // the texture's mean colour (those faces draw as water). 0: not drawn as a liquid.
     uint32_t waterColorAbgr = 0;
+    // An indoor lava face's pattern size and crust share (liquids.yml scale and crust; 0: the shader's own).
+    float lavaPatternScale = 0.0f;
+    float lavaCrust = 0.0f;
+    // Its troughs and veins in the liquid's own colour (liquids.yml tint).
+    bool lavaTinted = false;
     std::vector<uint8_t> pixels;
     // A cooked world surface texture (GPU blocks with its mip chain) replaces pixels; see loadCookedSurfaceTexture.
     std::shared_ptr<const Engine::CookedTexture> cookedTexture;

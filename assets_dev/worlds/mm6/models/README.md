@@ -94,6 +94,10 @@ clips change pose a lot sets `animation.blend_seconds` (every change except into
 `animation.death_blend_seconds` (into the death clip): the Flying Drake uses 0.4 s and 0.3 s between its forward flight
 and upright hover, which move its head about half its height.
 
+`death_rate` (default 1, 0.25-4) plays the death clip faster or slower than authored, with its clip events and sounds;
+the corpse holds the clip's end once it has played. Hesper's bindings use it to bring library deaths of 3-5 s into
+the MM6-MM8 range (about 0.6-2.2 s, median 1.3 s).
+
 `death_effect: {type: burn, ...}` (the Flying Drake and the red/blue/gold dragons) burns the body away along per-material burn maps
 (`engine/render/MODEL_RENDERING.md`, "Burning creatures"). Times are seconds from the start of dying: `start` is when
 the first texels begin to char and `end` when the last have burnt through; `char_width`, `edge_width` and `fire_width`

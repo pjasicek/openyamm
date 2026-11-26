@@ -449,6 +449,59 @@ void parseItemAction(const YAML::Node &node, PotionDefinition &potion)
         throw PotionParseError{"unknown item action '" + action + "'"};
     }
 }
+
+void appendPotions(const YAML::Node &potions, uint32_t firstId, uint32_t lastId,
+    std::unordered_map<uint32_t, PotionDefinition> &potionsById, std::string &context)
+{
+    std::unordered_map<uint32_t, PotionDefinition> additions;
+    if (!potions || !potions.IsMap())
+    {
+        throw PotionParseError{"potions must be a map of item ids"};
+    }
+
+    for (const auto &entry : potions)
+    {
+        PotionDefinition potion = {};
+        potion.itemId = entry.first.as<uint32_t>();
+        context = "potion " + std::to_string(potion.itemId);
+        if (potion.itemId < firstId || potion.itemId > lastId)
+        {
+            throw PotionParseError{"outside the world's item id range"};
+        }
+        if (potionsById.contains(potion.itemId) || additions.contains(potion.itemId))
+        {
+            throw PotionParseError{"duplicate item id"};
+        }
+
+        const YAML::Node body = entry.second;
+        potion.oncePerCharacter = body["once_per_character"] && body["once_per_character"].as<bool>();
+        potion.minimumPower = body["min_power"] ? body["min_power"].as<int>() : 0;
+        potion.charges = std::max(1, body["charges"] ? body["charges"].as<int>() : 1);
+        potion.rechargeable = body["rechargeable"] && body["rechargeable"].as<bool>();
+
+        if (body["effects"])
+        {
+            for (const YAML::Node &effect : body["effects"])
+            {
+                potion.effects.push_back(parseEffect(effect));
+            }
+        }
+
+        if (body["item"])
+        {
+            parseItemAction(body["item"], potion);
+        }
+
+        if (potion.effects.empty() == (potion.itemAction == PotionItemAction::None))
+        {
+            throw PotionParseError{"needs either effects or an item action"};
+        }
+
+        additions.emplace(potion.itemId, std::move(potion));
+    }
+
+    potionsById.merge(additions);
+}
 }
 
 int PotionAmount::evaluate(int power, double estimatedPool) const
@@ -522,44 +575,7 @@ bool PotionEffectTable::loadFromYaml(const std::string &text, std::string &error
 
         m_combatRecoveryActiveMemberPays = payer == "active";
         m_allRecipesKnown = rules["all_recipes_known"] && rules["all_recipes_known"].as<bool>();
-        const YAML::Node potions = root["potions"];
-
-        if (!potions || !potions.IsMap())
-        {
-            throw PotionParseError{"potions must be a map of item ids"};
-        }
-
-        for (const auto &entry : potions)
-        {
-            PotionDefinition potion = {};
-            potion.itemId = entry.first.as<uint32_t>();
-            context = "potion " + std::to_string(potion.itemId);
-            const YAML::Node body = entry.second;
-            potion.oncePerCharacter = body["once_per_character"] && body["once_per_character"].as<bool>();
-            potion.minimumPower = body["min_power"] ? body["min_power"].as<int>() : 0;
-            potion.charges = std::max(1, body["charges"] ? body["charges"].as<int>() : 1);
-            potion.rechargeable = body["rechargeable"] && body["rechargeable"].as<bool>();
-
-            if (body["effects"])
-            {
-                for (const YAML::Node &effect : body["effects"])
-                {
-                    potion.effects.push_back(parseEffect(effect));
-                }
-            }
-
-            if (body["item"])
-            {
-                parseItemAction(body["item"], potion);
-            }
-
-            if (potion.effects.empty() == (potion.itemAction == PotionItemAction::None))
-            {
-                throw PotionParseError{"needs either effects or an item action"};
-            }
-
-            m_potions[potion.itemId] = std::move(potion);
-        }
+        appendPotions(root["potions"], 0, UINT32_MAX, m_potions, context);
     }
     catch (const PotionParseError &error)
     {
@@ -575,6 +591,31 @@ bool PotionEffectTable::loadFromYaml(const std::string &text, std::string &error
     }
 
     return true;
+}
+
+bool PotionEffectTable::appendWorldYaml(const std::string &text, uint32_t firstId, uint32_t lastId,
+    std::string &errorMessage)
+{
+    std::string context = "potion_effects.yml";
+    try
+    {
+        const YAML::Node root = YAML::Load(text);
+        if (!root.IsMap() || root.size() != 1 || !root["potions"])
+        {
+            throw PotionParseError{"a world contribution must contain only potions"};
+        }
+        appendPotions(root["potions"], firstId, lastId, m_potions, context);
+        return true;
+    }
+    catch (const PotionParseError &error)
+    {
+        errorMessage = context + ": " + error.message;
+    }
+    catch (const std::exception &exception)
+    {
+        errorMessage = context + ": " + exception.what();
+    }
+    return false;
 }
 
 const PotionDefinition *PotionEffectTable::find(uint32_t itemId) const

@@ -577,6 +577,13 @@ GameplayMonsterBolsterResult MawMonsterRules::resolveMonsterByRules(
     ActorRulesetFacts facts =
         context.pExistingFacts != nullptr ? *context.pExistingFacts : ActorRulesetFacts{};
 
+    // A world's placed boss row (its balance file's `bosses`, H-86) takes its health multiplier once, on the actor's
+    // first resolve; the saved facts keep it from then on.
+    if (facts.empty())
+    {
+        facts.bossHealthMultiplier *= float(m_rules.mapLevels().bossHealthMultiplier(stats.id));
+    }
+
     // Every resolve takes the level the map gives now, so survivors follow banked levels, a progression change or a
     // reset when the map loads or the rules change (MON:383-665); a boss keeps its affix and rolls.
     const std::unordered_map<int, int> &levels = m_rules.monsterLevels(*context.pMonsterTable, *context.pMap);

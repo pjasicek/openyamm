@@ -20,6 +20,7 @@ Shaders: `game/shaders/vs_model*.sc`, `fs_model.sc`, `model_skin.sh`, `model_sta
 | Specular | `extras.openyamm_specular` (0..1; 0 skips sky reflection and specular lobes). `extras.openyamm_specular_mask: true` multiplies it per texel by the metallic-roughness texture's red channel, which glTF leaves unused. It lets a matte head and glossy armour share one material. |
 | Normal maps | glTF convention: +x along +u, +y up the image (against +v), tangent space from screen derivatives (no TANGENT attribute needed; the frame's sign is divided out, so OpenGL and Vulkan agree). Meshy's retexture returns +y-down maps: `tools/normal_map_convention.py` measures each map (slope integrability) and inverts green, run by `tools/prepare_actor_glb.py` and `tools/link_static_model_lods.py`; `--check` audits installed GLBs. |
 | Static decoration extras | `openyamm_wind`, `openyamm_billboard`, `openyamm_translucency`, `openyamm_uv_scroll`, `openyamm_flipbook`, `openyamm_flutter`; COLOR_0 multiplies the base colour (`engine/models/ModelAsset.h` documents each). |
+| Close detail on stationary opaque decorations | `extras.openyamm_surface_detail: {index: 3, tile_world_units: 144, strength: 1.0}`. The index names a repeating, mipmapped linear RGBA texture. One tile spans the stated number of world units at every placement scale. Strength is optional and ranges from 0 to 1. |
 | Creature texture scroll | `openyamm_uv_scroll` also scrolls creature (skinned) materials: `u_modelScroll` in `vs_model` and `vs_model_skinned_instanced`, wrapped to one texture period, on the clock `render()` is given. The air elemental (`mm6_aie1`) spins its wind with it, so the spin stays continuous across clip changes. A blended creature primitive keeps its authored triangle order, which is its draw order. |
 | Sockets | Empty nodes named `Socket_*` (palms, eyes, staff head) that FX attach to; `actors.yml` names them. |
 | Held items | Not part of the creature: a separate unskinned GLB in the space of the bone that carries it (section 3). |
@@ -394,6 +395,10 @@ cards (additive, unlit or flipbook materials) with their display colour times a 
 whose flipbooks already include a halo; 0.8 for blended flames), other emissive materials with their emission and
 pulse. `fs_model` returns the glow right after the fog, so cards still fade in fog and so does their bloom. Creature
 materials glow only when they opt in (below).
+
+**Close surface detail.** On large stationary decorations a single atlas texel can cover several screen pixels. A material can overlay a seamless detail tile on its existing albedo, tangent-space normal and roughness. Red and green encode signed slopes to the right and up the tile. Blue encodes a multiplier around the original albedo and alpha encodes a signed offset to roughness. Byte 128 is neutral in every channel. The texture cooks linearly with all four channels in BC7 on desktop and ETC2 RGBA on Android.
+
+The dedicated static colour shader blends three projections using the fourth powers of the mesh normal components. Tile up points vertically on walls and north on flat ground. It fades the contribution between eight and sixteen tile widths from the camera, then skips all three detail samples. The shadow and bloom passes use the original material, and static materials without the extra use their existing colour shaders. Hesper applies this to the near shell, horn and basalt sections of its horn spire and crashed pod.
 
 **Emission and bloom** (2026-10-22, opt-in from data; Hesper's energy parts). How it works:
 - *Emission.* `ModelMaterial::emissive` is the glTF `emissiveFactor` times `KHR_materials_emissive_strength`; the

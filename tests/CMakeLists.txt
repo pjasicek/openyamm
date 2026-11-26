@@ -19,6 +19,7 @@ add_executable(openyamm_unit_tests
     MapWorldOwnershipTests.cpp
     ChestRegressionTests.cpp
     CompletionCertificateTests.cpp
+    WebOfWorldsTests.cpp
     ContentManifestTests.cpp
     WorldDecorationTests.cpp
     RulesetTests.cpp
@@ -207,6 +208,7 @@ add_executable(openyamm_unit_tests
     Utf8TextTests.cpp
     TerrainDecorationTests.cpp
     OutdoorMeadowTests.cpp
+    OutdoorMapV2Tests.cpp
     ../game/outdoor/TerrainDecorationData.cpp
     ../game/outdoor/TerrainDecorationRenderer.cpp
     TextureFilteringTests.cpp
@@ -394,6 +396,7 @@ add_executable(openyamm_unit_tests
     ../game/tables/MonsterRelationAddOns.cpp
     ../game/tables/MonsterProjectileTable.cpp
     ../game/tables/MergedBaseTables.cpp
+    ../game/tables/WebOfWorldsTable.cpp
     ../game/tables/PotionEffectTable.cpp
     ../game/rules/CombatRules.cpp
     ../game/rules/CrowdControlDiminishing.cpp

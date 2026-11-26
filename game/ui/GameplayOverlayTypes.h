@@ -437,14 +437,19 @@ struct GameplayTownPortalContinent
     std::string label;
     std::string backgroundTextureName;
     std::vector<GameplayTownPortalDestination> destinations;
+    // The Web of Worlds page (the star chart, GameplayWebOfWorlds), always the last; no destinations of its own.
+    bool webOfWorlds = false;
 };
+
+inline constexpr const char *WebOfWorldsTownPortalGroupName = "WebOfWorlds";
 
 // The Town Portal screen's continent buttons, `TownPortalContinentButton1`, `...2` and on in town_portal.yml, one per
 // continent in GameplayUiRuntime's order, as many as the layout has; a continent with no unlocked town shows its map
 // with nothing to choose.
-inline std::string townPortalContinentButtonId(size_t slot)
+// The Web of Worlds layout uses TownPortalCompactButton1, TownPortalCompactButton2, etc. beside TownPortalWebButton.
+inline std::string townPortalContinentButtonId(size_t slot, bool compact = false)
 {
-    return "TownPortalContinentButton" + std::to_string(slot + 1);
+    return (compact ? "TownPortalCompactButton" : "TownPortalContinentButton") + std::to_string(slot + 1);
 }
 
 enum class GameplayUtilitySpellPointerTargetType
@@ -453,6 +458,9 @@ enum class GameplayUtilitySpellPointerTargetType
     Close,
     TownPortalDestination,
     TownPortalContinent,
+    // The Town Portal's Web of Worlds tab, and a target on its chart (GameplayWebOfWorlds::pointerTarget).
+    TownPortalWebTab,
+    WebOfWorlds,
     LloydSetTab,
     LloydRecallTab,
     LloydSlot,

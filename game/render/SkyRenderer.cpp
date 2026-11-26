@@ -455,7 +455,7 @@ bgfx::TextureHandle SkyRenderer::texture(const std::string &name, bool cloudLaye
     // Cloud layers carry their mip chain; panoramas have one level, as they wrap around atan2 seams where mip
     // selection would draw a visible line.
     bgfx::TextureHandle handle = BGFX_INVALID_HANDLE;
-    const std::string path = SkyTextureDirectory + name + ".oytex";
+    const std::string path = (name.starts_with("worlds/") ? name : SkyTextureDirectory + name) + ".oytex";
     const std::optional<std::vector<uint8_t>> bytes = m_pAssets->readBinaryFile(path);
 
     try
@@ -566,7 +566,7 @@ void SkyRenderer::render(uint16_t viewId, const float *pView, const float *pProj
         vec4(frame.value(SkyValue::CloudShadow), frame.scalar(SkyValue::SunDiscVisibility)),
         {frame.horizonRing.opacity, frame.horizonRing.height, frame.stars.brightness, frame.stars.density},
         vec4(frame.fogFlatDisplay, frame.fogAmount),
-        {0.0f, std::cos(poleElevation), std::sin(poleElevation), 0.0f},
+        {0.0f, std::cos(poleElevation), std::sin(poleElevation), frame.eclipse},
     }};
     std::array<std::array<float, 4>, 8> clouds = {};
     releaseUnusedCloudTextures(frame);

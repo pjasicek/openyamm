@@ -10,6 +10,7 @@
 #include "game/tables/ObjectTable.h"
 
 #include <doctest/doctest.h>
+#include <yaml-cpp/yaml.h>
 
 #include <algorithm>
 #include <filesystem>
@@ -256,13 +257,20 @@ TEST_CASE("the staged Hesper missiles resolve to their objects, tiers and effect
         MESSAGE("no Hesper stage with missiles; skipped");
         return;
     }
-    Engine::AssetFileSystem assets;
-    REQUIRE(assets.initialize(sourceRoot, stage, Engine::AssetScaleTier::X1, "hesper"));
     GameDataLoader data;
-    REQUIRE(data.loadForHeadlessGameplay(assets));
+    {
+        // Read today's engine tables and the prototype's world contribution. Its private engine snapshot
+        // predates newer shared tables and is only needed for the effect bindings it authored.
+        Engine::AssetFileSystem tables;
+        REQUIRE(tables.initialize(sourceRoot, sourceRoot / "assets_dev", Engine::AssetScaleTier::X1, "mm8"));
+        REQUIRE(tables.mountDevelopmentRoot(stage));
+        REQUIRE(data.loadForHeadlessGameplay(tables));
+    }
     const MonsterProjectileTable &missiles = data.getMonsterProjectileTable();
     CHECK_EQ(missiles.findByToken("Ener")->objectId, 555);
 
+    Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(sourceRoot, stage, Engine::AssetScaleTier::X1, "hesper"));
     EffectDefinitionLoader loader(&assets);
     std::string error;
     const auto definitions = loader.load("engine/effects/library.yml", error);
@@ -270,7 +278,12 @@ TEST_CASE("the staged Hesper missiles resolve to their objects, tiers and effect
     EffectLibrary library;
     REQUIRE(library.replace(*definitions, error));
     ProjectileEffectBindings bindings;
-    REQUIRE_MESSAGE(loadProjectileEffectBindings(assets, "engine/effects/projectiles.yml", library, bindings, error),
+    // The stage appended its object bindings to a copy of the engine recipes. Apply those original
+    // bindings to the current recipes, as the stage did when it was generated.
+    const std::filesystem::path bindingPath = "engine/effects/projectiles.yml";
+    YAML::Node recipes = YAML::LoadFile((sourceRoot / "assets_dev" / bindingPath).string());
+    recipes["objects"] = YAML::LoadFile((stage / bindingPath).string())["objects"];
+    REQUIRE_MESSAGE(parseProjectileEffectBindings(YAML::Dump(recipes), bindingPath.string(), library, bindings, error),
         error);
 
     size_t worldMissiles = 0;

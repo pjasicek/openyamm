@@ -342,6 +342,16 @@ public:
         return false;
     }
 
+    // evt.GetMapActorHp: the actor's hit points and its maximum (its bolstered row's), for a boss healed by Lua
+    // (Hesper's Forgemaster). False for no such actor.
+    virtual bool mapActorHp(size_t actorIndex, int &hp, int &maxHp) const
+    {
+        (void)actorIndex;
+        (void)hp;
+        (void)maxHp;
+        return false;
+    }
+
     // evt.IsMapActorDead: the actor is dead or dying (no hit points left); a hidden actor is alive. False for a living
     // actor or none.
     virtual bool isMapActorDead(size_t actorIndex) const

@@ -216,9 +216,8 @@ private:
         std::array<float, 3> posedOffset = {};
     };
 
-    // Ray against the placement's rigid (not camera-facing) triangles; lowers best on a nearer hit.
-    bool rigidHit(const Slot &slot, const std::array<float, 3> &origin, const std::array<float, 3> &direction,
-        float &best) const;
+    bool hitPlacement(size_t groupIndex, size_t placementIndex, const std::array<float, 3> &origin,
+        const std::array<float, 3> &direction, float &best) const;
     Engine::ModelStaticPlacement placementFor(const Binding &binding, const DecorationBillboard &billboard,
         const std::optional<DecorationWallContact> &wall) const;
     static float heightJitter(const Binding &binding, const DecorationBillboard &billboard);

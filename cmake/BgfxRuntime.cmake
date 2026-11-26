@@ -101,6 +101,7 @@ function(openyamm_compile_bgfx_shader_for_target sourcePath shaderType outputNam
             "${CMAKE_SOURCE_DIR}/game/shaders/billboard_lit.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_textured_fog.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_terrain_materials.sh"
+            "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_terrain_vertex.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/terrain_material_layers.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/outdoor_sunlight.sh"
             "${CMAKE_SOURCE_DIR}/game/shaders/world_clip.sh"
@@ -530,24 +531,30 @@ function(openyamm_configure_runtime_shaders)
     openyamm_compile_bgfx_shader("${CMAKE_SOURCE_DIR}/game/shaders/fs_outdoor_bmodel_baked.sc"
         "fragment" "fs_outdoor_bmodel_baked_array_shadow_glow.bin"
         "BMODEL_TEXTURE_ARRAY=1$<SEMICOLON>SUN_SHADOWS=1$<SEMICOLON>SURFACE_GLOW_ONLY=1")
-    # The outdoor terrain (OutdoorTerrainMaterials).
-    openyamm_compile_bgfx_shader(
-        "${CMAKE_SOURCE_DIR}/game/shaders/vs_outdoor_terrain_materials.sc" "vertex" "vs_outdoor_terrain_materials.bin")
-    foreach(materialShader fs_outdoor_terrain_materials fs_outdoor_terrain_materials_baked)
+    # Only worlds opting into continuous bank projection use the extra vertex component.
+    foreach(projection "" "_continuous")
         openyamm_compile_bgfx_shader(
-            "${CMAKE_SOURCE_DIR}/game/shaders/${materialShader}.sc" "fragment" "${materialShader}.bin")
-        # Triangles whose pixels read one ground layer only.
+            "${CMAKE_SOURCE_DIR}/game/shaders/vs_outdoor_terrain_materials${projection}.sc"
+            "vertex" "vs_outdoor_terrain_materials${projection}.bin")
+        foreach(lighting "" "_baked")
+            set(materialShader "fs_outdoor_terrain_materials${lighting}${projection}")
+            openyamm_compile_bgfx_shader(
+                "${CMAKE_SOURCE_DIR}/game/shaders/${materialShader}.sc" "fragment" "${materialShader}.bin")
+            openyamm_compile_bgfx_shader(
+                "${CMAKE_SOURCE_DIR}/game/shaders/${materialShader}.sc" "fragment" "${materialShader}_shadow.bin"
+                "SUN_SHADOWS=1")
+            openyamm_compile_bgfx_shader(
+                "${CMAKE_SOURCE_DIR}/game/shaders/${materialShader}.sc" "fragment" "${materialShader}_single.bin"
+                "SINGLE_MATERIAL=1")
+            openyamm_compile_bgfx_shader(
+                "${CMAKE_SOURCE_DIR}/game/shaders/${materialShader}.sc" "fragment" "${materialShader}_single_shadow.bin"
+                "SINGLE_MATERIAL=1$<SEMICOLON>SUN_SHADOWS=1")
+        endforeach()
+        # Its depth pre-pass in the main view, so each pixel is shaded once.
         openyamm_compile_bgfx_shader(
-            "${CMAKE_SOURCE_DIR}/game/shaders/${materialShader}.sc" "fragment" "${materialShader}_single.bin"
-            "SINGLE_MATERIAL=1")
-        openyamm_compile_bgfx_shader(
-            "${CMAKE_SOURCE_DIR}/game/shaders/${materialShader}.sc" "fragment" "${materialShader}_single_shadow.bin"
-            "SINGLE_MATERIAL=1$<SEMICOLON>SUN_SHADOWS=1")
+            "${CMAKE_SOURCE_DIR}/game/shaders/fs_outdoor_terrain_materials${projection}.sc"
+            "fragment" "fs_outdoor_terrain_depth${projection}.bin" "TERRAIN_DEPTH_ONLY=1")
     endforeach()
-    # Its depth pre-pass in the main view, so each pixel is shaded once.
-    openyamm_compile_bgfx_shader(
-        "${CMAKE_SOURCE_DIR}/game/shaders/fs_outdoor_terrain_materials.sc" "fragment" "fs_outdoor_terrain_depth.bin"
-        "TERRAIN_DEPTH_ONLY=1")
     # The terrain as a sun shadow caster.
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/vs_terrain_shadow.sc" "vertex" "vs_terrain_shadow.bin")
@@ -555,7 +562,7 @@ function(openyamm_configure_runtime_shaders)
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_terrain_shadow.sc" "fragment" "fs_terrain_shadow.bin")
     # Ordinary scenes keep the original receiver-free programs; enable mesh receivers only with live casters.
     foreach(shadowShader fs_outdoor_textured_fog fs_outdoor_bmodel_baked fs_terrain_decoration
-            fs_terrain_decoration_baked fs_outdoor_terrain_materials fs_outdoor_terrain_materials_baked)
+            fs_terrain_decoration_baked)
         openyamm_compile_bgfx_shader(
             "${CMAKE_SOURCE_DIR}/game/shaders/${shadowShader}.sc"
             "fragment" "${shadowShader}_shadow.bin" "SUN_SHADOWS=1")
@@ -725,6 +732,8 @@ function(openyamm_configure_runtime_shaders)
     # Materials with an emissive texture (loaded the first time such a model is prepared).
     openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/fs_model.sc" "fragment" "fs_model_emissive.bin" "MODEL_EMISSIVE_MAP=1")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_model.sc" "fragment" "fs_model_detail.bin" "MODEL_SURFACE_DETAIL=1")
     # Alpha to coverage under multisample anti-aliasing: the foliage depth prepass and the grass. Loaded only while
     # anti-aliasing is on.
     openyamm_compile_bgfx_shader(
@@ -849,7 +858,12 @@ function(openyamm_configure_runtime_shaders)
         fs_outdoor_terrain_materials_shadow.bin fs_outdoor_terrain_materials_baked_shadow.bin
         fs_outdoor_terrain_materials_single.bin fs_outdoor_terrain_materials_baked_single.bin
         fs_outdoor_terrain_materials_single_shadow.bin fs_outdoor_terrain_materials_baked_single_shadow.bin
-        fs_outdoor_terrain_depth.bin
+        fs_outdoor_terrain_depth.bin vs_outdoor_terrain_materials_continuous.bin fs_outdoor_terrain_depth_continuous.bin
+        fs_outdoor_terrain_materials_continuous.bin fs_outdoor_terrain_materials_baked_continuous.bin
+        fs_outdoor_terrain_materials_continuous_shadow.bin fs_outdoor_terrain_materials_baked_continuous_shadow.bin
+        fs_outdoor_terrain_materials_continuous_single.bin fs_outdoor_terrain_materials_baked_continuous_single.bin
+        fs_outdoor_terrain_materials_continuous_single_shadow.bin
+        fs_outdoor_terrain_materials_baked_continuous_single_shadow.bin
         vs_terrain_shadow.bin fs_terrain_shadow.bin
         fs_outdoor_bmodel_lightmap_array.bin fs_outdoor_bmodel_baked_array.bin fs_outdoor_textured_fog_array.bin
         fs_outdoor_bmodel_baked_array_shadow.bin fs_outdoor_textured_fog_array_shadow.bin
@@ -870,7 +884,7 @@ function(openyamm_configure_runtime_shaders)
         fs_mirror.bin fs_indoor_mirror.bin fs_indoor_mirror_fog.bin
         fs_indoor_textured_terrain.bin fs_indoor_textured_terrain_fog.bin
         fs_indoor_textured_terrain_single.bin fs_indoor_textured_terrain_single_fog.bin fs_indoor_textured_depth.bin
-        fs_model_coverage.bin fs_model_emissive.bin
+        fs_model_coverage.bin fs_model_emissive.bin fs_model_detail.bin
         fs_terrain_decoration_coverage.bin fs_terrain_decoration_baked_coverage.bin
         fs_terrain_decoration_shadow_coverage.bin fs_terrain_decoration_baked_shadow_coverage.bin)
 

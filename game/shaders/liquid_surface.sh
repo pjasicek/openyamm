@@ -63,8 +63,52 @@ float lavaHeat(vec2 uv, vec2 flowOffset, vec2 worldXy, bool flares, float time)
     return clamp(heat, 0.0, 1.0);
 }
 
+// Crust plates on indoor lava (liquids.yml `crust`, the share of the surface they cover): the cells of a still
+// jittered grid (the melt moves under them); a cell whose hash falls under the share is a dark plate. Returns x: 1
+// inside a plate's cell, y: how much of the point its rock covers (0 at the seam round it, where the melt glows).
+vec2 lavaCrustCover(vec2 uv, float crust)
+{
+    vec2 grid = uv * 3.0;
+    vec2 cell = floor(grid);
+    vec2 local = grid - cell;
+    float nearest = 8.0;
+    float second = 8.0;
+    vec2 nearestCell = cell;
+    for (int y = -1; y <= 1; ++y)
+    {
+        for (int x = -1; x <= 1; ++x)
+        {
+            vec2 neighbour = cell + vec2(float(x), float(y));
+            vec2 centre = vec2(float(x), float(y))
+                + vec2(liquidHash(neighbour), liquidHash(neighbour + 7.31)) * 0.8 + 0.1;
+            float distance = length(centre - local);
+            if (distance < nearest)
+            {
+                second = nearest;
+                nearest = distance;
+                nearestCell = neighbour;
+            }
+            else if (distance < second)
+            {
+                second = distance;
+            }
+        }
+    }
+    float plate = step(liquidHash(nearestCell + 3.7), crust);
+    return vec2(plate, plate * smoothstep(0.05, 0.16, second - nearest));
+}
+
 // Self-lit lava colour, the original palette carried on: dark red (cool troughs) through the glow (the liquid's
 // colour, orange) to yellow-orange in the hottest veins and flares.
+// The same ramp in shades of the liquid's own colour (liquids.yml `tint`, indoor faces): dark troughs of the colour,
+// the colour itself, and veins that run toward white instead of orange-yellow.
+vec3 lavaTintedColor(float heat, vec3 glow)
+{
+    vec3 color = mix(glow * 0.22, glow * 0.48, smoothstep(0.1, 0.4, heat));
+    color = mix(color, glow, smoothstep(0.38, 0.75, heat));
+    return mix(color, mix(glow, vec3_splat(1.0), 0.45), smoothstep(0.82, 1.0, heat));
+}
+
 vec3 lavaColor(float heat, vec3 glow)
 {
     vec3 color = mix(vec3(0.36, 0.04, 0.01), vec3(0.62, 0.13, 0.02), smoothstep(0.1, 0.4, heat));

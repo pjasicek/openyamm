@@ -346,4 +346,5 @@ def main():
     {'prep': prep, 'bake': bake}[args[0]](*args[1:])
 
 
-main()
+if __name__ == '__main__':
+    main()

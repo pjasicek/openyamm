@@ -74,6 +74,8 @@ TEST_CASE("content manifests parse mounted world definition")
         "id: custom\n"
         "name: Custom World\n"
         "sourceGame: custom\n"
+        "loadingScreens: [world_page]\n"
+        "mapLoadingScreens: {Custom01.ODM: arrival_page}\n"
         "qbits:\n"
         "  begin: 90000\n"
         "  end: 99999\n"
@@ -117,6 +119,11 @@ TEST_CASE("content manifests parse mounted world definition")
         CHECK_EQ(world.id, "custom");
         CHECK_EQ(world.name, "Custom World");
         CHECK_EQ(world.start.mapFileName, "custom01.odm");
+        const OpenYAMM::Game::MergedContinentSettingTable continents;
+        CHECK(OpenYAMM::Game::worldLoadingPages(world, continents, std::nullopt, "CUSTOM01.ODM")
+            == std::vector<std::string>{"arrival_page"});
+        CHECK(OpenYAMM::Game::worldLoadingPages(world, continents, std::nullopt, "other.blv")
+            == std::vector<std::string>{"world_page"});
         CHECK_EQ(world.start.introMovie, "custom_intro");
         REQUIRE(world.qbits.declared);
         CHECK_EQ(world.qbits.begin, 90000u);
@@ -376,6 +383,58 @@ TEST_CASE("content manifests parse the actor level radius limit; without one a b
     std::filesystem::remove_all(temporaryRoot);
 }
 
+TEST_CASE("content manifests parse story ambience choices and QBit-gated music areas")
+{
+    const std::filesystem::path temporaryRoot = makeTemporaryRoot();
+    const std::filesystem::path assetRoot = temporaryRoot / "assets_dev";
+
+    writeTextFile(assetRoot / "worlds" / "story" / "world.yml",
+        "id: story\n"
+        "ambience:\n"
+        "  plain.odm: wind\n"
+        "  Story.odm: [{sound: calm, qbit: 120060}, {sound: storm, until_qbit: 120071}, {sound: ash}]\n"
+        "musicAreas:\n"
+        "  story.odm:\n"
+        "    - {track: 11, rect: [-100, -100, 100, 100], qbit: 120060}\n"
+        "    - {track: 12, rect: [0, 0, 50, 50], until_qbit: 120057}\n"
+        "    - {track: 13, rect: [0, 0, 50, 50]}\n");
+    writeTextFile(assetRoot / "worlds" / "nosound" / "world.yml", "id: nosound\nambience:\n  a.odm: [{qbit: 5}]\n");
+
+    {
+        OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+        REQUIRE(assetFileSystem.initialize(
+            temporaryRoot,
+            assetRoot,
+            OpenYAMM::Engine::AssetScaleTier::X1,
+            "mm8"));
+
+        std::string error;
+        const std::optional<OpenYAMM::Game::WorldManifest> story =
+            OpenYAMM::Game::loadWorldManifest(assetFileSystem, "worlds/story/world.yml", "story", error);
+        REQUIRE(story.has_value());
+        REQUIRE_EQ(story->ambience.at("plain.odm").size(), 1u);
+        CHECK_EQ(story->ambience.at("plain.odm")[0].sound, "wind");
+        CHECK_EQ(story->ambience.at("plain.odm")[0].qbit, 0u);
+        const std::vector<OpenYAMM::Game::WorldManifest::AmbienceChoice> &choices = story->ambience.at("story.odm");
+        REQUIRE_EQ(choices.size(), 3u);
+        CHECK_EQ(choices[0].sound, "calm");
+        CHECK_EQ(choices[0].qbit, 120060u);
+        CHECK_EQ(choices[1].untilQBit, 120071u);
+        CHECK_EQ(choices[2].sound, "ash");
+        const std::vector<OpenYAMM::Game::WorldManifest::MusicArea> &areas = story->musicAreas.at("story.odm");
+        REQUIRE_EQ(areas.size(), 3u);
+        CHECK_EQ(areas[0].qbit, 120060u);
+        CHECK_EQ(areas[1].untilQBit, 120057u);
+        CHECK_EQ(areas[2].qbit, 0u);
+        CHECK_EQ(areas[2].untilQBit, 0u);
+        CHECK_FALSE(OpenYAMM::Game::loadWorldManifest(assetFileSystem, "worlds/nosound/world.yml", "nosound", error)
+            .has_value());
+        CHECK(error.find("ambience choices need a sound") != std::string::npos);
+    }
+
+    std::filesystem::remove_all(temporaryRoot);
+}
+
 TEST_CASE("content manifests parse stable item contribution contracts")
 {
     const std::filesystem::path temporaryRoot = makeTemporaryRoot();
@@ -602,6 +661,14 @@ TEST_CASE("a world's own continents show their continent_settings loading pages"
     CHECK(OpenYAMM::Game::worldLoadingPages(world, continents, 2u) == std::vector<std::string>{"worldpage"});
 
     world.idRanges.push_back({"continents", 6, 8});
+    world.mapLoadingScreens.emplace("castle.blv", "castle_page");
+    CHECK(OpenYAMM::Game::worldLoadingPages(world, continents, 6u, "castle.blv")
+        == std::vector<std::string>{"castle_page"});
+    CHECK(OpenYAMM::Game::worldLoadingPages(world, continents, 6u, "castle.blv", false)
+        == std::vector<std::string>{"castle_page"});
+    CHECK(OpenYAMM::Game::worldLoadingPages(world, continents, 6u, "other.blv", false).empty());
+    CHECK(OpenYAMM::Game::worldLoadingPages(world, continents, 6u, "other.blv")
+        == std::vector<std::string>{"xeenloadc1", "xeenloadc2"});
     CHECK(OpenYAMM::Game::worldLoadingPages(world, continents, 6u)
         == std::vector<std::string>{"xeenloadc1", "xeenloadc2"});
     CHECK(OpenYAMM::Game::worldLoadingPages(world, continents, 7u) == std::vector<std::string>{"xeenloadd1"});

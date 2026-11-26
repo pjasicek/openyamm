@@ -119,7 +119,6 @@ bool MawItemData::loadFromYaml(const std::string &text, std::string &errorMessag
             artifact.slotMultiplier = node["slot_mult"].as<double>(1);
             artifact.twoHanded = node["two_handed"].as<bool>(false);
             artifact.diceCount = node["dice"].as<int>(1);
-            artifact.guardBase = node["guard"].as<int>(0);
             artifact.rung = node["rung"].as<double>(6);
             artifact.printedArmorClass = node["printed_ac"].as<int>(0);
             artifact.referenceArmorClass = node["reference_ac"].as<int>(0);

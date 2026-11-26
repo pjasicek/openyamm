@@ -560,6 +560,32 @@ bool loadMaterials(const cgltf_data &data, ModelAsset &asset, std::vector<bool> 
                     error = "material " + std::to_string(materialIndex) + " " + error;
                     return false;
                 }
+                if (const YAML::Node detail = extras["openyamm_surface_detail"])
+                {
+                    const int textureIndex = detail["index"].as<int>(-1);
+                    material.detailTileWorldUnits = detail["tile_world_units"].as<float>(0.0f);
+                    material.detailStrength = detail["strength"] ? detail["strength"].as<float>(-1.0f) : 1.0f;
+                    if (textureIndex < 0 || size_t(textureIndex) >= data.textures_count
+                        || !std::isfinite(material.detailTileWorldUnits) || material.detailTileWorldUnits <= 0.0f
+                        || !(material.detailStrength >= 0.0f && material.detailStrength <= 1.0f)
+                        || source.alpha_mode != cgltf_alpha_mode_opaque || source.unlit)
+                    {
+                        error = "surface detail needs a lit opaque material, a texture index, positive tile_world_units and strength in 0..1";
+                        return false;
+                    }
+                    cgltf_texture_view view = {};
+                    view.texture = &data.textures[textureIndex];
+                    if (!loadMaterialTexture(data, view, material.detailImageIndex, material.detailSampler, error))
+                    {
+                        return false;
+                    }
+                    if (material.detailSampler.wrapS != 10497 || material.detailSampler.wrapT != 10497
+                        || material.detailSampler.minFilter == 9728 || material.detailSampler.minFilter == 9729)
+                    {
+                        error = "surface detail needs a repeating mipmapped sampler";
+                        return false;
+                    }
+                }
                 if (const YAML::Node burnMap = extras["openyamm_burn_map"])
                 {
                     const int textureIndex = burnMap["index"] ? burnMap["index"].as<int>() : -1;

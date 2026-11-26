@@ -1,11 +1,14 @@
 #include "game/fx/ProjectileModelBindings.h"
 
 #include "engine/AssetFileSystem.h"
+#include "game/content/ContentManifest.h"
 
 #include <yaml-cpp/yaml.h>
 
 #include <cmath>
 #include <limits>
+#include <optional>
+#include <vector>
 
 namespace OpenYAMM::Game
 {
@@ -67,6 +70,7 @@ bool parseProjectileModelBindings(
                 return false;
             }
             ProjectileModelBinding binding;
+            binding.sourcePath = path;
             binding.model = entry["model"].as<std::string>();
             binding.length = entry["length"].as<float>();
             if (!std::isfinite(binding.length) || binding.length <= 0.0f)
@@ -101,6 +105,79 @@ bool parseProjectileModelBindings(
     {
         error = path + ": " + exception.what();
         return false;
+    }
+    return true;
+}
+
+bool mergeWorldProjectileModelBindings(
+    const std::string &text,
+    const std::string &path,
+    uint32_t objectBegin,
+    uint32_t objectEnd,
+    ProjectileModelBindings &bindings,
+    std::string &error)
+{
+    ProjectileModelBindings added;
+    if (!parseProjectileModelBindings(text, path, added, error))
+    {
+        return false;
+    }
+    for (const auto &[objectId, binding] : added)
+    {
+        const std::string context = path + ": object " + std::to_string(objectId);
+        if (uint32_t(objectId) < objectBegin || uint32_t(objectId) > objectEnd)
+        {
+            error = context + " is outside the world's objects id range";
+            return false;
+        }
+        if (const auto found = bindings.find(objectId); found != bindings.end())
+        {
+            error = context + " is already bound by " + found->second.sourcePath;
+            return false;
+        }
+    }
+    bindings.merge(added);
+    return true;
+}
+
+bool loadAllProjectileModelBindings(
+    const Engine::AssetFileSystem &assetFileSystem,
+    ProjectileModelBindings &bindings,
+    std::string &error)
+{
+    if (!loadProjectileModelBindings(assetFileSystem, "engine/models/projectiles.yml", bindings, error))
+    {
+        return false;
+    }
+    std::vector<WorldManifest> mountedWorlds;
+    if (!loadMountedWorldManifests(assetFileSystem, mountedWorlds, error))
+    {
+        return false;
+    }
+    for (const WorldManifest &manifest : mountedWorlds)
+    {
+        const std::string path = "worlds/" + manifest.id + "/models/projectiles.yml";
+        if (!assetFileSystem.exists(path))
+        {
+            continue;
+        }
+        const ContentIdRangeDefinition *pObjectRange = manifest.findIdRange("objects");
+        if (pObjectRange == nullptr)
+        {
+            error = path + ": the world needs an objects id range";
+            return false;
+        }
+        const std::optional<std::string> text = assetFileSystem.readTextFile(path);
+        if (!text)
+        {
+            error = path + ": unreadable";
+            return false;
+        }
+        if (!mergeWorldProjectileModelBindings(
+                *text, path, pObjectRange->begin, pObjectRange->end, bindings, error))
+        {
+            return false;
+        }
     }
     return true;
 }

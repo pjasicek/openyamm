@@ -157,6 +157,7 @@ class PotionEffectTable
 {
 public:
     bool loadFromYaml(const std::string &text, std::string &errorMessage);
+    bool appendWorldYaml(const std::string &text, uint32_t firstId, uint32_t lastId, std::string &errorMessage);
     const PotionDefinition *find(uint32_t itemId) const;
     // Standard: timed effects last a number of game minutes per point of power.
     float timedSecondsPerPower() const;

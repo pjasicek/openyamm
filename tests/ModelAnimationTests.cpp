@@ -1834,6 +1834,54 @@ TEST_CASE("ModelAnimation loader reads the cooked burn order per vertex")
     std::filesystem::remove_all(root);
 }
 
+TEST_CASE("ModelAnimation loader reads optional world-scale surface detail and rejects invalid sampling")
+{
+    using namespace OpenYAMM::Engine;
+    const std::filesystem::path root = makeTemporaryRoot();
+    writeFile(root / "assets_dev/engine/models/fixture.bin", fixtureBuffer());
+    writeFile(root / "assets_dev/engine/models/grain.png", std::string("\x89PNG\r\n\x1a\n", 8));
+    AssetFileSystem assets;
+    REQUIRE(assets.initialize(root, root / "assets_dev", AssetScaleTier::X1));
+    const auto load = [&](const std::string &detail, int wrapS = 10497, int minFilter = 9987)
+    {
+        std::string json = fixtureGltf();
+        json.insert(json.find("\"animations\""), "\"images\":[{\"uri\":\"grain.png\"}],"
+            "\"samplers\":[{\"wrapS\":" + std::to_string(wrapS) + ",\"minFilter\":" + std::to_string(minFilter)
+            + "}],\"textures\":[{\"source\":0,\"sampler\":0}],");
+        if (!detail.empty())
+        {
+            json.insert(json.find("\"pbrMetallicRoughness\""), "\"extras\":{\"openyamm_surface_detail\":" + detail + "},");
+        }
+        writeFile(root / "assets_dev/engine/models/fixture.gltf", json);
+        return GltfModelLoader().load(assets, "engine/models/fixture.gltf");
+    };
+    const ModelLoadResult plain = load("");
+    REQUIRE_MESSAGE(plain, plain.error);
+    CHECK_EQ(plain.asset->materials[0].detailImageIndex, -1);
+
+    const std::string detail = R"({"index":0,"tile_world_units":144,"strength":0.75})";
+    const ModelLoadResult selected = load(detail);
+    REQUIRE_MESSAGE(selected, selected.error);
+    CHECK_EQ(selected.asset->materials[0].detailImageIndex, 0);
+    CHECK_EQ(selected.asset->materials[0].detailTileWorldUnits, 144.0f);
+    CHECK_EQ(selected.asset->materials[0].detailStrength, 0.75f);
+    const ModelLoadResult defaultStrength = load(R"({"index":0,"tile_world_units":144})");
+    REQUIRE(defaultStrength);
+    CHECK_EQ(defaultStrength.asset->materials[0].detailStrength, 1.0f);
+    for (const char *bad : {R"({"index":1,"tile_world_units":144})", R"({"index":0,"tile_world_units":0})",
+             R"({"index":0,"tile_world_units":144,"strength":1.1})",
+             R"({"index":0,"tile_world_units":144,"strength":"strong"})"})
+    {
+        const ModelLoadResult invalid = load(bad);
+        CHECK_FALSE(invalid);
+        CHECK_MESSAGE(invalid.error.find("surface detail") != std::string::npos, invalid.error);
+    }
+    CHECK_FALSE(load(detail, 33071));
+    CHECK_FALSE(load(detail, 10497, 9729));
+    assets.shutdown();
+    std::filesystem::remove_all(root);
+}
+
 TEST_CASE("ModelAnimation loader reads vertex colours and static decoration material extras")
 {
     using namespace OpenYAMM::Engine;

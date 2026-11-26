@@ -473,6 +473,30 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
         }
     }
 
+    if (const YAML::Node maps = root["mapLoadingScreens"])
+    {
+        if (!maps.IsMap())
+        {
+            errorMessage = "world.yml mapLoadingScreens must map destination filenames to page names";
+            return false;
+        }
+        for (const auto &entry : maps)
+        {
+            if (!entry.first.IsScalar() || entry.first.Scalar().empty()
+                || !entry.second.IsScalar() || entry.second.Scalar().empty())
+            {
+                errorMessage = "world.yml mapLoadingScreens requires a filename and a page name for each entry";
+                return false;
+            }
+            const std::string fileName = toLowerCopy(entry.first.Scalar());
+            if (!manifest.mapLoadingScreens.emplace(fileName, entry.second.Scalar()).second)
+            {
+                errorMessage = "world.yml mapLoadingScreens repeats destination " + fileName;
+                return false;
+            }
+        }
+    }
+
     if (const YAML::Node completionNode = root["completion"])
     {
         WorldCompletionDefinition &completion = manifest.completion;
@@ -548,7 +572,32 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
 
         for (const auto &entry : ambienceNode)
         {
-            manifest.ambience[toLowerCopy(entry.first.as<std::string>())] = entry.second.as<std::string>();
+            std::vector<WorldManifest::AmbienceChoice> &choices =
+                manifest.ambience[toLowerCopy(entry.first.as<std::string>())];
+
+            if (entry.second.IsScalar())
+            {
+                choices.push_back({entry.second.as<std::string>()});
+                continue;
+            }
+
+            if (!entry.second.IsSequence())
+            {
+                errorMessage = "world.yml ambience values are a sound name or a list of {sound, qbit, until_qbit}";
+                return false;
+            }
+
+            for (const YAML::Node &choiceNode : entry.second)
+            {
+                if (!choiceNode.IsMap() || choiceNode["sound"].as<std::string>("").empty())
+                {
+                    errorMessage = "world.yml ambience choices need a sound";
+                    return false;
+                }
+
+                choices.push_back({choiceNode["sound"].as<std::string>(), choiceNode["qbit"].as<uint32_t>(0),
+                    choiceNode["until_qbit"].as<uint32_t>(0)});
+            }
         }
 
         manifest.ambienceVolume = root["ambienceVolume"].as<float>(0.6f);
@@ -571,7 +620,8 @@ bool parseManifestRoot(const YAML::Node &root, WorldManifest &manifest, std::str
                     return false;
                 }
 
-                areas.push_back({areaNode["track"].as<int>(), {rect[0], rect[1], rect[2], rect[3]}});
+                areas.push_back({areaNode["track"].as<int>(), {rect[0], rect[1], rect[2], rect[3]},
+                    areaNode["qbit"].as<uint32_t>(0), areaNode["until_qbit"].as<uint32_t>(0)});
             }
         }
     }
@@ -1138,8 +1188,20 @@ std::optional<std::string> overlappingContentIdRange(
 std::vector<std::string> worldLoadingPages(
     const WorldManifest &world,
     const MergedContinentSettingTable &continents,
-    std::optional<uint32_t> mapContinentId)
+    std::optional<uint32_t> mapContinentId,
+    const std::string &mapFileName,
+    bool includeFallbackPages)
 {
+    const auto mapPage = world.mapLoadingScreens.find(toLowerCopy(mapFileName));
+    if (mapPage != world.mapLoadingScreens.end())
+    {
+        return {mapPage->second};
+    }
+    if (!includeFallbackPages)
+    {
+        return {};
+    }
+
     std::vector<std::string> pages;
     const ContentIdRangeDefinition *pRange = world.findIdRange("continents");
 

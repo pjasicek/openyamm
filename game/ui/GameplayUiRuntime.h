@@ -32,6 +32,7 @@ class ActorModelPreview;
 struct Mm9DialogueSpeaker;
 class IGameplayWorldRuntime;
 class SpriteAtlasCache;
+class WebOfWorldsTable;
 
 struct GameplayHudRenderBackend
 {
@@ -213,6 +214,8 @@ public:
     const std::vector<GameplayTownPortalContinent> &townPortalContinents() const;
     size_t townPortalContinentIndex() const;
     size_t townPortalHomeContinentIndex() const;
+    // The mounted planets of the Web of Worlds; null before the data is bound.
+    const WebOfWorldsTable *webOfWorldsTable() const;
 
     bool loadHudTexture(const std::string &textureName);
     bool loadItemIconTexture(const std::string &textureName);
@@ -325,6 +328,9 @@ public:
         float rotationRadians = 0.0f) const;
     void submitHudTexturedEllipse(
         bgfx::TextureHandle textureHandle, float x, float y, float width, float height,
+        float u0 = 0.0f, float v0 = 0.0f, float u1 = 1.0f, float v1 = 1.0f) const;
+    // Multiple ellipses sharing one image and UV crop, in paint order.
+    void submitHudTexturedEllipses(bgfx::TextureHandle textureHandle, std::span<const GameplayUiViewportRect> rects,
         float u0 = 0.0f, float v0 = 0.0f, float u1 = 1.0f, float v1 = 1.0f) const;
     // `uRepeat` tiles the texture that many times along the drawn range (a wrapping pattern such as hatching).
     void submitHudTexturedArc(bgfx::TextureHandle textureHandle,

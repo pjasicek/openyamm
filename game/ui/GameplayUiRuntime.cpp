@@ -601,7 +601,9 @@ bool GameplayUiRuntime::ensureTownPortalDestinationsLoaded(
                 }
             }
 
-            return !townPortalDestinations().empty();
+            return !townPortalDestinations().empty()
+                || (m_townPortalContinentIndex < m_townPortalContinents.size()
+                    && m_townPortalContinents[m_townPortalContinentIndex].webOfWorlds);
         };
 
     if (m_townPortalDestinationsLoaded
@@ -667,6 +669,28 @@ bool GameplayUiRuntime::ensureTownPortalDestinationsLoaded(
         }
 
         m_townPortalContinents.push_back(std::move(continent));
+    }
+
+    // The Web of Worlds, last: the star chart of the mounted planets (web_of_worlds contributions); a planet's maps
+    // have it as their home page.
+    const WebOfWorldsTable &web = m_pDataRepository->webOfWorldsTable();
+    const bool webOffered = std::any_of(web.planets().begin(), web.planets().end(),
+        [this](const WebOfWorldsPlanet &planet) { return m_pDataRepository->rulesetSupportsWorld(planet.worldId); });
+
+    if (webOffered)
+    {
+        GameplayTownPortalContinent page = {};
+        page.groupName = WebOfWorldsTownPortalGroupName;
+        page.label = "Web of Worlds";
+        page.webOfWorlds = true;
+
+        if (!homeFound && web.findPlanetByWorld(pCurrentMap->worldId) != nullptr)
+        {
+            m_townPortalHomeContinentIndex = m_townPortalContinents.size();
+            homeFound = true;
+        }
+
+        m_townPortalContinents.push_back(std::move(page));
     }
 
     if (!homeFound)
@@ -811,6 +835,12 @@ size_t GameplayUiRuntime::townPortalContinentIndex() const
 size_t GameplayUiRuntime::townPortalHomeContinentIndex() const
 {
     return m_townPortalHomeContinentIndex;
+}
+
+const WebOfWorldsTable *GameplayUiRuntime::webOfWorldsTable() const
+{
+    return m_pDataRepository != nullptr && m_pDataRepository->isBound() ? &m_pDataRepository->webOfWorldsTable()
+                                                                        : nullptr;
 }
 
 bool GameplayUiRuntime::loadHudTexture(const std::string &textureName)
@@ -1430,6 +1460,40 @@ const std::vector<uint8_t> *GameplayUiRuntime::hudTexturePixels(
 
 bool GameplayUiRuntime::ensureHudTextureDimensions(const std::string &textureName, int &width, int &height)
 {
+    if (!canUseBgfxResources() && m_pAssetFileSystem != nullptr)
+    {
+        // Only input needing an icon's bounds reads its header, once per asset context, including missing art.
+        const uint64_t generation = m_pAssetFileSystem->contentGeneration();
+        if (m_assetLoadCache.headlessHudIconGeneration != generation)
+        {
+            m_assetLoadCache.headlessHudIconSizes.clear();
+            m_assetLoadCache.directoryAssetPathsByPath.clear();
+            m_assetLoadCache.assetPathByKey.clear();
+            m_assetLoadCache.headlessHudIconGeneration = generation;
+        }
+        auto [entry, inserted] = m_assetLoadCache.headlessHudIconSizes.try_emplace(textureName);
+        if (inserted)
+        {
+            const size_t slash = textureName.find_last_of('/');
+            const std::string directory = slash == std::string::npos ? "Data/icons" : textureName.substr(0, slash);
+            const std::string name = slash == std::string::npos ? textureName : textureName.substr(slash + 1);
+            const std::optional<std::string> path = Engine::findCookedOrImageAssetPath(*m_pAssetFileSystem,
+                directory, name, m_assetLoadCache.directoryAssetPathsByPath, m_assetLoadCache.assetPathByKey);
+            if (path)
+            {
+                if (const std::optional<Engine::ImageDimensions> size =
+                        Engine::loadImageDimensions(*m_pAssetFileSystem, *path))
+                {
+                    const Engine::AssetScaleTier tier = Engine::assetScaleTierFromResolvedPath(*path);
+                    entry->second = {Engine::scalePhysicalPixelsToLogical(size->width, tier),
+                        Engine::scalePhysicalPixelsToLogical(size->height, tier)};
+                }
+            }
+        }
+        width = entry->second[0];
+        height = entry->second[1];
+        return width > 0 && height > 0;
+    }
     const std::optional<GameplayHudTextureHandle> texture = ensureHudTextureLoaded(textureName);
 
     if (!texture)
@@ -2256,7 +2320,14 @@ void GameplayUiRuntime::submitHudTexturedEllipse(
     bgfx::TextureHandle textureHandle, float x, float y, float width, float height,
     float u0, float v0, float u1, float v1) const
 {
-    if (!hasHudRenderResources() || !bgfx::isValid(textureHandle) || width <= 0.0f || height <= 0.0f)
+    const GameplayUiViewportRect rect{x, y, width, height};
+    submitHudTexturedEllipses(textureHandle, std::span(&rect, 1), u0, v0, u1, v1);
+}
+
+void GameplayUiRuntime::submitHudTexturedEllipses(bgfx::TextureHandle textureHandle,
+    std::span<const GameplayUiViewportRect> rects, float u0, float v0, float u1, float v1) const
+{
+    if (!hasHudRenderResources() || !bgfx::isValid(textureHandle) || rects.empty())
     {
         return;
     }
@@ -2271,14 +2342,21 @@ void GameplayUiRuntime::submitHudTexturedEllipse(
     };
     constexpr uint16_t segments = 96;
     constexpr size_t maxPoints = segments + 8;
+    static const auto unitCircle = []
+    {
+        std::array<std::array<float, 2>, segments> circle;
+        for (size_t i = 0; i < circle.size(); ++i)
+        {
+            const float angle = float(i) * 6.28318530718f / segments;
+            circle[i] = {0.5f + 0.5f * std::cos(angle), 0.5f + 0.5f * std::sin(angle)};
+        }
+        return circle;
+    }();
     std::array<EllipsePoint, maxPoints> points = {};
     size_t pointCount = 0;
-    for (uint16_t i = 0; i < segments; ++i)
+    for (const auto &[x, y] : unitCircle)
     {
-        const float angle = i * 6.28318530718f / segments;
-        const float s = 0.5f + 0.5f * std::cos(angle);
-        const float t = 0.5f + 0.5f * std::sin(angle);
-        points[pointCount++] = {x + width * s, y + height * t, u0 + (u1 - u0) * s, v0 + (v1 - v0) * t};
+        points[pointCount++] = {x, y, u0 + (u1 - u0) * x, v0 + (v1 - v0) * y};
     }
     const auto clipAgainst = [&](auto distance)
     {
@@ -2304,10 +2382,10 @@ void GameplayUiRuntime::submitHudTexturedEllipse(
         points = clipped;
         pointCount = clippedCount;
     };
-    clipAgainst([](const EllipsePoint &p) { return p.u; });
-    clipAgainst([](const EllipsePoint &p) { return 1.0f - p.u; });
-    clipAgainst([](const EllipsePoint &p) { return p.v; });
-    clipAgainst([](const EllipsePoint &p) { return 1.0f - p.v; });
+    if (std::min(u0, u1) < 0) clipAgainst([](const EllipsePoint &p) { return p.u; });
+    if (std::max(u0, u1) > 1) clipAgainst([](const EllipsePoint &p) { return 1.0f - p.u; });
+    if (std::min(v0, v1) < 0) clipAgainst([](const EllipsePoint &p) { return p.v; });
+    if (std::max(v0, v1) > 1) clipAgainst([](const EllipsePoint &p) { return 1.0f - p.v; });
     if (pointCount < 3)
     {
         return;
@@ -2315,21 +2393,28 @@ void GameplayUiRuntime::submitHudTexturedEllipse(
 
     const HudDrawTarget target = hudDrawTarget(textureHandle, TextureFilterProfile::Ui, HudClampSampler);
     const uint32_t triangleCount = uint32_t(pointCount - 2);
-    const HudDrawList::Primitive fan = m_hudDrawList.add(target.state, uint32_t(pointCount), triangleCount * 3);
-    if (fan.pVertices == nullptr)
+    for (const GameplayUiViewportRect &rect : rects)
     {
-        return;
-    }
-    for (size_t i = 0; i < pointCount; ++i)
-    {
-        fan.pVertices[i] = {points[i].x, points[i].y, HudAlphaCutUntinted, target.u(points[i].u),
-            target.v(points[i].v)};
-    }
-    for (uint32_t i = 0; i < triangleCount; ++i)
-    {
-        fan.pIndices[i * 3] = fan.firstVertex;
-        fan.pIndices[i * 3 + 1] = uint16_t(fan.firstVertex + i + 1);
-        fan.pIndices[i * 3 + 2] = uint16_t(fan.firstVertex + i + 2);
+        if (rect.width <= 0 || rect.height <= 0)
+        {
+            continue;
+        }
+        const HudDrawList::Primitive fan = m_hudDrawList.add(target.state, uint32_t(pointCount), triangleCount * 3);
+        if (!fan.pVertices)
+        {
+            continue;
+        }
+        for (size_t i = 0; i < pointCount; ++i)
+        {
+            fan.pVertices[i] = {rect.x + rect.width * points[i].x, rect.y + rect.height * points[i].y,
+                HudAlphaCutUntinted, target.u(points[i].u), target.v(points[i].v)};
+        }
+        for (uint32_t i = 0; i < triangleCount; ++i)
+        {
+            fan.pIndices[i * 3] = fan.firstVertex;
+            fan.pIndices[i * 3 + 1] = uint16_t(fan.firstVertex + i + 1);
+            fan.pIndices[i * 3 + 2] = uint16_t(fan.firstVertex + i + 2);
+        }
     }
     hudPrimitivesAdded();
 }

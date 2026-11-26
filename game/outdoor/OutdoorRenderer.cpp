@@ -1242,6 +1242,7 @@ void OutdoorRenderer::renderWeather(OutdoorGameView &view, uint16_t viewId,
         const WeatherMapSettings settings = view.m_pOutdoorWorldRuntime->weatherMapSettings();
         frame.snowLook = rules.snowFlakes;
         frame.ashLook = settings.ashLook.value_or(rules.ashFlakes);
+        frame.emberLook = settings.emberLook;
         frame.rainColor = settings.rainColor;
     }
 
@@ -3273,9 +3274,13 @@ bool OutdoorRenderer::ensureTerrainMaterials(OutdoorGameView &view)
         return false;
     }
     const bool baked = view.m_gameSettings.lightmaps && map.lightingData && map.lightingData->hasBakedSources();
-    const char *pFragment = baked ? "fs_outdoor_terrain_materials_baked" : "fs_outdoor_terrain_materials";
-    const std::string shadowFragment = std::string(pFragment) + "_shadow";
-    const std::string singleFragment = std::string(pFragment) + "_single";
+    const char *pProjection = config->continuousBankProjection ? "_continuous" : "";
+    const std::string vertex = std::string("vs_outdoor_terrain_materials") + pProjection;
+    const std::string fragment =
+        std::string(baked ? "fs_outdoor_terrain_materials_baked" : "fs_outdoor_terrain_materials") + pProjection;
+    const std::string depth = std::string("fs_outdoor_terrain_depth") + pProjection;
+    const std::string shadowFragment = fragment + "_shadow";
+    const std::string singleFragment = fragment + "_single";
     const std::string singleShadowFragment = singleFragment + "_shadow";
     if (!view.m_terrainMaterials.initialize(*view.m_pAssetFileSystem, map, *config, *view.m_terrainMaterialTiles,
             uint32_t(view.m_gameSettings.terrainSubdivision), baked ? &*map.lightingData : nullptr,
@@ -3394,8 +3399,7 @@ void OutdoorRenderer::updateTerrainBushes(OutdoorGameView &view, const OutdoorLi
     }
 }
 
-void OutdoorRenderer::updateDecorationModels(OutdoorGameView &view, const OutdoorLightingData *pBakedLighting,
-    const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState)
+void OutdoorRenderer::poseDecorationModels(OutdoorGameView &view)
 {
     DecorationModelSet &models = view.m_decorationModels;
     if (models.empty() || !view.m_outdoorDecorationBillboardSet)
@@ -3446,6 +3450,18 @@ void OutdoorRenderer::updateDecorationModels(OutdoorGameView &view, const Outdoo
     }
     models.poseParts(billboards, decorationClip, decorationSeconds);
     models.poseInstances(billboards, decorationClip, decorationSeconds, view.m_worldFxSystem.models());
+}
+
+void OutdoorRenderer::updateDecorationModels(OutdoorGameView &view, const OutdoorLightingData *pBakedLighting,
+    const OutdoorWorldRuntime::AtmosphereState *pAtmosphereState)
+{
+    DecorationModelSet &models = view.m_decorationModels;
+    if (models.empty() || !view.m_outdoorDecorationBillboardSet)
+    {
+        return;
+    }
+    poseDecorationModels(view);
+    const auto &billboards = view.m_outdoorDecorationBillboardSet->billboards;
     const bool baked = pBakedLighting != nullptr && pBakedLighting->hasBakedSources() && pAtmosphereState != nullptr;
     if (view.m_pDecorationModelProbeSource != pBakedLighting || view.m_decorationModelProbes.size() != billboards.size())
     {
@@ -3679,6 +3695,10 @@ bool OutdoorRenderer::initializeWorldRenderResources(
         return Engine::ModelEmissivePrograms{loadProgramHandle("vs_model", "fs_model_emissive"),
             loadProgramHandle("vs_model_skinned_instanced", "fs_model_emissive"),
             loadProgramHandle("vs_model_instanced", "fs_model_emissive")};
+    });
+    view.m_modelRenderer.setStaticDetailProgramLoader([]()
+    {
+        return loadProgramHandle("vs_model_instanced", "fs_model_detail");
     });
     view.m_modelRenderer.setShieldShellProgramLoader([]()
     {

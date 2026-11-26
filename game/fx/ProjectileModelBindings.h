@@ -33,6 +33,8 @@ struct ProjectileModelBinding
     float length = 0.0f;
     ProjectileModelSpinAxis spinAxis = ProjectileModelSpinAxis::None;
     float spinDegreesPerSecond = 0.0f;
+    // The file that bound it, for errors.
+    std::string sourcePath;
 };
 
 // Object id (object_list.txt ObjectId) -> binding.
@@ -50,6 +52,21 @@ bool loadProjectileModelBindings(
 bool parseProjectileModelBindings(
     const std::string &text,
     const std::string &path,
+    ProjectileModelBindings &bindings,
+    std::string &error);
+// Adds a world's own rows (worlds/<world>/models/projectiles.yml, same schema) to bindings: each object must lie in
+// the world's objects id range [objectBegin, objectEnd] and must not be bound yet. A failing file adds nothing.
+bool mergeWorldProjectileModelBindings(
+    const std::string &text,
+    const std::string &path,
+    uint32_t objectBegin,
+    uint32_t objectEnd,
+    ProjectileModelBindings &bindings,
+    std::string &error);
+// engine/models/projectiles.yml, then every mounted world's models/projectiles.yml through
+// mergeWorldProjectileModelBindings. Missing files bind nothing.
+bool loadAllProjectileModelBindings(
+    const Engine::AssetFileSystem &assetFileSystem,
     ProjectileModelBindings &bindings,
     std::string &error);
 }

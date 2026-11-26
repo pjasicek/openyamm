@@ -6,6 +6,7 @@
 #include <yaml-cpp/yaml.h>
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <stdexcept>
 #include <utility>
@@ -16,8 +17,8 @@ namespace
 {
 constexpr const char *LibraryPath = "engine/terrain_materials/library.yml";
 constexpr const char *MacroVariationPath = "engine/terrain_materials/macro_variation.png";
-// The weight images cover the 65 536-unit map frame: texels_per_cell texels for each of its 128 cells.
-constexpr int MapCells = 128;
+// The weight images cover the map frame: texels_per_cell texels for each of its cells (128 over 65 536 units on a
+// classic map; TerrainMaterialSources::mapCells).
 
 bgfx::TextureHandle createRgbaTexture(int width, int height, const std::vector<std::vector<uint8_t>> &levels)
 {
@@ -95,8 +96,9 @@ std::vector<std::vector<uint8_t>> terrainRgbaMipChain(std::vector<uint8_t> pixel
 
 bool TerrainMaterialSet::appendLoadTasks(const Engine::AssetFileSystem &assets,
     const OutdoorTerrainMaterialConfig &config, TerrainMaterialSources &sources,
-    std::vector<std::function<void(std::string &)>> &tasks, std::string &error)
+    std::vector<std::function<void(std::string &)>> &tasks, std::string &error, int mapCells)
 {
+    sources.mapCells = mapCells;
     const std::optional<std::string> libraryText = assets.readTextFile(LibraryPath);
     if (!libraryText)
     {
@@ -110,6 +112,7 @@ bool TerrainMaterialSet::appendLoadTasks(const Engine::AssetFileSystem &assets,
         sources.layerSpecular.assign(config.layers.size(), 0.0f);
         sources.layerWetSheen.assign(config.layers.size(), 1.0f);
         sources.layerEmissive.assign(config.layers.size(), {0.0f, 0.0f, 0.0f, 0.0f});
+        sources.layerPulse.assign(config.layers.size(), {0.0f, 1.0f});
         for (size_t layer = 0; layer < config.layers.size(); ++layer)
         {
             const YAML::Node entry = library[config.layers[layer].library];
@@ -140,6 +143,19 @@ bool TerrainMaterialSet::appendLoadTasks(const Engine::AssetFileSystem &assets,
                     throw std::runtime_error("invalid terrain material emissive threshold");
                 }
                 sources.layerEmissive[layer] = {color[0], color[1], color[2], threshold};
+                // pulse: {amount: 0-1, seconds}: the glow breathes by +/- amount over the period, out of step from
+                // place to place (ember seams, cooling crust).
+                if (const YAML::Node pulse = emissive["pulse"])
+                {
+                    const float amount = pulse["amount"].as<float>(0.0f);
+                    const float seconds = pulse["seconds"].as<float>(4.0f);
+                    if (!std::isfinite(amount) || amount < 0.0f || amount > 1.0f || !std::isfinite(seconds)
+                        || seconds < 0.25f || seconds > 120.0f)
+                    {
+                        throw std::runtime_error("invalid terrain material emissive pulse");
+                    }
+                    sources.layerPulse[layer] = {amount, seconds};
+                }
             }
         }
         const std::array<const char *, 2> kinds = {"albedo_height", "normal_ao_rough"};
@@ -173,7 +189,7 @@ bool TerrainMaterialSet::appendLoadTasks(const Engine::AssetFileSystem &assets,
         error = exception.what();
         return false;
     }
-    const int size = MapCells * config.texelsPerCell;
+    const int size = mapCells * config.texelsPerCell;
     for (size_t index = 0; index < std::min(config.weightFiles.size(), sources.weightLevels.size()); ++index)
     {
         const std::string path = config.directory + config.weightFiles[index];
@@ -239,6 +255,11 @@ bool TerrainMaterialSet::create(const TerrainMaterialSources &sources, const Out
     m_layerMacro = bgfx::createUniform("u_terrainLayerMacro", bgfx::UniformType::Vec4, layerCount);
     m_layerVariants = bgfx::createUniform("u_terrainLayerVariant", bgfx::UniformType::Vec4, layerCount);
     m_layerEmissive = bgfx::createUniform("u_terrainLayerEmissive", bgfx::UniformType::Vec4, layerCount);
+    if (std::any_of(sources.layerEmissive.begin(), sources.layerEmissive.end(),
+            [](const auto &color) { return color[0] > 0 || color[1] > 0 || color[2] > 0; }))
+    {
+        m_layerPulse = bgfx::createUniform("u_terrainLayerPulse", bgfx::UniformType::Vec4, layerCount);
+    }
     m_control = bgfx::createUniform("u_terrainMaterialControl", bgfx::UniformType::Vec4);
     m_misc = bgfx::createUniform("u_terrainMaterialMisc", bgfx::UniformType::Vec4);
     m_meadow = bgfx::createUniform("u_terrainMeadow", bgfx::UniformType::Vec4, 2);
@@ -248,6 +269,7 @@ bool TerrainMaterialSet::create(const TerrainMaterialSources &sources, const Out
     m_layerMacroValues = {};
     m_layerVariantValues = {};
     m_layerEmissiveValues = {};
+    m_layerPulseValues = {};
     for (size_t index = 0; index < config.layers.size(); ++index)
     {
         const OutdoorTerrainMaterialLayer &layer = config.layers[index];
@@ -264,6 +286,10 @@ bool TerrainMaterialSet::create(const TerrainMaterialSources &sources, const Out
         if (index < sources.layerEmissive.size())
         {
             m_layerEmissiveValues[index] = sources.layerEmissive[index];
+        }
+        if (index < sources.layerPulse.size())
+        {
+            m_layerPulseValues[index] = sources.layerPulse[index];
         }
     }
     m_controlValues = {float(config.weightedLayers), float(config.slopeLayer), config.slopeStart, config.slopeEnd};
@@ -297,6 +323,7 @@ void TerrainMaterialSet::destroy(bool destroyResources)
     release(m_layerMacro);
     release(m_layerVariants);
     release(m_layerEmissive);
+    release(m_layerPulse);
     release(m_control);
     release(m_misc);
     release(m_meadow);
@@ -329,6 +356,22 @@ void TerrainMaterialSet::bind(bool antiTiling, float specularStrength) const
     bgfx::setUniform(m_layerMacro, m_layerMacroValues.data(), uint16_t(m_layerMacroValues.size()));
     bgfx::setUniform(m_layerVariants, m_layerVariantValues.data(), uint16_t(m_layerVariantValues.size()));
     bgfx::setUniform(m_layerEmissive, m_layerEmissiveValues.data(), uint16_t(m_layerEmissiveValues.size()));
+    // The pulses' phases now (x amount, y phase in radians); a steady glow has amount 0.
+    if (bgfx::isValid(m_layerPulse))
+    {
+        const double seconds =
+            std::chrono::duration<double>(std::chrono::steady_clock::now().time_since_epoch()).count();
+        std::array<std::array<float, 4>, OutdoorTerrainMaterialConfig::MaxLayers> pulses = {};
+        for (size_t index = 0; index < pulses.size(); ++index)
+        {
+            const auto [amount, period] = m_layerPulseValues[index];
+            if (amount > 0.0f)
+            {
+                pulses[index] = {amount, float(std::fmod(seconds, period) / period * 6.283185307179586), 0, 0};
+            }
+        }
+        bgfx::setUniform(m_layerPulse, pulses.data(), uint16_t(pulses.size()));
+    }
     bgfx::setUniform(m_control, m_controlValues.data());
     const std::array<float, 4> misc = {m_miscValues[0], m_miscValues[1], antiTiling ? 1.0f : 0.0f, specularStrength};
     bgfx::setUniform(m_misc, misc.data());
@@ -377,7 +420,7 @@ bool TerrainMaterialSet::createMaterialArrays(const TerrainMaterialSources &sour
 bool TerrainMaterialSet::createWeights(const TerrainMaterialSources &sources,
     const OutdoorTerrainMaterialConfig &config, std::string &error)
 {
-    const int size = MapCells * config.texelsPerCell;
+    const int size = sources.mapCells * config.texelsPerCell;
     m_weightSize = size;
     m_weightLayers.assign(size_t(size) * size, 0);
     // Both weight images in one two-layer array (one sampler stage); a map with four ground layers or fewer leaves the

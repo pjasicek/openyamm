@@ -1219,6 +1219,20 @@ public:
     {
         (void)mode;
     }
+    // The mode last set; anything but RealTime while turn-based combat runs.
+    virtual ActorTurnBasedMode turnBasedActorMode() const
+    {
+        return ActorTurnBasedMode::RealTime;
+    }
+    // evt.FloorHeight: the walkable floor under (x, y) near height z (the topmost one outdoors, the party's foot
+    // height indoors, when z is not given), or none.
+    virtual std::optional<float> eventFloorHeight(float x, float y, std::optional<float> z) const
+    {
+        (void)x;
+        (void)y;
+        (void)z;
+        return std::nullopt;
+    }
     // Turn-based combat: what the original's timed effects run once per completed turn, by the turn's game time in
     // equivalent real seconds, never by frame time: the monsters' spell effects (stun, paralysis, slow, their buffs),
     // the party's Immolation aura, and the water, lava or burning floor under the party (one damage tick per turn).

@@ -91,10 +91,12 @@ def export_cards(profile, output, assets=None):
         return path
 
     scene = yaml.safe_load(use(source.with_suffix('.scene.yml')).read_text())
-    entities = parse_odm_file(use(source))['payload']['entities']
-    overrides = {entry['entity_index']: entry for entry in scene.get('entities', [])}
-    for entity in entities:
-        entity.update(overrides.get(entity['index'], {}))
+    use(source)
+    if 'entities' in scene:
+        # OutdoorSceneYml builds the entity array from the scene; Studio can leave the binary array empty.
+        entities = [dict(entry, index=entry['entity_index']) for entry in scene['entities']]
+    else:
+        entities = parse_odm_file(source)['payload']['entities']
     override_keys = {e['event_id_primary'] or e['index'] for e in entities}
     # The engine's decoration table, then the world's own rows (world.yml tableContributions: table decorations), as
     # the game merges them (game/content/WorldDecorations.cpp).
@@ -141,6 +143,7 @@ def export_cards(profile, output, assets=None):
         texture_overrides = {(t['name'].lower(), t['palette_id']): t for t in data['textures']}
 
     cards, skipped, textures = [], [], {}
+    changing_models = []
     output.mkdir(parents=True, exist_ok=True)
     def resolve_state(entity, name, initial=False):
         # DecorationTable::resolveMapDecoration resolves an empty initial name to null,
@@ -230,6 +233,8 @@ def export_cards(profile, output, assets=None):
             reason = 'initially_hidden'
         elif any(not visible for visible, _ in possible):
             reason = 'can_be_hidden'
+        if reason or any(state and state != name for state in state_names):
+            changing_models.append(entity['index'])
         resolved = []
         if reason is None:
             for state_name in state_names:
@@ -258,7 +263,7 @@ def export_cards(profile, output, assets=None):
                     sources=sorted({s['source'] for s in resolved}),
                     policy='shared_states' if len(resolved) > 1 else 'static')
         cards.append(card)
-    result = dict(cards=cards, skipped=skipped, dependencies=sorted(dependencies),
+    result = dict(cards=cards, skipped=skipped, changing_models=changing_models, dependencies=sorted(dependencies),
                   counts=dict(casters=len(cards), skipped=len(skipped)),
                   skip_reasons=dict(collections.Counter(s['reason'] for s in skipped)))
     (output / 'cards.json').write_text(json.dumps(result, indent=2) + '\n')

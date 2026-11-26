@@ -93,14 +93,27 @@ void main()
     {
         // Self-lit whatever the room light. A face's authored flow (water uv units per second) carries the lava.
         // Dungeon pools are small: a finer pattern than outdoor lava fields.
-        vec2 lavaUv = faceXy / 900.0;
+        // liquids.yml `scale` (x, 0: unset) sizes the pattern; `crust` (y) lays dark plates over the melt.
+        vec2 lavaUv = faceXy / (900.0 * (v_texcoord1.x > 0.0 ? v_texcoord1.x : 1.0));
         if (falling > 0.01)
         {
             lavaUv *= vec2(1.5, 0.5);
         }
         float heat = lavaHeat(lavaUv, v_texcoord0 * (768.0 / 900.0 * u_waterParams.x), v_worldPosition.xy, floorFace,
             u_waterParams.x);
-        gl_FragColor = vec4(lavaColor(heat, v_color0.rgb), 1.0);
+        bool tinted = v_texcoord1.z > 3.5;
+        vec3 lavaGlow = tinted ? lavaTintedColor(heat, v_color0.rgb) : lavaColor(heat, v_color0.rgb);
+        if (v_texcoord1.y > 0.0)
+        {
+            // The plates are near-black rock with a faint warmth; the seams between them run hot.
+            vec2 crust = lavaCrustCover(lavaUv, v_texcoord1.y);
+            vec3 rock = vec3(0.045, 0.02, 0.018) + lavaGlow * 0.05;
+            float hotHeat = max(heat, 0.8);
+            vec3 hot = tinted ? lavaTintedColor(hotHeat, v_color0.rgb) : lavaColor(hotHeat, v_color0.rgb);
+            vec3 melt = mix(lavaGlow, hot, crust.x - crust.y);
+            lavaGlow = mix(melt, rock, crust.y);
+        }
+        gl_FragColor = vec4(lavaGlow, 1.0);
         return;
     }
     if (!tar && floorFace && dot(baseNormal, u_cameraPosition.xyz - v_worldPosition) < 0.0)
