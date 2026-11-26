@@ -92,6 +92,9 @@ struct HeldSkinRules
     std::vector<std::string> templateKinds;
     // Kinds with a template of their own (spears, tridents, halberds, crossbows, wands, blasters, clubs).
     std::unordered_map<std::string, HeldKindTemplate> kindTemplates;
+    // Templates drawn at another size than authored, by file (w_battleaxe.glb: its blade covered the middle of the
+    // screen), scaled about the grip with every skin of theirs.
+    std::unordered_map<std::string, float> templateScales;
     uint8_t tierCount = 4;
     // The item's value (times its equip stat's scale) at or above valueBands[i] gives tier i + 2; below the first,
     // tier 1.
@@ -126,6 +129,8 @@ uint8_t heldSkinTier(const HeldSkinRules &rules, const HeldSkinItem &item);
 bool heldSkinUsesTemplate(const HeldSkinRules &rules, const std::string &kind);
 // The kind's own template, or null when it draws its skill group's.
 const HeldKindTemplate *heldKindTemplate(const HeldSkinRules &rules, const std::string &kind);
+// The size a template is drawn at (held_tiers.yml template_scales), 1 when not listed.
+float heldTemplateScale(const HeldSkinRules &rules, const std::string &templateFile);
 // The skin file of a template for a tier: "w_longsword.glb", 2 -> "w_longsword_t2.glb"; tier 0 keeps the template.
 std::string heldSkinFile(const std::string &templateFile, uint8_t tier);
 }

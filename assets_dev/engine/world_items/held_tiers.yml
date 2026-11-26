@@ -24,6 +24,9 @@ kind_templates:
   crossbow: {file: w_crossbow.glb}
   wand: {file: w_wand.glb}
   blaster: {file: w_blaster.glb}
+# Templates drawn smaller or larger than authored, scaled about the grip with all their skins. The two-handed battle
+# axe's broad blade covered the middle of the screen (a player's request on Discord, 2026-11-26).
+template_scales: {w_battleaxe.glb: 0.8}
 # 1 low (crude iron, plain wood), 2 mid (clean steel, polished yew), 3 high (masterwork: polished, gilded), 4 legendary
 # (artifacts and relics: exotic dark metal with glowing runes or inlay and gem settings; bows exotic wood or bone and
 # gold).

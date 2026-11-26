@@ -670,7 +670,18 @@ void FirstPersonViewModel::holdWeapon(const std::string &heldModel, const std::s
     }
     else if (std::shared_ptr<const Engine::ModelAsset> weapon = file.empty() ? nullptr : skinAttachment(file, tier))
     {
-        attachments.push_back({weapon, node, 0});
+        // A template listed in template_scales is scaled about the grip (the node's origin), its tip with it.
+        const float scale = heldTemplateScale(skinRules(), file);
+        Engine::ModelAttachment attachment{weapon, node, 0};
+        if (scale != 1.0f)
+        {
+            Engine::ModelMatrix matrix = Engine::identityModelMatrix();
+            matrix[0] = scale;
+            matrix[5] = scale;
+            matrix[10] = scale;
+            attachment.localMatrix = matrix;
+        }
+        attachments.push_back(attachment);
         // The positive end of the model's longest axis: the blade's tip or a club's head (Oblivion's weapons point
         // along +Y from the grip; a staff's butt reaches further the other way).
         const Engine::ModelBounds &bounds = weapon->staticBounds;
@@ -684,7 +695,8 @@ void FirstPersonViewModel::holdWeapon(const std::string &heldModel, const std::s
         }
         for (size_t index = 0; index < 3; ++index)
         {
-            bladeTip[index] = index == axis ? bounds.max[index] : (bounds.min[index] + bounds.max[index]) * 0.5f;
+            bladeTip[index] =
+                scale * (index == axis ? bounds.max[index] : (bounds.min[index] + bounds.max[index]) * 0.5f);
         }
     }
 }

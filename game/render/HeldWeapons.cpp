@@ -298,6 +298,19 @@ bool parseHeldSkinRules(const std::string &text, const std::string &path, HeldSk
                 parsed.kindTemplates[entry.first.as<std::string>()] = own;
             }
         }
+        if (root["template_scales"])
+        {
+            for (const auto &entry : root["template_scales"])
+            {
+                const float scale = entry.second.as<float>();
+                if (!(scale > 0.0f))
+                {
+                    error = path + ": template_scales " + entry.first.as<std::string>() + " must be positive";
+                    return false;
+                }
+                parsed.templateScales[entry.first.as<std::string>()] = scale;
+            }
+        }
         for (const int tier : root["loot_rarity_tiers"].as<std::vector<int>>(std::vector<int>()))
         {
             if (tier < 1 || tier > tierCount)
@@ -369,6 +382,12 @@ const HeldKindTemplate *heldKindTemplate(const HeldSkinRules &rules, const std::
 {
     const auto found = rules.kindTemplates.find(kind);
     return found != rules.kindTemplates.end() ? &found->second : nullptr;
+}
+
+float heldTemplateScale(const HeldSkinRules &rules, const std::string &templateFile)
+{
+    const auto found = rules.templateScales.find(templateFile);
+    return found != rules.templateScales.end() ? found->second : 1.0f;
 }
 
 std::string heldSkinFile(const std::string &templateFile, uint8_t tier)
