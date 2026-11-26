@@ -617,6 +617,21 @@ Done (2026-11-07 and 08):
   generators of DD-09, X-3, XD-09 and XD-10 (the English shown is unchanged); Claude drafted those 13 zh-cn sentences
   and 8 other texts the template had gained (the first rows of two tables, the bough counts) as machine translations
   for the translators to review.
+- The zh-cn translators' 3.2 and 3.3 supplements (2026-11-25, `upstream-patch/21-v3.2-supplement` and
+  `22-v3.3-supplement` on branch `zh121`, copies in the session only): their four `*_zz-*.po` files imported with
+  `import po --replace` (27 engine and 27 Xeen texts: Web of Worlds and beacons, the loot pouch, Cleansed/Infested,
+  the guild-roll lines, the Witch Tower skull's three scrolls, the bounty clerk's line, a few rewrites); the result
+  equals their merged `23-upstream-merge-v3.3` files. The charset is regenerated. Their report of English in
+  translated texts was MAW's composed boss names: the bounty texts and the title of an actor's news dialogue now
+  translate them part by part (`localizedActorName`), as the hover and health bar already did.
+- Gap fill of 2026-11-26 (after the MAW `88a9d7b4` sync): `extract`, `update`, then Claude drafts (`import machine`)
+  for every text missing or fuzzy in `engine` (96 per language in cs, de, es, fr, pl and ru: the loot pouch, unidentified
+  items, Hesper's implants and Web of Worlds, the Xeen new-game card, MAW's new lines, 21 spell and item texts whose
+  English changed) and in zh-cn's `engine` and `xeen` (135). The other languages' `xeen.po` stays untranslated (only
+  zh-cn translates Xeen), and zh-cn's deliberate blanks stay empty (232: ids, debug labels, ciphers, credits names,
+  internal MM9 titles). The zh-cn charset is regenerated. Names chosen with no earlier translation, for review: the
+  implant sockets, the Archive of the Eaten, Lava Walk, Web of Worlds, and zh-cn's Marla, Rudd, River Pilot and Nystor's
+  Mate.
 - Committed: the engine code in `176043355`, the packs (text, fonts, templates of all seven languages) in
   `e1d261a1b`. Not in git: `languages/*/text/mm9.po` and `templates/mm9.pot` (the MM9 world is gitignored and
   they stay with it). The dubbed `audio/` and `videos/` overlays of de, es, fr, pl and ru (about 700 MB from the
