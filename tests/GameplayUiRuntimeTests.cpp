@@ -366,7 +366,7 @@ TEST_CASE("HUD text colour codes take no room, carry across wrapped lines and ti
 
     quads.clear();
     GameplayHudCommon::renderHudFontLayer(
-        font, GameplayHudFontLayer(font.shadowTextureHandle), "a\f02016b", 0, 0, 1, collect);
+        font, font.shadowLayer(), "a\f02016b", 0, 0, 1, collect);
     REQUIRE_EQ(quads.size(), 2u);
     CHECK_EQ(quads[1].first, 2);
 }

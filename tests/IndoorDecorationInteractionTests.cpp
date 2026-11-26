@@ -35,15 +35,7 @@ TEST_CASE("New Sorpigal temple braziers toggle and retain their light state acro
     const uint32_t key = brazier->spriteOverrideKey();
     const DecorationEntry *lit = billboards.decorationTable.findByInternalName("brzier00");
     REQUIRE(lit != nullptr);
-    const SpriteFrameEntry *frame = billboards.spriteFrameTable.getFrame(lit->spriteId, 0);
-    REQUIRE(frame != nullptr);
-    // No lit brazier is initially placed in this map; all six alternate animation frames must still be loaded.
-    for (int animationFrame = 0; animationFrame < 6; ++animationFrame)
-    {
-        const std::string name = "brzier0" + std::to_string(animationFrame);
-        CHECK(std::any_of(billboards.textures.begin(), billboards.textures.end(),
-            [&](const OutdoorBitmapTexture &texture) { return texture.textureName == name && texture.paletteId == frame->paletteId; }));
-    }
+    // Braziers are 3D models (engine/models/indoor_decorations.yml), so the lit frames load no billboard textures.
 
     Party party;
     IndoorSceneRuntime scene(loaded.map.fileName, loaded.map, map,

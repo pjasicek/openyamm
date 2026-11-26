@@ -7,6 +7,7 @@
 #include "game/data/GameDataRepository.h"
 #include "game/gameplay/HouseServiceRuntime.h"
 #include "game/party/Party.h"
+#include "game/party/SkillData.h"
 #include "game/rules/maw/MawRules.h"
 #include "game/rules/maw/MawRulesFactory.h"
 
@@ -18,6 +19,19 @@
 #include <vector>
 
 // MAW in MM9 (devdocs/maw/MM9_SUPPORT.md): MM9's shops under the MAW ruleset. Needs the MM9 world package.
+
+namespace
+{
+// GameDataLoader::setActiveRuleset sets the skill display names process-wide; put Standard's back after each MAW test
+// so the tests that run later (party creation's skill lists) do not see MAW's names.
+struct StandardSkillNamesRestorer
+{
+    ~StandardSkillNamesRestorer()
+    {
+        OpenYAMM::Game::setSkillDisplayNameOverrides(OpenYAMM::Game::standardRulesetDefinition().skillNames);
+    }
+};
+}
 
 TEST_CASE("MAW rolls MM9's fixed shop stock: the vendor's items at MAW's power and rarity")
 {
@@ -34,6 +48,7 @@ TEST_CASE("MAW rolls MM9's fixed shop stock: the vendor's items at MAW's power a
 
     // MAW stops rolling some enchantments MM9's stock carries; it loads all the same (MM9_SUPPORT.md).
     OpenYAMM::Game::GameDataLoader dataLoader = {};
+    const StandardSkillNamesRestorer restoreStandardSkillNames;
     dataLoader.setActiveRuleset(*maw);
     REQUIRE(dataLoader.loadCommonForGameplay(assetFileSystem));
     OpenYAMM::Game::GameDataRepository data;
@@ -119,6 +134,7 @@ TEST_CASE("MAW's paid new stock gives a weapon shop new shelves (Xeen and MM6-MM
         [](const OpenYAMM::Game::RulesetDefinition &ruleset) { return ruleset.id == "maw"; });
     REQUIRE(maw != rulesets.end());
     OpenYAMM::Game::GameDataLoader dataLoader = {};
+    const StandardSkillNamesRestorer restoreStandardSkillNames;
     dataLoader.setActiveRuleset(*maw);
     REQUIRE(dataLoader.loadCommonForGameplay(assetFileSystem));
     OpenYAMM::Game::GameDataRepository data;

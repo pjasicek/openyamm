@@ -31,7 +31,7 @@ struct NewGameScreenTestAccess
             CAPTURE(continent.key);
             screen.selectContinent(continent.key);
             const uint32_t clericClassId = continent.key == "jadame" ? 5 : 4;
-            const uint32_t mageClassId = continent.key == "enroth" || continent.key == "antagarich" ? 42 : 44;
+            const uint32_t mageClassId = continent.key == "jadame" || continent.key == "between_time" ? 44 : 42;
             const std::vector<uint32_t> humanClassIds = {0, clericClassId, 12, 16, 22, 26, 30, 34, mageClassId};
             std::vector<uint32_t> characterIds;
             std::vector<size_t> dragonIndices;
