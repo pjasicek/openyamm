@@ -351,6 +351,8 @@ public:
     std::vector<std::string> lootPoolsForWorld(const std::string &worldId) const;
     // The mounted worlds' world.yml dependencies that are worlds (not the engine package), by world id.
     void setWorldDependencies(std::unordered_map<std::string, std::vector<std::string>> dependenciesByWorld);
+    // The mounted worlds' world.yml lootPool, by world id: the pool their own items join instead of one of their own.
+    void setWorldLootPools(std::unordered_map<std::string, std::string> lootPoolsByWorld);
     // Worlds whose random artifacts come only from level-7 chest slots (world.yml chestArtifactsOnly).
     void setChestArtifactsOnlyWorlds(std::unordered_set<std::string> worldIds);
     bool chestArtifactsOnly(const std::string &worldId) const;
@@ -393,6 +395,7 @@ private:
     std::unordered_set<std::string> m_groundGoldByItemTierWorlds;
     // Lower-case world id: the lower-case world ids it depends on.
     std::unordered_map<std::string, std::vector<std::string>> m_worldDependencies;
+    std::unordered_map<std::string, std::string> m_worldLootPools;
     std::vector<ItemModelBinding> m_groundModels;
     // By item id: index into m_groundModels, or -1 for the placeholder.
     std::vector<int32_t> m_groundModelIndexByItemId;

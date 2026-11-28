@@ -18,6 +18,9 @@ steps:
       source: "evt.MoveToMap(-3008, -1696, 2464, 512, 0, 0, 0, 0, 'd05.blv')"
   - advance_runtime: {seconds: 2, follow_map_move: true}
   - assert: {map: d05.blv}
+  # The temple's load event has Simon Templar speak (d05 event 1), as in the game: the dialog closes first.
+  - assert: {dialog: {active: true, source_id: 264}}
+  - press_action: {action: cancel_dialog}
   - assert: {turn_based: {active: true, report: true}}
   # The turns go on in the temple.
   - turn_based_turns: {count: 2}

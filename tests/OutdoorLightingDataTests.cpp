@@ -503,3 +503,60 @@ TEST_CASE("outdoor lighting v5 validates direct-only pages and decodes them only
         CHECK_FALSE(loader.loadFromBytes(bytes, geometry, mapData, error));
     }
 }
+
+TEST_CASE("outdoor lighting measures the open sky on the terrain sky page for the fog over covered points")
+{
+    using namespace OpenYAMM::Game;
+    // RGBM4 texels as stored (B, G, R, M): light = channel / 255 * M / 255 * 4. M = 64 makes the scale 1.0039.
+    const auto texel = [](uint32_t channel) { return channel | (channel << 8) | (channel << 16) | (64u << 24); };
+    OutdoorLightingData lighting;
+    lighting.bakedSourcePages = true;
+    lighting.terrainPageIndex = 0;
+    lighting.atlasPages.resize(2);
+    // 85 open texels (0.35, the stock recipe's sky energy) and 15 under cover (0.02): the 90th percentile is open.
+    for (int index = 0; index < 100; ++index)
+    {
+        lighting.atlasPages[1].pixelsBgra.push_back(texel(index < 15 ? 5 : 89));
+    }
+    lighting.measureOpenSky();
+    CHECK(lighting.openSkyIrradiance == doctest::Approx(89.0f / 255.0f * 64.0f / 255.0f * 4.0f));
+
+    // Without paired sky pages (a combined lightmap) the shaders leave the fog as it is.
+    lighting.bakedSourcePages = false;
+    lighting.measureOpenSky();
+    CHECK_EQ(lighting.openSkyIrradiance, 0.0f);
+    lighting.bakedSourcePages = true;
+    lighting.atlasPages.resize(1);
+    lighting.measureOpenSky();
+    CHECK_EQ(lighting.openSkyIrradiance, 0.0f);
+}
+
+TEST_CASE("outdoor lighting tells a closed space from a wall's far side by the nearest probes")
+{
+    using namespace OpenYAMM::Game;
+    OutdoorLightingData lighting;
+    const auto probe = [](float x, bool open)
+    {
+        OutdoorLightingData::Probe result;
+        result.position = {x, 0.0f, 96.0f};
+        result.sky = open ? std::array<float, 3>{0.35f, 0.35f, 0.35f} : std::array<float, 3>{};
+        result.sunVisibility = open ? 1.0f : 0.0f;
+        return result;
+    };
+    // Open ground up to x = 0, then a closed space (a cave, or a building) on the 128-unit probe grid.
+    for (int step = -4; step <= 12; ++step)
+    {
+        lighting.probes.push_back(probe(float(step) * 128.0f, step <= 0));
+    }
+    lighting.indexProbes();
+    CHECK_FALSE(lighting.probesByCell.empty());
+    CHECK_FALSE(lighting.enclosedProbesByCell.empty());
+
+    // Deep inside: an enclosed probe is nearest and no open one is within two grid steps.
+    CHECK(lighting.nearestProbeEnclosed({1024.0f, 0.0f, 96.0f}));
+    // Just across the wall from the open ground (the party beside a house): still outdoors.
+    CHECK_FALSE(lighting.nearestProbeEnclosed({100.0f, 0.0f, 96.0f}));
+    CHECK_FALSE(lighting.nearestProbeEnclosed({-200.0f, 0.0f, 96.0f}));
+    // Out of the map's probes altogether: not enclosed.
+    CHECK_FALSE(lighting.nearestProbeEnclosed({50000.0f, 50000.0f, 96.0f}));
+}

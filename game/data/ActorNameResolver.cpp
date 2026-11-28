@@ -51,6 +51,16 @@ std::string resolveMapDeltaActorName(
         return std::move(*npcName);
     }
 
+    if (!actor.actorProfile.empty())
+    {
+        const MonsterTable::MonsterStatsEntry *pStats = monsterTable.findStatsById(
+            actor.monsterInfoId > 0 ? actor.monsterInfoId : actor.monsterId, actor.actorProfile);
+        if (pStats != nullptr)
+        {
+            return pStats->name;
+        }
+    }
+
     const MonsterTable::MonsterDisplayNameEntry *pDisplayEntry =
         monsterTable.findDisplayEntryById(actor.monsterInfoId);
 

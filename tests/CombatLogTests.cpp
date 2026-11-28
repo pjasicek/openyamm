@@ -1,6 +1,8 @@
 #include "doctest/doctest.h"
 #include "game/gameplay/CombatLog.h"
+#include "game/party/Party.h"
 #include "game/rules/DamagePipeline.h"
+#include "game/rules/CombatRules.h"
 
 #include <string>
 #include <vector>
@@ -71,4 +73,39 @@ TEST_CASE("the combat log keeps nothing while off and pairs each hit with its da
     CHECK_GT(log.revision(), revision);
     log.clear();
     CHECK(log.entries().empty());
+}
+
+TEST_CASE("sparring damage previews leave no entries or pending stages for the next real hit")
+{
+    CombatLog log;
+    struct RestoreLog
+    {
+        CombatLog *previous = boundCombatLog();
+        ~RestoreLog() { bindCombatLog(previous); }
+    } restore;
+    bindCombatLog(&log);
+    log.setRecording(true);
+    CombatRules rules;
+    std::mt19937 rng(123);
+    MonsterDamageHit outgoing;
+    outgoing.amount = 27;
+    outgoing.pRng = &rng;
+    CharacterDamageHit incoming;
+    const Character member;
+    incoming.amount = 19;
+    incoming.type = CombatDamageType::Irresistible;
+    incoming.pCharacter = &member;
+    incoming.pRng = &rng;
+    CHECK_EQ(rules.damageToMonster(outgoing, false), 27);
+    CHECK_EQ(rules.damageToCharacter(incoming, false), 19);
+    CHECK(log.entries().empty());
+
+    log.recordStages(false, 27, {{"real outgoing", 30, 27}});
+    log.recordStages(true, 19, {{"real incoming", 21, 19}});
+    log.add(hit(CombatLogKind::Dealt, 27));
+    log.add(hit(CombatLogKind::Taken, 19));
+    REQUIRE_EQ(log.entries()[0].stages.size(), 1);
+    CHECK_EQ(log.entries()[0].stages[0].name, "real outgoing");
+    REQUIRE_EQ(log.entries()[1].stages.size(), 1);
+    CHECK_EQ(log.entries()[1].stages[0].name, "real incoming");
 }

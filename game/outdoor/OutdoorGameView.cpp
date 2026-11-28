@@ -14,7 +14,6 @@
 #include "game/fx/ParticleRenderer.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayCombatController.h"
-#include "game/gameplay/GameplayHeldItemController.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplaySpellActionController.h"
 #include "game/gameplay/GameplaySpellService.h"
@@ -3820,7 +3819,6 @@ void OutdoorGameView::shutdown()
     characterScreen.adventurersInnScrollOffset = 0;
     m_lastAdventurersInnPortraitClickTicks = 0;
     m_lastAdventurersInnPortraitClickedIndex = std::nullopt;
-    GameplayHeldItemController::clearHeldInventoryItem(heldInventoryItem());
     screenRuntime.actorInspectOverlay() = {};
     screenRuntime.spellInspectOverlay() = {};
     screenRuntime.readableScrollOverlay() = {};

@@ -212,6 +212,7 @@ struct WorldManifest
     std::string id = "mm8";
     std::string name = "MM8";
     std::string sourceGame = "mm8";
+    std::string actorProfilesPath;
     WorldStartDefinition start;
     WorldPartyDeathDefinition partyDeath;
     // world.yml autosave: `departure` (default, MM8): the autosave is written on the map being left, before its exit
@@ -307,6 +308,10 @@ struct WorldManifest
     // MapStatsEntry::noTeleport). MM9: the maps its MAPSTATS.txt gives TownPortal -1 (object.lto 0x1008c7ce,
     // 0x1008df77); default none.
     std::vector<std::string> noTeleportMaps;
+    // world.yml lootPool: the item pool this world's own items belong to. "engine" for a world that adds items to the
+    // merged MM6-MM8 base rather than being a game of its own (a mod's items in mm7); empty, the default, gives a
+    // world with items its own pool (MM9, Xeen).
+    std::string lootPool;
     uint32_t contentSchemaVersion = 1;
     std::vector<std::string> dependencies;
     std::vector<ContentIdRangeDefinition> idRanges;

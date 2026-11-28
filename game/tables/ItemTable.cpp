@@ -1069,6 +1069,13 @@ std::string ItemTable::lootPoolForWorld(const std::string &worldId) const
     }
 
     const std::string world = toLowerCopy(worldId);
+    const auto declared = m_worldLootPools.find(world);
+
+    if (declared != m_worldLootPools.end())
+    {
+        return declared->second;
+    }
+
     return m_itemPackageIds.contains(world) ? world : std::string("engine");
 }
 
@@ -1098,6 +1105,16 @@ std::vector<std::string> ItemTable::lootPoolsForWorld(const std::string &worldId
     }
 
     return pools;
+}
+
+void ItemTable::setWorldLootPools(std::unordered_map<std::string, std::string> lootPoolsByWorld)
+{
+    m_worldLootPools.clear();
+
+    for (auto &[world, pool] : lootPoolsByWorld)
+    {
+        m_worldLootPools[toLowerCopy(world)] = toLowerCopy(pool);
+    }
 }
 
 void ItemTable::setWorldDependencies(std::unordered_map<std::string, std::vector<std::string>> dependenciesByWorld)

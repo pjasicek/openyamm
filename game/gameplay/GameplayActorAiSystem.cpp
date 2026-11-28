@@ -5,6 +5,7 @@
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayActorService.h"
 #include "game/gameplay/Mm9ActorRules.h"
+#include "game/gameplay/MonsterSpellSupport.h"
 
 #include <algorithm>
 #include <cmath>
@@ -314,9 +315,11 @@ struct CombatAbilityChoiceInput
     uint32_t attackDecisionCount = 0;
     bool hasSpell1 = false;
     bool spell1IsOkToCast = false;
+    bool spell1TargetsSelf = false;
     int spell1UseChance = 0;
     bool hasSpell2 = false;
     bool spell2IsOkToCast = false;
+    bool spell2TargetsSelf = false;
     int spell2UseChance = 0;
     int attack2Chance = 0;
     GameplayActorAttackConstraintState constraintState = {};
@@ -1036,6 +1039,13 @@ bool applyMonsterSelfHealSpell(
     return nextCurrentHp > stats.currentHp;
 }
 
+bool monsterAbilityTargetsSelf(const ActorStatsFacts &stats, GameplayActorAttackAbility ability)
+{
+    const std::string &name = ability == GameplayActorAttackAbility::Spell1 ? stats.spell1Name
+        : ability == GameplayActorAttackAbility::Spell2 ? stats.spell2Name : std::string();
+    return name == "heal" || name == "power cure" || isMonsterSelfBuffSpellName(name);
+}
+
 bool applyMonsterSelfBuffSpell(
     GameplayActorAttackAbility ability,
     const ActorStatsFacts &stats,
@@ -1310,7 +1320,13 @@ CombatAbilityChoiceResult chooseCombatAbility(const CombatAbilityChoiceInput &in
         chosenAbility = attackChoice.ability;
     }
 
+    const bool targetsSelf = chosenAbility == GameplayActorAttackAbility::Spell1 ? input.spell1TargetsSelf
+        : chosenAbility == GameplayActorAttackAbility::Spell2 && input.spell2TargetsSelf;
     GameplayActorAttackConstraintState constraintState = input.constraintState;
+    if (targetsSelf)
+    {
+        constraintState.rangedCommitAllowed = true;
+    }
 
     // Out of reach a monster whose first attack is a missile shoots it instead of a rolled blow. A rolled blow of a
     // melee monster with a missile second attack stays a blow: it closes in, and shoots only when the roll picks the
@@ -1328,10 +1344,10 @@ CombatAbilityChoiceResult chooseCombatAbility(const CombatAbilityChoiceInput &in
         input.constraintState.darkGraspActive
         || input.constraintState.blindActive
         || input.constraintState.silenced
-        || !input.constraintState.rangedCommitAllowed
-        || (!input.forceRangedCommit && input.targetEdgeDistance >= input.rangedAttackReach);
+        || (!targetsSelf && (!input.constraintState.rangedCommitAllowed
+            || (!input.forceRangedCommit && input.targetEdgeDistance >= input.rangedAttackReach)));
 
-    if (attackAbilityIsRanged(chosenAbility, constraintState))
+    if (!targetsSelf && attackAbilityIsRanged(chosenAbility, constraintState))
     {
         RangedAbilityCommitInput rangedCommitInput = {};
         rangedCommitInput.actorId = input.actorId;
@@ -3370,7 +3386,8 @@ void applyAttackImpactOutcome(const ActorAiFacts &actor, ActorAiUpdate &update)
     }
 
     if (attackImpact.action == AttackImpactAction::RangedRelease
-        && !actor.target.currentHasAttackLineOfSight)
+        && !actor.target.currentHasAttackLineOfSight
+        && !monsterAbilityTargetsSelf(actor.stats, actor.runtime.queuedAttackAbility))
     {
         return;
     }
@@ -8573,6 +8590,7 @@ bool AI_AttackOrPursue(ActorAiCommandContext &ai)
             actor.status,
             pFrame->party);
     abilityInput.spell1UseChance = actor.stats.spell1UseChance;
+    abilityInput.spell1TargetsSelf = monsterAbilityTargetsSelf(actor.stats, GameplayActorAttackAbility::Spell1);
     abilityInput.hasSpell2 = actor.stats.hasSpell2;
     abilityInput.spell2IsOkToCast =
         actor.stats.spell2CastSupported
@@ -8582,6 +8600,7 @@ bool AI_AttackOrPursue(ActorAiCommandContext &ai)
             actor.status,
             pFrame->party);
     abilityInput.spell2UseChance = actor.stats.spell2UseChance;
+    abilityInput.spell2TargetsSelf = monsterAbilityTargetsSelf(actor.stats, GameplayActorAttackAbility::Spell2);
     abilityInput.attack2Chance = actor.stats.attack2Chance;
     abilityInput.constraintState = actor.stats.attackConstraints;
     abilityInput.movementAllowed = actor.movement.movementAllowed;

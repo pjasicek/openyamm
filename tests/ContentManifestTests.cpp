@@ -435,6 +435,36 @@ TEST_CASE("content manifests parse story ambience choices and QBit-gated music a
     std::filesystem::remove_all(temporaryRoot);
 }
 
+TEST_CASE("content manifests parse a world's lootPool; without one a world with items gets a pool of its own")
+{
+    const std::filesystem::path temporaryRoot = makeTemporaryRoot();
+    const std::filesystem::path assetRoot = temporaryRoot / "assets_dev";
+
+    writeTextFile(assetRoot / "worlds" / "joined" / "world.yml", "id: joined\nlootPool: Engine\n");
+    writeTextFile(assetRoot / "worlds" / "invalid" / "world.yml", "id: invalid\nlootPool: [engine]\n");
+    writeTextFile(assetRoot / "worlds" / "plain" / "world.yml", "id: plain\n");
+
+    {
+        OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+        REQUIRE(assetFileSystem.initialize(temporaryRoot, assetRoot, OpenYAMM::Engine::AssetScaleTier::X1, "mm8"));
+
+        std::string error;
+        const std::optional<OpenYAMM::Game::WorldManifest> joined =
+            OpenYAMM::Game::loadWorldManifest(assetFileSystem, "worlds/joined/world.yml", "joined", error);
+        REQUIRE(joined.has_value());
+        CHECK_EQ(joined->lootPool, "engine");
+        CHECK_FALSE(OpenYAMM::Game::loadWorldManifest(assetFileSystem, "worlds/invalid/world.yml", "invalid", error)
+            .has_value());
+        CHECK(error.find("lootPool must be a package id") != std::string::npos);
+        const std::optional<OpenYAMM::Game::WorldManifest> plain =
+            OpenYAMM::Game::loadWorldManifest(assetFileSystem, "worlds/plain/world.yml", "plain", error);
+        REQUIRE(plain.has_value());
+        CHECK(plain->lootPool.empty());
+    }
+
+    std::filesystem::remove_all(temporaryRoot);
+}
+
 TEST_CASE("content manifests parse stable item contribution contracts")
 {
     const std::filesystem::path temporaryRoot = makeTemporaryRoot();

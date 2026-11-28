@@ -12051,7 +12051,8 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
             &m_gameSession.gameplayFxService(),
             &m_gameDataLoader.getMergedBolsterMapTable(),
             &m_gameDataLoader.getMergedBolsterMonsterTable(),
-            selectedMap->itemSourceData ? &*selectedMap->itemSourceData : nullptr
+            selectedMap->itemSourceData ? &*selectedMap->itemSourceData : nullptr,
+            !restoreSavedOutdoorState
         );
         m_pOutdoorWorldRuntime->bindActorBehaviorCatalog(reloadActorBehaviorCatalog());
         timingLogger.stage("outdoor runtime initialized");
@@ -12439,6 +12440,11 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
             {
                 spawnPendingBountyHunt(pIndoorSceneRuntime->worldRuntime(), &pIndoorSceneRuntime->party());
             }
+        }
+
+        if (!restoreSavedIndoorState)
+        {
+            pIndoorSceneRuntime->worldRuntime().rollPlacedWeaponLoot();
         }
 
         if (m_config.loadUniqueActorIndex.has_value()

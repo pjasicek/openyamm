@@ -1321,7 +1321,7 @@ bool GameDataLoader::loadInternal(
         return false;
     }
 
-    if (!loadSpellTable(assetFileSystem))
+    if (!loadSpellTable(assetFileSystem) || !loadActorProfiles(assetFileSystem))
     {
         return false;
     }
@@ -2310,6 +2310,33 @@ bool GameDataLoader::loadMapStats(const Engine::AssetFileSystem &assetFileSystem
     }
 
     m_mapRegistry.initialize(m_mapStats.getEntries());
+    return true;
+}
+
+bool GameDataLoader::loadActorProfiles(const Engine::AssetFileSystem &assetFileSystem)
+{
+    m_monsterTable.clearActorProfiles();
+    std::vector<WorldManifest> worlds;
+    std::string error;
+    if (!loadMountedWorldManifests(assetFileSystem, worlds, error))
+    {
+        std::cerr << "Failed to resolve actor profiles: " << error << '\n';
+        return false;
+    }
+    for (const WorldManifest &world : worlds)
+    {
+        if (world.actorProfilesPath.empty())
+        {
+            continue;
+        }
+        const std::string path = "worlds/" + world.id + "/" + world.actorProfilesPath;
+        const std::optional<std::string> text = assetFileSystem.readTextFile(path);
+        if (!text || !m_monsterTable.loadActorProfiles(*text, world.id, m_spellTable, error))
+        {
+            std::cerr << "Failed to load " << path << ": " << error << '\n';
+            return false;
+        }
+    }
     return true;
 }
 
@@ -5077,6 +5104,19 @@ bool GameDataLoader::loadItemTable(const Engine::AssetFileSystem &assetFileSyste
 
     m_itemTable.setWorldDependencies(std::move(worldDependencies));
 
+    // A world whose items join another pool (world.yml lootPool: engine, a mod's items in mm7) keeps that pool.
+    std::unordered_map<std::string, std::string> worldLootPools;
+
+    for (const WorldManifest &manifest : mountedWorlds)
+    {
+        if (!manifest.lootPool.empty())
+        {
+            worldLootPools[manifest.id] = manifest.lootPool;
+        }
+    }
+
+    m_itemTable.setWorldLootPools(std::move(worldLootPools));
+
     ItemModelBindings groundModels;
     std::string groundModelError;
 
@@ -5615,6 +5655,26 @@ bool GameDataLoader::loadSelectedMap(
         return false;
     }
     timingLogger.stage("map assets loaded");
+
+    for (const MapDeltaData *pDelta : {
+        loadedMap->indoorMapDeltaData ? &*loadedMap->indoorMapDeltaData : nullptr,
+        loadedMap->outdoorMapDeltaData ? &*loadedMap->outdoorMapDeltaData : nullptr})
+    {
+        if (pDelta == nullptr)
+        {
+            continue;
+        }
+        for (const MapDeltaActor &actor : pDelta->actors)
+        {
+            const int16_t monsterId = actor.monsterInfoId > 0 ? actor.monsterInfoId : actor.monsterId;
+            if (!actor.actorProfile.empty() && m_monsterTable.findStatsById(monsterId, actor.actorProfile) == nullptr)
+            {
+                std::cerr << selectedMap->fileName << ": unknown or incompatible actor profile "
+                          << actor.actorProfile << '\n';
+                return false;
+            }
+        }
+    }
 
     m_selectedMap.emplace(std::move(*loadedMap));
     m_selectedMapRenderSourcePixelsReleased = false;

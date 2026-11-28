@@ -94,6 +94,10 @@ void GameplayScreenRuntime::updateStatusBarEvent(float deltaSeconds) const
     (void)deltaSeconds;
 }
 
+void GameplayScreenRuntime::ensurePendingEventDialogPresented(bool)
+{
+}
+
 const GameSettings &GameplayScreenRuntime::settingsSnapshot() const
 {
     static GameSettings settings = {};
